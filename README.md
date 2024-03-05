@@ -1,4 +1,4 @@
-# Table Game Implementation (Java)
+# Codex Naturalis Implementation (Java + Apple visionOS)
 
 ## Project Overview
 
