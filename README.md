@@ -28,8 +28,4 @@ Rules of the game [here](https://www.craniocreations.it/storage/media/product_do
 
 The project is poised for adaptation to Apple's visionOS, suggesting plans for expanded compatibility and potential new features for the visionOS environment.
 
-## Contributing
-
-Contributions are welcome! If you're interested in adding features, fixing bugs, or improving documentation, please read our contribution guidelines before submitting your pull request.
-
 
