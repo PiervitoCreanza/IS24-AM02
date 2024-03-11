@@ -1,4 +1,4 @@
-@startuml
+@startuml IS24-AM02
 class Game {
     'Gestione giocatori e inizio/fine partita
     -ArrayList<Player> players
@@ -6,22 +6,18 @@ class Game {
     +stopGame()
     +addPlayer()
     +removePlayer()
-    
 }
 
 Game "1" -- "2..4" Player
 Game "1" -- "1" GlobalBoard
 
 class GlobalBoard {
-    -int[] playerPos
     -ObjectiveCard[2] objectives
     -ArrayList<Card> fieldCards 
-    +getPlayerPos()
     +getObjectives()
     +setObjectives()
-    +setField()
+    +initField()
     +drawCardFromField()
-    +updatePlayerPos()
 }
 
 'GlobalBoard  --  ObjectiveCard
@@ -36,6 +32,7 @@ class Player {
     -Hand playerHand
     +getPlayerBoard()
     +getPlayerPos()
+    +getPlayerHand()
     +getPlayerObjective()
     +setPlayerObjective()
     +advance(int steps)
@@ -47,7 +44,6 @@ Player "1" -- "1" PlayerBoard
 class Deck {
     -ArrayList<Card> cards
     +drawCard()
-    
 }
 
 Deck -- Card
@@ -62,7 +58,7 @@ class Hand {
 Player "1" -- "1" Hand
 
 class PlayerBoard {
-    -Card[][] map
+    -Card[][] cardMatrix
     -int[4] totalResources
     -int[3] totalGameObject
     -int center_x
@@ -75,13 +71,15 @@ class PlayerBoard {
     +isPlaceable(Card, x, y)
 }
 
-PlayerBoard "0..N" -- "1" Card
+PlayerBoard "1..N" -- "1" Card
 
 class Card {
     -Side currentSide
     -Side otherSide
+    -Color cardColor
     +getCurrentSide()
     +switchSide(Side)
+    +getColor()
     'switchSide(Side) Così possiamo forzare una side in una sola chaiamta.
 }
 
@@ -94,14 +92,13 @@ abstract class Side {
     -Optional<Corner> bottomRight
     +getCorner()
     +getCorners()
-    +getResource()
+    +getMainResource()
     +getPoints()
 }
 
 Side <|-- Front
 Side <|-- Back
 Side "1..4" -r-- "1" Corner
-
 
 class Corner<T>{
     -T item
@@ -115,6 +112,7 @@ class Corner<T>{
 
 abstract class Front {
     -int points
+    +getMainResource()
     +getPoints()
 }
 
@@ -157,7 +155,7 @@ class FrontObjectGoldCard {
 
 abstract class Back {
     -ArrayList<Resource> resources
-    +getResource()
+    +getMainResource()
     +getPoints()
 }
 
@@ -211,6 +209,14 @@ enum GameObject {
     Quill
     Inkwell
     Manuscript
+}
+
+enum Color {
+    Red
+    Blue
+    Green
+    Purple
+    Neutral
 }
 
 @enduml
