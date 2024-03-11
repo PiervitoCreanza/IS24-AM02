@@ -2,14 +2,15 @@
 class Game {
     'Gestione giocatori e inizio/fine partita
     -ArrayList<Player> players
+    -GlobalBoard GlobalBoard
     +startGame()
     +stopGame()
     +addPlayer()
     +removePlayer()
 }
 
-Game "1" -- "2..4" Player
-Game "1" -- "1" GlobalBoard
+Game "2..4" *-- "1" Player
+Game "1" *-- "1" GlobalBoard
 
 class GlobalBoard {
     -ObjectiveCard[2] objectives
@@ -21,7 +22,7 @@ class GlobalBoard {
 }
 
 'GlobalBoard  --  ObjectiveCard
-GlobalBoard "2" -- "1" Deck
+GlobalBoard "2" *-- "1" Deck
 
 class Player {
     'Ha la sua PlayerBoard, la sua hand, il suo numero di risorse attuali, la sua posizione sul tabellone e il suo obiettivo.
@@ -39,7 +40,7 @@ class Player {
     'Numero di passi di cui avanzare
 }
 
-Player "1" -- "1" PlayerBoard
+Player "1" *-- "1" PlayerBoard
 
 class Deck {
     -ArrayList<Card> cards
@@ -55,17 +56,17 @@ class Hand {
     +removeCard()
 }
 
-Player "1" -- "1" Hand
+Player "1" *-- "1" Hand
 
 class PlayerBoard {
-    -Card[][] cardMatrix
+    -Card[][] boardMatrix
     -int[4] totalResources
     -int[3] totalGameObject
     -int center_x
     -int center_y
     +getCard(x, y)
     +getPlacedCards()
-    +getResourceAmount(Resource)
+    +getResourceAmount(GameResource)
     +getObjectAmount(Object)
     +placeCard(Card, x, y)
     +isPlaceable(Card, x, y)
@@ -76,14 +77,13 @@ PlayerBoard "1..N" -- "1" Card
 class Card {
     -Side currentSide
     -Side otherSide
-    -Color cardColor
+    -CardColor cardColor
     +getCurrentSide()
-    +switchSide(Side)
+    +setSide(Side)
     +getColor()
-    'switchSide(Side) Così possiamo forzare una side in una sola chaiamta.
 }
 
-Card "2" -- "1" Side
+Card "2" *-- "1" Side
 
 abstract class Side {
     -Optional<Corner> topRight
@@ -92,27 +92,40 @@ abstract class Side {
     -Optional<Corner> bottomRight
     +getCorner()
     +getCorners()
-    +getMainResource()
+    +getGameResource()
     +getPoints()
+    +getNeededResources()
 }
 
 Side <|-- Front
 Side <|-- Back
-Side "1..4" -r-- "1" Corner
+Side "1..4" *-- "1" Corner
 
-class Corner<T>{
-    -T item
-    -boolean isCovered
-    +getItem()
-    +isCovered()
-    +setCovered()
-}
+abstract class Corner {
+      -boolean isCovered
+      +getGameObject()
+      +getGameResource()
+      +setCovered(Boolean)
+  }
+  class CornerObject {
+        -GameObject gameObject
+        +getGameObject()
+  }
+  Corner <|-- CornerObject
+  class CornerResource {
+        -GameResource gameResource
+        +getGameResource()
+  }
+  Corner <|-- CornerResource
+  class EmptyCorner {
+  }
+  Corner <|-- EmptyCorner
 
 'FrontSide Section
 
 abstract class Front {
     -int points
-    +getMainResource()
+    +getGameResource()
     +getPoints()
 }
 
@@ -129,7 +142,7 @@ class FrontResourceCard {
 }
 
 abstract class FrontGoldCard {
-    -ArrayList<Resource> neededResources
+    -ArrayList<GameResource> neededResources
     +getNeededResources()
 }
 
@@ -148,14 +161,14 @@ class FrontPositionalGoldCard {
 
 class FrontObjectGoldCard {
     -GameObject multiplier
-    +getPoints()
+    +getPoints(PlayerBoard)
 }
 
 'BackSide Section
 
 abstract class Back {
-    -ArrayList<Resource> resources
-    +getMainResource()
+    -ArrayList<GameResource> resources
+    +getGameResource()
     +getPoints()
 }
 
@@ -183,8 +196,9 @@ abstract class ObjectiveCard {
     +getPoints()
 }
 
-Player -- ObjectiveCard 
+Player *-- ObjectiveCard 
 ObjectiveCard <|-- PositionalObjective
+Deck -- ObjectiveCard
 
 class ObjectObjective {
     +getPoints()
@@ -198,7 +212,7 @@ class PositionalObjective {
 
 'Enum Section
 
-enum Resource {
+enum GameResource {
     Plant
     Animal
     Fungi
@@ -211,7 +225,7 @@ enum GameObject {
     Manuscript
 }
 
-enum Color {
+enum CardColor {
     Red
     Blue
     Green
