@@ -10,11 +10,22 @@ class Game {
 }
 
 Game "1" -- "2..4" Player
+Game "1" -- "1" GlobalBoard
 
-class Orchestrator{
-    'Gestisce i turni e orchestra la partita
+class GlobalBoard {
+    -int[] playerPos
+    -ObjectiveCard[2] objectives
+    -ArrayList<Card> fieldCards 
+    +getPlayerPos()
+    +getObjectives()
+    +setObjectives()
+    +setField()
+    +drawCardFromField()
+    +updatePlayerPos()
 }
 
+'GlobalBoard  --  ObjectiveCard
+GlobalBoard "2" -- "1" Deck
 
 class Player {
     'Ha la sua PlayerBoard, la sua hand, il suo numero di risorse attuali, la sua posizione sul tabellone e il suo obiettivo.
@@ -34,7 +45,9 @@ class Player {
 Player "1" -- "1" PlayerBoard
 
 class Deck {
+    -ArrayList<Card> cards
     +drawCard()
+    
 }
 
 Deck -- Card
@@ -47,7 +60,6 @@ class Hand {
 }
 
 Player "1" -- "1" Hand
-Hand "1" -- "3" GameCard
 
 class PlayerBoard {
     -Card[][] map
@@ -65,74 +77,31 @@ class PlayerBoard {
 
 PlayerBoard "0..N" -- "1" Card
 
-abstract class Card {
+class Card {
     -Side currentSide
     -Side otherSide
-    -boolean isFront
     +getCurrentSide()
-    +switchSide(Side) 
+    +switchSide(Side)
     'switchSide(Side) Così possiamo forzare una side in una sola chaiamta.
-    +isFront()
-    '+getResource() E' implementato nelle 2 sottoclassi.
-    'abstract
-}
-
-Card <|-- GameCard
-Card <|-- StarterCard
-
-abstract class GameCard {
-    -Resource resource
-    -int pointsWon
-    +getResource()
-    +getPoints()
-}
-
-GameCard <|-- ResourceCard
-GameCard <|-- GoldCard
-
-class ResourceCard {
-
-}
-
-abstract class GoldCard {
-    -ArrayList<Resource> neededResources
-    +getNeededResources()
-}
-
-GoldCard <|-- SimpleGoldCard
-GoldCard <|-- PositionalGoldCard
-GoldCard <|-- ObjectGoldCard
-
-class SimpleGoldCard {
-
-} 
-
-class PositionalGoldCard {
-    +getPoints(PlayerBoard)
-    
-}
-
-class ObjectGoldCard {
-    -GameObject multiplier
-    +getPoints()
-}
-
-class StarterCard {
-    -ArrayList<Resource> resources
-    +getResource()
 }
 
 Card "2" -- "1" Side
 
-class Side {
+abstract class Side {
     -Optional<Corner> topRight
     -Optional<Corner> topLeft
     -Optional<Corner> bottomLeft
     -Optional<Corner> bottomRight
+    +getCorner()
     +getCorners()
+    +getResource()
+    +getPoints()
 }
 
-Side "1..4" -- "1" Corner
+Side <|-- Front
+Side <|-- Back
+Side "1..4" -r-- "1" Corner
+
 
 class Corner<T>{
     -T item
@@ -142,10 +111,73 @@ class Corner<T>{
     +setCovered()
 }
 
-class ObjectGoldCard {
-       -GameObject multiplicator
-       +getPoints()
+'FrontSide Section
+
+abstract class Front {
+    -int points
+    +getPoints()
 }
+
+Front <|-- FrontStarterCard
+Front <|-- FrontResourceCard
+Front <|-- FrontGoldCard
+
+class FrontStarterCard {
+    
+}
+
+class FrontResourceCard {
+
+}
+
+abstract class FrontGoldCard {
+    -ArrayList<Resource> neededResources
+    +getNeededResources()
+}
+
+FrontGoldCard <|-- FrontSimpleGoldCard
+FrontGoldCard <|-- FrontPositionalGoldCard
+FrontGoldCard <|-- FrontObjectGoldCard
+
+class FrontSimpleGoldCard {
+
+} 
+
+class FrontPositionalGoldCard {
+    +getPoints(PlayerBoard)
+    
+}
+
+class FrontObjectGoldCard {
+    -GameObject multiplier
+    +getPoints()
+}
+
+'BackSide Section
+
+abstract class Back {
+    -ArrayList<Resource> resources
+    +getResource()
+    +getPoints()
+}
+
+Back <|-- BackStarterCard
+Back <|-- BackResourceCard
+Back <|-- BackGoldCard
+
+class BackStarterCard {
+    
+}
+
+class BackResourceCard {
+
+}
+
+class BackGoldCard {
+    
+}
+
+'ObjectiveCard Section
 
 abstract class ObjectiveCard {
     ' Carte obiettivo
@@ -166,6 +198,8 @@ class PositionalObjective {
     +getPoints()
 }
 
+'Enum Section
+
 enum Resource {
     Plant
     Animal
@@ -179,5 +213,4 @@ enum GameObject {
     Manuscript
 }
 
-'CardBoard 
 @enduml
