@@ -70,9 +70,10 @@ abstract class Card {
     -Side otherSide
     -boolean isFront
     +getCurrentSide()
-    +switchSide()
+    +switchSide(Side) 
+    'switchSide(Side) Così possiamo forzare una side in una sola chaiamta.
     +isFront()
-    +getResource() 
+    '+getResource() E' implementato nelle 2 sottoclassi.
     'abstract
 }
 
