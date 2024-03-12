@@ -1,15 +1,29 @@
 @startuml IS24-AM02
-class Game {
+
+class GameManager {
+    -ArrayList<Game> games
+    +createGame(String name, int nPlayers, String playerName)
+    +deleteGame(String name)
+    +ArrayList<Game> getGames()
+    +Game joinGame(String name, String playerName)
+}
+GameManager "1" *-- "1..N" Game
+
+class Game { 
     'Gestione giocatori e inizio/fine partita
+    -String gameName
+    -int nPlayers
     -ArrayList<Player> players
     -Player currentPlayer
     -GlobalBoard globalBoard
-    +startGame()
     +stopGame()
-    +addPlayer()
-    +removePlayer()
+    +addPlayer(Player player)
+    +removePlayer(Player player)
     +getPlayers()
+    +getPlayer(String playerName)
     +getNextPlayer()
+    +getGlobalBoard()
+    +isStarted()
 }
 
 Game "2..4" *-- "1" Player
@@ -17,17 +31,18 @@ Game "1" *-- "1" GlobalBoard
 
 class GlobalBoard {
     -ObjectiveCard[2] objectives
-    -ArrayList<GameCard> fieldCards
+    -GameCard[2] fieldGoldCards
+    -GameCard[2] fieldResourceCards
     -Deck goldDeck
     -Deck resourceDeck
     -Deck objectiveDeck
+    -Deck starterDeck
     +getGoldDeck()
     +getResourceDeck()
     +getObjectiveDeck()
     +getObjectives()
-    +setObjectives()
-    +initField()
-    +getFieldCards()
+    +getFieldGoldCards()
+    +getFieldResourceCards()
     +drawCardFromField(GameCard)
 }
 
@@ -39,13 +54,14 @@ class Player {
     -String playerName
     -int playerPos
     -PlayerBoard playerBoard
-    -ObjectiveCard playerObjective
+    -ObjectiveCard playerObjectiveCard
+    -Deck objectiveDeck 'ref
     -Hand playerHand
     +getPlayerBoard()
     +getPlayerPos()
     +getPlayerHand()
     +getPlayerObjective()
-    +setPlayerObjective()
+    +setPlayerObjective(ObjectiveCard)
     +advance(int steps)
     'Numero di passi di cui avanzare
 }
@@ -60,7 +76,7 @@ class Deck {
 
 class Hand {
     -GameCard[3] currentCards
-    +getCard()
+    +ArrayList<GameCard> getCards()
     +addCard()
     +removeCard()
 }
@@ -71,8 +87,6 @@ class PlayerBoard {
     -GameCard[][] boardMatrix
     -int[4] totalResources
     -int[3] totalGameObject
-    -int center_x
-    -int center_y
     +getCard(x, y)
     +getCardPosition(GameCard)
     +getPlacedCards()
@@ -95,8 +109,11 @@ class GameCard {
     -Side otherSide
     -CardColor cardColor
     +getCurrentSide()
-    +setSide(Side)
+    +switchSide()
     +getColor()
+    +getCorner(cornerPos)
+    +getGameResources()
+    +getGameObjects()
 }
 
 GameCard "2" *-- "1" Side
@@ -106,9 +123,9 @@ abstract class Side {
     -Optional<Corner> topLeft
     -Optional<Corner> bottomLeft
     -Optional<Corner> bottomRight
-    +getCorner()
-    +getCorners()
-    +getGameResource()
+    +getCorner(cornerPos)
+    +getGameResources()
+    +getGameObjects()
     +getPoints()
     +getNeededResources()
 }
@@ -119,7 +136,6 @@ Side "1..4" *-- "1" Corner
 
 abstract class Corner {
       -boolean isCovered
-      +getIsCovered()
       +getGameObject()
       +getGameResource()
       +setCovered(Boolean)
@@ -142,7 +158,7 @@ abstract class Corner {
 
 abstract class Front {
     -int points
-    +getGameResource()
+    +getGameResources()
     +getPoints()
 }
 
@@ -185,7 +201,7 @@ class FrontObjectGoldCard {
 
 abstract class Back {
     -ArrayList<GameResource> resources
-    +getGameResource()
+    +getGameResources()
     +getPoints()
 }
 
@@ -219,13 +235,14 @@ ObjectiveCard <|-- PositionalObjective
 Deck *-- Card
 
 class ObjectObjective {
-    +getPoints()
+    -GameObject multiplier
+    +getPoints(PlayerBoard)
 }
 
 ObjectiveCard <|-- ObjectObjective
 
 class PositionalObjective {
-    +getPoints()
+    +getPoints(PlayerBoard)
 }
 
 'Enum Section
