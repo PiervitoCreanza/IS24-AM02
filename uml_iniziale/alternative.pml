@@ -55,7 +55,7 @@ class Player {
     -int playerPos
     -PlayerBoard playerBoard
     -ObjectiveCard playerObjectiveCard
-    -Deck objectiveDeck 'ref
+    -Deck objectiveDeck (ref)
     -Hand playerHand
     +getPlayerBoard()
     +getPlayerPos()
