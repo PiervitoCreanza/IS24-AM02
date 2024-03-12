@@ -2,11 +2,14 @@
 class Game {
     'Gestione giocatori e inizio/fine partita
     -ArrayList<Player> players
-    -GlobalBoard GlobalBoard
+    -Player currentPlayer
+    -GlobalBoard globalBoard
     +startGame()
     +stopGame()
     +addPlayer()
     +removePlayer()
+    +getPlayers()
+    +getNextPlayer()
 }
 
 Game "2..4" *-- "1" Player
@@ -14,15 +17,22 @@ Game "1" *-- "1" GlobalBoard
 
 class GlobalBoard {
     -ObjectiveCard[2] objectives
-    -ArrayList<Card> fieldCards 
+    -ArrayList<GameCard> fieldCards
+    -Deck goldDeck
+    -Deck resourceDeck
+    -Deck objectiveDeck
+    +getGoldDeck()
+    +getResourceDeck()
+    +getObjectiveDeck()
     +getObjectives()
     +setObjectives()
     +initField()
-    +drawCardFromField()
+    +getFieldCards()
+    +drawCardFromField(GameCard)
 }
 
 'GlobalBoard  --  ObjectiveCard
-GlobalBoard "2" *-- "1" Deck
+GlobalBoard "3" *-- "1" Deck
 
 class Player {
     'Ha la sua PlayerBoard, la sua hand, il suo numero di risorse attuali, la sua posizione sul tabellone e il suo obiettivo.
@@ -47,7 +57,6 @@ class Deck {
     +drawCard()
 }
 
-Deck -- Card
 
 class Hand {
     -GameCard[3] currentCards
@@ -59,22 +68,29 @@ class Hand {
 Player "1" *-- "1" Hand
 
 class PlayerBoard {
-    -Card[][] boardMatrix
+    -GameCard[][] boardMatrix
     -int[4] totalResources
     -int[3] totalGameObject
     -int center_x
     -int center_y
     +getCard(x, y)
+    +getCardPosition(GameCard)
     +getPlacedCards()
     +getResourceAmount(GameResource)
     +getObjectAmount(Object)
-    +placeCard(Card, x, y)
-    +isPlaceable(Card, x, y)
+    +placeCard(GameCard, x, y)
+    +isPlaceable(GameCard, x, y)
 }
 
-PlayerBoard "1..N" -- "1" Card
+PlayerBoard "1..N" -- "1" GameCard
 
-class Card {
+abstract class Card {
+
+}
+Card <|-- GameCard
+Card <|-- ObjectiveCard
+
+class GameCard {
     -Side currentSide
     -Side otherSide
     -CardColor cardColor
@@ -83,7 +99,7 @@ class Card {
     +getColor()
 }
 
-Card "2" *-- "1" Side
+GameCard "2" *-- "1" Side
 
 abstract class Side {
     -Optional<Corner> topRight
@@ -103,6 +119,7 @@ Side "1..4" *-- "1" Corner
 
 abstract class Corner {
       -boolean isCovered
+      +getIsCovered()
       +getGameObject()
       +getGameResource()
       +setCovered(Boolean)
@@ -193,12 +210,13 @@ class BackGoldCard {
 abstract class ObjectiveCard {
     ' Carte obiettivo
     -Integer pointsWon
-    +getPoints()
+    +getPoints(PlayerBoard)
 }
 
 Player *-- ObjectiveCard 
+GlobalBoard *-- ObjectiveCard
 ObjectiveCard <|-- PositionalObjective
-Deck -- ObjectiveCard
+Deck *-- Card
 
 class ObjectObjective {
     +getPoints()
