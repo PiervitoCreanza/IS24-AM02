@@ -7,15 +7,15 @@ class GameManager {
     +ArrayList<Game> getGames()
     +Game joinGame(String name, String playerName)
 }
-GameManager "1" *-- "1..N" Game
+GameManager "1..N" *-- "1" Game
 
 class Game { 
     'Gestione giocatori e inizio/fine partita
     -String gameName
     -int nPlayers
     -ArrayList<Player> players
-    -Player currentPlayer
     -GlobalBoard globalBoard
+    -Player currentPlayer
     +stopGame()
     +addPlayer(Player player)
     +removePlayer(Player player)
@@ -30,13 +30,14 @@ Game "2..4" *-- "1" Player
 Game "1" *-- "1" GlobalBoard
 
 class GlobalBoard {
-    -ObjectiveCard[2] objectives
-    -GameCard[2] fieldGoldCards
-    -GameCard[2] fieldResourceCards
     -Deck goldDeck
     -Deck resourceDeck
     -Deck objectiveDeck
     -Deck starterDeck
+    -ObjectiveCard[2] objectives
+    -GameCard[2] fieldGoldCards
+    -GameCard[2] fieldResourceCards
+    
     +getGoldDeck()
     +getResourceDeck()
     +getObjectiveDeck()
@@ -55,7 +56,6 @@ class Player {
     -int playerPos
     -PlayerBoard playerBoard
     -ObjectiveCard playerObjectiveCard
-    -Deck objectiveDeck (ref)
     -Hand playerHand
     +getPlayerBoard()
     +getPlayerPos()
@@ -77,8 +77,8 @@ class Deck {
 class Hand {
     -GameCard[3] currentCards
     +ArrayList<GameCard> getCards()
-    +addCard()
-    +removeCard()
+    +addCard(GameCard)
+    +removeCard(GameCard)
 }
 
 Player "1" *-- "1" Hand
@@ -114,15 +114,17 @@ class GameCard {
     +getCorner(cornerPos)
     +getGameResources()
     +getGameObjects()
+    +getPoints()
+    +getNeededResources()
 }
 
 GameCard "2" *-- "1" Side
 
 abstract class Side {
-    -Optional<Corner> topRight
-    -Optional<Corner> topLeft
-    -Optional<Corner> bottomLeft
-    -Optional<Corner> bottomRight
+    #Optional<Corner> topRight
+    #Optional<Corner> topLeft
+    #Optional<Corner> bottomLeft
+    #Optional<Corner> bottomRight
     +getCorner(cornerPos)
     +getGameResources()
     +getGameObjects()
@@ -135,7 +137,7 @@ Side <|-- Back
 Side "1..4" *-- "1" Corner
 
 abstract class Corner {
-      -boolean isCovered
+      #boolean isCovered
       +getGameObject()
       +getGameResource()
       +setCovered(Boolean)
@@ -157,7 +159,7 @@ abstract class Corner {
 'FrontSide Section
 
 abstract class Front {
-    -int points
+    #int points
     +getGameResources()
     +getPoints()
 }
@@ -175,7 +177,7 @@ class FrontResourceCard {
 }
 
 abstract class FrontGoldCard {
-    -ArrayList<GameResource> neededResources
+    #ArrayList<GameResource> neededResources
     +getNeededResources()
 }
 
@@ -200,7 +202,7 @@ class FrontObjectGoldCard {
 'BackSide Section
 
 abstract class Back {
-    -ArrayList<GameResource> resources
+    #ArrayList<GameResource> resources
     +getGameResources()
     +getPoints()
 }
@@ -225,23 +227,29 @@ class BackGoldCard {
 
 abstract class ObjectiveCard {
     ' Carte obiettivo
-    -Integer pointsWon
+    #Integer pointsWon
     +getPoints(PlayerBoard)
 }
 
 Player *-- ObjectiveCard 
 GlobalBoard *-- ObjectiveCard
 ObjectiveCard <|-- PositionalObjective
+ObjectiveCard <|-- ResourceObjective
 Deck *-- Card
 
 class ObjectObjective {
-    -GameObject multiplier
+    -GameObject[3] multiplier
+    +getPoints(PlayerBoard)
+}
+class ResourceObjective {
+    -GameResource resource
     +getPoints(PlayerBoard)
 }
 
 ObjectiveCard <|-- ObjectObjective
 
 class PositionalObjective {
+    -CardColor[3][3] requiredColors
     +getPoints(PlayerBoard)
 }
 
