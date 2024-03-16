@@ -1,7 +1,10 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.model.GameCard;
 import it.polimi.ingsw.model.Hand;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,14 +13,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class HandTest {
 
-    // Define a placeholder class to simulate GameCard
-    private static class GameCard {
-        // Define any necessary attributes and methods for testing purposes
+    private Hand hand;
+
+    @BeforeEach
+    public void setup() {
+        hand = new Hand();
     }
 
     @Test
     public void testAddCard() {
-        Hand hand = new Hand();
         GameCard card = new GameCard();
         hand.addCard(card);
         ArrayList<GameCard> cards = hand.getCards();
@@ -27,8 +31,7 @@ public class HandTest {
 
     @Test
     public void testRemoveCard() {
-        Hand hand = new Hand();
-        GameCard card = new GameCard(); // Placeholder object
+        GameCard card = new GameCard();
         hand.addCard(card);
         hand.removeCard(card);
         ArrayList<GameCard> cards = hand.getCards();
@@ -38,10 +41,9 @@ public class HandTest {
 
     @Test
     public void testHandFullException() {
-        Hand hand = new Hand();
-        GameCard card1 = new GameCard(); // Placeholder object
-        GameCard card2 = new GameCard(); // Placeholder object
-        GameCard card3 = new GameCard(); // Placeholder object
+        GameCard card1 = new GameCard();
+        GameCard card2 = new GameCard();
+        GameCard card3 = new GameCard();
         hand.addCard(card1);
         hand.addCard(card2);
         hand.addCard(card3);
