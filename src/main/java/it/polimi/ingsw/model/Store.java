@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 abstract class Store<T> {
     protected final HashMap<T, Integer> store;
@@ -27,5 +29,34 @@ abstract class Store<T> {
      */
     public void set(T t, Integer amount) {
         store.put(t, amount);
+    }
+
+    /**
+     * This method is used to add a specific amount of a specific object to the store.
+     *
+     * @param T       t This is the object to add the amount of.
+     * @param Integer amount This is the amount to add.
+     */
+    public void add(T t, Integer amount) {
+        store.put(t, store.get(t) + amount);
+    }
+
+    /**
+     * This method is used to remove a specific amount of a specific object from the store.
+     *
+     * @param T       t This is the object to remove the amount of.
+     * @param Integer amount This is the amount to remove.
+     */
+    public void remove(T t, Integer amount) {
+        store.put(t, store.get(t) - amount);
+    }
+
+    /**
+     * This method is used to get the keys of non-empty amounts in the store.
+     *
+     * @return ArrayList<T> This returns the keys of the store.
+     */
+    public ArrayList<T> getNonEmptyKeys() {
+        return store.keySet().stream().filter(k -> store.get(k) > 0).collect(Collectors.toCollection(ArrayList::new));
     }
 }
