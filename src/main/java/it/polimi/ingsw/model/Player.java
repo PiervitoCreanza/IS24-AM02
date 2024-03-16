@@ -14,6 +14,16 @@ public class Player {
     }
 
     /**
+     * This method is used to get the name of the player.
+     *
+     * @return String This returns the name of the player.
+     */
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    /**
      * This method is used to get the position of the player.
      *
      * @return Integer This returns the position of the player.

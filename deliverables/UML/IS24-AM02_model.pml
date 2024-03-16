@@ -57,6 +57,7 @@ class Player {
     -PlayerBoard playerBoard
     -ObjectiveCard objectiveCard
     -Hand hand
+    +getPlayerName()
     +getPlayerBoard()
     +getPlayerPos()
     +getPlayerHand()
