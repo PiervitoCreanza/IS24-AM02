@@ -129,7 +129,7 @@ GameResourceStore "1" --* "1" Back
 GameResourceStore "1" --* "1" FrontGoldCard
 
 interface Card {
-
+    +getPoints(PlayerBoard)
 }
 Card <|-- GameCard
 Card <|-- ObjectiveCard
@@ -269,23 +269,23 @@ abstract class ObjectiveCard {
 
 Player *-- ObjectiveCard 
 GlobalBoard *-- ObjectiveCard
-ObjectiveCard <|-- PositionalObjective
-ObjectiveCard <|-- ResourceObjective
+ObjectiveCard <|-- PositionalObjectiveCard
+ObjectiveCard <|-- ResourceObjectiveCard
 Deck *-- Card
 
-class ObjectObjective {
+class ObjectObjectiveCard {
     -GameObjectStore multiplier
     +getPoints(PlayerBoard)
 }
-ObjectObjective *-- GameObjectStore
-class ResourceObjective {
+ObjectObjectiveCard *-- GameObjectStore
+class ResourceObjectiveCard {
     -GameResource resource
     +getPoints(PlayerBoard)
 }
 
-ObjectiveCard <|-- ObjectObjective
+ObjectiveCard <|-- ObjectObjectiveCard
 
-class PositionalObjective {
+class PositionalObjectiveCard {
     -CardColor[3][3] requiredColors
     +getPoints(PlayerBoard)
 }
