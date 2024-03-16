@@ -8,7 +8,7 @@ import java.util.Optional;
 public class PlayerBoard {
     private final HashMap<Point, GameCard> playerBoard;
     private final GameResourceStore gameResources;
-    private GameObjectStore gameObjects;
+    private final GameObjectStore gameObjects;
 
     public PlayerBoard() {
         playerBoard = new HashMap<Point, GameCard>();
@@ -19,7 +19,7 @@ public class PlayerBoard {
     /**
      * This method is used to get the card in the player board at a specific position.
      *
-     * @param Point point This is the position of the card.
+     * @param point This is the position of the card.
      * @return Optional<GameCard> This returns the card at the position, if present.
      */
     public Optional<GameCard> getGameCard(Point point) {
@@ -29,7 +29,7 @@ public class PlayerBoard {
     /**
      * This method is used to get the position of a card in the player board.
      *
-     * @param GameCard gameCard This is the card to find.
+     * @param gameCard This is the card to find.
      * @return Optional<Point> This returns the position of the card, if present.
      */
     public Optional<Point> getGameCardPosition(GameCard gameCard) {
@@ -53,7 +53,7 @@ public class PlayerBoard {
     /**
      * This method is used to get the amount of a resource in the player board.
      *
-     * @param GameResource gameResource This is the resource to find.
+     * @param gameResource This is the resource to find.
      * @return Integer This returns the amount of the resource.
      */
     public Integer getGameResourceAmount(GameResource gameResource) {
@@ -63,7 +63,7 @@ public class PlayerBoard {
     /**
      * This method is used to get the amount of an object in the player board.
      *
-     * @param GameObject gameObject This is the object to find.
+     * @param gameObject This is the object to find.
      * @return Integer This returns the amount of the object.
      */
     public Integer getGameObjectAmount(GameObject gameObject) {
@@ -73,8 +73,8 @@ public class PlayerBoard {
     /**
      * This method is used to check whether a GameCard can be places in the PlayerBoard.
      *
-     * @param Point    point This is the position where to place the card.
-     * @param GameCard gameCard This is the GameCard to place.
+     * @param point    This is the position where to place the card.
+     * @param gameCard This is the GameCard to place.
      * @return boolean This returns true if the card can be placed, false otherwise.
      */
     public boolean isPlaceable(Point point, GameCard gameCard) {
@@ -98,8 +98,8 @@ public class PlayerBoard {
     /**
      * This method is used to place a GameCard in the player board.
      *
-     * @param Point    point This is the position where to place the card.
-     * @param GameCard gameCard This is the GameCard to place.
+     * @param point    This is the position where to place the card.
+     * @param gameCard This is the GameCard to place.
      * @throws IllegalArgumentException This is thrown if the position is already occupied.
      * @throws IllegalArgumentException This is thrown if the position is not adjacent to any other card.
      * @throws IllegalArgumentException This is thrown if the position is not compatible with adjacent cards.

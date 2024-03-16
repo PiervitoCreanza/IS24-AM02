@@ -21,7 +21,7 @@ public class Hand {
     /**
      * This method is used to add a card to the hand.
      *
-     * @param GameCard card This is the card to be added to the hand.
+     * @param card This is the card to be added to the hand.
      * @throws IllegalArgumentException This is thrown if the hand is full.
      */
     public void addCard(GameCard card) {
@@ -34,7 +34,7 @@ public class Hand {
     /**
      * This method is used to remove a card from the hand.
      *
-     * @param GameCard card This is the card to be removed from the hand.
+     * @param card This is the card to be removed from the hand.
      */
     public void removeCard(GameCard card) {
         hand.remove(card);

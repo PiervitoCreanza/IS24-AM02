@@ -55,7 +55,7 @@ public class Player {
     /**
      * This method is used to set the ObjectiveCard of the player.
      *
-     * @param ObjectiveCard objectiveCard This is the ObjectiveCard to be set.
+     * @param objectiveCard This is the ObjectiveCard to be set.
      */
     public void setPlayerObjective(ObjectiveCard objectiveCard) {
         this.objectiveCard = objectiveCard;
@@ -64,7 +64,7 @@ public class Player {
     /**
      * This method is used to advance the position of the player.
      *
-     * @param Integer steps This is the number of steps to advance.
+     * @param steps This is the number of steps to advance.
      * @return boolean This returns true if the player has surpassed the value of 20, false otherwise.
      */
     public boolean advancePlayerPos(Integer steps) {
