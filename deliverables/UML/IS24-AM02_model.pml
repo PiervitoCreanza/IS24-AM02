@@ -125,7 +125,7 @@ PlayerBoard "2" *-- "1" Store
 GameResourceStore "1" --* "1" Back
 GameResourceStore "1" --* "1" FrontGoldCard
 
-abstract class Card {
+interface Card {
 
 }
 Card <|-- GameCard
