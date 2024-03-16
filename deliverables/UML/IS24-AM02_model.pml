@@ -55,14 +55,14 @@ class Player {
     -String playerName
     -int playerPos
     -PlayerBoard playerBoard
-    -ObjectiveCard playerObjectiveCard
-    -Hand playerHand
+    -ObjectiveCard objectiveCard
+    -Hand hand
     +getPlayerBoard()
     +getPlayerPos()
     +getPlayerHand()
-    +getPlayerObjective()
-    +setPlayerObjective(ObjectiveCard)
-    +advance(int steps)
+    +getObjectiveCard()
+    +setObjectiveCard(ObjectiveCard)
+    +advancePlayerPos(int steps)
     'Numero di passi di cui avanzare
 }
 
@@ -75,28 +75,55 @@ class Deck {
 
 
 class Hand {
-    -GameCard[3] currentCards
-    +ArrayList<GameCard> getCards()
-    +addCard(GameCard)
-    +removeCard(GameCard)
+    -ArrayList<GameCard> hand
+    +ArrayList<GameCard> getGameCards()
+    +void addCard(GameCard)
+    +void removeCard(GameCard)
 }
 
 Player "1" *-- "1" Hand
 
+class Point {
+    -int x
+    -int y
+    +getX()
+    +getY()
+}
+
 class PlayerBoard {
-    -GameCard[][] boardMatrix
-    -int[4] totalResources
-    -int[3] totalGameObject
-    +getCard(x, y)
-    +getCardPosition(GameCard)
-    +getPlacedCards()
-    +getResourceAmount(GameResource)
-    +getObjectAmount(Object)
-    +placeCard(GameCard, x, y)
-    +isPlaceable(GameCard, x, y)
+    -HashMap<Point, GameCard> playerBoard
+    -GameResourceStore gameResources
+    -GameObjectStore gameObjects
+    +<GameCard> getGameCard(Point)
+    +Optional<GameCard> getGameCardPosition(GameCard)
+    +ArrayList<GameCard> getGameCards()
+    +Integer getGameResourceAmount(GameResource)
+    +Integer getGameObjectAmount(Object)
+    +void setGameCard(Point, GameCard)
+    +boolean isPlaceable(Point, GameCard)
 }
 
 PlayerBoard "1..N" -- "1" GameCard
+
+abstract class Store<T> {
+    #HashMap<T, Integer> store
+    +get(T t)
+    +set(T t, Integer)
+}
+
+class GameResourceStore extends Store {
+    +GameResourceStore()
+    +GameResourceStore(HashMap<GameResource, Integer> gameResources)
+}
+
+class GameObjectStore extends Store {
+    +GameObjectStore()
+    +GameObjectStore(HashMap<GameObject, Integer> gameObjects)
+}
+
+PlayerBoard "2" *-- "1" Store
+GameResourceStore "1" --* "1" Back
+GameResourceStore "1" --* "1" FrontGoldCard
 
 abstract class Card {
 
@@ -111,7 +138,10 @@ class GameCard {
     +getCurrentSide()
     +switchSide()
     +getColor()
-    +getCorner(cornerPos)
+    +getTopRightCorner()
+    +getTopLeftCorner()
+    +getBottomLeftCorner()
+    +getBottomRightCorner()
     +getGameResources()
     +getGameObjects()
     +getPoints()
@@ -125,7 +155,10 @@ abstract class Side {
     #Optional<Corner> topLeft
     #Optional<Corner> bottomLeft
     #Optional<Corner> bottomRight
-    +getCorner(cornerPos)
+    +getTopRightCorner()
+    +getTopLeftCorner()
+    +getBottomLeftCorner()
+    +getBottomRightCorner()
     +getGameResources()
     +getGameObjects()
     +getPoints()
@@ -177,7 +210,7 @@ class FrontResourceCard {
 }
 
 abstract class FrontGoldCard {
-    #ArrayList<GameResource> neededResources
+    #GameResourceStore neededResources
     +getNeededResources()
 }
 
@@ -202,7 +235,7 @@ class FrontObjectGoldCard {
 'BackSide Section
 
 abstract class Back {
-    #ArrayList<GameResource> resources
+    #GameResourceStore resources
     +getGameResources()
     +getPoints()
 }
@@ -238,9 +271,10 @@ ObjectiveCard <|-- ResourceObjective
 Deck *-- Card
 
 class ObjectObjective {
-    -GameObject[3] multiplier
+    -GameObjectStore multiplier
     +getPoints(PlayerBoard)
 }
+ObjectObjective *-- GameObjectStore
 class ResourceObjective {
     -GameResource resource
     +getPoints(PlayerBoard)
