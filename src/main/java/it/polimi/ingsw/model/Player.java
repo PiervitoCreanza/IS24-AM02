@@ -1,17 +1,14 @@
 package it.polimi.ingsw.model;
 
-import java.util.ArrayList;
-
 public class Player {
     String playerName;
-    int playerPos;
+    int playerPos = 0;
     PlayerBoard playerBoard;
     ObjectiveCard objectiveCard;
     Hand hand;
 
-    public Player(String playerName, int playerPos) {
+    public Player(String playerName) {
         this.playerName = playerName;
-        this.playerPos = playerPos;
         playerBoard = new PlayerBoard();
         hand = new Hand();
     }
