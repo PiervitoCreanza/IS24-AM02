@@ -13,6 +13,7 @@ public class PlayerBoard {
     public PlayerBoard() {
         playerBoard = new HashMap<Point, GameCard>();
         gameResources = new GameResourceStore();
+        gameObjects = new GameObjectStore();
     }
 
     /**
@@ -32,11 +33,11 @@ public class PlayerBoard {
      * @return Optional<Point> This returns the position of the card, if present.
      */
     public Optional<Point> getGameCardPosition(GameCard gameCard) {
-        playerBoard.keySet().forEach(point -> {
+        for (Point point : playerBoard.keySet()) {
             if (playerBoard.get(point).equals(gameCard)) {
                 return Optional.of(point);
             }
-        });
+        }
         return Optional.empty();
     }
 
@@ -85,25 +86,13 @@ public class PlayerBoard {
             return false;
         }
 
-        if (getGameCard(new Point(point.x + 1, point.y + 1)).ifPresent(
-                gameCard -> gameCard.getBottomLeftCorner().isPresent()
-        ) || getGameCard(new Point(point.x - 1, point.y - 1)).ifPresent(
-                gameCard -> gameCard.getTopRightCorner().isPresent()
-        ) || getGameCard(new Point(point.x - 1, point.y + 1)).ifPresent(
-                gameCard -> gameCard.getBottomRightCorner().isPresent()
-        ) || getGameCard(new Point(point.x + 1, point.y - 1)).ifPresent(
-                gameCard -> gameCard.getTopLeftCorner().isPresent()
-        )) {
+        if (getGameCard(new Point(point.x + 1, point.y + 1)).map(card -> card.getBottomLeftCorner().isPresent()).orElse(false) || getGameCard(new Point(point.x - 1, point.y - 1)).map(card -> card.getTopRightCorner().isPresent()).orElse(false) || getGameCard(new Point(point.x - 1, point.y + 1)).map(card -> card.getBottomRightCorner().isPresent()).orElse(false) || getGameCard(new Point(point.x + 1, point.y - 1)).map(card -> card.getTopLeftCorner().isPresent()).orElse(false)) {
             return false;
         }
 
-        if (gameCard.getNeededResources().keySet().stream().anyMatch(
+        return gameCard.getNeededResources().keySet().stream().noneMatch(
                 gameResource -> gameResources.get(gameResource) < gameCard.getNeededResources().get(gameResource)
-        )) {
-            return false;
-        }
-
-        return true;
+        );
     }
 
     /**
@@ -121,19 +110,11 @@ public class PlayerBoard {
             throw new IllegalArgumentException("Position already occupied");
         }
 
-        if (!playerBoard.containsKey(new Point(point.x - 1, point.y - 1)) && !playerBoard.containsKey(new Point(point.x + 1, point.y + 1)) && !playerBoard.containsKey(new Point(point.x - 1, point.y + 1)) && !playerBoard.containsKey(new Point(point.x + 1, point.y - 1))) {
+        if ((point.getX() != 0 || point.getY() != 0) && !playerBoard.containsKey(new Point(point.x - 1, point.y - 1)) && !playerBoard.containsKey(new Point(point.x + 1, point.y + 1)) && !playerBoard.containsKey(new Point(point.x - 1, point.y + 1)) && !playerBoard.containsKey(new Point(point.x + 1, point.y - 1))) {
             throw new IllegalArgumentException("Position not adjacent to any other card");
         }
 
-        if (getGameCard(new Point(point.x + 1, point.y + 1)).ifPresent(
-                gameCard -> gameCard.getBottomLeftCorner().isPresent()
-        ) || getGameCard(new Point(point.x - 1, point.y - 1)).ifPresent(
-                gameCard -> gameCard.getTopRightCorner().isPresent()
-        ) || getGameCard(new Point(point.x - 1, point.y + 1)).ifPresent(
-                gameCard -> gameCard.getBottomRightCorner().isPresent()
-        ) || getGameCard(new Point(point.x + 1, point.y - 1)).ifPresent(
-                gameCard -> gameCard.getTopLeftCorner().isPresent()
-        )) {
+        if (getGameCard(new Point(point.x + 1, point.y + 1)).map(card -> card.getBottomLeftCorner().isPresent()).orElse(false) || getGameCard(new Point(point.x - 1, point.y - 1)).map(card -> card.getTopRightCorner().isPresent()).orElse(false) || getGameCard(new Point(point.x - 1, point.y + 1)).map(card -> card.getBottomRightCorner().isPresent()).orElse(false) || getGameCard(new Point(point.x + 1, point.y - 1)).map(card -> card.getTopLeftCorner().isPresent()).orElse(false)) {
             throw new IllegalArgumentException("Position not compatible with adjacent cards");
         }
 

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 abstract class Store<T> {
@@ -58,5 +59,9 @@ abstract class Store<T> {
      */
     public ArrayList<T> getNonEmptyKeys() {
         return store.keySet().stream().filter(k -> store.get(k) > 0).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public Set<T> keySet() {
+        return store.keySet();
     }
 }
