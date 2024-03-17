@@ -33,22 +33,22 @@ public abstract class Store<T> {
     }
 
     /**
-     * Adds a specific amount of a specific object to the store.
+     * Increment the amount of a specific object in the store.
      *
-     * @param t      the object to add the amount of
+     * @param t      the object to increase the amount of
      * @param amount the amount to add
      */
-    public void add(T t, Integer amount) {
+    public void increment(T t, Integer amount) {
         store.put(t, store.get(t) + amount);
     }
 
     /**
-     * Removes a specific amount of a specific object from the store.
+     * Decrement the amount of a specific object in the store.
      *
-     * @param t      the object to remove the amount of
+     * @param t      the object to decrease the amount of
      * @param amount the amount to remove
      */
-    public void remove(T t, Integer amount) {
+    public void decrement(T t, Integer amount) {
         store.put(t, store.get(t) - amount);
     }
 
