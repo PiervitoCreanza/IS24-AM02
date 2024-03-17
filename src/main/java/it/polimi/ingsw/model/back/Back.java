@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.back;
-import it.polimi.ingsw.model.GameResource;
+
+import it.polimi.ingsw.model.GameResourceStore;
 import it.polimi.ingsw.model.Side;
 
-import java.util.ArrayList;
 
 /**
  * Abstract Class for the BackSide of the GameCard

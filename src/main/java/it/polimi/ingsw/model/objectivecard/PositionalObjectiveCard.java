@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model.objectivecard;
+
 import it.polimi.ingsw.model.CardColor;
 import it.polimi.ingsw.model.PlayerBoard;
 import java.awt.*;

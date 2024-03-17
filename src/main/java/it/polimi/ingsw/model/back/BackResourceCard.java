@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.back;
-import it.polimi.ingsw.model.GameResource;
 
-import java.util.ArrayList;
+import it.polimi.ingsw.model.GameResourceStore;
 
 /**
  * Class for a BackResourceCard Side

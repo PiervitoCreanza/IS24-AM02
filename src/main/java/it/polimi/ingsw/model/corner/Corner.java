@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model.corner;
+
 import it.polimi.ingsw.model.GameObject;
 import it.polimi.ingsw.model.GameResource;
 
