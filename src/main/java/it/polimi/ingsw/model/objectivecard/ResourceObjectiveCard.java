@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.PlayerBoard;
 /**
  * Class for the ObjectiveCard that use Resource of the player to calculate the point
  */
+
 public class ResourceObjectiveCard extends ObjectiveCard{
     private final GameResource resource;
     public ResourceObjectiveCard(int pointsWon, GameResource resource) {
@@ -20,12 +21,6 @@ public class ResourceObjectiveCard extends ObjectiveCard{
 
     @Override
     public int getPoints(PlayerBoard playerBoard) {
-        return switch (this.resource) {
-            case PLANT -> (playerBoard.getgameResourceAmount(GameResource.PLANT) / 3) * pointsWon;
-            case ANIMAL -> (playerBoard.getgameResourceAmount(GameResource.ANIMAL) / 3) * pointsWon;
-            case FUNGI -> (playerBoard.getgameResourceAmount(GameResource.FUNGI) / 3) * pointsWon;
-            case INSECT -> (playerBoard.getgameResourceAmount(GameResource.INSECT) / 3) * pointsWon;
-            default -> 0;
-        };
+        return (playerBoard.getGameResourceAmount(this.resource)/3)*pointsWon;
     }
 }

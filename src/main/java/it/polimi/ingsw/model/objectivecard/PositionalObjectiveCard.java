@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.CardColor;
 import it.polimi.ingsw.model.PlayerBoard;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 /**
@@ -33,15 +35,14 @@ public class PositionalObjectiveCard extends ObjectiveCard{
                                         .filter(x -> x.getColor() == firstColor)            //Filtering by the color that I want
                                         .map(x -> playerboard.getGameCardPosition(x))       //and at the end obtain the point of this card
                                         .collect(Collectors.toCollection(ArrayList::new));
-        ArrayList<Point> pointsAlreadyUsed = new ArrayList<>();             //List of points that are used for a mach
+        HashSet<Point> pointsAlreadyUsed = new HashSet<>();             //List of points that are used for a mach
 
         for (Point point : pointsCanMach) {                                 //For every possible point that is founded, try to follow the
             ArrayList<Point> pointsMaybeUsed = new ArrayList<>();           //coordinate of Hashmap in positionRequired
             //pointsMaybeUsed is an ArrayList that contains the points which, if correct,
             // will be recorded in pointsAlreadyUsed
             pointsMaybeUsed.add(point);
-            pointsMaybeUsed.add(null);
-            pointsMaybeUsed.add(null);
+
             //Inizialization of pointsMaybeUsed
             Point temp = new Point();
             //Support variable
@@ -53,10 +54,10 @@ public class PositionalObjectiveCard extends ObjectiveCard{
                     break;
                 }
                 if(playerboard.getGameCard(temp).getColor() == positionRequired.get(i).getColor()){
-                    pointsMaybeUsed.set(i, temp);
+                    pointsMaybeUsed.add(temp);
                 }
             }
-            if(!pointsMaybeUsed.contains(null)){
+            if(pointsMaybeUsed.size() == 3){
                 pointsAlreadyUsed.addAll(pointsMaybeUsed);
                 numOfMach++;
             }

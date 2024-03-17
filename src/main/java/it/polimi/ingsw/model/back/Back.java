@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.back;
 import it.polimi.ingsw.model.GameResourceStore;
 import it.polimi.ingsw.model.Side;
 
-
 /**
  * Abstract Class for the BackSide of the GameCard
  */
@@ -15,7 +14,7 @@ abstract public class Back extends Side {
         this.resources = resources;
     }
     //L'idea è quella di ritornare tutte le risorse contenute nella carta
-    public GameResourceStore getGameResources() {
+    public GameResourceStore getGameResourceStore() {
         return this.resources;
     }
 
