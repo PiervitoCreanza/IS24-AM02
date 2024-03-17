@@ -86,7 +86,7 @@ public class PlayerBoard {
             return false;
         }
 
-        if (getGameCard(new Point(point.x + 1, point.y + 1)).map(card -> card.getBottomLeftCorner().isPresent()).orElse(false) || getGameCard(new Point(point.x - 1, point.y - 1)).map(card -> card.getTopRightCorner().isPresent()).orElse(false) || getGameCard(new Point(point.x - 1, point.y + 1)).map(card -> card.getBottomRightCorner().isPresent()).orElse(false) || getGameCard(new Point(point.x + 1, point.y - 1)).map(card -> card.getTopLeftCorner().isPresent()).orElse(false)) {
+        if (getGameCard(new Point(point.x + 1, point.y + 1)).map(card -> card.getBottomLeftCorner().isEmpty()).orElse(false) || getGameCard(new Point(point.x - 1, point.y - 1)).map(card -> card.getTopRightCorner().isEmpty()).orElse(false) || getGameCard(new Point(point.x - 1, point.y + 1)).map(card -> card.getBottomRightCorner().isEmpty()).orElse(false) || getGameCard(new Point(point.x + 1, point.y - 1)).map(card -> card.getTopLeftCorner().isEmpty()).orElse(false)) {
             return false;
         }
 
@@ -114,7 +114,7 @@ public class PlayerBoard {
             throw new IllegalArgumentException("Position not adjacent to any other card");
         }
 
-        if (getGameCard(new Point(point.x + 1, point.y + 1)).map(card -> card.getBottomLeftCorner().isPresent()).orElse(false) || getGameCard(new Point(point.x - 1, point.y - 1)).map(card -> card.getTopRightCorner().isPresent()).orElse(false) || getGameCard(new Point(point.x - 1, point.y + 1)).map(card -> card.getBottomRightCorner().isPresent()).orElse(false) || getGameCard(new Point(point.x + 1, point.y - 1)).map(card -> card.getTopLeftCorner().isPresent()).orElse(false)) {
+        if (getGameCard(new Point(point.x + 1, point.y + 1)).map(card -> card.getBottomLeftCorner().isEmpty()).orElse(false) || getGameCard(new Point(point.x - 1, point.y - 1)).map(card -> card.getTopRightCorner().isEmpty()).orElse(false) || getGameCard(new Point(point.x - 1, point.y + 1)).map(card -> card.getBottomRightCorner().isEmpty()).orElse(false) || getGameCard(new Point(point.x + 1, point.y - 1)).map(card -> card.getTopLeftCorner().isEmpty()).orElse(false)) {
             throw new IllegalArgumentException("Position not compatible with adjacent cards");
         }
 
