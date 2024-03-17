@@ -1,11 +1,11 @@
 package it.polimi.ingsw.model;
 
 public class Player {
-    String playerName;
-    int playerPos = 0;
-    PlayerBoard playerBoard;
-    ObjectiveCard objectiveCard;
-    Hand hand;
+    private final String playerName;
+    private int playerPos = 0;
+    private final PlayerBoard playerBoard;
+    private ObjectiveCard objectiveCard;
+    private final Hand hand;
 
     public Player(String playerName) {
         this.playerName = playerName;
