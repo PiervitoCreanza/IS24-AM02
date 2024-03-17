@@ -139,6 +139,16 @@ public class PlayerBoard {
         )) {
             throw new IllegalArgumentException("Not enough resources");
         }
+        
+        // Increment resources and objects for each corner of the card
+        gameCard.getBottomLeftCorner().ifPresent(this::incrementGameResource);
+        gameCard.getBottomLeftCorner().ifPresent(this::incrementGameObject);
+        gameCard.getBottomRightCorner().ifPresent(this::incrementGameResource);
+        gameCard.getBottomRightCorner().ifPresent(this::incrementGameObject);
+        gameCard.getTopLeftCorner().ifPresent(this::incrementGameResource);
+        gameCard.getTopLeftCorner().ifPresent(this::incrementGameObject);
+        gameCard.getTopRightCorner().ifPresent(this::incrementGameResource);
+        gameCard.getTopRightCorner().ifPresent(this::incrementGameObject);
 
         getGameCard(topLeftPoint).flatMap(GameCard::getBottomRightCorner) // Get bottom right corner of top left card
                 .ifPresent(this::setCornerCovered);                       // Set it as covered updating resources and objects
@@ -151,6 +161,7 @@ public class PlayerBoard {
 
         getGameCard(bottomRightPoint).flatMap(GameCard::getTopLeftCorner) // Get top left corner of bottom right card
                 .ifPresent(this::setCornerCovered);                        // Set it as covered updating resources and objects
+
 
         playerBoard.put(point, gameCard);
         return gameCard.getPoints();
@@ -165,6 +176,24 @@ public class PlayerBoard {
         corner.getGameResource().ifPresent(gameResource -> gameResources.decrement(corner.getGameResource().get(), 1));
         corner.getGameObject().ifPresent(gameObject -> gameObjects.decrement(corner.getGameObject().get(), 1));
         corner.setCovered(true);
+    }
+
+    /**
+     * This method is used to increment the amount of a GameResource in the PlayerBoard.
+     *
+     * @param corner This is the corner to increment the resource of.
+     */
+    private void incrementGameResource(Corner corner) {
+        corner.getGameResource().ifPresent(gameResource -> gameResources.increment(corner.getGameResource().get(), 1));
+    }
+
+    /**
+     * This method is used to increment the amount of a GameObject in the PlayerBoard.
+     *
+     * @param corner This is the corner to increment the object of.
+     */
+    private void incrementGameObject(Corner corner) {
+        corner.getGameObject().ifPresent(gameObject -> gameObjects.increment(corner.getGameObject().get(), 1));
     }
 
 
