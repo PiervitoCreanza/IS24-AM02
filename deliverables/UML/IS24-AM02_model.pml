@@ -95,8 +95,8 @@ class PlayerBoard {
     -HashMap<Point, GameCard> playerBoard
     -GameResourceStore gameResources
     -GameObjectStore gameObjects
-    +<GameCard> getGameCard(Point)
-    +Optional<GameCard> getGameCardPosition(GameCard)
+    +Optional<GameCard> getGameCard(Point)
+    +Optional<Point> getGameCardPosition(GameCard)
     +ArrayList<GameCard> getGameCards()
     +Integer getGameResourceAmount(GameResource)
     +Integer getGameObjectAmount(Object)
