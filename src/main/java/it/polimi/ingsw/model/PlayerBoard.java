@@ -100,21 +100,37 @@ public class PlayerBoard {
      *
      * @param point    This is the position where to place the card.
      * @param gameCard This is the GameCard to place.
+     * @return Integer This returns the position to advance the player.
      * @throws IllegalArgumentException This is thrown if the position is already occupied.
      * @throws IllegalArgumentException This is thrown if the position is not adjacent to any other card.
      * @throws IllegalArgumentException This is thrown if the position is not compatible with adjacent cards.
      * @throws IllegalArgumentException This is thrown if there are not enough resources.
      */
-    public void setGameCard(Point point, GameCard gameCard) {
+    public Integer setGameCard(Point point, GameCard gameCard) {
+        // Get adjacent cards points
+        Point topLeftPoint = new Point(point.x - 1, point.y + 1);
+        Point topRightPoint = new Point(point.x + 1, point.y + 1);
+        Point bottomLeftPoint = new Point(point.x - 1, point.y - 1);
+        Point bottomRightPoint = new Point(point.x + 1, point.y - 1);
+
         if (playerBoard.containsKey(point)) {
             throw new IllegalArgumentException("Position already occupied");
         }
 
-        if ((point.getX() != 0 || point.getY() != 0) && !playerBoard.containsKey(new Point(point.x - 1, point.y - 1)) && !playerBoard.containsKey(new Point(point.x + 1, point.y + 1)) && !playerBoard.containsKey(new Point(point.x - 1, point.y + 1)) && !playerBoard.containsKey(new Point(point.x + 1, point.y - 1))) {
+        if ((point.getX() != 0 || point.getY() != 0)
+                && !playerBoard.containsKey(bottomLeftPoint)
+                && !playerBoard.containsKey(topRightPoint)
+                && !playerBoard.containsKey(topLeftPoint)
+                && !playerBoard.containsKey(bottomRightPoint)
+        ) {
             throw new IllegalArgumentException("Position not adjacent to any other card");
         }
 
-        if (getGameCard(new Point(point.x + 1, point.y + 1)).map(card -> card.getBottomLeftCorner().isEmpty()).orElse(false) || getGameCard(new Point(point.x - 1, point.y - 1)).map(card -> card.getTopRightCorner().isEmpty()).orElse(false) || getGameCard(new Point(point.x - 1, point.y + 1)).map(card -> card.getBottomRightCorner().isEmpty()).orElse(false) || getGameCard(new Point(point.x + 1, point.y - 1)).map(card -> card.getTopLeftCorner().isEmpty()).orElse(false)) {
+        if (getGameCard(topRightPoint).map(card -> card.getBottomLeftCorner().isEmpty()).orElse(false)
+                || getGameCard(bottomLeftPoint).map(card -> card.getTopRightCorner().isEmpty()).orElse(false)
+                || getGameCard(topLeftPoint).map(card -> card.getBottomRightCorner().isEmpty()).orElse(false)
+                || getGameCard(bottomRightPoint).map(card -> card.getTopLeftCorner().isEmpty()).orElse(false)
+        ) {
             throw new IllegalArgumentException("Position not compatible with adjacent cards");
         }
 
@@ -124,7 +140,31 @@ public class PlayerBoard {
             throw new IllegalArgumentException("Not enough resources");
         }
 
+        getGameCard(topLeftPoint).flatMap(GameCard::getBottomRightCorner) // Get bottom right corner of top left card
+                .ifPresent(this::setCornerCovered);                       // Set it as covered updating resources and objects
+
+        getGameCard(topRightPoint).flatMap(GameCard::getBottomLeftCorner) // Get bottom left corner of top right card
+                .ifPresent(this::setCornerCovered);                        // Set it as covered updating resources and objects
+
+        getGameCard(bottomLeftPoint).flatMap(GameCard::getTopRightCorner) // Get top right corner of bottom left card
+                .ifPresent(this::setCornerCovered);                         // Set it as covered updating resources and objects
+
+        getGameCard(bottomRightPoint).flatMap(GameCard::getTopLeftCorner) // Get top left corner of bottom right card
+                .ifPresent(this::setCornerCovered);                        // Set it as covered updating resources and objects
+
         playerBoard.put(point, gameCard);
+        return gameCard.getPoints();
+    }
+
+    /**
+     * This method is used to set a GameCard Side as covered and update GameResources and GameObjects accordingly.
+     *
+     * @param point This is the position of the corner to cover.
+     */
+    private void setCornerCovered(Corner corner) {
+        corner.getGameResource().ifPresent(gameResource -> gameResources.decrement(corner.getGameResource().get(), 1));
+        corner.getGameObject().ifPresent(gameObject -> gameObjects.decrement(corner.getGameObject().get(), 1));
+        corner.setCovered(true);
     }
 
 
