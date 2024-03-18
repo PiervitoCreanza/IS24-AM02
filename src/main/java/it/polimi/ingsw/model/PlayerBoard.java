@@ -167,6 +167,7 @@ public class PlayerBoard {
      * @param point This is the position of the corner to cover.
      */
     private void setCornerCovered(Corner corner) {
+        gameResources.decrement(corner.getGameResource(), 1)
         corner.getGameResource().ifPresent(gameResource -> gameResources.decrement(corner.getGameResource().get(), 1));
         corner.getGameObject().ifPresent(gameObject -> gameObjects.decrement(corner.getGameObject().get(), 1));
         corner.setCovered(true);

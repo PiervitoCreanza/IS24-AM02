@@ -137,10 +137,10 @@ class GameCard {
 GameCard "2" *-- "1" Side
 
 abstract class Side {
-    #Optional<Corner> topRight
-    #Optional<Corner> topLeft
-    #Optional<Corner> bottomLeft
-    #Optional<Corner> bottomRight
+    #Corner topRight
+    #Corner topLeft
+    #Corner bottomLeft
+    #Corner bottomRight
     +getCorner(CornerPosition)
     +setCornerCovered(CornerPosition, boolean)
     +GameItemStore getGameItemStore()
@@ -158,7 +158,14 @@ class Corner {
 
       +GameItem getGameItem()
       +GameItem setCovered(Boolean)
+      +Boolean isExisting() {return true}
+
   }
+
+class NonExistingCorner {
+    +Boolean isExisting() {return false}
+}
+Corner <|-- NonExistingCorner
 
 'FrontSide Section
 
@@ -250,6 +257,7 @@ enum GameItem {
     QUILL
     INKWELL
     MANUSCRIPT
+    NULL
 }
 
 enum CardColor {
