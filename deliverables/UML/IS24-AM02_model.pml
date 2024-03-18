@@ -157,7 +157,7 @@ class Corner {
       -GameItem gameItem
 
       +GameItem getGameItem()
-      +GameItem setCovered(Boolean)
+      +GameItem setCovered()
       +Boolean isExisting() {return true}
 
   }
