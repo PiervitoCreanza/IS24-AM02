@@ -139,17 +139,17 @@ class GameCard {
     -Side currentSide
     -Side otherSide
     -CardColor cardColor
-    +getCurrentSide()
-    +switchSide()
-    +getColor()
-    +getTopRightCorner()
-    +getTopLeftCorner()
-    +getBottomLeftCorner()
-    +getBottomRightCorner()
-    +getGameResources()
-    +getGameObjects()
-    +getPoints()
-    +getNeededResources()
+    +Side getCurrentSide()
+    +void switchSide()
+    +GameColor getColor()
+    +Optional<Corner> getTopRightCorner()
+    +Optional<Corner> getTopLeftCorner()
+    +Optional<Corner> getBottomLeftCorner()
+    +Optional<Corner> getBottomRightCorner()
+    +GameResourceStore getGameResources()
+    +GameObjectStore getGameObjects()
+    +Integer getPoints()
+    +GameResourceStore getNeededResources()
 }
 
 GameCard "2" *-- "1" Side
