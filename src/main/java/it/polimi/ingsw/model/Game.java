@@ -124,7 +124,7 @@ public class Game {
             objectives.remove(playerObjective);
         }
 
-        ArrayList<Player> winners = new ArrayList<>();
+        ArrayList<Player> winners;
         int highestPlayerPos = players.stream().map(Player::getPlayerPos).max(Integer::compare).orElse(0);
         winners = players.stream().filter(player -> player.getPlayerPos() == highestPlayerPos).collect(Collectors.toCollection(ArrayList::new));
 
