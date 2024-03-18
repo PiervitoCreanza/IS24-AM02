@@ -94,7 +94,7 @@ class PlayerBoard {
     +void setGameCard(Point, GameCard)
 }
 
-PlayerBoard "1..N" -- "1" GameCard
+PlayerBoard "1..N" *-- "1" GameCard
 
 class Store<T> {
     #HashMap<T, Integer> store
