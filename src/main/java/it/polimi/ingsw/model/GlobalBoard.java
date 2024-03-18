@@ -91,6 +91,22 @@ public class GlobalBoard {
     }
 
     /**
+     * Checks if the gold deck is empty.
+     * @return true if the gold deck is empty, false otherwise.
+     */
+    public boolean isGoldDeckEmpty() {
+        return goldDeck.isEmpty();
+    }
+
+    /**
+     * Checks if the resource deck is empty.
+     * @return true if the resource deck is empty, false otherwise.
+     */
+    public boolean isResourceDeckEmpty() {
+        return resourceDeck.isEmpty();
+    }
+
+    /**
      * Draws a card from the field. If the card is in the field of gold cards, it is removed and a new card is drawn from the gold deck.
      * If the card is in the field of resource cards, it is removed and a new card is drawn from the resource deck.
      * @param card The card to draw from the field.
