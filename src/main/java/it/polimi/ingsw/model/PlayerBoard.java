@@ -139,16 +139,10 @@ public class PlayerBoard {
         )) {
             throw new IllegalArgumentException("Not enough resources");
         }
-        
-        // Increment resources and objects for each corner of the card
-        gameCard.getBottomLeftCorner().ifPresent(this::incrementGameResource);
-        gameCard.getBottomLeftCorner().ifPresent(this::incrementGameObject);
-        gameCard.getBottomRightCorner().ifPresent(this::incrementGameResource);
-        gameCard.getBottomRightCorner().ifPresent(this::incrementGameObject);
-        gameCard.getTopLeftCorner().ifPresent(this::incrementGameResource);
-        gameCard.getTopLeftCorner().ifPresent(this::incrementGameObject);
-        gameCard.getTopRightCorner().ifPresent(this::incrementGameResource);
-        gameCard.getTopRightCorner().ifPresent(this::incrementGameObject);
+
+        // Increment resources and objects with the ones of the card
+        gameCard.getGameResources().keySet().forEach(r -> gameResources.increment(r, 1));
+        gameCard.getGameObjects().keySet().forEach(o -> gameObjects.increment(o, 1));
 
         getGameCard(topLeftPoint).flatMap(GameCard::getBottomRightCorner) // Get bottom right corner of top left card
                 .ifPresent(this::setCornerCovered);                       // Set it as covered updating resources and objects
