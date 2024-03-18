@@ -92,7 +92,6 @@ class PlayerBoard {
     +ArrayList<GameCard> getGameCards()
     +Integer getGameItemAmount(GameItem)
     +void setGameCard(Point, GameCard)
-    +boolean isPlaceable(Point, GameCard)
 }
 
 PlayerBoard "1..N" -- "1" GameCard
@@ -128,7 +127,7 @@ class GameCard {
     +void switchSide()
     +CardColor getColor()
     +Optional<Corner> getCorner(CornerPosition)
-    +GameItem setCornerCovered(CornerPosition, boolean)
+    +GameItem setCornerCovered(CornerPosition)
     +GameItemStore getGameItemStore()
     +Integer getPoints(PlayerBoard)
     +GameItemStore getNeededItemStore()
@@ -142,7 +141,7 @@ abstract class Side {
     #Corner bottomLeft
     #Corner bottomRight
     +getCorner(CornerPosition)
-    +setCornerCovered(CornerPosition, boolean)
+    +setCornerCovered(CornerPosition)
     +GameItemStore getGameItemStore()
     +getPoints(PlayerBoard)
     +GameItemStore getNeededItemStore()
@@ -158,6 +157,7 @@ class Corner {
 
       +GameItem getGameItem()
       +GameItem setCovered()
+      +Boolean isEmpty()
       +Boolean isExisting() {return true}
 
   }

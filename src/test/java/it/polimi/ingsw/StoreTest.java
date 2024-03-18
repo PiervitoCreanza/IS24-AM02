@@ -42,16 +42,16 @@ public class StoreTest {
     }
 
     @Test
-    @DisplayName("Add increases amount for existing item")
+    @DisplayName("Increment increases amount for existing item")
     public void addIncreasesAmountForExistingItem() {
-        store.add(item1, 5);
+        store.increment(item1, 5);
         assertEquals(10, store.get(item1));
     }
 
     @Test
-    @DisplayName("Remove decreases amount for existing item")
+    @DisplayName("Decrement decreases amount for existing item")
     public void removeDecreasesAmountForExistingItem() {
-        store.remove(item1, 3);
+        store.decrement(item1, 3);
         assertEquals(2, store.get(item1));
     }
 

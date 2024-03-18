@@ -1,9 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.GameCard;
-import it.polimi.ingsw.model.GameObject;
-import it.polimi.ingsw.model.GameResource;
-import it.polimi.ingsw.model.PlayerBoard;
+import it.polimi.ingsw.model.*;
 import jdk.jshell.spi.ExecutionControl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,15 +15,13 @@ import java.util.HashMap;
 public class PlayerBoardTest {
     private PlayerBoard playerBoard;
     private GameCard gameCard;
-    private GameResource gameResource;
-    private GameObject gameObject;
+    private GameItemEnum gameItem;
 
     @BeforeEach
     public void setup() {
         playerBoard = new PlayerBoard();
         gameCard = new GameCard();
-        gameResource = GameResource.values()[0];
-        gameObject = GameObject.values()[0];
+        gameItem = GameItemEnum.values()[0];
     }
 
     @Test
@@ -73,48 +68,10 @@ public class PlayerBoardTest {
     }
 
     @Test
-    @DisplayName("Get game resource amount returns zero when resource not present")
+    @DisplayName("Get game item amount returns zero when item not present")
     public void getGameResourceAmountReturnsZeroWhenResourceNotPresent() {
-        assertEquals(0, playerBoard.getGameResourceAmount(gameResource));
+        assertEquals(0, playerBoard.getGameItemAmount(gameItem));
     }
-
-    @Test
-    @DisplayName("Get game object amount returns zero when object not present")
-    public void getGameObjectAmountReturnsZeroWhenObjectNotPresent() {
-        assertEquals(0, playerBoard.getGameObjectAmount(gameObject));
-    }
-
-    @Test
-    @DisplayName("IsPlaceable returns false when point occupied")
-    public void isPlaceableReturnsFalseWhenPointOccupied() {
-        Point point = new Point(0, 0);
-        playerBoard.setGameCard(point, gameCard);
-        assertFalse(playerBoard.isPlaceable(point, gameCard));
-    }
-
-    @Test
-    @DisplayName("IsPlaceable returns false when point free and no adjacent card present")
-    public void isPlaceableReturnsFalseWhenPointFreeAndNoAdjacentCardPresent() {
-        Point point = new Point(1, 1);
-        assertFalse(playerBoard.isPlaceable(point, gameCard));
-    }
-
-    @Test
-    @DisplayName("IsPlaceable returns false when point free, adjacent card present but not matching")
-    public void isPlaceableReturnsFalseWhenPointFreeAdjacentCardPresentButNotMatching() {
-        // Not implemented yet
-        assert false;
-    }
-
-    @Test
-    @DisplayName("IsPlaceable returns true when point free and adjacent card present")
-    public void isPlaceableReturnsTrueWhenPointFreeAndAdjacentCardPresent() {
-        Point point1 = new Point(0, 0);
-        Point point2 = new Point(1, 1);
-        playerBoard.setGameCard(point1, gameCard);
-        assertTrue(playerBoard.isPlaceable(point2, gameCard));
-    }
-
 
     @Test
     @DisplayName("Set game card throws exception when point occupied")
