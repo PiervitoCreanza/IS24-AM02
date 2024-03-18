@@ -84,13 +84,6 @@ class Hand {
 
 Player "1" *-- "1" Hand
 
-class Point {
-    -int x
-    -int y
-    +getX()
-    +getY()
-}
-
 class PlayerBoard {
     -HashMap<Point, GameCard> playerBoard
     -GameItemStore gameItems
@@ -104,7 +97,7 @@ class PlayerBoard {
 
 PlayerBoard "1..N" -- "1" GameCard
 
-abstract class Store<T> {
+class Store<T> {
     #HashMap<T, Integer> store
     +get(T t)
     +set(T t, Integer)
@@ -120,8 +113,6 @@ class GameItemStore extends Store {
 
 
 PlayerBoard "2" *-- "1" Store
-GameItemStore "1" --* "1" Back
-GameItemStore "1" --* "1" FrontGoldCard
 
 interface Card {
     +getPoints(PlayerBoard)
@@ -135,7 +126,7 @@ class GameCard {
     -CardColor cardColor
     +Side getCurrentSide()
     +void switchSide()
-    +GameColor getColor()
+    +CardColor getColor()
     +Optional<Corner> getCorner(CornerPosition)
     +GameItem setCornerCovered(CornerPosition, boolean)
     +GameItemStore getGameItemStore()
@@ -179,18 +170,14 @@ class Front {
 
 Front <|-- FrontGoldCard
 
-abstract class FrontGoldCard {
+class FrontGoldCard {
     #GameItemStore neededItems
     +getNeededItemStore()
 }
 
-FrontGoldCard <|-- FrontSimpleGoldCard
 FrontGoldCard <|-- FrontPositionalGoldCard
 FrontGoldCard <|-- FrontItemGoldCard
 
-class FrontSimpleGoldCard {
-
-} 
 
 class FrontPositionalGoldCard {
     +getPoints(PlayerBoard)
@@ -227,7 +214,6 @@ class ItemObjectiveCard {
     -GameItemStore multiplier
     +getPoints(PlayerBoard)
 }
-ItemObjectiveCard *-- GameItemStore
 
 ObjectiveCard <|-- ItemObjectiveCard
 
