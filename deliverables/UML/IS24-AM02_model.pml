@@ -122,11 +122,11 @@ Card <|-- ObjectiveCard
 class GameCard {
     -Side currentSide
     -Side otherSide
-    -CardColor cardColor
+    -GameColor cardColor
     +Side getCurrentSide()
     +void switchSide()
-    +CardColor getColor()
-    +Optional<Corner> getCorner(CornerPosition)
+    +GameColor getColor()
+    +Corner getCorner(CornerPosition)
     +GameItem setCornerCovered(CornerPosition)
     +GameItemStore getGameItemStore()
     +Integer getPoints(PlayerBoard)
