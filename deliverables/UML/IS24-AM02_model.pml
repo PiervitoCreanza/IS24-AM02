@@ -93,13 +93,11 @@ class Point {
 
 class PlayerBoard {
     -HashMap<Point, GameCard> playerBoard
-    -GameResourceStore gameResources
-    -GameObjectStore gameObjects
+    -GameItemStore gameItems
     +Optional<GameCard> getGameCard(Point)
     +Optional<Point> getGameCardPosition(GameCard)
     +ArrayList<GameCard> getGameCards()
-    +Integer getGameResourceAmount(GameResource)
-    +Integer getGameObjectAmount(Object)
+    +Integer getGameItemAmount(GameItem)
     +void setGameCard(Point, GameCard)
     +boolean isPlaceable(Point, GameCard)
 }
@@ -115,19 +113,15 @@ abstract class Store<T> {
     +getNonEmptyKeys()
 }
 
-class GameResourceStore extends Store {
-    +GameResourceStore()
-    +GameResourceStore(HashMap<GameResource, Integer> gameResources)
+class GameItemStore extends Store {
+    +GameItemStore()
+    +GameItemStore(HashMap<GameItem, Integer> gameItems)
 }
 
-class GameObjectStore extends Store {
-    +GameObjectStore()
-    +GameObjectStore(HashMap<GameObject, Integer> gameObjects)
-}
 
 PlayerBoard "2" *-- "1" Store
-GameResourceStore "1" --* "1" Back
-GameResourceStore "1" --* "1" FrontGoldCard
+GameItemStore "1" --* "1" Back
+GameItemStore "1" --* "1" FrontGoldCard
 
 interface Card {
     +getPoints(PlayerBoard)
@@ -142,14 +136,11 @@ class GameCard {
     +Side getCurrentSide()
     +void switchSide()
     +GameColor getColor()
-    +Optional<Corner> getTopRightCorner()
-    +Optional<Corner> getTopLeftCorner()
-    +Optional<Corner> getBottomLeftCorner()
-    +Optional<Corner> getBottomRightCorner()
-    +GameResourceStore getGameResources()
-    +GameObjectStore getGameObjects()
-    +Integer getPoints()
-    +GameResourceStore getNeededResources()
+    +Optional<Corner> getCorner(CornerPosition)
+    +GameItem setCornerCovered(CornerPosition, boolean)
+    +GameItemStore getGameItemStore()
+    +Integer getPoints(PlayerBoard)
+    +GameItemStore getNeededItemStore()
 }
 
 GameCard "2" *-- "1" Side
@@ -159,68 +150,43 @@ abstract class Side {
     #Optional<Corner> topLeft
     #Optional<Corner> bottomLeft
     #Optional<Corner> bottomRight
-    +getTopRightCorner()
-    +getTopLeftCorner()
-    +getBottomLeftCorner()
-    +getBottomRightCorner()
-    +getGameResources()
-    +getGameObjects()
-    +getPoints()
-    +getNeededResources()
+    +getCorner(CornerPosition)
+    +setCornerCovered(CornerPosition, boolean)
+    +GameItemStore getGameItemStore()
+    +getPoints(PlayerBoard)
+    +GameItemStore getNeededItemStore()
 }
 
 Side <|-- Front
 Side <|-- Back
 Side "1..4" *-- "1" Corner
 
-abstract class Corner {
-      #boolean isCovered
-      +getGameObject()
-      +getGameResource()
-      +setCovered(Boolean)
+class Corner {
+      -boolean isCovered
+      -GameItem gameItem
+
+      +GameItem getGameItem()
+      +GameItem setCovered(Boolean)
   }
-  class CornerObject {
-        -GameObject gameObject
-        +getGameObject()
-  }
-  Corner <|-- CornerObject
-  class CornerResource {
-        -GameResource gameResource
-        +getGameResource()
-  }
-  Corner <|-- CornerResource
-  class EmptyCorner {
-  }
-  Corner <|-- EmptyCorner
 
 'FrontSide Section
 
-abstract class Front {
+class Front {
     #int points
-    +getGameResources()
-    +getPoints()
+    +getGameItemStore()
+    +getPoints(PlayerBoard)
 }
 
-Front <|-- FrontStarterCard
-Front <|-- FrontResourceCard
 Front <|-- FrontGoldCard
 
-class FrontStarterCard {
-    
-}
-
-class FrontResourceCard {
-
-}
-
 abstract class FrontGoldCard {
-    #GameResourceStore neededResources
-    +getNeededResources()
+    #GameItemStore neededItems
+    +getNeededItemStore()
 }
 
 FrontGoldCard <|-- FrontSimpleGoldCard
 FrontGoldCard <|-- FrontPositionalGoldCard
-FrontGoldCard <|-- FrontObjectGoldCard
+FrontGoldCard <|-- FrontItemGoldCard
 
 class FrontSimpleGoldCard {
 
@@ -231,33 +197,17 @@ class FrontPositionalGoldCard {
     
 }
 
-class FrontObjectGoldCard {
-    -GameObject multiplier
+class FrontItemGoldCard {
+    -GameItem multiplier
     +getPoints(PlayerBoard)
 }
 
 'BackSide Section
 
-abstract class Back {
-    #GameResourceStore resources
-    +getGameResources()
-    +getPoints()
-}
-
-Back <|-- BackStarterCard
-Back <|-- BackResourceCard
-Back <|-- BackGoldCard
-
-class BackStarterCard {
-    
-}
-
-class BackResourceCard {
-
-}
-
-class BackGoldCard {
-    
+class Back {
+    #GameItemStore resources
+    +getGameItemStore()
+    +getPoints(PlayerBoard)
 }
 
 'ObjectiveCard Section
@@ -271,39 +221,49 @@ abstract class ObjectiveCard {
 Player *-- ObjectiveCard 
 GlobalBoard *-- ObjectiveCard
 ObjectiveCard <|-- PositionalObjectiveCard
-ObjectiveCard <|-- ResourceObjectiveCard
 Deck *-- Card
 
-class ObjectObjectiveCard {
-    -GameObjectStore multiplier
+class ItemObjectiveCard {
+    -GameItemStore multiplier
     +getPoints(PlayerBoard)
 }
-ObjectObjectiveCard *-- GameObjectStore
-class ResourceObjectiveCard {
-    -GameResource resource
-    +getPoints(PlayerBoard)
-}
+ItemObjectiveCard *-- GameItemStore
 
-ObjectiveCard <|-- ObjectObjectiveCard
+ObjectiveCard <|-- ItemObjectiveCard
+
+class PositionalData {
+    -Point point
+    -CardColor cardColor
+    +Point getPoint()
+    +CardColor getCardColor()
+    +GameItem getGameItem()
+    +void setPoint(x, y)
+    +void setCardColor(CardColor)
+}
+PositionalObjectiveCard "1..N" *-- "1" PositionalData
 
 class PositionalObjectiveCard {
-    -CardColor[3][3] requiredColors
+    -ArrayList<PositionalData> positionalData
     +getPoints(PlayerBoard)
 }
 
 'Enum Section
 
-enum GameResource {
-    Plant
-    Animal
-    Fungi
-    Insect
+enum CornerPosition {
+    TOP_RIGHT
+    TOP_LEFT
+    BOTTOM_LEFT
+    BOTTOM_RIGHT
 }
 
-enum GameObject {
-    Quill
-    Inkwell
-    Manuscript
+enum GameItem {
+    PLANT
+    ANIMAL
+    FUNGI
+    INSECT
+    QUILL
+    INKWELL
+    MANUSCRIPT
 }
 
 enum CardColor {
