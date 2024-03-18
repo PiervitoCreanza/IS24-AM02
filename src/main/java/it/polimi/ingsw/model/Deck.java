@@ -22,6 +22,14 @@ public class Deck<T> {
     }
 
     /**
+     * Checks if the deck is empty.
+     * @return true if the deck is empty, false otherwise.
+     */
+    public boolean isEmpty() {
+        return deck.isEmpty();
+    }
+
+    /**
      * Draws a random card from the deck. The card is removed from the deck.
      * @return The card drawn from the deck.
      */
