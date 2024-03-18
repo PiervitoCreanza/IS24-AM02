@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class Store<T> {
+public class Store<T> {
     protected final HashMap<T, Integer> store;
 
     public Store(HashMap<T, Integer> store) {
