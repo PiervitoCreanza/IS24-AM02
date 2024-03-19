@@ -99,12 +99,16 @@ public class PlayerBoard {
             throw new IllegalArgumentException("Position already occupied");
         }
 
+        boolean test = getAdjacentPointCornersPair(point).stream().anyMatch(pair -> {
+            return (point.getX() == 0 && point.getY() == 0) || playerBoard.containsKey(pair.point());
+        });
+
+        if (!test) {
+            throw new IllegalArgumentException("Position not adjacent to any other card");
+        }
+
         // Iterate over each adjacent point and its respective intersecting corner
         getAdjacentPointCornersPair(point).forEach(pair -> {
-            // If we are not placing the starter card we need to check that exists at least one card adjacent to the one we are placing
-            if (point.getX() != 0 || point.getY() != 0 && playerBoard.containsKey(pair.point())) {
-                throw new IllegalArgumentException("Position not adjacent to any other card");
-            }
 
             // Check if each intersecting corner of the adjacent cards exist. If not it means that the card cannot be placed as there is at least one card that is missing a corner in the required position
             if (getGameCard(pair.point()).map(card -> !card.getCorner(pair.cornerPosition()).isExisting()).orElse(false)) {

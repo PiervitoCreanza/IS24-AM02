@@ -1,11 +1,13 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.ObjectiveCard.ObjectiveCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 @DisplayName("Player Test")
 public class PlayerTest {
@@ -68,7 +70,7 @@ public class PlayerTest {
     @Test
     @DisplayName("Get objective card returns non-null after setting")
     public void getObjectiveCardReturnsNonNullAfterSetting() {
-        ObjectiveCard objectiveCard = new ObjectiveCard();
+        ObjectiveCard objectiveCard = mock(ObjectiveCard.class);
         player.setPlayerObjective(objectiveCard);
         assertEquals(objectiveCard, player.getObjectiveCard());
     }
