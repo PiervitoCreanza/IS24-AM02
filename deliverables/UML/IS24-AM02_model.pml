@@ -130,11 +130,11 @@ Card <|-- ObjectiveCard
 class GameCard {
     -Side currentSide
     -Side otherSide
-    -GameColor cardColor
+    -cardColor cardColor
     +Side getCurrentSide()
     +void switchSide()
-    +GameColor getColor()
-    +Corner getCorner(CornerPosition)
+    +CardColor getCardColor()
+    +Optional<Corner>getCorner(CornerPosition)
     +GameItem setCornerCovered(CornerPosition)
     +GameItemStore getGameItemStore()
     +Integer getPoints(PlayerBoard)
@@ -144,10 +144,10 @@ class GameCard {
 GameCard "2" *-- "1" Side
 
 abstract class Side {
-    #Corner topRight
-    #Corner topLeft
-    #Corner bottomLeft
-    #Corner bottomRight
+    #Optional<Corner>topRight
+    #Optional<Corner>topLeft
+    #Optional<Corner>bottomLeft
+    #Optional<Corner>bottomRight
     +getCorner(CornerPosition)
     +setCornerCovered(CornerPosition)
     +GameItemStore getGameItemStore()
@@ -166,14 +166,13 @@ class Corner {
       +GameItem getGameItem()
       +GameItem setCovered()
       +Boolean isEmpty()
-      +Boolean isExisting() {return true}
 
   }
 
-class NonExistingCorner {
-    +Boolean isExisting() {return false}
-}
-Corner <|-- NonExistingCorner
+  note bottom of Corner
+    Nel caso in cui un Corner è vuoto, allora risulterà avere GameItem = NONE
+    Se invece il Corner non esiste, il getter restituirà Optional.empty()
+  end note
 
 'FrontSide Section
 
