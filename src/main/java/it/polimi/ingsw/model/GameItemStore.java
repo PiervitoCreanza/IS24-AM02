@@ -10,7 +10,8 @@ public class GameItemStore extends Store<GameItemEnum> {
      * Each GameItem in the store is initially set to 0.
      */
     public GameItemStore() {
-        super(new HashMap<GameItemEnum, Integer>(GameItemEnum.values().length));
+        super(new HashMap<>(GameItemEnum.values().length));
+        // We assign the amount 0 to each game item in order to have the store initialized with all the game items set to 0.
         GameItemEnum.stream().forEach(gameItem -> this.store.put(gameItem, 0));
     }
 
