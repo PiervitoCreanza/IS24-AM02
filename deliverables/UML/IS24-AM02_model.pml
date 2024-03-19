@@ -265,7 +265,7 @@ enum GameItem {
     QUILL
     INKWELL
     MANUSCRIPT
-    NULL
+    NONE
 }
 
 enum CardColor {
