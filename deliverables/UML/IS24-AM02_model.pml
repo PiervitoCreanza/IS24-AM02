@@ -2,10 +2,14 @@
 
 class GameManager {
     -ArrayList<Game> games
-    +createGame(String name, int nPlayers, String playerName)
-    +deleteGame(String name)
+    -ArrayList<GameCard> defaultGoldDeck
+    -ArrayList<GameCard> defaultResourceDeck
+    -ArrayList<ObjectiveCard> defaultObjectiveDeck
+    -ArrayList<GameCard> defaultStarterDeck
     +ArrayList<Game> getGames()
-    +Game joinGame(String name, String playerName)
+    +Game createGame(String gameName, int nPlayers, String playerName)
+    +deleteGame(String gameName)
+    +Game joinGame(String gameName, String playerName)
 }
 GameManager "1..N" *-- "1" Game
 
@@ -16,35 +20,37 @@ class Game {
     -ArrayList<Player> players
     -GlobalBoard globalBoard
     -Player currentPlayer
-    +stopGame()
+    +String getGameName()
+    +ArrayList<Player> getPlayers()
+    +Player getPlayer(String playerName)
+    +GlobalBoard getGlobalBoard()
     +addPlayer(Player player)
-    +removePlayer(Player player)
-    +getPlayers()
-    +getPlayer(String playerName)
-    +getNextPlayer()
-    +getGlobalBoard()
-    +isStarted()
+    +Player getNextPlayer()
+    +boolean isStarted()
+    +ArrayList<Player> getWinner()
 }
 
 Game "2..4" *-- "1" Player
 Game "1" *-- "1" GlobalBoard
 
 class GlobalBoard {
-    -Deck goldDeck
-    -Deck resourceDeck
-    -Deck objectiveDeck
-    -Deck starterDeck
-    -ObjectiveCard[2] objectives
-    -GameCard[2] fieldGoldCards
-    -GameCard[2] fieldResourceCards
-    
-    +getGoldDeck()
-    +getResourceDeck()
-    +getObjectiveDeck()
-    +getObjectives()
-    +getFieldGoldCards()
-    +getFieldResourceCards()
-    +drawCardFromField(GameCard)
+    -Deck<GameCard> goldDeck
+    -Deck<GameCard> resourceDeck
+    -Deck<ObjectiveCard> objectiveDeck
+    -Deck<GameCard> starterDeck
+    -ArrayList<ObjectiveCard> globalObjectives
+    -ArrayList<GameCard> fieldGoldCards
+    -ArrayList<GameCard> fieldResourceCards
+    +Deck<GameCard> getGoldDeck()
+    +Deck<GameCard> getResourceDeck()
+    +Deck<ObjectiveCard> getObjectiveDeck()
+    +Deck<GameCard> getStarterDeck()
+    +ArrayList<ObjectiveCard> getGlobalObjectives()
+    +ArrayList<GameCard> getFieldGoldCards()
+    +ArrayList<GameCard> getFieldResourceCards()
+    +boolean isGoldDeckEmpty()
+    +boolean isResourceDeckEmpty()
+    +drawCardFromField(GameCard card)
 }
 
 'GlobalBoard  --  ObjectiveCard
@@ -55,51 +61,68 @@ class Player {
     -String playerName
     -int playerPos
     -PlayerBoard playerBoard
-    -ObjectiveCard playerObjectiveCard
-    -Hand playerHand
+    -ObjectiveCard objectiveCard
+    -Hand hand
+    +getPlayerName()
     +getPlayerBoard()
     +getPlayerPos()
     +getPlayerHand()
-    +getPlayerObjective()
-    +setPlayerObjective(ObjectiveCard)
-    +advance(int steps)
+    +getObjectiveCard()
+    +setObjectiveCard(ObjectiveCard)
+    +advancePlayerPos(int steps)
     'Numero di passi di cui avanzare
 }
 
 Player "1" *-- "1" PlayerBoard
 
-class Deck {
-    -ArrayList<Card> cards
-    +drawCard()
+class Deck<T> {
+    -ArrayList<T> deck
+    -Random random;
+    +boolean isEmpty()
+    +T draw()
 }
 
 
 class Hand {
-    -GameCard[3] currentCards
-    +ArrayList<GameCard> getCards()
-    +addCard(GameCard)
-    +removeCard(GameCard)
+    -ArrayList<GameCard> hand
+    +ArrayList<GameCard> getGameCards()
+    +void addCard(GameCard)
+    +void removeCard(GameCard)
 }
 
 Player "1" *-- "1" Hand
 
 class PlayerBoard {
-    -GameCard[][] boardMatrix
-    -int[4] totalResources
-    -int[3] totalGameObject
-    +getCard(x, y)
-    +getCardPosition(GameCard)
-    +getPlacedCards()
-    +getResourceAmount(GameResource)
-    +getObjectAmount(Object)
-    +placeCard(GameCard, x, y)
-    +isPlaceable(GameCard, x, y)
+    -HashMap<Point, GameCard> playerBoard
+    -GameItemStore gameItems
+    +Optional<GameCard> getGameCard(Point)
+    +Optional<Point> getGameCardPosition(GameCard)
+    +ArrayList<GameCard> getGameCards()
+    +Integer getGameItemAmount(GameItem)
+    +void setGameCard(Point, GameCard)
 }
 
-PlayerBoard "1..N" -- "1" GameCard
+PlayerBoard "1..N" *-- "1" GameCard
 
-abstract class Card {
+class Store<T> {
+    #HashMap<T, Integer> store
+    +get(T t)
+    +set(T t, Integer)
+    +add(T t, Integer)
+    +remove(T t, Integer)
+    +getNonEmptyKeys()
+}
 
+class GameItemStore extends Store {
+    +GameItemStore()
+    +GameItemStore(HashMap<GameItem, Integer> gameItems)
+}
+
+
+PlayerBoard "2" *-- "1" Store
+
+interface Card {
+    +getPoints(PlayerBoard)
 }
 Card <|-- GameCard
 Card <|-- ObjectiveCard
@@ -107,120 +130,86 @@ Card <|-- ObjectiveCard
 class GameCard {
     -Side currentSide
     -Side otherSide
-    -CardColor cardColor
-    +getCurrentSide()
-    +switchSide()
-    +getColor()
-    +getCorner(cornerPos)
-    +getGameResources()
-    +getGameObjects()
-    +getPoints()
-    +getNeededResources()
+    -GameColor cardColor
+    +Side getCurrentSide()
+    +void switchSide()
+    +GameColor getColor()
+    +Corner getCorner(CornerPosition)
+    +GameItem setCornerCovered(CornerPosition)
+    +GameItemStore getGameItemStore()
+    +Integer getPoints(PlayerBoard)
+    +GameItemStore getNeededItemStore()
 }
 
 GameCard "2" *-- "1" Side
 
 abstract class Side {
-    #Optional<Corner> topRight
-    #Optional<Corner> topLeft
-    #Optional<Corner> bottomLeft
-    #Optional<Corner> bottomRight
-    +getCorner(cornerPos)
-    +getGameResources()
-    +getGameObjects()
-    +getPoints()
-    +getNeededResources()
+    #Corner topRight
+    #Corner topLeft
+    #Corner bottomLeft
+    #Corner bottomRight
+    +getCorner(CornerPosition)
+    +setCornerCovered(CornerPosition)
+    +GameItemStore getGameItemStore()
+    +getPoints(PlayerBoard)
+    +GameItemStore getNeededItemStore()
 }
 
 Side <|-- Front
 Side <|-- Back
 Side "1..4" *-- "1" Corner
 
-abstract class Corner {
-      #boolean isCovered
-      +getGameObject()
-      +getGameResource()
-      +setCovered(Boolean)
+class Corner {
+      -boolean isCovered
+      -GameItem gameItem
+
+      +GameItem getGameItem()
+      +GameItem setCovered()
+      +Boolean isEmpty()
+      +Boolean isExisting() {return true}
+
   }
-  class CornerObject {
-        -GameObject gameObject
-        +getGameObject()
-  }
-  Corner <|-- CornerObject
-  class CornerResource {
-        -GameResource gameResource
-        +getGameResource()
-  }
-  Corner <|-- CornerResource
-  class EmptyCorner {
-  }
-  Corner <|-- EmptyCorner
+
+class NonExistingCorner {
+    +Boolean isExisting() {return false}
+}
+Corner <|-- NonExistingCorner
 
 'FrontSide Section
 
-abstract class Front {
+class Front {
     #int points
-    +getGameResources()
-    +getPoints()
+    +getGameItemStore()
+    +getPoints(PlayerBoard)
 }
 
-Front <|-- FrontStarterCard
-Front <|-- FrontResourceCard
 Front <|-- FrontGoldCard
 
-class FrontStarterCard {
-    
+class FrontGoldCard {
+    #GameItemStore neededItems
+    +getNeededItemStore()
 }
 
-class FrontResourceCard {
-
-}
-
-abstract class FrontGoldCard {
-    #ArrayList<GameResource> neededResources
-    +getNeededResources()
-}
-
-FrontGoldCard <|-- FrontSimpleGoldCard
 FrontGoldCard <|-- FrontPositionalGoldCard
-FrontGoldCard <|-- FrontObjectGoldCard
+FrontGoldCard <|-- FrontItemGoldCard
 
-class FrontSimpleGoldCard {
-
-} 
 
 class FrontPositionalGoldCard {
     +getPoints(PlayerBoard)
     
 }
 
-class FrontObjectGoldCard {
-    -GameObject multiplier
+class FrontItemGoldCard {
+    -GameItem multiplier
     +getPoints(PlayerBoard)
 }
 
 'BackSide Section
 
-abstract class Back {
-    #ArrayList<GameResource> resources
-    +getGameResources()
-    +getPoints()
-}
-
-Back <|-- BackStarterCard
-Back <|-- BackResourceCard
-Back <|-- BackGoldCard
-
-class BackStarterCard {
-    
-}
-
-class BackResourceCard {
-
-}
-
-class BackGoldCard {
-    
+class Back {
+    #GameItemStore resources
+    +getGameItemStore()
+    +getPoints(PlayerBoard)
 }
 
 'ObjectiveCard Section
@@ -233,39 +222,50 @@ abstract class ObjectiveCard {
 
 Player *-- ObjectiveCard 
 GlobalBoard *-- ObjectiveCard
-ObjectiveCard <|-- PositionalObjective
-ObjectiveCard <|-- ResourceObjective
+ObjectiveCard <|-- PositionalObjectiveCard
 Deck *-- Card
 
-class ObjectObjective {
-    -GameObject[3] multiplier
-    +getPoints(PlayerBoard)
-}
-class ResourceObjective {
-    -GameResource resource
+class ItemObjectiveCard {
+    -GameItemStore multiplier
     +getPoints(PlayerBoard)
 }
 
-ObjectiveCard <|-- ObjectObjective
+ObjectiveCard <|-- ItemObjectiveCard
 
-class PositionalObjective {
-    -CardColor[3][3] requiredColors
+class PositionalData {
+    -Point point
+    -CardColor cardColor
+    +Point getPoint()
+    +CardColor getCardColor()
+    +GameItem getGameItem()
+    +void setPoint(x, y)
+    +void setCardColor(CardColor)
+}
+PositionalObjectiveCard "1..N" *-- "1" PositionalData
+
+class PositionalObjectiveCard {
+    -ArrayList<PositionalData> positionalData
     +getPoints(PlayerBoard)
 }
 
 'Enum Section
 
-enum GameResource {
-    Plant
-    Animal
-    Fungi
-    Insect
+enum CornerPosition {
+    TOP_RIGHT
+    TOP_LEFT
+    BOTTOM_LEFT
+    BOTTOM_RIGHT
 }
 
-enum GameObject {
-    Quill
-    Inkwell
-    Manuscript
+enum GameItem {
+    PLANT
+    ANIMAL
+    FUNGI
+    INSECT
+    QUILL
+    INKWELL
+    MANUSCRIPT
+    NONE
 }
 
 enum CardColor {
