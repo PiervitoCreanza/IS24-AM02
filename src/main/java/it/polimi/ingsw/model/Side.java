@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -16,9 +17,9 @@ public class Side {
     /**
      * Constructs a new Side with the given corners.
      *
-     * @param topRight the top right corner of the side
-     * @param topLeft the top left corner of the side
-     * @param bottomLeft the bottom left corner of the side
+     * @param topRight    the top right corner of the side
+     * @param topLeft     the top left corner of the side
+     * @param bottomLeft  the bottom left corner of the side
      * @param bottomRight the bottom right corner of the side
      */
     public Side(Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight) {
@@ -48,8 +49,9 @@ public class Side {
      *
      * @param position the position of the corner to be covered
      */
-    public void setCornerCovered(CornerPosition position){
-        this.getCorner(position).setCovered();
+    public GameItemEnum setCornerCovered(CornerPosition position) {
+
+        return this.getCorner(position).setCovered();
     }
 
     /**
@@ -58,7 +60,7 @@ public class Side {
      *
      * @return a new instance of GameItemStore
      */
-    public GameItemStore getGameItemStore(){
+    public GameItemStore getGameItemStore() {
         //TODO
         //STUB
         return new GameItemStore();
@@ -71,7 +73,7 @@ public class Side {
      * @param playerBoard the player board to calculate the points for
      * @return a new ArrayList of Point as this method is a stub
      */
-    public ArrayList<Point> getPoints(PlayerBoard playerBoard){
+    public ArrayList<Point> getPoints(PlayerBoard playerBoard) {
         //TODO: Which type is returned? It depends by the implementation of PlayerBoard
         //STUB
         return new ArrayList<Point>();
@@ -83,7 +85,7 @@ public class Side {
      *
      * @return a new instance of GameItemStore
      */
-    public GameItemStore getNeededItemStore(){
+    public GameItemStore getNeededItemStore() {
         //TODO
         //STUB
         return new GameItemStore();

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.ObjectiveCard.ObjectiveCard;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
@@ -17,13 +19,14 @@ public class Game {
 
     /**
      * Constructor for Game. Initializes a new game with the specified parameters.
-     * @param gameName The name of the game.
-     * @param nPlayers The maximum number of players in the game.
-     * @param playerName The name of the player creating the game, he will also be the first player.
-     * @param goldDeck The deck of gold cards for the game.
-     * @param resourceDeck The deck of resource cards for the game.
+     *
+     * @param gameName      The name of the game.
+     * @param nPlayers      The maximum number of players in the game.
+     * @param playerName    The name of the player creating the game, he will also be the first player.
+     * @param goldDeck      The deck of gold cards for the game.
+     * @param resourceDeck  The deck of resource cards for the game.
      * @param objectiveDeck The deck of objective cards for the game.
-     * @param starterDeck The deck of starter cards for the game.
+     * @param starterDeck   The deck of starter cards for the game.
      */
     public Game(String gameName, int nPlayers, String playerName, ArrayList<GameCard> goldDeck, ArrayList<GameCard> resourceDeck, ArrayList<ObjectiveCard> objectiveDeck, ArrayList<GameCard> starterDeck) {
         Player player = new Player(playerName);
@@ -37,6 +40,7 @@ public class Game {
 
     /**
      * Returns the name of the game.
+     *
      * @return The name of the game.
      */
     public String getGameName() {
@@ -45,6 +49,7 @@ public class Game {
 
     /**
      * Returns the list of players in the game.
+     *
      * @return ArrayList of Player objects.
      */
     public ArrayList<Player> getPlayers() {
@@ -53,6 +58,7 @@ public class Game {
 
     /**
      * Returns the player with the specified name.
+     *
      * @param playerName The name of the player to find.
      * @return The Player object that represents the player with the specified name.
      * @throws IllegalArgumentException if a player with the specified name does not exist.
@@ -66,6 +72,7 @@ public class Game {
 
     /**
      * Returns the global board of the game.
+     *
      * @return The GlobalBoard object that represents the global board of the game.
      */
     public GlobalBoard getGlobalBoard() {
@@ -74,6 +81,7 @@ public class Game {
 
     /**
      * Adds a player to the game.
+     *
      * @param player The Player object to add to the game.
      */
     public void addPlayer(Player player) {
@@ -82,6 +90,7 @@ public class Game {
 
     /**
      * Returns the next player in the game and updates the currentPlayer.
+     *
      * @return The Player object that represents the next player in the game.
      */
     public Player getNextPlayer() {
@@ -91,6 +100,7 @@ public class Game {
 
     /**
      * Checks if the game has started by checking if enough players have joined the game.
+     *
      * @return true if the game has started, false otherwise.
      */
     public boolean isStarted() {
@@ -101,6 +111,7 @@ public class Game {
      * Returns the winner(s) of the game, first it checks who got more points, then,
      * if there's a tie, it checks who has completed more objectives. If it's still a tie
      * it just returns an array containing all winners.
+     *
      * @return ArrayList of Player objects that represents the winner(s) of the game.
      */
     public ArrayList<Player> getWinner() {
@@ -114,9 +125,9 @@ public class Game {
             PlayerBoard playerBoard = player.getPlayerBoard();
             ObjectiveCard playerObjective = player.getObjectiveCard();
             objectives.add(playerObjective);
-            for (ObjectiveCard objective : objectives){
+            for (ObjectiveCard objective : objectives) {
                 int pointsWon = objective.getPoints(playerBoard);
-                if (pointsWon != 0){
+                if (pointsWon != 0) {
                     cardsWon.increment(player, 1);
                     player.advancePlayerPos(pointsWon);
                 }

@@ -10,7 +10,7 @@ public class FrontItemGoldCard extends FrontGoldCard {
     /**
      * A game item that acts as a multiplier for this gold card.
      */
-    private GameItem multiplier;
+    private GameItemEnum multiplier;
 
     /**
      * Constructs a new {@code FrontItemGoldCard} with specified corners, points, and a game item multiplier.
@@ -23,7 +23,7 @@ public class FrontItemGoldCard extends FrontGoldCard {
      * @param points      The points associated with this front item gold card.
      * @param multiplier  The game item that acts as a multiplier for this gold card.
      */
-    public FrontItemGoldCard(Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight, int points, GameItem multiplier) {
+    public FrontItemGoldCard(Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight, int points, GameItemEnum multiplier) {
         super(topRight, topLeft, bottomLeft, bottomRight, points);
         this.multiplier = multiplier;
     }
