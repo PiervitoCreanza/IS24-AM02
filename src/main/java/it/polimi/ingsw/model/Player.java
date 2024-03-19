@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.ObjectiveCard.ObjectiveCard;
+
 public class Player {
     private final String playerName;
     private int playerPos = 0;

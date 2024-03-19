@@ -9,6 +9,7 @@ import java.util.Optional;
 public class Corner {
     protected boolean isCovered;
     protected final GameItemEnum gameItem;
+
     public Corner(boolean isCovered, GameItemEnum gameItem) {
         this.isCovered = isCovered;
         this.gameItem = gameItem;
@@ -17,6 +18,7 @@ public class Corner {
     /**
      * This method returns the game item present in the corner.
      * If the corner is covered, it returns NULL.
+     *
      * @return the game item present in the corner or NULL
      */
     public GameItemEnum getGameItem() {
@@ -26,14 +28,18 @@ public class Corner {
     /**
      * This method sets the corner as covered.
      */
-    public void setCovered() {
+    public GameItemEnum setCovered() {
         isCovered = true;
+        return gameItem;
     }
 
     /**
      * This method checks if the corner exists (and get override by NonExistingCorner)
+     *
      * @return true
      */
-    public boolean isExisting(){return true;}
+    public boolean isExisting() {
+        return true;
+    }
 
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.ObjectiveCard.ObjectiveCard;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +21,11 @@ public class GlobalBoard {
 
     /**
      * Constructor for GlobalBoard. Initializes the decks and draws cards for the field and for the objectives.
-     * @param goldDeck The deck of gold cards.
-     * @param resourceDeck The deck of resource cards.
+     *
+     * @param goldDeck      The deck of gold cards.
+     * @param resourceDeck  The deck of resource cards.
      * @param objectiveDeck The deck of objective cards.
-     * @param starterDeck The deck of starter cards.
+     * @param starterDeck   The deck of starter cards.
      */
     public GlobalBoard(ArrayList<GameCard> goldDeck, ArrayList<GameCard> resourceDeck, ArrayList<ObjectiveCard> objectiveDeck, ArrayList<GameCard> starterDeck) {
         this.goldDeck = new Deck<>(goldDeck);
@@ -36,6 +39,7 @@ public class GlobalBoard {
 
     /**
      * Returns the deck of gold cards.
+     *
      * @return The deck of gold cards.
      */
     public Deck<GameCard> getGoldDeck() {
@@ -44,6 +48,7 @@ public class GlobalBoard {
 
     /**
      * Returns the deck of resource cards.
+     *
      * @return The deck of resource cards.
      */
     public Deck<GameCard> getResourceDeck() {
@@ -52,6 +57,7 @@ public class GlobalBoard {
 
     /**
      * Returns the deck of objective cards.
+     *
      * @return The deck of objective cards.
      */
     public Deck<ObjectiveCard> getObjectiveDeck() {
@@ -60,6 +66,7 @@ public class GlobalBoard {
 
     /**
      * Returns the deck of starter cards.
+     *
      * @return The deck of starter cards.
      */
     public Deck<GameCard> getStarterDeck() {
@@ -68,6 +75,7 @@ public class GlobalBoard {
 
     /**
      * Returns the two global objectives.
+     *
      * @return An ArrayList of ObjectiveCard containing the two objectives.
      */
     public ArrayList<ObjectiveCard> getGlobalObjectives() {
@@ -76,6 +84,7 @@ public class GlobalBoard {
 
     /**
      * Returns the gold cards present on the field.
+     *
      * @return An ArrayList of GameCard containing the two gold cards present on the field.
      */
     public ArrayList<GameCard> getFieldGoldCards() {
@@ -84,6 +93,7 @@ public class GlobalBoard {
 
     /**
      * Returns the resource cards present on the field.
+     *
      * @return An ArrayList of GameCard containing the two resource cards present on the field.
      */
     public ArrayList<GameCard> getFieldResourceCards() {
@@ -92,6 +102,7 @@ public class GlobalBoard {
 
     /**
      * Checks if the gold deck is empty.
+     *
      * @return true if the gold deck is empty, false otherwise.
      */
     public boolean isGoldDeckEmpty() {
@@ -100,6 +111,7 @@ public class GlobalBoard {
 
     /**
      * Checks if the resource deck is empty.
+     *
      * @return true if the resource deck is empty, false otherwise.
      */
     public boolean isResourceDeckEmpty() {
@@ -109,10 +121,11 @@ public class GlobalBoard {
     /**
      * Draws a card from the field. If the card is in the field of gold cards, it is removed and a new card is drawn from the gold deck.
      * If the card is in the field of resource cards, it is removed and a new card is drawn from the resource deck.
+     *
      * @param card The card to draw from the field.
      * @throws IllegalArgumentException if the card is not present on the field.
      */
-    public void drawCardFromField(GameCard card){
+    public void drawCardFromField(GameCard card) {
         if (fieldGoldCards.contains(card)) {
             fieldGoldCards.remove(card);
             fieldGoldCards.add(goldDeck.draw());

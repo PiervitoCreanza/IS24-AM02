@@ -131,6 +131,6 @@ public class PlayerBoard {
         });
 
         playerBoard.put(point, gameCard);
-        return gameCard.getPoints();
+        return gameCard.getPoints(this);
     }
 }
