@@ -2,10 +2,14 @@
 
 class GameManager {
     -ArrayList<Game> games
-    +createGame(String name, int nPlayers, String playerName)
-    +deleteGame(String name)
+    -ArrayList<GameCard> defaultGoldDeck
+    -ArrayList<GameCard> defaultResourceDeck
+    -ArrayList<ObjectiveCard> defaultObjectiveDeck
+    -ArrayList<GameCard> defaultStarterDeck
     +ArrayList<Game> getGames()
-    +Game joinGame(String name, String playerName)
+    +Game createGame(String gameName, int nPlayers, String playerName)
+    +deleteGame(String gameName)
+    +Game joinGame(String gameName, String playerName)
 }
 GameManager "1..N" *-- "1" Game
 
@@ -16,35 +20,37 @@ class Game {
     -ArrayList<Player> players
     -GlobalBoard globalBoard
     -Player currentPlayer
-    +stopGame()
+    +String getGameName()
+    +ArrayList<Player> getPlayers()
+    +Player getPlayer(String playerName)
+    +GlobalBoard getGlobalBoard()
     +addPlayer(Player player)
-    +removePlayer(Player player)
-    +getPlayers()
-    +getPlayer(String playerName)
-    +getNextPlayer()
-    +getGlobalBoard()
-    +isStarted()
+    +Player getNextPlayer()
+    +boolean isStarted()
+    +ArrayList<Player> getWinner()
 }
 
 Game "2..4" *-- "1" Player
 Game "1" *-- "1" GlobalBoard
 
 class GlobalBoard {
-    -Deck goldDeck
-    -Deck resourceDeck
-    -Deck objectiveDeck
-    -Deck starterDeck
-    -ObjectiveCard[2] objectives
-    -GameCard[2] fieldGoldCards
-    -GameCard[2] fieldResourceCards
-    
-    +getGoldDeck()
-    +getResourceDeck()
-    +getObjectiveDeck()
-    +getObjectives()
-    +getFieldGoldCards()
-    +getFieldResourceCards()
-    +drawCardFromField(GameCard)
+    -Deck<GameCard> goldDeck
+    -Deck<GameCard> resourceDeck
+    -Deck<ObjectiveCard> objectiveDeck
+    -Deck<GameCard> starterDeck
+    -ArrayList<ObjectiveCard> globalObjectives
+    -ArrayList<GameCard> fieldGoldCards
+    -ArrayList<GameCard> fieldResourceCards
+    +Deck<GameCard> getGoldDeck()
+    +Deck<GameCard> getResourceDeck()
+    +Deck<ObjectiveCard> getObjectiveDeck()
+    +Deck<GameCard> getStarterDeck()
+    +ArrayList<ObjectiveCard> getGlobalObjectives()
+    +ArrayList<GameCard> getFieldGoldCards()
+    +ArrayList<GameCard> getFieldResourceCards()
+    +boolean isGoldDeckEmpty()
+    +boolean isResourceDeckEmpty()
+    +drawCardFromField(GameCard card)
 }
 
 'GlobalBoard  --  ObjectiveCard
@@ -69,9 +75,11 @@ class Player {
 
 Player "1" *-- "1" PlayerBoard
 
-class Deck {
-    -ArrayList<Card> cards
-    +drawCard()
+class Deck<T> {
+    -ArrayList<T> deck
+    -Random random;
+    +boolean isEmpty()
+    +T draw()
 }
 
 
