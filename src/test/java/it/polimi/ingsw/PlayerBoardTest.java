@@ -7,6 +7,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.awt.Point;
 import java.util.HashMap;
@@ -20,7 +22,8 @@ public class PlayerBoardTest {
     @BeforeEach
     public void setup() {
         playerBoard = new PlayerBoard();
-        gameCard = new GameCard();
+        gameCard = mock(GameCard.class);
+        when(gameCard.getNeededItemStore()).thenReturn(new GameItemStore());
         gameItem = GameItemEnum.values()[0];
     }
 
@@ -91,8 +94,25 @@ public class PlayerBoardTest {
     @Test
     @DisplayName("Set game card throws exception when point free, adjacent card present but not matching")
     public void setGameCardThrowsExceptionWhenPointFreeAdjacentCardPresentButNotMatching() {
-        // Not implemented yet
-        assert false;
+        Corner emptyCorner = mock(Corner.class);
+        when(gameCard.getCorner(CornerPosition.BOTTOM_LEFT)).thenReturn(emptyCorner);
+        when(emptyCorner.isExisting()).thenReturn(false);
+        Point point = new Point(1, 1);
+        playerBoard.setGameCard(new Point(0, 0), gameCard);
+        assertThrows(IllegalArgumentException.class, () -> playerBoard.setGameCard(point, gameCard));
+    }
+
+    @Test
+    @DisplayName("Set game card correctly places card when point free, adjacent card present and matching")
+    public void setGameCardCorrectlyPlacesCardWhenPointFreeAdjacentCardPresentAndMatching() {
+        Corner emptyCorner = mock(Corner.class);
+        when(gameCard.getCorner(CornerPosition.BOTTOM_LEFT)).thenReturn(emptyCorner);
+
+        when(emptyCorner.isExisting()).thenReturn(true);
+        Point point = new Point(1, 1);
+        playerBoard.setGameCard(new Point(0, 0), gameCard);
+        playerBoard.setGameCard(point, gameCard);
+        assertEquals(gameCard, playerBoard.getGameCard(point).get());
     }
 
     @Test

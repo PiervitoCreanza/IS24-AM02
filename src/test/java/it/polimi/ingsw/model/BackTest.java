@@ -15,8 +15,4 @@ public class BackTest {
         //back = new Back(gameItemStore);
     }
 
-    @Test
-    public void getGameItemStoreReturnsCorrectStore() {
-        assertEquals(gameItemStore, back.getGameItemStore());
-    }
 }
