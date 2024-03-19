@@ -21,7 +21,7 @@ public class CornerTest {
     @Test
     public void getGameItemReturnsNullWhenCovered() {
         corner.setCovered();
-        assertEquals(GameItemEnum.NULL, corner.getGameItem());
+        assertEquals(GameItemEnum.NONE, corner.getGameItem());
     }
 
     @Test

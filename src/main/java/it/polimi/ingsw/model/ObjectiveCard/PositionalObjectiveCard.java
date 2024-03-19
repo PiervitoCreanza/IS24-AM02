@@ -27,10 +27,10 @@ public class PositionalObjectiveCard extends ObjectiveCard{
 
     @Override
     public int getPoints(PlayerBoard playerboard) {
-        int numOfMach = 0;                          //variable for count how many times player made the configuration
-        CardColor firstColor = positionalData.get(0).getColor();
-        ArrayList<Point> pointsCanMach = playerboard.getGameCards().stream()                 //Create a stream of GameCards
-                                        .filter(x -> x.getColor() == firstColor)            //Filtering by the color that I want
+        int numOfMach = 0;                          //variable to count how many times player made the configuration
+        CardColor firstColor = positionalData.get(0).cardColor();
+        ArrayList<Point> pointsCanMach = playerboard.getGameCards().stream()                  //Create a stream of GameCards
+                                        .filter(x -> x.getCardColor() == firstColor)            //Filtering by the color that I want
                                         .map(x -> playerboard.getGameCardPosition(x))       //and at the end obtain the point of this card
                                         .collect(Collectors.toCollection(ArrayList::new));
         HashSet<Point> pointsAlreadyUsed = new HashSet<>();             //List of points that are used for a mach
@@ -44,13 +44,13 @@ public class PositionalObjectiveCard extends ObjectiveCard{
             Point temp = new Point();
             //Support variable
             for (PositionalData position : positionalData){
-                temp.x = point.x + position.getPoint().x;
-                temp.y = point.y + position.getPoint().y;
+                temp.x = point.x + position.point().x;
+                temp.y = point.y + position.point().y;
                 //Move according to the coordinates marked on the hashmap
                 if(pointsAlreadyUsed.contains(temp)){
                     break;
                 }
-                if(playerboard.getGameCard(temp).getCardColor() != position.getColor()){
+                if(playerboard.getGameCard(temp).getCardColor() != position.cardColor()){
                     break;
                 }
                 pointsMaybeUsed.add(temp);

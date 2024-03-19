@@ -15,9 +15,9 @@ public class NonExistingCornerTest {
 
     @Test
     public void getGameItemReturnsNullRegardlessOfCoveredStatus() {
-        assertEquals(GameItemEnum.NULL, nonExistingCorner.getGameItem());
+        assertEquals(GameItemEnum.NONE, nonExistingCorner.getGameItem());
         nonExistingCorner.setCovered();
-        assertEquals(GameItemEnum.NULL, nonExistingCorner.getGameItem());
+        assertEquals(GameItemEnum.NONE, nonExistingCorner.getGameItem());
     }
 
     @Test

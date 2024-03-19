@@ -20,7 +20,7 @@ public class Corner {
      * @return the game item present in the corner or NULL
      */
     public GameItemEnum getGameItem() {
-        return isCovered ? GameItemEnum.NULL : gameItem;
+        return isCovered ? GameItemEnum.NONE : gameItem;
     }
 
     /**
