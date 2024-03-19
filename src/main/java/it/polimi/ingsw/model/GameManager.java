@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.ObjectiveCard.*;
+
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -18,6 +20,7 @@ public class GameManager {
 
     /**
      * Returns the list of games managed by the GameManager.
+     *
      * @return ArrayList of Game objects.
      */
     public ArrayList<Game> getGames() {
@@ -26,13 +29,14 @@ public class GameManager {
 
     /**
      * Creates a new game with the specified parameters and adds it to the list of games.
-     * @param gameName The name of the game to be created.
-     * @param nPlayers The max number of players that will be in the game
-     * @param playerName The name of the player creating the game, it will also be his nickname
-     * @param goldDeck The deck of gold cards for the game.
-     * @param resourceDeck The deck of resource cards for the game.
+     *
+     * @param gameName      The name of the game to be created.
+     * @param nPlayers      The max number of players that will be in the game
+     * @param playerName    The name of the player creating the game, it will also be his nickname
+     * @param goldDeck      The deck of gold cards for the game.
+     * @param resourceDeck  The deck of resource cards for the game.
      * @param objectiveDeck The deck of objective cards for the game.
-     * @param starterDeck The deck of starter cards for the game.
+     * @param starterDeck   The deck of starter cards for the game.
      * @return The created Game object.
      * @throws IllegalArgumentException if a game with the same name already exists.
      */
@@ -46,6 +50,7 @@ public class GameManager {
 
     /**
      * Deletes a game with the specified name from the list of games.
+     *
      * @param gameName The name of the game to be deleted.
      * @throws IllegalArgumentException if a game with the specified name does not exist.
      */
@@ -58,7 +63,8 @@ public class GameManager {
 
     /**
      * Adds a player to a game with the specified name.
-     * @param gameName The name of the game to join.
+     *
+     * @param gameName   The name of the game to join.
      * @param playerName The name of the player joining the game, it will also be his nickname
      * @return The Game object that represents the game the player joined.
      * @throws IllegalArgumentException if a game with the specified name does not exist or a player with the same name already exists in the game.
@@ -67,7 +73,7 @@ public class GameManager {
         Optional<Game> chosenGame = findGame(gameName);
         if (chosenGame.isEmpty())
             throw new IllegalArgumentException("A game with the name \"" + gameName + "\" doesn't exists");
-        if(chosenGame.get().getPlayers().stream().anyMatch(player -> player.getPlayerName().equals(playerName)))
+        if (chosenGame.get().getPlayers().stream().anyMatch(player -> player.getPlayerName().equals(playerName)))
             throw new IllegalArgumentException("A player with the name \"" + playerName + "\" already exists");
         chosenGame.get().addPlayer(new Player(playerName));
         return chosenGame.get();
@@ -75,6 +81,7 @@ public class GameManager {
 
     /**
      * Finds a game with the specified name.
+     *
      * @param gameName The name of the game to find.
      * @return An Optional<Game> that contains the game if it exists, or is empty if it does not.
      */

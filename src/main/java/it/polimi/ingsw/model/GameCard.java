@@ -13,8 +13,8 @@ public class GameCard {
      * Constructs a new GameCard with the given sides and color.
      *
      * @param currentSide the current side of the card
-     * @param otherSide the other side of the card
-     * @param cardColor the color of the card
+     * @param otherSide   the other side of the card
+     * @param cardColor   the color of the card
      */
     public GameCard(Side currentSide, Side otherSide, CardColor cardColor) {
         this.currentSide = currentSide;
@@ -34,7 +34,7 @@ public class GameCard {
     /**
      * Switches the current side with the other side of the card.
      */
-    public void switchSide(){
+    public void switchSide() {
         Side tempSide = currentSide;
         currentSide = otherSide;
         otherSide = tempSide;
@@ -55,7 +55,7 @@ public class GameCard {
      *
      * @return a new instance of GameItemStore
      */
-    public GameItemStore getGameItemStore(){
+    public GameItemStore getGameItemStore() {
         //TODO
         //STUB
         return new GameItemStore();
@@ -68,9 +68,21 @@ public class GameCard {
      * @param playerBoard the player board to calculate the points for
      * @return 0 as this method is a stub
      */
-    public Integer getPoints(PlayerBoard playerBoard){
+    public Integer getPoints(PlayerBoard playerBoard) {
         //TODO
         //STUB
         return 0;
+    }
+
+    public Corner getCorner(CornerPosition position) {
+        return currentSide.getCorner(position);
+    }
+
+    public GameItemStore getNeededItemStore() {
+        return currentSide.getNeededItemStore();
+    }
+
+    public GameItemEnum setCornerCovered(CornerPosition position) {
+        return currentSide.setCornerCovered(position);
     }
 }
