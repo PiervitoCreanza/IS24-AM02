@@ -1,7 +1,10 @@
-package it.polimi.ingsw.model.objectivecard;
+package it.polimi.ingsw.model.ObjectiveCard;
 import it.polimi.ingsw.model.CardColor;
 import java.awt.*;
 
+/**
+ * This is a supporter class used to represent the pattern contained in the target location card
+ */
 public class PositionalData {
     private Point point;
     private CardColor color;

@@ -1,10 +1,9 @@
-package it.polimi.ingsw.model.objectivecard;
+package it.polimi.ingsw.model.ObjectiveCard;
 
 import it.polimi.ingsw.model.CardColor;
 import it.polimi.ingsw.model.PlayerBoard;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
@@ -13,11 +12,10 @@ import java.util.stream.Collectors;
  */
 
 public class PositionalObjectiveCard extends ObjectiveCard{
-    private final ArrayList<PositionalData> positionRequired;
-
-    public PositionalObjectiveCard(int pointsWon, ArrayList<PositionalData> positionRequired) {
+    private final ArrayList<PositionalData> positionalData;
+    public PositionalObjectiveCard(int pointsWon, ArrayList<PositionalData> positionalData) {
         super(pointsWon);
-        this.positionRequired = positionRequired;
+        this.positionalData = positionalData;
     }
 
     /**
@@ -30,7 +28,7 @@ public class PositionalObjectiveCard extends ObjectiveCard{
     @Override
     public int getPoints(PlayerBoard playerboard) {
         int numOfMach = 0;                          //variable for count how many times player made the configuration
-        CardColor firstColor = positionRequired.get(0).getColor();
+        CardColor firstColor = positionalData.get(0).getColor();
         ArrayList<Point> pointsCanMach = playerboard.getGameCards().stream()                 //Create a stream of GameCards
                                         .filter(x -> x.getColor() == firstColor)            //Filtering by the color that I want
                                         .map(x -> playerboard.getGameCardPosition(x))       //and at the end obtain the point of this card
@@ -42,20 +40,20 @@ public class PositionalObjectiveCard extends ObjectiveCard{
             //pointsMaybeUsed is an ArrayList that contains the points which, if correct,
             // will be recorded in pointsAlreadyUsed
             pointsMaybeUsed.add(point);
-
             //Inizialization of pointsMaybeUsed
             Point temp = new Point();
             //Support variable
-            for (int i = 1; i < positionRequired.size(); i++) {
-                temp.x = point.x + positionRequired.get(i).getPoint().x;
-                temp.y = point.y + positionRequired.get(i).getPoint().y;
+            for (PositionalData position : positionalData){
+                temp.x = point.x + position.getPoint().x;
+                temp.y = point.y + position.getPoint().y;
                 //Move according to the coordinates marked on the hashmap
                 if(pointsAlreadyUsed.contains(temp)){
                     break;
                 }
-                if(playerboard.getGameCard(temp).getColor() == positionRequired.get(i).getColor()){
-                    pointsMaybeUsed.add(temp);
+                if(playerboard.getGameCard(temp).getCardColor() != position.getColor()){
+                    break;
                 }
+                pointsMaybeUsed.add(temp);
             }
             if(pointsMaybeUsed.size() == 3){
                 pointsAlreadyUsed.addAll(pointsMaybeUsed);

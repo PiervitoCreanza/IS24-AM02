@@ -6,5 +6,5 @@ package it.polimi.ingsw.model;
  */
 
 public interface Card {
-    public int getPoints(PlayerBoard playerBoard);
+    int getPoints(PlayerBoard playerBoard);
 }
