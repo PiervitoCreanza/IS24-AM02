@@ -136,7 +136,7 @@ class GameCard {
     +Optional<Corner>getCorner(CornerPosition)
     +GameItemEnum setCornerCovered(CornerPosition)
     +GameItemStore getGameItemStore()
-    +Integer getPoints(PlayerBoard)
+    +int getPoints(PlayerBoard)
     +GameItemStore getNeededItemStore()
 }
 
@@ -150,7 +150,7 @@ abstract class Side {
     +getCorner(CornerPosition)
     +setCornerCovered(CornerPosition)
     +GameItemStore getGameItemStore()
-    +getPoints(PlayerBoard)
+    +int getPoints(PlayerBoard)
     +GameItemStore getNeededItemStore()
 }
 
@@ -181,7 +181,7 @@ class Corner {
 class Front {
     #int points
     +getGameItemStore()
-    +getPoints(PlayerBoard)
+    +int getPoints(PlayerBoard)
 }
 
 Front <|-- FrontGoldCard
@@ -196,14 +196,14 @@ FrontGoldCard <|-- FrontItemGoldCard
 
 
 class FrontPositionalGoldCard {
-    +getPoints(PlayerBoard)
+    +int getPoints(PlayerBoard)
     
 }
 
 
 class FrontItemGoldCard {
     -GameItemEnum multiplier
-    +getPoints(PlayerBoard)
+    +int getPoints(PlayerBoard)
 }
 
 'BackSide Section
@@ -211,7 +211,7 @@ class FrontItemGoldCard {
 class Back {
     #GameItemStore resources
     +getGameItemStore()
-    +getPoints(PlayerBoard)
+    +int getPoints(PlayerBoard)
 }
 
 'ObjectiveCard Section
@@ -219,7 +219,7 @@ class Back {
 abstract class ObjectiveCard {
     ' Carte obiettivo
     #Integer pointsWon
-    +getPoints(PlayerBoard)
+    +int getPoints(PlayerBoard)
 }
 
 Player *-- ObjectiveCard 
@@ -228,7 +228,7 @@ ObjectiveCard <|-- PositionalObjectiveCard
 
 class ItemObjectiveCard {
     -GameItemStore multiplier
-    +getPoints(PlayerBoard)
+    +int getPoints(PlayerBoard)
 }
 
 ObjectiveCard <|-- ItemObjectiveCard
@@ -246,7 +246,7 @@ PositionalObjectiveCard "1..N" *-- "1" PositionalData
 
 class PositionalObjectiveCard {
     -ArrayList<PositionalData> positionalData
-    +getPoints(PlayerBoard)
+    +int getPoints(PlayerBoard)
 }
 
 'Enum Section
