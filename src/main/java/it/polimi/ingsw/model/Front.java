@@ -1,10 +1,11 @@
 package it.polimi.ingsw.model;
 
 import java.awt.Point;
+import java.util.stream.Stream;
 
 /**
- * Represents the front side of a game card. This class is an extension of the Side class,
- * specialized with additional functionalities such as tracking points.
+ * Represents the front side of a game card, extending the Side class.
+ * This class is equipped to manage points and game items related to the front side of a card.
  */
 public class Front extends Side {
 
@@ -15,7 +16,6 @@ public class Front extends Side {
 
     /**
      * Constructs a Front object with specified corners and points.
-     * Initializes the corners and sets the points for this side.
      *
      * @param topRight    The top right corner of the front side.
      * @param topLeft     The top left corner of the front side.
@@ -39,29 +39,30 @@ public class Front extends Side {
 
     /**
      * Gets the game item store for this front side of the card.
-     * The method currently calls the superclass' getGameItemStore method.
-     * Further specific implementations for the front side may be added here.
+     * The method creates a GameItemStore and populates it based on the game items in each corner of the front side.
      *
-     * @return A GameItemStore specific to this front side.
+     * @return A GameItemStore containing game items from all corners of the front side.
      */
     @Override
     public GameItemStore getGameItemStore() {
         GameItemStore gameItemStore = new GameItemStore();
-        return super.getGameItemStore();
+        Stream.of(getCorner(CornerPosition.TOP_RIGHT), getCorner(CornerPosition.TOP_LEFT),
+                        getCorner(CornerPosition.BOTTOM_RIGHT), getCorner(CornerPosition.BOTTOM_LEFT))
+                .map(corner -> corner.orElse(new Corner(false, GameItemEnum.NONE)).getGameItem())
+                .forEach(gameItem -> gameItemStore.increment(gameItem, 1));
+        return gameItemStore;
     }
 
     /**
      * Calculates and returns the points for this front side of the card.
-     * The method signature includes the playerBoard parameter to maintain consistency
-     * with the overriding method in the superclass, avoiding the use of method overloading.
+     * This implementation simply returns the static points value.
      *
      * @param cardPosition The position of the card on the player's board.
-     * @param playerBoard  The player's board. This parameter is included to maintain method signature consistency but is not used in the current implementation.
-     * @return The points associated with this front side of the card.
+     * @param playerBoard  The player's board.
+     * @return The points attributed to this front side of the card.
      */
     @Override
     public int getPoints(Point cardPosition, PlayerBoard playerBoard) {
         return points;
     }
-
 }
