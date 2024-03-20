@@ -2,11 +2,10 @@ package it.polimi.ingsw.model;
 
 import java.awt.*;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
- * Represents a side of a game card. It is an abstract class and can be extended to represent
- * different types of card sides.
+ * Represents a side of a game card. This class is abstract and provides the base functionality
+ * for different types of card sides. It manages corners and provides methods to access and modify them.
  */
 abstract public class Side {
     private final Optional<Corner> topRight;
@@ -15,7 +14,7 @@ abstract public class Side {
     private final Optional<Corner> bottomRight;
 
     /**
-     * Constructs a Side with the specified corners.
+     * Constructs a Side with specified corners.
      *
      * @param topRight    The top right corner of the side.
      * @param topLeft     The top left corner of the side.
@@ -46,6 +45,7 @@ abstract public class Side {
 
     /**
      * Sets the specified corner of the side as covered and returns the corresponding game item.
+     * If the corner is not present, returns GameItemEnum.NONE.
      *
      * @param position The position of the corner to cover.
      * @return The game item enum corresponding to the covered corner, or GameItemEnum.NONE if the corner doesn't exist.
@@ -56,22 +56,14 @@ abstract public class Side {
     }
 
     /**
-     * Returns all the items contained in the corners of the side.
-     *
-     * @return A GameItemStore containing all game items from the corners.
+     * Abstract method to be implemented by subclasses to return the game item store of the side.
+     * @return The game item store of the side.
      */
-    public GameItemStore getGameItemStore() {
-        GameItemStore gameItemStore = new GameItemStore();
-        Stream.of(topRight, topLeft, bottomRight, bottomLeft)
-                .map(corner -> corner.orElse(new Corner(false, GameItemEnum.NONE)).getGameItem())
-                .forEach(gameItem -> gameItemStore.increment(gameItem, 1));
-
-        return gameItemStore;
-    }
+    public abstract GameItemStore getGameItemStore();
 
     /**
      * Returns the points for this side of the card based on its position and the player's board.
-     * This method returns zero by default and is intended to be overridden in subclasses for special cases.
+     * This method returns zero by default and can be overridden by subclasses for specific implementations.
      *
      * @param cardPosition The position of the card on the player's board.
      * @param playerBoard  The player's board.
@@ -82,9 +74,8 @@ abstract public class Side {
     }
 
     /**
-     * Returns the needed item store for this side of the card.
-     * By default, a card does not have any NeededItemStore. This method is intended to be overridden in subclasses.
-     *
+     * Returns a default GameItemStore for the side.
+     * This method can be overridden by subclasses to provide specific implementations.
      * @return A default GameItemStore with all values set to zero.
      */
     public GameItemStore getNeededItemStore() {
