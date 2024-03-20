@@ -96,7 +96,7 @@ public class GameCard {
      * @return The calculated points for the card.
      */
     public int getPoints(Point cardPosition, PlayerBoard playerBoard) {
-        return currentSide.getPoints(playerBoard.getGameCardPosition(this), playerBoard);
+        return currentSide.getPoints(cardPosition, playerBoard);
     }
 
     /**
