@@ -13,8 +13,7 @@ class GameManager {
 }
 GameManager "1..N" *-- "1" Game
 
-class Game { 
-    'Gestione giocatori e inizio/fine partita
+class Game {
     -String gameName
     -int nPlayers
     -ArrayList<Player> players
@@ -29,6 +28,10 @@ class Game {
     +boolean isStarted()
     +ArrayList<Player> getWinner()
 }
+
+note left of Game
+Gestione giocatori e inizio/fine partita
+end note
 
 Game "2..4" *-- "1" Player
 Game "1" *-- "1" GlobalBoard
@@ -121,11 +124,7 @@ class GameItemStore extends Store {
 
 PlayerBoard "2" *-- "1" Store
 
-interface Card {
-    +getPoints(PlayerBoard)
-}
-Card <|-- GameCard
-Card <|-- ObjectiveCard
+
 
 class GameCard {
     -Side currentSide
@@ -135,7 +134,7 @@ class GameCard {
     +void switchSide()
     +CardColor getCardColor()
     +Optional<Corner>getCorner(CornerPosition)
-    +GameItem setCornerCovered(CornerPosition)
+    +GameItemEnum setCornerCovered(CornerPosition)
     +GameItemStore getGameItemStore()
     +Integer getPoints(PlayerBoard)
     +GameItemStore getNeededItemStore()
@@ -161,17 +160,20 @@ Side "1..4" *-- "1" Corner
 
 class Corner {
       -boolean isCovered
-      -GameItem gameItem
+      -GameItemEnum gameItem
 
-      +GameItem getGameItem()
-      +GameItem setCovered()
+      +GameItemEnum getGameItem()
+      +GameItemEnum setCovered()
       +Boolean isEmpty()
 
   }
 
+
+
   note bottom of Corner
-    Nel caso in cui un Corner è vuoto, allora risulterà avere GameItem = NONE
+    Nel caso in cui un Corner è vuoto, allora risulterà avere GameItemEnum = NONE
     Se invece il Corner non esiste, il getter restituirà Optional.empty()
+    Se la carta è piazzata, significa che non devo preoccuparmi di accesso a Corner Optional.empty()
   end note
 
 'FrontSide Section
@@ -198,8 +200,9 @@ class FrontPositionalGoldCard {
     
 }
 
+
 class FrontItemGoldCard {
-    -GameItem multiplier
+    -GameItemEnum multiplier
     +getPoints(PlayerBoard)
 }
 
@@ -222,7 +225,6 @@ abstract class ObjectiveCard {
 Player *-- ObjectiveCard 
 GlobalBoard *-- ObjectiveCard
 ObjectiveCard <|-- PositionalObjectiveCard
-Deck *-- Card
 
 class ItemObjectiveCard {
     -GameItemStore multiplier
@@ -236,7 +238,7 @@ class PositionalData {
     -CardColor cardColor
     +Point getPoint()
     +CardColor getCardColor()
-    +GameItem getGameItem()
+    +GameItemEnum getGameItem()
     +void setPoint(x, y)
     +void setCardColor(CardColor)
 }
@@ -256,7 +258,7 @@ enum CornerPosition {
     BOTTOM_RIGHT
 }
 
-enum GameItem {
+enum GameItemEnum {
     PLANT
     ANIMAL
     FUNGI
