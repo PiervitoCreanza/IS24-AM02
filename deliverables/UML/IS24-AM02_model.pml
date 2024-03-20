@@ -111,8 +111,8 @@ class Store<T> {
     #HashMap<T, Integer> store
     +get(T t)
     +set(T t, Integer)
-    +add(T t, Integer)
-    +remove(T t, Integer)
+    +increment(T t, Integer)
+    +decrement(T t, Integer)
     +getNonEmptyKeys()
 }
 
