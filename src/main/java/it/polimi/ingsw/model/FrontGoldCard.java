@@ -10,7 +10,7 @@ public class FrontGoldCard extends Front {
     /**
      * Store for the needed items specific to this FrontGoldCard.
      */
-    private GameItemStore neededItems;
+    private final GameItemStore neededItems;
 
     /**
      * Constructs a FrontGoldCard with specified corners, points, and needed items.
