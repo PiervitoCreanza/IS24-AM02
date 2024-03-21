@@ -15,9 +15,16 @@ public class Back extends Side {
         this.resources = resources;
     }
 
+    /**
+     * This method return a GameItemStore representing the items on the corners and in the center of the card.
+     * @return all the items of the card
+     */
     public GameItemStore getGameItemStore() {
         GameItemStore gameItemStore = getCornersItems();
-        resources.getNonEmptyKeys().forEach(key -> gameItemStore.increment(key, resources.get(key)));
+        resources.getNonEmptyKeys().forEach(key ->
+                // Increment the corresponding value in the gameItemStore object by the value associated with the key in the resources object
+                gameItemStore.increment(key, resources.get(key))
+        );
         return gameItemStore;
     }
 }
