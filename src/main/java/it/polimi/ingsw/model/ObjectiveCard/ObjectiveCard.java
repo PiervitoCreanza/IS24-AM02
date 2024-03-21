@@ -12,7 +12,5 @@ abstract public class ObjectiveCard{
         if(pointsWon <=0) throw new IllegalArgumentException("pointsWon must be positive");
         this.pointsWon = pointsWon;
     }
-    public int getPoints(PlayerBoard playerBoard){
-        return 0;
-    }
+    abstract int getPoints(PlayerBoard playerBoard);
 }
