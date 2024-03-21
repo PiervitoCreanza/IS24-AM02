@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import java.awt.*;
-
 /**
  * Represents a variant of FrontGoldCard known as FrontItemGoldCard. This class extends
  * FrontGoldCard and specializes in calculating points based on the quantity of a specific
@@ -39,7 +37,7 @@ public class FrontItemGoldCard extends FrontGoldCard {
      * @return The calculated points based on the quantity of the specified game item on the player's board.
      */
     @Override
-    public int getPoints(Point cardPosition, PlayerBoard playerBoard){
+    public int getPoints(Coordinate cardPosition, PlayerBoard playerBoard){
         // The points are multiplied by the amount of the specified game item on the player's board.
         return playerBoard.getGameItemAmount(multiplier) * points;
     }

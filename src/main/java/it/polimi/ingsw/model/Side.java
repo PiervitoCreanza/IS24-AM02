@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import java.awt.*;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -70,7 +69,7 @@ abstract public class Side {
      * @param playerBoard  The player's board.
      * @return The calculated points for the card, which is zero by default.
      */
-    public int getPoints(Point cardPosition, PlayerBoard playerBoard) {
+    public int getPoints(Coordinate cardPosition, PlayerBoard playerBoard) {
         return 0;
     }
 
@@ -91,9 +90,8 @@ abstract public class Side {
      */
     protected GameItemStore getCornersItems() {
         GameItemStore gameItemStore = new GameItemStore();
-        Stream.of(getCorner(CornerPosition.TOP_RIGHT), getCorner(CornerPosition.TOP_LEFT),
-                        getCorner(CornerPosition.BOTTOM_RIGHT), getCorner(CornerPosition.BOTTOM_LEFT))
-                .map(corner -> corner.orElse(new Corner(false, GameItemEnum.NONE)).getGameItem())
+        Stream.of(topRight, topLeft, bottomRight, bottomLeft)
+                .map(corner -> corner.orElse(new Corner(true, GameItemEnum.NONE)).getGameItem())
                 .forEach(gameItem -> gameItemStore.increment(gameItem, 1));
         return gameItemStore;
     }
