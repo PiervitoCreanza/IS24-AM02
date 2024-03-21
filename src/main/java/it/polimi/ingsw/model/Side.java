@@ -2,10 +2,11 @@ package it.polimi.ingsw.model;
 
 import java.awt.*;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
- * Represents a side of a game card. This class is abstract and provides the base functionality
- * for different types of card sides. It manages corners and provides methods to access and modify them.
+ * Represents a generic side of a game card. This abstract class provides foundational
+ * functionality and structure for different types of card sides, including managing corners.
  */
 abstract public class Side {
     private final Optional<Corner> topRight;
@@ -14,7 +15,7 @@ abstract public class Side {
     private final Optional<Corner> bottomRight;
 
     /**
-     * Constructs a Side with specified corners.
+     * Constructs a Side with the specified corners.
      *
      * @param topRight    The top right corner of the side.
      * @param topLeft     The top left corner of the side.
@@ -29,7 +30,7 @@ abstract public class Side {
     }
 
     /**
-     * Gets the corner of the side based on the specified position.
+     * Retrieves the corner of the side based on the specified position.
      *
      * @param position The position of the corner to be retrieved.
      * @return An Optional containing the corner if it exists, or empty otherwise.
@@ -80,5 +81,20 @@ abstract public class Side {
      */
     public GameItemStore getNeededItemStore() {
         return new GameItemStore();
+    }
+
+    /**
+     * Aggregates and returns game items from all corners of the side.
+     * This helper method is used to gather items from the corners for forming a GameItemStore.
+     *
+     * @return A GameItemStore with items combined from all corners.
+     */
+    protected GameItemStore getCornersItems() {
+        GameItemStore gameItemStore = new GameItemStore();
+        Stream.of(getCorner(CornerPosition.TOP_RIGHT), getCorner(CornerPosition.TOP_LEFT),
+                        getCorner(CornerPosition.BOTTOM_RIGHT), getCorner(CornerPosition.BOTTOM_LEFT))
+                .map(corner -> corner.orElse(new Corner(false, GameItemEnum.NONE)).getGameItem())
+                .forEach(gameItem -> gameItemStore.increment(gameItem, 1));
+        return gameItemStore;
     }
 }
