@@ -18,8 +18,8 @@ public class FrontPositionalGoldCard extends FrontGoldCard {
      * @param bottomRight The bottom right corner of the front side.
      * @param points      The number of points attributed to this front side.
      */
-    public FrontPositionalGoldCard(Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight, int points) {
-        super(topRight, topLeft, bottomLeft, bottomRight, points);
+    public FrontPositionalGoldCard(Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight, int points, GameItemStore neededItems) {
+        super(topRight, topLeft, bottomLeft, bottomRight, points, neededItems);
     }
 
     /**
