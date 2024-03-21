@@ -24,8 +24,9 @@ public class FrontItemGoldCard extends FrontGoldCard {
      * @param points      The number of points attributed to this front side.
      * @param multiplier  The game item that will be used as a multiplier for point calculation.
      */
-    public FrontItemGoldCard(Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight, int points, GameItemEnum multiplier) {
-        super(topRight, topLeft, bottomLeft, bottomRight, points);
+
+    public FrontItemGoldCard(Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight, int points, GameItemStore neededItems, GameItemEnum multiplier) {
+        super(topRight, topLeft, bottomLeft, bottomRight, points, neededItems);
         this.multiplier = multiplier;
     }
 
