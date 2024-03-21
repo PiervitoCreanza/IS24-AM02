@@ -23,7 +23,7 @@ public class CornerTest {
      * This test checks if the getGameItem() method of the Corner class returns the correct game item when the corner is not covered.
      */
     @Test
-    @DisplayName("Test return of game item when not covered")
+    @DisplayName("Test the return of game item when not covered")
     public void getGameItemReturnsCorrectItemWhenNotCovered() {
         assertEquals(GameItemEnum.PLANT, corner.getGameItem());
     }
@@ -32,9 +32,10 @@ public class CornerTest {
      * This test checks if the getGameItem() method of the Corner class returns NONE when the corner is covered.
      */
     @Test
-    @DisplayName("Test return of game item when covered")
+    @DisplayName("Test the return of game item when covered")
     public void getGameItemReturnsNoneWhenCovered() {
         corner.setCovered();
         assertEquals(GameItemEnum.NONE, corner.getGameItem());
     }
+
 }
