@@ -254,7 +254,6 @@ package "Model"{
     class Back {
         #GameItemStore resources
         +getGameItemStore()
-        +int getPoints(Coordinate, PlayerBoard)
     }
 
     'ObjectiveCard Section
