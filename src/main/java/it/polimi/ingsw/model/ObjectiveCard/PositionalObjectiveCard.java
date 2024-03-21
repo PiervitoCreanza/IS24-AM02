@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.PlayerBoard;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -18,7 +17,6 @@ public class PositionalObjectiveCard extends ObjectiveCard {
 
     public PositionalObjectiveCard(int pointsWon, ArrayList<PositionalData> positionalData) {
         super(pointsWon);
-        Objects.requireNonNull(positionalData, "positionalData must be not null");
         this.positionalData = positionalData;
     }
 
