@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import java.awt.Point;
-
 /**
  * Represents the front side of a game card. This class extends the Side class and
  * incorporates functionalities for managing points and aggregating game items from corners.
@@ -28,15 +26,6 @@ public class Front extends Side {
     }
 
     /**
-     * Sets the points for this front side of the card.
-     *
-     * @param points The new points value to be set.
-     */
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
-    /**
      * Overrides the getGameItemStore method from the Side class.
      * This implementation aggregates game items from all corners of this front side into a GameItemStore.
      *
@@ -56,7 +45,7 @@ public class Front extends Side {
      * @return The points attributed to this front side of the card.
      */
     @Override
-    public int getPoints(Point cardPosition, PlayerBoard playerBoard) {
+    public int getPoints(Coordinate cardPosition, PlayerBoard playerBoard) {
         return points;
     }
 
