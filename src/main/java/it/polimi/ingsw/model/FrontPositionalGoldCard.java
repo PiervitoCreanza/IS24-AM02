@@ -32,19 +32,19 @@ public class FrontPositionalGoldCard extends FrontGoldCard {
      * @return The calculated points based on the card's position and its adjacent cards.
      */
     @Override
-    public int getPoints(Point cardPosition, PlayerBoard playerBoard){
+    public int getPoints(Coordinate cardPosition, PlayerBoard playerBoard){
         int N = 0;
 
         // Define the four corners of the current card position
-        Point[] corners = {
-                new Point(cardPosition.x + 1, cardPosition.y + 1),
-                new Point(cardPosition.x + 1, cardPosition.y - 1),
-                new Point(cardPosition.x - 1, cardPosition.y - 1),
-                new Point(cardPosition.x - 1, cardPosition.y + 1)
+        Coordinate[] corners = {
+                new Coordinate(cardPosition.x + 1, cardPosition.y + 1),
+                new Coordinate(cardPosition.x + 1, cardPosition.y - 1),
+                new Coordinate(cardPosition.x - 1, cardPosition.y - 1),
+                new Coordinate(cardPosition.x - 1, cardPosition.y + 1)
         };
 
         // Check each corner
-        for (Point corner : corners) {
+        for (Coordinate corner : corners) {
             // If the Optional returned by getGameCard is not empty, increment N
             if (playerBoard.getGameCard(corner).isPresent()) {
                 N++;
