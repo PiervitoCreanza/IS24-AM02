@@ -30,7 +30,7 @@ public class ItemObjectiveCardTest {
     @DisplayName("Test ItemObjectiveCardTest getPoints with Resources")
     public void TryGetPointsWithResources() {
         GameItemStore gameItemStore = new GameItemStore();
-        gameItemStore.increment(GameItemEnum.FUNGI, 3);
+        gameItemStore.set(GameItemEnum.FUNGI, 3);
         ItemObjectiveCard itemObjectiveCard = new ItemObjectiveCard(2, gameItemStore);
         PlayerBoard playerBoard = mock(PlayerBoard.class);
         when(playerBoard.getGameItemAmount(GameItemEnum.FUNGI)).thenReturn(7);
@@ -45,7 +45,7 @@ public class ItemObjectiveCardTest {
     @DisplayName("Test ItemObjectiveCardTest getPoints with Object")
     public void TryGetPointsWithObject() {
         GameItemStore gameItemStore = new GameItemStore();
-        gameItemStore.increment(GameItemEnum.INKWELL, 2);
+        gameItemStore.set(GameItemEnum.INKWELL, 2);
         ItemObjectiveCard itemObjectiveCard = new ItemObjectiveCard(2, gameItemStore);
         PlayerBoard playerBoard = mock(PlayerBoard.class);
         when(playerBoard.getGameItemAmount(GameItemEnum.INKWELL)).thenReturn(7);
@@ -60,9 +60,9 @@ public class ItemObjectiveCardTest {
     @DisplayName("Test ItemObjectiveCardTest getPoints with AllObject")
     public void TryGetPointsWithAllObject() {
         GameItemStore gameItemStore = new GameItemStore();
-        gameItemStore.increment(GameItemEnum.INKWELL, 1);
-        gameItemStore.increment(GameItemEnum.MANUSCRIPT, 1);
-        gameItemStore.increment(GameItemEnum.QUILL, 1);
+        gameItemStore.set(GameItemEnum.INKWELL, 1);
+        gameItemStore.set(GameItemEnum.MANUSCRIPT, 1);
+        gameItemStore.set(GameItemEnum.QUILL, 1);
         ItemObjectiveCard itemObjectiveCard = new ItemObjectiveCard(3, gameItemStore);
         PlayerBoard playerBoard = mock(PlayerBoard.class);
         when(playerBoard.getGameItemAmount(GameItemEnum.INKWELL)).thenReturn(4);

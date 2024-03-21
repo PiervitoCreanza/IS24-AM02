@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.ObjectiveCard;
 import it.polimi.ingsw.model.GameItemEnum;
 import it.polimi.ingsw.model.GameItemStore;
 import it.polimi.ingsw.model.PlayerBoard;
-
+import java.util.Objects;
 import java.util.ArrayList;
 
 /**
@@ -16,7 +16,7 @@ public class ItemObjectiveCard extends ObjectiveCard {
 
     public ItemObjectiveCard(int pointsWon, GameItemStore multiplier) {
         super(pointsWon);
-        if(multiplier == null) throw new IllegalArgumentException("multiplier must be not null");
+        Objects.requireNonNull(multiplier, "multiplier cannot be null");
         this.multiplier = multiplier;
     }
 
