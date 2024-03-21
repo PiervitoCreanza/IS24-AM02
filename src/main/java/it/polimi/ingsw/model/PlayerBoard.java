@@ -99,27 +99,28 @@ public class PlayerBoard {
             throw new IllegalArgumentException("Position already occupied");
         }
 
-        boolean test = getAdjacentPointCornersPair(point).stream().anyMatch(pair -> {
-            return (point.getX() == 0 && point.getY() == 0) || playerBoard.containsKey(pair.point());
-        });
-
-        if (!test) {
+        // Check if the position is adjacent to at least one other card. We can't place a card isolated from the others (no shared corner).
+        boolean isPositionAdjacent = getAdjacentPointCornersPair(point).stream()
+                .anyMatch(pair -> (point.getX() == 0 && point.getY() == 0) || playerBoard.containsKey(pair.point()));
+        // If the position is not adjacent to any other card, we can't place the card
+        if (!isPositionAdjacent) {
             throw new IllegalArgumentException("Position not adjacent to any other card");
         }
 
         // Iterate over each adjacent point and its respective intersecting corner
         getAdjacentPointCornersPair(point).forEach(pair -> {
-
-            // Check if each intersecting corner of the adjacent cards exist. If not it means that the card cannot be placed as there is at least one card that is missing a corner in the required position
-            if (getGameCard(pair.point()).map(card -> !card.getCorner(pair.cornerPosition()).isExisting()).orElse(false)) {
-                throw new IllegalArgumentException("Position not compatible with adjacent cards");
-            }
+            Optional<GameCard> card = getGameCard(pair.point());
+            // Check if the placement is compatible with the adjacent cards. If an adjacent card is present and does not have a corner where the two cards will intersect it means that the card cannot be placed.
+//            if (card.isPresent() && card.get().getCorner(pair.cornerPosition()).isPresent()) {
+//                throw new IllegalArgumentException("Position not compatible with adjacent cards");
+//            }
         });
 
         GameItemStore neededItems = gameCard.getNeededItemStore();
-        // Check if there are enough resources to place the card
+        // For each item check if there are enough resources to place the card.
         if (neededItems.keySet().stream().anyMatch(
-                gameItem -> neededItems.get(gameItem) < neededItems.get(gameItem)
+                // Check if the items needed by the card (neededItems) < items owned by the player (gameItems)
+                gameItem -> neededItems.get(gameItem) < gameItems.get(gameItem)
         )) {
             throw new IllegalArgumentException("Not enough resources");
         }
@@ -133,6 +134,9 @@ public class PlayerBoard {
                 gameItems.decrement(card.setCornerCovered(pair.cornerPosition()), 1);
             });
         });
+        ArrayList<Optional<Corner>> c1 = new ArrayList<>();
+        c1.add(Optional.ofNullable(null));
+        Corner test = c1.stream().map(corner -> corner.orElse(null)).findFirst().orElse(null);
 
         playerBoard.put(point, gameCard);
         return gameCard.getPoints(this);
