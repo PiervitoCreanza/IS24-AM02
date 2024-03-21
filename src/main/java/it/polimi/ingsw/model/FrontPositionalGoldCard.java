@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import java.awt.*;
 
 /**
  * Represents a specific type of FrontGoldCard, named FrontPositionalGoldCard.
