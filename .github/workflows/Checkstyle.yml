@@ -1,6 +1,9 @@
 name: Checkstyle
 
-on: [pull_request]
+on: 
+  pull_request: 
+      paths:
+        - '**.java'
 
 jobs:
   build:
