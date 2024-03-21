@@ -194,6 +194,7 @@ package "Model"{
         +GameItemStore getGameItemStore()
         +int getPoints(Coordinate, PlayerBoard)
         +GameItemStore getNeededItemStore()
+        +GameItemStore getCornersItems()
     }
 
     Side <|-- Front
