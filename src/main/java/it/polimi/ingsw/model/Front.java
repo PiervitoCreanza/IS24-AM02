@@ -1,16 +1,15 @@
 package it.polimi.ingsw.model;
 
 import java.awt.Point;
-import java.util.stream.Stream;
 
 /**
- * Represents the front side of a game card, extending the Side class.
- * This class is equipped to manage points and game items related to the front side of a card.
+ * Represents the front side of a game card. This class extends the Side class and
+ * incorporates functionalities for managing points and aggregating game items from corners.
  */
 public class Front extends Side {
 
     /**
-     * The number of points associated with this front side.
+     * The number of points associated with this front side of the card.
      */
     protected int points;
 
@@ -38,24 +37,19 @@ public class Front extends Side {
     }
 
     /**
-     * Gets the game item store for this front side of the card.
-     * The method creates a GameItemStore and populates it based on the game items in each corner of the front side.
+     * Overrides the getGameItemStore method from the Side class.
+     * This implementation aggregates game items from all corners of this front side into a GameItemStore.
      *
-     * @return A GameItemStore containing game items from all corners of the front side.
+     * @return A GameItemStore containing game items from all corners of this front side.
      */
     @Override
     public GameItemStore getGameItemStore() {
-        GameItemStore gameItemStore = new GameItemStore();
-        Stream.of(getCorner(CornerPosition.TOP_RIGHT), getCorner(CornerPosition.TOP_LEFT),
-                        getCorner(CornerPosition.BOTTOM_RIGHT), getCorner(CornerPosition.BOTTOM_LEFT))
-                .map(corner -> corner.orElse(new Corner(false, GameItemEnum.NONE)).getGameItem())
-                .forEach(gameItem -> gameItemStore.increment(gameItem, 1));
-        return gameItemStore;
+        return getCornersItems();
     }
 
     /**
      * Calculates and returns the points for this front side of the card.
-     * This implementation simply returns the static points value.
+     * This method simply returns the static points value set for this front side.
      *
      * @param cardPosition The position of the card on the player's board.
      * @param playerBoard  The player's board.
@@ -65,4 +59,5 @@ public class Front extends Side {
     public int getPoints(Point cardPosition, PlayerBoard playerBoard) {
         return points;
     }
+
 }
