@@ -17,6 +17,7 @@ public class PositionalObjectiveCard extends ObjectiveCard {
 
     public PositionalObjectiveCard(int pointsWon, ArrayList<PositionalData> positionalData) {
         super(pointsWon);
+        if(positionalData == null) throw new IllegalArgumentException("positionalData must be not null");
         this.positionalData = positionalData;
     }
 
