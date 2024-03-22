@@ -14,8 +14,11 @@ public class Hand {
      */
     private final ArrayList<GameCard> hand;
 
+    /**
+     * Constructor for Hand. Initializes an empty list of GameCard objects.
+     */
     public Hand() {
-        hand = new ArrayList<GameCard>(3);
+        hand = new ArrayList<>(3);
     }
 
     /**

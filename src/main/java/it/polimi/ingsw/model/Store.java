@@ -5,9 +5,22 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Class that represents a store, which contains objects and their amounts.
+ *
+ * @param <T> the type of the objects in the store
+ */
 public class Store<T> {
+    /**
+     * The store that contains the objects and their amounts.
+     */
     protected final HashMap<T, Integer> store;
 
+    /**
+     * Constructor for Store. Initializes the store with the specified HashMap.
+     *
+     * @param store the HashMap to initialize the store with
+     */
     public Store(HashMap<T, Integer> store) {
         this.store = store;
     }
