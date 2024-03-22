@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.ObjectiveCard;
 
 import it.polimi.ingsw.model.CardColor;
+import it.polimi.ingsw.model.Coordinate;
 import it.polimi.ingsw.model.PlayerBoard;
 
 import java.awt.*;
@@ -45,7 +46,7 @@ public class PositionalObjectiveCard extends ObjectiveCard {
             ArrayList<Coordinate> coordinatesMaybeUsed = new ArrayList<>();           //coordinate of Hashmap in positionRequired
             //coordinatesMaybeUsed is an ArrayList that contains the coordinates which, if correct,
             // will be recorded in coordinatesAlreadyUsed
-            coordinate temp = new coordinate();
+            Coordinate temp = new Coordinate(0, 0);
             //Support variable
             for (PositionalData position : positionalData) {
                 temp.x = coordinate.x + position.coordinate().x;
