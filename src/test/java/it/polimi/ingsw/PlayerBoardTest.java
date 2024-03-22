@@ -1,7 +1,6 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.model.*;
-import jdk.jshell.spi.ExecutionControl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,8 +10,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.awt.Point;
-import java.util.HashMap;
 import java.util.Optional;
 
 @DisplayName("Player Board Test")
@@ -23,25 +20,26 @@ public class PlayerBoardTest {
 
     @BeforeEach
     public void setup() {
-        playerBoard = new PlayerBoard();
+
         gameCard = mock(GameCard.class);
+        playerBoard = new PlayerBoard(gameCard);
         when(gameCard.getNeededItemStore()).thenReturn(new GameItemStore());
         gameItem = GameItemEnum.values()[0];
     }
 
     @Test
-    @DisplayName("Get game card returns empty optional when no card at point")
+    @DisplayName("Get game card returns empty optional when no card at coordinate")
     public void getGameCardReturnsEmptyOptionalWhenNoCardAtPoint() {
-        Point point = new Point(0, 0);
-        assertTrue(playerBoard.getGameCard(point).isEmpty());
+        Coordinate coordinate = new Coordinate(0, 0);
+        assertTrue(playerBoard.getGameCard(coordinate).isEmpty());
     }
 
     @Test
-    @DisplayName("Get game card returns card when present at point")
+    @DisplayName("Get game card returns card when present at coordinate")
     public void getGameCardReturnsCardWhenPresentAtPoint() {
-        Point point = new Point(0, 0);
-        playerBoard.setGameCard(point, gameCard);
-        assertEquals(gameCard, playerBoard.getGameCard(point).get());
+        Coordinate coordinate = new Coordinate(0, 0);
+        playerBoard.setGameCard(coordinate, gameCard);
+        assertEquals(gameCard, playerBoard.getGameCard(coordinate).get());
     }
 
     @Test
@@ -51,11 +49,11 @@ public class PlayerBoardTest {
     }
 
     @Test
-    @DisplayName("Get game card position returns point when card present")
+    @DisplayName("Get game card position returns coordinate when card present")
     public void getGameCardPositionReturnsPointWhenCardPresent() {
-        Point point = new Point(0, 0);
-        playerBoard.setGameCard(point, gameCard);
-        assertEquals(point, playerBoard.getGameCardPosition(gameCard).get());
+        Coordinate coordinate = new Coordinate(0, 0);
+        playerBoard.setGameCard(coordinate, gameCard);
+        assertEquals(coordinate, playerBoard.getGameCardPosition(gameCard).get());
     }
 
     @Test
@@ -67,8 +65,8 @@ public class PlayerBoardTest {
     @Test
     @DisplayName("Get game cards returns list of cards when cards present")
     public void getGameCardsReturnsListOfCardsWhenCardsPresent() {
-        Point point = new Point(0, 0);
-        playerBoard.setGameCard(point, gameCard);
+        Coordinate coordinate = new Coordinate(0, 0);
+        playerBoard.setGameCard(coordinate, gameCard);
         assertTrue(playerBoard.getGameCards().contains(gameCard));
     }
 
@@ -84,25 +82,25 @@ public class PlayerBoardTest {
     @Test
     @DisplayName("SetGameCard places the starter card")
     public void setGameCardTest1() {
-        Point point = new Point(0, 0);
-        playerBoard.setGameCard(point, gameCard);
-        assertEquals(playerBoard.getGameCard(point).get(), gameCard);
+        Coordinate coordinate = new Coordinate(0, 0);
+        playerBoard.setGameCard(coordinate, gameCard);
+        assertEquals(playerBoard.getGameCard(coordinate).get(), gameCard);
     }
 
     @Test
-    @DisplayName("SetGameCard throws exception when point already occupied")
+    @DisplayName("SetGameCard throws exception when coordinate already occupied")
     public void setGameCardTest2() {
-        Point point = new Point(0, 0);
-        playerBoard.setGameCard(point, gameCard);
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> playerBoard.setGameCard(point, gameCard));
+        Coordinate coordinate = new Coordinate(0, 0);
+        playerBoard.setGameCard(coordinate, gameCard);
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> playerBoard.setGameCard(coordinate, gameCard));
         assertEquals("Position already occupied", exception.getMessage());
     }
 
     @Test
     @DisplayName("SetGameCard throws exception when no adjacent card present")
     public void setGameCardTest3() {
-        Point point = new Point(1, 1);
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> playerBoard.setGameCard(point, gameCard));
+        Coordinate coordinate = new Coordinate(1, 1);
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> playerBoard.setGameCard(coordinate, gameCard));
         assertEquals("Position not adjacent to any other card", exception.getMessage());
     }
 
@@ -116,10 +114,10 @@ public class PlayerBoardTest {
         when(gameCard.getCorner(CornerPosition.TOP_LEFT)).thenReturn(emptyCorner);
         when(gameCard.getCorner(CornerPosition.TOP_RIGHT)).thenReturn(emptyCorner);
 
-        Point point = new Point(1, 1);
+        Coordinate coordinate = new Coordinate(1, 1);
         // Place the starter card to avoid the exception of the previous test
-        playerBoard.setGameCard(new Point(0, 0), gameCard);
-        assertThrows(IllegalArgumentException.class, () -> playerBoard.setGameCard(point, gameCard));
+        playerBoard.setGameCard(new Coordinate(0, 0), gameCard);
+        assertThrows(IllegalArgumentException.class, () -> playerBoard.setGameCard(coordinate, gameCard));
     }
 
     @Test
@@ -128,8 +126,8 @@ public class PlayerBoardTest {
         GameItemStore gameItemStore = new GameItemStore();
         gameItemStore.set(gameItem, 1);
         when(gameCard.getNeededItemStore()).thenReturn(gameItemStore);
-        Point point = new Point(0, 0);
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> playerBoard.setGameCard(point, gameCard));
+        Coordinate coordinate = new Coordinate(0, 0);
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> playerBoard.setGameCard(coordinate, gameCard));
         assertEquals("Not enough resources", exception.getMessage());
     }
 
@@ -138,21 +136,20 @@ public class PlayerBoardTest {
     public void setGameCardCorrectlyPlacesCardWhenPointFreeAdjacentCardPresentAndMatching() {
         Corner nonEmptyCorner = mock(Corner.class);
         GameItemStore gameItemStore = new GameItemStore();
-        when(gameCard.getCorner(any(CornerPosition.class))).thenReturn(nonEmptyCorner);
-        when(nonEmptyCorner.isExisting()).thenReturn(true);
+        when(gameCard.getCorner(any(CornerPosition.class))).thenReturn(Optional.of(nonEmptyCorner));
         when(gameCard.setCornerCovered(any(CornerPosition.class))).thenReturn(GameItemEnum.PLANT);
-        Point point = new Point(1, 1);
-        playerBoard.setGameCard(new Point(0, 0), gameCard);
-        playerBoard.setGameCard(point, gameCard);
-        assertEquals(gameCard, playerBoard.getGameCard(point).get());
+        Coordinate coordinate = new Coordinate(1, 1);
+        playerBoard.setGameCard(new Coordinate(0, 0), gameCard);
+        playerBoard.setGameCard(coordinate, gameCard);
+        assertEquals(gameCard, playerBoard.getGameCard(coordinate).get());
         // TODO: FINISH THE TEST
     }
 
     @Test
-    @DisplayName("SetGameCard places card when point free")
+    @DisplayName("SetGameCard places card when coordinate free")
     public void setGameCardPlacesCardWhenPointFree() {
-        Point point = new Point(0, 0);
-        playerBoard.setGameCard(point, gameCard);
-        assertEquals(gameCard, playerBoard.getGameCard(point).get());
+        Coordinate coordinate = new Coordinate(0, 0);
+        playerBoard.setGameCard(coordinate, gameCard);
+        assertEquals(gameCard, playerBoard.getGameCard(coordinate).get());
     }
 }

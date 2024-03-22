@@ -2,17 +2,67 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.ObjectiveCard.ObjectiveCard;
 
+import java.util.Objects;
+
+/**
+ * The Player class represents a player in the game.
+ * It contains the player's attributes and the PlayerBoard.
+ */
 public class Player {
+    /**
+     * The name of the player.
+     */
     private final String playerName;
+
+    /**
+     * The position of the player in the game.
+     * It is initialized to 0 at the start of the game.
+     */
     private int playerPos = 0;
+
+    /**
+     * The player's board in the game.
+     */
     private final PlayerBoard playerBoard;
+
+    /**
+     * The 2 objective cards that the player has to choose from.
+     * The chosen objective card is stored in the objectiveCard attribute.
+     */
+    private final ObjectiveCard[] drawnObjectives;
+
+    /**
+     * The objective card chosen by the player.
+     */
     private ObjectiveCard objectiveCard;
+
+    /**
+     * The hand of the player, which contains the cards that the player holds.
+     */
     private final Hand hand;
 
-    public Player(String playerName) {
+    /**
+     * The boolean that represents if the player is connected or not.
+     */
+    private boolean isConnected = true;
+
+    /**
+     * Constructor for the Player class.
+     * Initializes the player's name, player board, and hand.
+     *
+     * @param playerName      The name of the player.
+     * @param drawnObjectives The 2 objective cards that the player has to choose from.
+     * @param starterCard     The starter card that the player receives at the beginning of the game.
+     */
+    public Player(String playerName, ObjectiveCard[] drawnObjectives, GameCard starterCard) {
+        if (playerName == null || playerName.isBlank()) {
+            throw new IllegalArgumentException("Player name cannot be null or empty");
+        }
+
         this.playerName = playerName;
-        playerBoard = new PlayerBoard();
-        hand = new Hand();
+        this.drawnObjectives = Objects.requireNonNull(drawnObjectives, "Drawn objectives cannot be null");
+        this.playerBoard = new PlayerBoard(Objects.requireNonNull(starterCard, "Starter card cannot be null"));
+        this.hand = new Hand();
     }
 
     /**
@@ -20,7 +70,6 @@ public class Player {
      *
      * @return String This returns the name of the player.
      */
-
     public String getPlayerName() {
         return playerName;
     }
@@ -68,6 +117,33 @@ public class Player {
      */
     public void setPlayerObjective(ObjectiveCard objectiveCard) {
         this.objectiveCard = objectiveCard;
+    }
+
+    /**
+     * This method is used to retires the connection status of the player.
+     *
+     * @return isConnected This is the player's connection status.
+     */
+    public boolean isConnected() {
+        return isConnected;
+    }
+
+    /**
+     * This method is used to get the drawn objectives of the player.
+     *
+     * @return ObjectiveCard[] This returns the drawn objectives of the player.
+     */
+    public ObjectiveCard[] getDrawnObjectives() {
+        return drawnObjectives;
+    }
+
+    /**
+     * This method is used to set the connection status of the player.
+     *
+     * @param connected This is the connection status to be set.
+     */
+    public void setConnected(boolean connected) {
+        isConnected = connected;
     }
 
     /**
