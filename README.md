@@ -49,7 +49,7 @@ Rules of the game [here](https://www.craniocreations.it/storage/media/product_do
 
 ## Future Scope
 
-The project is poised for adaptation to Apple's xrOS, suggesting plans for expanded compatibility and potential new features for the visionOS environment.
+The project is poised for adaptation to Apple's visionOS, suggesting plans for expanded compatibility and potential new features for the visionOS environment.
 
 ## Legal
 
