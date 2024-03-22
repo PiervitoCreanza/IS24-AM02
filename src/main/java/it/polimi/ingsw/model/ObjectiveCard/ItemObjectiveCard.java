@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 
 public class ItemObjectiveCard extends ObjectiveCard {
-    GameItemStore multiplier;
+    private final GameItemStore multiplier;
 
     public ItemObjectiveCard(int pointsWon, GameItemStore multiplier) {
         super(pointsWon);

@@ -7,7 +7,7 @@ import java.util.Objects;
  */
 
 public class Back extends Side {
-    protected GameItemStore resources;
+    protected final GameItemStore resources;
 
     public Back(GameItemStore resources, Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight) {
         super(topRight, topLeft, bottomLeft, bottomRight);

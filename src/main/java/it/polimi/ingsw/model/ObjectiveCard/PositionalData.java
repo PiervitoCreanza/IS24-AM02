@@ -6,4 +6,4 @@ import java.awt.*;
 /**
  * This is a supporter record used to represent the pattern contained in the target location card
  */
-public record PositionalData(Point point, CardColor cardColor) {}
+public record PositionalData(Coordinate coordinate, CardColor cardColor) {}

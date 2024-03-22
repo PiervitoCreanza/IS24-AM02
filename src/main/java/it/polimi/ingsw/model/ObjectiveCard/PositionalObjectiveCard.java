@@ -32,28 +32,26 @@ public class PositionalObjectiveCard extends ObjectiveCard {
 
     @Override
     public int getPoints(PlayerBoard playerboard) {
-        int numOfMach = 0;                          //variable to count how many times player made the configuration
+        int numOfMatch = 0;                          //variable to count how many times player made the configuration
         CardColor firstColor = positionalData.get(0).cardColor();
-        ArrayList<Point> pointsCanMach = playerboard.getGameCards().stream()                  //Create a stream of GameCards
-                .filter(x -> x.getCardColor() == firstColor)            //Filtering by the color that I want
-                .map(x -> playerboard.getGameCardPosition(x).get())       //and at the end obtain the point of this card
+        ArrayList<Coordinate> coordinatesCanMatch = playerboard.getGameCards().stream()                  //Create a stream of GameCards
+                .filter(x -> x.getCardColor() == firstColor)                                             //Filtering by the color that I want
+                .map(x -> playerboard.getGameCardPosition(x).get())                                      //and at the end obtain the coordinate of this card
                 .collect(Collectors.toCollection(ArrayList::new));
 
-        HashSet<Point> pointsAlreadyUsed = new HashSet<>();             //List of points that are used for a mach
+        HashSet<Coordinate> coordinatesAlreadyUsed = new HashSet<>();             //List of coordinates that are used for a match
 
-        for (Point point : pointsCanMach) {                                 //For every possible point that is founded, try to follow the
-            ArrayList<Point> pointsMaybeUsed = new ArrayList<>();           //coordinate of Hashmap in positionRequired
-            //pointsMaybeUsed is an ArrayList that contains the points which, if correct,
-            // will be recorded in pointsAlreadyUsed
-            pointsMaybeUsed.add(point);
-            //Inizialization of pointsMaybeUsed
-            Point temp = new Point();
+        for (Coordinate coordinate : coordinatesCanMatch) {                 //For every possible coordinate that is founded, try to follow the
+            ArrayList<Coordinate> coordinatesMaybeUsed = new ArrayList<>();           //coordinate of Hashmap in positionRequired
+            //coordinatesMaybeUsed is an ArrayList that contains the coordinates which, if correct,
+            // will be recorded in coordinatesAlreadyUsed
+            coordinate temp = new coordinate();
             //Support variable
             for (PositionalData position : positionalData) {
-                temp.x = point.x + position.point().x;
-                temp.y = point.y + position.point().y;
+                temp.x = coordinate.x + position.coordinate().x;
+                temp.y = coordinate.y + position.coordinate().y;
                 //Move according to the coordinates marked on the hashmap
-                if (pointsAlreadyUsed.contains(temp)) {
+                if (coordinatesAlreadyUsed.contains(temp)) {
                     break;
                 }
                 if (playerboard.getGameCard(temp).isEmpty()) {
@@ -62,15 +60,15 @@ public class PositionalObjectiveCard extends ObjectiveCard {
                 if (playerboard.getGameCard(temp).get().getCardColor() != position.cardColor()) {
                     break;
                 }
-                pointsMaybeUsed.add(temp);
+                coordinatesMaybeUsed.add(temp);
             }
-            if (pointsMaybeUsed.size() == 3) {
-                pointsAlreadyUsed.addAll(pointsMaybeUsed);
-                numOfMach++;
+            if (coordinatesMaybeUsed.size() == 3) {
+                coordinatesAlreadyUsed.addAll(coordinatesMaybeUsed);
+                numOfMatch++;
             }
-            //Rispetto a point devo muovermi di positionRequired.get(1).
+            //Respect to coordinates I must move by positionRequired.get(1).
         }
-        return numOfMach * this.pointsWon;
+        return numOfMatch * this.pointsWon;
     }
 }
 
