@@ -1,8 +1,9 @@
 # Codex Naturalis Implementation (Java + Apple visionOS)
 
-<center>
+<p align="center">
 <img src=".github/resources/codex_box.png" width="400" alt="codex logo"/>
-</center>
+</p>
+
 ## Project Overview
 
 This project is a Java-based implementation of the table game "**Codex Naturalis**", developed as the final project for
