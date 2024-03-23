@@ -14,6 +14,7 @@ public class Game {
     private final String gameName;
     private final int nPlayers;
     private final ArrayList<Player> players;
+    private ArrayList<Player> winners;
     private final GlobalBoard globalBoard;
     private Player currentPlayer;
 
@@ -23,19 +24,14 @@ public class Game {
      * @param gameName      The name of the game.
      * @param nPlayers      The maximum number of players in the game.
      * @param playerName    The name of the player creating the game, he will also be the first player.
-     * @param goldDeck      The deck of gold cards for the game.
-     * @param resourceDeck  The deck of resource cards for the game.
-     * @param objectiveDeck The deck of objective cards for the game.
-     * @param starterDeck   The deck of starter cards for the game.
      */
-    public Game(String gameName, int nPlayers, String playerName, ArrayList<GameCard> goldDeck, ArrayList<GameCard> resourceDeck, ArrayList<ObjectiveCard> objectiveDeck, ArrayList<GameCard> starterDeck) {
-        Player player = new Player(playerName);
+    public Game(String gameName, int nPlayers, String playerName) {
         this.gameName = gameName;
         this.nPlayers = nPlayers;
-        this.players = new ArrayList<Player>(nPlayers);
-        this.players.add(player);
-        this.globalBoard = new GlobalBoard(goldDeck, resourceDeck, objectiveDeck, starterDeck);
-        this.currentPlayer = player;
+        this.players = new ArrayList<>(nPlayers);
+        this.globalBoard = new GlobalBoard();
+        this.addPlayer(playerName);
+        this.currentPlayer = players.getFirst();
     }
 
     /**
@@ -80,22 +76,35 @@ public class Game {
     }
 
     /**
-     * Adds a player to the game.
+     * Adds a new player to the game.
+     * This method draws two objective cards from the global board's objective deck,
+     * draws a starter card from the global board's starter deck and creates a new
+     * Player object with the specified name, objective cards and starter card.
+     * The new player is added to the list of players in the game.
      *
-     * @param player The Player object to add to the game.
+     * @param playerName The name of the player to be added.
      */
-    public void addPlayer(Player player) {
-        players.add(player);
+    public void addPlayer(String playerName) {
+        ObjectiveCard[] drawnObjectives = {globalBoard.getObjectiveDeck().draw(), globalBoard.getObjectiveDeck().draw()};
+        GameCard starterCard = globalBoard.getStarterDeck().draw();
+        players.add(new Player(playerName, drawnObjectives, starterCard));
     }
 
     /**
-     * Returns the next player in the game and updates the currentPlayer.
+     * Returns the current player in the game.
      *
-     * @return The Player object that represents the next player in the game.
+     * @return The Player object that represents the current player.
      */
-    public Player getNextPlayer() {
-        currentPlayer = players.get((players.indexOf(currentPlayer) + 1) % nPlayers);
+    public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    /**
+     * Sets the next player in the game.
+     * This method updates the currentPlayer variable to the next player in the list of players.
+     */
+    public void setNextPlayer() {
+        currentPlayer = players.get((players.indexOf(currentPlayer) + 1) % nPlayers);
     }
 
     /**
@@ -108,13 +117,22 @@ public class Game {
     }
 
     /**
-     * Returns the winner(s) of the game, first it checks who got more points, then,
-     * if there's a tie, it checks who has completed more objectives. If it's still a tie
-     * it just returns an array containing all winners.
+     * This method checks if any player's position is greater than or equal to 20.
+     * If so, the game can start its ending phase.
      *
-     * @return ArrayList of Player objects that represents the winner(s) of the game.
+     * @return true if a player has more than 20 points, false otherwise.
      */
-    public ArrayList<Player> getWinner() {
+    public boolean isOver() {
+        return players.stream().anyMatch(player -> player.getPlayerPos() >= 20);
+    }
+
+    /**
+     * Calculate the winner(s) of the game, first it checks who got more points, then,
+     * if there's a tie, it checks who has completed more objectives. If it's still a tie
+     * it just returns an array containing all winners. This array is then saved in the
+     * winners attribute.
+     */
+    public void calculateWinners() {
         HashMap<Player, Integer> tempMap = new HashMap<>(nPlayers);
         players.forEach(player -> tempMap.put(player, 0));
         Store<Player> cardsWon = new Store<>(tempMap);
@@ -135,13 +153,23 @@ public class Game {
             objectives.remove(playerObjective);
         }
 
-        ArrayList<Player> winners;
+        ArrayList<Player> tempWinners;
         int highestPlayerPos = players.stream().map(Player::getPlayerPos).max(Integer::compare).orElse(0);
-        winners = players.stream().filter(player -> player.getPlayerPos() == highestPlayerPos).collect(Collectors.toCollection(ArrayList::new));
+        tempWinners = players.stream().filter(player -> player.getPlayerPos() == highestPlayerPos).collect(Collectors.toCollection(ArrayList::new));
 
-        int maxCardsWon = winners.stream().map(cardsWon::get).max(Integer::compare).orElse(0);
+        int maxCardsWon = tempWinners.stream().map(cardsWon::get).max(Integer::compare).orElse(0);
 
-        return winners.stream().filter(player -> cardsWon.get(player) == maxCardsWon).collect(Collectors.toCollection(ArrayList::new));
+        this.winners = tempWinners.stream().filter(player -> cardsWon.get(player) == maxCardsWon).collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * Returns the winners of the game.
+     * This method retrieves the winners variable which represents the list of players who won the game.
+     * The winners are determined by the calculateWinners() method.
+     *
+     * @return ArrayList of Player objects that represents the winners of the game.
+     */
+    public ArrayList<Player> getWinners() {
+        return winners;
+    }
 }
