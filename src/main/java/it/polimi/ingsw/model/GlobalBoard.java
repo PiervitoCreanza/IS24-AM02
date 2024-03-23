@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.ObjectiveCard.ObjectiveCard;
-
 import java.util.ArrayList;
 import java.util.List;
 
