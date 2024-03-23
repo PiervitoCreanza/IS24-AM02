@@ -2,6 +2,11 @@ package it.polimi.ingsw.model;
 
 import java.util.HashMap;
 
+/**
+ * GameItemStore class is a subclass of Store that represents the store of game items.
+ * It is used to keep track of the amount of each game item in the game.
+ * The store is initialized with all the game items set to 0.
+ */
 public class GameItemStore extends Store<GameItemEnum> {
 
     /**

@@ -41,6 +41,11 @@ public class PlayerBoard {
         gameItems = new GameItemStore();
     }
 
+    /**
+     * This method is used to get the items in the player board.
+     *
+     * @return GameItemStore This returns the items in the player board.
+     */
     public GameItemStore getGameItems() {
         return gameItems;
     }
