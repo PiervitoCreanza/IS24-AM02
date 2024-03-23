@@ -9,13 +9,103 @@
             "INSECT": 0,
             "MANUSCRIPT": 0,
             "ANIMAL": 0,
-            "INKWELL": 0,
+            "INKWELL": 2,
             "PLANT": 0,
             "FUNGI": 0
           }
         },
         "pointsWon": 2
       }
+    ],
+    "PositionalObjectiveCard": [
+      {
+        "positionalData": [
+          {
+            "coordinate": {
+              "x": 1,
+              "y": 1
+            },
+            "cardColor": "RED"
+          },
+          {
+            "coordinate": {
+              "x": 2,
+              "y": 2
+            },
+            "cardColor": "BLUE"
+          },
+          {
+            "coordinate": {
+              "x": 3,
+              "y": 3
+            },
+            "cardColor": "GREEN"
+          }
+        ],
+        "pointsWon": 2
+      }
     ]
+  },
+  "GameCard": {
+    "StarterCard": [
+      {
+        "currentSide": {
+          "points": 0,
+          "topRight": {
+            "isCovered": false,
+            "gameItem": "FUNGI"
+          },
+          "topLeft": {
+            "isCovered": false,
+            "gameItem": "FUNGI"
+          },
+          "bottomLeft": {
+            "isCovered": false,
+            "gameItem": "FUNGI"
+          },
+          "bottomRight": {
+            "isCovered": false,
+            "gameItem": "FUNGI"
+          }
+        },
+        "otherSide": {
+          "resources": {
+            "store": {
+              "INSECT": 0,
+              "INKWELL": 0,
+              "ANIMAL": 0,
+              "MANUSCRIPT": 0,
+              "QUILL": 0,
+              "NONE": 0,
+              "PLANT": 0,
+              "FUNGI": 0
+            }
+          },
+          "topRight": {
+            "isCovered": false,
+            "gameItem": "NONE"
+          },
+          "topLeft": {
+            "isCovered": false,
+            "gameItem": "NONE"
+          },
+          "bottomLeft": {
+            "isCovered": false,
+            "gameItem": "NONE"
+          },
+          "bottomRight": {
+            "isCovered": false,
+            "gameItem": "NONE"
+          }
+        },
+        "cardColor": "NEUTRAL"
+      }
+    ],
+    "ResourceCard": [],
+    "GoldCard": {
+      "GoldCard": [],
+      "ItemGoldCard": [],
+      "PositionalGoldCard": []
+    }
   }
 }
