@@ -1,9 +1,6 @@
 package it.polimi.ingsw.data;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.GameCard;
@@ -47,6 +44,8 @@ public class Parser {
      */
     private final ArrayList<GameCard> starterCardList = new ArrayList<>();
 
+    private final Gson gson = new Gson();
+
     /**
      * Constructs a new Parser object.
      */
@@ -62,12 +61,10 @@ public class Parser {
             // Get the specific key from the JSON object
             JsonArray jsonItemObjectiveCard = jsonObjectiveCard.getAsJsonArray("ItemObjectiveCard");
 
-            // Use Gson to deserialize the JSON into an object
-            Gson gson = new Gson();
             // Define the TypeToken for ArrayList<YourClass>
             Type listType = new TypeToken<ArrayList<ItemObjectiveCard>>() {
             }.getType();
-            this.objectiveCardList.addAll(gson.fromJson(jsonItemObjectiveCard, listType));
+            this.objectiveCardList.addAll(this.gson.fromJson(jsonItemObjectiveCard, listType));
 
             // Now the object is ready!
             System.out.println(objectiveCardList.getFirst());
@@ -125,5 +122,9 @@ public class Parser {
      */
     public Deck<GameCard> getStarterDeck() {
         return new Deck<>(starterCardList);
+    }
+
+    public String serializeToJson(Object o) {
+        return this.gson.toJson(o);
     }
 }
