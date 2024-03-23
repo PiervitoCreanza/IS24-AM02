@@ -6,12 +6,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
-import java.lang.reflect.Executable;
-import java.util.Optional;
 
 @DisplayName("Player Board Test")
 public class PlayerBoardTest {
@@ -190,7 +186,6 @@ public class PlayerBoardTest {
         assertEquals(GameItemEnum.PLANT, starterCard.getCorner(CornerPosition.BOTTOM_RIGHT).get().getGameItem());
 
         // Check that the resources are updated correctly
-        GameItemStore expectedGameItemStore = new GameItemStore();
         assertEquals(3, playerBoard.getGameItemAmount(GameItemEnum.PLANT));
         assertEquals(0, playerBoard.getGameItemAmount(GameItemEnum.ANIMAL));
         assertEquals(4, playerBoard.getGameItemAmount(GameItemEnum.FUNGI));
