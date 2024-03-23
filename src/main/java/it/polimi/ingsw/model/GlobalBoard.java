@@ -22,16 +22,12 @@ public class GlobalBoard {
     /**
      * Constructor for GlobalBoard. Initializes the decks and draws cards for the field and for the objectives.
      *
-     * @param goldDeck      The deck of gold cards.
-     * @param resourceDeck  The deck of resource cards.
-     * @param objectiveDeck The deck of objective cards.
-     * @param starterDeck   The deck of starter cards.
      */
-    public GlobalBoard(ArrayList<GameCard> goldDeck, ArrayList<GameCard> resourceDeck, ArrayList<ObjectiveCard> objectiveDeck, ArrayList<GameCard> starterDeck) {
-        this.goldDeck = new Deck<>(goldDeck);
-        this.resourceDeck = new Deck<>(resourceDeck);
-        this.objectiveDeck = new Deck<>(objectiveDeck);
-        this.starterDeck = new Deck<>(starterDeck);
+    public GlobalBoard() {
+        this.goldDeck = new Deck<>();
+        this.resourceDeck = new Deck<>();
+        this.objectiveDeck = new Deck<>();
+        this.starterDeck = new Deck<>();
         this.globalObjectives = new ArrayList<>(List.of(this.objectiveDeck.draw(), this.objectiveDeck.draw()));
         this.fieldGoldCards = new ArrayList<>(List.of(this.goldDeck.draw(), this.goldDeck.draw()));
         this.fieldResourceCards = new ArrayList<>(List.of(this.resourceDeck.draw(), this.resourceDeck.draw()));
