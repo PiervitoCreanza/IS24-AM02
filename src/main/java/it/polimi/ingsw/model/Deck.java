@@ -13,11 +13,10 @@ public class Deck<T> {
     private final Random random;
 
     /**
-     * Constructor for Deck. Initializes the deck with the specified list of cards.
-     * @param cards The list of cards to initialize the deck with.
+     * Constructor for Deck. Initializes the deck.
      */
-    public Deck(ArrayList<T> cards) {
-        this.deck = new ArrayList<T>(cards);
+    public Deck() {
+        this.deck = new ArrayList<>();
         this.random = new Random();
     }
 
