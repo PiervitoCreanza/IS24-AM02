@@ -55,7 +55,8 @@ package "Model"{
         +void setNextPlayer()
         +boolean isStarted()
         +boolean isOver()
-        +ArrayList<Player> getWinner()
+        +calculateWinners()
+        +getWinners()
     }
 
     note left of Game
