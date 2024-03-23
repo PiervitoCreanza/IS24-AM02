@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.ObjectiveCard.*;
-
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -15,7 +13,7 @@ public class GameManager {
      * Constructor for GameManager. Initializes an empty list of games.
      */
     public GameManager() {
-        games = new ArrayList<Game>();
+        games = new ArrayList<>();
     }
 
     /**
@@ -33,17 +31,13 @@ public class GameManager {
      * @param gameName      The name of the game to be created.
      * @param nPlayers      The max number of players that will be in the game
      * @param playerName    The name of the player creating the game, it will also be his nickname
-     * @param goldDeck      The deck of gold cards for the game.
-     * @param resourceDeck  The deck of resource cards for the game.
-     * @param objectiveDeck The deck of objective cards for the game.
-     * @param starterDeck   The deck of starter cards for the game.
      * @return The created Game object.
      * @throws IllegalArgumentException if a game with the same name already exists.
      */
-    public Game createGame(String gameName, int nPlayers, String playerName, ArrayList<GameCard> goldDeck, ArrayList<GameCard> resourceDeck, ArrayList<ObjectiveCard> objectiveDeck, ArrayList<GameCard> starterDeck) {
+    public Game createGame(String gameName, int nPlayers, String playerName) {
         if (findGame(gameName).isPresent())
             throw new IllegalArgumentException("A game with the name \"" + gameName + "\" already exists");
-        Game game = new Game(gameName, nPlayers, playerName, goldDeck, resourceDeck, objectiveDeck, starterDeck);
+        Game game = new Game(gameName, nPlayers, playerName);
         games.add(game);
         return game;
     }
@@ -75,7 +69,7 @@ public class GameManager {
             throw new IllegalArgumentException("A game with the name \"" + gameName + "\" doesn't exists");
         if (chosenGame.get().getPlayers().stream().anyMatch(player -> player.getPlayerName().equals(playerName)))
             throw new IllegalArgumentException("A player with the name \"" + playerName + "\" already exists");
-        chosenGame.get().addPlayer(new Player(playerName));
+        chosenGame.get().addPlayer(playerName);
         return chosenGame.get();
     }
 
