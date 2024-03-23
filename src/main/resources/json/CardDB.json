@@ -1,0 +1,21 @@
+{
+  "ObjectiveCard": {
+    "ItemObjectiveCard": [
+      {
+        "multiplier": {
+          "store": {
+            "NONE": 0,
+            "QUILL": 0,
+            "INSECT": 0,
+            "MANUSCRIPT": 0,
+            "ANIMAL": 0,
+            "INKWELL": 0,
+            "PLANT": 0,
+            "FUNGI": 0
+          }
+        },
+        "pointsWon": 2
+      }
+    ]
+  }
+}
