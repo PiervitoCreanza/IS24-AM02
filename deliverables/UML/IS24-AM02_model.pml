@@ -222,9 +222,8 @@ package "Model"{
 
 
       note bottom of Corner
-        Nel caso in cui un Corner è vuoto, allora risulterà avere GameItemEnum = NONE
+        Nel caso in cui un Corner sia vuoto, allora risulterà avere GameItemEnum = NONE
         Se invece il Corner non esiste, il getter restituirà Optional.empty()
-        Se la carta è piazzata, significa che non devo preoccuparmi di accesso a Corner Optional.empty()
       end note
 
     'FrontSide Section
