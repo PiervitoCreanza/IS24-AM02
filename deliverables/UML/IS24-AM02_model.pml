@@ -97,8 +97,6 @@ package "Model"{
     note top of GlobalBoard
         I mazzi non vengono mischiati,
         vengono estratte carte randomicamente;
-        potremmo usare Singleton pattern
-        per istanziare le carte ed assicurarne unicità
       end note
 
     class Player {
