@@ -97,8 +97,6 @@ package "Model"{
     note top of GlobalBoard
         I mazzi non vengono mischiati,
         vengono estratte carte randomicamente;
-        potremmo usare Singleton pattern
-        per istanziare le carte ed assicurarne unicità
       end note
 
     class Player {
@@ -162,7 +160,7 @@ package "Model"{
         +void increment(T t, Integer)
         +void decrement(T t, Integer)
         +void addStore(Store other)
-        +subtractStore(Store other)
+        +void subtractStore(Store other)
         +ArrayList<T> getNonEmptyKeys()
     }
 
@@ -171,6 +169,9 @@ package "Model"{
         +GameItemStore(HashMap<GameItem, Integer> gameItems)
     }
 
+    note bottom of GameItemStore
+        Notasi Overloading
+        end note
 
     PlayerBoard "2" *-- "1" Store
 
@@ -183,7 +184,7 @@ package "Model"{
         +Side getCurrentSide()
         +void switchSide()
         +CardColor getCardColor()
-        +Optional<Corner>getCorner(CornerPosition)
+        +Optional<Corner> getCorner(CornerPosition)
         +GameItemEnum setCornerCovered(CornerPosition)
         +GameItemStore getGameItemStore()
         +int getPoints(Coordinate, PlayerBoard)
@@ -219,9 +220,8 @@ package "Model"{
 
 
       note bottom of Corner
-        Nel caso in cui un Corner è vuoto, allora risulterà avere GameItemEnum = NONE
+        Nel caso in cui un Corner sia vuoto, allora risulterà avere GameItemEnum = NONE
         Se invece il Corner non esiste, il getter restituirà Optional.empty()
-        Se la carta è piazzata, significa che non devo preoccuparmi di accesso a Corner Optional.empty()
       end note
 
     'FrontSide Section
@@ -236,7 +236,7 @@ package "Model"{
 
     class FrontGoldCard {
         #GameItemStore neededItems
-        +getNeededItemStore()
+        +GameItemStore getNeededItemStore()
     }
 
     FrontGoldCard <|-- FrontPositionalGoldCard
