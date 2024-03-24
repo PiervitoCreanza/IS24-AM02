@@ -11,11 +11,42 @@ import java.util.stream.Collectors;
  * Class that represents a single game in the system.
  */
 public class Game {
+
+    /**
+     * Represents the name of the game.
+     * This is a unique identifier for each game instance.
+     */
     private final String gameName;
+
+    /**
+     * Represents the maximum number of players in the game.
+     * This is the total number of players that can join a game.
+     */
     private final int nPlayers;
+
+    /**
+     * Represents the list of players in the game.
+     * This is an ArrayList that contains all the Player objects that are currently participating in the game.
+     */
     private final ArrayList<Player> players;
+
+    /**
+     * Represents the winners of the game.
+     * This is an ArrayList that contains the Player objects who won the game.
+     * The winners are determined by the calculateWinners() method.
+     */
     private ArrayList<Player> winners;
+
+    /**
+     * Represents the global board of the game.
+     * This is a GlobalBoard object that contains all the global elements of the game, such as the decks and objectives.
+     */
     private final GlobalBoard globalBoard;
+
+    /**
+     * Represents the current player in the game.
+     * This is a Player object that represents the player whose turn it is to play.
+     */
     private Player currentPlayer;
 
     /**
