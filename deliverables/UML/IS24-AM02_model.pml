@@ -2,29 +2,33 @@
 
 package "Controller"{
     class MainController {
-        -ArrayList<Game> games
-        +ArrayList<Game> getGames()
+        -ArrayList<GameController> gameControllers
+        +getGames()
         +createGame(String gameName, int nPlayers, String playerName)
         +deleteGame(String gameName)
-        +Game joinGame(String gameName, String playerName)
+        +joinGame(String gameName, String playerName)
     }
     MainController "1..N" *-- "1" GameController
 
     class GameController {
         -Game game
-        +void placeCard(String playerName, GameCard card)
+        +placeCard(String playerName, GameCard card)
         +drawCardFromField(String playerName, GameCard card)
         +drawCardFromResourceDeck(String playerName)
         +drawCardFromGoldDeck(String playerName)
         +switchCardSide(String playerName, GameCard card)
         +setPlayerObjective(String playerName, GameCard card)
-        +Game getGame()
-
+        +getGame()
     }
 
     note top of MainController
     Interfaccia con client
     end note
+
+     note top of MainController
+        I tipi di ritorno del controller
+        sono ancora Work In Progress
+        end note
 
     note bottom of GameController
         Gestione delle azioni del giocatore
@@ -50,13 +54,14 @@ package "Model"{
         +ArrayList<Player> getPlayers()
         +Player getPlayer(String playerName)
         +GlobalBoard getGlobalBoard()
-        +addPlayer(Player player)
+        +void addPlayer(String playerName)
         +Player getCurrentPlayer()
         +void setNextPlayer()
         +boolean isStarted()
         +boolean isOver()
-        +calculateWinners()
-        +getWinners()
+        +void calculateWinners()
+        +ArrayList<Player> getWinners()
+
     }
 
     note left of Game
@@ -83,7 +88,7 @@ package "Model"{
         +ArrayList<GameCard> getFieldResourceCards()
         +boolean isGoldDeckEmpty()
         +boolean isResourceDeckEmpty()
-        +drawCardFromField(GameCard card)
+        +void drawCardFromField(GameCard card)
     }
 
     'GlobalBoard  --  ObjectiveCard
@@ -93,7 +98,7 @@ package "Model"{
         I mazzi non vengono mischiati,
         vengono estratte carte randomicamente;
         potremmo usare Singleton pattern
-        per istanziare le carte ed assicurarne
+        per istanziare le carte ed assicurarne unicità
       end note
 
     class Player {
@@ -102,16 +107,16 @@ package "Model"{
         -int playerPos
         -PlayerBoard playerBoard
         -ObjectiveCard objectiveCard
-        - ObjectiveCard[] drawnObjectives
+        -ObjectiveCard[] drawnObjectives
         -Hand hand
         -boolean isConnected
-        +getPlayerName()
-        +getPlayerBoard()
-        +getPlayerPos()
-        +getPlayerHand()
-        +getObjectiveCard()
-        +setObjectiveCard(ObjectiveCard)
-        +advancePlayerPos(int steps)
+        +String getPlayerName()
+        +PlayerBoard getPlayerBoard()
+        +int getPlayerPos()
+        +Hand getPlayerHand()
+        +ObjectiveCard getObjectiveCard()
+        +void setObjectiveCard(ObjectiveCard)
+        +void advancePlayerPos(int steps)
         +boolean setConnected(boolean status)
         +boolean isConnected()
         +boolean isLastRound()
@@ -122,7 +127,7 @@ package "Model"{
 
     class Deck<T> {
         -ArrayList<T> deck
-        -Random random;
+        -Random random
         +boolean isEmpty()
         +T draw()
     }
@@ -152,13 +157,13 @@ package "Model"{
 
     class Store<T> {
         #HashMap<T, Integer> store
-        +get(T t)
-        +set(T t, Integer)
-        +increment(T t, Integer)
-        +decrement(T t, Integer)
-        +addStore(Store other)
+        +T get(T t)
+        +void set(T t, Integer)
+        +void increment(T t, Integer)
+        +void decrement(T t, Integer)
+        +void addStore(Store other)
         +subtractStore(Store other)
-        +getNonEmptyKeys()
+        +ArrayList<T> getNonEmptyKeys()
     }
 
     class GameItemStore extends Store {
@@ -188,12 +193,12 @@ package "Model"{
     GameCard "2" *-- "1" Side
 
     abstract class Side {
-        #Optional<Corner>topRight
-        #Optional<Corner>topLeft
-        #Optional<Corner>bottomLeft
-        #Optional<Corner>bottomRight
-        +getCorner(CornerPosition)
-        +setCornerCovered(CornerPosition)
+        #Corner topRight
+        #Corner topLeft
+        #Corner bottomLeft
+        #Corner bottomRight
+        +Optional<Corner> getCorner(CornerPosition)
+        +void setCornerCovered(CornerPosition)
         +GameItemStore getGameItemStore()
         +int getPoints(Coordinate, PlayerBoard)
         +GameItemStore getNeededItemStore()
@@ -207,11 +212,8 @@ package "Model"{
     class Corner {
           -boolean isCovered
           -GameItemEnum gameItem
-
           +GameItemEnum getGameItem()
           +GameItemEnum setCovered()
-          +Boolean isEmpty()
-
       }
 
 
@@ -226,7 +228,7 @@ package "Model"{
 
     class Front {
         #int points
-        +getGameItemStore()
+        +GameItemStore getGameItemStore()
         +int getPoints(Coordinate, PlayerBoard)
     }
 
@@ -256,15 +258,15 @@ package "Model"{
 
     class Back {
         #GameItemStore resources
-        +getGameItemStore()
+        +GameItemStore getGameItemStore()
     }
 
     'ObjectiveCard Section
 
     abstract class ObjectiveCard {
         ' Carte obiettivo
-        #Integer pointsWon
-        +int getPoints(PlayerBoard)
+        #int pointsWon
+        +int getPoints(Coordinate, PlayerBoard)
     }
 
     Player *-- ObjectiveCard
@@ -312,11 +314,11 @@ package "Model"{
     }
 
     enum CardColor {
-        Red
-        Blue
-        Green
-        Purple
-        Neutral
+        RED
+        BLUE
+        GREEN
+        PURPLE
+        NONE
     }
 }
 
