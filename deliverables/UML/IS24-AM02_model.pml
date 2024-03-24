@@ -55,7 +55,8 @@ package "Model"{
         +void setNextPlayer()
         +boolean isStarted()
         +boolean isOver()
-        +ArrayList<Player> getWinner()
+        +calculateWinners()
+        +getWinners()
     }
 
     note left of Game
@@ -254,7 +255,6 @@ package "Model"{
     class Back {
         #GameItemStore resources
         +getGameItemStore()
-        +int getPoints(Coordinate, PlayerBoard)
     }
 
     'ObjectiveCard Section
@@ -262,7 +262,7 @@ package "Model"{
     abstract class ObjectiveCard {
         ' Carte obiettivo
         #Integer pointsWon
-        +int getPoints(Coordinate, PlayerBoard)
+        +int getPoints(PlayerBoard)
     }
 
     Player *-- ObjectiveCard
@@ -271,7 +271,7 @@ package "Model"{
 
     class ItemObjectiveCard {
         -GameItemStore multiplier
-        +int getPoints(Coordinate, PlayerBoard)
+        +int getPoints(PlayerBoard)
     }
 
     ObjectiveCard <|-- ItemObjectiveCard
@@ -281,15 +281,12 @@ package "Model"{
         -CardColor cardColor
         +Coordinate getPoint()
         +CardColor getCardColor()
-        +GameItemEnum getGameItem()
-        +void setPoint(x, y)
-        +void setCardColor(CardColor)
     }
     PositionalObjectiveCard "1..N" *-- "1" PositionalData
 
     class PositionalObjectiveCard {
         -ArrayList<PositionalData> positionalData
-        +int getPoints(Coordinate, PlayerBoard)
+        +int getPoints(PlayerBoard)
     }
 
     'Enum Section
