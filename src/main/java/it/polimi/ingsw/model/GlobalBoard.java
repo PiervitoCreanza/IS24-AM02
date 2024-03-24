@@ -10,12 +10,47 @@ import java.util.List;
  * It also contains the two global objectives.
  */
 public class GlobalBoard {
+
+    /**
+     * Represents the deck of gold cards in the game.
+     * This is a Deck object that contains all the gold cards in the game.
+     */
     private final Deck<GameCard> goldDeck;
+
+    /**
+     * Represents the deck of resource cards in the game.
+     * This is a Deck object that contains all the resource cards in the game.
+     */
     private final Deck<GameCard> resourceDeck;
+
+    /**
+     * Represents the deck of objective cards in the game.
+     * This is a Deck object that contains all the objective cards in the game.
+     */
     private final Deck<ObjectiveCard> objectiveDeck;
+
+    /**
+     * Represents the deck of starter cards in the game.
+     * This is a Deck object that contains all the starter cards in the game.
+     */
     private final Deck<GameCard> starterDeck;
+
+    /**
+     * Represents the two global objectives of the game.
+     * This is an ArrayList that contains the two ObjectiveCard objects that represent the global objectives of the game.
+     */
     private final ArrayList<ObjectiveCard> globalObjectives;
+
+    /**
+     * Represents the two gold cards present on the field.
+     * This is an ArrayList that contains the two GameCard objects that represent the gold cards present on the field.
+     */
     private final ArrayList<GameCard> fieldGoldCards;
+
+    /**
+     * Represents the two resource cards present on the field.
+     * This is an ArrayList that contains the two GameCard objects that represent the resource cards present on the field.
+     */
     private final ArrayList<GameCard> fieldResourceCards;
 
     /**
@@ -23,10 +58,10 @@ public class GlobalBoard {
      *
      */
     public GlobalBoard() {
-        this.goldDeck = new Deck<>();
-        this.resourceDeck = new Deck<>();
-        this.objectiveDeck = new Deck<>();
-        this.starterDeck = new Deck<>();
+        this.goldDeck = new Deck<>();        //TODO
+        this.resourceDeck = new Deck<>();    //TODO
+        this.objectiveDeck = new Deck<>();   //TODO
+        this.starterDeck = new Deck<>();     //TODO
         this.globalObjectives = new ArrayList<>(List.of(this.objectiveDeck.draw(), this.objectiveDeck.draw()));
         this.fieldGoldCards = new ArrayList<>(List.of(this.goldDeck.draw(), this.goldDeck.draw()));
         this.fieldResourceCards = new ArrayList<>(List.of(this.resourceDeck.draw(), this.resourceDeck.draw()));
