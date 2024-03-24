@@ -1,23 +1,30 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.controller;
+
+import it.polimi.ingsw.model.Game;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 /**
- * Class that represents the game manager, which is responsible for creating, deleting and managing games.
+ * Class that represents the main controller, which is responsible for creating, deleting and managing games.
  */
-public class GameManager {
+public class MainController {
+
+    /**
+     * Represents the list of games currently in progress.
+     * This is an ArrayList that contains all the Game objects that are currently played.
+     */
     private final ArrayList<Game> games;
 
     /**
-     * Constructor for GameManager. Initializes an empty list of games.
+     * Constructor for MainController. Initializes an empty list of games.
      */
-    public GameManager() {
+    public MainController() {
         games = new ArrayList<>();
     }
 
     /**
-     * Returns the list of games managed by the GameManager.
+     * Returns the list of games managed by the MainController.
      *
      * @return ArrayList of Game objects.
      */
