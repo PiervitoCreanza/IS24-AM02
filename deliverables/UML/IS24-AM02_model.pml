@@ -156,6 +156,8 @@ package "Model"{
         +set(T t, Integer)
         +increment(T t, Integer)
         +decrement(T t, Integer)
+        +addStore(Store other)
+        +subtractStore(Store other)
         +getNonEmptyKeys()
     }
 
