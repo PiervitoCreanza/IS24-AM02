@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.ObjectiveCard.ObjectiveCard;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -29,7 +30,7 @@ public class Player {
      * The 2 objective cards that the player has to choose from.
      * The chosen objective card is stored in the objectiveCard attribute.
      */
-    private final ObjectiveCard[] choosableObjectives;
+    private final ArrayList<ObjectiveCard> choosableObjectives;
 
     /**
      * The objective card chosen by the player.
@@ -54,7 +55,7 @@ public class Player {
      * @param choosableObjectives The 2 objective cards that the player has to choose from.
      * @param starterCard         The starter card that the player receives at the beginning of the game.
      */
-    public Player(String playerName, ObjectiveCard[] choosableObjectives, GameCard starterCard) {
+    public Player(String playerName, ArrayList<ObjectiveCard> choosableObjectives, GameCard starterCard) {
         if (playerName == null || playerName.isBlank()) {
             throw new IllegalArgumentException("Player name cannot be null or empty");
         }
@@ -117,7 +118,7 @@ public class Player {
      */
     public void setPlayerObjective(ObjectiveCard objectiveCard) {
 
-        if (!choosableObjectives[0].equals(objectiveCard) && !choosableObjectives[1].equals(objectiveCard)) {
+        if (!choosableObjectives.contains(objectiveCard)) {
             throw new IllegalArgumentException("Objective card must be one of the drawn objectives");
         }
 
@@ -138,7 +139,7 @@ public class Player {
      *
      * @return ObjectiveCard[] This returns the drawn objectives of the player.
      */
-    public ObjectiveCard[] getChoosableObjectives() {
+    public ArrayList<ObjectiveCard> getChoosableObjectives() {
         return choosableObjectives;
     }
 
