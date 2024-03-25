@@ -1,39 +1,84 @@
 package it.polimi.ingsw.model;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * The PlayerBoard class represents the board of a player in the game.
+ * It contains a map of coordinates to game cards, representing the layout of the game cards on the board.
+ * It also contains a GameItemStore, representing the items the player has collected.
+ * Each player board has a starter card that is set when the board is created.
+ */
 public class PlayerBoard {
-    private final HashMap<Point, GameCard> playerBoard;
+    /**
+     * A map from points to game cards, representing the layout of the game cards on the board.
+     */
+    private final HashMap<Coordinate, GameCard> playerBoard;
+
+    /**
+     * The items the player has collected.
+     */
     private final GameItemStore gameItems;
 
-    public PlayerBoard() {
+    /**
+     * The starter card for this player board.
+     * This card will be placed in the center of the board at the first turn on the player has chosen the side.
+     */
+    private final GameCard starterCard;
+
+    /**
+     * Constructor for the PlayerBoard class.
+     * Initializes the player's board, game items, and starter card.
+     *
+     * @param starterCard The starter card for this player board. Cannot be null.
+     * @throws NullPointerException if the starterCard is null.
+     */
+    public PlayerBoard(GameCard starterCard) {
+        this.starterCard = Objects.requireNonNull(starterCard, "Starter card cannot be null");
         playerBoard = new HashMap<>();
         gameItems = new GameItemStore();
     }
 
     /**
+     * This method is used to get the items in the player board.
+     *
+     * @return GameItemStore This returns the items in the player board.
+     */
+    public GameItemStore getGameItems() {
+        return gameItems;
+    }
+
+    /**
      * This method is used to get the card in the player board at a specific position.
      *
-     * @param point This is the position of the card.
+     * @param coordinate This is the position of the card.
      * @return Optional<GameCard> This returns the card at the position, if present.
      */
-    public Optional<GameCard> getGameCard(Point point) {
-        return Optional.ofNullable(playerBoard.get(point));
+    public Optional<GameCard> getGameCard(Coordinate coordinate) {
+        return Optional.ofNullable(playerBoard.get(coordinate));
+    }
+
+    /**
+     * This method is used to get the starter card of the player board.
+     *
+     * @return GameCard This returns the starter card.
+     */
+    public GameCard getStarterCard() {
+        return starterCard;
     }
 
     /**
      * This method is used to get the position of a card in the player board.
      *
      * @param gameCard This is the card to find.
-     * @return Optional<Point> This returns the position of the card, if present.
+     * @return Optional<Coordinate> This returns the position of the card, if present.
      */
-    public Optional<Point> getGameCardPosition(GameCard gameCard) {
-        for (Point point : playerBoard.keySet()) {
-            if (playerBoard.get(point).equals(gameCard)) {
-                return Optional.of(point);
+    public Optional<Coordinate> getGameCardPosition(GameCard gameCard) {
+        for (Coordinate coordinate : playerBoard.keySet()) {
+            if (playerBoard.get(coordinate).equals(gameCard)) {
+                return Optional.of(coordinate);
             }
         }
         return Optional.empty();
@@ -59,21 +104,21 @@ public class PlayerBoard {
     }
 
     /**
-     * This method is used to get a list of pairs of each point and corner position that will intersect the card placed in the center point.
+     * This method is used to get a list of pairs of each coordinate and corner position that will intersect the card placed in the center coordinate.
      *
      * @param centerPoint This is the coordinate of the card to intersect.
-     * @return ArrayList<PointCornerPositionPair> This returns the list of pairs of each point and corner position.
+     * @return ArrayList<PointCornerPositionPair> This returns the list of pairs of each coordinate and corner position.
      */
-    private ArrayList<PointCornerPositionPair> getAdjacentPointCornersPair(Point centerPoint) {
+    private ArrayList<PointCornerPositionPair> getAdjacentPointCornersPair(Coordinate centerPoint) {
         // Get the adjacent points
-        Point topLeftPoint = new Point(centerPoint.x - 1, centerPoint.y + 1);
-        Point topRightPoint = new Point(centerPoint.x + 1, centerPoint.y + 1);
-        Point bottomLeftPoint = new Point(centerPoint.x - 1, centerPoint.y - 1);
-        Point bottomRightPoint = new Point(centerPoint.x + 1, centerPoint.y - 1);
+        Coordinate topLeftPoint = new Coordinate(centerPoint.x - 1, centerPoint.y + 1);
+        Coordinate topRightPoint = new Coordinate(centerPoint.x + 1, centerPoint.y + 1);
+        Coordinate bottomLeftPoint = new Coordinate(centerPoint.x - 1, centerPoint.y - 1);
+        Coordinate bottomRightPoint = new Coordinate(centerPoint.x + 1, centerPoint.y - 1);
 
         ArrayList<PointCornerPositionPair> pairList = new ArrayList<>();
 
-        // For each point add the corner position that will intersect the card placed in the center point.
+        // For each coordinate add the corner position that will intersect the card placed in the center coordinate.
         pairList.add(new PointCornerPositionPair(topLeftPoint, CornerPosition.BOTTOM_RIGHT));
         pairList.add(new PointCornerPositionPair(topRightPoint, CornerPosition.BOTTOM_LEFT));
         pairList.add(new PointCornerPositionPair(bottomLeftPoint, CornerPosition.TOP_RIGHT));
@@ -85,56 +130,112 @@ public class PlayerBoard {
     /**
      * This method is used to place a GameCard in the player board.
      *
-     * @param point    This is the position where to place the card.
-     * @param gameCard This is the GameCard to place.
+     * @param coordinate This is the position where to place the card.
+     * @param gameCard   This is the GameCard to place.
      * @return Integer This returns the position to advance the player.
      * @throws IllegalArgumentException This is thrown if the position is already occupied.
      * @throws IllegalArgumentException This is thrown if the position is not adjacent to any other card.
      * @throws IllegalArgumentException This is thrown if the position is not compatible with adjacent cards.
      * @throws IllegalArgumentException This is thrown if there are not enough resources.
      */
-    public Integer setGameCard(Point point, GameCard gameCard) {
+    public int setGameCard(Coordinate coordinate, GameCard gameCard) {
+        validatePlacement(coordinate, gameCard);
+        updateGameItems(gameCard, coordinate);
+        playerBoard.put(coordinate, gameCard);
+        return gameCard.getPoints(coordinate, this);
+    }
 
-        if (playerBoard.containsKey(point)) {
+    private void validatePlacement(Coordinate coordinate, GameCard gameCard) {
+        if (playerBoard.containsKey(coordinate)) {
             throw new IllegalArgumentException("Position already occupied");
         }
 
-        boolean test = getAdjacentPointCornersPair(point).stream().anyMatch(pair -> {
-            return (point.getX() == 0 && point.getY() == 0) || playerBoard.containsKey(pair.point());
-        });
-
-        if (!test) {
+        if (!isPositionAdjacent(coordinate)) {
             throw new IllegalArgumentException("Position not adjacent to any other card");
         }
 
-        // Iterate over each adjacent point and its respective intersecting corner
-        getAdjacentPointCornersPair(point).forEach(pair -> {
-
-            // Check if each intersecting corner of the adjacent cards exist. If not it means that the card cannot be placed as there is at least one card that is missing a corner in the required position
-            if (getGameCard(pair.point()).map(card -> !card.getCorner(pair.cornerPosition()).isExisting()).orElse(false)) {
-                throw new IllegalArgumentException("Position not compatible with adjacent cards");
-            }
-        });
-
-        GameItemStore neededItems = gameCard.getNeededItemStore();
-        // Check if there are enough resources to place the card
-        if (neededItems.keySet().stream().anyMatch(
-                gameItem -> neededItems.get(gameItem) < neededItems.get(gameItem)
-        )) {
-            throw new IllegalArgumentException("Not enough resources");
+        if (!isPlacementCompatible(coordinate)) {
+            throw new IllegalArgumentException("Position not compatible with adjacent cards");
         }
 
-        // Increment items with the ones on the card to add
-        gameCard.getNeededItemStore().keySet().forEach(i -> gameItems.increment(i, 1));
+        if (!hasEnoughResources(gameCard)) {
+            throw new IllegalArgumentException("Not enough resources");
+        }
+    }
 
-        // Decrement items for each corner of the card
-        getAdjacentPointCornersPair(point).forEach(pair -> {
-            getGameCard(pair.point()).ifPresent(card -> {
-                gameItems.decrement(card.setCornerCovered(pair.cornerPosition()), 1);
-            });
+    /**
+     * This method is used to check if a position is adjacent to any other card in the player board.
+     * If the position is the center of the board, the method will return true as the starter card does not require any adjacent card.
+     *
+     * @param coordinate The coordinate to check.
+     * @return true if the position is adjacent to any other card or the coordinate is the center of the board, false otherwise.
+     */
+    private boolean isPositionAdjacent(Coordinate coordinate) {
+        return getAdjacentPointCornersPair(coordinate).stream()
+                .anyMatch(pair -> (coordinate.getX() == 0 && coordinate.getY() == 0) || playerBoard.containsKey(pair.coordinate()));
+    }
+
+    /**
+     * This method is used to check if the placement of a card is compatible with the adjacent cards.
+     * A placement is compatible if there isn't any adjacent card that has an empty intersecting corner with the card to place.
+     *
+     * @param coordinate The coordinate where the placement is being performed.
+     * @return true if the placement is compatible, false otherwise.
+     */
+    private boolean isPlacementCompatible(Coordinate coordinate) {
+        return getAdjacentPointCornersPair(coordinate).stream()
+                .noneMatch(pair -> {
+
+                    /*
+                    Since the check is performed inside noneMatch, for each adjacent card we will return:
+                        - true if the placement is not compatible with the card;
+                        - false if the placement is compatible with the card.
+                     */
+                    Optional<GameCard> card = getGameCard(pair.coordinate());
+
+                    // If the board place is empty, the placement is compatible.
+                    if (card.isEmpty()) {
+                        return false;
+                    }
+
+                    // In the game there are cards that do not have some corners, so the placement is compatible if the card has a corner in the position intersecting the card.
+                    // getCorner() returns an Optional, if it is present the card has the corner in the given position.
+                    return card.get().getCorner(pair.cornerPosition()).isEmpty();
+                });
+    }
+
+    /**
+     * This method is used to check if the player has enough resources to place a card.
+     *
+     * @param gameCard The card to place.
+     * @return true if the player has enough resources, false otherwise.
+     */
+    private boolean hasEnoughResources(GameCard gameCard) {
+        GameItemStore neededItems = gameCard.getNeededItemStore();
+        // Check if all the items needed by the card (neededItems) <= items owned by the player (gameItems)
+        // As we are using noneMatch we need to negate the condition
+        return neededItems.keySet().stream().noneMatch(gameItem -> neededItems.get(gameItem) > gameItems.get(gameItem));
+    }
+
+    /**
+     * This method is used to update the player's items after placing a card.
+     *
+     * @param gameCard   The card placed.
+     * @param coordinate The coordinate where the card was placed.
+     */
+    private void updateGameItems(GameCard gameCard, Coordinate coordinate) {
+        // Add the items of the card to the player's items
+        gameItems.addStore(gameCard.getGameItemStore());
+
+        // Cover the corners of already present cards that will be covered by the card placed in the coordinate.
+        // Remove from the player's items the items of the corners covered by the card.
+        getAdjacentPointCornersPair(coordinate).forEach(pair -> {
+            Optional<GameCard> card = getGameCard(pair.coordinate());
+            if (card.isPresent()) {
+                // setCornerCovered() returns the item of the corner covered by the card.
+                GameItemEnum coveredItem = card.get().setCornerCovered(pair.cornerPosition());
+                gameItems.decrement(coveredItem, 1);
+            }
         });
-
-        playerBoard.put(point, gameCard);
-        return gameCard.getPoints(this);
     }
 }

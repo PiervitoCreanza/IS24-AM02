@@ -2,14 +2,28 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Class that represents a store, which contains objects and their amounts.
+ *
+ * @param <T> the type of the objects in the store
+ */
 public class Store<T> {
+    /**
+     * The store that contains the objects and their amounts.
+     */
     protected final HashMap<T, Integer> store;
 
+    /**
+     * Constructor for Store. Initializes the store with the specified HashMap.
+     *
+     * @param store the HashMap to initialize the store with
+     */
     public Store(HashMap<T, Integer> store) {
-        this.store = store;
+        this.store = Objects.requireNonNull(store, "store cannot be null");
     }
 
     /**
@@ -53,6 +67,26 @@ public class Store<T> {
     }
 
     /**
+     * Adds the amounts of the objects in another store to this store.
+     *
+     * @param other the store to add
+     */
+    public void addStore(Store<T> other) {
+        Objects.requireNonNull(other, "store cannot be null");
+        store.keySet().forEach(key -> increment(key, other.get(key)));
+    }
+
+    /**
+     * Subtracts the amounts of the objects in another store from this store.
+     *
+     * @param other the store to subtract
+     */
+    public void subtractStore(Store<T> other) {
+        Objects.requireNonNull(other, "store cannot be null");
+        store.keySet().forEach(key -> decrement(key, other.get(key)));
+    }
+
+    /**
      * Gets the keys of non-empty amounts in the store.
      *
      * @return the keys of the store
@@ -68,5 +102,20 @@ public class Store<T> {
      */
     public Set<T> keySet() {
         return store.keySet();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Store<?> store1 = (Store<?>) o;
+
+        return store.equals(store1.store);
+    }
+
+    @Override
+    public int hashCode() {
+        return store.hashCode();
     }
 }
