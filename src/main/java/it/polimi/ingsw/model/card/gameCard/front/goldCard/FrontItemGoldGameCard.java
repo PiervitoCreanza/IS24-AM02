@@ -1,11 +1,17 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.card.gameCard.front.goldCard;
+
+import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.model.card.GameItemEnum;
+import it.polimi.ingsw.model.utils.store.GameItemStore;
+import it.polimi.ingsw.model.player.PlayerBoard;
+import it.polimi.ingsw.model.card.corner.Corner;
 
 /**
- * Represents a variant of FrontGoldCard known as FrontItemGoldCard. This class extends
- * FrontGoldCard and specializes in calculating points based on the quantity of a specific
+ * Represents a variant of FrontGoldGameCard known as FrontItemGoldGameCard. This class extends
+ * FrontGoldGameCard and specializes in calculating points based on the quantity of a specific
  * game item on the player's board.
  */
-public class FrontItemGoldCard extends FrontGoldCard {
+public class FrontItemGoldGameCard extends FrontGoldGameCard {
 
     /**
      * The game item that acts as a multiplier for calculating points.
@@ -13,7 +19,7 @@ public class FrontItemGoldCard extends FrontGoldCard {
     private final GameItemEnum multiplier;
 
     /**
-     * Constructs a FrontItemGoldCard object with specified corners, points, and a game item multiplier.
+     * Constructs a FrontItemGoldGameCard object with specified corners, points, and a game item multiplier.
      *
      * @param topRight    The top right corner of the front side.
      * @param topLeft     The top left corner of the front side.
@@ -23,13 +29,13 @@ public class FrontItemGoldCard extends FrontGoldCard {
      * @param multiplier  The game item that will be used as a multiplier for point calculation.
      */
 
-    public FrontItemGoldCard(Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight, int points, GameItemStore neededItems, GameItemEnum multiplier) {
+    public FrontItemGoldGameCard(Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight, int points, GameItemStore neededItems, GameItemEnum multiplier) {
         super(topRight, topLeft, bottomLeft, bottomRight, points, neededItems);
         this.multiplier = multiplier;
     }
 
     /**
-     * Calculates and returns the points for this FrontItemGoldCard based on the quantity
+     * Calculates and returns the points for this FrontItemGoldGameCard based on the quantity
      * of a specific game item on the player's board.
      *
      * @param cardPosition The position of the card on the player's board.

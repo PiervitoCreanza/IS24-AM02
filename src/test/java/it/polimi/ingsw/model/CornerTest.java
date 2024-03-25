@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.card.GameItemEnum;
+import it.polimi.ingsw.model.card.corner.Corner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * This test checks if the Back constructor throws a NullPointerException when a null GameItemStore is passed.
+ * This test checks if the BackGameCard constructor throws a NullPointerException when a null GameItemStore is passed.
  * The test uses mock objects for the Corner parameters.
  */
 

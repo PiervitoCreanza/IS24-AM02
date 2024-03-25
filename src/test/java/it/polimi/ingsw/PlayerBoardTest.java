@@ -1,6 +1,15 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.card.CardColorEnum;
+import it.polimi.ingsw.model.card.GameItemEnum;
+import it.polimi.ingsw.model.card.corner.Corner;
+import it.polimi.ingsw.model.card.corner.CornerPosition;
+import it.polimi.ingsw.model.card.gameCard.*;
+import it.polimi.ingsw.model.card.gameCard.front.FrontGameCard;
+import it.polimi.ingsw.model.card.gameCard.front.goldCard.FrontPositionalGoldGameCard;
+import it.polimi.ingsw.model.player.PlayerBoard;
+import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.model.utils.store.GameItemStore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,11 +37,11 @@ public class PlayerBoardTest {
     }
 
     private GameCard createCardWithCornerItem(GameItemEnum gameItem) {
-        return new GameCard(new Front(new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), 0), new Back(new GameItemStore(), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem)), CardColor.GREEN);
+        return new GameCard(new FrontGameCard(new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), 0), new BackGameCard(new GameItemStore(), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem)), CardColorEnum.GREEN);
     }
 
     private GameCard createCardWithoutCorner() {
-        return new GameCard(new Front(null, null, null, null, 0), new Back(new GameItemStore(), null, null, null, null), CardColor.GREEN);
+        return new GameCard(new FrontGameCard(null, null, null, null, 0), new BackGameCard(new GameItemStore(), null, null, null, null), CardColorEnum.GREEN);
     }
 
     private void assertIllegalArgument(String message, org.junit.jupiter.api.function.Executable executable) {
@@ -41,7 +50,7 @@ public class PlayerBoardTest {
     }
 
     private GameCard createPositionalGoldCard(GameItemEnum gameItem, int points) {
-        return new GameCard(new FrontPositionalGoldCard(new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), points, new GameItemStore()), new Back(new GameItemStore(), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem)), CardColor.GREEN);
+        return new GameCard(new FrontPositionalGoldGameCard(new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), points, new GameItemStore()), new BackGameCard(new GameItemStore(), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem)), CardColorEnum.GREEN);
     }
 
     @BeforeEach

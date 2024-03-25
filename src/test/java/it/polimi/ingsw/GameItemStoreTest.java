@@ -1,7 +1,7 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.GameItemEnum;
-import it.polimi.ingsw.model.GameItemStore;
+import it.polimi.ingsw.model.card.GameItemEnum;
+import it.polimi.ingsw.model.utils.store.GameItemStore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

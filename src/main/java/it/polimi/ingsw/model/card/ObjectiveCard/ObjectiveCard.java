@@ -1,6 +1,6 @@
-package it.polimi.ingsw.model.ObjectiveCard;
+package it.polimi.ingsw.model.card.ObjectiveCard;
 
-import it.polimi.ingsw.model.PlayerBoard;
+import it.polimi.ingsw.model.player.PlayerBoard;
 
 /**
  * This abstract class represents an objective card in the game.

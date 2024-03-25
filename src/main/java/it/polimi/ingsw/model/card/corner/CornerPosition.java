@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.card.corner;
 
 public enum CornerPosition {
     TOP_RIGHT,

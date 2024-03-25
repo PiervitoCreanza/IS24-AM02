@@ -1,9 +1,9 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.card;
 
 /**
  * Color of the card that can be used
  */
-public enum CardColor {
+public enum CardColorEnum {
     RED,
     BLUE,
     GREEN,

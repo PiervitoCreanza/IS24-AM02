@@ -1,13 +1,15 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.player;
+
+import it.polimi.ingsw.model.card.gameCard.GameCard;
 
 import java.util.ArrayList;
 
 /**
- * The Hand class represents a player's hand in the game.
+ * The PlayerHand class represents a player's hand in the game.
  * It contains a list of GameCard objects, with methods to add and remove cards.
  * A player's hand can hold up to 3 cards.
  */
-public class Hand {
+public class PlayerHand {
     /**
      * The list of GameCard objects representing the hand of a player.
      * This list is initialized with a capacity of 3, as a player can hold up to 3 cards in their hand.
@@ -15,9 +17,9 @@ public class Hand {
     private final ArrayList<GameCard> hand;
 
     /**
-     * Constructor for Hand. Initializes an empty list of GameCard objects.
+     * Constructor for PlayerHand. Initializes an empty list of GameCard objects.
      */
-    public Hand() {
+    public PlayerHand() {
         hand = new ArrayList<>(3);
     }
 
@@ -38,7 +40,7 @@ public class Hand {
      */
     public void addCard(GameCard card) {
         if (hand.size() == 3) {
-            throw new IllegalArgumentException("Hand is full");
+            throw new IllegalArgumentException("PlayerHand is full");
         }
         hand.add(card);
     }

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.utils.store;
 
 import java.util.ArrayList;
 import java.util.HashMap;

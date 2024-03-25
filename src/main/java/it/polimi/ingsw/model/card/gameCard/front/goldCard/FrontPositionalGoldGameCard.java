@@ -1,15 +1,20 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.card.gameCard.front.goldCard;
 
+
+import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.model.utils.store.GameItemStore;
+import it.polimi.ingsw.model.player.PlayerBoard;
+import it.polimi.ingsw.model.card.corner.Corner;
 
 /**
- * Represents a specific type of FrontGoldCard, named FrontPositionalGoldCard.
- * This class extends FrontGoldCard and specializes in calculating points based on
+ * Represents a specific type of FrontGoldGameCard, named FrontPositionalGoldGameCard.
+ * This class extends FrontGoldGameCard and specializes in calculating points based on
  * the card's position on the board.
  */
-public class FrontPositionalGoldCard extends FrontGoldCard {
+public class FrontPositionalGoldGameCard extends FrontGoldGameCard {
 
     /**
-     * Constructs a FrontPositionalGoldCard object with specified corners and points.
+     * Constructs a FrontPositionalGoldGameCard object with specified corners and points.
      *
      * @param topRight    The top right corner of the front side.
      * @param topLeft     The top left corner of the front side.
@@ -17,12 +22,12 @@ public class FrontPositionalGoldCard extends FrontGoldCard {
      * @param bottomRight The bottom right corner of the front side.
      * @param points      The number of points attributed to this front side.
      */
-    public FrontPositionalGoldCard(Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight, int points, GameItemStore neededItems) {
+    public FrontPositionalGoldGameCard(Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight, int points, GameItemStore neededItems) {
         super(topRight, topLeft, bottomLeft, bottomRight, points, neededItems);
     }
 
     /**
-     * Calculates and returns the points for this FrontPositionalGoldCard based on its
+     * Calculates and returns the points for this FrontPositionalGoldGameCard based on its
      * position on the player's board. The points are calculated by considering the
      * adjacency of other cards to each corner of this card.
      *

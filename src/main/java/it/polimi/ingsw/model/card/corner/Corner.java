@@ -1,4 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.card.corner;
+
+import it.polimi.ingsw.model.card.GameItemEnum;
 
 /**
  * This class represents a corner of a game card in the game.

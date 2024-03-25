@@ -1,8 +1,8 @@
-package it.polimi.ingsw.model.ObjectiveCard;
+package it.polimi.ingsw.model.card.ObjectiveCard;
 
-import it.polimi.ingsw.model.GameItemEnum;
-import it.polimi.ingsw.model.GameItemStore;
-import it.polimi.ingsw.model.PlayerBoard;
+import it.polimi.ingsw.model.card.GameItemEnum;
+import it.polimi.ingsw.model.utils.store.GameItemStore;
+import it.polimi.ingsw.model.player.PlayerBoard;
 import java.util.Objects;
 import java.util.ArrayList;
 

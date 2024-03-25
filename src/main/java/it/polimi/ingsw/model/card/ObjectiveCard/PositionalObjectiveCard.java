@@ -1,8 +1,8 @@
-package it.polimi.ingsw.model.ObjectiveCard;
+package it.polimi.ingsw.model.card.ObjectiveCard;
 
-import it.polimi.ingsw.model.CardColor;
-import it.polimi.ingsw.model.Coordinate;
-import it.polimi.ingsw.model.PlayerBoard;
+import it.polimi.ingsw.model.card.CardColorEnum;
+import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.model.player.PlayerBoard;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -40,7 +40,7 @@ public class PositionalObjectiveCard extends ObjectiveCard {
     @Override
     public int getPoints(PlayerBoard playerboard) {
         int numOfMatch = 0;                          //variable to count how many times player made the configuration
-        CardColor firstColor = positionalData.get(0).cardColor();
+        CardColorEnum firstColor = positionalData.get(0).cardColorEnum();
         ArrayList<Coordinate> coordinatesCanMatch = playerboard.getGameCards().stream()                  //Create a stream of GameCards
                 .filter(x -> x.getCardColor() == firstColor)                                             //Filtering by the color that I want
                 .map(x -> playerboard.getGameCardPosition(x).get())                                      //and at the end obtain the coordinate of this card
@@ -63,7 +63,7 @@ public class PositionalObjectiveCard extends ObjectiveCard {
                 if (playerboard.getGameCard(temp).isEmpty()) {
                     break;
                 }
-                if (playerboard.getGameCard(temp).get().getCardColor() != position.cardColor()) {
+                if (playerboard.getGameCard(temp).get().getCardColor() != position.cardColorEnum()) {
                     break;
                 }
                 coordinatesMaybeUsed.add(temp);
