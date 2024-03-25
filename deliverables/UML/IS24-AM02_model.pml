@@ -105,7 +105,7 @@ package "Model"{
         -int playerPos
         -PlayerBoard playerBoard
         -ObjectiveCard objectiveCard
-        -ObjectiveCard[] drawnObjectives
+        -ObjectiveCard[] choosableObjectives
         -Hand hand
         -boolean isConnected
         +String getPlayerName()
@@ -113,6 +113,7 @@ package "Model"{
         +int getPlayerPos()
         +Hand getPlayerHand()
         +ObjectiveCard getObjectiveCard()
+        +ObjectiveCard[] getChoosableObjectives()
         +void setObjectiveCard(ObjectiveCard)
         +void advancePlayerPos(int steps)
         +boolean setConnected(boolean status)
