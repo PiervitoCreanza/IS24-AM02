@@ -32,4 +32,14 @@ public class GameItemStore extends Store<GameItemEnum> {
             throw new IllegalArgumentException("Missing game items");
         }
     }
+
+    @Override
+    public void set(GameItemEnum gameItem, Integer amount) {
+        // The NONE item is a placeholder for null values, so we don't want to set it to a specific amount.
+        // Allowing this would lead to inconsistencies in the equality checks.
+        if (gameItem.equals(GameItemEnum.NONE)) {
+            return;
+        }
+        store.put(gameItem, amount);
+    }
 }
