@@ -6,19 +6,25 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 @DisplayName("Player Test")
 public class PlayerTest {
     private Player player;
+    private ObjectiveCard objectiveCard;
 
     @BeforeEach
     public void setup() {
+        objectiveCard = mock(ObjectiveCard.class);
         GameCard starterCard = mock(GameCard.class);
         ObjectiveCard card = mock(ObjectiveCard.class);
-        ObjectiveCard[] drawnObjectives = {card, card};
-        player = new Player("TestPlayer", drawnObjectives, starterCard);
+        ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
+        objectiveCards.add(card);
+        objectiveCards.add(objectiveCard);
+        player = new Player("TestPlayer", objectiveCards, starterCard);
     }
 
     @Test
@@ -73,7 +79,6 @@ public class PlayerTest {
     @Test
     @DisplayName("Get objective card returns non-null after setting")
     public void getObjectiveCardReturnsNonNullAfterSetting() {
-        ObjectiveCard objectiveCard = mock(ObjectiveCard.class);
         player.setPlayerObjective(objectiveCard);
         assertEquals(objectiveCard, player.getObjectiveCard());
     }
