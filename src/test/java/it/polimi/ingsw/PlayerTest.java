@@ -15,7 +15,10 @@ public class PlayerTest {
 
     @BeforeEach
     public void setup() {
-        player = new Player("TestPlayer");
+        GameCard starterCard = mock(GameCard.class);
+        ObjectiveCard card = mock(ObjectiveCard.class);
+        ObjectiveCard[] drawnObjectives = {card, card};
+        player = new Player("TestPlayer", drawnObjectives, starterCard);
     }
 
     @Test
