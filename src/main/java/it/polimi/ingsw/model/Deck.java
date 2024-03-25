@@ -9,15 +9,25 @@ import java.util.Random;
  * @param <T> The type of cards in the deck (GameCard or ObjectiveCard)
  */
 public class Deck<T> {
+
+    /**
+     * Represents the deck of cards in the game.
+     * This is an ArrayList that contains all the cards in the deck.
+     * The type of cards in the deck is determined by the generic type parameter T.
+     */
     private final ArrayList<T> deck;
+
+    /**
+     * Used for generating random numbers.
+     * This is used when drawing a card from the deck to ensure the card drawn is random.
+     */
     private final Random random;
 
     /**
-     * Constructor for Deck. Initializes the deck with the specified list of cards.
-     * @param cards The list of cards to initialize the deck with.
+     * Constructor for Deck. Initializes the deck.
      */
-    public Deck(ArrayList<T> cards) {
-        this.deck = new ArrayList<T>(cards);
+    public Deck() {     //TODO
+        this.deck = new ArrayList<>();
         this.random = new Random();
     }
 
