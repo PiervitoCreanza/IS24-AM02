@@ -1,6 +1,10 @@
 package it.polimi.ingsw.model;
-import it.polimi.ingsw.model.ObjectiveCard.PositionalData;
-import it.polimi.ingsw.model.ObjectiveCard.PositionalObjectiveCard;
+import it.polimi.ingsw.model.card.CardColorEnum;
+import it.polimi.ingsw.model.card.ObjectiveCard.PositionalData;
+import it.polimi.ingsw.model.card.ObjectiveCard.PositionalObjectiveCard;
+import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.player.PlayerBoard;
+import it.polimi.ingsw.model.utils.Coordinate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -35,9 +39,9 @@ public class PositionalObjectiveCardTest {
     @DisplayName("Testing L Shape PositionalObjectiveCard")
     public void TryGetPointsWithLShape() {
         ArrayList<PositionalData> positionalData = new ArrayList<>();
-        positionalData.add(new PositionalData(new Coordinate(0,0), CardColor.RED));
-        positionalData.add(new PositionalData(new Coordinate(0,-2), CardColor.RED));
-        positionalData.add(new PositionalData(new Coordinate(1,-3), CardColor.GREEN));
+        positionalData.add(new PositionalData(new Coordinate(0,0), CardColorEnum.RED));
+        positionalData.add(new PositionalData(new Coordinate(0,-2), CardColorEnum.RED));
+        positionalData.add(new PositionalData(new Coordinate(1,-3), CardColorEnum.GREEN));
         PositionalObjectiveCard positionalObjectiveCard = new PositionalObjectiveCard(3, positionalData);
         PlayerBoard playerBoard = mock(PlayerBoard.class);
         ArrayList<GameCard> gameCards = new ArrayList<>();
@@ -67,19 +71,19 @@ public class PositionalObjectiveCardTest {
         gameCards.add(gameCard11);
         gameCards.add(gameCard12);
         gameCards.add(gameCard13);
-        when(gameCard1.getCardColor()).thenReturn(CardColor.NEUTRAL);
-        when(gameCard2.getCardColor()).thenReturn(CardColor.RED);
-        when(gameCard3.getCardColor()).thenReturn(CardColor.RED);
-        when(gameCard4.getCardColor()).thenReturn(CardColor.RED);
-        when(gameCard5.getCardColor()).thenReturn(CardColor.GREEN);
-        when(gameCard6.getCardColor()).thenReturn(CardColor.BLUE);
-        when(gameCard7.getCardColor()).thenReturn(CardColor.PURPLE);
-        when(gameCard8.getCardColor()).thenReturn(CardColor.RED);
-        when(gameCard9.getCardColor()).thenReturn(CardColor.RED);
-        when(gameCard10.getCardColor()).thenReturn(CardColor.RED);
-        when(gameCard11.getCardColor()).thenReturn(CardColor.GREEN);
-        when(gameCard12.getCardColor()).thenReturn(CardColor.GREEN);
-        when(gameCard13.getCardColor()).thenReturn(CardColor.BLUE);
+        when(gameCard1.getCardColor()).thenReturn(CardColorEnum.NEUTRAL);
+        when(gameCard2.getCardColor()).thenReturn(CardColorEnum.RED);
+        when(gameCard3.getCardColor()).thenReturn(CardColorEnum.RED);
+        when(gameCard4.getCardColor()).thenReturn(CardColorEnum.RED);
+        when(gameCard5.getCardColor()).thenReturn(CardColorEnum.GREEN);
+        when(gameCard6.getCardColor()).thenReturn(CardColorEnum.BLUE);
+        when(gameCard7.getCardColor()).thenReturn(CardColorEnum.PURPLE);
+        when(gameCard8.getCardColor()).thenReturn(CardColorEnum.RED);
+        when(gameCard9.getCardColor()).thenReturn(CardColorEnum.RED);
+        when(gameCard10.getCardColor()).thenReturn(CardColorEnum.RED);
+        when(gameCard11.getCardColor()).thenReturn(CardColorEnum.GREEN);
+        when(gameCard12.getCardColor()).thenReturn(CardColorEnum.GREEN);
+        when(gameCard13.getCardColor()).thenReturn(CardColorEnum.BLUE);
         when(playerBoard.getGameCards()).thenReturn(gameCards);
         when(playerBoard.getGameCardPosition(gameCard1)).thenReturn(Optional.of(new Coordinate(0,0)));
         when(playerBoard.getGameCardPosition(gameCard2)).thenReturn(Optional.of(new Coordinate(-1,1)));
@@ -117,9 +121,9 @@ public class PositionalObjectiveCardTest {
     @DisplayName("Testing Stairs Shape PositionalObjectiveCard")
     public void TryGetPointsWithStairsShape() {
         ArrayList<PositionalData> positionalData = new ArrayList<>();
-        positionalData.add(new PositionalData(new Coordinate(0,0), CardColor.GREEN));
-        positionalData.add(new PositionalData(new Coordinate(1,-1), CardColor.GREEN));
-        positionalData.add(new PositionalData(new Coordinate(2,-2), CardColor.GREEN));
+        positionalData.add(new PositionalData(new Coordinate(0,0), CardColorEnum.GREEN));
+        positionalData.add(new PositionalData(new Coordinate(1,-1), CardColorEnum.GREEN));
+        positionalData.add(new PositionalData(new Coordinate(2,-2), CardColorEnum.GREEN));
         PositionalObjectiveCard positionalObjectiveCard = new PositionalObjectiveCard(2, positionalData);
         PlayerBoard playerBoard = mock(PlayerBoard.class);
         ArrayList<GameCard> gameCards = new ArrayList<>();
@@ -151,20 +155,20 @@ public class PositionalObjectiveCardTest {
         gameCards.add(gameCard12);
         gameCards.add(gameCard13);
         gameCards.add(gameCard14);
-        when(gameCard1.getCardColor()).thenReturn(CardColor.NEUTRAL);
-        when(gameCard2.getCardColor()).thenReturn(CardColor.RED);
-        when(gameCard3.getCardColor()).thenReturn(CardColor.RED);
-        when(gameCard4.getCardColor()).thenReturn(CardColor.GREEN);
-        when(gameCard5.getCardColor()).thenReturn(CardColor.GREEN);
-        when(gameCard6.getCardColor()).thenReturn(CardColor.GREEN);
-        when(gameCard7.getCardColor()).thenReturn(CardColor.GREEN);
-        when(gameCard8.getCardColor()).thenReturn(CardColor.PURPLE);
-        when(gameCard9.getCardColor()).thenReturn(CardColor.GREEN);
-        when(gameCard10.getCardColor()).thenReturn(CardColor.GREEN);
-        when(gameCard11.getCardColor()).thenReturn(CardColor.RED);
-        when(gameCard12.getCardColor()).thenReturn(CardColor.GREEN);
-        when(gameCard13.getCardColor()).thenReturn(CardColor.GREEN);
-        when(gameCard14.getCardColor()).thenReturn(CardColor.BLUE);
+        when(gameCard1.getCardColor()).thenReturn(CardColorEnum.NEUTRAL);
+        when(gameCard2.getCardColor()).thenReturn(CardColorEnum.RED);
+        when(gameCard3.getCardColor()).thenReturn(CardColorEnum.RED);
+        when(gameCard4.getCardColor()).thenReturn(CardColorEnum.GREEN);
+        when(gameCard5.getCardColor()).thenReturn(CardColorEnum.GREEN);
+        when(gameCard6.getCardColor()).thenReturn(CardColorEnum.GREEN);
+        when(gameCard7.getCardColor()).thenReturn(CardColorEnum.GREEN);
+        when(gameCard8.getCardColor()).thenReturn(CardColorEnum.PURPLE);
+        when(gameCard9.getCardColor()).thenReturn(CardColorEnum.GREEN);
+        when(gameCard10.getCardColor()).thenReturn(CardColorEnum.GREEN);
+        when(gameCard11.getCardColor()).thenReturn(CardColorEnum.RED);
+        when(gameCard12.getCardColor()).thenReturn(CardColorEnum.GREEN);
+        when(gameCard13.getCardColor()).thenReturn(CardColorEnum.GREEN);
+        when(gameCard14.getCardColor()).thenReturn(CardColorEnum.BLUE);
         when(playerBoard.getGameCards()).thenReturn(gameCards);
         when(playerBoard.getGameCardPosition(gameCard1)).thenReturn(Optional.of(new Coordinate(0,0)));
         when(playerBoard.getGameCardPosition(gameCard2)).thenReturn(Optional.of(new Coordinate(-1,1)));

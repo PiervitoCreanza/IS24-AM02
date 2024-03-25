@@ -1,4 +1,11 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.player;
+
+import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.model.card.GameItemEnum;
+import it.polimi.ingsw.model.utils.PointCornerPositionPair;
+import it.polimi.ingsw.model.card.corner.CornerPosition;
+import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.utils.store.GameItemStore;
 
 import java.util.ArrayList;
 import java.util.HashMap;

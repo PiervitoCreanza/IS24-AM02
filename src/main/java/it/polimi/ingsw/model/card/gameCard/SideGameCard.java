@@ -1,4 +1,11 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.card.gameCard;
+
+import it.polimi.ingsw.model.card.GameItemEnum;
+import it.polimi.ingsw.model.card.corner.Corner;
+import it.polimi.ingsw.model.card.corner.CornerPosition;
+import it.polimi.ingsw.model.player.PlayerBoard;
+import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.model.utils.store.GameItemStore;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -7,21 +14,21 @@ import java.util.stream.Stream;
  * Represents a generic side of a game card. This abstract class provides foundational
  * functionality and structure for different types of card sides, including managing corners.
  */
-abstract public class Side {
+abstract public class SideGameCard {
     private final Optional<Corner> topRight;
     private final Optional<Corner> topLeft;
     private final Optional<Corner> bottomLeft;
     private final Optional<Corner> bottomRight;
 
     /**
-     * Constructs a Side with the specified corners.
+     * Constructs a SideGameCard with the specified corners.
      *
      * @param topRight    The top right corner of the side.
      * @param topLeft     The top left corner of the side.
      * @param bottomLeft  The bottom left corner of the side.
      * @param bottomRight The bottom right corner of the side.
      */
-    public Side(Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight) {
+    public SideGameCard(Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight) {
         this.topRight = Optional.ofNullable(topRight);
         this.topLeft = Optional.ofNullable(topLeft);
         this.bottomLeft = Optional.ofNullable(bottomLeft);

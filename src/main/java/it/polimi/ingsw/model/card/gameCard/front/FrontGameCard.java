@@ -1,10 +1,16 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.card.gameCard.front;
+
+import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.model.utils.store.GameItemStore;
+import it.polimi.ingsw.model.player.PlayerBoard;
+import it.polimi.ingsw.model.card.corner.Corner;
+import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 
 /**
- * Represents the front side of a game card. This class extends the Side class and
+ * Represents the front side of a game card. This class extends the SideGameCard class and
  * incorporates functionalities for managing points and aggregating game items from corners.
  */
-public class Front extends Side {
+public class FrontGameCard extends SideGameCard {
 
     /**
      * The number of points associated with this front side of the card.
@@ -12,7 +18,7 @@ public class Front extends Side {
     protected int points;
 
     /**
-     * Constructs a Front object with specified corners and points.
+     * Constructs a FrontGameCard object with specified corners and points.
      *
      * @param topRight    The top right corner of the front side.
      * @param topLeft     The top left corner of the front side.
@@ -20,13 +26,13 @@ public class Front extends Side {
      * @param bottomRight The bottom right corner of the front side.
      * @param points      The number of points attributed to this front side.
      */
-    public Front(Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight, int points) {
+    public FrontGameCard(Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight, int points) {
         super(topRight, topLeft, bottomLeft, bottomRight);
         this.points = points;
     }
 
     /**
-     * Overrides the getGameItemStore method from the Side class.
+     * Overrides the getGameItemStore method from the SideGameCard class.
      * This implementation aggregates game items from all corners of this front side into a GameItemStore.
      *
      * @return A GameItemStore containing game items from all corners of this front side.

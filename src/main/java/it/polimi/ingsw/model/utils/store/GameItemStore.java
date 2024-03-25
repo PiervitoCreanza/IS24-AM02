@@ -1,4 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.utils.store;
+
+import it.polimi.ingsw.model.card.GameItemEnum;
 
 import java.util.HashMap;
 

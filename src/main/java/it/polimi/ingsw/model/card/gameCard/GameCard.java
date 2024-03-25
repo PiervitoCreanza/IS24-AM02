@@ -1,4 +1,12 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.card.gameCard;
+
+import it.polimi.ingsw.model.card.CardColorEnum;
+import it.polimi.ingsw.model.card.GameItemEnum;
+import it.polimi.ingsw.model.card.corner.Corner;
+import it.polimi.ingsw.model.card.corner.CornerPosition;
+import it.polimi.ingsw.model.player.PlayerBoard;
+import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.model.utils.store.GameItemStore;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -12,54 +20,54 @@ public class GameCard {
     /**
      * The side of the card that is currently facing up.
      */
-    private Side currentSide;
+    private SideGameCard currentSideGameCard;
 
     /**
      * The side of the card that is currently facing down.
      */
-    private Side otherSide;
+    private SideGameCard otherSideGameCard;
 
     /**
      * The color of the card.
      */
-    private final CardColor cardColor;
+    private final CardColorEnum cardColorEnum;
 
     /**
      * Constructs a GameCard with specified current and other side, and card color.
-     * @param currentSide The current side of the card.
-     * @param otherSide The other side of the card.
-     * @param cardColor The color of the card.
+     * @param currentSideGameCard The current side of the card.
+     * @param otherSideGameCard The other side of the card.
+     * @param cardColorEnum The color of the card.
      * @throws NullPointerException if any of the parameters are null.
      */
-    public GameCard(Side currentSide, Side otherSide, CardColor cardColor) {
-        this.currentSide = Objects.requireNonNull(currentSide, "currentSide cannot be null");
-        this.otherSide = Objects.requireNonNull(otherSide, "otherSide cannot be null");
-        this.cardColor = Objects.requireNonNull(cardColor, "cardColor cannot be null");
+    public GameCard(SideGameCard currentSideGameCard, SideGameCard otherSideGameCard, CardColorEnum cardColorEnum) {
+        this.currentSideGameCard = Objects.requireNonNull(currentSideGameCard, "currentSideGameCard cannot be null");
+        this.otherSideGameCard = Objects.requireNonNull(otherSideGameCard, "otherSideGameCard cannot be null");
+        this.cardColorEnum = Objects.requireNonNull(cardColorEnum, "cardColorEnum cannot be null");
     }
 
     /**
      * Gets the current side of the card.
      * @return The current side of the card.
      */
-    public Side getCurrentSide() {
-        return currentSide;
+    public SideGameCard getCurrentSide() {
+        return currentSideGameCard;
     }
 
     /**
      * Switches the current side of the card with the other side.
      */
     public void switchSide() {
-        Side tempSide = currentSide;
-        currentSide = otherSide;
-        otherSide = tempSide;
+        SideGameCard tempSideGameCard = currentSideGameCard;
+        currentSideGameCard = otherSideGameCard;
+        otherSideGameCard = tempSideGameCard;
     }
 
     /**
      * Gets the color of the card.
      * @return The color of the card.
      */
-    public CardColor getCardColor() {
-        return cardColor;
+    public CardColorEnum getCardColor() {
+        return cardColorEnum;
     }
 
     /**
@@ -68,7 +76,7 @@ public class GameCard {
      * @return An Optional containing the corner if it exists, or empty otherwise.
      */
     public Optional<Corner> getCorner(CornerPosition position) {
-        return currentSide.getCorner(position);
+        return currentSideGameCard.getCorner(position);
     }
 
     /**
@@ -77,7 +85,7 @@ public class GameCard {
      * @return The game item enum corresponding to the covered corner.
      */
     public GameItemEnum setCornerCovered(CornerPosition position) {
-        return currentSide.setCornerCovered(position);
+        return currentSideGameCard.setCornerCovered(position);
     }
 
     /**
@@ -85,7 +93,7 @@ public class GameCard {
      * @return The game item store of the current side.
      */
     public GameItemStore getGameItemStore() {
-        return currentSide.getGameItemStore();
+        return currentSideGameCard.getGameItemStore();
     }
 
     /**
@@ -95,7 +103,7 @@ public class GameCard {
      * @return The calculated points for the card.
      */
     public int getPoints(Coordinate cardPosition, PlayerBoard playerBoard) {
-        return currentSide.getPoints(cardPosition, playerBoard);
+        return currentSideGameCard.getPoints(cardPosition, playerBoard);
     }
 
     /**
@@ -103,6 +111,6 @@ public class GameCard {
      * @return The needed item store for the current side.
      */
     public GameItemStore getNeededItemStore() {
-        return currentSide.getNeededItemStore();
+        return currentSideGameCard.getNeededItemStore();
     }
 }

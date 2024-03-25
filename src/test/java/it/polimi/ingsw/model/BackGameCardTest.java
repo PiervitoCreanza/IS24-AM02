@@ -7,21 +7,21 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 /**
- * This class contains unit tests for the Back class.
+ * This class contains unit tests for the BackGameCard class.
  */
 
-public class BackTest {
+public class BackGameCardTest {
     /**
-     * This test checks if the Back constructor throws a NullPointerException when a null GameItemStore is passed.
+     * This test checks if the BackGameCard constructor throws a NullPointerException when a null GameItemStore is passed.
      */
     @Test
-    @DisplayName("Test Back constructor")
+    @DisplayName("Test BackGameCard constructor")
     public void DontAcceptGameItemStoreNull() {
-        assertThrows(NullPointerException.class, () -> new Back(null, mock(Corner.class), mock(Corner.class), mock(Corner.class), mock(Corner.class)));
+        assertThrows(NullPointerException.class, () -> new BackGameCard(null, mock(Corner.class), mock(Corner.class), mock(Corner.class), mock(Corner.class)));
     }
 
     /**
-     * This test checks if the getGameItemStore() method of the Back class returns the correct GameItemStore when the corners have NONE game item.
+     * This test checks if the getGameItemStore() method of the BackGameCard class returns the correct GameItemStore when the corners have NONE game item.
      */
     @Test
     @DisplayName("Test getGameItemStore method when corners have NONE game item")
@@ -32,12 +32,12 @@ public class BackTest {
         resources.set(GameItemEnum.FUNGI, 1);
         resources.set(GameItemEnum.NONE, 4);
         Corner cornerNone = new Corner(false, GameItemEnum.NONE);
-        Back back = new Back(resources, cornerNone, cornerNone, cornerNone, cornerNone);
-        assertEquals(resources, back.getGameItemStore());
+        BackGameCard backGameCard = new BackGameCard(resources, cornerNone, cornerNone, cornerNone, cornerNone);
+        assertEquals(resources, backGameCard.getGameItemStore());
     }
 
     /**
-     * This test checks if the getGameItemStore() method of the Back class returns the correct GameItemStore when the corners have some game item.
+     * This test checks if the getGameItemStore() method of the BackGameCard class returns the correct GameItemStore when the corners have some game item.
      */
     @Test
     @DisplayName("Test getGameItemStore method when corners have some game item")
@@ -48,11 +48,11 @@ public class BackTest {
         Corner topLeft = new Corner(false, GameItemEnum.ANIMAL);
         Corner bottomLeft = new Corner(false, GameItemEnum.NONE);
         Corner bottomRight = new Corner(false, GameItemEnum.FUNGI);
-        Back back = new Back(resources, topRight, topLeft, bottomLeft, bottomRight);
+        BackGameCard backGameCard = new BackGameCard(resources, topRight, topLeft, bottomLeft, bottomRight);
         GameItemStore expected = new GameItemStore();
         expected.set(GameItemEnum.ANIMAL, 1);
         expected.set(GameItemEnum.FUNGI, 2);
         expected.set(GameItemEnum.NONE, 2);
-        assertEquals(expected, back.getGameItemStore());
+        assertEquals(expected, backGameCard.getGameItemStore());
     }
 }

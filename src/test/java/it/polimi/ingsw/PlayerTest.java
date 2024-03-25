@@ -1,7 +1,8 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.ObjectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.card.ObjectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,10 +22,10 @@ public class PlayerTest {
         objectiveCard = mock(ObjectiveCard.class);
         GameCard starterCard = mock(GameCard.class);
         ObjectiveCard card = mock(ObjectiveCard.class);
-        ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
-        objectiveCards.add(card);
-        objectiveCards.add(objectiveCard);
-        player = new Player("TestPlayer", objectiveCards, starterCard);
+        ArrayList<ObjectiveCard> choosableObjectives = new ArrayList<>();
+        choosableObjectives.add(card);
+        choosableObjectives.add(objectiveCard);
+        player = new Player("TestPlayer", choosableObjectives, starterCard);
     }
 
     @Test

@@ -1,6 +1,7 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.player;
 
-import it.polimi.ingsw.model.ObjectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.card.ObjectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.card.gameCard.GameCard;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -38,9 +39,9 @@ public class Player {
     private ObjectiveCard objectiveCard;
 
     /**
-     * The hand of the player, which contains the cards that the player holds.
+     * The playerHand of the player, which contains the cards that the player holds.
      */
-    private final Hand hand;
+    private final PlayerHand playerHand;
 
     /**
      * The boolean that represents if the player is connected or not.
@@ -49,7 +50,7 @@ public class Player {
 
     /**
      * Constructor for the Player class.
-     * Initializes the player's name, player board, and hand.
+     * Initializes the player's name, player board, and playerHand.
      *
      * @param playerName          The name of the player.
      * @param choosableObjectives The 2 objective cards that the player has to choose from.
@@ -63,7 +64,7 @@ public class Player {
         this.playerName = playerName;
         this.choosableObjectives = Objects.requireNonNull(choosableObjectives, "Drawn objectives cannot be null");
         this.playerBoard = new PlayerBoard(Objects.requireNonNull(starterCard, "Starter card cannot be null"));
-        this.hand = new Hand();
+        this.playerHand = new PlayerHand();
     }
 
     /**
@@ -94,12 +95,12 @@ public class Player {
     }
 
     /**
-     * This method is used to get the Hand of the player.
+     * This method is used to get the PlayerHand of the player.
      *
-     * @return Hand This returns the Hand of the player.
+     * @return PlayerHand This returns the PlayerHand of the player.
      */
-    public Hand getPlayerHand() {
-        return hand;
+    public PlayerHand getPlayerHand() {
+        return playerHand;
     }
 
     /**
