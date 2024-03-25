@@ -105,7 +105,7 @@ package "Model"{
         -int playerPos
         -PlayerBoard playerBoard
         -ObjectiveCard objectiveCard
-        -ObjectiveCard[] drawnObjectives
+        -ObjectiveCard[] choosableObjectives
         -Hand hand
         -boolean isConnected
         +String getPlayerName()
@@ -113,11 +113,11 @@ package "Model"{
         +int getPlayerPos()
         +Hand getPlayerHand()
         +ObjectiveCard getObjectiveCard()
+        +ObjectiveCard[] getChoosableObjectives()
         +void setObjectiveCard(ObjectiveCard)
         +void advancePlayerPos(int steps)
         +boolean setConnected(boolean status)
         +boolean isConnected()
-        +boolean isLastRound()
         'Numero di passi di cui avanzare
     }
 
@@ -257,7 +257,7 @@ package "Model"{
     'BackSide Section
 
     class Back {
-        #GameItemStore resources
+        -GameItemStore resources
         +GameItemStore getGameItemStore()
     }
 
