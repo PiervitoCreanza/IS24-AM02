@@ -118,7 +118,6 @@ package "Model"{
         +void advancePlayerPos(int steps)
         +boolean setConnected(boolean status)
         +boolean isConnected()
-        +boolean isLastRound()
         'Numero di passi di cui avanzare
     }
 
@@ -258,7 +257,7 @@ package "Model"{
     'BackSide Section
 
     class Back {
-        #GameItemStore resources
+        -GameItemStore resources
         +GameItemStore getGameItemStore()
     }
 
