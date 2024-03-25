@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.ObjectiveCard.ObjectiveCard;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
@@ -116,7 +117,7 @@ public class Game {
      * @param playerName The name of the player to be added.
      */
     public void addPlayer(String playerName) {
-        ObjectiveCard[] drawnObjectives = {globalBoard.getObjectiveDeck().draw(), globalBoard.getObjectiveDeck().draw()};
+        ArrayList<ObjectiveCard> drawnObjectives = new ArrayList<>(List.of(globalBoard.getObjectiveDeck().draw(), globalBoard.getObjectiveDeck().draw()));
         GameCard starterCard = globalBoard.getStarterDeck().draw();
         players.add(new Player(playerName, drawnObjectives, starterCard));
     }
