@@ -29,7 +29,7 @@ public class Player {
      * The 2 objective cards that the player has to choose from.
      * The chosen objective card is stored in the objectiveCard attribute.
      */
-    private final ObjectiveCard[] drawnObjectives;
+    private final ObjectiveCard[] choosableObjectives;
 
     /**
      * The objective card chosen by the player.
@@ -50,17 +50,17 @@ public class Player {
      * Constructor for the Player class.
      * Initializes the player's name, player board, and hand.
      *
-     * @param playerName      The name of the player.
-     * @param drawnObjectives The 2 objective cards that the player has to choose from.
-     * @param starterCard     The starter card that the player receives at the beginning of the game.
+     * @param playerName          The name of the player.
+     * @param choosableObjectives The 2 objective cards that the player has to choose from.
+     * @param starterCard         The starter card that the player receives at the beginning of the game.
      */
-    public Player(String playerName, ObjectiveCard[] drawnObjectives, GameCard starterCard) {
+    public Player(String playerName, ObjectiveCard[] choosableObjectives, GameCard starterCard) {
         if (playerName == null || playerName.isBlank()) {
             throw new IllegalArgumentException("Player name cannot be null or empty");
         }
 
         this.playerName = playerName;
-        this.drawnObjectives = Objects.requireNonNull(drawnObjectives, "Drawn objectives cannot be null");
+        this.choosableObjectives = Objects.requireNonNull(choosableObjectives, "Drawn objectives cannot be null");
         this.playerBoard = new PlayerBoard(Objects.requireNonNull(starterCard, "Starter card cannot be null"));
         this.hand = new Hand();
     }
@@ -116,11 +116,16 @@ public class Player {
      * @param objectiveCard This is the ObjectiveCard to be set.
      */
     public void setPlayerObjective(ObjectiveCard objectiveCard) {
-        this.objectiveCard = objectiveCard;
+
+        if (!choosableObjectives[0].equals(objectiveCard) && !choosableObjectives[1].equals(objectiveCard)) {
+            throw new IllegalArgumentException("Objective card must be one of the drawn objectives");
+        }
+
+        this.objectiveCard = Objects.requireNonNull(objectiveCard, "Objective card cannot be null");
     }
 
     /**
-     * This method is used to retires the connection status of the player.
+     * This method is used to retrieve the connection status of the player.
      *
      * @return isConnected This is the player's connection status.
      */
@@ -133,8 +138,8 @@ public class Player {
      *
      * @return ObjectiveCard[] This returns the drawn objectives of the player.
      */
-    public ObjectiveCard[] getDrawnObjectives() {
-        return drawnObjectives;
+    public ObjectiveCard[] getChoosableObjectives() {
+        return choosableObjectives;
     }
 
     /**
