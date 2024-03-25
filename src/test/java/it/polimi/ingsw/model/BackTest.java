@@ -33,7 +33,7 @@ public class BackTest {
         resources.set(GameItemEnum.NONE, 4);
         Corner cornerNone = new Corner(false, GameItemEnum.NONE);
         Back back = new Back(resources, cornerNone, cornerNone, cornerNone, cornerNone);
-        assertEquals(resources.getNonEmptyKeys(), back.getGameItemStore().getNonEmptyKeys());
+        assertEquals(resources, back.getGameItemStore());
     }
 
     /**
@@ -53,6 +53,6 @@ public class BackTest {
         expected.set(GameItemEnum.ANIMAL, 1);
         expected.set(GameItemEnum.FUNGI, 2);
         expected.set(GameItemEnum.NONE, 2);
-        assertEquals(expected.getNonEmptyKeys(), back.getGameItemStore().getNonEmptyKeys());
+        assertEquals(expected, back.getGameItemStore());
     }
 }

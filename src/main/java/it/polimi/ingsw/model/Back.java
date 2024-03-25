@@ -34,10 +34,12 @@ public class Back extends Side {
     @Override
     public GameItemStore getGameItemStore() {
         GameItemStore gameItemStore = getCornersItems();
-        resources.getNonEmptyKeys().forEach(key ->
-                // Increment the corresponding value in the gameItemStore object by the value associated with the key in the resources object
-                gameItemStore.increment(key, resources.get(key))
-        );
+        // Increment the corresponding value in the gameItemStore object by the value associated with the key in the resources object and skip NONE
+        for (GameItemEnum x : resources.getNonEmptyKeys()) {
+            if (x != GameItemEnum.NONE) {
+                gameItemStore.increment(x, resources.get(x));
+            }
+        }
         return gameItemStore;
     }
 }
