@@ -22,10 +22,10 @@ public class PlayerTest {
         objectiveCard = mock(ObjectiveCard.class);
         GameCard starterCard = mock(GameCard.class);
         ObjectiveCard card = mock(ObjectiveCard.class);
-        ArrayList<ObjectiveCard> choosableObjectives = new ArrayList<>();
-        choosableObjectives.add(card);
-        choosableObjectives.add(objectiveCard);
-        player = new Player("TestPlayer", choosableObjectives, starterCard);
+        ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
+        objectiveCards.add(card);
+        objectiveCards.add(objectiveCard);
+        player = new Player("TestPlayer", objectiveCards, starterCard);
     }
 
     @Test
