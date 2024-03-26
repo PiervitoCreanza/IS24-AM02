@@ -1,6 +1,6 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model.player;
 
-import it.polimi.ingsw.model.card.ObjectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.Player;
 import org.junit.jupiter.api.BeforeEach;

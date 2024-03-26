@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.card.ObjectiveCard;
+package it.polimi.ingsw.model.card.objectiveCard;
 
 import it.polimi.ingsw.model.card.CardColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
@@ -21,7 +21,8 @@ public class PositionalObjectiveCard extends ObjectiveCard {
 
     /**
      * Constructs a new PositionalObjectiveCard object with the specified number of points and the positional data required by the objective card.
-     * @param pointsWon The number of points the player can win by fulfilling the objective of this card.
+     *
+     * @param pointsWon      The number of points the player can win by fulfilling the objective of this card.
      * @param positionalData The positional data required by the objective card.
      * @throws NullPointerException if positionalData is null.
      */
@@ -34,6 +35,7 @@ public class PositionalObjectiveCard extends ObjectiveCard {
     /**
      * This method calculates and returns the points won by the player.
      * It checks if the player's game cards match the positional data required by the objective card.
+     *
      * @param playerboard The player's game board.
      * @return The number of points won by the player.
      */

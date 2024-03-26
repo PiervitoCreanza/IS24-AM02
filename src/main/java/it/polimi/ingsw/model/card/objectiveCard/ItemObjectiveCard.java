@@ -1,8 +1,9 @@
-package it.polimi.ingsw.model.card.ObjectiveCard;
+package it.polimi.ingsw.model.card.objectiveCard;
 
 import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 import it.polimi.ingsw.model.player.PlayerBoard;
+
 import java.util.Objects;
 import java.util.ArrayList;
 
@@ -18,7 +19,8 @@ public class ItemObjectiveCard extends ObjectiveCard {
 
     /**
      * Constructs a new ItemObjectiveCard object with the specified number of points and the items that are considered for calculating the points.
-     * @param pointsWon The number of points the player can win by fulfilling the objective of this card.
+     *
+     * @param pointsWon  The number of points the player can win by fulfilling the objective of this card.
      * @param multiplier The GameItemStore object that represents the items that are considered for calculating the points.
      * @throws NullPointerException if multiplier is null.
      */
@@ -30,6 +32,7 @@ public class ItemObjectiveCard extends ObjectiveCard {
 
     /**
      * This method calculates and returns the points won by the player.
+     *
      * @param playerBoard The player's board.
      * @return The points won by the player.
      */
