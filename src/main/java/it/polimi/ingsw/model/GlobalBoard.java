@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.ObjectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.card.gameCard.GameCard;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +57,6 @@ public class GlobalBoard {
 
     /**
      * Constructor for GlobalBoard. Initializes the decks and draws cards for the field and for the objectives.
-     *
      */
     public GlobalBoard() {
         this.goldDeck = new Deck<>();        //TODO

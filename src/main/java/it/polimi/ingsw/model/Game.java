@@ -1,6 +1,10 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.ObjectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.PlayerBoard;
+import it.polimi.ingsw.model.utils.store.Store;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -53,9 +57,9 @@ public class Game {
     /**
      * Constructor for Game. Initializes a new game with the specified parameters.
      *
-     * @param gameName      The name of the game.
-     * @param nPlayers      The maximum number of players in the game.
-     * @param playerName    The name of the player creating the game, he will also be the first player.
+     * @param gameName   The name of the game.
+     * @param nPlayers   The maximum number of players in the game.
+     * @param playerName The name of the player creating the game, he will also be the first player.
      */
     public Game(String gameName, int nPlayers, String playerName) {
         this.gameName = gameName;
