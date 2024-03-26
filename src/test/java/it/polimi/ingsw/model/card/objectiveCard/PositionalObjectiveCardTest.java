@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model.card.objectiveCard;
 
 import it.polimi.ingsw.model.card.CardColorEnum;
-import it.polimi.ingsw.model.card.objectiveCard.PositionalData;
-import it.polimi.ingsw.model.card.objectiveCard.PositionalObjectiveCard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.utils.Coordinate;
@@ -72,7 +70,7 @@ public class PositionalObjectiveCardTest {
         gameCards.add(gameCard11);
         gameCards.add(gameCard12);
         gameCards.add(gameCard13);
-        when(gameCard1.getCardColor()).thenReturn(CardColorEnum.NEUTRAL);
+        when(gameCard1.getCardColor()).thenReturn(CardColorEnum.NONE);
         when(gameCard2.getCardColor()).thenReturn(CardColorEnum.RED);
         when(gameCard3.getCardColor()).thenReturn(CardColorEnum.RED);
         when(gameCard4.getCardColor()).thenReturn(CardColorEnum.RED);
@@ -156,7 +154,7 @@ public class PositionalObjectiveCardTest {
         gameCards.add(gameCard12);
         gameCards.add(gameCard13);
         gameCards.add(gameCard14);
-        when(gameCard1.getCardColor()).thenReturn(CardColorEnum.NEUTRAL);
+        when(gameCard1.getCardColor()).thenReturn(CardColorEnum.NONE);
         when(gameCard2.getCardColor()).thenReturn(CardColorEnum.RED);
         when(gameCard3.getCardColor()).thenReturn(CardColorEnum.RED);
         when(gameCard4.getCardColor()).thenReturn(CardColorEnum.GREEN);

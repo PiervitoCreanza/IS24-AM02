@@ -26,9 +26,9 @@ public class FrontItemGoldGameCard extends FrontGoldGameCard {
      * @param bottomLeft  The bottom left corner of the front side.
      * @param bottomRight The bottom right corner of the front side.
      * @param points      The number of points attributed to this front side.
+     * @param neededItems The game items needed for this card.
      * @param multiplier  The game item that will be used as a multiplier for point calculation.
      */
-
     public FrontItemGoldGameCard(Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight, int points, GameItemStore neededItems, GameItemEnum multiplier) {
         super(topRight, topLeft, bottomLeft, bottomRight, points, neededItems);
         this.multiplier = multiplier;
@@ -43,7 +43,7 @@ public class FrontItemGoldGameCard extends FrontGoldGameCard {
      * @return The calculated points based on the quantity of the specified game item on the player's board.
      */
     @Override
-    public int getPoints(Coordinate cardPosition, PlayerBoard playerBoard){
+    public int getPoints(Coordinate cardPosition, PlayerBoard playerBoard) {
         // The points are multiplied by the amount of the specified game item on the player's board.
         return playerBoard.getGameItemAmount(multiplier) * points;
     }

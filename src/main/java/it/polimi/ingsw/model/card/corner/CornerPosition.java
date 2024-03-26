@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.card.corner;
 
 /**
- * Enum representing the four corners of a card.
+ * This enum represents the four corners of a card in the game.
  */
 public enum CornerPosition {
     /**
