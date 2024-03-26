@@ -20,7 +20,7 @@ public class BackGameCardTest {
     @Test
     @DisplayName("Test BackGameCard constructor")
     public void DontAcceptGameItemStoreNull() {
-        assertThrows(NullPointerException.class, () -> new BackGameCard(null, mock(Corner.class), mock(Corner.class), mock(Corner.class), mock(Corner.class)));
+        assertThrows(NullPointerException.class, () -> new BackGameCard(mock(Corner.class), mock(Corner.class), mock(Corner.class), mock(Corner.class), null));
     }
 
     /**
@@ -35,7 +35,7 @@ public class BackGameCardTest {
         resources.set(GameItemEnum.FUNGI, 1);
         resources.set(GameItemEnum.NONE, 4);
         Corner cornerNone = new Corner(false, GameItemEnum.NONE);
-        BackGameCard backGameCard = new BackGameCard(resources, cornerNone, cornerNone, cornerNone, cornerNone);
+        BackGameCard backGameCard = new BackGameCard(cornerNone, cornerNone, cornerNone, cornerNone, resources);
         assertEquals(resources, backGameCard.getGameItemStore());
     }
 
@@ -51,7 +51,7 @@ public class BackGameCardTest {
         Corner topLeft = new Corner(false, GameItemEnum.ANIMAL);
         Corner bottomLeft = new Corner(false, GameItemEnum.NONE);
         Corner bottomRight = new Corner(false, GameItemEnum.FUNGI);
-        BackGameCard backGameCard = new BackGameCard(resources, topRight, topLeft, bottomLeft, bottomRight);
+        BackGameCard backGameCard = new BackGameCard(topRight, topLeft, bottomLeft, bottomRight, resources);
         GameItemStore expected = new GameItemStore();
         expected.set(GameItemEnum.ANIMAL, 1);
         expected.set(GameItemEnum.FUNGI, 2);
