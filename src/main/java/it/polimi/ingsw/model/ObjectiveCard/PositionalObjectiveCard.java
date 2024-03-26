@@ -66,7 +66,7 @@ public class PositionalObjectiveCard extends ObjectiveCard {
                 if (playerboard.getGameCard(temp).get().getCardColor() != position.cardColor()) {
                     break;
                 }
-                coordinatesMaybeUsed.add(temp);
+                coordinatesMaybeUsed.add(new Coordinate(temp.x, temp.y));
             }
             if (coordinatesMaybeUsed.size() == 3) {
                 coordinatesAlreadyUsed.addAll(coordinatesMaybeUsed);

@@ -20,7 +20,7 @@ public class ItemObjectiveCardTest {
     @DisplayName("Test ItemObjectiveCardTest constructor")
     public void TryExceptionInConstructor() {
         assertThrows(IllegalArgumentException.class, () -> new ItemObjectiveCard(-2, mock(GameItemStore.class)));
-        assertThrows(IllegalArgumentException.class, () -> new ItemObjectiveCard(10, null));
+        assertThrows(NullPointerException.class, () -> new ItemObjectiveCard(10, null));
     }
 
     /**
