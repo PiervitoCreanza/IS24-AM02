@@ -29,5 +29,5 @@ public enum CardColorEnum {
      * Represents a card of color neutral.
      * This is used when the card does not have a specific color.
      */
-    NEUTRAL
+    NONE
 }
