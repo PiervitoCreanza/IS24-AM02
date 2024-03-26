@@ -106,12 +106,12 @@ package "Model"{
         -PlayerBoard playerBoard
         -ObjectiveCard objectiveCard
         -ObjectiveCard[] drawnObjectives
-        -Hand hand
+        -PlayerHand hand
         -boolean isConnected
         +String getPlayerName()
         +PlayerBoard getPlayerBoard()
         +int getPlayerPos()
-        +Hand getPlayerHand()
+        +PlayerHand getPlayerHand()
         +ObjectiveCard getObjectiveCard()
         +void setObjectiveCard(ObjectiveCard)
         +void advancePlayerPos(int steps)
@@ -131,14 +131,14 @@ package "Model"{
     }
 
 
-    class Hand {
+    class PlayerHand {
         -ArrayList<GameCard> hand
         +ArrayList<GameCard> getGameCards()
         +void addCard(GameCard)
         +void removeCard(GameCard)
     }
 
-    Player "1" *-- "1" Hand
+    Player "1" *-- "1" PlayerHand
 
     class PlayerBoard {
         -HashMap<Coordinate, GameCard> playerBoard
@@ -180,10 +180,10 @@ package "Model"{
     class GameCard {
         -Side currentSide
         -Side otherSide
-        -cardColor cardColor
+        -CardColorEnum cardColor
         +Side getCurrentSide()
         +void switchSide()
-        +CardColor getCardColor()
+        +CardColorEnum getCardColor()
         +Optional<Corner> getCorner(CornerPosition)
         +GameItemEnum setCornerCovered(CornerPosition)
         +GameItemStore getGameItemStore()
@@ -191,9 +191,9 @@ package "Model"{
         +GameItemStore getNeededItemStore()
     }
 
-    GameCard "2" *-- "1" Side
+    GameCard "2" *-- "1" SideGameCard
 
-    abstract class Side {
+    abstract class SideGameCard {
         #Corner topRight
         #Corner topLeft
         #Corner bottomLeft
@@ -206,9 +206,9 @@ package "Model"{
         +GameItemStore getCornersItems()
     }
 
-    Side <|-- Front
-    Side <|-- Back
-    Side "1..4" *-- "1" Corner
+    SideGameCard <|-- Front
+    SideGameCard <|-- BackGameCard
+    SideGameCard "1..4" *-- "1" Corner
 
     class Corner {
           -boolean isCovered
@@ -256,7 +256,7 @@ package "Model"{
 
     'BackSide Section
 
-    class Back {
+    class BackGameCard {
         #GameItemStore resources
         +GameItemStore getGameItemStore()
     }
@@ -282,9 +282,9 @@ package "Model"{
 
     class PositionalData {
         -Coordinate point
-        -CardColor cardColor
+        -CardColorEnum cardColor
         +Coordinate getPoint()
-        +CardColor getCardColor()
+        +CardColorEnum getCardColor()
     }
     PositionalObjectiveCard "1..N" *-- "1" PositionalData
 
@@ -313,7 +313,7 @@ package "Model"{
         NONE
     }
 
-    enum CardColor {
+    enum CardColorEnum {
         RED
         BLUE
         GREEN
