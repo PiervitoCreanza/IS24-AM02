@@ -53,7 +53,7 @@ public class Store<T> {
      * @param amount the amount to add
      */
     public void increment(T t, Integer amount) {
-        store.put(t, store.get(t) + amount);
+        set(t, store.get(t) + amount);
     }
 
     /**
@@ -63,7 +63,7 @@ public class Store<T> {
      * @param amount the amount to remove
      */
     public void decrement(T t, Integer amount) {
-        store.put(t, store.get(t) - amount);
+        set(t, store.get(t) - amount);
     }
 
     /**

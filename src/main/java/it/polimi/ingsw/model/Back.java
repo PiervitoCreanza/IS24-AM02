@@ -31,6 +31,7 @@ public class Back extends Side {
      * Returns a GameItemStore representing the items on the corners and in the center of the card.
      * @return all the items in the side of this card
      */
+    @Override
     public GameItemStore getGameItemStore() {
         GameItemStore gameItemStore = getCornersItems();
         resources.getNonEmptyKeys().forEach(key ->
