@@ -37,11 +37,11 @@ public class PlayerBoardTest {
     }
 
     private GameCard createCardWithCornerItem(GameItemEnum gameItem) {
-        return new GameCard(new FrontGameCard(new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), 0), new BackGameCard(new GameItemStore(), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem)), CardColorEnum.GREEN);
+        return new GameCard(new FrontGameCard(new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), 0), new BackGameCard(new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new GameItemStore()), CardColorEnum.GREEN);
     }
 
     private GameCard createCardWithoutCorner() {
-        return new GameCard(new FrontGameCard(null, null, null, null, 0), new BackGameCard(new GameItemStore(), null, null, null, null), CardColorEnum.GREEN);
+        return new GameCard(new FrontGameCard(null, null, null, null, 0), new BackGameCard(null, null, null, null, new GameItemStore()), CardColorEnum.GREEN);
     }
 
     private void assertIllegalArgument(String message, org.junit.jupiter.api.function.Executable executable) {
@@ -50,7 +50,7 @@ public class PlayerBoardTest {
     }
 
     private GameCard createPositionalGoldCard(GameItemEnum gameItem, int points) {
-        return new GameCard(new FrontPositionalGoldGameCard(new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), points, new GameItemStore()), new BackGameCard(new GameItemStore(), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem)), CardColorEnum.GREEN);
+        return new GameCard(new FrontPositionalGoldGameCard(new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), points, new GameItemStore()), new BackGameCard(new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new GameItemStore()), CardColorEnum.GREEN);
     }
 
     @BeforeEach
