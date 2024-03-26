@@ -12,7 +12,6 @@ import it.polimi.ingsw.model.card.corner.Corner;
  * the card's position on the board.
  */
 public class FrontPositionalGoldGameCard extends FrontGoldGameCard {
-
     /**
      * Constructs a FrontPositionalGoldGameCard object with specified corners and points.
      *
@@ -21,6 +20,7 @@ public class FrontPositionalGoldGameCard extends FrontGoldGameCard {
      * @param bottomLeft  The bottom left corner of the front side.
      * @param bottomRight The bottom right corner of the front side.
      * @param points      The number of points attributed to this front side.
+     * @param neededItems The store of items needed for this card.
      */
     public FrontPositionalGoldGameCard(Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight, int points, GameItemStore neededItems) {
         super(topRight, topLeft, bottomLeft, bottomRight, points, neededItems);
@@ -36,7 +36,7 @@ public class FrontPositionalGoldGameCard extends FrontGoldGameCard {
      * @return The calculated points based on the card's position and its adjacent cards.
      */
     @Override
-    public int getPoints(Coordinate cardPosition, PlayerBoard playerBoard){
+    public int getPoints(Coordinate cardPosition, PlayerBoard playerBoard) {
         int N = 0;
 
         // Define the four corners of the current card position
