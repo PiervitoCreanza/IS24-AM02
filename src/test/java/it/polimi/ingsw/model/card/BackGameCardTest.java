@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.card;
 
+import it.polimi.ingsw.model.card.corner.Corner;
+import it.polimi.ingsw.model.card.gameCard.BackGameCard;
+import it.polimi.ingsw.model.utils.store.GameItemStore;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
