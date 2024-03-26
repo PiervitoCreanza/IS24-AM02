@@ -105,13 +105,14 @@ package "Model"{
         -int playerPos
         -PlayerBoard playerBoard
         -ObjectiveCard objectiveCard
+
         -ObjectiveCard[] choosableObjectives
-        -Hand hand
+        -PlayerHand hand
         -boolean isConnected
         +String getPlayerName()
         +PlayerBoard getPlayerBoard()
         +int getPlayerPos()
-        +Hand getPlayerHand()
+        +PlayerHand getPlayerHand()
         +ObjectiveCard getObjectiveCard()
         +ObjectiveCard[] getChoosableObjectives()
         +void setObjectiveCard(ObjectiveCard)
@@ -131,14 +132,14 @@ package "Model"{
     }
 
 
-    class Hand {
+    class PlayerHand {
         -ArrayList<GameCard> hand
         +ArrayList<GameCard> getGameCards()
         +void addCard(GameCard)
         +void removeCard(GameCard)
     }
 
-    Player "1" *-- "1" Hand
+    Player "1" *-- "1" PlayerHand
 
     class PlayerBoard {
         -HashMap<Coordinate, GameCard> playerBoard
@@ -180,10 +181,10 @@ package "Model"{
     class GameCard {
         -Side currentSide
         -Side otherSide
-        -cardColor cardColor
+        -CardColorEnum cardColor
         +Side getCurrentSide()
         +void switchSide()
-        +CardColor getCardColor()
+        +CardColorEnum getCardColor()
         +Optional<Corner> getCorner(CornerPosition)
         +GameItemEnum setCornerCovered(CornerPosition)
         +GameItemStore getGameItemStore()
@@ -191,9 +192,9 @@ package "Model"{
         +GameItemStore getNeededItemStore()
     }
 
-    GameCard "2" *-- "1" Side
+    GameCard "2" *-- "1" SideGameCard
 
-    abstract class Side {
+    abstract class SideGameCard {
         #Corner topRight
         #Corner topLeft
         #Corner bottomLeft
@@ -206,9 +207,9 @@ package "Model"{
         +GameItemStore getCornersItems()
     }
 
-    Side <|-- Front
-    Side <|-- Back
-    Side "1..4" *-- "1" Corner
+    SideGameCard <|-- FrontGameCard
+    SideGameCard <|-- BackGameCard
+    SideGameCard "1..4" *-- "1" Corner
 
     class Corner {
           -boolean isCovered
@@ -226,37 +227,38 @@ package "Model"{
 
     'FrontSide Section
 
-    class Front {
+    class FrontGameCard {
         #int points
         +GameItemStore getGameItemStore()
         +int getPoints(Coordinate, PlayerBoard)
     }
 
-    Front <|-- FrontGoldCard
+    FrontGameCard <|-- FrontGoldGameCard
 
-    class FrontGoldCard {
+    class FrontGoldGameCard {
         #GameItemStore neededItems
         +GameItemStore getNeededItemStore()
     }
 
-    FrontGoldCard <|-- FrontPositionalGoldCard
-    FrontGoldCard <|-- FrontItemGoldCard
+    FrontGoldGameCard <|-- FrontPositionalGoldGameCard
+    FrontGoldGameCard <|-- FrontItemGoldGameCard
 
 
-    class FrontPositionalGoldCard {
+    class FrontPositionalGoldGameCard {
         +int getPoints(Coordinate, PlayerBoard)
 
     }
 
 
-    class FrontItemGoldCard {
+    class FrontItemGoldGameCard {
         -GameItemEnum multiplier
         +int getPoints(Coordinate, PlayerBoard)
     }
 
     'BackSide Section
 
-    class Back {
+
+    class BackGameCard {
         -GameItemStore resources
         +GameItemStore getGameItemStore()
     }
@@ -282,9 +284,9 @@ package "Model"{
 
     class PositionalData {
         -Coordinate point
-        -CardColor cardColor
+        -CardColorEnum cardColor
         +Coordinate getPoint()
-        +CardColor getCardColor()
+        +CardColorEnum getCardColor()
     }
     PositionalObjectiveCard "1..N" *-- "1" PositionalData
 
@@ -313,7 +315,7 @@ package "Model"{
         NONE
     }
 
-    enum CardColor {
+    enum CardColorEnum {
         RED
         BLUE
         GREEN
