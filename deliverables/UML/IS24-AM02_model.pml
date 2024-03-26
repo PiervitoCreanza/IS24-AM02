@@ -105,7 +105,6 @@ package "Model"{
         -int playerPos
         -PlayerBoard playerBoard
         -ObjectiveCard objectiveCard
-
         -ObjectiveCard[] choosableObjectives
         -PlayerHand hand
         -boolean isConnected
