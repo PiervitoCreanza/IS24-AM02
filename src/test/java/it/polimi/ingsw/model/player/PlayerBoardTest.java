@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.card.CardColorEnum;
 import it.polimi.ingsw.model.card.GameItemEnum;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.card;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

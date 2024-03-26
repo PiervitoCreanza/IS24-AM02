@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model.utils.store;
 
 import it.polimi.ingsw.model.utils.store.Store;
 import org.junit.jupiter.api.BeforeEach;
