@@ -15,9 +15,24 @@ import java.util.stream.Stream;
  * functionality and structure for different types of card sides, including managing corners.
  */
 abstract public class SideGameCard {
+    /**
+     * The top right corner of the side. It is wrapped in an Optional as it may or may not exist.
+     */
     private final Optional<Corner> topRight;
+
+    /**
+     * The top left corner of the side. It is wrapped in an Optional as it may or may not exist.
+     */
     private final Optional<Corner> topLeft;
+
+    /**
+     * The bottom left corner of the side. It is wrapped in an Optional as it may or may not exist.
+     */
     private final Optional<Corner> bottomLeft;
+
+    /**
+     * The bottom right corner of the side. It is wrapped in an Optional as it may or may not exist.
+     */
     private final Optional<Corner> bottomRight;
 
     /**
@@ -64,6 +79,7 @@ abstract public class SideGameCard {
 
     /**
      * Abstract method to be implemented by subclasses to return the game item store of the side.
+     *
      * @return The game item store of the side.
      */
     public abstract GameItemStore getGameItemStore();
@@ -83,6 +99,7 @@ abstract public class SideGameCard {
     /**
      * Returns a default GameItemStore for the side.
      * This method can be overridden by subclasses to provide specific implementations.
+     *
      * @return A default GameItemStore with all values set to zero.
      */
     public GameItemStore getNeededItemStore() {
