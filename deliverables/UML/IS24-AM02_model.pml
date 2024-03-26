@@ -207,7 +207,7 @@ package "Model"{
         +GameItemStore getCornersItems()
     }
 
-    SideGameCard <|-- Front
+    SideGameCard <|-- FrontGameCard
     SideGameCard <|-- BackGameCard
     SideGameCard "1..4" *-- "1" Corner
 
@@ -227,30 +227,30 @@ package "Model"{
 
     'FrontSide Section
 
-    class Front {
+    class FrontGameCard {
         #int points
         +GameItemStore getGameItemStore()
         +int getPoints(Coordinate, PlayerBoard)
     }
 
-    Front <|-- FrontGoldCard
+    FrontGameCard <|-- FrontGoldGameCard
 
-    class FrontGoldCard {
+    class FrontGoldGameCard {
         #GameItemStore neededItems
         +GameItemStore getNeededItemStore()
     }
 
-    FrontGoldCard <|-- FrontPositionalGoldCard
-    FrontGoldCard <|-- FrontItemGoldCard
+    FrontGoldGameCard <|-- FrontPositionalGoldGameCard
+    FrontGoldGameCard <|-- FrontItemGoldGameCard
 
 
-    class FrontPositionalGoldCard {
+    class FrontPositionalGoldGameCard {
         +int getPoints(Coordinate, PlayerBoard)
 
     }
 
 
-    class FrontItemGoldCard {
+    class FrontItemGoldGameCard {
         -GameItemEnum multiplier
         +int getPoints(Coordinate, PlayerBoard)
     }
