@@ -24,7 +24,7 @@ public class BackGameCard extends SideGameCard {
      * @param bottomRight The bottom right corner of the card.
      * @throws NullPointerException if resources is null.
      */
-    public BackGameCard(GameItemStore resources, Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight) {
+    public BackGameCard(Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight, GameItemStore resources) {
         super(topRight, topLeft, bottomLeft, bottomRight);
         Objects.requireNonNull(resources, "resources cannot be null");
         this.resources = resources;
