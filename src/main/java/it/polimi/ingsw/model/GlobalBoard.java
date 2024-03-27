@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+//import it.polimi.ingsw.data.Parser; TODO
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 
@@ -59,10 +60,11 @@ public class GlobalBoard {
      * Constructor for GlobalBoard. Initializes the decks and draws cards for the field and for the objectives.
      */
     public GlobalBoard() {
-        this.goldDeck = new Deck<>();        //TODO
-        this.resourceDeck = new Deck<>();    //TODO
-        this.objectiveDeck = new Deck<>();   //TODO
-        this.starterDeck = new Deck<>();     //TODO
+        //Parser parser = Parser.getInstance(); TODO
+        this.goldDeck = new Deck<>(new ArrayList<>());            //parser.getGoldDeck()      TODO
+        this.resourceDeck = new Deck<>(new ArrayList<>());        //parser.getResourceDeck()  TODO
+        this.objectiveDeck = new Deck<>(new ArrayList<>());       //parser.getObjectiveDeck() TODO
+        this.starterDeck = new Deck<>(new ArrayList<>());         //parser.getStarterDeck()   TODO
         this.globalObjectives = new ArrayList<>(List.of(this.objectiveDeck.draw(), this.objectiveDeck.draw()));
         this.fieldGoldCards = new ArrayList<>(List.of(this.goldDeck.draw(), this.goldDeck.draw()));
         this.fieldResourceCards = new ArrayList<>(List.of(this.resourceDeck.draw(), this.resourceDeck.draw()));
