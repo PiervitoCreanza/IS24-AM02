@@ -41,9 +41,13 @@ public class Deck<T> {
 
     /**
      * Draws a random card from the deck. The card is removed from the deck.
+     * If the deck is empty, it throws a RuntimeException.
      * @return The card drawn from the deck.
+     * @throws RuntimeException if the deck is empty.
      */
     public T draw(){
+        if (deck.isEmpty())
+            throw new RuntimeException("The deck is empty");
         return deck.remove(random.nextInt(deck.size()));
     }
 }
