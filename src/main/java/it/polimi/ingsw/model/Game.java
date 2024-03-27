@@ -6,10 +6,7 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.utils.store.Store;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -60,9 +57,13 @@ public class Game {
      * @param gameName   The name of the game.
      * @param nPlayers   The maximum number of players in the game.
      * @param playerName The name of the player creating the game, he will also be the first player.
+     * @throws NullPointerException if the gameName is null.
+     * @throws IllegalArgumentException if the number of players is not between 2 and 4.
      */
     public Game(String gameName, int nPlayers, String playerName) {
-        this.gameName = gameName;
+        this.gameName = Objects.requireNonNull(gameName, "The game name can't be NULL");
+        if(nPlayers < 2 || nPlayers > 4)
+            throw new IllegalArgumentException("Players must be between 2-4");
         this.nPlayers = nPlayers;
         this.players = new ArrayList<>(nPlayers);
         this.globalBoard = new GlobalBoard();
@@ -93,9 +94,11 @@ public class Game {
      *
      * @param playerName The name of the player to find.
      * @return The Player object that represents the player with the specified name.
+     * @throws NullPointerException if the playerName is null.
      * @throws IllegalArgumentException if a player with the specified name does not exist.
      */
     public Player getPlayer(String playerName) {
+        Objects.requireNonNull(playerName, "The player name can't be NULL");
         Optional<Player> chosenPlayer = players.stream().filter(player -> player.getPlayerName().equals(gameName)).findFirst();
         if (chosenPlayer.isEmpty())
             throw new IllegalArgumentException("Player with name \"" + playerName + "\" doesn't exists");
@@ -119,8 +122,14 @@ public class Game {
      * The new player is added to the list of players in the game.
      *
      * @param playerName The name of the player to be added.
+     * @throws NullPointerException if the playerName is null.
+     * @throws IllegalArgumentException if a player with the same name already exists.
      */
     public void addPlayer(String playerName) {
+        Objects.requireNonNull(playerName, "The player name can't be NULL");
+        if (players.stream().map(Player::getPlayerName).anyMatch(name -> name.equals(playerName)))
+            throw new IllegalArgumentException("A player with the same name, already exists");
+
         ArrayList<ObjectiveCard> drawnObjectives = new ArrayList<>(List.of(globalBoard.getObjectiveDeck().draw(), globalBoard.getObjectiveDeck().draw()));
         GameCard starterCard = globalBoard.getStarterDeck().draw();
         players.add(new Player(playerName, drawnObjectives, starterCard));
@@ -169,6 +178,7 @@ public class Game {
      * winners attribute.
      */
     public void calculateWinners() {
+        //Initialize a store that will contain for each player the number of objective cards he won.
         HashMap<Player, Integer> tempMap = new HashMap<>(nPlayers);
         players.forEach(player -> tempMap.put(player, 0));
         Store<Player> cardsWon = new Store<>(tempMap);
@@ -181,20 +191,26 @@ public class Game {
             objectives.add(playerObjective);
             for (ObjectiveCard objective : objectives) {
                 int pointsWon = objective.getPoints(playerBoard);
+                //If pointsWon aren't 0, we won an objective, so we increase the counter and advance the player.
                 if (pointsWon != 0) {
                     cardsWon.increment(player, 1);
                     player.advancePlayerPos(pointsWon);
                 }
             }
+            //We remove the current player objective, so only the two global objectives remain.
             objectives.remove(playerObjective);
         }
+        //A player wins if he has the highest score, if there's a tie the player who has completed more objectives wins.
+        //If they both completed the same number of objectives, they are both winners.
 
-        ArrayList<Player> tempWinners;
-        int highestPlayerPos = players.stream().map(Player::getPlayerPos).max(Integer::compare).orElse(0);
-        tempWinners = players.stream().filter(player -> player.getPlayerPos() == highestPlayerPos).collect(Collectors.toCollection(ArrayList::new));
+        //We calculate the highest score reached by a player.
+        int highestPlayerScore = players.stream().map(Player::getPlayerPos).max(Integer::compare).orElse(0);
+        //We filter by players with the highest score, we can't use a simple max() because a tie is possible.
+        ArrayList<Player> tempWinners = players.stream().filter(player -> player.getPlayerPos() == highestPlayerScore).collect(Collectors.toCollection(ArrayList::new));
 
+        //We calculate the maximum number of objective cards won by players, it is needed to resolve the tie
         int maxCardsWon = tempWinners.stream().map(cardsWon::get).max(Integer::compare).orElse(0);
-
+        //We filter by players with the maxCardsWon, and we save the array, a tie is still possible.
         this.winners = tempWinners.stream().filter(player -> cardsWon.get(player) == maxCardsWon).collect(Collectors.toCollection(ArrayList::new));
     }
 
