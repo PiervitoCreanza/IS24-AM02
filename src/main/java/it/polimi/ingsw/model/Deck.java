@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -24,10 +25,13 @@ public class Deck<T> {
     private final Random random;
 
     /**
-     * Constructor for Deck. Initializes the deck.
+     * Constructor for Deck. Initializes the deck with the specified cards.
+     *
+     * @param cards The list of cards to initialize the deck with. This cannot be null.
+     * @throws NullPointerException if the cards list is null.
      */
-    public Deck() {     //TODO
-        this.deck = new ArrayList<>();
+    public Deck(ArrayList<T> cards) {
+        this.deck = new ArrayList<>(Objects.requireNonNull(cards));
         this.random = new Random();
     }
 
