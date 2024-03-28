@@ -105,7 +105,7 @@ package "Model"{
         -ObjectiveCard[] choosableObjectives
         -PlayerHand hand
         -boolean isConnected
-        -PawnColorEnum pawnColor
+        -PlayerColorEnum playerColor
         +String getPlayerName()
         +PlayerBoard getPlayerBoard()
         +int getPlayerPos()
@@ -116,14 +116,10 @@ package "Model"{
         +void advancePlayerPos(int steps)
         +boolean setConnected(boolean status)
         +boolean isConnected()
-        +PawnColorEnum getPawnColor()
-        +void setPawnColor(PawnColorEnum)
+        +PlayerColorEnum getPlayerColor()
+        +void setPlayerColor(PlayerColorEnum)
         'Numero di passi di cui avanzare
     }
-
-
-
-
 
     Player "1" *-- "1" PlayerBoard
 
@@ -219,7 +215,7 @@ package "Model"{
           -GameItemEnum gameItem
           +GameItemEnum getGameItem()
           +GameItemEnum setCovered()
-          +boolean isCovered()
+          +boolean isCovered
       }
 
 
@@ -327,17 +323,17 @@ package "Model"{
         NONE
     }
 
-    enum PawnColorEnum {
-            RED
-            BLUE
-            GREEN
-            YELLOW
-        }
+    enum PlayerColorEnum {
+        RED
+        BLUE
+        GREEN
+        PURPLE
+    }
 
-       note top of PawnColorEnum
-           Per il nero basta vedere il primo player
-           nel Game.ArrayList<Player>
-       end note
+    note top of PlayerColorEnum
+        Per il nero basta vedere il primo player
+        nel Game.ArrayList<Player>
+    end note
 }
 
 @enduml
