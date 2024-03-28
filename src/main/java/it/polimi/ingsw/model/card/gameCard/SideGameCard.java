@@ -7,70 +7,67 @@ import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * Represents a generic side of a game card. This abstract class provides foundational
- * functionality and structure for different types of card sides, including managing corners.
+ * Represents a side of a game card.
+ * Each side has four corners, each of which can hold a game item.
  */
-abstract public class SideGameCard {
+public abstract class SideGameCard {
     /**
-     * The top right corner of the side. It is wrapped in an Optional as it may or may not exist.
+     * The top right corner of the game card.
      */
-    private final Optional<Corner> topRight;
-
+    private final Corner topRight;
     /**
-     * The top left corner of the side. It is wrapped in an Optional as it may or may not exist.
+     * The top left corner of the game card.
      */
-    private final Optional<Corner> topLeft;
-
+    private final Corner topLeft;
     /**
-     * The bottom left corner of the side. It is wrapped in an Optional as it may or may not exist.
+     * The bottom left corner of the game card.
      */
-    private final Optional<Corner> bottomLeft;
-
+    private final Corner bottomLeft;
     /**
-     * The bottom right corner of the side. It is wrapped in an Optional as it may or may not exist.
+     * The bottom right corner of the game card.
      */
-    private final Optional<Corner> bottomRight;
+    private final Corner bottomRight;
 
     /**
      * Constructs a SideGameCard with the specified corners.
      *
-     * @param topRight    The top right corner of the side.
-     * @param topLeft     The top left corner of the side.
-     * @param bottomLeft  The bottom left corner of the side.
-     * @param bottomRight The bottom right corner of the side.
+     * @param topRight    the top right corner
+     * @param topLeft     the top left corner
+     * @param bottomLeft  the bottom left corner
+     * @param bottomRight the bottom right corner
      */
     public SideGameCard(Corner topRight, Corner topLeft, Corner bottomLeft, Corner bottomRight) {
-        this.topRight = Optional.ofNullable(topRight);
-        this.topLeft = Optional.ofNullable(topLeft);
-        this.bottomLeft = Optional.ofNullable(bottomLeft);
-        this.bottomRight = Optional.ofNullable(bottomRight);
+        this.topRight = topRight;
+        this.topLeft = topLeft;
+        this.bottomLeft = bottomLeft;
+        this.bottomRight = bottomRight;
     }
 
     /**
-     * Retrieves the corner of the side based on the specified position.
+     * Returns the corner at the specified position.
      *
-     * @param position The position of the corner to be retrieved.
-     * @return An Optional containing the corner if it exists, or empty otherwise.
+     * @param position the position of the corner
+     * @return an Optional containing the corner if it exists, otherwise an empty Optional
      */
     public Optional<Corner> getCorner(CornerPosition position) {
         return switch (position) {
-            case TOP_RIGHT -> topRight;
-            case TOP_LEFT -> topLeft;
-            case BOTTOM_LEFT -> bottomLeft;
-            case BOTTOM_RIGHT -> bottomRight;
+            case TOP_RIGHT -> Optional.ofNullable(topRight);
+            case TOP_LEFT -> Optional.ofNullable(topLeft);
+            case BOTTOM_LEFT -> Optional.ofNullable(bottomLeft);
+            case BOTTOM_RIGHT -> Optional.ofNullable(bottomRight);
         };
     }
 
     /**
-     * Sets the specified corner of the side as covered and returns the corresponding game item.
-     * If the corner is not present, returns GameItemEnum.NONE.
+     * Sets the corner at the specified position as covered.
      *
-     * @param position The position of the corner to cover.
-     * @return The game item enum corresponding to the covered corner, or GameItemEnum.NONE if the corner doesn't exist.
+     * @param position the position of the corner
+     * @return the game item of the corner if it exists, otherwise GameItemEnum.NONE
      */
     public GameItemEnum setCornerCovered(CornerPosition position) {
         Optional<Corner> corner = this.getCorner(position);
@@ -78,44 +75,42 @@ abstract public class SideGameCard {
     }
 
     /**
-     * Abstract method to be implemented by subclasses to return the game item store of the side.
+     * Returns the game item store of the side.
      *
-     * @return The game item store of the side.
+     * @return the game item store
      */
     public abstract GameItemStore getGameItemStore();
 
     /**
-     * Returns the points for this side of the card based on its position and the player's board.
-     * This method returns zero by default and can be overridden by subclasses for specific implementations.
+     * Returns the points of the side at the specified card position.
      *
-     * @param cardPosition The position of the card on the player's board.
-     * @param playerBoard  The player's board.
-     * @return The calculated points for the card, which is zero by default.
+     * @param cardPosition the position of the card
+     * @param playerBoard  the player board
+     * @return the points
      */
     public int getPoints(Coordinate cardPosition, PlayerBoard playerBoard) {
         return 0;
     }
 
     /**
-     * Returns a default GameItemStore for the side.
-     * This method can be overridden by subclasses to provide specific implementations.
+     * Returns the game item store needed by the side.
      *
-     * @return A default GameItemStore with all values set to zero.
+     * @return the needed game item store
      */
     public GameItemStore getNeededItemStore() {
         return new GameItemStore();
     }
 
     /**
-     * Aggregates and returns game items from all corners of the side.
-     * This helper method is used to gather items from the corners for forming a GameItemStore.
+     * Returns the game items of the corners.
      *
-     * @return A GameItemStore with items combined from all corners.
+     * @return the game item store of the corners
      */
     protected GameItemStore getCornersItems() {
         GameItemStore gameItemStore = new GameItemStore();
         Stream.of(topRight, topLeft, bottomRight, bottomLeft)
-                .map(corner -> corner.orElse(new Corner(true, GameItemEnum.NONE)).getGameItem())
+                .filter(Objects::nonNull)
+                .map(Corner::getGameItem)
                 .forEach(gameItem -> gameItemStore.increment(gameItem, 1));
         return gameItemStore;
     }
