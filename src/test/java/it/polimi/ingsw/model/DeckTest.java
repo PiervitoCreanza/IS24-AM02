@@ -30,6 +30,18 @@ class DeckTest {
     }
 
     @Test
+    @DisplayName("isEmpty returns true if deck is empty")
+    void isEmptyShouldReturnTrueForEmptyDeck() {
+        assertTrue(emptyDeck.isEmpty());
+    }
+
+    @Test
+    @DisplayName("isEmpty returns false if deck is not empty")
+    void isEmptyShouldReturnFalseForNonEmptyDeck() {
+        assertFalse(fullDeck.isEmpty());
+    }
+
+    @Test
     @DisplayName("Draw method returns an exception when Deck is empty")
     void drawFromEmptyDeckShouldThrowException() {
         Exception exception = assertThrows(RuntimeException.class, emptyDeck::draw);
@@ -47,18 +59,6 @@ class DeckTest {
     void drawShouldRemoveCardFromDeck() {
         fullDeck.draw();
         assertTrue(fullDeck.isEmpty());
-    }
-
-    @Test
-    @DisplayName("isEmpty returns true if deck is empty")
-    void isEmptyShouldReturnTrueForEmptyDeck() {
-        assertTrue(emptyDeck.isEmpty());
-    }
-
-    @Test
-    @DisplayName("isEmpty returns false if deck is not empty")
-    void isEmptyShouldReturnFalseForNonEmptyDeck() {
-        assertFalse(fullDeck.isEmpty());
     }
 }
 
