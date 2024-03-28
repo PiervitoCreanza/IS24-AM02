@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.card.corner;
 
 import it.polimi.ingsw.model.card.GameItemEnum;
-import it.polimi.ingsw.model.card.corner.Corner;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ public class CornerTest {
 
     @BeforeEach
     public void setup() {
-        corner = new Corner(false, GameItemEnum.PLANT);
+        corner = new Corner(GameItemEnum.PLANT);
     }
 
     /**
@@ -40,4 +40,15 @@ public class CornerTest {
         assertEquals(GameItemEnum.NONE, corner.getGameItem());
     }
 
+    @Test
+    public void testIsCovered() {
+        // Create a Corner instance with isCovered set to false
+        Corner corner = new Corner(GameItemEnum.NONE);
+        Assertions.assertFalse(corner.isCovered());
+
+        // Cover the corner
+        corner.setCovered();
+        Assertions.assertTrue(corner.isCovered());
+    }
 }
+

@@ -1,7 +1,7 @@
-package it.polimi.ingsw.model.card;
+package it.polimi.ingsw.model.card.gameCard;
 
+import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.model.card.corner.Corner;
-import it.polimi.ingsw.model.card.gameCard.BackGameCard;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ public class BackGameCardTest {
         resources.set(GameItemEnum.ANIMAL, 1);
         resources.set(GameItemEnum.FUNGI, 1);
         resources.set(GameItemEnum.NONE, 4);
-        Corner cornerNone = new Corner(false, GameItemEnum.NONE);
+        Corner cornerNone = new Corner(GameItemEnum.NONE);
         BackGameCard backGameCard = new BackGameCard(cornerNone, cornerNone, cornerNone, cornerNone, resources);
         assertEquals(resources, backGameCard.getGameItemStore());
     }
@@ -47,10 +47,10 @@ public class BackGameCardTest {
     public void getGameItemStoreWhenCornersHaveSomeGameItem() {
         GameItemStore resources = new GameItemStore();
         resources.set(GameItemEnum.FUNGI, 1);
-        Corner topRight = new Corner(false, GameItemEnum.NONE);
-        Corner topLeft = new Corner(false, GameItemEnum.ANIMAL);
-        Corner bottomLeft = new Corner(false, GameItemEnum.NONE);
-        Corner bottomRight = new Corner(false, GameItemEnum.FUNGI);
+        Corner topRight = new Corner(GameItemEnum.NONE);
+        Corner topLeft = new Corner(GameItemEnum.ANIMAL);
+        Corner bottomLeft = new Corner(GameItemEnum.NONE);
+        Corner bottomRight = new Corner(GameItemEnum.FUNGI);
         BackGameCard backGameCard = new BackGameCard(topRight, topLeft, bottomLeft, bottomRight, resources);
         GameItemStore expected = new GameItemStore();
         expected.set(GameItemEnum.ANIMAL, 1);
