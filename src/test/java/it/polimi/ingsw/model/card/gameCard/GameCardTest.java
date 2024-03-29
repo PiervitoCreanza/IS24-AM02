@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -28,17 +29,19 @@ public class GameCardTest {
     public void setup() {
         side1 = mock(SideGameCard.class);
         side2 = mock(SideGameCard.class);
-        gameCard = new GameCard(side1, side2, CardColorEnum.RED);
+        gameCard = new GameCard(1, side1, side2, CardColorEnum.RED);
         playerBoard = mock(PlayerBoard.class);
     }
 
     @Test
+    @DisplayName("switchSide() test for GameCard class")
     public void switchSideShouldChangeCurrentSide() {
         gameCard.switchSide();
         assertEquals(side2, gameCard.getCurrentSide());
     }
 
     @Test
+    @DisplayName("getCorner() test for GameCard class")
     public void getCornerShouldReturnCornerFromCurrentSide() {
         Corner corner = mock(Corner.class);
         when(side1.getCorner(CornerPosition.TOP_LEFT)).thenReturn(Optional.of(corner));
@@ -59,7 +62,9 @@ public class GameCardTest {
     }
 
     @Test
+    @DisplayName("getPoints() test for GameCard class")
     public void getPointsShouldReturnPointsFromCurrentSide() {
+        //not really useful because this method is defined in this class just to allow the Override in the child classes
         Coordinate coordinate = new Coordinate(0, 0);
         when(side1.getPoints(coordinate, playerBoard)).thenReturn(5);
 

@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.model.card.corner.Corner;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,12 +28,7 @@ public class FrontGoldGameCardTest {
     }
 
     @Test
-    public void shouldReturnNeededItemsWhenGetNeededItemsIsCalled() {
-        GameItemStore actualNeededItems = frontGoldGameCard.getNeededItems();
-        assertEquals(neededItems, actualNeededItems, "The returned needed items should be equal to the needed items set in the setup");
-    }
-
-    @Test
+    @DisplayName("getNeededItemStore() test for FrontGoldGameCard class")
     public void shouldReturnNeededItemsWhenGetNeededItemStoreIsCalled() {
         GameItemStore actualNeededItems = frontGoldGameCard.getNeededItemStore();
         assertEquals(neededItems, actualNeededItems, "The returned needed items should be equal to the needed items set in the setup");

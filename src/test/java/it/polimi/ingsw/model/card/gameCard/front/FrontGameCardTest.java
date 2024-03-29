@@ -29,6 +29,7 @@ public class FrontGameCardTest {
     }
 
     @Test
+    @DisplayName("getPoints test for FrontGameCard class")
     public void getPointsReturnsCorrectValue() {
         PlayerBoard playerBoard = mock(PlayerBoard.class);
         Coordinate coordinate = new Coordinate(1,1);
