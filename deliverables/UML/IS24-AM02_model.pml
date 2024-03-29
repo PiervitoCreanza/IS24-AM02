@@ -178,9 +178,11 @@ package "Model"{
 
 
     class GameCard {
+        -int gameCardId
         -Side currentSide
         -Side otherSide
         -CardColorEnum cardColor
+        +int getGameCardId()
         +Side getCurrentSide()
         +void switchSide()
         +CardColorEnum getCardColor()
@@ -215,14 +217,13 @@ package "Model"{
           -GameItemEnum gameItem
           +GameItemEnum getGameItem()
           +GameItemEnum setCovered()
-          +boolean isCovered
+          +boolean isCovered()
       }
 
 
 
       note bottom of Corner
-        Nel caso in cui un Corner sia vuoto, allora risulterà avere GameItemEnum = NONE
-        Se invece il Corner non esiste, il getter restituirà Optional.empty()
+        Documentazione: [[https://bit.ly/3TCavdQ]]
       end note
 
     'FrontSide Section

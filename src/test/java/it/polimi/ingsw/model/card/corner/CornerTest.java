@@ -41,6 +41,7 @@ public class CornerTest {
     }
 
     @Test
+    @DisplayName("isCovered() test for Corner class")
     public void testIsCovered() {
         // Create a Corner instance with isCovered set to false
         Corner corner = new Corner(GameItemEnum.NONE);

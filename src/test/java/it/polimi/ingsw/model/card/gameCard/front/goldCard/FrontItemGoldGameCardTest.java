@@ -38,6 +38,7 @@ public class FrontItemGoldGameCardTest {
     }
 
     @Test
+    @DisplayName("getPoints() test for FrontItemGoldGameCard class")
     public void testGetPoints() {
         // Arrange: Creating a mock player board and setting game item amounts
         PlayerBoard playerBoardMock = Mockito.mock(PlayerBoard.class);

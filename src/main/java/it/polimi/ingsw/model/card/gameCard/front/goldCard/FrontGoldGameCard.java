@@ -32,15 +32,6 @@ public class FrontGoldGameCard extends FrontGameCard {
     }
 
     /**
-     * Gets the needed items store for this FrontGoldGameCard.
-     *
-     * @return The GameItemStore representing the needed items for this card.
-     */
-    public GameItemStore getNeededItems() {
-        return neededItems;
-    }
-
-    /**
      * Overrides the getNeededItemStore method from the FrontGameCard class.
      * Returns the needed items specific to this FrontGoldGameCard.
      *

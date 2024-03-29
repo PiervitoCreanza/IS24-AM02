@@ -23,7 +23,7 @@ public class FrontPositionalGoldGameCardTest {
 
     @BeforeEach
     public void setUp() {
-        // Setup the corners of the game card
+        // Set up the corners of the game card
         Corner topRight = new Corner(GameItemEnum.NONE);
         Corner topLeft = null; // Represents a non-existing corner
         Corner bottomLeft = new Corner(GameItemEnum.NONE);
@@ -41,6 +41,7 @@ public class FrontPositionalGoldGameCardTest {
     }
 
     @Test
+    @DisplayName("getPoints() test for FrontPositionalGoldGameCard class")
     public void testGetPoints() {
         // Testing the scenario where the game card covers all four corners but is not at the origin
         // Creating a mock PlayerBoard

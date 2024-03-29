@@ -35,6 +35,12 @@ public abstract class SideGameCard {
 
     /**
      * Constructs a SideGameCard with the specified corners.
+     * <p>
+     * Note: SideGameCard is an abstract class and cannot be instantiated directly.
+     * However, any class that extends SideGameCard can be instantiated and will benefit from polymorphism.
+     * <p>
+     * Note: A corner can be non-existent and therefore null. This is different from a corner that exists but has no game item,
+     * which is represented by a Corner with GameItemEnum.NONE.
      *
      * @param topRight    the top right corner
      * @param topLeft     the top left corner
@@ -50,6 +56,11 @@ public abstract class SideGameCard {
 
     /**
      * Returns the corner at the specified position.
+     * <p>
+     *  Note: If the corner is non-existent (i.e., null), this method will return an Optional.isEmpty().
+     *  This is different from a corner that exists but has no game item, which is represented by a Corner with GameItemEnum.NONE.
+     *  In this case, the method will return an Optional containing the corner that has GameItemEnum.NONE in it.
+     *  If the corner exists and has a game item, the method will return an Optional containing the corner.
      *
      * @param position the position of the corner
      * @return an Optional containing the corner if it exists, otherwise an empty Optional
