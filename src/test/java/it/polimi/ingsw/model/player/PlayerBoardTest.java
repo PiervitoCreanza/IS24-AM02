@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.card.corner.CornerPosition;
 import it.polimi.ingsw.model.card.gameCard.*;
 import it.polimi.ingsw.model.card.gameCard.front.FrontGameCard;
 import it.polimi.ingsw.model.card.gameCard.front.goldCard.FrontPositionalGoldGameCard;
-import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,11 +36,11 @@ public class PlayerBoardTest {
     }
 
     private GameCard createCardWithCornerItem(GameItemEnum gameItem) {
-        return new GameCard(new FrontGameCard(new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), 0), new BackGameCard(new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new GameItemStore()), CardColorEnum.GREEN);
+        return new GameCard(1, new FrontGameCard(new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), 0), new BackGameCard(new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new GameItemStore()), CardColorEnum.GREEN);
     }
 
     private GameCard createCardWithoutCorner() {
-        return new GameCard(new FrontGameCard(null, null, null, null, 0), new BackGameCard(null, null, null, null, new GameItemStore()), CardColorEnum.GREEN);
+        return new GameCard(2, new FrontGameCard(null, null, null, null, 0), new BackGameCard(null, null, null, null, new GameItemStore()), CardColorEnum.GREEN);
     }
 
     private void assertIllegalArgument(String message, org.junit.jupiter.api.function.Executable executable) {
@@ -50,7 +49,7 @@ public class PlayerBoardTest {
     }
 
     private GameCard createPositionalGoldCard(GameItemEnum gameItem, int points) {
-        return new GameCard(new FrontPositionalGoldGameCard(new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), points, new GameItemStore()), new BackGameCard(new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new GameItemStore()), CardColorEnum.GREEN);
+        return new GameCard(3, new FrontPositionalGoldGameCard(new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), points, new GameItemStore()), new BackGameCard(new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new Corner(false, gameItem), new GameItemStore()), CardColorEnum.GREEN);
     }
 
     @BeforeEach
