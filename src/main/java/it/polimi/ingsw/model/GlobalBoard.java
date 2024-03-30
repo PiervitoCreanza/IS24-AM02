@@ -71,6 +71,26 @@ public class GlobalBoard {
     }
 
     /**
+     * This constructor is used to create a new instance of GlobalBoard with the provided decks.
+     * It initializes the decks with the provided ones and draws cards for the field and for the objectives.
+     * It is only used for testing purpose.
+     *
+     * @param goldDeck The deck of gold cards to be used in the game.
+     * @param resourceDeck The deck of resource cards to be used in the game.
+     * @param objectiveDeck The deck of objective cards to be used in the game.
+     * @param starterDeck The deck of starter cards to be used in the game.
+     */
+    public GlobalBoard(Deck<GameCard> goldDeck, Deck<GameCard> resourceDeck, Deck<ObjectiveCard> objectiveDeck, Deck<GameCard> starterDeck) {
+        this.goldDeck = goldDeck;
+        this.resourceDeck = resourceDeck;
+        this.objectiveDeck = objectiveDeck;
+        this.starterDeck = starterDeck;
+        this.globalObjectives = new ArrayList<>(List.of(this.objectiveDeck.draw(), this.objectiveDeck.draw()));
+        this.fieldGoldCards = new ArrayList<>(List.of(this.goldDeck.draw(), this.goldDeck.draw()));
+        this.fieldResourceCards = new ArrayList<>(List.of(this.resourceDeck.draw(), this.resourceDeck.draw()));
+    }
+
+    /**
      * Returns the deck of gold cards.
      *
      * @return The deck of gold cards.
