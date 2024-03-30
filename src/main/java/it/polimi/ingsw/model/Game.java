@@ -72,6 +72,28 @@ public class Game {
     }
 
     /**
+     * This is a constructor for the Game class. It initializes a new game with the specified parameters.
+     * It is only used for testing purpose.
+     *
+     * @param gameName   The name of the game.
+     * @param nPlayers   The maximum number of players in the game.
+     * @param playerName The name of the player creating the game, he will also be the first player.
+     * @param globalBoard The global board of the game.
+     * @throws NullPointerException if the gameName is null.
+     * @throws IllegalArgumentException if the number of players is not between 2 and 4.
+     */
+    public Game(String gameName, int nPlayers, String playerName, GlobalBoard globalBoard) {
+        this.gameName = Objects.requireNonNull(gameName, "The game name can't be NULL");
+        if(nPlayers < 2 || nPlayers > 4)
+            throw new IllegalArgumentException("Players must be between 2-4");
+        this.nPlayers = nPlayers;
+        this.players = new ArrayList<>(nPlayers);
+        this.globalBoard = globalBoard;
+        this.addPlayer(playerName);
+        this.currentPlayer = players.getFirst();
+    }
+
+    /**
      * Returns the name of the game.
      *
      * @return The name of the game.
@@ -99,7 +121,7 @@ public class Game {
      */
     public Player getPlayer(String playerName) {
         Objects.requireNonNull(playerName, "The player name can't be NULL");
-        Optional<Player> chosenPlayer = players.stream().filter(player -> player.getPlayerName().equals(gameName)).findFirst();
+        Optional<Player> chosenPlayer = players.stream().filter(player -> player.getPlayerName().equals(playerName)).findFirst();
         if (chosenPlayer.isEmpty())
             throw new IllegalArgumentException("Player with name \"" + playerName + "\" doesn't exists");
         return chosenPlayer.get();
@@ -122,10 +144,13 @@ public class Game {
      * The new player is added to the list of players in the game.
      *
      * @param playerName The name of the player to be added.
+     * @throws RuntimeException if the maximum number of players has been reached.
      * @throws NullPointerException if the playerName is null.
      * @throws IllegalArgumentException if a player with the same name already exists.
      */
     public void addPlayer(String playerName) {
+        if (players.size() >= nPlayers)
+            throw new RuntimeException("Maximum number of players already reached");
         Objects.requireNonNull(playerName, "The player name can't be NULL");
         if (players.stream().map(Player::getPlayerName).anyMatch(name -> name.equals(playerName)))
             throw new IllegalArgumentException("A player with the same name, already exists");
