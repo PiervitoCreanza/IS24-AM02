@@ -19,6 +19,7 @@ package "Controller"{
         +switchCardSide(String playerName, GameCard card)
         +setPlayerObjective(String playerName, GameCard card)
         +getGame()
+        +choosePlayerColor(PlayerColorEnum)
     }
 
     note top of MainController

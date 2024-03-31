@@ -6,7 +6,8 @@ import it.polimi.ingsw.model.utils.store.GameItemStore;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -55,7 +56,6 @@ public class BackGameCardTest {
         GameItemStore expected = new GameItemStore();
         expected.set(GameItemEnum.ANIMAL, 1);
         expected.set(GameItemEnum.FUNGI, 2);
-        expected.set(GameItemEnum.NONE, 2);
         assertEquals(expected, backGameCard.getGameItemStore());
     }
 }

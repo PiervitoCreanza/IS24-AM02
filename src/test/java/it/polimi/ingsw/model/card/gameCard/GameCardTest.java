@@ -13,8 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -53,6 +52,7 @@ public class GameCardTest {
     }
 
     @Test
+    @DisplayName("setCornerCovered() test for GameCard class")
     public void setCornerCoveredShouldCoverCornerOnCurrentSide() {
         when(side1.setCornerCovered(CornerPosition.TOP_LEFT)).thenReturn(GameItemEnum.NONE);
 
@@ -74,6 +74,7 @@ public class GameCardTest {
     }
 
     @Test
+    @DisplayName("getNeededItemStore() test for GameCard class")
     public void getNeededItemStoreShouldReturnStoreFromCurrentSide() {
         GameItemStore store = mock(GameItemStore.class);
         when(side1.getNeededItemStore()).thenReturn(store);
@@ -84,13 +85,39 @@ public class GameCardTest {
     }
 
     @Test
+    @DisplayName("Card Color should match constructor input test for GameCard class")
     public void cardColorShouldMatchConstructorInput() {
         assertEquals(CardColorEnum.RED, gameCard.getCardColor());
     }
 
     @Test
+    @DisplayName("Card Color should not change after switching Sides test for GameCard class")
     public void cardColorShouldNotChangeAfterSwitchingSides() {
         gameCard.switchSide();
         assertEquals(CardColorEnum.RED, gameCard.getCardColor());
+        gameCard.switchSide();
+        assertEquals(CardColorEnum.RED, gameCard.getCardColor());
+    }
+
+
+    @Test
+    @DisplayName("getGameItemStore() should return the game item store of the current side")
+    public void getGameItemStoreShouldReturnCurrentSideStore() {
+        GameItemStore store = mock(GameItemStore.class);
+        when(gameCard.getGameItemStore()).thenReturn(store);
+
+        GameItemStore result = gameCard.getGameItemStore();
+
+        assertEquals(store, result);
+    }
+
+    @Test
+    @DisplayName("getGameItemStore() should return null if the current side has no store")
+    public void getGameItemStoreShouldReturnNullIfNoStore() {
+        when(gameCard.getGameItemStore()).thenReturn(null);
+
+        GameItemStore result = gameCard.getGameItemStore();
+
+        assertNull(result);
     }
 }

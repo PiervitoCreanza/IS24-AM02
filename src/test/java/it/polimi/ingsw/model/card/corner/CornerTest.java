@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * This test checks if the BackGameCard constructor throws a NullPointerException when a null GameItemStore is passed.
@@ -41,14 +41,15 @@ public class CornerTest {
     }
 
     @Test
-    @DisplayName("isCovered() test for Corner class")
-    public void testIsCovered() {
+    @DisplayName("isCovered() test for Corner class - false and true cases")
+    public void testIsCovered1() {
         // Create a Corner instance with isCovered set to false
         Corner corner = new Corner(GameItemEnum.NONE);
         Assertions.assertFalse(corner.isCovered());
 
-        // Cover the corner
-        corner.setCovered();
+        /* Cover the corner, check the returned ENUM value */
+        assertEquals(GameItemEnum.NONE, corner.setCovered());
+        /* Check if the cover has been effectively covered */
         Assertions.assertTrue(corner.isCovered());
     }
 }
