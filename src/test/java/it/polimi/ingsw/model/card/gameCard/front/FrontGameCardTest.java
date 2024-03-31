@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.model.card.corner.Corner;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.model.utils.store.GameItemStore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,5 +38,13 @@ public class FrontGameCardTest {
         int points = frontGameCard.getPoints(coordinate, playerBoard);
 
         assertEquals(5, points);
+    }
+
+    @Test
+    @DisplayName("getGameItemStore test for FrontGameCard class")
+    public void getGameItemStoreTest() {
+        GameItemStore gameItemStore = new GameItemStore();
+        gameItemStore.set(GameItemEnum.NONE, 4);
+        assertEquals(gameItemStore, frontGameCard.getGameItemStore());
     }
 }

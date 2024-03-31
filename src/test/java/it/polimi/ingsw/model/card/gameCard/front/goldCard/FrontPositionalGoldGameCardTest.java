@@ -41,7 +41,7 @@ public class FrontPositionalGoldGameCardTest {
     }
 
     @Test
-    @DisplayName("getPoints() test for FrontPositionalGoldGameCard class")
+    @DisplayName("getPoints() test for FrontPositionalGoldGameCard class with all 4 cards present ")
     public void testGetPoints() {
         // Testing the scenario where the game card covers all four corners but is not at the origin
         // Creating a mock PlayerBoard
@@ -66,5 +66,29 @@ public class FrontPositionalGoldGameCardTest {
 
         // Assert: Verify the expected points (8 points)
         assertEquals(8, points);
+    }
+
+
+    @Test
+    @DisplayName("getPoints() test for FrontPositionalGoldGameCard class with 2 cards missing")
+    public void testGetPointsWithoutOneCard() {
+        // Testing the scenario where the game card covers 3 corners but 1 card is missing
+        // Creating a mock PlayerBoard
+        PlayerBoard playerBoard = mock(PlayerBoard.class);
+
+        // Creating mock cards for each corner
+        GameCard gameCard1 = mock(GameCard.class);
+        GameCard gameCard2 = mock(GameCard.class);
+
+        // Simulating the scenario with mock cards at specified coordinates
+        // Scenario reference: https://share.cleanshot.com/FtGgH19F
+        when(playerBoard.getGameCard(new Coordinate(0, 6))).thenReturn(Optional.of(gameCard1));
+        when(playerBoard.getGameCard(new Coordinate(0, 4))).thenReturn(Optional.of(gameCard2));
+        // Act: Calculate the points for the given coordinate
+        Coordinate coordinate = new Coordinate(-1, 5);
+        int points = frontPositionalGoldGameCard.getPoints(coordinate, playerBoard);
+
+        // Assert: Verify the expected points (8 points)
+        assertEquals(4, points);
     }
 }
