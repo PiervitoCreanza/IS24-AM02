@@ -206,7 +206,7 @@ public class Game {
         //Initialize a store that will contain for each player the number of objective cards he won.
         HashMap<Player, Integer> tempMap = new HashMap<>(nPlayers);
         players.forEach(player -> tempMap.put(player, 0));
-        Store<Player> cardsWon = new Store<>(tempMap);
+        Store<Player> objectiveCardsWon = new Store<>(tempMap);
 
         ArrayList<ObjectiveCard> objectives = globalBoard.getGlobalObjectives();
 
@@ -218,7 +218,7 @@ public class Game {
                 int pointsWon = objective.getPoints(playerBoard);
                 //If pointsWon aren't 0, we won an objective, so we increase the counter and advance the player.
                 if (pointsWon != 0) {
-                    cardsWon.increment(player, 1);
+                    objectiveCardsWon.increment(player, 1);
                     player.advancePlayerPos(pointsWon);
                 }
             }
@@ -234,9 +234,9 @@ public class Game {
         ArrayList<Player> tempWinners = players.stream().filter(player -> player.getPlayerPos() == highestPlayerScore).collect(Collectors.toCollection(ArrayList::new));
 
         //We calculate the maximum number of objective cards won by players, it is needed to resolve the tie
-        int maxCardsWon = tempWinners.stream().map(cardsWon::get).max(Integer::compare).orElse(0);
-        //We filter by players with the maxCardsWon, and we save the array, a tie is still possible.
-        this.winners = tempWinners.stream().filter(player -> cardsWon.get(player) == maxCardsWon).collect(Collectors.toCollection(ArrayList::new));
+        int maxObjectiveCardsWon = tempWinners.stream().map(objectiveCardsWon::get).max(Integer::compare).orElse(0);
+        //We filter by players with the maxObjectiveCardsWon, and we save the array, a tie is still possible.
+        this.winners = tempWinners.stream().filter(player -> objectiveCardsWon.get(player) == maxObjectiveCardsWon).collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
