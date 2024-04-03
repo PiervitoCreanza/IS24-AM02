@@ -24,7 +24,7 @@ public class Game {
      * Represents the maximum number of players in the game.
      * This is the total number of players that can join a game.
      */
-    private final int nPlayers;
+    private final int maxAllowedPlayers;
 
     /**
      * Represents the list of players in the game.
@@ -55,17 +55,17 @@ public class Game {
      * Constructor for Game. Initializes a new game with the specified parameters.
      *
      * @param gameName   The name of the game.
-     * @param nPlayers   The maximum number of players in the game.
+     * @param maxAllowedPlayers   The maximum number of players in the game.
      * @param playerName The name of the player creating the game, he will also be the first player.
      * @throws NullPointerException if the gameName is null.
      * @throws IllegalArgumentException if the number of players is not between 2 and 4.
      */
-    public Game(String gameName, int nPlayers, String playerName) {
+    public Game(String gameName, int maxAllowedPlayers, String playerName) {
         this.gameName = Objects.requireNonNull(gameName, "The game name can't be NULL");
-        if(nPlayers < 2 || nPlayers > 4)
+        if(maxAllowedPlayers < 2 || maxAllowedPlayers > 4)
             throw new IllegalArgumentException("Players must be between 2-4");
-        this.nPlayers = nPlayers;
-        this.players = new ArrayList<>(nPlayers);
+        this.maxAllowedPlayers = maxAllowedPlayers;
+        this.players = new ArrayList<>();
         this.globalBoard = new GlobalBoard();
         this.addPlayer(playerName);
         this.currentPlayer = players.getFirst();
@@ -76,18 +76,18 @@ public class Game {
      * It is only used for testing purpose.
      *
      * @param gameName   The name of the game.
-     * @param nPlayers   The maximum number of players in the game.
+     * @param maxAllowedPlayers   The maximum number of players in the game.
      * @param playerName The name of the player creating the game, he will also be the first player.
      * @param globalBoard The global board of the game.
      * @throws NullPointerException if the gameName is null.
      * @throws IllegalArgumentException if the number of players is not between 2 and 4.
      */
-    public Game(String gameName, int nPlayers, String playerName, GlobalBoard globalBoard) {
+    public Game(String gameName, int maxAllowedPlayers, String playerName, GlobalBoard globalBoard) {
         this.gameName = Objects.requireNonNull(gameName, "The game name can't be NULL");
-        if(nPlayers < 2 || nPlayers > 4)
+        if(maxAllowedPlayers < 2 || maxAllowedPlayers > 4)
             throw new IllegalArgumentException("Players must be between 2-4");
-        this.nPlayers = nPlayers;
-        this.players = new ArrayList<>(nPlayers);
+        this.maxAllowedPlayers = maxAllowedPlayers;
+        this.players = new ArrayList<>();
         this.globalBoard = globalBoard;
         this.addPlayer(playerName);
         this.currentPlayer = players.getFirst();
@@ -149,7 +149,7 @@ public class Game {
      * @throws IllegalArgumentException if a player with the same name already exists.
      */
     public void addPlayer(String playerName) {
-        if (players.size() >= nPlayers)
+        if (players.size() >= maxAllowedPlayers)
             throw new RuntimeException("Maximum number of players already reached");
         Objects.requireNonNull(playerName, "The player name can't be NULL");
         if (players.stream().map(Player::getPlayerName).anyMatch(name -> name.equals(playerName)))
@@ -174,7 +174,7 @@ public class Game {
      * This method updates the currentPlayer variable to the next player in the list of players.
      */
     public void setNextPlayer() {
-        currentPlayer = players.get((players.indexOf(currentPlayer) + 1) % nPlayers);
+        currentPlayer = players.get((players.indexOf(currentPlayer) + 1) % maxAllowedPlayers);
     }
 
     /**
@@ -183,7 +183,7 @@ public class Game {
      * @return true if the game has started, false otherwise.
      */
     public boolean isStarted() {
-        return (players.size() == nPlayers);
+        return (players.size() == maxAllowedPlayers);
     }
 
     /**
@@ -204,7 +204,7 @@ public class Game {
      */
     public void calculateWinners() {
         //Initialize a store that will contain for each player the number of objective cards he won.
-        HashMap<Player, Integer> tempMap = new HashMap<>(nPlayers);
+        HashMap<Player, Integer> tempMap = new HashMap<>(maxAllowedPlayers);
         players.forEach(player -> tempMap.put(player, 0));
         Store<Player> objectiveCardsWon = new Store<>(tempMap);
 
