@@ -16,6 +16,7 @@ import java.util.Optional;
  * Each game card has two sides, a current side and another side, along with a specific color.
  */
 public class GameCard {
+
     /**
      * The unique identifier for the game card.
      */
