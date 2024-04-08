@@ -3,9 +3,11 @@ package it.polimi.ingsw.data;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.Deck;
-import it.polimi.ingsw.model.GameCard;
-import it.polimi.ingsw.model.ObjectiveCard.ItemObjectiveCard;
-import it.polimi.ingsw.model.ObjectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.card.gameCard.SideGameCard;
+import it.polimi.ingsw.model.card.objectiveCard.ItemObjectiveCard;
+import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.card.objectiveCard.PositionalObjectiveCard;
 
 import java.io.FileReader;
 import java.io.Reader;
@@ -25,9 +27,9 @@ public class Parser {
     private static Parser instance;
 
     /**
-     * The list of objective cards.
+     * The list of resource cards.
      */
-    private final ArrayList<ObjectiveCard> objectiveCardList = new ArrayList<>();
+    private final ArrayList<GameCard> resourceCardList = new ArrayList<>();
 
     /**
      * The list of gold cards.
@@ -35,16 +37,16 @@ public class Parser {
     private final ArrayList<GameCard> goldCardList = new ArrayList<>();
 
     /**
-     * The list of resource cards.
-     */
-    private final ArrayList<GameCard> resourceCardList = new ArrayList<>();
-
-    /**
      * The list of starter cards.
      */
     private final ArrayList<GameCard> starterCardList = new ArrayList<>();
 
-    private final Gson gson = new Gson();
+    /**
+     * The list of objective cards.
+     */
+    private final ArrayList<ObjectiveCard> objectiveCardList = new ArrayList<>();
+
+    private final Gson gson = new GsonBuilder().registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter()).create();
 
     /**
      * Constructs a new Parser object.
@@ -57,23 +59,36 @@ public class Parser {
             // Parse the JSON content using JsonParser
             JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
 
-            JsonObject jsonObjectiveCard = jsonObject.getAsJsonObject("ObjectiveCard");
-            // Get the specific key from the JSON object
-            JsonArray jsonItemObjectiveCard = jsonObjectiveCard.getAsJsonArray("ItemObjectiveCard");
+            parseAndAddCards(jsonObject, "GameCard", "ResourceCard", GameCard.class, resourceCardList);
+            resourceCardList.forEach(System.out::println);
+            parseAndAddCards(jsonObject, "GoldCard", "ItemGoldCard", GameCard.class, goldCardList);
+            parseAndAddCards(jsonObject, "GoldCard", "PositionalGoldCard", GameCard.class, goldCardList);
+            parseAndAddCards(jsonObject, "GoldCard", "GoldCard", GameCard.class, goldCardList);
+            parseAndAddCards(jsonObject, "GameCard", "StarterCard", GameCard.class, starterCardList);
+            parseAndAddCards(jsonObject, "ObjectiveCard", "ItemObjectiveCard", ItemObjectiveCard.class, objectiveCardList);
+            parseAndAddCards(jsonObject, "ObjectiveCard", "PositionalObjectiveCard", PositionalObjectiveCard.class, objectiveCardList);
 
-            // Define the TypeToken for ArrayList<YourClass>
-            Type listType = new TypeToken<ArrayList<ItemObjectiveCard>>() {
-            }.getType();
-            this.objectiveCardList.addAll(this.gson.fromJson(jsonItemObjectiveCard, listType));
 
             // Now the object is ready!
-            System.out.println(objectiveCardList.getFirst());
-
+            resourceCardList.forEach(System.out::println);
+            goldCardList.forEach(System.out::println);
+            starterCardList.forEach(System.out::println);
+            objectiveCardList.forEach(System.out::println);
             // Close the reader
             reader.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private <T, R> void parseAndAddCards(JsonObject jsonObject, String cardType, String cardSubType, Class<T> classType, ArrayList<R> cardList) {
+        // 2.Get the specific key from the JSON object
+        if (cardType.equals("GoldCard"))
+            jsonObject = jsonObject.getAsJsonObject("GameCard");
+        JsonArray jsonArray = jsonObject.getAsJsonObject(cardType).getAsJsonArray(cardSubType);
+        // 3.Define the TypeToken for ArrayList and add to the list
+        TypeToken<ArrayList<T>> listCard = new TypeToken<>(){};
+        jsonArray.forEach(s -> cardList.add(this.gson.fromJson(s.toString(), (Type) classType)));
     }
 
     /**
@@ -85,6 +100,7 @@ public class Parser {
         if (instance == null) {
             instance = new Parser();
         }
+
         return instance;
     }
 
