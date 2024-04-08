@@ -8,20 +8,37 @@ import it.polimi.ingsw.model.player.PlayerBoard;
  * The specific criteria are defined in the subclasses of this class.
  */
 abstract public class ObjectiveCard {
+
+    /**
+     * The unique identifier of this objective card.
+     */
+    protected final int objectiveCardId;
+
     /**
      * The number of points the player can win by fulfilling the objective of this card.
      */
     protected final int pointsWon;
 
     /**
-     * Constructs a new ObjectiveCard object with the specified number of points.
+     * Constructs a new ObjectiveCard object with the specified unique identifier and number of points.
      *
+     * @param objectiveCardId The unique identifier of the objective card.
      * @param pointsWon The number of points the player can win by fulfilling the objective of this card.
      * @throws IllegalArgumentException if pointsWon is less than or equal to 0.
      */
-    public ObjectiveCard(int pointsWon) {
+    public ObjectiveCard(int objectiveCardId, int pointsWon) {
         if (pointsWon <= 0) throw new IllegalArgumentException("pointsWon must be positive");
+        this.objectiveCardId = objectiveCardId;
         this.pointsWon = pointsWon;
+    }
+
+    /**
+     * Returns the unique identifier of this objective card.
+     *
+     * @return The unique identifier of this objective card.
+     */
+    public int getObjectiveCardId() {
+        return this.objectiveCardId;
     }
 
     /**
