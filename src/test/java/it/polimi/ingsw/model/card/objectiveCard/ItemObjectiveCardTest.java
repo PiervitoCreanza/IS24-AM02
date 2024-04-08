@@ -22,8 +22,8 @@ public class ItemObjectiveCardTest {
     @Test
     @DisplayName("Test ItemObjectiveCardTest constructor")
     public void TryExceptionInConstructor() {
-        assertThrows(IllegalArgumentException.class, () -> new ItemObjectiveCard(-2, mock(GameItemStore.class)));
-        assertThrows(NullPointerException.class, () -> new ItemObjectiveCard(10, null));
+        assertThrows(IllegalArgumentException.class, () -> new ItemObjectiveCard(1,-2, mock(GameItemStore.class)));
+        assertThrows(NullPointerException.class, () -> new ItemObjectiveCard(1,10, null));
     }
 
     /**
@@ -34,7 +34,7 @@ public class ItemObjectiveCardTest {
     public void TryGetPointsWithResources() {
         GameItemStore gameItemStore = new GameItemStore();
         gameItemStore.set(GameItemEnum.FUNGI, 3);
-        ItemObjectiveCard itemObjectiveCard = new ItemObjectiveCard(2, gameItemStore);
+        ItemObjectiveCard itemObjectiveCard = new ItemObjectiveCard(1,2, gameItemStore);
         PlayerBoard playerBoard = mock(PlayerBoard.class);
         when(playerBoard.getGameItemAmount(GameItemEnum.FUNGI)).thenReturn(7);
         when(playerBoard.getGameItemAmount(GameItemEnum.ANIMAL)).thenReturn(34);
@@ -49,7 +49,7 @@ public class ItemObjectiveCardTest {
     public void TryGetPointsWithObject() {
         GameItemStore gameItemStore = new GameItemStore();
         gameItemStore.set(GameItemEnum.INKWELL, 2);
-        ItemObjectiveCard itemObjectiveCard = new ItemObjectiveCard(2, gameItemStore);
+        ItemObjectiveCard itemObjectiveCard = new ItemObjectiveCard(1,2, gameItemStore);
         PlayerBoard playerBoard = mock(PlayerBoard.class);
         when(playerBoard.getGameItemAmount(GameItemEnum.INKWELL)).thenReturn(7);
         when(playerBoard.getGameItemAmount(GameItemEnum.ANIMAL)).thenReturn(34);
@@ -66,7 +66,7 @@ public class ItemObjectiveCardTest {
         gameItemStore.set(GameItemEnum.INKWELL, 1);
         gameItemStore.set(GameItemEnum.MANUSCRIPT, 1);
         gameItemStore.set(GameItemEnum.QUILL, 1);
-        ItemObjectiveCard itemObjectiveCard = new ItemObjectiveCard(3, gameItemStore);
+        ItemObjectiveCard itemObjectiveCard = new ItemObjectiveCard(1,3, gameItemStore);
         PlayerBoard playerBoard = mock(PlayerBoard.class);
         when(playerBoard.getGameItemAmount(GameItemEnum.INKWELL)).thenReturn(4);
         when(playerBoard.getGameItemAmount(GameItemEnum.MANUSCRIPT)).thenReturn(3);
