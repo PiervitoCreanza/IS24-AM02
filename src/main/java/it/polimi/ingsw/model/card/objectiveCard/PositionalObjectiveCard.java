@@ -43,7 +43,7 @@ public class PositionalObjectiveCard extends ObjectiveCard {
     @Override
     public int getPoints(PlayerBoard playerboard) {
         int numOfMatch = 0;                          //variable to count how many times player made the configuration
-        CardColorEnum firstColor = positionalData.get(0).cardColorEnum();
+        CardColorEnum firstColor = positionalData.getFirst().cardColorEnum();
         ArrayList<Coordinate> coordinatesCanMatch = playerboard.getGameCards().stream()                  //Create a stream of GameCards
                 .filter(x -> x.getCardColor() == firstColor)                                             //Filtering by the color that I want
                 .map(x -> playerboard.getGameCardPosition(x).get())                                      //and at the end obtain the coordinate of this card
