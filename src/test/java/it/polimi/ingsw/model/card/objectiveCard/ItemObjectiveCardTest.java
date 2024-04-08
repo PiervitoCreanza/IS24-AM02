@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.card.objectiveCard;
 
 import it.polimi.ingsw.model.card.GameItemEnum;
-import it.polimi.ingsw.model.card.objectiveCard.ItemObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 import org.junit.jupiter.api.DisplayName;
