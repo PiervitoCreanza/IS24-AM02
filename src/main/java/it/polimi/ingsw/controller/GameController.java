@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
 
-public class GameController {
+public class GameController implements PlayerActions {
     private final Game game;
 
     public GameController(String gameName, int nPlayers, String playerName) {
@@ -41,5 +41,13 @@ public class GameController {
 
     public void setPlayerObjective(String playerName, ObjectiveCard card) {
         game.getPlayer(playerName).setPlayerObjective(card);
+    }
+
+    public void joinGame(String playerName) {
+        game.addPlayer(playerName);
+    }
+
+    public void switchCardSide(String playerName, GameCard card) {
+        game.getPlayer(playerName).getPlayerHand().getCards().stream().filter(c -> c.equals(card)).findFirst().ifPresent(GameCard::switchSide);
     }
 }
