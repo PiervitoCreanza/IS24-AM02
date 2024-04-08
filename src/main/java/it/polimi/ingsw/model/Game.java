@@ -57,7 +57,7 @@ public class Game {
      * @param gameName   The name of the game.
      * @param maxAllowedPlayers   The maximum number of players in the game.
      * @param playerName The name of the player creating the game, he will also be the first player.
-     * @throws NullPointerException if the gameName is null.
+     * @throws NullPointerException     if the gameName is null.
      * @throws IllegalArgumentException if the number of players is not between 2 and 4.
      */
     public Game(String gameName, int maxAllowedPlayers, String playerName) {
@@ -79,7 +79,7 @@ public class Game {
      * @param maxAllowedPlayers   The maximum number of players in the game.
      * @param playerName The name of the player creating the game, he will also be the first player.
      * @param globalBoard The global board of the game.
-     * @throws NullPointerException if the gameName is null.
+     * @throws NullPointerException     if the gameName is null.
      * @throws IllegalArgumentException if the number of players is not between 2 and 4.
      */
     public Game(String gameName, int maxAllowedPlayers, String playerName, GlobalBoard globalBoard) {
@@ -116,7 +116,7 @@ public class Game {
      *
      * @param playerName The name of the player to find.
      * @return The Player object that represents the player with the specified name.
-     * @throws NullPointerException if the playerName is null.
+     * @throws NullPointerException     if the playerName is null.
      * @throws IllegalArgumentException if a player with the specified name does not exist.
      */
     public Player getPlayer(String playerName) {
@@ -144,8 +144,8 @@ public class Game {
      * The new player is added to the list of players in the game.
      *
      * @param playerName The name of the player to be added.
-     * @throws RuntimeException if the maximum number of players has been reached.
-     * @throws NullPointerException if the playerName is null.
+     * @throws RuntimeException         if the maximum number of players has been reached.
+     * @throws NullPointerException     if the playerName is null.
      * @throws IllegalArgumentException if a player with the same name already exists.
      */
     public void addPlayer(String playerName) {
@@ -167,6 +167,15 @@ public class Game {
      */
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    /**
+     * Returns the index of the current player in the list of players.
+     *
+     * @return The index of the current player.
+     */
+    public int getCurrentPlayerIndex() {
+        return players.indexOf(currentPlayer);
     }
 
     /**
@@ -193,7 +202,7 @@ public class Game {
      *
      * @return true if a player has more than 20 points or both decks are empty, false otherwise.
      */
-    public boolean isOver() {
+    public boolean isLastRound() {
         return players.stream().anyMatch(player -> player.getPlayerPos() >= 20) || (globalBoard.isGoldDeckEmpty() && globalBoard.isResourceDeckEmpty()) ;
     }
 
