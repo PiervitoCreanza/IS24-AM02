@@ -174,8 +174,30 @@ class GameTest {
     }
 
     @Test
-    @DisplayName("isOver returns false if nobody reached 20 points")
-    void isOverShouldReturnFalseWhenPlayerScoreIsLessThan20() {
+    @DisplayName("isOver returns false if nobody reached 20 points and decks are full")
+    void isOverShouldReturnFalseWhenPlayerScoreIsLessThan20AndDecksAreNotEmpty() {
+        when(mockGlobalBoard.isGoldDeckEmpty()).thenReturn(false);
+        when(mockGlobalBoard.isResourceDeckEmpty()).thenReturn(false);
+        assertFalse(testGame.isOver());
+    }
+
+    @Test
+    @DisplayName("isOver returns true when both gold and resource decks are empty")
+    void isOverShouldReturnTrueWhenBothDecksAreEmpty() {
+        when(mockGlobalBoard.isGoldDeckEmpty()).thenReturn(true);
+        when(mockGlobalBoard.isResourceDeckEmpty()).thenReturn(true);
+        assertTrue(testGame.isOver());
+    }
+
+    @Test
+    @DisplayName("isOver returns false when only one deck is empty")
+    void isOverShouldReturnFalseWhenOnlyOneDeckIsEmpty() {
+        when(mockGlobalBoard.isGoldDeckEmpty()).thenReturn(true);
+        when(mockGlobalBoard.isResourceDeckEmpty()).thenReturn(false);
+        assertFalse(testGame.isOver());
+
+        when(mockGlobalBoard.isGoldDeckEmpty()).thenReturn(false);
+        when(mockGlobalBoard.isResourceDeckEmpty()).thenReturn(true);
         assertFalse(testGame.isOver());
     }
 
