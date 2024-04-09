@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Game;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Class that represents the main controller, which is responsible for creating, deleting and managing games.
@@ -11,16 +12,15 @@ import java.util.Optional;
 public class MainController {
 
     /**
-     * Represents the list of games currently in progress.
-     * This is an ArrayList that contains all the Game objects that are currently played.
+     * Represents the list of game controller middlewares of games currently in progress.
      */
-    private final ArrayList<Game> games;
+    private final ArrayList<GameControllerMiddleware> gameControllerMiddlewares;
 
     /**
-     * Constructor for MainController. Initializes an empty list of games.
+     * Constructor for MainController. Initializes an empty list of gameControllerMiddlewares.
      */
     public MainController() {
-        games = new ArrayList<>();
+        gameControllerMiddlewares = new ArrayList<>();
     }
 
     /**
@@ -29,37 +29,37 @@ public class MainController {
      * @return ArrayList of Game objects.
      */
     public ArrayList<Game> getGames() {
-        return games;
+        return gameControllerMiddlewares.stream().map(GameControllerMiddleware::getGame).collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
-     * Creates a new game with the specified parameters and adds it to the list of games.
+     * Creates a new gameControllerMiddleware with the specified parameters and adds it to the list of games.
      *
-     * @param gameName      The name of the game to be created.
-     * @param nPlayers      The max number of players that will be in the game
-     * @param playerName    The name of the player creating the game, it will also be his nickname
+     * @param gameName   The name of the game to be created.
+     * @param nPlayers   The max number of players that will be in the game
+     * @param playerName The name of the player creating the game, it will also be his nickname
      * @return The created Game object.
      * @throws IllegalArgumentException if a game with the same name already exists.
      */
     public Game createGame(String gameName, int nPlayers, String playerName) {
         if (findGame(gameName).isPresent())
             throw new IllegalArgumentException("A game with the name \"" + gameName + "\" already exists");
-        Game game = new Game(gameName, nPlayers, playerName);
-        games.add(game);
-        return game;
+        GameControllerMiddleware gameControllerMiddleware = new GameControllerMiddleware(gameName, nPlayers, playerName);
+        gameControllerMiddlewares.add(gameControllerMiddleware);
+        return gameControllerMiddleware.getGame();
     }
 
     /**
-     * Deletes a game with the specified name from the list of games.
+     * Deletes a gameControllerMiddleware with the specified name from the list of gameControllerMiddlewares.
      *
      * @param gameName The name of the game to be deleted.
      * @throws IllegalArgumentException if a game with the specified name does not exist.
      */
     public void deleteGame(String gameName) {
-        Optional<Game> chosenGame = findGame(gameName);
-        if (chosenGame.isEmpty())
+        Optional<GameControllerMiddleware> chosenGameControllerMiddleware = findGame(gameName);
+        if (chosenGameControllerMiddleware.isEmpty())
             throw new IllegalArgumentException("A game with the name \"" + gameName + "\" doesn't exists");
-        games.remove(chosenGame.get());
+        gameControllerMiddlewares.remove(chosenGameControllerMiddleware.get());
     }
 
     /**
@@ -71,22 +71,21 @@ public class MainController {
      * @throws IllegalArgumentException if a game with the specified name does not exist or a player with the same name already exists in the game.
      */
     public Game joinGame(String gameName, String playerName) {
-        Optional<Game> chosenGame = findGame(gameName);
-        if (chosenGame.isEmpty())
+        Optional<GameControllerMiddleware> chosenGameControllerMiddleware = findGame(gameName);
+        if (chosenGameControllerMiddleware.isEmpty())
             throw new IllegalArgumentException("A game with the name \"" + gameName + "\" doesn't exists");
-        if (chosenGame.get().getPlayers().stream().anyMatch(player -> player.getPlayerName().equals(playerName)))
-            throw new IllegalArgumentException("A player with the name \"" + playerName + "\" already exists");
-        chosenGame.get().addPlayer(playerName);
-        return chosenGame.get();
+
+        chosenGameControllerMiddleware.get().joinGame(playerName);
+        return chosenGameControllerMiddleware.get().getGame();
     }
 
     /**
-     * Finds a game with the specified name.
+     * Finds a gameControllerMiddleware with the specified name.
      *
      * @param gameName The name of the game to find.
-     * @return An Optional<Game> that contains the game if it exists, or is empty if it does not.
+     * @return An Optional<gameControllerMiddleware> that contains the game if it exists, or is empty if it does not.
      */
-    private Optional<Game> findGame(String gameName) {
-        return games.stream().filter(game -> game.getGameName().equals(gameName)).findFirst();
+    private Optional<GameControllerMiddleware> findGame(String gameName) {
+        return gameControllerMiddlewares.stream().filter(gcm -> gcm.getGame().getGameName().equals(gameName)).findFirst();
     }
 }
