@@ -6,20 +6,16 @@
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
-            "points": 1,
+            "points": 0,
             "topRight": {
               "isCovered": false,
-              "gameItem": "FUNGI"
+              "gameItem": "NONE"
             },
             "topLeft": {
               "isCovered": false,
               "gameItem": "FUNGI"
             },
             "bottomLeft": {
-              "isCovered": false,
-              "gameItem": "FUNGI"
-            },
-            "bottomRight": {
               "isCovered": false,
               "gameItem": "FUNGI"
             }
@@ -33,10 +29,10 @@
                 "PLANT": 0,
                 "INSECT": 0,
                 "INKWELL": 0,
-                "ANIMAL": 1,
+                "ANIMAL": 0,
                 "QUILL": 0,
                 "NONE": 0,
-                "FUNGI": 0,
+                "FUNGI": 1,
                 "MANUSCRIPT": 0
               }
             },
@@ -59,221 +55,343 @@
           }
         },
         "cardColorEnum": "RED"
-      }
-    ],
-    "GoldCard": {
-      "ItemGoldCard": [
-        {
-          "gameCardId": 1,
-          "currentSideGameCard": {
-            "sideType": "FrontItemGoldGameCard",
-            "sideContent": {
-              "multiplier": "INKWELL",
-              "neededItems": {
-                "store": {
-                  "PLANT": 0,
-                  "INSECT": 0,
-                  "INKWELL": 1,
-                  "ANIMAL": 0,
-                  "QUILL": 1,
-                  "NONE": 0,
-                  "FUNGI": 0,
-                  "MANUSCRIPT": 1
-                }
-              },
-              "points": 4,
-              "topLeft": {
-                "isCovered": false,
-                "gameItem": "FUNGI"
-              },
-              "bottomLeft": {
-                "isCovered": false,
-                "gameItem": "ANIMAL"
-              },
-              "bottomRight": {
-                "isCovered": false,
-                "gameItem": "PLANT"
-              }
-            }
-          },
-          "otherSideGameCard": {
-            "sideType": "BackGameCard",
-            "sideContent": {
-              "resources": {
-                "store": {
-                  "PLANT": 0,
-                  "INSECT": 0,
-                  "INKWELL": 0,
-                  "ANIMAL": 1,
-                  "QUILL": 0,
-                  "NONE": 0,
-                  "FUNGI": 0,
-                  "MANUSCRIPT": 0
-                }
-              },
-              "topRight": {
-                "isCovered": false,
-                "gameItem": "NONE"
-              },
-              "topLeft": {
-                "isCovered": false,
-                "gameItem": "NONE"
-              },
-              "bottomLeft": {
-                "isCovered": false,
-                "gameItem": "NONE"
-              },
-              "bottomRight": {
-                "isCovered": false,
-                "gameItem": "NONE"
-              }
-            }
-          },
-          "cardColorEnum": "RED"
-        }
-      ],
-      "PositionalGoldCard": [
-        {
-          "gameCardId": 1,
-          "currentSideGameCard": {
-            "sideType": "FrontPositionalGoldGameCard",
-            "sideContent": {
-              "neededItems": {
-                "store": {
-                  "PLANT": 0,
-                  "INSECT": 0,
-                  "INKWELL": 1,
-                  "ANIMAL": 0,
-                  "QUILL": 1,
-                  "NONE": 0,
-                  "FUNGI": 0,
-                  "MANUSCRIPT": 1
-                }
-              },
-              "points": 4,
-              "topLeft": {
-                "isCovered": false,
-                "gameItem": "FUNGI"
-              },
-              "bottomLeft": {
-                "isCovered": false,
-                "gameItem": "ANIMAL"
-              },
-              "bottomRight": {
-                "isCovered": false,
-                "gameItem": "PLANT"
-              }
-            }
-          },
-          "otherSideGameCard": {
-            "sideType": "BackGameCard",
-            "sideContent": {
-              "resources": {
-                "store": {
-                  "PLANT": 0,
-                  "INSECT": 0,
-                  "INKWELL": 0,
-                  "ANIMAL": 1,
-                  "QUILL": 0,
-                  "NONE": 0,
-                  "FUNGI": 0,
-                  "MANUSCRIPT": 0
-                }
-              },
-              "topRight": {
-                "isCovered": false,
-                "gameItem": "NONE"
-              },
-              "topLeft": {
-                "isCovered": false,
-                "gameItem": "NONE"
-              },
-              "bottomLeft": {
-                "isCovered": false,
-                "gameItem": "NONE"
-              },
-              "bottomRight": {
-                "isCovered": false,
-                "gameItem": "NONE"
-              }
-            }
-          },
-          "cardColorEnum": "RED"
-        }
-      ],
-      "GoldCard": [
-        {
-          "gameCardId": 1,
-          "currentSideGameCard": {
-            "sideType": "FrontGoldGameCard",
-            "sideContent": {
-              "neededItems": {
-                "store": {
-                  "PLANT": 0,
-                  "INSECT": 0,
-                  "INKWELL": 1,
-                  "ANIMAL": 0,
-                  "QUILL": 1,
-                  "NONE": 0,
-                  "FUNGI": 0,
-                  "MANUSCRIPT": 1
-                }
-              },
-              "points": 4,
-              "topLeft": {
-                "isCovered": false,
-                "gameItem": "FUNGI"
-              },
-              "bottomLeft": {
-                "isCovered": false,
-                "gameItem": "ANIMAL"
-              },
-              "bottomRight": {
-                "isCovered": false,
-                "gameItem": "PLANT"
-              }
-            }
-          },
-          "otherSideGameCard": {
-            "sideType": "BackGameCard",
-            "sideContent": {
-              "resources": {
-                "store": {
-                  "PLANT": 0,
-                  "INSECT": 0,
-                  "INKWELL": 0,
-                  "ANIMAL": 1,
-                  "QUILL": 0,
-                  "NONE": 0,
-                  "FUNGI": 0,
-                  "MANUSCRIPT": 0
-                }
-              },
-              "topRight": {
-                "isCovered": false,
-                "gameItem": "NONE"
-              },
-              "topLeft": {
-                "isCovered": false,
-                "gameItem": "NONE"
-              },
-              "bottomLeft": {
-                "isCovered": false,
-                "gameItem": "NONE"
-              },
-              "bottomRight": {
-                "isCovered": false,
-                "gameItem": "NONE"
-              }
-            }
-          },
-          "cardColorEnum": "RED"
-        }
-      ]
-    },
-    "StarterCard": [
+      },
       {
-        "gameCardId": 1,
+        "gameCardId": 2,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "FUNGI"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "FUNGI"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 1,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "RED"
+      },
+      {
+        "gameCardId": 3,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "FUNGI"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "FUNGI"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 1,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "RED"
+      },
+      {
+        "gameCardId": 4,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "FUNGI"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "FUNGI"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 1,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "RED"
+      },
+      {
+        "gameCardId": 5,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "QUILL"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "FUNGI"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 1,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "RED"
+      },
+      {
+        "gameCardId": 6,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "FUNGI"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "INKWELL"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 1,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "RED"
+      },
+      {
+        "gameCardId": 7,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "FUNGI"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "MANUSCRIPT"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 1,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "RED"
+      },
+      {
+        "gameCardId": 8,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -284,11 +402,1052 @@
             },
             "topLeft": {
               "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 1,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "RED"
+      },
+      {
+        "gameCardId": 9,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 1,
+            "topLeft": {
+              "isCovered": false,
               "gameItem": "FUNGI"
             },
             "bottomLeft": {
               "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 1,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "RED"
+      },
+      {
+        "gameCardId": 10,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 1,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
               "gameItem": "FUNGI"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 1,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "RED"
+      },
+      {
+        "gameCardId": 11,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 1,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "GREEN"
+      },
+      {
+        "gameCardId": 12,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 1,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "GREEN"
+      },
+      {
+        "gameCardId": 13,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 1,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "GREEN"
+      },
+      {
+        "gameCardId": 14,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 1,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "GREEN"
+      },
+      {
+        "gameCardId": 15,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "QUILL"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 1,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "GREEN"
+      },
+      {
+        "gameCardId": 16,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "FUNGI"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "INKWELL"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 1,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "GREEN"
+      },
+      {
+        "gameCardId": 17,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "MANUSCRIPT"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 1,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "GREEN"
+      },
+      {
+        "gameCardId": 18,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 1,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "FUNGI"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 1,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "GREEN"
+      },
+      {
+        "gameCardId": 19,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 1,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 1,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "GREEN"
+      },
+      {
+        "gameCardId": 20,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 1,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 1,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "GREEN"
+      },
+      {
+        "gameCardId": 21,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 1,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "BLUE"
+      },
+      {
+        "gameCardId": 22,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 1,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "BLUE"
+      },
+      {
+        "gameCardId": 23,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 1,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "BLUE"
+      },
+      {
+        "gameCardId": 24,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 1,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "BLUE"
+      },
+      {
+        "gameCardId": 25,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "INKWELL"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 1,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "BLUE"
+      },
+      {
+        "gameCardId": 26,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "MANUSCRIPT"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 1,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "BLUE"
+      },
+      {
+        "gameCardId": 27,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "QUILL"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
             },
             "bottomRight": {
               "isCovered": false,
@@ -329,7 +1488,3698 @@
             }
           }
         },
-        "cardColorEnum": "RED"
+        "cardColorEnum": "BLUE"
+      },
+      {
+        "gameCardId": 28,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 1,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 1,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "BLUE"
+      },
+      {
+        "gameCardId": 29,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 1,
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 1,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "BLUE"
+      },
+      {
+        "gameCardId": 30,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 1,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 1,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "BLUE"
+      },
+      {
+        "gameCardId": 31,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 1,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "PURPLE"
+      },
+      {
+        "gameCardId": 32,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 1,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "PURPLE"
+      },
+      {
+        "gameCardId": 33,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 1,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "PURPLE"
+      },
+      {
+        "gameCardId": 34,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 1,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "PURPLE"
+      },
+      {
+        "gameCardId": 35,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "QUILL"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 1,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "PURPLE"
+      },
+      {
+        "gameCardId": 36,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "MANUSCRIPT"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "FUNGI"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 1,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "PURPLE"
+      },
+      {
+        "gameCardId": 37,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "INKWELL"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 1,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "PURPLE"
+      },
+      {
+        "gameCardId": 38,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 1,
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 1,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "PURPLE"
+      },
+      {
+        "gameCardId": 39,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 1,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 1,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "PURPLE"
+      },
+      {
+        "gameCardId": 40,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 1,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 1,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "PURPLE"
+      }
+    ],
+    "GoldCard" : {
+      "ItemGoldCard": [
+        {
+          "gameCardId": 41,
+          "currentSideGameCard": {
+            "sideType": "FrontItemGoldGameCard",
+            "sideContent": {
+              "multiplier": "QUILL",
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 1,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 2,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 1,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "QUILL"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 1,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "RED"
+        },
+        {
+          "gameCardId": 42,
+          "currentSideGameCard": {
+            "sideType": "FrontItemGoldGameCard",
+            "sideContent": {
+              "multiplier": "INKWELL",
+              "neededItems": {
+                "store": {
+                  "PLANT": 1,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 2,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 1,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "INKWELL"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 1,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "RED"
+        },
+        {
+          "gameCardId": 43,
+          "currentSideGameCard": {
+            "sideType": "FrontItemGoldGameCard",
+            "sideContent": {
+              "multiplier": "MANUSCRIPT",
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 1,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 2,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 1,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "MANUSCRIPT"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 1,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "RED"
+        },
+        {
+          "gameCardId": 51,
+          "currentSideGameCard": {
+            "sideType": "FrontItemGoldGameCard",
+            "sideContent": {
+              "multiplier": "QUILL",
+              "neededItems": {
+                "store": {
+                  "PLANT": 2,
+                  "INSECT": 1,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 1,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "QUILL"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 1,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "GREEN"
+        },
+        {
+          "gameCardId": 52,
+          "currentSideGameCard": {
+            "sideType": "FrontItemGoldGameCard",
+            "sideContent": {
+              "multiplier": "MANUSCRIPT",
+              "neededItems": {
+                "store": {
+                  "PLANT": 2,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 1,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 1,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "MANUSCRIPT"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 1,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "GREEN"
+        },
+        {
+          "gameCardId": 53,
+          "currentSideGameCard": {
+            "sideType": "FrontItemGoldGameCard",
+            "sideContent": {
+              "multiplier": "INKWELL",
+              "neededItems": {
+                "store": {
+                  "PLANT": 2,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 1,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 1,
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "INKWELL"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 1,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "GREEN"
+        },
+        {
+          "gameCardId": 61,
+          "currentSideGameCard": {
+            "sideType": "FrontItemGoldGameCard",
+            "sideContent": {
+              "multiplier": "INKWELL",
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 1,
+                  "INKWELL": 0,
+                  "ANIMAL": 2,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 1,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "INKWELL"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 1,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "BLUE"
+        },
+        {
+          "gameCardId": 62,
+          "currentSideGameCard": {
+            "sideType": "FrontItemGoldGameCard",
+            "sideContent": {
+              "multiplier": "MANUSCRIPT",
+              "neededItems": {
+                "store": {
+                  "PLANT": 1,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 2,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 1,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "MANUSCRIPT"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 1,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "BLUE"
+        },
+        {
+          "gameCardId": 63,
+          "currentSideGameCard": {
+            "sideType": "FrontItemGoldGameCard",
+            "sideContent": {
+              "multiplier": "QUILL",
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 2,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 1,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 1,
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "QUILL"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 1,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "BLUE"
+        },
+        {
+          "gameCardId": 71,
+          "currentSideGameCard": {
+            "sideType": "FrontItemGoldGameCard",
+            "sideContent": {
+              "multiplier": "QUILL",
+              "neededItems": {
+                "store": {
+                  "PLANT": 1,
+                  "INSECT": 2,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 1,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "QUILL"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 1,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "PURPLE"
+        },
+        {
+          "gameCardId": 72,
+          "currentSideGameCard": {
+            "sideType": "FrontItemGoldGameCard",
+            "sideContent": {
+              "multiplier": "MANUSCRIPT",
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 2,
+                  "INKWELL": 0,
+                  "ANIMAL": 1,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 1,
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "MANUSCRIPT"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 1,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "PURPLE"
+        },
+        {
+          "gameCardId": 73,
+          "currentSideGameCard": {
+            "sideType": "FrontItemGoldGameCard",
+            "sideContent": {
+              "multiplier": "INKWELL",
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 2,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 1,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 1,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "INKWELL"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 1,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "PURPLE"
+        }
+      ],
+      "PositionalGoldCard": [
+        {
+          "gameCardId": 44,
+          "currentSideGameCard": {
+            "sideType": "FrontPositionalGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 1,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 3,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 2,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 1,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "RED"
+        },
+        {
+          "gameCardId": 45,
+          "currentSideGameCard": {
+            "sideType": "FrontPositionalGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 1,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 3,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 2,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 1,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "RED"
+        },
+        {
+          "gameCardId": 46,
+          "currentSideGameCard": {
+            "sideType": "FrontPositionalGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 1,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 3,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 2,
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 1,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "RED"
+        },
+        {
+          "gameCardId": 54,
+          "currentSideGameCard": {
+            "sideType": "FrontPositionalGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 3,
+                  "INSECT": 1,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 2,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 1,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "GREEN"
+        },
+        {
+          "gameCardId": 55,
+          "currentSideGameCard": {
+            "sideType": "FrontPositionalGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 3,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 1,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 2,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 1,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "GREEN"
+        },
+        {
+          "gameCardId": 56,
+          "currentSideGameCard": {
+            "sideType": "FrontPositionalGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 3,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 1,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 2,
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 1,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "GREEN"
+        },
+        {
+          "gameCardId": 64,
+          "currentSideGameCard": {
+            "sideType": "FrontPositionalGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 1,
+                  "INKWELL": 0,
+                  "ANIMAL": 3,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 2,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 1,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "BLUE"
+        },
+        {
+          "gameCardId": 65,
+          "currentSideGameCard": {
+            "sideType": "FrontPositionalGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 3,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 1,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 2,
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 1,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "BLUE"
+        },
+        {
+          "gameCardId": 66,
+          "currentSideGameCard": {
+            "sideType": "FrontPositionalGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 1,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 3,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 2,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 1,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "BLUE"
+        },
+        {
+          "gameCardId": 74,
+          "currentSideGameCard": {
+            "sideType": "FrontPositionalGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 3,
+                  "INKWELL": 0,
+                  "ANIMAL": 1,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 2,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 1,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "PURPLE"
+        },
+        {
+          "gameCardId": 75,
+          "currentSideGameCard": {
+            "sideType": "FrontPositionalGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 1,
+                  "INSECT": 3,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 2,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 1,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "PURPLE"
+        },
+        {
+          "gameCardId": 76,
+          "currentSideGameCard": {
+            "sideType": "FrontPositionalGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 3,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 1,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 2,
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 1,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "PURPLE"
+        }
+      ],
+      "SimpleGoldCard": [
+        {
+          "gameCardId": 47,
+          "currentSideGameCard": {
+            "sideType": "FrontGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 3,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 3,
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "INKWELL"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 1,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "RED"
+        },
+        {
+          "gameCardId": 48,
+          "currentSideGameCard": {
+            "sideType": "FrontGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 3,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 3,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "QUILL"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 1,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "RED"
+        },
+        {
+          "gameCardId": 49,
+          "currentSideGameCard": {
+            "sideType": "FrontGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 3,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 3,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "MANUSCRIPT"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 1,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "RED"
+        },
+        {
+          "gameCardId": 50,
+          "currentSideGameCard": {
+            "sideType": "FrontGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 5,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 5,
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 1,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "RED"
+        },
+        {
+          "gameCardId": 57,
+          "currentSideGameCard": {
+            "sideType": "FrontGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 3,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 3,
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "QUILL"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 1,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "GREEN"
+        },
+        {
+          "gameCardId": 58,
+          "currentSideGameCard": {
+            "sideType": "FrontGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 3,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 3,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "MANUSCRIPT"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 1,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "GREEN"
+        },
+        {
+          "gameCardId": 59,
+          "currentSideGameCard": {
+            "sideType": "FrontGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 3,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 3,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "INKWELL"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 1,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "GREEN"
+        },
+        {
+          "gameCardId": 60,
+          "currentSideGameCard": {
+            "sideType": "FrontGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 5,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 5,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 1,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "GREEN"
+        },
+        {
+          "gameCardId": 67,
+          "currentSideGameCard": {
+            "sideType": "FrontGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 3,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 3,
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "MANUSCRIPT"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 1,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "BLUE"
+        },
+        {
+          "gameCardId": 68,
+          "currentSideGameCard": {
+            "sideType": "FrontGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 3,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 3,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "INKWELL"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 1,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "BLUE"
+        },
+        {
+          "gameCardId": 69,
+          "currentSideGameCard": {
+            "sideType": "FrontGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 3,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 3,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "QUILL"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 1,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "BLUE"
+        },
+        {
+          "gameCardId": 70,
+          "currentSideGameCard": {
+            "sideType": "FrontGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 5,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 5,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 0,
+                  "INKWELL": 0,
+                  "ANIMAL": 1,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "BLUE"
+        },
+        {
+          "gameCardId": 77,
+          "currentSideGameCard": {
+            "sideType": "FrontGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 3,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 3,
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "INKWELL"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 1,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "PURPLE"
+        },
+        {
+          "gameCardId": 78,
+          "currentSideGameCard": {
+            "sideType": "FrontGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 3,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 3,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "MANUSCRIPT"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 1,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "PURPLE"
+        },
+        {
+          "gameCardId": 79,
+          "currentSideGameCard": {
+            "sideType": "FrontGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 3,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 3,
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "QUILL"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 1,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "PURPLE"
+        },
+        {
+          "gameCardId": 80,
+          "currentSideGameCard": {
+            "sideType": "FrontGoldGameCard",
+            "sideContent": {
+              "neededItems": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 5,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "points": 5,
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "otherSideGameCard": {
+            "sideType": "BackGameCard",
+            "sideContent": {
+              "resources": {
+                "store": {
+                  "PLANT": 0,
+                  "INSECT": 1,
+                  "INKWELL": 0,
+                  "ANIMAL": 0,
+                  "QUILL": 0,
+                  "NONE": 0,
+                  "FUNGI": 0,
+                  "MANUSCRIPT": 0
+                }
+              },
+              "topRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "topLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomLeft": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              },
+              "bottomRight": {
+                "isCovered": false,
+                "gameItem": "NONE"
+              }
+            }
+          },
+          "cardColorEnum": "PURPLE"
+        }
+      ]
+    },
+    "StarterCard": [
+      {
+        "gameCardId": 81,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "FUNGI"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 1,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "NONE"
+      },
+      {
+        "gameCardId": 82,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "FUNGI"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 1,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "FUNGI"
+            }
+          }
+        },
+        "cardColorEnum": "NONE"
+      },
+      {
+        "gameCardId": 83,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "FUNGI"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 1,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 0,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 1,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "NONE"
+      },
+      {
+        "gameCardId": 84,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "FUNGI"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 0,
+                "INSECT": 1,
+                "INKWELL": 0,
+                "ANIMAL": 1,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "NONE"
+      },
+      {
+        "gameCardId": 85,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "FUNGI"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 1,
+                "INSECT": 1,
+                "INKWELL": 0,
+                "ANIMAL": 1,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 0,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "NONE"
+      },
+      {
+        "gameCardId": 86,
+        "currentSideGameCard": {
+          "sideType": "FrontGameCard",
+          "sideContent": {
+            "points": 0,
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "ANIMAL"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "FUNGI"
+            },
+            "bottomLeft": {
+              "isCovered": false,
+              "gameItem": "PLANT"
+            },
+            "bottomRight": {
+              "isCovered": false,
+              "gameItem": "INSECT"
+            }
+          }
+        },
+        "otherSideGameCard": {
+          "sideType": "BackGameCard",
+          "sideContent": {
+            "resources": {
+              "store": {
+                "PLANT": 1,
+                "INSECT": 0,
+                "INKWELL": 0,
+                "ANIMAL": 1,
+                "QUILL": 0,
+                "NONE": 0,
+                "FUNGI": 1,
+                "MANUSCRIPT": 0
+              }
+            },
+            "topRight": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            },
+            "topLeft": {
+              "isCovered": false,
+              "gameItem": "NONE"
+            }
+          }
+        },
+        "cardColorEnum": "NONE"
       }
     ]
   },
@@ -359,11 +5209,264 @@
             "cardColorEnum": "RED"
           }
         ],
-        "objectiveCardId": 2,
+        "objectiveCardId": 87,
         "pointsWon": 2
+      },
+      {
+        "positionalData": [
+          {
+            "coordinate": {
+              "x": 0,
+              "y": 0
+            },
+            "cardColorEnum": "GREEN"
+          },
+          {
+            "coordinate": {
+              "x": 1,
+              "y": -1
+            },
+            "cardColorEnum": "GREEN"
+          },
+          {
+            "coordinate": {
+              "x": 2,
+              "y": -2
+            },
+            "cardColorEnum": "GREEN"
+          }
+        ],
+        "objectiveCardId": 88,
+        "pointsWon": 2
+      },
+      {
+        "positionalData": [
+          {
+            "coordinate": {
+              "x": 0,
+              "y": 0
+            },
+            "cardColorEnum": "BLUE"
+          },
+          {
+            "coordinate": {
+              "x": -1,
+              "y": -1
+            },
+            "cardColorEnum": "BLUE"
+          },
+          {
+            "coordinate": {
+              "x": -2,
+              "y": -2
+            },
+            "cardColorEnum": "BLUE"
+          }
+        ],
+        "objectiveCardId": 89,
+        "pointsWon": 2
+      },
+      {
+        "positionalData": [
+          {
+            "coordinate": {
+              "x": 0,
+              "y": 0
+            },
+            "cardColorEnum": "PURPLE"
+          },
+          {
+            "coordinate": {
+              "x": 1,
+              "y": -1
+            },
+            "cardColorEnum": "PURPLE"
+          },
+          {
+            "coordinate": {
+              "x": 2,
+              "y": -2
+            },
+            "cardColorEnum": "PURPLE"
+          }
+        ],
+        "objectiveCardId": 90,
+        "pointsWon": 2
+      },
+      {
+        "positionalData": [
+          {
+            "coordinate": {
+              "x": 0,
+              "y": 0
+            },
+            "cardColorEnum": "RED"
+          },
+          {
+            "coordinate": {
+              "x": 0,
+              "y": -2
+            },
+            "cardColorEnum": "RED"
+          },
+          {
+            "coordinate": {
+              "x": 1,
+              "y": -3
+            },
+            "cardColorEnum": "GREEN"
+          }
+        ],
+        "objectiveCardId": 91,
+        "pointsWon": 3
+      },
+      {
+        "positionalData": [
+          {
+            "coordinate": {
+              "x": 0,
+              "y": 0
+            },
+            "cardColorEnum": "GREEN"
+          },
+          {
+            "coordinate": {
+              "x": 0,
+              "y": 2
+            },
+            "cardColorEnum": "GREEN"
+          },
+          {
+            "coordinate": {
+              "x": -1,
+              "y": 3
+            },
+            "cardColorEnum": "PURPLE"
+          }
+        ],
+        "objectiveCardId": 92,
+        "pointsWon": 3
+      },
+      {
+        "positionalData": [
+          {
+            "coordinate": {
+              "x": 0,
+              "y": 0
+            },
+            "cardColorEnum": "RED"
+          },
+          {
+            "coordinate": {
+              "x": -1,
+              "y": 1
+            },
+            "cardColorEnum": "BLUE"
+          },
+          {
+            "coordinate": {
+              "x": -1,
+              "y": 3
+            },
+            "cardColorEnum": "BLUE"
+          }
+        ],
+        "objectiveCardId": 93,
+        "pointsWon": 3
+      },
+      {
+        "positionalData": [
+          {
+            "coordinate": {
+              "x": 0,
+              "y": 0
+            },
+            "cardColorEnum": "BLUE"
+          },
+          {
+            "coordinate": {
+              "x": 1,
+              "y": -1
+            },
+            "cardColorEnum": "PURPLE"
+          },
+          {
+            "coordinate": {
+              "x": 1,
+              "y": -3
+            },
+            "cardColorEnum": "PURPLE"
+          }
+        ],
+        "objectiveCardId": 94,
+        "pointsWon": 3
       }
     ],
     "ItemObjectiveCard": [
+      {
+        "multiplier": {
+          "store": {
+            "MANUSCRIPT": 0,
+            "ANIMAL": 0,
+            "PLANT": 0,
+            "QUILL": 0,
+            "INKWELL": 0,
+            "FUNGI": 3,
+            "INSECT": 0,
+            "NONE": 0
+          }
+        },
+        "objectiveCardId": 95,
+        "pointsWon": 2
+      },
+      {
+        "multiplier": {
+          "store": {
+            "MANUSCRIPT": 0,
+            "ANIMAL": 0,
+            "PLANT": 3,
+            "QUILL": 0,
+            "INKWELL": 0,
+            "FUNGI": 0,
+            "INSECT": 0,
+            "NONE": 0
+          }
+        },
+        "objectiveCardId": 96,
+        "pointsWon": 2
+      },
+      {
+        "multiplier": {
+          "store": {
+            "MANUSCRIPT": 0,
+            "ANIMAL": 3,
+            "PLANT": 0,
+            "QUILL": 0,
+            "INKWELL": 0,
+            "FUNGI": 0,
+            "INSECT": 0,
+            "NONE": 0
+          }
+        },
+        "objectiveCardId": 97,
+        "pointsWon": 2
+      },
+      {
+        "multiplier": {
+          "store": {
+            "MANUSCRIPT": 0,
+            "ANIMAL": 0,
+            "PLANT": 0,
+            "QUILL": 0,
+            "INKWELL": 0,
+            "FUNGI": 0,
+            "INSECT": 3,
+            "NONE": 0
+          }
+        },
+        "objectiveCardId": 98,
+        "pointsWon": 2
+      },
       {
         "multiplier": {
           "store": {
@@ -377,8 +5480,56 @@
             "NONE": 0
           }
         },
-        "objectiveCardId": 1,
+        "objectiveCardId": 99,
         "pointsWon": 3
+      },
+      {
+        "multiplier": {
+          "store": {
+            "MANUSCRIPT": 2,
+            "ANIMAL": 0,
+            "PLANT": 0,
+            "QUILL": 0,
+            "INKWELL": 0,
+            "FUNGI": 0,
+            "INSECT": 0,
+            "NONE": 0
+          }
+        },
+        "objectiveCardId": 100,
+        "pointsWon": 2
+      },
+      {
+        "multiplier": {
+          "store": {
+            "MANUSCRIPT": 0,
+            "ANIMAL": 0,
+            "PLANT": 0,
+            "QUILL": 0,
+            "INKWELL": 2,
+            "FUNGI": 0,
+            "INSECT": 0,
+            "NONE": 0
+          }
+        },
+        "objectiveCardId": 101,
+        "pointsWon": 2
+      },
+      {
+        "multiplier": {
+          "store": {
+            "MANUSCRIPT": 0,
+            "ANIMAL": 0,
+            "PLANT": 0,
+            "QUILL": 2,
+            "INKWELL": 0,
+            "FUNGI": 0,
+            "INSECT": 0,
+            "NONE": 0
+          }
+        },
+        "objectiveCardId": 102,
+        "pointsWon": 2
       }
     ]
   }
