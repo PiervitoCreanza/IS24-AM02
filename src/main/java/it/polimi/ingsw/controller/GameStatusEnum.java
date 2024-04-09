@@ -11,16 +11,9 @@ public enum GameStatusEnum {
     WAIT_FOR_PLAYERS,
 
     /**
-     * The game is in the initialization phase.
-     * This is when the player has to choose his starter card and objective card.
-     * He also has to draw his initial hand of cards.
-     */
-    INITIALIZATION,
-
-    /**
      * The game is in the phase where players are placing their starter cards.
      */
-    PLACE_STARTER_CARD,
+    INIT_PLACE_STARTER_CARD,
 
     /**
      * The game is in the phase where players are drawing their initial hand of cards.
@@ -41,11 +34,6 @@ public enum GameStatusEnum {
      * The game is in the phase where players are drawing cards.
      */
     DRAW_CARD,
-
-    /**
-     * The game is in its last round.
-     */
-    LAST_ROUND,
 
     /**
      * The game has ended.
