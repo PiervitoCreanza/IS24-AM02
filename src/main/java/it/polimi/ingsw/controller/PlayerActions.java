@@ -58,7 +58,8 @@ public interface PlayerActions {
     /**
      * Switches the side of a card.
      *
-     * @param card the card whose side is to be switched.
+     * @param playerName the name of the player who is switching the card side.
+     * @param card       the card whose side is to be switched.
      */
     public void switchCardSide(String playerName, GameCard card);
 
