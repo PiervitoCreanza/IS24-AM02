@@ -188,12 +188,13 @@ public class Game {
 
     /**
      * This method checks if any player's position is greater than or equal to 20.
+     * It also checks if both the goldDeck and resourceDeck are empty.
      * If so, the game can start its ending phase.
      *
-     * @return true if a player has more than 20 points, false otherwise.
+     * @return true if a player has more than 20 points or both decks are empty, false otherwise.
      */
     public boolean isOver() {
-        return players.stream().anyMatch(player -> player.getPlayerPos() >= 20);
+        return players.stream().anyMatch(player -> player.getPlayerPos() >= 20) || (globalBoard.isGoldDeckEmpty() && globalBoard.isResourceDeckEmpty()) ;
     }
 
     /**
