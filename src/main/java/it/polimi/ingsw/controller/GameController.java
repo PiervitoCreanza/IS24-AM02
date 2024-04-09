@@ -5,9 +5,20 @@ import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
 
+/**
+ * This interface defines the actions that a player can perform in the game.
+ */
 public class GameController implements PlayerActions {
     private final Game game;
 
+    /**
+     * Constructor for GameController.
+     * Initializes the GameController with the given game name, number of players, and player name.
+     *
+     * @param gameName   the name of the game.
+     * @param nPlayers   the number of players in the game.
+     * @param playerName the name of the player.
+     */
     public GameController(String gameName, int nPlayers, String playerName) {
         this.game = new Game(gameName, nPlayers, playerName);
     }
@@ -33,10 +44,6 @@ public class GameController implements PlayerActions {
     public void drawCardFromGoldDeck(String playerName) {
         GameCard drawnCard = game.getGlobalBoard().getGoldDeck().draw();
         game.getPlayer(playerName).getPlayerHand().addCard(drawnCard);
-    }
-
-    public void switchCardSide(GameCard card) {
-        card.switchSide();
     }
 
     public void setPlayerObjective(String playerName, ObjectiveCard card) {
