@@ -19,6 +19,7 @@ package "Controller"{
         +switchCardSide(String playerName, GameCard card)
         +setPlayerObjective(String playerName, GameCard card)
         +getGame()
+        +choosePlayerColor(PlayerColorEnum)
     }
 
     note top of MainController
@@ -108,6 +109,7 @@ package "Model"{
         -ObjectiveCard[] choosableObjectives
         -PlayerHand hand
         -boolean isConnected
+        -PlayerColorEnum playerColor
         +String getPlayerName()
         +PlayerBoard getPlayerBoard()
         +int getPlayerPos()
@@ -118,6 +120,8 @@ package "Model"{
         +void advancePlayerPos(int steps)
         +boolean setConnected(boolean status)
         +boolean isConnected()
+        +PlayerColorEnum getPlayerColor()
+        +void setPlayerColor(PlayerColorEnum)
         'Numero di passi di cui avanzare
     }
 
@@ -178,9 +182,11 @@ package "Model"{
 
 
     class GameCard {
+        -int gameCardId
         -Side currentSide
         -Side otherSide
         -CardColorEnum cardColor
+        +int getGameCardId()
         +Side getCurrentSide()
         +void switchSide()
         +CardColorEnum getCardColor()
@@ -215,13 +221,13 @@ package "Model"{
           -GameItemEnum gameItem
           +GameItemEnum getGameItem()
           +GameItemEnum setCovered()
+          +boolean isCovered()
       }
 
 
 
       note bottom of Corner
-        Nel caso in cui un Corner sia vuoto, allora risulterà avere GameItemEnum = NONE
-        Se invece il Corner non esiste, il getter restituirà Optional.empty()
+        Documentazione: [[https://bit.ly/3TCavdQ]]
       end note
 
     'FrontSide Section
@@ -321,6 +327,18 @@ package "Model"{
         PURPLE
         NONE
     }
+
+    enum PlayerColorEnum {
+        RED
+        BLUE
+        GREEN
+        PURPLE
+    }
+
+    note top of PlayerColorEnum
+        Per il nero basta vedere il primo player
+        nel Game.ArrayList<Player>
+    end note
 }
 
 @enduml

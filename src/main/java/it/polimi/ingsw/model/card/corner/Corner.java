@@ -19,8 +19,19 @@ public class Corner {
 
     /**
      * Constructs a new Corner object with the specified covered status and game item.
-     * @param isCovered A boolean indicating whether the corner is covered or not.
+     *
      * @param gameItem The game item present in the corner.
+     */
+    public Corner(GameItemEnum gameItem) {
+        this.isCovered = false;
+        this.gameItem = gameItem;
+    }
+
+    /**
+     * Constructs a new Corner object with the specified covered status and game item.
+     *
+     * @param isCovered A boolean indicating whether the corner is covered or not.
+     * @param gameItem  The game item present in the corner.
      */
     public Corner(boolean isCovered, GameItemEnum gameItem) {
         this.isCovered = isCovered;
@@ -30,6 +41,7 @@ public class Corner {
     /**
      * Returns the game item present in the corner.
      * If the corner is covered, it returns NONE.
+     *
      * @return the game item present in the corner or NONE if the corner is covered.
      */
     public GameItemEnum getGameItem() {
@@ -39,10 +51,20 @@ public class Corner {
     /**
      * Sets the corner as covered and returns the game item that was present in the corner.
      * Because when we set a corner as covered we lose the information about the game item that was present in the corner,
+     *
      * @return The game item that was present in the corner.
      */
     public GameItemEnum setCovered() {
         this.isCovered = true;
         return this.gameItem;
+    }
+
+    /**
+     * Returns a boolean indicating whether the corner is covered or not.
+     *
+     * @return a boolean indicating whether the corner is covered or not
+     */
+    public boolean isCovered() {
+        return this.isCovered;
     }
 }

@@ -1,12 +1,12 @@
 package it.polimi.ingsw.model.card.corner;
 
 import it.polimi.ingsw.model.card.GameItemEnum;
-import it.polimi.ingsw.model.card.corner.Corner;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * This test checks if the BackGameCard constructor throws a NullPointerException when a null GameItemStore is passed.
@@ -18,7 +18,7 @@ public class CornerTest {
 
     @BeforeEach
     public void setup() {
-        corner = new Corner(false, GameItemEnum.PLANT);
+        corner = new Corner(GameItemEnum.PLANT);
     }
 
     /**
@@ -40,4 +40,17 @@ public class CornerTest {
         assertEquals(GameItemEnum.NONE, corner.getGameItem());
     }
 
+    @Test
+    @DisplayName("isCovered() test for Corner class - false and true cases")
+    public void testIsCovered1() {
+        // Create a Corner instance with isCovered set to false
+        Corner corner = new Corner(GameItemEnum.NONE);
+        Assertions.assertFalse(corner.isCovered());
+
+        /* Cover the corner, check the returned ENUM value */
+        assertEquals(GameItemEnum.NONE, corner.setCovered());
+        /* Check if the cover has been effectively covered */
+        Assertions.assertTrue(corner.isCovered());
+    }
 }
+
