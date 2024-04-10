@@ -6,10 +6,7 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.utils.store.Store;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -27,7 +24,7 @@ public class Game {
      * Represents the maximum number of players in the game.
      * This is the total number of players that can join a game.
      */
-    private final int nPlayers;
+    private final int maxAllowedPlayers;
 
     /**
      * Represents the list of players in the game.
@@ -58,14 +55,40 @@ public class Game {
      * Constructor for Game. Initializes a new game with the specified parameters.
      *
      * @param gameName   The name of the game.
-     * @param nPlayers   The maximum number of players in the game.
+     * @param maxAllowedPlayers   The maximum number of players in the game.
      * @param playerName The name of the player creating the game, he will also be the first player.
+     * @throws NullPointerException if the gameName is null.
+     * @throws IllegalArgumentException if the number of players is not between 2 and 4.
      */
-    public Game(String gameName, int nPlayers, String playerName) {
-        this.gameName = gameName;
-        this.nPlayers = nPlayers;
-        this.players = new ArrayList<>(nPlayers);
+    public Game(String gameName, int maxAllowedPlayers, String playerName) {
+        this.gameName = Objects.requireNonNull(gameName, "The game name can't be NULL");
+        if(maxAllowedPlayers < 2 || maxAllowedPlayers > 4)
+            throw new IllegalArgumentException("Players must be between 2-4");
+        this.maxAllowedPlayers = maxAllowedPlayers;
+        this.players = new ArrayList<>();
         this.globalBoard = new GlobalBoard();
+        this.addPlayer(playerName);
+        this.currentPlayer = players.getFirst();
+    }
+
+    /**
+     * This is a constructor for the Game class. It initializes a new game with the specified parameters.
+     * It is only used for testing purpose.
+     *
+     * @param gameName   The name of the game.
+     * @param maxAllowedPlayers   The maximum number of players in the game.
+     * @param playerName The name of the player creating the game, he will also be the first player.
+     * @param globalBoard The global board of the game.
+     * @throws NullPointerException if the gameName is null.
+     * @throws IllegalArgumentException if the number of players is not between 2 and 4.
+     */
+    public Game(String gameName, int maxAllowedPlayers, String playerName, GlobalBoard globalBoard) {
+        this.gameName = Objects.requireNonNull(gameName, "The game name can't be NULL");
+        if(maxAllowedPlayers < 2 || maxAllowedPlayers > 4)
+            throw new IllegalArgumentException("Players must be between 2-4");
+        this.maxAllowedPlayers = maxAllowedPlayers;
+        this.players = new ArrayList<>();
+        this.globalBoard = globalBoard;
         this.addPlayer(playerName);
         this.currentPlayer = players.getFirst();
     }
@@ -93,10 +116,12 @@ public class Game {
      *
      * @param playerName The name of the player to find.
      * @return The Player object that represents the player with the specified name.
+     * @throws NullPointerException if the playerName is null.
      * @throws IllegalArgumentException if a player with the specified name does not exist.
      */
     public Player getPlayer(String playerName) {
-        Optional<Player> chosenPlayer = players.stream().filter(player -> player.getPlayerName().equals(gameName)).findFirst();
+        Objects.requireNonNull(playerName, "The player name can't be NULL");
+        Optional<Player> chosenPlayer = players.stream().filter(player -> player.getPlayerName().equals(playerName)).findFirst();
         if (chosenPlayer.isEmpty())
             throw new IllegalArgumentException("Player with name \"" + playerName + "\" doesn't exists");
         return chosenPlayer.get();
@@ -119,8 +144,17 @@ public class Game {
      * The new player is added to the list of players in the game.
      *
      * @param playerName The name of the player to be added.
+     * @throws RuntimeException if the maximum number of players has been reached.
+     * @throws NullPointerException if the playerName is null.
+     * @throws IllegalArgumentException if a player with the same name already exists.
      */
     public void addPlayer(String playerName) {
+        if (players.size() >= maxAllowedPlayers)
+            throw new RuntimeException("Maximum number of players already reached");
+        Objects.requireNonNull(playerName, "The player name can't be NULL");
+        if (players.stream().map(Player::getPlayerName).anyMatch(name -> name.equals(playerName)))
+            throw new IllegalArgumentException("A player with the same name, already exists");
+
         ArrayList<ObjectiveCard> drawnObjectives = new ArrayList<>(List.of(globalBoard.getObjectiveDeck().draw(), globalBoard.getObjectiveDeck().draw()));
         GameCard starterCard = globalBoard.getStarterDeck().draw();
         players.add(new Player(playerName, drawnObjectives, starterCard));
@@ -140,7 +174,7 @@ public class Game {
      * This method updates the currentPlayer variable to the next player in the list of players.
      */
     public void setNextPlayer() {
-        currentPlayer = players.get((players.indexOf(currentPlayer) + 1) % nPlayers);
+        currentPlayer = players.get((players.indexOf(currentPlayer) + 1) % maxAllowedPlayers);
     }
 
     /**
@@ -149,17 +183,18 @@ public class Game {
      * @return true if the game has started, false otherwise.
      */
     public boolean isStarted() {
-        return (players.size() == nPlayers);
+        return (players.size() == maxAllowedPlayers);
     }
 
     /**
      * This method checks if any player's position is greater than or equal to 20.
+     * It also checks if both the goldDeck and resourceDeck are empty.
      * If so, the game can start its ending phase.
      *
-     * @return true if a player has more than 20 points, false otherwise.
+     * @return true if a player has more than 20 points or both decks are empty, false otherwise.
      */
     public boolean isOver() {
-        return players.stream().anyMatch(player -> player.getPlayerPos() >= 20);
+        return players.stream().anyMatch(player -> player.getPlayerPos() >= 20) || (globalBoard.isGoldDeckEmpty() && globalBoard.isResourceDeckEmpty()) ;
     }
 
     /**
@@ -169,9 +204,10 @@ public class Game {
      * winners attribute.
      */
     public void calculateWinners() {
-        HashMap<Player, Integer> tempMap = new HashMap<>(nPlayers);
+        //Initialize a store that will contain for each player the number of objective cards he won.
+        HashMap<Player, Integer> tempMap = new HashMap<>(maxAllowedPlayers);
         players.forEach(player -> tempMap.put(player, 0));
-        Store<Player> cardsWon = new Store<>(tempMap);
+        Store<Player> objectiveCardsWon = new Store<>(tempMap);
 
         ArrayList<ObjectiveCard> objectives = globalBoard.getGlobalObjectives();
 
@@ -181,21 +217,27 @@ public class Game {
             objectives.add(playerObjective);
             for (ObjectiveCard objective : objectives) {
                 int pointsWon = objective.getPoints(playerBoard);
+                //If pointsWon aren't 0, we won an objective, so we increase the counter and advance the player.
                 if (pointsWon != 0) {
-                    cardsWon.increment(player, 1);
+                    objectiveCardsWon.increment(player, 1);
                     player.advancePlayerPos(pointsWon);
                 }
             }
+            //We remove the current player objective, so only the two global objectives remain.
             objectives.remove(playerObjective);
         }
+        //A player wins if he has the highest score, if there's a tie the player who has completed more objectives wins.
+        //If they both completed the same number of objectives, they are both winners.
 
-        ArrayList<Player> tempWinners;
-        int highestPlayerPos = players.stream().map(Player::getPlayerPos).max(Integer::compare).orElse(0);
-        tempWinners = players.stream().filter(player -> player.getPlayerPos() == highestPlayerPos).collect(Collectors.toCollection(ArrayList::new));
+        //We calculate the highest score reached by a player.
+        int highestPlayerScore = players.stream().map(Player::getPlayerPos).max(Integer::compare).orElse(0);
+        //We filter by players with the highest score, we can't use a simple max() because a tie is possible.
+        ArrayList<Player> tempWinners = players.stream().filter(player -> player.getPlayerPos() == highestPlayerScore).collect(Collectors.toCollection(ArrayList::new));
 
-        int maxCardsWon = tempWinners.stream().map(cardsWon::get).max(Integer::compare).orElse(0);
-
-        this.winners = tempWinners.stream().filter(player -> cardsWon.get(player) == maxCardsWon).collect(Collectors.toCollection(ArrayList::new));
+        //We calculate the maximum number of objective cards won by players, it is needed to resolve the tie
+        int maxObjectiveCardsWon = tempWinners.stream().map(objectiveCardsWon::get).max(Integer::compare).orElse(0);
+        //We filter by players with the maxObjectiveCardsWon, and we save the array, a tie is still possible.
+        this.winners = tempWinners.stream().filter(player -> objectiveCardsWon.get(player) == maxObjectiveCardsWon).collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**

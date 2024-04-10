@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
-
+//TODO
+//import it.polimi.ingsw.data.Parser;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 
@@ -59,10 +60,36 @@ public class GlobalBoard {
      * Constructor for GlobalBoard. Initializes the decks and draws cards for the field and for the objectives.
      */
     public GlobalBoard() {
-        this.goldDeck = new Deck<>();        //TODO
-        this.resourceDeck = new Deck<>();    //TODO
-        this.objectiveDeck = new Deck<>();   //TODO
-        this.starterDeck = new Deck<>();     //TODO
+        //TODO
+        //Parser parser = Parser.getInstance();
+        //parser.getGoldDeck()
+        //parser.getResourceDeck()
+        //parser.getObjectiveDeck()
+        //parser.getStarterDeck()
+        this.goldDeck = new Deck<>(new ArrayList<>());
+        this.resourceDeck = new Deck<>(new ArrayList<>());
+        this.objectiveDeck = new Deck<>(new ArrayList<>());
+        this.starterDeck = new Deck<>(new ArrayList<>());
+        this.globalObjectives = new ArrayList<>(List.of(this.objectiveDeck.draw(), this.objectiveDeck.draw()));
+        this.fieldGoldCards = new ArrayList<>(List.of(this.goldDeck.draw(), this.goldDeck.draw()));
+        this.fieldResourceCards = new ArrayList<>(List.of(this.resourceDeck.draw(), this.resourceDeck.draw()));
+    }
+
+    /**
+     * This constructor is used to create a new instance of GlobalBoard with the provided decks.
+     * It initializes the decks with the provided ones and draws cards for the field and for the objectives.
+     * It is only used for testing purpose.
+     *
+     * @param goldDeck The deck of gold cards to be used in the game.
+     * @param resourceDeck The deck of resource cards to be used in the game.
+     * @param objectiveDeck The deck of objective cards to be used in the game.
+     * @param starterDeck The deck of starter cards to be used in the game.
+     */
+    public GlobalBoard(Deck<GameCard> goldDeck, Deck<GameCard> resourceDeck, Deck<ObjectiveCard> objectiveDeck, Deck<GameCard> starterDeck) {
+        this.goldDeck = goldDeck;
+        this.resourceDeck = resourceDeck;
+        this.objectiveDeck = objectiveDeck;
+        this.starterDeck = starterDeck;
         this.globalObjectives = new ArrayList<>(List.of(this.objectiveDeck.draw(), this.objectiveDeck.draw()));
         this.fieldGoldCards = new ArrayList<>(List.of(this.goldDeck.draw(), this.goldDeck.draw()));
         this.fieldResourceCards = new ArrayList<>(List.of(this.resourceDeck.draw(), this.resourceDeck.draw()));

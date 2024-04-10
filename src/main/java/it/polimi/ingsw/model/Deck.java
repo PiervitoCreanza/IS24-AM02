@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -24,10 +25,13 @@ public class Deck<T> {
     private final Random random;
 
     /**
-     * Constructor for Deck. Initializes the deck.
+     * Constructor for Deck. Initializes the deck with the specified cards.
+     *
+     * @param cards The list of cards to initialize the deck with. This cannot be null.
+     * @throws NullPointerException if the cards list is null.
      */
-    public Deck() {     //TODO
-        this.deck = new ArrayList<>();
+    public Deck(ArrayList<T> cards) {
+        this.deck = new ArrayList<>(Objects.requireNonNull(cards));
         this.random = new Random();
     }
 
@@ -41,9 +45,13 @@ public class Deck<T> {
 
     /**
      * Draws a random card from the deck. The card is removed from the deck.
+     * If the deck is empty, it throws a RuntimeException.
      * @return The card drawn from the deck.
+     * @throws RuntimeException if the deck is empty.
      */
     public T draw(){
+        if (deck.isEmpty())
+            throw new RuntimeException("The deck is empty");
         return deck.remove(random.nextInt(deck.size()));
     }
 }
