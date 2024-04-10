@@ -3,7 +3,6 @@ package it.polimi.ingsw.data;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.Deck;
-import it.polimi.ingsw.model.card.CardColorEnum;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ItemObjectiveCard;
@@ -47,36 +46,77 @@ public class Parser {
      */
     private final ArrayList<ObjectiveCard> objectiveCardList = new ArrayList<>();
 
+    /**
+     * Gson object with custom deserializer for SideGameCard.
+     */
     private final Gson gson = new GsonBuilder().registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter()).create();
 
-    private <T,R> void parseAndAddCards(JsonObject jsonObject, String cardType, String cardSubType, Class<T> classType, ArrayList<R> cardList) {
+    /**
+     * Generic method to parse and add cards to a list.
+     *
+     * @param jsonObject  The JSON object containing the cards.
+     * @param cardType    The type of the card (e.g., "GameCard").
+     * @param cardSubType The subtype of the card (e.g., "ResourceCard").
+     * @param classType   The class of the card.
+     * @param cardList    The list to add the cards to.
+     * @param <T>         The type of the card.
+     * @param <R>         The type of the list.
+     */
+    private <T, R> void parseAndAddCards(JsonObject jsonObject, String cardType, String cardSubType, Class<T> classType, ArrayList<R> cardList) {
+        // We get the jsonObject for the specified cardType and then the jsonArray for the specified cardSubType
         JsonArray jsonArray = jsonObject.getAsJsonObject(cardType).getAsJsonArray(cardSubType);
+        // We need to create an ArrayList<classType> type (i.e. classType = GameCard.class will generate a listType = ArrayList<GameCard>)
         Type listType = TypeToken.getParameterized(ArrayList.class, classType).getType();
+        // We parse the jsonArray with the specified listType and addAll to the cardList
         cardList.addAll(this.gson.fromJson(jsonArray, listType));
     }
 
-    private void parseResourceCardList(JsonObject jsonObject){
+    /**
+     * Parses the resource cards from the JSON object and adds them to the resource card list.
+     *
+     * @param jsonObject The JSON object containing the cards.
+     */
+    private void parseResourceCardList(JsonObject jsonObject) {
         parseAndAddCards(jsonObject, "GameCard", "ResourceCard", GameCard.class, resourceCardList);
     }
 
-    private void parseGoldCardList(JsonObject jsonObject){
+    /**
+     * Parses the gold cards from the JSON object and adds them to the gold card list.
+     *
+     * @param jsonObject The JSON object containing the cards.
+     */
+    private void parseGoldCardList(JsonObject jsonObject) {
+        // We need to get inside the GameCard object, gold cards are inside a subsection
         jsonObject = jsonObject.getAsJsonObject("GameCard");
         parseAndAddCards(jsonObject, "GoldCard", "ItemGoldCard", GameCard.class, goldCardList);
         parseAndAddCards(jsonObject, "GoldCard", "PositionalGoldCard", GameCard.class, goldCardList);
         parseAndAddCards(jsonObject, "GoldCard", "SimpleGoldCard", GameCard.class, goldCardList);
     }
 
-    private void parseStarterCardList(JsonObject jsonObject){
+    /**
+     * Parses the starter cards from the JSON object and adds them to the starter card list.
+     *
+     * @param jsonObject The JSON object containing the cards.
+     */
+    private void parseStarterCardList(JsonObject jsonObject) {
         parseAndAddCards(jsonObject, "GameCard", "StarterCard", GameCard.class, starterCardList);
     }
 
-    private void parseObjectiveCardList(JsonObject jsonObject){
+    /**
+     * Parses the objective cards from the JSON object and adds them to the objective card list.
+     *
+     * @param jsonObject The JSON object containing the cards.
+     */
+    private void parseObjectiveCardList(JsonObject jsonObject) {
         parseAndAddCards(jsonObject, "ObjectiveCard", "ItemObjectiveCard", ItemObjectiveCard.class, objectiveCardList);
         parseAndAddCards(jsonObject, "ObjectiveCard", "PositionalObjectiveCard", PositionalObjectiveCard.class, objectiveCardList);
     }
 
     /**
      * Constructs a new Parser object.
+     * Reads the JSON file, parses the cards, and adds them to the appropriate lists.
+     *
+     * @throws RuntimeException when parsing fails
      */
     private Parser() {
         try {
@@ -92,49 +132,11 @@ public class Parser {
             parseStarterCardList(jsonObject);
             parseObjectiveCardList(jsonObject);
 
-            // Debug, remove when everything is done
-            resourceCardList.forEach(card -> {
-                        System.out.println("CardType: " + card.toString() + " ID: " + card.getGameCardId());
-                        System.out.println("Front side: " + card.getCurrentSide().toString());
-                        card.switchSide();
-                        System.out.println("Back side: " + card.getCurrentSide().toString() + "\n");
-                    }
-            );
-            goldCardList.forEach(card -> {
-                        System.out.println("CardType: " + card.toString() + " ID: " + card.getGameCardId());
-                        System.out.println("Front side: " + card.getCurrentSide().toString());
-                        card.switchSide();
-                        System.out.println("Back side: " + card.getCurrentSide().toString() + "\n");
-                    }
-            );
-            starterCardList.forEach(card -> {
-                        System.out.println("CardType: " + card.toString() + " ID: " + card.getGameCardId());
-                        System.out.println("Front side: " + card.getCurrentSide().toString());
-                        card.switchSide();
-                        System.out.println("Back side: " + card.getCurrentSide().toString() + "\n");
-                    }
-            );
-            objectiveCardList.forEach(card -> System.out.println(card.toString() + " ID: " + card.getObjectiveCardId()));
-            System.out.println("Resource size: " + resourceCardList.size() + " R/G/B/P/N: " + colorSize(resourceCardList));
-            System.out.println("Gold size: " + goldCardList.size() + " R/G/B/P/N: " + colorSize(goldCardList));
-            System.out.println("Starter size: " + starterCardList.size() + " R/G/B/P/N: " + colorSize(starterCardList));
-            System.out.println("Objective size: " + objectiveCardList.size());
-
             // Close the reader
             reader.close();
         } catch (Exception e) {
             throw new RuntimeException("Parsing failed");
         }
-    }
-
-    private ArrayList<Integer> colorSize(ArrayList<GameCard> cardList){
-        ArrayList<Integer> sizes = new ArrayList<>();
-        sizes.add(cardList.stream().filter(card -> card.getCardColor().equals(CardColorEnum.RED)).toList().size());
-        sizes.add(cardList.stream().filter(card -> card.getCardColor().equals(CardColorEnum.GREEN)).toList().size());
-        sizes.add(cardList.stream().filter(card -> card.getCardColor().equals(CardColorEnum.BLUE)).toList().size());
-        sizes.add(cardList.stream().filter(card -> card.getCardColor().equals(CardColorEnum.PURPLE)).toList().size());
-        sizes.add(cardList.stream().filter(card -> card.getCardColor().equals(CardColorEnum.NONE)).toList().size());
-        return sizes;
     }
 
     /**
@@ -146,26 +148,7 @@ public class Parser {
         if (instance == null) {
             instance = new Parser();
         }
-
         return instance;
-    }
-
-    /**
-     * Returns a new deck of objective cards.
-     *
-     * @return A new deck of objective cards.
-     */
-    public Deck<ObjectiveCard> getObjectiveDeck() {
-        return new Deck<>(objectiveCardList);
-    }
-
-    /**
-     * Returns a new deck of gold cards.
-     *
-     * @return A new deck of gold cards.
-     */
-    public Deck<GameCard> getGoldDeck() {
-        return new Deck<>(goldCardList);
     }
 
     /**
@@ -178,6 +161,15 @@ public class Parser {
     }
 
     /**
+     * Returns a new deck of gold cards.
+     *
+     * @return A new deck of gold cards.
+     */
+    public Deck<GameCard> getGoldDeck() {
+        return new Deck<>(goldCardList);
+    }
+
+    /**
      * Returns a new deck of starter cards.
      *
      * @return A new deck of starter cards.
@@ -186,10 +178,33 @@ public class Parser {
         return new Deck<>(starterCardList);
     }
 
+    /**
+     * Returns a new deck of objective cards.
+     *
+     * @return A new deck of objective cards.
+     */
+    public Deck<ObjectiveCard> getObjectiveDeck() {
+        return new Deck<>(objectiveCardList);
+    }
+
+    /**
+     * Serializes an object to a JSON string.
+     *
+     * @param o The object to serialize.
+     * @return The JSON string.
+     */
     public String serializeToJson(Object o) {
         return this.gson.toJson(o);
     }
 
+    /**
+     * Deserializes a JSON string to an object.
+     *
+     * @param json      The JSON string.
+     * @param classType The type of the object.
+     * @param <T>       The type of the object.
+     * @return The deserialized object.
+     */
     public <T> T deserializeFromJson(String json, Type classType) {
         return this.gson.fromJson(json, classType);
     }
