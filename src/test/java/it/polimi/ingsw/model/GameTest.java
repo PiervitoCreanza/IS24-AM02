@@ -57,7 +57,9 @@ class GameTest {
 
     @BeforeEach
     void setUp() {
+        @SuppressWarnings("unchecked")
         Deck<ObjectiveCard> mockObjectiveCardDeck = Mockito.mock(Deck.class);
+        @SuppressWarnings("unchecked")
         Deck<GameCard> mockGameCardDeck = Mockito.mock(Deck.class);
         mockGlobalBoard = Mockito.mock(GlobalBoard.class);
         when(mockGlobalBoard.getObjectiveDeck()).thenReturn(mockObjectiveCardDeck);
