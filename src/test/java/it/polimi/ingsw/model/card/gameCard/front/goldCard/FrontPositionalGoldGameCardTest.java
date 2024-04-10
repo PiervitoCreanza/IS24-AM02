@@ -88,7 +88,7 @@ public class FrontPositionalGoldGameCardTest {
         Coordinate coordinate = new Coordinate(-1, 5);
         int points = frontPositionalGoldGameCard.getPoints(coordinate, playerBoard);
 
-        // Assert: Verify the expected points (8 points)
+        // Assert: Verify the expected points (4 points)
         assertEquals(4, points);
     }
 }

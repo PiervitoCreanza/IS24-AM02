@@ -44,7 +44,20 @@ public class FrontGameCardTest {
     @DisplayName("getGameItemStore test for FrontGameCard class")
     public void getGameItemStoreTest() {
         GameItemStore gameItemStore = new GameItemStore();
-        gameItemStore.set(GameItemEnum.NONE, 4);
+        // The NONE item is a placeholder for null values, so we don't want to set it to a specific amount.
+        // Allowing this would lead to inconsistencies in the equality checks.
+        //We need to initialize a new appropriate card for this test, avoiding to use the one in @BeforeEach
+        Corner topRight = new Corner(GameItemEnum.FUNGI);
+        Corner topLeft = new Corner(GameItemEnum.PLANT);
+        Corner bottomLeft = new Corner(GameItemEnum.INSECT);
+        Corner bottomRight = new Corner(GameItemEnum.ANIMAL);
+        int points = 5;
+        frontGameCard = new FrontGameCard(topRight, topLeft, bottomLeft, bottomRight, points);
+        //initialize the store with the correct values relative to this card
+        gameItemStore.set(GameItemEnum.FUNGI, 1);
+        gameItemStore.set(GameItemEnum.PLANT, 1);
+        gameItemStore.set(GameItemEnum.INSECT, 1);
+        gameItemStore.set(GameItemEnum.ANIMAL, 1);
         assertEquals(gameItemStore, frontGameCard.getGameItemStore());
     }
 }
