@@ -220,6 +220,7 @@ class GameControllerMiddlewareTest {
         gameControllerMiddleware.placeCard("player0", null, null);
         // Player 1 can draw a card
         gameControllerMiddleware.drawCardFromField("player0", null);
+        // Game is over
         assertEquals(GameStatusEnum.GAME_OVER, gameControllerMiddleware.getGameStatus());
     }
 }
