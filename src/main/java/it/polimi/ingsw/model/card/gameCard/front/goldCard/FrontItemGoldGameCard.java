@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.utils.store.GameItemStore;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.card.corner.Corner;
 
+import java.util.Objects;
+
 /**
  * Represents a variant of FrontGoldGameCard known as FrontItemGoldGameCard. This class extends
  * FrontGoldGameCard and specializes in calculating points based on the quantity of a specific
@@ -46,5 +48,20 @@ public class FrontItemGoldGameCard extends FrontGoldGameCard {
     public int getPoints(Coordinate cardPosition, PlayerBoard playerBoard) {
         // The points are multiplied by the amount of the specified game item on the player's board.
         return playerBoard.getGameItemAmount(multiplier) * points;
+    }
+
+    /**
+     * Checks if the given object is equal to this FrontItemGoldGameCard.
+     * Two FrontItemGoldGameCards are equal if they have the same cardId, pointsWon, and multiplier.
+     *
+     * @param o The object to compare this FrontItemGoldGameCard against.
+     * @return true if the given object represents a FrontItemGoldGameCard equivalent to this FrontItemGoldGameCard, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FrontItemGoldGameCard that)) return false;
+        if (!super.equals(o)) return false;
+        return this.multiplier == that.multiplier;
     }
 }

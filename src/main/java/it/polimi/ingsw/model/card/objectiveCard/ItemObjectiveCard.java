@@ -44,4 +44,19 @@ public class ItemObjectiveCard extends ObjectiveCard {
                 .map(x -> playerBoard.getGameItemAmount(x) / multiplier.get(x))
                 .min(Integer::compareTo).orElse(0) * this.pointsWon;
     }
+
+    /**
+     * Checks if the given object is equal to this ObjectiveCard.
+     * Two ObjectiveCards are equal if they have the same cardId and pointsWon.
+     *
+     * @param o The object to compare this ObjectiveCard against.
+     * @return true if the given object represents an ObjectiveCard equivalent to this ObjectiveCard, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ItemObjectiveCard that)) return false;
+        if (!super.equals(o)) return false;
+        return this.multiplier.equals(that.multiplier);
+    }
 }

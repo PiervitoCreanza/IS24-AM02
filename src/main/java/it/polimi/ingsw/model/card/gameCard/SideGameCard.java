@@ -57,10 +57,10 @@ public abstract class SideGameCard {
     /**
      * Returns the corner at the specified position.
      * <p>
-     *  Note: If the corner is non-existent (i.e., null), this method will return an Optional.isEmpty().
-     *  This is different from a corner that exists but has no game item, which is represented by a Corner with GameItemEnum.NONE.
-     *  In this case, the method will return an Optional containing the corner that has GameItemEnum.NONE in it.
-     *  If the corner exists and has a game item, the method will return an Optional containing the corner.
+     * Note: If the corner is non-existent (i.e., null), this method will return an Optional.isEmpty().
+     * This is different from a corner that exists but has no game item, which is represented by a Corner with GameItemEnum.NONE.
+     * In this case, the method will return an Optional containing the corner that has GameItemEnum.NONE in it.
+     * If the corner exists and has a game item, the method will return an Optional containing the corner.
      *
      * @param position the position of the corner
      * @return an Optional containing the corner if it exists, otherwise an empty Optional
@@ -125,4 +125,19 @@ public abstract class SideGameCard {
                 .forEach(gameItem -> gameItemStore.increment(gameItem, 1));
         return gameItemStore;
     }
+
+    /**
+     * Overrides the equals method for the SideGameCard class.
+     * Checks if all corners are equals.
+     *
+     * @param o the object to be compared with the current object
+     * @return true if the specified object is equal to the current object, false otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SideGameCard that)) return false;
+        return Objects.equals(this.topRight, that.topRight) && Objects.equals(this.topLeft, that.topLeft) && Objects.equals(this.bottomLeft, that.bottomLeft) && Objects.equals(this.bottomRight, that.bottomRight);
+    }
+
 }

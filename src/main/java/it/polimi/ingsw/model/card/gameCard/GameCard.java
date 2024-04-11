@@ -143,4 +143,18 @@ public class GameCard {
     public GameItemStore getNeededItemStore() {
         return currentSideGameCard.getNeededItemStore();
     }
+
+    /**
+     * Overrides the equals method for the GameCard class.
+     * Checks if all attributes are equals and then checks if the sides are equals.
+     *
+     * @param o the object to be compared with the current object
+     * @return true if the specified object is equal to the current object, false otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GameCard that)) return false;
+        return this.cardId == that.cardId && Objects.equals(this.currentSideGameCard, that.currentSideGameCard) && Objects.equals(this.otherSideGameCard, that.otherSideGameCard) && this.cardColorEnum == that.cardColorEnum;
+    }
 }

@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.player.PlayerBoard;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -78,5 +79,20 @@ public class PositionalObjectiveCard extends ObjectiveCard {
             //Respect to coordinates I must move by positionRequired.get(1).
         }
         return numOfMatch * this.pointsWon;
+    }
+
+    /**
+     * Checks if the given object is equal to this PositionalObjectiveCard.
+     * Two PositionalObjectiveCards are equal if they have the same cardId, pointsWon, and positionalData.
+     *
+     * @param o The object to compare this PositionalObjectiveCard against.
+     * @return true if the given object represents a PositionalObjectiveCard equivalent to this PositionalObjectiveCard, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PositionalObjectiveCard that)) return false;
+        if (!super.equals(o)) return false;
+        return this.positionalData.equals(that.positionalData);
     }
 }
