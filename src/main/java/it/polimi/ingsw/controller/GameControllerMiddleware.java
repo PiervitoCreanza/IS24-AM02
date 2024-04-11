@@ -89,9 +89,6 @@ public class GameControllerMiddleware implements PlayerActions {
      * Handles the turn finish.
      */
     private void handleDrawFinish() {
-        // TODO Handle the case where all decks are empty.
-
-
         if (gameStatus == GameStatusEnum.INIT_DRAW_CARD) {
             // If the player has drawn all the cards, the game status is set to INIT_CHOOSE_OBJECTIVE_CARD (next phase)
             if (resourceCardsToDraw == 0 && goldCardsToDraw == 0) {

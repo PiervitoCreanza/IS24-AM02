@@ -1,11 +1,9 @@
 package it.polimi.ingsw.controller;
 
-import com.sun.tools.javac.Main;
 import it.polimi.ingsw.model.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,7 +15,6 @@ class MainControllerTest {
     void setUp() {
         mainController = new MainController();
     }
-
 
     @Test
     @DisplayName("Test for createGame() and getGames()")
