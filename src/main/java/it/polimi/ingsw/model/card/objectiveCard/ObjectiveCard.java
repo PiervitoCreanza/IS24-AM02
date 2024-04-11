@@ -2,6 +2,8 @@ package it.polimi.ingsw.model.card.objectiveCard;
 
 import it.polimi.ingsw.model.player.PlayerBoard;
 
+import java.util.Objects;
+
 /**
  * This abstract class represents an objective card in the game.
  * Each objective card allows the player to earn points based on certain criteria.
@@ -49,4 +51,18 @@ abstract public class ObjectiveCard {
      * @return The number of points the player can win by fulfilling the objective of this card.
      */
     abstract public int getPoints(PlayerBoard playerBoard);
+
+    /**
+     * Checks if the given object is equal to this ObjectiveCard.
+     * Two ObjectiveCards are equal if they have the same cardId and pointsWon.
+     *
+     * @param o The object to compare this ObjectiveCard against.
+     * @return true if the given object represents an ObjectiveCard equivalent to this ObjectiveCard, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ObjectiveCard that)) return false;
+        return this.cardId == that.cardId && this.pointsWon == that.pointsWon;
+    }
 }

@@ -17,10 +17,11 @@ public class BackGameCard extends SideGameCard {
 
     /**
      * Constructs a new BackGameCard object with the specified resources and corners.
-     * @param resources The resources on the back side of the card.
-     * @param topRight The top right corner of the card.
-     * @param topLeft The top left corner of the card.
-     * @param bottomLeft The bottom left corner of the card.
+     *
+     * @param resources   The resources on the back side of the card.
+     * @param topRight    The top right corner of the card.
+     * @param topLeft     The top left corner of the card.
+     * @param bottomLeft  The bottom left corner of the card.
      * @param bottomRight The bottom right corner of the card.
      * @throws NullPointerException if resources is null.
      */
@@ -32,6 +33,7 @@ public class BackGameCard extends SideGameCard {
 
     /**
      * Returns a GameItemStore representing the items on the corners and in the center of the card.
+     *
      * @return all the items in the side of this card
      */
     @Override
@@ -42,5 +44,20 @@ public class BackGameCard extends SideGameCard {
                 gameItemStore.increment(key, resources.get(key))
         );
         return gameItemStore;
+    }
+
+    /**
+     * Overrides the equals method for the GameCard class.
+     * First checks if the cards are equals using the super class equals() method then checks if resources are equals.
+     *
+     * @param o the object to be compared with the current object
+     * @return true if the specified object is equal to the current object, false otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BackGameCard that)) return false;
+        if (!super.equals(o)) return false;
+        return Objects.equals(this.resources, that.resources);
     }
 }

@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.card.corner.Corner;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 
+import java.util.Objects;
+
 /**
  * Represents the front side of a game card. This class extends the SideGameCard class and
  * incorporates functionalities for managing points and aggregating game items from corners.
@@ -55,4 +57,18 @@ public class FrontGameCard extends SideGameCard {
         return points;
     }
 
+    /**
+     * Overrides the equals method for the GameCard class.
+     * First checks if the cards are equals using the super class equals() method then checks if points are equals.
+     *
+     * @param o the object to be compared with the current object
+     * @return true if the specified object is equal to the current object, false otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FrontGameCard that)) return false;
+        if (!super.equals(o)) return false;
+        return this.points == that.points;
+    }
 }

@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.card.gameCard.front.FrontGameCard;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 import it.polimi.ingsw.model.card.corner.Corner;
 
+import java.util.Objects;
+
 /**
  * Represents a FrontGoldGameCard, a specialized version of the FrontGameCard card that includes
  * a store for needed items. This class extends FrontGameCard and adds functionality to manage
@@ -40,5 +42,20 @@ public class FrontGoldGameCard extends FrontGameCard {
     @Override
     public GameItemStore getNeededItemStore() {
         return neededItems;
+    }
+
+    /**
+     * Checks if the given object is equal to this FrontItemGoldGameCard.
+     * Two FrontItemGoldGameCards are equal if they have the same cardId, pointsWon, and multiplier.
+     *
+     * @param o The object to compare this FrontItemGoldGameCard against.
+     * @return true if the given object represents a FrontItemGoldGameCard equivalent to this FrontItemGoldGameCard, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FrontGoldGameCard that)) return false;
+        if (!super.equals(o)) return false;
+        return Objects.equals(this.neededItems, that.neededItems);
     }
 }

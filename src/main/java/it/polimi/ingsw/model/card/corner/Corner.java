@@ -2,6 +2,8 @@ package it.polimi.ingsw.model.card.corner;
 
 import it.polimi.ingsw.model.card.GameItemEnum;
 
+import java.util.Objects;
+
 /**
  * This class represents a corner of a game card in the game.
  * Each corner can be covered or uncovered and can contain a game item.
@@ -66,5 +68,19 @@ public class Corner {
      */
     public boolean isCovered() {
         return this.isCovered;
+    }
+
+    /**
+     * Overrides the equals method for the Corner class.
+     * Checks if all attributes are equals.
+     *
+     * @param o the object to be compared with the current object
+     * @return true if the specified object is equal to the current object, false otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Corner that)) return false;
+        return this.isCovered == that.isCovered && this.gameItem == that.gameItem;
     }
 }
