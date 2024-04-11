@@ -20,7 +20,7 @@ public class GameCard {
     /**
      * The unique identifier for the game card.
      */
-    private final int gameCardId;
+    private final int cardId;
 
     /**
      * The side of the card that is currently facing up.
@@ -46,14 +46,14 @@ public class GameCard {
      * Note: A corner in a SideGameCard can be non-existent and therefore null. This is different from a corner that exists but has no game item,
      * which is represented by a Corner with GameItemEnum.NONE.
      *
-     * @param gameCardId          The unique identifier for the game card.
+     * @param cardId              The unique identifier for the game card.
      * @param currentSideGameCard The current side of the card.
      * @param otherSideGameCard   The other side of the card.
      * @param cardColorEnum       The color of the card.
      * @throws NullPointerException if any of the parameters are null.
      */
-    public GameCard(int gameCardId, SideGameCard currentSideGameCard, SideGameCard otherSideGameCard, CardColorEnum cardColorEnum) {
-        this.gameCardId = gameCardId;
+    public GameCard(int cardId, SideGameCard currentSideGameCard, SideGameCard otherSideGameCard, CardColorEnum cardColorEnum) {
+        this.cardId = cardId;
         this.currentSideGameCard = Objects.requireNonNull(currentSideGameCard, "currentSideGameCard cannot be null");
         this.otherSideGameCard = Objects.requireNonNull(otherSideGameCard, "otherSideGameCard cannot be null");
         this.cardColorEnum = Objects.requireNonNull(cardColorEnum, "cardColorEnum cannot be null");
@@ -64,8 +64,8 @@ public class GameCard {
      *
      * @return The unique identifier for the game card.
      */
-    public int getGameCardId() {
-        return gameCardId;
+    public int getCardId() {
+        return cardId;
     }
 
     /**

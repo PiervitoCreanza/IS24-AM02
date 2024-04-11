@@ -12,7 +12,7 @@ abstract public class ObjectiveCard {
     /**
      * The unique identifier of this objective card.
      */
-    protected final int objectiveCardId;
+    private final int cardId;
 
     /**
      * The number of points the player can win by fulfilling the objective of this card.
@@ -22,13 +22,13 @@ abstract public class ObjectiveCard {
     /**
      * Constructs a new ObjectiveCard object with the specified unique identifier and number of points.
      *
-     * @param objectiveCardId The unique identifier of the objective card.
+     * @param cardId    The unique identifier of the objective card.
      * @param pointsWon The number of points the player can win by fulfilling the objective of this card.
      * @throws IllegalArgumentException if pointsWon is less than or equal to 0.
      */
-    public ObjectiveCard(int objectiveCardId, int pointsWon) {
+    public ObjectiveCard(int cardId, int pointsWon) {
         if (pointsWon <= 0) throw new IllegalArgumentException("pointsWon must be positive");
-        this.objectiveCardId = objectiveCardId;
+        this.cardId = cardId;
         this.pointsWon = pointsWon;
     }
 
@@ -37,8 +37,8 @@ abstract public class ObjectiveCard {
      *
      * @return The unique identifier of this objective card.
      */
-    public int getObjectiveCardId() {
-        return this.objectiveCardId;
+    public int getCardId() {
+        return this.cardId;
     }
 
     /**

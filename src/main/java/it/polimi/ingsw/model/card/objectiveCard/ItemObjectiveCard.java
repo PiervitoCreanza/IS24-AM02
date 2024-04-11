@@ -20,13 +20,13 @@ public class ItemObjectiveCard extends ObjectiveCard {
     /**
      * Constructs a new ItemObjectiveCard object with the specified number of points and the items that are considered for calculating the points.
      *
-     * @param objectiveCardId The unique identifier of the objective card.
-     * @param pointsWon The number of points the player can win by fulfilling the objective of this card.
+     * @param cardId     The unique identifier of the objective card.
+     * @param pointsWon  The number of points the player can win by fulfilling the objective of this card.
      * @param multiplier The GameItemStore object that represents the items that are considered for calculating the points.
      * @throws NullPointerException if multiplier is null.
      */
-    public ItemObjectiveCard(int objectiveCardId, int pointsWon, GameItemStore multiplier) {
-        super(objectiveCardId, pointsWon);
+    public ItemObjectiveCard(int cardId, int pointsWon, GameItemStore multiplier) {
+        super(cardId, pointsWon);
         Objects.requireNonNull(multiplier, "multiplier cannot be null");
         this.multiplier = multiplier;
     }

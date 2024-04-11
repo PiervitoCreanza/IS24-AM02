@@ -2,7 +2,7 @@
   "GameCard": {
     "ResourceCard": [
       {
-        "gameCardId": 1,
+        "cardId": 1,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -57,7 +57,7 @@
         "cardColorEnum": "RED"
       },
       {
-        "gameCardId": 2,
+        "cardId": 2,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -112,7 +112,7 @@
         "cardColorEnum": "RED"
       },
       {
-        "gameCardId": 3,
+        "cardId": 3,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -167,7 +167,7 @@
         "cardColorEnum": "RED"
       },
       {
-        "gameCardId": 4,
+        "cardId": 4,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -222,7 +222,7 @@
         "cardColorEnum": "RED"
       },
       {
-        "gameCardId": 5,
+        "cardId": 5,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -277,7 +277,7 @@
         "cardColorEnum": "RED"
       },
       {
-        "gameCardId": 6,
+        "cardId": 6,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -332,7 +332,7 @@
         "cardColorEnum": "RED"
       },
       {
-        "gameCardId": 7,
+        "cardId": 7,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -391,7 +391,7 @@
         "cardColorEnum": "RED"
       },
       {
-        "gameCardId": 8,
+        "cardId": 8,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -446,7 +446,7 @@
         "cardColorEnum": "RED"
       },
       {
-        "gameCardId": 9,
+        "cardId": 9,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -501,7 +501,7 @@
         "cardColorEnum": "RED"
       },
       {
-        "gameCardId": 10,
+        "cardId": 10,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -556,7 +556,7 @@
         "cardColorEnum": "RED"
       },
       {
-        "gameCardId": 11,
+        "cardId": 11,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -611,7 +611,7 @@
         "cardColorEnum": "GREEN"
       },
       {
-        "gameCardId": 12,
+        "cardId": 12,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -666,7 +666,7 @@
         "cardColorEnum": "GREEN"
       },
       {
-        "gameCardId": 13,
+        "cardId": 13,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -721,7 +721,7 @@
         "cardColorEnum": "GREEN"
       },
       {
-        "gameCardId": 14,
+        "cardId": 14,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -776,7 +776,7 @@
         "cardColorEnum": "GREEN"
       },
       {
-        "gameCardId": 15,
+        "cardId": 15,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -831,7 +831,7 @@
         "cardColorEnum": "GREEN"
       },
       {
-        "gameCardId": 16,
+        "cardId": 16,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -886,7 +886,7 @@
         "cardColorEnum": "GREEN"
       },
       {
-        "gameCardId": 17,
+        "cardId": 17,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -941,7 +941,7 @@
         "cardColorEnum": "GREEN"
       },
       {
-        "gameCardId": 18,
+        "cardId": 18,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -996,7 +996,7 @@
         "cardColorEnum": "GREEN"
       },
       {
-        "gameCardId": 19,
+        "cardId": 19,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1051,7 +1051,7 @@
         "cardColorEnum": "GREEN"
       },
       {
-        "gameCardId": 20,
+        "cardId": 20,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1106,7 +1106,7 @@
         "cardColorEnum": "GREEN"
       },
       {
-        "gameCardId": 21,
+        "cardId": 21,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1161,7 +1161,7 @@
         "cardColorEnum": "BLUE"
       },
       {
-        "gameCardId": 22,
+        "cardId": 22,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1216,7 +1216,7 @@
         "cardColorEnum": "BLUE"
       },
       {
-        "gameCardId": 23,
+        "cardId": 23,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1271,7 +1271,7 @@
         "cardColorEnum": "BLUE"
       },
       {
-        "gameCardId": 24,
+        "cardId": 24,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1326,7 +1326,7 @@
         "cardColorEnum": "BLUE"
       },
       {
-        "gameCardId": 25,
+        "cardId": 25,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1381,7 +1381,7 @@
         "cardColorEnum": "BLUE"
       },
       {
-        "gameCardId": 26,
+        "cardId": 26,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1436,7 +1436,7 @@
         "cardColorEnum": "BLUE"
       },
       {
-        "gameCardId": 27,
+        "cardId": 27,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1491,7 +1491,7 @@
         "cardColorEnum": "BLUE"
       },
       {
-        "gameCardId": 28,
+        "cardId": 28,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1546,7 +1546,7 @@
         "cardColorEnum": "BLUE"
       },
       {
-        "gameCardId": 29,
+        "cardId": 29,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1601,7 +1601,7 @@
         "cardColorEnum": "BLUE"
       },
       {
-        "gameCardId": 30,
+        "cardId": 30,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1656,7 +1656,7 @@
         "cardColorEnum": "BLUE"
       },
       {
-        "gameCardId": 31,
+        "cardId": 31,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1711,7 +1711,7 @@
         "cardColorEnum": "PURPLE"
       },
       {
-        "gameCardId": 32,
+        "cardId": 32,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1766,7 +1766,7 @@
         "cardColorEnum": "PURPLE"
       },
       {
-        "gameCardId": 33,
+        "cardId": 33,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1821,7 +1821,7 @@
         "cardColorEnum": "PURPLE"
       },
       {
-        "gameCardId": 34,
+        "cardId": 34,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1876,7 +1876,7 @@
         "cardColorEnum": "PURPLE"
       },
       {
-        "gameCardId": 35,
+        "cardId": 35,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1931,7 +1931,7 @@
         "cardColorEnum": "PURPLE"
       },
       {
-        "gameCardId": 36,
+        "cardId": 36,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1986,7 +1986,7 @@
         "cardColorEnum": "PURPLE"
       },
       {
-        "gameCardId": 37,
+        "cardId": 37,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -2041,7 +2041,7 @@
         "cardColorEnum": "PURPLE"
       },
       {
-        "gameCardId": 38,
+        "cardId": 38,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -2096,7 +2096,7 @@
         "cardColorEnum": "PURPLE"
       },
       {
-        "gameCardId": 39,
+        "cardId": 39,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -2151,7 +2151,7 @@
         "cardColorEnum": "PURPLE"
       },
       {
-        "gameCardId": 40,
+        "cardId": 40,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -2206,10 +2206,10 @@
         "cardColorEnum": "PURPLE"
       }
     ],
-    "GoldCard" : {
+    "GoldCard": {
       "ItemGoldCard": [
         {
-          "gameCardId": 41,
+          "cardId": 41,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2277,7 +2277,7 @@
           "cardColorEnum": "RED"
         },
         {
-          "gameCardId": 42,
+          "cardId": 42,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2345,7 +2345,7 @@
           "cardColorEnum": "RED"
         },
         {
-          "gameCardId": 43,
+          "cardId": 43,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2413,7 +2413,7 @@
           "cardColorEnum": "RED"
         },
         {
-          "gameCardId": 51,
+          "cardId": 51,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2481,7 +2481,7 @@
           "cardColorEnum": "GREEN"
         },
         {
-          "gameCardId": 52,
+          "cardId": 52,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2549,7 +2549,7 @@
           "cardColorEnum": "GREEN"
         },
         {
-          "gameCardId": 53,
+          "cardId": 53,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2617,7 +2617,7 @@
           "cardColorEnum": "GREEN"
         },
         {
-          "gameCardId": 61,
+          "cardId": 61,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2685,7 +2685,7 @@
           "cardColorEnum": "BLUE"
         },
         {
-          "gameCardId": 62,
+          "cardId": 62,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2753,7 +2753,7 @@
           "cardColorEnum": "BLUE"
         },
         {
-          "gameCardId": 63,
+          "cardId": 63,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2821,7 +2821,7 @@
           "cardColorEnum": "BLUE"
         },
         {
-          "gameCardId": 71,
+          "cardId": 71,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2889,7 +2889,7 @@
           "cardColorEnum": "PURPLE"
         },
         {
-          "gameCardId": 72,
+          "cardId": 72,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2957,7 +2957,7 @@
           "cardColorEnum": "PURPLE"
         },
         {
-          "gameCardId": 73,
+          "cardId": 73,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -3027,7 +3027,7 @@
       ],
       "PositionalGoldCard": [
         {
-          "gameCardId": 44,
+          "cardId": 44,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3094,7 +3094,7 @@
           "cardColorEnum": "RED"
         },
         {
-          "gameCardId": 45,
+          "cardId": 45,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3161,7 +3161,7 @@
           "cardColorEnum": "RED"
         },
         {
-          "gameCardId": 46,
+          "cardId": 46,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3228,7 +3228,7 @@
           "cardColorEnum": "RED"
         },
         {
-          "gameCardId": 54,
+          "cardId": 54,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3295,7 +3295,7 @@
           "cardColorEnum": "GREEN"
         },
         {
-          "gameCardId": 55,
+          "cardId": 55,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3362,7 +3362,7 @@
           "cardColorEnum": "GREEN"
         },
         {
-          "gameCardId": 56,
+          "cardId": 56,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3429,7 +3429,7 @@
           "cardColorEnum": "GREEN"
         },
         {
-          "gameCardId": 64,
+          "cardId": 64,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3496,7 +3496,7 @@
           "cardColorEnum": "BLUE"
         },
         {
-          "gameCardId": 65,
+          "cardId": 65,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3563,7 +3563,7 @@
           "cardColorEnum": "BLUE"
         },
         {
-          "gameCardId": 66,
+          "cardId": 66,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3630,7 +3630,7 @@
           "cardColorEnum": "BLUE"
         },
         {
-          "gameCardId": 74,
+          "cardId": 74,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3697,7 +3697,7 @@
           "cardColorEnum": "PURPLE"
         },
         {
-          "gameCardId": 75,
+          "cardId": 75,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3764,7 +3764,7 @@
           "cardColorEnum": "PURPLE"
         },
         {
-          "gameCardId": 76,
+          "cardId": 76,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3833,7 +3833,7 @@
       ],
       "SimpleGoldCard": [
         {
-          "gameCardId": 47,
+          "cardId": 47,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -3896,7 +3896,7 @@
           "cardColorEnum": "RED"
         },
         {
-          "gameCardId": 48,
+          "cardId": 48,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -3959,7 +3959,7 @@
           "cardColorEnum": "RED"
         },
         {
-          "gameCardId": 49,
+          "cardId": 49,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4022,7 +4022,7 @@
           "cardColorEnum": "RED"
         },
         {
-          "gameCardId": 50,
+          "cardId": 50,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4085,7 +4085,7 @@
           "cardColorEnum": "RED"
         },
         {
-          "gameCardId": 57,
+          "cardId": 57,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4148,7 +4148,7 @@
           "cardColorEnum": "GREEN"
         },
         {
-          "gameCardId": 58,
+          "cardId": 58,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4211,7 +4211,7 @@
           "cardColorEnum": "GREEN"
         },
         {
-          "gameCardId": 59,
+          "cardId": 59,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4274,7 +4274,7 @@
           "cardColorEnum": "GREEN"
         },
         {
-          "gameCardId": 60,
+          "cardId": 60,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4337,7 +4337,7 @@
           "cardColorEnum": "GREEN"
         },
         {
-          "gameCardId": 67,
+          "cardId": 67,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4400,7 +4400,7 @@
           "cardColorEnum": "BLUE"
         },
         {
-          "gameCardId": 68,
+          "cardId": 68,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4463,7 +4463,7 @@
           "cardColorEnum": "BLUE"
         },
         {
-          "gameCardId": 69,
+          "cardId": 69,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4526,7 +4526,7 @@
           "cardColorEnum": "BLUE"
         },
         {
-          "gameCardId": 70,
+          "cardId": 70,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4589,7 +4589,7 @@
           "cardColorEnum": "BLUE"
         },
         {
-          "gameCardId": 77,
+          "cardId": 77,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4652,7 +4652,7 @@
           "cardColorEnum": "PURPLE"
         },
         {
-          "gameCardId": 78,
+          "cardId": 78,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4715,7 +4715,7 @@
           "cardColorEnum": "PURPLE"
         },
         {
-          "gameCardId": 79,
+          "cardId": 79,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4778,7 +4778,7 @@
           "cardColorEnum": "PURPLE"
         },
         {
-          "gameCardId": 80,
+          "cardId": 80,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4844,7 +4844,7 @@
     },
     "StarterCard": [
       {
-        "gameCardId": 81,
+        "cardId": 81,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -4903,7 +4903,7 @@
         "cardColorEnum": "NONE"
       },
       {
-        "gameCardId": 82,
+        "cardId": 82,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -4962,7 +4962,7 @@
         "cardColorEnum": "NONE"
       },
       {
-        "gameCardId": 83,
+        "cardId": 83,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -5021,7 +5021,7 @@
         "cardColorEnum": "NONE"
       },
       {
-        "gameCardId": 84,
+        "cardId": 84,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -5080,7 +5080,7 @@
         "cardColorEnum": "NONE"
       },
       {
-        "gameCardId": 85,
+        "cardId": 85,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -5131,7 +5131,7 @@
         "cardColorEnum": "NONE"
       },
       {
-        "gameCardId": 86,
+        "cardId": 86,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -5209,7 +5209,7 @@
             "cardColorEnum": "RED"
           }
         ],
-        "objectiveCardId": 87,
+        "cardId": 87,
         "pointsWon": 2
       },
       {
@@ -5236,7 +5236,7 @@
             "cardColorEnum": "GREEN"
           }
         ],
-        "objectiveCardId": 88,
+        "cardId": 88,
         "pointsWon": 2
       },
       {
@@ -5263,7 +5263,7 @@
             "cardColorEnum": "BLUE"
           }
         ],
-        "objectiveCardId": 89,
+        "cardId": 89,
         "pointsWon": 2
       },
       {
@@ -5290,7 +5290,7 @@
             "cardColorEnum": "PURPLE"
           }
         ],
-        "objectiveCardId": 90,
+        "cardId": 90,
         "pointsWon": 2
       },
       {
@@ -5317,7 +5317,7 @@
             "cardColorEnum": "GREEN"
           }
         ],
-        "objectiveCardId": 91,
+        "cardId": 91,
         "pointsWon": 3
       },
       {
@@ -5344,7 +5344,7 @@
             "cardColorEnum": "PURPLE"
           }
         ],
-        "objectiveCardId": 92,
+        "cardId": 92,
         "pointsWon": 3
       },
       {
@@ -5371,7 +5371,7 @@
             "cardColorEnum": "BLUE"
           }
         ],
-        "objectiveCardId": 93,
+        "cardId": 93,
         "pointsWon": 3
       },
       {
@@ -5398,7 +5398,7 @@
             "cardColorEnum": "PURPLE"
           }
         ],
-        "objectiveCardId": 94,
+        "cardId": 94,
         "pointsWon": 3
       }
     ],
@@ -5416,7 +5416,7 @@
             "NONE": 0
           }
         },
-        "objectiveCardId": 95,
+        "cardId": 95,
         "pointsWon": 2
       },
       {
@@ -5432,7 +5432,7 @@
             "NONE": 0
           }
         },
-        "objectiveCardId": 96,
+        "cardId": 96,
         "pointsWon": 2
       },
       {
@@ -5448,7 +5448,7 @@
             "NONE": 0
           }
         },
-        "objectiveCardId": 97,
+        "cardId": 97,
         "pointsWon": 2
       },
       {
@@ -5464,7 +5464,7 @@
             "NONE": 0
           }
         },
-        "objectiveCardId": 98,
+        "cardId": 98,
         "pointsWon": 2
       },
       {
@@ -5480,7 +5480,7 @@
             "NONE": 0
           }
         },
-        "objectiveCardId": 99,
+        "cardId": 99,
         "pointsWon": 3
       },
       {
@@ -5496,7 +5496,7 @@
             "NONE": 0
           }
         },
-        "objectiveCardId": 100,
+        "cardId": 100,
         "pointsWon": 2
       },
       {
@@ -5512,7 +5512,7 @@
             "NONE": 0
           }
         },
-        "objectiveCardId": 101,
+        "cardId": 101,
         "pointsWon": 2
       },
       {
@@ -5528,7 +5528,7 @@
             "NONE": 0
           }
         },
-        "objectiveCardId": 102,
+        "cardId": 102,
         "pointsWon": 2
       }
     ]
