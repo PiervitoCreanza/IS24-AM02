@@ -22,13 +22,13 @@ public class PositionalObjectiveCard extends ObjectiveCard {
     /**
      * Constructs a new PositionalObjectiveCard object with the specified number of points and the positional data required by the objective card.
      *
-     * @param objectiveCardId The unique identifier of the objective card.
-     * @param pointsWon The number of points the player can win by fulfilling the objective of this card.
+     * @param cardId         The unique identifier of the objective card.
+     * @param pointsWon      The number of points the player can win by fulfilling the objective of this card.
      * @param positionalData The positional data required by the objective card.
      * @throws NullPointerException if positionalData is null.
      */
-    public PositionalObjectiveCard(int objectiveCardId, int pointsWon, ArrayList<PositionalData> positionalData) {
-        super(objectiveCardId, pointsWon);
+    public PositionalObjectiveCard(int cardId, int pointsWon, ArrayList<PositionalData> positionalData) {
+        super(cardId, pointsWon);
         Objects.requireNonNull(positionalData, "positionalData must be not null");
         this.positionalData = positionalData;
     }
