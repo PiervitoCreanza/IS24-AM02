@@ -53,9 +53,9 @@ public class ParserTest {
         GameItemStore gameItemStore = new GameItemStore();
         gameItemStore.set(GameItemEnum.PLANT, 1);
         GameItemStore neededItemStore = new GameItemStore();
-        neededItemStore.increment(GameItemEnum.INKWELL, 1);
-        neededItemStore.increment(GameItemEnum.MANUSCRIPT, 1);
-        neededItemStore.increment(GameItemEnum.QUILL, 1);
+        neededItemStore.set(GameItemEnum.INKWELL, 1);
+        neededItemStore.set(GameItemEnum.MANUSCRIPT, 1);
+        neededItemStore.set(GameItemEnum.QUILL, 1);
         GameCard goldGameCard = new GameCard(2, new FrontGoldGameCard(null, new Corner(GameItemEnum.FUNGI), new Corner(GameItemEnum.ANIMAL), new Corner(GameItemEnum.PLANT), 5, neededItemStore), new BackGameCard(new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), gameItemStore), CardColorEnum.GREEN);
 
         // Deserialize
@@ -73,9 +73,9 @@ public class ParserTest {
         GameItemStore gameItemStore = new GameItemStore();
         gameItemStore.set(GameItemEnum.INSECT, 1);
         GameItemStore neededItemStore = new GameItemStore();
-        neededItemStore.increment(GameItemEnum.PLANT, 1);
-        neededItemStore.increment(GameItemEnum.ANIMAL, 1);
-        neededItemStore.increment(GameItemEnum.INSECT, 1);
+        neededItemStore.set(GameItemEnum.PLANT, 1);
+        neededItemStore.set(GameItemEnum.ANIMAL, 1);
+        neededItemStore.set(GameItemEnum.INSECT, 1);
         GameCard itemGoldCard = new GameCard(5, new FrontItemGoldGameCard(null, null, new Corner(GameItemEnum.ANIMAL), new Corner(GameItemEnum.PLANT), 4, neededItemStore, GameItemEnum.INKWELL), new BackGameCard(new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), gameItemStore), CardColorEnum.PURPLE);
 
         // Deserialize
@@ -93,9 +93,9 @@ public class ParserTest {
         GameItemStore gameItemStore = new GameItemStore();
         gameItemStore.set(GameItemEnum.FUNGI, 1);
         GameItemStore neededItemStore = new GameItemStore();
-        neededItemStore.increment(GameItemEnum.PLANT, 2);
-        neededItemStore.increment(GameItemEnum.ANIMAL, 2);
-        neededItemStore.increment(GameItemEnum.INSECT, 2);
+        neededItemStore.set(GameItemEnum.PLANT, 2);
+        neededItemStore.set(GameItemEnum.ANIMAL, 2);
+        neededItemStore.set(GameItemEnum.INSECT, 2);
         GameCard positionalGoldCard = new GameCard(101, new FrontPositionalGoldGameCard(null, new Corner(GameItemEnum.FUNGI), new Corner(GameItemEnum.ANIMAL), null, 2, neededItemStore), new BackGameCard(new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), gameItemStore), CardColorEnum.BLUE);
 
         // Deserialize
@@ -146,9 +146,9 @@ public class ParserTest {
         String jsonItemObjectiveCard = "{\"multiplier\":{\"store\":{\"QUILL\":1,\"MANUSCRIPT\":1,\"ANIMAL\":0,\"PLANT\":0,\"INSECT\":0,\"INKWELL\":1,\"FUNGI\":0,\"NONE\":0}},\"cardId\":1,\"pointsWon\":3}";
 
         GameItemStore gameItemStore = new GameItemStore();
-        gameItemStore.increment(GameItemEnum.INKWELL, 1);
-        gameItemStore.increment(GameItemEnum.MANUSCRIPT, 1);
-        gameItemStore.increment(GameItemEnum.QUILL, 1);
+        gameItemStore.set(GameItemEnum.INKWELL, 1);
+        gameItemStore.set(GameItemEnum.MANUSCRIPT, 1);
+        gameItemStore.set(GameItemEnum.QUILL, 1);
         ObjectiveCard itemObjectiveCard = new ItemObjectiveCard(1, 3, gameItemStore);
 
         // Deserialize
