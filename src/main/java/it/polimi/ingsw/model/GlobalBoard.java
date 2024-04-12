@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
-//TODO
-//import it.polimi.ingsw.data.Parser;
+
+import it.polimi.ingsw.data.Parser;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 
@@ -60,16 +60,11 @@ public class GlobalBoard {
      * Constructor for GlobalBoard. Initializes the decks and draws cards for the field and for the objectives.
      */
     public GlobalBoard() {
-        //TODO
-        //Parser parser = Parser.getInstance();
-        //parser.getGoldDeck()
-        //parser.getResourceDeck()
-        //parser.getObjectiveDeck()
-        //parser.getStarterDeck()
-        this.goldDeck = new Deck<>(new ArrayList<>());
-        this.resourceDeck = new Deck<>(new ArrayList<>());
-        this.objectiveDeck = new Deck<>(new ArrayList<>());
-        this.starterDeck = new Deck<>(new ArrayList<>());
+        Parser parser = Parser.getInstance();
+        this.goldDeck = parser.getGoldDeck();
+        this.resourceDeck = parser.getResourceDeck();
+        this.objectiveDeck = parser.getObjectiveDeck();
+        this.starterDeck = parser.getStarterDeck();
         this.globalObjectives = new ArrayList<>(List.of(this.objectiveDeck.draw(), this.objectiveDeck.draw()));
         this.fieldGoldCards = new ArrayList<>(List.of(this.goldDeck.draw(), this.goldDeck.draw()));
         this.fieldResourceCards = new ArrayList<>(List.of(this.resourceDeck.draw(), this.resourceDeck.draw()));
@@ -80,10 +75,10 @@ public class GlobalBoard {
      * It initializes the decks with the provided ones and draws cards for the field and for the objectives.
      * It is only used for testing purpose.
      *
-     * @param goldDeck The deck of gold cards to be used in the game.
-     * @param resourceDeck The deck of resource cards to be used in the game.
+     * @param goldDeck      The deck of gold cards to be used in the game.
+     * @param resourceDeck  The deck of resource cards to be used in the game.
      * @param objectiveDeck The deck of objective cards to be used in the game.
-     * @param starterDeck The deck of starter cards to be used in the game.
+     * @param starterDeck   The deck of starter cards to be used in the game.
      */
     public GlobalBoard(Deck<GameCard> goldDeck, Deck<GameCard> resourceDeck, Deck<ObjectiveCard> objectiveDeck, Deck<GameCard> starterDeck) {
         this.goldDeck = goldDeck;

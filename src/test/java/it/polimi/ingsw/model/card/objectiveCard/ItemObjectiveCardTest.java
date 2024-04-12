@@ -1,14 +1,12 @@
 package it.polimi.ingsw.model.card.objectiveCard;
 
 import it.polimi.ingsw.model.card.GameItemEnum;
-import it.polimi.ingsw.model.card.objectiveCard.ItemObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -22,8 +20,8 @@ public class ItemObjectiveCardTest {
     @Test
     @DisplayName("Test ItemObjectiveCardTest constructor")
     public void TryExceptionInConstructor() {
-        assertThrows(IllegalArgumentException.class, () -> new ItemObjectiveCard(-2, mock(GameItemStore.class)));
-        assertThrows(NullPointerException.class, () -> new ItemObjectiveCard(10, null));
+        assertThrows(IllegalArgumentException.class, () -> new ItemObjectiveCard(1, -2, mock(GameItemStore.class)));
+        assertThrows(NullPointerException.class, () -> new ItemObjectiveCard(1, 10, null));
     }
 
     /**
@@ -34,7 +32,7 @@ public class ItemObjectiveCardTest {
     public void TryGetPointsWithResources() {
         GameItemStore gameItemStore = new GameItemStore();
         gameItemStore.set(GameItemEnum.FUNGI, 3);
-        ItemObjectiveCard itemObjectiveCard = new ItemObjectiveCard(2, gameItemStore);
+        ItemObjectiveCard itemObjectiveCard = new ItemObjectiveCard(1, 2, gameItemStore);
         PlayerBoard playerBoard = mock(PlayerBoard.class);
         when(playerBoard.getGameItemAmount(GameItemEnum.FUNGI)).thenReturn(7);
         when(playerBoard.getGameItemAmount(GameItemEnum.ANIMAL)).thenReturn(34);
@@ -49,7 +47,7 @@ public class ItemObjectiveCardTest {
     public void TryGetPointsWithObject() {
         GameItemStore gameItemStore = new GameItemStore();
         gameItemStore.set(GameItemEnum.INKWELL, 2);
-        ItemObjectiveCard itemObjectiveCard = new ItemObjectiveCard(2, gameItemStore);
+        ItemObjectiveCard itemObjectiveCard = new ItemObjectiveCard(1, 2, gameItemStore);
         PlayerBoard playerBoard = mock(PlayerBoard.class);
         when(playerBoard.getGameItemAmount(GameItemEnum.INKWELL)).thenReturn(7);
         when(playerBoard.getGameItemAmount(GameItemEnum.ANIMAL)).thenReturn(34);
@@ -66,12 +64,36 @@ public class ItemObjectiveCardTest {
         gameItemStore.set(GameItemEnum.INKWELL, 1);
         gameItemStore.set(GameItemEnum.MANUSCRIPT, 1);
         gameItemStore.set(GameItemEnum.QUILL, 1);
-        ItemObjectiveCard itemObjectiveCard = new ItemObjectiveCard(3, gameItemStore);
+        ItemObjectiveCard itemObjectiveCard = new ItemObjectiveCard(1, 3, gameItemStore);
         PlayerBoard playerBoard = mock(PlayerBoard.class);
         when(playerBoard.getGameItemAmount(GameItemEnum.INKWELL)).thenReturn(4);
         when(playerBoard.getGameItemAmount(GameItemEnum.MANUSCRIPT)).thenReturn(3);
         when(playerBoard.getGameItemAmount(GameItemEnum.QUILL)).thenReturn(6);
         when(playerBoard.getGameItemAmount(GameItemEnum.ANIMAL)).thenReturn(34);
         assertEquals(9, itemObjectiveCard.getPoints(playerBoard));
+    }
+
+    @Test
+    @DisplayName("Equals method returns true when comparing identical ItemObjectiveCards")
+    public void equalsReturnsTrueForIdenticalCards() {
+        GameItemStore gameItemStore = new GameItemStore();
+        gameItemStore.set(GameItemEnum.FUNGI, 3);
+        ItemObjectiveCard itemObjectiveCard1 = new ItemObjectiveCard(1, 2, gameItemStore);
+        ItemObjectiveCard itemObjectiveCard2 = new ItemObjectiveCard(1, 2, gameItemStore);
+        assertTrue(itemObjectiveCard1.equals(itemObjectiveCard2));
+    }
+
+    @Test
+    @DisplayName("Equals method returns false when comparing different ItemObjectiveCards")
+    public void equalsReturnsFalseForDifferentCards() {
+        GameItemStore gameItemStore1 = new GameItemStore();
+        gameItemStore1.set(GameItemEnum.FUNGI, 3);
+        ItemObjectiveCard itemObjectiveCard1 = new ItemObjectiveCard(1, 2, gameItemStore1);
+
+        GameItemStore gameItemStore2 = new GameItemStore();
+        gameItemStore2.set(GameItemEnum.ANIMAL, 2);
+        ItemObjectiveCard itemObjectiveCard2 = new ItemObjectiveCard(1, 2, gameItemStore2);
+
+        assertFalse(itemObjectiveCard1.equals(itemObjectiveCard2));
     }
 }

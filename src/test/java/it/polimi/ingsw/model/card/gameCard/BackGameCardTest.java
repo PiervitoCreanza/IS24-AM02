@@ -6,8 +6,7 @@ import it.polimi.ingsw.model.utils.store.GameItemStore;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -57,5 +56,31 @@ public class BackGameCardTest {
         expected.set(GameItemEnum.ANIMAL, 1);
         expected.set(GameItemEnum.FUNGI, 2);
         assertEquals(expected, backGameCard.getGameItemStore());
+    }
+
+    @Test
+    @DisplayName("Equals method returns true when comparing identical BackGameCards")
+    public void equalsReturnsTrueForIdenticalCards() {
+        GameItemStore gameItemStore = new GameItemStore();
+        gameItemStore.set(GameItemEnum.FUNGI, 3);
+        Corner corner = new Corner(GameItemEnum.PLANT);
+        BackGameCard backGameCard1 = new BackGameCard(corner, corner, corner, corner, gameItemStore);
+        BackGameCard backGameCard2 = new BackGameCard(corner, corner, corner, corner, gameItemStore);
+        assertTrue(backGameCard1.equals(backGameCard2));
+    }
+
+    @Test
+    @DisplayName("Equals method returns false when comparing different BackGameCards")
+    public void equalsReturnsFalseForDifferentCards() {
+        GameItemStore gameItemStore1 = new GameItemStore();
+        gameItemStore1.set(GameItemEnum.FUNGI, 3);
+        Corner corner = new Corner(GameItemEnum.PLANT);
+        BackGameCard backGameCard1 = new BackGameCard(corner, corner, corner, corner, gameItemStore1);
+
+        GameItemStore gameItemStore2 = new GameItemStore();
+        gameItemStore2.set(GameItemEnum.ANIMAL, 2);
+        BackGameCard backGameCard2 = new BackGameCard(corner, corner, corner, corner, gameItemStore2);
+
+        assertFalse(backGameCard1.equals(backGameCard2));
     }
 }

@@ -20,12 +20,13 @@ public class ItemObjectiveCard extends ObjectiveCard {
     /**
      * Constructs a new ItemObjectiveCard object with the specified number of points and the items that are considered for calculating the points.
      *
+     * @param cardId     The unique identifier of the objective card.
      * @param pointsWon  The number of points the player can win by fulfilling the objective of this card.
      * @param multiplier The GameItemStore object that represents the items that are considered for calculating the points.
      * @throws NullPointerException if multiplier is null.
      */
-    public ItemObjectiveCard(int pointsWon, GameItemStore multiplier) {
-        super(pointsWon);
+    public ItemObjectiveCard(int cardId, int pointsWon, GameItemStore multiplier) {
+        super(cardId, pointsWon);
         Objects.requireNonNull(multiplier, "multiplier cannot be null");
         this.multiplier = multiplier;
     }
@@ -42,5 +43,20 @@ public class ItemObjectiveCard extends ObjectiveCard {
         return itemObjects.stream()
                 .map(x -> playerBoard.getGameItemAmount(x) / multiplier.get(x))
                 .min(Integer::compareTo).orElse(0) * this.pointsWon;
+    }
+
+    /**
+     * Checks if the given object is equal to this ObjectiveCard.
+     * Two ObjectiveCards are equal if they have the same cardId and pointsWon.
+     *
+     * @param o The object to compare this ObjectiveCard against.
+     * @return true if the given object represents an ObjectiveCard equivalent to this ObjectiveCard, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ItemObjectiveCard that)) return false;
+        if (!super.equals(o)) return false;
+        return this.multiplier.equals(that.multiplier);
     }
 }

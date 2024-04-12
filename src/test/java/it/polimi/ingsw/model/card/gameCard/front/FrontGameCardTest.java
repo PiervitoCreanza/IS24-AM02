@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 @DisplayName("Front Game Card Test")
@@ -33,7 +33,7 @@ public class FrontGameCardTest {
     @DisplayName("getPoints test for FrontGameCard class")
     public void getPointsReturnsCorrectValue() {
         PlayerBoard playerBoard = mock(PlayerBoard.class);
-        Coordinate coordinate = new Coordinate(1,1);
+        Coordinate coordinate = new Coordinate(1, 1);
 
         int points = frontGameCard.getPoints(coordinate, playerBoard);
 
@@ -60,4 +60,21 @@ public class FrontGameCardTest {
         gameItemStore.set(GameItemEnum.ANIMAL, 1);
         assertEquals(gameItemStore, frontGameCard.getGameItemStore());
     }
+
+    @Test
+    @DisplayName("Equals should return true when comparing cards with same attributes")
+    void equalsShouldReturnTrueWhenComparingCardsWithSameAttributes() {
+        FrontGameCard card1 = new FrontGameCard(null, null, null, null, 5);
+        FrontGameCard card2 = new FrontGameCard(null, null, null, null, 5);
+        assertTrue(card1.equals(card2));
+    }
+
+    @Test
+    @DisplayName("Equals should return false when comparing cards with different points")
+    void equalsShouldReturnFalseWhenComparingCardsWithDifferentPoints() {
+        FrontGameCard card1 = new FrontGameCard(null, null, null, null, 5);
+        FrontGameCard card2 = new FrontGameCard(null, null, null, null, 10);
+        assertFalse(card1.equals(card2));
+    }
+
 }

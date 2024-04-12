@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.player.PlayerBoard;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -22,12 +23,13 @@ public class PositionalObjectiveCard extends ObjectiveCard {
     /**
      * Constructs a new PositionalObjectiveCard object with the specified number of points and the positional data required by the objective card.
      *
+     * @param cardId         The unique identifier of the objective card.
      * @param pointsWon      The number of points the player can win by fulfilling the objective of this card.
      * @param positionalData The positional data required by the objective card.
      * @throws NullPointerException if positionalData is null.
      */
-    public PositionalObjectiveCard(int pointsWon, ArrayList<PositionalData> positionalData) {
-        super(pointsWon);
+    public PositionalObjectiveCard(int cardId, int pointsWon, ArrayList<PositionalData> positionalData) {
+        super(cardId, pointsWon);
         Objects.requireNonNull(positionalData, "positionalData must be not null");
         this.positionalData = positionalData;
     }
@@ -42,7 +44,7 @@ public class PositionalObjectiveCard extends ObjectiveCard {
     @Override
     public int getPoints(PlayerBoard playerboard) {
         int numOfMatch = 0;                          //variable to count how many times player made the configuration
-        CardColorEnum firstColor = positionalData.get(0).cardColorEnum();
+        CardColorEnum firstColor = positionalData.getFirst().cardColorEnum();
         ArrayList<Coordinate> coordinatesCanMatch = playerboard.getGameCards().stream()                  //Create a stream of GameCards
                 .filter(x -> x.getCardColor() == firstColor)                                             //Filtering by the color that I want
                 .map(x -> playerboard.getGameCardPosition(x).get())                                      //and at the end obtain the coordinate of this card
@@ -77,5 +79,20 @@ public class PositionalObjectiveCard extends ObjectiveCard {
             //Respect to coordinates I must move by positionRequired.get(1).
         }
         return numOfMatch * this.pointsWon;
+    }
+
+    /**
+     * Checks if the given object is equal to this PositionalObjectiveCard.
+     * Two PositionalObjectiveCards are equal if they have the same cardId, pointsWon, and positionalData.
+     *
+     * @param o The object to compare this PositionalObjectiveCard against.
+     * @return true if the given object represents a PositionalObjectiveCard equivalent to this PositionalObjectiveCard, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PositionalObjectiveCard that)) return false;
+        if (!super.equals(o)) return false;
+        return this.positionalData.equals(that.positionalData);
     }
 }
