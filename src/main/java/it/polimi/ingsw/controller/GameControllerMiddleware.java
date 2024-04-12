@@ -11,14 +11,39 @@ import it.polimi.ingsw.model.utils.Coordinate;
  * It implements the PlayerActions interface and defines the actions that a player can perform in the game.
  */
 public class GameControllerMiddleware implements PlayerActions {
+    /**
+     * The GameController instance.
+     */
     private final GameController gameController;
+
+    /**
+     * The Game instance.
+     */
     private final Game game;
+
+    /**
+     * The first player to finish the game.
+     */
     private Player firstPlayerToFinish;
 
+    /**
+     * The current game status.
+     */
     private GameStatusEnum gameStatus;
+
+    /**
+     * The boolean that represents if the game is in the last round.
+     */
     private boolean isLastRound = false;
 
+    /**
+     * The number of resource cards to draw during initialization.
+     */
     int resourceCardsToDraw = 2;
+
+    /**
+     * The number of gold cards to draw during initialization.
+     */
     int goldCardsToDraw = 1;
 
     /**
@@ -118,11 +143,21 @@ public class GameControllerMiddleware implements PlayerActions {
         }
     }
 
+    /**
+     * Gets the current game instance.
+     *
+     * @return the current game instance.
+     */
     @Override
     public Game getGame() {
         return game;
     }
 
+    /**
+     * Joins the game with the given player name.
+     *
+     * @param playerName the name of the player who is joining the game.
+     */
     @Override
     public void joinGame(String playerName) {
         if (gameStatus != GameStatusEnum.WAIT_FOR_PLAYERS) {
@@ -135,6 +170,13 @@ public class GameControllerMiddleware implements PlayerActions {
         }
     }
 
+    /**
+     * Places a card on the game field.
+     *
+     * @param playerName the name of the player who is placing the card.
+     * @param coordinate the coordinate where the card should be placed.
+     * @param card       the card to be placed.
+     */
     @Override
     public void placeCard(String playerName, Coordinate coordinate, GameCard card) {
         validatePlayerTurn(playerName);
@@ -153,6 +195,12 @@ public class GameControllerMiddleware implements PlayerActions {
         }
     }
 
+    /**
+     * Draws a card from the game field.
+     *
+     * @param playerName the name of the player who is drawing the card.
+     * @param card       the card to be drawn.
+     */
     @Override
     public void drawCardFromField(String playerName, GameCard card) {
         validatePlayerTurn(playerName);
@@ -163,6 +211,11 @@ public class GameControllerMiddleware implements PlayerActions {
         handleDrawFinish();
     }
 
+    /**
+     * Draws a card from the resource deck.
+     *
+     * @param playerName the name of the player who is drawing the card.
+     */
     @Override
     public void drawCardFromResourceDeck(String playerName) {
         validatePlayerTurn(playerName);
@@ -183,6 +236,11 @@ public class GameControllerMiddleware implements PlayerActions {
         handleDrawFinish();
     }
 
+    /**
+     * Draws a card from the gold deck.
+     *
+     * @param playerName the name of the player who is drawing the card.
+     */
     @Override
     public void drawCardFromGoldDeck(String playerName) {
         validatePlayerTurn(playerName);
@@ -203,6 +261,12 @@ public class GameControllerMiddleware implements PlayerActions {
         handleDrawFinish();
     }
 
+    /**
+     * Switches the side of a card.
+     *
+     * @param playerName the name of the player who is switching the card side.
+     * @param card       the card whose side is to be switched.
+     */
     @Override
     public void switchCardSide(String playerName, GameCard card) {
         validatePlayerTurn(playerName);
@@ -212,6 +276,12 @@ public class GameControllerMiddleware implements PlayerActions {
         gameController.switchCardSide(playerName, card);
     }
 
+    /**
+     * Sets the objective for a player.
+     *
+     * @param playerName the name of the player whose objective is to be set.
+     * @param card       the objective card to be set for the player.
+     */
     @Override
     public void setPlayerObjective(String playerName, ObjectiveCard card) {
         validatePlayerTurn(playerName);
