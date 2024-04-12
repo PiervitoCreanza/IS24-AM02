@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @DisplayName("Front Item Gold Game Card Test")
@@ -52,5 +52,21 @@ public class FrontItemGoldGameCardTest {
 
         // Assert: Verifying the expected points are calculated correctly
         assertEquals(6, points, "The points should be 6.");
+    }
+
+    @Test
+    @DisplayName("Equals should return true when comparing cards with same attributes")
+    void equalsShouldReturnTrueWhenComparingCardsWithSameAttributes() {
+        FrontItemGoldGameCard card1 = new FrontItemGoldGameCard(null, null, null, null, 0, null, GameItemEnum.PLANT);
+        FrontItemGoldGameCard card2 = new FrontItemGoldGameCard(null, null, null, null, 0, null, GameItemEnum.PLANT);
+        assertTrue(card1.equals(card2));
+    }
+
+    @Test
+    @DisplayName("Equals should return false when comparing cards with different multipliers")
+    void equalsShouldReturnFalseWhenComparingCardsWithDifferentMultipliers() {
+        FrontItemGoldGameCard card1 = new FrontItemGoldGameCard(null, null, null, null, 0, null, GameItemEnum.PLANT);
+        FrontItemGoldGameCard card2 = new FrontItemGoldGameCard(null, null, null, null, 0, null, GameItemEnum.ANIMAL);
+        assertFalse(card1.equals(card2));
     }
 }

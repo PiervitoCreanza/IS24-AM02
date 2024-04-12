@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class FrontGoldGameCardTest {
 
@@ -32,5 +32,25 @@ public class FrontGoldGameCardTest {
     public void shouldReturnNeededItemsWhenGetNeededItemStoreIsCalled() {
         GameItemStore actualNeededItems = frontGoldGameCard.getNeededItemStore();
         assertEquals(neededItems, actualNeededItems, "The returned needed items should be equal to the needed items set in the setup");
+    }
+
+
+    @Test
+    @DisplayName("Equals should return true when comparing cards with same attributes")
+    void equalsShouldReturnTrueWhenComparingCardsWithSameAttributes() {
+        FrontGoldGameCard card1 = new FrontGoldGameCard(null, null, null, null, 0, null);
+        FrontGoldGameCard card2 = new FrontGoldGameCard(null, null, null, null, 0, null);
+        assertTrue(card1.equals(card2));
+    }
+
+    @Test
+    @DisplayName("Equals should return false when comparing cards with different needed items")
+    void equalsShouldReturnFalseWhenComparingCardsWithDifferentNeededItems() {
+        GameItemStore store1 = new GameItemStore();
+        GameItemStore store2 = new GameItemStore();
+        store2.set(GameItemEnum.ANIMAL, 1);
+        FrontGoldGameCard card1 = new FrontGoldGameCard(null, null, null, null, 0, store1);
+        FrontGoldGameCard card2 = new FrontGoldGameCard(null, null, null, null, 0, store2);
+        assertFalse(card1.equals(card2));
     }
 }
