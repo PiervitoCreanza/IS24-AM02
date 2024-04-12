@@ -120,4 +120,25 @@ public class GameCardTest {
 
         assertNull(result);
     }
+
+    @Test
+    @DisplayName("Equals method returns true when comparing identical GameCards")
+    public void equalsReturnsTrueForIdenticalCards() {
+        SideGameCard side1 = mock(SideGameCard.class);
+        SideGameCard side2 = mock(SideGameCard.class);
+        GameCard gameCard1 = new GameCard(1, side1, side2, CardColorEnum.RED);
+        GameCard gameCard2 = new GameCard(1, side1, side2, CardColorEnum.RED);
+        assertTrue(gameCard1.equals(gameCard2));
+    }
+
+    @Test
+    @DisplayName("Equals method returns false when comparing different GameCards")
+    public void equalsReturnsFalseForDifferentCards() {
+        SideGameCard side1 = mock(SideGameCard.class);
+        SideGameCard side2 = mock(SideGameCard.class);
+        SideGameCard side3 = mock(SideGameCard.class);
+        GameCard gameCard1 = new GameCard(1, side1, side2, CardColorEnum.RED);
+        GameCard gameCard2 = new GameCard(2, side1, side3, CardColorEnum.GREEN);
+        assertFalse(gameCard1.equals(gameCard2));
+    }
 }
