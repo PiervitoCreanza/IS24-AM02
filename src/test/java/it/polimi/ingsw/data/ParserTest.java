@@ -1,5 +1,7 @@
 package it.polimi.ingsw.data;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import it.polimi.ingsw.model.card.CardColorEnum;
 import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.model.card.corner.Corner;
@@ -12,9 +14,12 @@ import it.polimi.ingsw.model.card.gameCard.front.goldCard.FrontPositionalGoldGam
 import it.polimi.ingsw.model.card.objectiveCard.*;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileReader;
+import java.io.Reader;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,6 +27,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ParserTest {
 
     private final Parser parser = Parser.getInstance();
+
+    private JsonObject jsonObject;
+
+    @BeforeEach
+    void setUp() {
+        try {
+            Reader reader = new FileReader("src/test/java/it/polimi/ingsw/data/CardDBTest.json");
+            jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
+
+        } catch (Exception e) {
+            throw new IllegalArgumentException("File not found!");
+        }
+    }
 
     @Test
     @DisplayName("getInstance returns the same instance for multiple calls")
@@ -33,7 +51,7 @@ public class ParserTest {
     @Test
     @DisplayName("Test if serialization and deserialization of resource card works")
     public void serializeAndDeserializeResourceCard() {
-        String jsonResourceCard = "{\"cardId\":1,\"currentSideGameCard\":{\"sideType\":\"FrontGameCard\",\"sideContent\":{\"points\":1,\"topRight\":{\"isCovered\":false,\"gameItem\":\"FUNGI\"},\"topLeft\":{\"isCovered\":false,\"gameItem\":\"PLANT\"},\"bottomLeft\":{\"isCovered\":false,\"gameItem\":\"ANIMAL\"},\"bottomRight\":{\"isCovered\":false,\"gameItem\":\"INSECT\"}}},\"otherSideGameCard\":{\"sideType\":\"BackGameCard\",\"sideContent\":{\"resources\":{\"store\":{\"QUILL\":0,\"MANUSCRIPT\":0,\"ANIMAL\":1,\"PLANT\":0,\"INSECT\":0,\"INKWELL\":0,\"FUNGI\":0,\"NONE\":0}},\"topRight\":{\"isCovered\":false,\"gameItem\":\"NONE\"},\"topLeft\":{\"isCovered\":false,\"gameItem\":\"NONE\"},\"bottomLeft\":{\"isCovered\":false,\"gameItem\":\"NONE\"},\"bottomRight\":{\"isCovered\":false,\"gameItem\":\"NONE\"}}},\"cardColorEnum\":\"RED\"}";
+        String jsonResourceCard = jsonObject.getAsJsonObject("GameCard").getAsJsonObject("ResourceCard").toString();
 
         GameItemStore gameItemStore = new GameItemStore();
         gameItemStore.set(GameItemEnum.ANIMAL, 1);
@@ -48,7 +66,7 @@ public class ParserTest {
     @Test
     @DisplayName("Test if serialization and deserialization of gold game card works")
     public void serializeAndDeserializeGoldGameCard() {
-        String jsonGoldCard = "{\"cardId\":2,\"currentSideGameCard\":{\"sideType\":\"FrontGoldGameCard\",\"sideContent\":{\"neededItems\":{\"store\":{\"QUILL\":1,\"MANUSCRIPT\":1,\"ANIMAL\":0,\"PLANT\":0,\"INSECT\":0,\"INKWELL\":1,\"FUNGI\":0,\"NONE\":0}},\"points\":5,\"topLeft\":{\"isCovered\":false,\"gameItem\":\"FUNGI\"},\"bottomLeft\":{\"isCovered\":false,\"gameItem\":\"ANIMAL\"},\"bottomRight\":{\"isCovered\":false,\"gameItem\":\"PLANT\"}}},\"otherSideGameCard\":{\"sideType\":\"BackGameCard\",\"sideContent\":{\"resources\":{\"store\":{\"QUILL\":0,\"MANUSCRIPT\":0,\"ANIMAL\":0,\"PLANT\":1,\"INSECT\":0,\"INKWELL\":0,\"FUNGI\":0,\"NONE\":0}},\"topRight\":{\"isCovered\":false,\"gameItem\":\"NONE\"},\"topLeft\":{\"isCovered\":false,\"gameItem\":\"NONE\"},\"bottomLeft\":{\"isCovered\":false,\"gameItem\":\"NONE\"},\"bottomRight\":{\"isCovered\":false,\"gameItem\":\"NONE\"}}},\"cardColorEnum\":\"GREEN\"}";
+        String jsonGoldCard = jsonObject.getAsJsonObject("GameCard").getAsJsonObject("GoldCard").getAsJsonObject("SimpleGoldCard").toString();
 
         GameItemStore gameItemStore = new GameItemStore();
         gameItemStore.set(GameItemEnum.PLANT, 1);
@@ -67,8 +85,8 @@ public class ParserTest {
 
     @Test
     @DisplayName("Test if serialization and deserialization of gold item game card works")
-    public void serializeAndDeserializeGoldItemGameCard() {
-        String jsonItemGoldCard = "{\"cardId\":5,\"currentSideGameCard\":{\"sideType\":\"FrontItemGoldGameCard\",\"sideContent\":{\"multiplier\":\"INKWELL\",\"neededItems\":{\"store\":{\"QUILL\":0,\"MANUSCRIPT\":0,\"ANIMAL\":1,\"PLANT\":1,\"INSECT\":1,\"INKWELL\":0,\"FUNGI\":0,\"NONE\":0}},\"points\":4,\"bottomLeft\":{\"isCovered\":false,\"gameItem\":\"ANIMAL\"},\"bottomRight\":{\"isCovered\":false,\"gameItem\":\"PLANT\"}}},\"otherSideGameCard\":{\"sideType\":\"BackGameCard\",\"sideContent\":{\"resources\":{\"store\":{\"QUILL\":0,\"MANUSCRIPT\":0,\"ANIMAL\":0,\"PLANT\":0,\"INSECT\":1,\"INKWELL\":0,\"FUNGI\":0,\"NONE\":0}},\"topRight\":{\"isCovered\":false,\"gameItem\":\"NONE\"},\"topLeft\":{\"isCovered\":false,\"gameItem\":\"NONE\"},\"bottomLeft\":{\"isCovered\":false,\"gameItem\":\"NONE\"},\"bottomRight\":{\"isCovered\":false,\"gameItem\":\"NONE\"}}},\"cardColorEnum\":\"PURPLE\"}";
+    public void serializeAndDeserializeItemGoldGameCard() {
+        String jsonItemGoldCard = jsonObject.getAsJsonObject("GameCard").getAsJsonObject("GoldCard").getAsJsonObject("ItemGoldCard").toString();
 
         GameItemStore gameItemStore = new GameItemStore();
         gameItemStore.set(GameItemEnum.INSECT, 1);
@@ -88,7 +106,7 @@ public class ParserTest {
     @Test
     @DisplayName("Test if serialization and deserialization of gold positional game card works")
     public void serializeAndDeserializeGoldPositionalGameCard() {
-        String jsonPositionalGoldCard = "{\"cardId\":101,\"currentSideGameCard\":{\"sideType\":\"FrontPositionalGoldGameCard\",\"sideContent\":{\"neededItems\":{\"store\":{\"QUILL\":0,\"MANUSCRIPT\":0,\"ANIMAL\":2,\"PLANT\":2,\"INSECT\":2,\"INKWELL\":0,\"FUNGI\":0,\"NONE\":0}},\"points\":2,\"topLeft\":{\"isCovered\":false,\"gameItem\":\"FUNGI\"},\"bottomLeft\":{\"isCovered\":false,\"gameItem\":\"ANIMAL\"}}},\"otherSideGameCard\":{\"sideType\":\"BackGameCard\",\"sideContent\":{\"resources\":{\"store\":{\"QUILL\":0,\"MANUSCRIPT\":0,\"ANIMAL\":0,\"PLANT\":0,\"INSECT\":0,\"INKWELL\":0,\"FUNGI\":1,\"NONE\":0}},\"topRight\":{\"isCovered\":false,\"gameItem\":\"NONE\"},\"topLeft\":{\"isCovered\":false,\"gameItem\":\"NONE\"},\"bottomLeft\":{\"isCovered\":false,\"gameItem\":\"NONE\"},\"bottomRight\":{\"isCovered\":false,\"gameItem\":\"NONE\"}}},\"cardColorEnum\":\"BLUE\"}";
+        String jsonPositionalGoldCard = jsonObject.getAsJsonObject("GameCard").getAsJsonObject("GoldCard").getAsJsonObject("PositionalGoldCard").toString();
 
         GameItemStore gameItemStore = new GameItemStore();
         gameItemStore.set(GameItemEnum.FUNGI, 1);
@@ -108,7 +126,7 @@ public class ParserTest {
     @Test
     @DisplayName("Test if serialization and deserialization of starter card works")
     public void serializeAndDeserializeStarterCard() {
-        String jsonStarterGameCard = "{\"cardId\":10,\"currentSideGameCard\":{\"sideType\":\"FrontGameCard\",\"sideContent\":{\"points\":0,\"topRight\":{\"isCovered\":false,\"gameItem\":\"FUNGI\"},\"topLeft\":{\"isCovered\":false,\"gameItem\":\"ANIMAL\"},\"bottomLeft\":{\"isCovered\":false,\"gameItem\":\"PLANT\"},\"bottomRight\":{\"isCovered\":false,\"gameItem\":\"INSECT\"}}},\"otherSideGameCard\":{\"sideType\":\"BackGameCard\",\"sideContent\":{\"resources\":{\"store\":{\"QUILL\":0,\"MANUSCRIPT\":0,\"ANIMAL\":1,\"PLANT\":0,\"INSECT\":0,\"INKWELL\":0,\"FUNGI\":1,\"NONE\":0}},\"topRight\":{\"isCovered\":false,\"gameItem\":\"NONE\"},\"topLeft\":{\"isCovered\":false,\"gameItem\":\"NONE\"},\"bottomLeft\":{\"isCovered\":false,\"gameItem\":\"NONE\"},\"bottomRight\":{\"isCovered\":false,\"gameItem\":\"NONE\"}}},\"cardColorEnum\":\"NONE\"}";
+        String jsonStarterGameCard = jsonObject.getAsJsonObject("GameCard").getAsJsonObject("StarterCard").toString();
 
         GameItemStore gameItemStore = new GameItemStore();
         gameItemStore.set(GameItemEnum.ANIMAL, 1);
@@ -125,7 +143,7 @@ public class ParserTest {
     @Test
     @DisplayName("Test if serialization and deserialization of positional objective card works")
     public void serializeAndDeserializePositionalObjectiveCard() {
-        String jsonPositionalObjectiveCard = "{\"positionalData\":[{\"coordinate\":{\"x\":0,\"y\":0},\"cardColorEnum\":\"RED\"},{\"coordinate\":{\"x\":-1,\"y\":-1},\"cardColorEnum\":\"RED\"},{\"coordinate\":{\"x\":-2,\"y\":-2},\"cardColorEnum\":\"RED\"}],\"cardId\":2,\"pointsWon\":2}";
+        String jsonPositionalObjectiveCard = jsonObject.getAsJsonObject("ObjectiveCard").getAsJsonObject("PositionalObjectiveCard").toString();
 
         ArrayList<PositionalData> positionalDataArrayList = new ArrayList<>();
         positionalDataArrayList.add(new PositionalData(new Coordinate(0, 0), CardColorEnum.RED));
@@ -143,7 +161,7 @@ public class ParserTest {
     @Test
     @DisplayName("Test if serialization and deserialization of item objective card works")
     public void serializeAndDeserializeItemObjectiveCard() {
-        String jsonItemObjectiveCard = "{\"multiplier\":{\"store\":{\"QUILL\":1,\"MANUSCRIPT\":1,\"ANIMAL\":0,\"PLANT\":0,\"INSECT\":0,\"INKWELL\":1,\"FUNGI\":0,\"NONE\":0}},\"cardId\":1,\"pointsWon\":3}";
+        String jsonItemObjectiveCard = jsonObject.getAsJsonObject("ObjectiveCard").getAsJsonObject("ItemObjectiveCard").toString();
 
         GameItemStore gameItemStore = new GameItemStore();
         gameItemStore.set(GameItemEnum.INKWELL, 1);
