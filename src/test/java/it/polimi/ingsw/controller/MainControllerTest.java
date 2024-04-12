@@ -43,6 +43,7 @@ class MainControllerTest {
         Game game = mainController.createGame("gameName", 2, "playerName");
         mainController.joinGame("gameName", "playerName2");
         assertEquals(2, game.getPlayers().size());
-        assertThrows(IllegalArgumentException.class, () -> mainController.joinGame("gameName", "playerName3"));
+        assertThrows(IllegalStateException.class, () -> mainController.joinGame("gameName", "playerName3"));
+        assertThrows(IllegalArgumentException.class, () -> mainController.joinGame("gameName1", "playerName3"));
     }
 }
