@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.utils.Coordinate;
 
 /**
  * This class represents the middleware between the GameController and the PlayerActions interface.
- * It implements the PlayerActions interface and defines the actions that a player can perform in the game.
+ * It implements the PlayerActions interface and defines the actions flow that a player can perform in the game.
  */
 public class GameControllerMiddleware implements PlayerActions {
     /**
