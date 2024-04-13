@@ -162,6 +162,9 @@ class GameControllerMiddlewareTest {
         gameControllerMiddleware.joinGame("player1");
         assertEquals(GameStatusEnum.INIT_PLACE_STARTER_CARD, gameControllerMiddleware.getGameStatus());
 
+        // -- Player 0 can't draw cards yet
+        assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.drawCardFromResourceDeck("player0"));
+
         // Player 0 places his starter card
         gameControllerMiddleware.placeCard("player0", null, null);
         // Player 1 can't place his starter card yet
@@ -169,6 +172,9 @@ class GameControllerMiddlewareTest {
 
         // Player 0 can't place his starter card anymore
         assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.placeCard("player0", null, null));
+
+        // Player 0 can't choose his objective card yet
+        assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.setPlayerObjective("player0", null));
 
         // Player 0 draws 2 resource cards and 1 gold card
         gameControllerMiddleware.drawCardFromResourceDeck("player0");
@@ -183,6 +189,7 @@ class GameControllerMiddlewareTest {
 
         // Player 0 chooses his objective card
         gameControllerMiddleware.setPlayerObjective("player0", null);
+
         assertEquals(GameStatusEnum.INIT_PLACE_STARTER_CARD, gameControllerMiddleware.getGameStatus());
         // -- Player 1 can't draw cards yet
         assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.drawCardFromGoldDeck("player1"));
