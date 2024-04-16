@@ -11,7 +11,8 @@ import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 class GameControllerMiddlewareTest {
@@ -43,6 +44,7 @@ class GameControllerMiddlewareTest {
         players.add(player0);
         players.add(player1);
         when(game.getPlayers()).thenAnswer(invocation -> players);
+        when(game.isLastPlayer()).thenAnswer(invocation -> currentPlayerIndex == players.size() - 1);
     }
 
     @Test
