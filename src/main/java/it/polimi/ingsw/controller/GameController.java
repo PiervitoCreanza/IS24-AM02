@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.card.PlayerColorEnum;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
@@ -42,6 +43,16 @@ public class GameController implements PlayerActions {
      */
     public void joinGame(String playerName) {
         game.addPlayer(playerName);
+    }
+
+    /**
+     * Chooses the color for a player.
+     *
+     * @param playerName  the name of the player who is choosing the color.
+     * @param playerColor the color to be chosen.
+     */
+    public void choosePlayerColor(String playerName, PlayerColorEnum playerColor) {
+        game.getPlayer(playerName).setPlayerColor(playerColor);
     }
 
     /**

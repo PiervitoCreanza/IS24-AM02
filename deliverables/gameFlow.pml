@@ -6,9 +6,9 @@ WAIT_FOR_PLAYERS --> initialization_phase: isGameStarted()
 
 state initialization_phase {
     [*] --> INIT_PLACE_STARTER_CARD
-    INIT_PLACE_STARTER_CARD --> INIT_DRAW_CARD: Starter card placed
-    INIT_DRAW_CARD --> INIT_DRAW_CARD: !(2 Resource cards and 1 Gold card drawn)
-    INIT_DRAW_CARD --> INIT_CHOOSE_OBJECTIVE_CARD: (2 Resource cards and 1 Gold card drawn)
+    INIT_PLACE_STARTER_CARD --> INIT_CHOOSE_PLAYER_COLOR: Starter card placed
+    INIT_CHOOSE_PLAYER_COLOR --> INIT_CHOOSE_PLAYER_COLOR
+    INIT_CHOOSE_PLAYER_COLOR --> INIT_CHOOSE_OBJECTIVE_CARD: Color chosen
     INIT_CHOOSE_OBJECTIVE_CARD --> [*]
 }
 initialization_phase --> initialization_phase: !(all players have played their turn)

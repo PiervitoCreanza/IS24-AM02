@@ -21,6 +21,10 @@ public enum GameStatusEnum {
     INIT_DRAW_CARD,
 
     /**
+     * The game is in the phase where the player is choosing his player color.
+     */
+    INIT_CHOOSE_PLAYER_COLOR,
+    /**
      * The game is in the phase where the player is choosing his objective cards.
      */
     INIT_CHOOSE_OBJECTIVE_CARD,

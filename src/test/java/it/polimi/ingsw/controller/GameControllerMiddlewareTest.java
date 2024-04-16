@@ -1,12 +1,12 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.card.PlayerColorEnum;
 import it.polimi.ingsw.model.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
@@ -18,7 +18,6 @@ class GameControllerMiddlewareTest {
 
     GameControllerMiddleware gameControllerMiddleware;
     Game game;
-    GameController gameController;
     int currentPlayerIndex = 0;
 
     @BeforeEach
@@ -31,12 +30,9 @@ class GameControllerMiddlewareTest {
             when(player.getPlayerName()).thenReturn("player" + currentPlayerIndex);
             return player;
         });
-        Mockito.doAnswer(new Answer<Void>() {
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable {
-                currentPlayerIndex = (currentPlayerIndex + 1) % 2;
-                return null; // Void methods should return null
-            }
+        Mockito.doAnswer((Answer<Void>) invocation -> {
+            currentPlayerIndex = (currentPlayerIndex + 1) % 2;
+            return null; // Void methods should return null
         }).when(game).setNextPlayer();
         when(game.getCurrentPlayerIndex()).thenAnswer(invocation -> currentPlayerIndex);
         Player player0 = Mockito.mock(Player.class);
@@ -97,11 +93,11 @@ class GameControllerMiddlewareTest {
     }
 
     @Test
-    @DisplayName("Test if the game status changes to INIT_CHOOSE_OBJECTIVE_CARD after placing the starter card\"")
+    @DisplayName("Test if the game status changes to INIT_CHOOSE_PLAYER_COLOR after placing the starter card\"")
     void drawCardFromDeck() {
         gameControllerMiddleware.setGameStatus(GameStatusEnum.INIT_PLACE_STARTER_CARD);
         gameControllerMiddleware.placeCard("player0", null, null);
-        assertEquals(GameStatusEnum.INIT_CHOOSE_OBJECTIVE_CARD, gameControllerMiddleware.getGameStatus());
+        assertEquals(GameStatusEnum.INIT_CHOOSE_PLAYER_COLOR, gameControllerMiddleware.getGameStatus());
     }
 
     @Test
@@ -159,10 +155,13 @@ class GameControllerMiddlewareTest {
         // Player 1 can't place his starter card yet
         assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.placeCard("player1", null, null));
 
+        // Player 0 chooses his color
+        gameControllerMiddleware.choosePlayerColor("player0", PlayerColorEnum.BLUE);
+
         // Player 0 places his starter card
         gameControllerMiddleware.setPlayerObjective("player0", null);
 
-        // Player 0 can't place his objective card anymore
+        // Player 0 can't place cards anymore
         assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.placeCard("player0", null, null));
 
         // Player 0 can't choose his objective card anymore
@@ -176,6 +175,9 @@ class GameControllerMiddlewareTest {
         gameControllerMiddleware.placeCard("player1", null, null);
         // Player 0 can't place his starter card
         assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.placeCard("player0", null, null));
+
+        // Player 1 chooses his color
+        gameControllerMiddleware.choosePlayerColor("player1", PlayerColorEnum.RED);
 
         // Player 1 chooses his objective card
         gameControllerMiddleware.setPlayerObjective("player1", null);
