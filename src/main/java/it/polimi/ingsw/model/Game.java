@@ -57,11 +57,13 @@ public class Game {
      * @param gameName          The name of the game.
      * @param maxAllowedPlayers The maximum number of players in the game.
      * @param playerName        The name of the player creating the game, he will also be the first player.
-     * @throws NullPointerException     if the gameName is null.
-     * @throws IllegalArgumentException if the number of players is not between 2 and 4.
+     * @throws IllegalArgumentException if the number of players is not between 2 and 4 and if the game name is invalid
      */
     public Game(String gameName, int maxAllowedPlayers, String playerName) {
-        this.gameName = Objects.requireNonNull(gameName, "The game name can't be NULL");
+        if (gameName == null || gameName.isBlank()) {
+            throw new IllegalArgumentException("Game name cannot be null or empty");
+        }
+        this.gameName = gameName;
         if (maxAllowedPlayers < 2 || maxAllowedPlayers > 4)
             throw new IllegalArgumentException("Players must be between 2-4");
         this.maxAllowedPlayers = maxAllowedPlayers;
@@ -79,11 +81,13 @@ public class Game {
      * @param maxAllowedPlayers The maximum number of players in the game.
      * @param playerName        The name of the player creating the game, he will also be the first player.
      * @param globalBoard       The global board of the game.
-     * @throws NullPointerException     if the gameName is null.
-     * @throws IllegalArgumentException if the number of players is not between 2 and 4.
+     * @throws IllegalArgumentException if the number of players is not between 2 and 4 and if the game name is invalid
      */
     public Game(String gameName, int maxAllowedPlayers, String playerName, GlobalBoard globalBoard) {
-        this.gameName = Objects.requireNonNull(gameName, "The game name can't be NULL");
+        if (gameName == null || gameName.isBlank()) {
+            throw new IllegalArgumentException("Game name cannot be null or empty");
+        }
+        this.gameName = gameName;
         if (maxAllowedPlayers < 2 || maxAllowedPlayers > 4)
             throw new IllegalArgumentException("Players must be between 2-4");
         this.maxAllowedPlayers = maxAllowedPlayers;
@@ -98,6 +102,7 @@ public class Game {
         GameCard starterCard = globalBoard.getStarterDeck().draw();
         return new Player(playerName, drawnObjectives, starterCard);
     }
+
     /**
      * Returns the name of the game.
      *

@@ -70,10 +70,13 @@ class GameTest {
     }
 
     @Test
-    @DisplayName("Game constructor throws exception when GameName is NULL")
-    void nullGameNameShouldThrowException() {
-        Exception exception = assertThrows(NullPointerException.class, () -> new Game(null, 2, "Player1", mockGlobalBoard));
-        assertEquals("The game name can't be NULL", exception.getMessage());
+    @DisplayName("Game constructor throws exception when GameName is NULL or empty")
+    void invalidGameNameShouldThrowException() {
+        Exception exception1 = assertThrows(IllegalArgumentException.class, () -> new Game(null, 2, "Player1", mockGlobalBoard));
+        assertEquals("Game name cannot be null or empty", exception1.getMessage());
+
+        Exception exception2 = assertThrows(IllegalArgumentException.class, () -> new Game("", 2, "Player1", mockGlobalBoard));
+        assertEquals("Game name cannot be null or empty", exception2.getMessage());
     }
 
     @Test
