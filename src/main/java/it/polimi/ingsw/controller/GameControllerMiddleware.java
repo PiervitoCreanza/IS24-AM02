@@ -15,7 +15,6 @@ public class GameControllerMiddleware implements PlayerActions {
      * The GameController instance.
      */
     private final GameController gameController;
-
     /**
      * The Game instance.
      */
@@ -36,8 +35,8 @@ public class GameControllerMiddleware implements PlayerActions {
      */
     private int remainingRoundsToEndGame = 1;
 
-    private boolean isLastPlayer() {
-        return game.getCurrentPlayer().getPlayerName().equals(game.getPlayers().getLast().getPlayerName());
+    private void sendErrorToClient(Exception e) {
+
     }
 
     /**
@@ -106,7 +105,7 @@ public class GameControllerMiddleware implements PlayerActions {
             isLastRound = true;
         }
         // Check if the game has finished
-        if (isLastRound && isLastPlayer()) {
+        if (isLastRound && game.isLastPlayer()) {
             if (remainingRoundsToEndGame == 0) {
                 game.calculateWinners();
                 gameStatus = GameStatusEnum.GAME_OVER;
@@ -144,7 +143,12 @@ public class GameControllerMiddleware implements PlayerActions {
         if (gameStatus != GameStatusEnum.WAIT_FOR_PLAYERS) {
             throw new IllegalStateException("Cannot join game in current game status");
         }
-        gameController.joinGame(playerName);
+        try {
+            gameController.joinGame(playerName);
+        } catch (IllegalArgumentException e) {
+            sendErrorToClient(e);
+        }
+
         // If the game is ready to start, the game status is set to INIT_PLACE_STARTER_CARD
         if (game.isStarted()) {
             gameStatus = GameStatusEnum.INIT_PLACE_STARTER_CARD;
@@ -164,7 +168,13 @@ public class GameControllerMiddleware implements PlayerActions {
         if (gameStatus != GameStatusEnum.PLACE_CARD && gameStatus != GameStatusEnum.INIT_PLACE_STARTER_CARD) {
             throw new IllegalStateException("Cannot place card in current game status");
         }
-        gameController.placeCard(playerName, coordinate, card);
+
+        try {
+            gameController.placeCard(playerName, coordinate, card);
+        } catch (IllegalArgumentException e) {
+            sendErrorToClient(e);
+        }
+
 
         // If we are in the init status the next phase is to draw the hand cards and choose the player color
         if (gameStatus == GameStatusEnum.INIT_PLACE_STARTER_CARD) {
