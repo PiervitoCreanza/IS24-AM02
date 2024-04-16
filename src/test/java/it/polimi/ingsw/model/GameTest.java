@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 class GameTest {
     private Game testGame;
@@ -241,5 +241,19 @@ class GameTest {
         testGame.calculateWinners();
         //(player1pos = 1) == (player2pos = 1) and (player1objectives = 1) == (player2objectives = 1). It's a tie!
         assertTrue(checkWinners(new ArrayList<>(List.of(testPlayer1, testPlayer2))));
+    }
+
+    @Test
+    @DisplayName("isLastPlayer returns true when the provided player is the last player in the game")
+    void isLastPlayerShouldReturnTrueWhenLastPlayer() {
+        testGame.addPlayer("Player2");
+        testGame.setNextPlayer();
+        assertTrue(testGame.isLastPlayer());
+    }
+
+    @Test
+    @DisplayName("isLastPlayer returns false when the provided player is not the last player in the game")
+    void isLastPlayerShouldReturnFalseWhenNotLastPlayer() {
+        assertFalse(testGame.isLastPlayer());
     }
 }
