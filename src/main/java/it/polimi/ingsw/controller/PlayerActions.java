@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.card.PlayerColorEnum;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
@@ -8,21 +9,29 @@ import it.polimi.ingsw.model.utils.Coordinate;
 /**
  * This interface defines the actions that a player can perform in the game.
  */
-public interface PlayerActions {
+interface PlayerActions {
 
     /**
      * Gets the current game instance.
      *
      * @return the current game instance.
      */
-    public Game getGame();
+    Game getGame();
 
     /**
      * Joins the game with the given player name.
      *
      * @param playerName the name of the player who is joining the game.
      */
-    public void joinGame(String playerName);
+    void joinGame(String playerName);
+
+    /**
+     * Chooses the color for a player.
+     *
+     * @param playerName  the name of the player who is choosing the color.
+     * @param playerColor the color to be chosen.
+     */
+    void choosePlayerColor(String playerName, PlayerColorEnum playerColor);
 
     /**
      * Places a card on the game field.
@@ -31,7 +40,7 @@ public interface PlayerActions {
      * @param coordinate the coordinate where the card should be placed.
      * @param card       the card to be placed.
      */
-    public void placeCard(String playerName, Coordinate coordinate, GameCard card);
+    void placeCard(String playerName, Coordinate coordinate, GameCard card);
 
     /**
      * Draws a card from the game field.
@@ -39,21 +48,21 @@ public interface PlayerActions {
      * @param playerName the name of the player who is drawing the card.
      * @param card       the card to be drawn.
      */
-    public void drawCardFromField(String playerName, GameCard card);
+    void drawCardFromField(String playerName, GameCard card);
 
     /**
      * Draws a card from the resource deck.
      *
      * @param playerName the name of the player who is drawing the card.
      */
-    public void drawCardFromResourceDeck(String playerName);
+    void drawCardFromResourceDeck(String playerName);
 
     /**
      * Draws a card from the gold deck.
      *
      * @param playerName the name of the player who is drawing the card.
      */
-    public void drawCardFromGoldDeck(String playerName);
+    void drawCardFromGoldDeck(String playerName);
 
     /**
      * Switches the side of a card.
@@ -61,7 +70,7 @@ public interface PlayerActions {
      * @param playerName the name of the player who is switching the card side.
      * @param card       the card whose side is to be switched.
      */
-    public void switchCardSide(String playerName, GameCard card);
+    void switchCardSide(String playerName, GameCard card);
 
     /**
      * Sets the objective for a player.
@@ -69,5 +78,5 @@ public interface PlayerActions {
      * @param playerName the name of the player whose objective is to be set.
      * @param card       the objective card to be set for the player.
      */
-    public void setPlayerObjective(String playerName, ObjectiveCard card);
+    void setPlayerObjective(String playerName, ObjectiveCard card);
 }

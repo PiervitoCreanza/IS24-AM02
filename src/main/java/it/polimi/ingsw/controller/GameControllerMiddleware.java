@@ -1,9 +1,9 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.card.PlayerColorEnum;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
-import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.utils.Coordinate;
 
 /**
@@ -22,11 +22,6 @@ public class GameControllerMiddleware implements PlayerActions {
     private final Game game;
 
     /**
-     * The first player to finish the game.
-     */
-    private Player firstPlayerToFinish;
-
-    /**
      * The current game status.
      */
     private GameStatusEnum gameStatus;
@@ -36,6 +31,9 @@ public class GameControllerMiddleware implements PlayerActions {
      */
     private boolean isLastRound = false;
 
+    /**
+     * The number of remaining rounds to end the game.
+     */
     private int remainingRoundsToEndGame = 1;
 
     private boolean isLastPlayer() {
@@ -166,20 +164,36 @@ public class GameControllerMiddleware implements PlayerActions {
         if (gameStatus != GameStatusEnum.PLACE_CARD && gameStatus != GameStatusEnum.INIT_PLACE_STARTER_CARD) {
             throw new IllegalStateException("Cannot place card in current game status");
         }
-        // TODO Do we have to check if the player is placing the right card (eg. starter card during initialization)?
         gameController.placeCard(playerName, coordinate, card);
 
-        // If we are in the init status the next phase is to draw the hand cards and choose the objective card
+        // If we are in the init status the next phase is to draw the hand cards and choose the player color
         if (gameStatus == GameStatusEnum.INIT_PLACE_STARTER_CARD) {
             gameController.drawCardFromResourceDeck(playerName);
             gameController.drawCardFromResourceDeck(playerName);
             gameController.drawCardFromGoldDeck(playerName);
             // Set the next status
-            gameStatus = GameStatusEnum.INIT_CHOOSE_OBJECTIVE_CARD;
+            gameStatus = GameStatusEnum.INIT_CHOOSE_PLAYER_COLOR;
         } else {
             // If we are not in the init status the next phase is to draw a card
             gameStatus = GameStatusEnum.DRAW_CARD;
         }
+    }
+
+    /**
+     * Chooses the color for a player.
+     *
+     * @param playerName  the name of the player who is choosing the color.
+     * @param playerColor the color to be chosen.
+     */
+    public void choosePlayerColor(String playerName, PlayerColorEnum playerColor) {
+        validatePlayerTurn(playerName);
+        if (gameStatus != GameStatusEnum.INIT_CHOOSE_PLAYER_COLOR) {
+            throw new IllegalStateException("Cannot choose player color in current game status");
+        }
+        gameController.choosePlayerColor(playerName, playerColor);
+
+        // If the last player has chosen his color, the game status is set to INIT_CHOOSE_OBJECTIVE_CARD
+        gameStatus = GameStatusEnum.INIT_CHOOSE_OBJECTIVE_CARD;
     }
 
     /**
@@ -236,7 +250,7 @@ public class GameControllerMiddleware implements PlayerActions {
      * @param playerName the name of the player who is switching the card side.
      * @param card       the card whose side is to be switched.
      */
-    
+
     @Override
     public void switchCardSide(String playerName, GameCard card) {
         validatePlayerTurn(playerName);
