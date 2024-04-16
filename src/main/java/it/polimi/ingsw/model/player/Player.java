@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model.player;
 
-import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.card.PlayerColorEnum;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -47,6 +48,13 @@ public class Player {
      * The boolean that represents if the player is connected or not.
      */
     private boolean isConnected = true;
+
+    /**
+     * The color of the player.
+     * This attribute represents the color assigned to the player in the game.
+     * The color is represented as an enum of type PlayerColorEnum.
+     */
+    private PlayerColorEnum playerColor;
 
     /**
      * Constructor for the Player class.
@@ -162,5 +170,23 @@ public class Player {
     public boolean advancePlayerPos(Integer steps) {
         playerPos += steps;
         return playerPos >= 20;
+    }
+
+    /**
+     * Sets the color of the player.
+     *
+     * @param playerColor The color to be set for the player. It is an enum of type PlayerColorEnum.
+     */
+    public void setPlayerColor(PlayerColorEnum playerColor) {
+        this.playerColor = playerColor;
+    }
+
+    /**
+     * Retrieves the color of the player.
+     *
+     * @return PlayerColorEnum The color of the player. It is an enum of type PlayerColorEnum.
+     */
+    public PlayerColorEnum getPlayerColor() {
+        return playerColor;
     }
 }
