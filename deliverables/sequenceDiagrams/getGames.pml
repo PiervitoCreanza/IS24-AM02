@@ -1,0 +1,7 @@
+@startuml
+    group Get Games [ok]
+    ClientA -> Server : getGames()
+    Server -> ClientA : {status: "success", data : [{gameName: "Game1", joinedPlayers: 1, maxAllowedPlayers: 3}]}
+end
+
+@enduml
