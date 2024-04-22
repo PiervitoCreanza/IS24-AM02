@@ -52,7 +52,7 @@ public class GameController implements PlayerActions {
      * @param playerColor the color to be chosen.
      */
     public void choosePlayerColor(String playerName, PlayerColorEnum playerColor) {
-        game.getPlayer(playerName).setPlayerColor(playerColor);
+        game.choosePlayerColor(playerName, playerColor);
     }
 
     /**
