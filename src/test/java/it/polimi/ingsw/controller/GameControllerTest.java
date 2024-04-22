@@ -3,7 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.Utils;
 import it.polimi.ingsw.data.Parser;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.card.PlayerColorEnum;
+import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
