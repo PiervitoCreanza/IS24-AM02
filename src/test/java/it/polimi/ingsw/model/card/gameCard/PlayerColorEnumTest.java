@@ -15,7 +15,7 @@ public class PlayerColorEnumTest {
     @Test
     @DisplayName("Test the stream method of PlayerColorEnum")
     public void shouldReturnAllPawnColorsWhenStreamIsCalled() {
-        List<PlayerColorEnum> expectedColors = Arrays.asList(PlayerColorEnum.RED, PlayerColorEnum.BLUE, PlayerColorEnum.GREEN, PlayerColorEnum.YELLOW);
+        List<PlayerColorEnum> expectedColors = Arrays.asList(PlayerColorEnum.RED, PlayerColorEnum.BLUE, PlayerColorEnum.GREEN, PlayerColorEnum.YELLOW, PlayerColorEnum.NONE);
         List<PlayerColorEnum> actualColors = it.polimi.ingsw.model.card.PlayerColorEnum.stream().toList();
 
         assertEquals(expectedColors.size(), actualColors.size(), "The size of the actual colors list should be equal to the size of the expected colors list");

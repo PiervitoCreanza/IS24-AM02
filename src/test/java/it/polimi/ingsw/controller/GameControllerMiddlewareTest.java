@@ -103,7 +103,7 @@ class GameControllerMiddlewareTest {
     }
 
     @Test
-    @DisplayName("Test if card side can be switched only when game status is PLACE_CARD")
+    @DisplayName("Test if card side can be switched only when game status is PLACE_CARD or DRAW_CARD or INIT_PLACE_STARTER_CARD")
     void switchCardSide() {
         Player player = Mockito.mock(Player.class);
         when(player.getPlayerName()).thenReturn("player0");
@@ -111,6 +111,10 @@ class GameControllerMiddlewareTest {
         gameControllerMiddleware.setGameStatus(GameStatusEnum.PLACE_CARD);
         gameControllerMiddleware.switchCardSide("player0", null);
         gameControllerMiddleware.setGameStatus(GameStatusEnum.DRAW_CARD);
+        gameControllerMiddleware.switchCardSide("player0", null);
+        gameControllerMiddleware.setGameStatus(GameStatusEnum.INIT_PLACE_STARTER_CARD);
+        gameControllerMiddleware.switchCardSide("player0", null);
+        gameControllerMiddleware.setGameStatus(GameStatusEnum.WAIT_FOR_PLAYERS);
         assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.switchCardSide("player0", null));
     }
 
