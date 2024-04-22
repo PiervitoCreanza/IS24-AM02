@@ -98,6 +98,9 @@ public class Game {
     }
 
     private Player instanceNewPlayer(String playerName) {
+        if (playerName == null || playerName.isBlank()) {
+            throw new IllegalArgumentException("Player name cannot be null or empty");
+        }
         ArrayList<ObjectiveCard> drawnObjectives = new ArrayList<>(List.of(globalBoard.getObjectiveDeck().draw(), globalBoard.getObjectiveDeck().draw()));
         GameCard starterCard = globalBoard.getStarterDeck().draw();
         return new Player(playerName, drawnObjectives, starterCard);
