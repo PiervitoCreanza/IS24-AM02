@@ -6,14 +6,15 @@
     Server -> ClientB : {status: failed, message: "It's not ClientB's turn"}
 end
 
-group Choose Objective [failed due to wrong position]
-     ClientA -> Server : choosePlayerColor(playerName, playerColor)
+group Place Card [failed due to wrong position]
+     ClientA -> Server : setGameCard(coordinate, gameCard)
      Server -> ClientA : {status: "failed", message: "You can't place a card here"}
 end
 
-note right of Server
-Quindi rimandiamo indietro tutta la
-VirtualView aggiornata?
-end note
+group Place Card [failed due to wrong game status]
+     ClientA -> Server : setGameCard(coordinate, gameCard)
+     Server -> ClientA : {status: "failed", message: "Cannot setGameCard in current game status"}
+end
+
 
 @enduml

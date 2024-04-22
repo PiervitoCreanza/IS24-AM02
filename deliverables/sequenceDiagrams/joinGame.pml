@@ -19,4 +19,9 @@ group Join Game [failed due to game not existing]
     Server -> ClientA : {status: "failed", message: "A game with the name gameName doesn't exist"}
 end
 
+group Join Game [failed due to game not existing]
+    ClientA -> Server : joinGame(gameName, playerName)
+    Server -> ClientA : {status: "failed", message: "Cannot join game in current Game status"}
+end
+
 @enduml
