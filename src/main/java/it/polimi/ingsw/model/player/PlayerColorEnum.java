@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.card;
+package it.polimi.ingsw.model.player;
 
 import java.util.stream.Stream;
 
@@ -34,6 +34,6 @@ public enum PlayerColorEnum {
      * @return a stream of all the PlayerColorEnum values
      */
     public static Stream<PlayerColorEnum> stream() {
-        return Stream.of(it.polimi.ingsw.model.card.PlayerColorEnum.values());
+        return Stream.of(PlayerColorEnum.values());
     }
 }

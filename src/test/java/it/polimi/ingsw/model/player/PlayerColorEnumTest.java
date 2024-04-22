@@ -1,6 +1,5 @@
-package it.polimi.ingsw.model.card.gameCard;
+package it.polimi.ingsw.model.player;
 
-import it.polimi.ingsw.model.card.PlayerColorEnum;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +15,7 @@ public class PlayerColorEnumTest {
     @DisplayName("Test the stream method of PlayerColorEnum")
     public void shouldReturnAllPawnColorsWhenStreamIsCalled() {
         List<PlayerColorEnum> expectedColors = Arrays.asList(PlayerColorEnum.RED, PlayerColorEnum.BLUE, PlayerColorEnum.GREEN, PlayerColorEnum.YELLOW, PlayerColorEnum.NONE);
-        List<PlayerColorEnum> actualColors = it.polimi.ingsw.model.card.PlayerColorEnum.stream().toList();
+        List<PlayerColorEnum> actualColors = PlayerColorEnum.stream().toList();
 
         assertEquals(expectedColors.size(), actualColors.size(), "The size of the actual colors list should be equal to the size of the expected colors list");
 
