@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.Player;
@@ -258,5 +259,21 @@ class GameTest {
     @DisplayName("isLastPlayer returns false when the provided player is not the last player in the game")
     void isLastPlayerShouldReturnFalseWhenNotLastPlayer() {
         assertFalse(testGame.isLastPlayer());
+    }
+
+    @Test
+    @DisplayName("Check if the playerColor is set")
+    void choosePlayerColor() {
+        testGame.choosePlayerColor("Player1", PlayerColorEnum.RED);
+        assertEquals(PlayerColorEnum.RED, testGame.getPlayer("Player1").getPlayerColor());
+    }
+
+    @Test
+    @DisplayName("Check if the playerColor is not set if duplicate")
+    void choosePlayerColorDuplicate() {
+        testGame.addPlayer("Player2");
+        testGame.choosePlayerColor("Player1", PlayerColorEnum.RED);
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> testGame.choosePlayerColor("Player2", PlayerColorEnum.RED));
+        assertEquals("Color already chosen by another player", exception.getMessage());
     }
 }

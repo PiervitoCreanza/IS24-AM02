@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.player.PlayerColorEnum;
+import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.Player;
@@ -277,5 +279,19 @@ public class Game {
      */
     public ArrayList<Player> getWinners() {
         return winners;
+    }
+
+    /**
+     * Chooses the color for a player.
+     *
+     * @param playerColor the color to be chosen.
+     * @param playerName  the player who is choosing the color.
+     * @throws IllegalArgumentException if the color is already taken.
+     */
+    public void choosePlayerColor(String playerName, PlayerColorEnum playerColor) {
+        if (players.stream().anyMatch(p -> p.getPlayerColor().equals(playerColor))) {
+            throw new IllegalArgumentException("Color already chosen by another player");
+        }
+        getPlayer(playerName).setPlayerColor(playerColor);
     }
 }

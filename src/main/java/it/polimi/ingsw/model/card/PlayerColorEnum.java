@@ -22,7 +22,11 @@ public enum PlayerColorEnum {
     /**
      * Represents the color YELLOW.
      */
-    YELLOW;
+    YELLOW,
+    /**
+     * Represents the color NONE.
+     */
+    NONE;
 
     /**
      * Returns a stream of all the PlayerColorEnum values.
