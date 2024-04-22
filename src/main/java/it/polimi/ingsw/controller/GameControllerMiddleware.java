@@ -264,7 +264,7 @@ public class GameControllerMiddleware implements PlayerActions {
     @Override
     public void switchCardSide(String playerName, GameCard card) {
         validatePlayerTurn(playerName);
-        if (gameStatus != GameStatusEnum.PLACE_CARD && gameStatus != GameStatusEnum.INIT_PLACE_STARTER_CARD) {
+        if (gameStatus != GameStatusEnum.PLACE_CARD && gameStatus != GameStatusEnum.INIT_PLACE_STARTER_CARD && gameStatus != GameStatusEnum.DRAW_CARD) {
             throw new IllegalStateException("Cannot switch card side in current game status");
         }
         gameController.switchCardSide(playerName, card);
