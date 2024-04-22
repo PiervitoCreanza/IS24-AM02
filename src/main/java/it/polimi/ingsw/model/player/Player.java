@@ -54,7 +54,7 @@ public class Player {
      * This attribute represents the color assigned to the player in the game.
      * The color is represented as an enum of type PlayerColorEnum.
      */
-    private PlayerColorEnum playerColor;
+    private PlayerColorEnum playerColor = PlayerColorEnum.NONE;
 
     /**
      * Constructor for the Player class.
