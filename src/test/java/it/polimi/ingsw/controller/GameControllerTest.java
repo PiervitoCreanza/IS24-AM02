@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.Utils;
 import it.polimi.ingsw.data.Parser;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.card.PlayerColorEnum;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
@@ -89,5 +90,12 @@ class GameControllerTest {
         assertNotEquals(side, card.getCurrentSide());
         gameController.switchCardSide("player1", card);
         assertEquals(side, card.getCurrentSide());
+    }
+
+    @Test
+    @DisplayName("Should set player's color when choosePlayerColor is called")
+    void shouldSetPlayerColorWhenChoosePlayerColorIsCalled() {
+        gameController.choosePlayerColor("player1", PlayerColorEnum.RED);
+        assertEquals(PlayerColorEnum.RED, game.getPlayer("player1").getPlayerColor());
     }
 }
