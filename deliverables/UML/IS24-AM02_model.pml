@@ -61,6 +61,7 @@ package "Controller"{
 
     GameControllerMiddleware *-- "1" GameController
     GameControllerMiddleware ..|> PlayerActions
+    GameController ..|> PlayerActions
 
 
     enum GameStatusEnum {
