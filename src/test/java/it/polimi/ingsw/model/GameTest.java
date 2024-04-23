@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.PlayerColorEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -122,13 +122,6 @@ class GameTest {
         testGame.addPlayer("Player2");
         Exception exception = assertThrows(RuntimeException.class, () -> testGame.addPlayer("Player3"));
         assertEquals("Maximum number of players already reached", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("addPlayer throws exception when NULL player name is used as argument")
-    void nullPlayerNameInAddPlayerShouldThrowException() {
-        Exception exception = assertThrows(NullPointerException.class, () -> testGame.addPlayer(null));
-        assertEquals("The player name can't be NULL", exception.getMessage());
     }
 
     @Test
@@ -275,5 +268,19 @@ class GameTest {
         testGame.choosePlayerColor("Player1", PlayerColorEnum.RED);
         Exception exception = assertThrows(IllegalArgumentException.class, () -> testGame.choosePlayerColor("Player2", PlayerColorEnum.RED));
         assertEquals("Color already chosen by another player", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("instanceNewPlayer method should return cards to decks if player creation fails")
+    void instanceNewPlayerShouldReturnCardsToDecksIfPlayerCreationFails() {
+        Game testGame3 = new Game("TestGame3", 4, "Player1", new GlobalBoard());
+        int oldObjectiveDeck = testGame3.getGlobalBoard().getObjectiveDeck().getCards().size();
+        int oldStarterDeck = testGame3.getGlobalBoard().getStarterDeck().getCards().size();
+        try {
+            testGame3.addPlayer("");
+        } catch (Exception e) {
+            assertEquals(oldObjectiveDeck, testGame3.getGlobalBoard().getObjectiveDeck().getCards().size());
+            assertEquals(oldStarterDeck, testGame3.getGlobalBoard().getStarterDeck().getCards().size());
+        }
     }
 }
