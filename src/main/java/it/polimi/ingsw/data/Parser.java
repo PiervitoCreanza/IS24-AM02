@@ -2,6 +2,7 @@ package it.polimi.ingsw.data;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import com.rits.cloning.Cloner;
 import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
@@ -50,6 +51,11 @@ public class Parser {
      * Gson object with custom deserializer for SideGameCard.
      */
     private final Gson gson = new GsonBuilder().registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter()).create();
+
+    /**
+     * Cloner object used for deep cloning of objects.
+     */
+    private final Cloner cloner = new Cloner();
 
     /**
      * Generic method to parse and add cards to a list.
@@ -157,7 +163,8 @@ public class Parser {
      * @return A new deck of resource cards.
      */
     public Deck<GameCard> getResourceDeck() {
-        return new Deck<>(resourceCardList);
+        ArrayList<GameCard> clonedResourceDeck = cloner.deepClone(resourceCardList);
+        return new Deck<>(clonedResourceDeck);
     }
 
     /**
@@ -166,7 +173,8 @@ public class Parser {
      * @return A new deck of gold cards.
      */
     public Deck<GameCard> getGoldDeck() {
-        return new Deck<>(goldCardList);
+        ArrayList<GameCard> clonedGoldDeck = cloner.deepClone(goldCardList);
+        return new Deck<>(clonedGoldDeck);
     }
 
     /**
@@ -175,7 +183,8 @@ public class Parser {
      * @return A new deck of starter cards.
      */
     public Deck<GameCard> getStarterDeck() {
-        return new Deck<>(starterCardList);
+        ArrayList<GameCard> clonedStarterDeck = cloner.deepClone(starterCardList);
+        return new Deck<>(clonedStarterDeck);
     }
 
     /**
@@ -184,7 +193,8 @@ public class Parser {
      * @return A new deck of objective cards.
      */
     public Deck<ObjectiveCard> getObjectiveDeck() {
-        return new Deck<>(objectiveCardList);
+        ArrayList<ObjectiveCard> clonedObjectiveDeck = cloner.deepClone(objectiveCardList);
+        return new Deck<>(clonedObjectiveDeck);
     }
 
     /**

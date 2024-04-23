@@ -2,6 +2,7 @@ package it.polimi.ingsw.data;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.card.CardColorEnum;
 import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.model.card.corner.Corner;
@@ -22,7 +23,7 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ParserTest {
 
@@ -174,5 +175,19 @@ public class ParserTest {
         // Serialize
         String serializedCard = parser.serializeToJson(itemObjectiveCard);
         assertEquals(itemObjectiveCard, parser.deserializeFromJson(serializedCard, ItemObjectiveCard.class));
+    }
+
+    @Test
+    @DisplayName("Test if the cards are independent")
+    public void test() {
+        Deck<GameCard> d1 = parser.getGoldDeck();
+        Deck<GameCard> d2 = parser.getGoldDeck();
+
+        GameCard c1 = d1.getCards().stream().filter(c -> c.getCardId() == 41).findFirst().orElse(null);
+        GameCard c2 = d2.getCards().stream().filter(c -> c.getCardId() == 41).findFirst().orElse(null);
+        assertEquals(c1, c2);
+        assertNotSame(c1, c2);
+        c1.switchSide();
+        assertNotEquals(c1.getCurrentSide(), c2.getCurrentSide());
     }
 }
