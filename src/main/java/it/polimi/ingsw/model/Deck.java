@@ -58,6 +58,11 @@ public class Deck<T> {
         return deck.remove(random.nextInt(deck.size()));
     }
 
+    /**
+     * Returns the list of cards in the deck.
+     *
+     * @return The list of cards in the deck.
+     */
     public ArrayList<T> getCards() {
         return deck;
     }

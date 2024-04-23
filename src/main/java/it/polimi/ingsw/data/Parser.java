@@ -2,7 +2,6 @@ package it.polimi.ingsw.data;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import com.rits.cloning.Cloner;
 import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
@@ -18,15 +17,8 @@ import java.util.ArrayList;
 /**
  * This class is responsible for parsing the JSON file containing the cards of the game.
  * It reads the JSON file and creates the decks of cards.
- * The class is a singleton, so only one instance of it can be created.
  */
 public class Parser {
-
-    /**
-     * The instance of the Parser class.
-     */
-    private static Parser instance;
-
     /**
      * The list of resource cards.
      */
@@ -51,11 +43,6 @@ public class Parser {
      * Gson object with custom deserializer for SideGameCard.
      */
     private final Gson gson = new GsonBuilder().registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter()).create();
-
-    /**
-     * Cloner object used for deep cloning of objects.
-     */
-    private final Cloner cloner = new Cloner();
 
     /**
      * Generic method to parse and add cards to a list.
@@ -124,7 +111,7 @@ public class Parser {
      *
      * @throws RuntimeException when parsing fails
      */
-    private Parser() {
+    public Parser() {
         try {
             // Create a FileReader to read the JSON file
             Reader reader = new FileReader("src/main/resources/json/CardDB.json");
@@ -146,25 +133,12 @@ public class Parser {
     }
 
     /**
-     * Returns the instance of the Parser class.
-     *
-     * @return The instance of the Parser class.
-     */
-    public static Parser getInstance() {
-        if (instance == null) {
-            instance = new Parser();
-        }
-        return instance;
-    }
-
-    /**
      * Returns a new deck of resource cards.
      *
      * @return A new deck of resource cards.
      */
     public Deck<GameCard> getResourceDeck() {
-        ArrayList<GameCard> clonedResourceDeck = cloner.deepClone(resourceCardList);
-        return new Deck<>(clonedResourceDeck);
+        return new Deck<>(resourceCardList);
     }
 
     /**
@@ -173,8 +147,7 @@ public class Parser {
      * @return A new deck of gold cards.
      */
     public Deck<GameCard> getGoldDeck() {
-        ArrayList<GameCard> clonedGoldDeck = cloner.deepClone(goldCardList);
-        return new Deck<>(clonedGoldDeck);
+        return new Deck<>(goldCardList);
     }
 
     /**
@@ -183,8 +156,7 @@ public class Parser {
      * @return A new deck of starter cards.
      */
     public Deck<GameCard> getStarterDeck() {
-        ArrayList<GameCard> clonedStarterDeck = cloner.deepClone(starterCardList);
-        return new Deck<>(clonedStarterDeck);
+        return new Deck<>(starterCardList);
     }
 
     /**
@@ -193,8 +165,7 @@ public class Parser {
      * @return A new deck of objective cards.
      */
     public Deck<ObjectiveCard> getObjectiveDeck() {
-        ArrayList<ObjectiveCard> clonedObjectiveDeck = cloner.deepClone(objectiveCardList);
-        return new Deck<>(clonedObjectiveDeck);
+        return new Deck<>(objectiveCardList);
     }
 
     /**
