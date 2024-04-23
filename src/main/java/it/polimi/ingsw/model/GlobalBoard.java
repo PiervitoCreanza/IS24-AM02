@@ -60,7 +60,7 @@ public class GlobalBoard {
      * Constructor for GlobalBoard. Initializes the decks and draws cards for the field and for the objectives.
      */
     public GlobalBoard() {
-        Parser parser = Parser.getInstance();
+        Parser parser = new Parser();
         this.goldDeck = parser.getGoldDeck();
         this.resourceDeck = parser.getResourceDeck();
         this.objectiveDeck = parser.getObjectiveDeck();

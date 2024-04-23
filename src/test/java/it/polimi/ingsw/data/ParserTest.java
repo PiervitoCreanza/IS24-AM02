@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ParserTest {
 
-    private final Parser parser = Parser.getInstance();
+    private final Parser parser = new Parser();
 
     private JsonObject jsonObject;
 
@@ -40,13 +40,6 @@ public class ParserTest {
         } catch (Exception e) {
             throw new IllegalArgumentException("File not found!");
         }
-    }
-
-    @Test
-    @DisplayName("getInstance returns the same instance for multiple calls")
-    public void getInstanceReturnsSameInstance() {
-        Parser parser2 = Parser.getInstance();
-        assertEquals(parser, parser2);
     }
 
     @Test
@@ -180,8 +173,9 @@ public class ParserTest {
     @Test
     @DisplayName("Test if the cards are independent")
     public void test() {
+        Parser parser1 = new Parser();
         Deck<GameCard> d1 = parser.getGoldDeck();
-        Deck<GameCard> d2 = parser.getGoldDeck();
+        Deck<GameCard> d2 = parser1.getGoldDeck();
 
         GameCard c1 = d1.getCards().stream().filter(c -> c.getCardId() == 41).findFirst().orElse(null);
         GameCard c2 = d2.getCards().stream().filter(c -> c.getCardId() == 41).findFirst().orElse(null);
