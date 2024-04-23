@@ -26,7 +26,7 @@ class GameControllerTest {
     void setUp() {
         gameController = new GameController("TestGame", 2, "player1");
         game = gameController.getGame();
-        parser = Parser.getInstance();
+        parser = new Parser();
     }
 
     @Test
