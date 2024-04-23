@@ -1,11 +1,11 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +25,7 @@ class DeckTest {
 
     @Test
     @DisplayName("Deck constructor returns an exception when a NULL objects is passed")
-    void nullArgumentInTheConstructorShouldThrowException(){
+    void nullArgumentInTheConstructorShouldThrowException() {
         assertThrows(NullPointerException.class, () -> new Deck<>(null));
     }
 
@@ -60,6 +60,28 @@ class DeckTest {
         fullDeck.draw();
         assertTrue(fullDeck.isEmpty());
     }
+
+    @Test
+    @DisplayName("addCard method should add a card to the deck")
+    void addCardShouldAddCardToDeck() {
+        GameCard newCard = Mockito.mock(GameCard.class);
+        emptyDeck.addCard(newCard);
+        assertFalse(emptyDeck.isEmpty());
+        assertEquals(emptyDeck.draw(), newCard);
+    }
+
+    @Test
+    @DisplayName("addCard method should throw exception when adding a null card")
+    void addCardShouldThrowExceptionWhenAddingNullCard() {
+        assertThrows(NullPointerException.class, () -> emptyDeck.addCard(null));
+    }
+
+    @Test
+    @DisplayName("addCard method should throw exception when adding a duplicate card")
+    void addCardShouldThrowExceptionWhenAddingDuplicateCard() {
+        assertThrows(IllegalArgumentException.class, () -> fullDeck.addCard(mockGameCard));
+    }
+
 }
 
 
