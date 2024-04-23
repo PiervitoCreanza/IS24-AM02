@@ -1,7 +1,7 @@
 @startuml
     group Choose Player Color [ok & failed due to unallowed player]
     ClientA -> Server : choosePlayerColor(playerName, playerColor)
-    Server -> ClientA : {status: "success"}
+    Server -> ClientA : {status: "success"}, VirtualViewUpdate
     ClientB -> Server : choosePlayerColor(gameName, playerName)
     Server -> ClientB : {status: failed, message: "It's not ClientB's turn"}
 end

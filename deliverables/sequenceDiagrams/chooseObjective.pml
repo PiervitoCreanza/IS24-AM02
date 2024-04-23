@@ -1,7 +1,7 @@
 @startuml
     group Choose Objective [ok]
     ClientA -> Server : setPlayerObjective(playerName, card)
-    Server -> ClientA : {status: "success"}
+    Server -> ClientA : {status: "success"}, VirtualViewUpdate
     ClientB -> Server : setPlayerObjective(playerName, card)
     Server -> ClientB : {status: failed, message: "It's not ClientB's turn"}
 end

@@ -1,7 +1,7 @@
 @startuml
     group Join Game [ok]
     ClientA -> Server : joinGame(gameName, playerName)
-    Server -> ClientA : {status: "success"}
+    Server -> ClientA : {status: "success"}, VirtualViewUpdate
 end
 
 group Join Game [failed due to game full]

@@ -1,7 +1,7 @@
 @startuml
 group Create Game [ok]
     ClientA -> Server : createGame(gameName,nPlayers,playerName)
-    Server -> ClientA : {status: "success"}
+    Server -> ClientA : {status: "success"}, VirtualViewUpdate
 
 end
 group Create Game [failed]

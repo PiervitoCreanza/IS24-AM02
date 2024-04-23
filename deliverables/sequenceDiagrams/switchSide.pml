@@ -1,7 +1,7 @@
 @startuml
     group Switch Side [ok]
     ClientA -> Server : switchSide(playerName, card)
-    Server -> ClientA : {status: "success"}
+    Server -> ClientA : {status: "success"}, VirtualViewUpdate
 
     ClientB -> Server : switchSide(playerName, card)
     Server -> ClientB : {status: failed, message: "It's not ClientB's turn"}
