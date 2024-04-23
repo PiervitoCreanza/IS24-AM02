@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.utils.store.Store;
@@ -54,20 +56,22 @@ public class Game {
     /**
      * Constructor for Game. Initializes a new game with the specified parameters.
      *
-     * @param gameName   The name of the game.
-     * @param maxAllowedPlayers   The maximum number of players in the game.
-     * @param playerName The name of the player creating the game, he will also be the first player.
-     * @throws NullPointerException if the gameName is null.
-     * @throws IllegalArgumentException if the number of players is not between 2 and 4.
+     * @param gameName          The name of the game.
+     * @param maxAllowedPlayers The maximum number of players in the game.
+     * @param playerName        The name of the player creating the game, he will also be the first player.
+     * @throws IllegalArgumentException if the number of players is not between 2 and 4 and if the game name is invalid
      */
     public Game(String gameName, int maxAllowedPlayers, String playerName) {
-        this.gameName = Objects.requireNonNull(gameName, "The game name can't be NULL");
-        if(maxAllowedPlayers < 2 || maxAllowedPlayers > 4)
+        if (gameName == null || gameName.isBlank()) {
+            throw new IllegalArgumentException("Game name cannot be null or empty");
+        }
+        this.gameName = gameName;
+        if (maxAllowedPlayers < 2 || maxAllowedPlayers > 4)
             throw new IllegalArgumentException("Players must be between 2-4");
         this.maxAllowedPlayers = maxAllowedPlayers;
         this.players = new ArrayList<>();
         this.globalBoard = new GlobalBoard();
-        this.addPlayer(playerName);
+        this.players.add(instanceNewPlayer(playerName));
         this.currentPlayer = players.getFirst();
     }
 
@@ -75,22 +79,33 @@ public class Game {
      * This is a constructor for the Game class. It initializes a new game with the specified parameters.
      * It is only used for testing purpose.
      *
-     * @param gameName   The name of the game.
-     * @param maxAllowedPlayers   The maximum number of players in the game.
-     * @param playerName The name of the player creating the game, he will also be the first player.
-     * @param globalBoard The global board of the game.
-     * @throws NullPointerException if the gameName is null.
-     * @throws IllegalArgumentException if the number of players is not between 2 and 4.
+     * @param gameName          The name of the game.
+     * @param maxAllowedPlayers The maximum number of players in the game.
+     * @param playerName        The name of the player creating the game, he will also be the first player.
+     * @param globalBoard       The global board of the game.
+     * @throws IllegalArgumentException if the number of players is not between 2 and 4 and if the game name is invalid
      */
     public Game(String gameName, int maxAllowedPlayers, String playerName, GlobalBoard globalBoard) {
-        this.gameName = Objects.requireNonNull(gameName, "The game name can't be NULL");
-        if(maxAllowedPlayers < 2 || maxAllowedPlayers > 4)
+        if (gameName == null || gameName.isBlank()) {
+            throw new IllegalArgumentException("Game name cannot be null or empty");
+        }
+        this.gameName = gameName;
+        if (maxAllowedPlayers < 2 || maxAllowedPlayers > 4)
             throw new IllegalArgumentException("Players must be between 2-4");
         this.maxAllowedPlayers = maxAllowedPlayers;
         this.players = new ArrayList<>();
         this.globalBoard = globalBoard;
-        this.addPlayer(playerName);
+        this.players.add(instanceNewPlayer(playerName));
         this.currentPlayer = players.getFirst();
+    }
+
+    private Player instanceNewPlayer(String playerName) {
+        if (playerName == null || playerName.isBlank()) {
+            throw new IllegalArgumentException("Player name cannot be null or empty");
+        }
+        ArrayList<ObjectiveCard> drawnObjectives = new ArrayList<>(List.of(globalBoard.getObjectiveDeck().draw(), globalBoard.getObjectiveDeck().draw()));
+        GameCard starterCard = globalBoard.getStarterDeck().draw();
+        return new Player(playerName, drawnObjectives, starterCard);
     }
 
     /**
@@ -116,7 +131,7 @@ public class Game {
      *
      * @param playerName The name of the player to find.
      * @return The Player object that represents the player with the specified name.
-     * @throws NullPointerException if the playerName is null.
+     * @throws NullPointerException     if the playerName is null.
      * @throws IllegalArgumentException if a player with the specified name does not exist.
      */
     public Player getPlayer(String playerName) {
@@ -144,8 +159,8 @@ public class Game {
      * The new player is added to the list of players in the game.
      *
      * @param playerName The name of the player to be added.
-     * @throws RuntimeException if the maximum number of players has been reached.
-     * @throws NullPointerException if the playerName is null.
+     * @throws RuntimeException         if the maximum number of players has been reached.
+     * @throws NullPointerException     if the playerName is null.
      * @throws IllegalArgumentException if a player with the same name already exists.
      */
     public void addPlayer(String playerName) {
@@ -154,10 +169,7 @@ public class Game {
         Objects.requireNonNull(playerName, "The player name can't be NULL");
         if (players.stream().map(Player::getPlayerName).anyMatch(name -> name.equals(playerName)))
             throw new IllegalArgumentException("A player with the same name, already exists");
-
-        ArrayList<ObjectiveCard> drawnObjectives = new ArrayList<>(List.of(globalBoard.getObjectiveDeck().draw(), globalBoard.getObjectiveDeck().draw()));
-        GameCard starterCard = globalBoard.getStarterDeck().draw();
-        players.add(new Player(playerName, drawnObjectives, starterCard));
+        players.add(instanceNewPlayer(playerName));
     }
 
     /**
@@ -167,6 +179,24 @@ public class Game {
      */
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    /**
+     * Returns the index of the current player in the list of players.
+     *
+     * @return The index of the current player.
+     */
+    public int getCurrentPlayerIndex() {
+        return players.indexOf(currentPlayer);
+    }
+
+    /**
+     * Checks if the provided player is the last player in the game.
+     *
+     * @return true if the provided player is the last player in the game, false otherwise.
+     */
+    public boolean isLastPlayer() {
+        return getCurrentPlayerIndex() == maxAllowedPlayers - 1;
     }
 
     /**
@@ -193,8 +223,8 @@ public class Game {
      *
      * @return true if a player has more than 20 points or both decks are empty, false otherwise.
      */
-    public boolean isOver() {
-        return players.stream().anyMatch(player -> player.getPlayerPos() >= 20) || (globalBoard.isGoldDeckEmpty() && globalBoard.isResourceDeckEmpty()) ;
+    public boolean isLastRound() {
+        return players.stream().anyMatch(player -> player.getPlayerPos() >= 20) || (globalBoard.isGoldDeckEmpty() && globalBoard.isResourceDeckEmpty());
     }
 
     /**
@@ -249,5 +279,19 @@ public class Game {
      */
     public ArrayList<Player> getWinners() {
         return winners;
+    }
+
+    /**
+     * Chooses the color for a player.
+     *
+     * @param playerColor the color to be chosen.
+     * @param playerName  the player who is choosing the color.
+     * @throws IllegalArgumentException if the color is already taken.
+     */
+    public void choosePlayerColor(String playerName, PlayerColorEnum playerColor) {
+        if (players.stream().anyMatch(p -> p.getPlayerColor().equals(playerColor))) {
+            throw new IllegalArgumentException("Color already chosen by another player");
+        }
+        getPlayer(playerName).setPlayerColor(playerColor);
     }
 }

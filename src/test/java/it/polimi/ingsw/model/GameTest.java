@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.Player;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 class GameTest {
     private Game testGame;
@@ -25,7 +26,7 @@ class GameTest {
      */
 
     //Method used to setup players before calculating the winner
-    private void winnersSetUp(){
+    private void winnersSetUp() {
         testGame.addPlayer("Player2");
 
         testPlayer1 = testGame.getPlayer("Player1");
@@ -50,7 +51,7 @@ class GameTest {
     }
 
     //Method used to check if the calculated winners are equals to the expected ones
-    private boolean checkWinners(ArrayList<Player> expectedWinners){
+    private boolean checkWinners(ArrayList<Player> expectedWinners) {
         ArrayList<Player> calculatedWinners = testGame.getWinners();
         return expectedWinners.containsAll(calculatedWinners) && calculatedWinners.containsAll(expectedWinners);
     }
@@ -70,15 +71,18 @@ class GameTest {
     }
 
     @Test
-    @DisplayName("Game constructor throws exception when GameName is NULL")
-    void nullGameNameShouldThrowException(){
-        Exception exception = assertThrows(NullPointerException.class, () -> new Game(null, 2, "Player1", mockGlobalBoard));
-        assertEquals("The game name can't be NULL", exception.getMessage());
+    @DisplayName("Game constructor throws exception when GameName is NULL or empty")
+    void invalidGameNameShouldThrowException() {
+        Exception exception1 = assertThrows(IllegalArgumentException.class, () -> new Game(null, 2, "Player1", mockGlobalBoard));
+        assertEquals("Game name cannot be null or empty", exception1.getMessage());
+
+        Exception exception2 = assertThrows(IllegalArgumentException.class, () -> new Game("", 2, "Player1", mockGlobalBoard));
+        assertEquals("Game name cannot be null or empty", exception2.getMessage());
     }
 
     @Test
     @DisplayName("Game constructor throws exception when nPlayers is not between 2-4")
-    void wrongNumberOfPlayersShouldThrowException(){
+    void wrongNumberOfPlayersShouldThrowException() {
         Exception exception1 = assertThrows(IllegalArgumentException.class, () -> new Game("WrongGame", 1, "Player1", mockGlobalBoard));
         assertEquals("Players must be between 2-4", exception1.getMessage());
         Exception exception2 = assertThrows(IllegalArgumentException.class, () -> new Game("WrongGame", 5, "Player1", mockGlobalBoard));
@@ -87,56 +91,56 @@ class GameTest {
 
     @Test
     @DisplayName("Game constructor adds only one player and set it as current player")
-    void gameConstructorShouldAddOnlyOnePlayerAndSetAsCurrentPlayer(){
+    void gameConstructorShouldAddOnlyOnePlayerAndSetAsCurrentPlayer() {
         assertEquals(1, testGame.getPlayers().size());
         assertEquals("Player1", testGame.getCurrentPlayer().getPlayerName());
     }
 
     @Test
     @DisplayName("getPlayer throws exception when NULL player name is used as argument")
-    void nullPlayerNameInGetPlayerShouldThrowException(){
-        Exception exception = assertThrows(NullPointerException.class,() -> testGame.getPlayer(null));
+    void nullPlayerNameInGetPlayerShouldThrowException() {
+        Exception exception = assertThrows(NullPointerException.class, () -> testGame.getPlayer(null));
         assertEquals("The player name can't be NULL", exception.getMessage());
     }
 
     @Test
     @DisplayName("getPlayer throws exception if the player isn't found")
-    void getPlayerShouldThrowExceptionIfPlayerIsNotFound(){
-        Exception exception = assertThrows(IllegalArgumentException.class,() -> testGame.getPlayer("Player2"));
+    void getPlayerShouldThrowExceptionIfPlayerIsNotFound() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> testGame.getPlayer("Player2"));
         assertEquals("Player with name \"Player2\" doesn't exists", exception.getMessage());
     }
 
     @Test
     @DisplayName("getPlayer returns the correct player")
-    void getPlayerShouldReturnTheCorrectPlayer(){
+    void getPlayerShouldReturnTheCorrectPlayer() {
         assertEquals("Player1", testGame.getPlayer("Player1").getPlayerName());
     }
 
     @Test
     @DisplayName("addPlayer throws exception when the maximum number of players has been reached")
-    void addPlayerShouldThrowExceptionIfPlayersQuotaIsExceeded(){
+    void addPlayerShouldThrowExceptionIfPlayersQuotaIsExceeded() {
         testGame.addPlayer("Player2");
-        Exception exception = assertThrows(RuntimeException.class,() -> testGame.addPlayer("Player3"));
+        Exception exception = assertThrows(RuntimeException.class, () -> testGame.addPlayer("Player3"));
         assertEquals("Maximum number of players already reached", exception.getMessage());
     }
 
     @Test
     @DisplayName("addPlayer throws exception when NULL player name is used as argument")
-    void nullPlayerNameInAddPlayerShouldThrowException(){
-        Exception exception = assertThrows(NullPointerException.class,() -> testGame.addPlayer(null));
+    void nullPlayerNameInAddPlayerShouldThrowException() {
+        Exception exception = assertThrows(NullPointerException.class, () -> testGame.addPlayer(null));
         assertEquals("The player name can't be NULL", exception.getMessage());
     }
 
     @Test
     @DisplayName("addPlayer throws exception if a player with the same name already exists")
-    void addPlayerShouldThrowExceptionIfPlayerWithTheSameNameAlreadyExists(){
-        Exception exception = assertThrows(IllegalArgumentException.class,() -> testGame.addPlayer("Player1"));
+    void addPlayerShouldThrowExceptionIfPlayerWithTheSameNameAlreadyExists() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> testGame.addPlayer("Player1"));
         assertEquals("A player with the same name, already exists", exception.getMessage());
     }
 
     @Test
     @DisplayName("addPlayer adds a player with the correct attributes")
-    void addPlayerShouldAddPlayerWithTheCorrectAttributes(){
+    void addPlayerShouldAddPlayerWithTheCorrectAttributes() {
         testGame.addPlayer("Player2");
         assertEquals(2, testGame.getPlayers().size());
         assertEquals("Player2", testGame.getPlayers().get(1).getPlayerName());
@@ -172,7 +176,7 @@ class GameTest {
     @DisplayName("isOver returns true when a player reaches 20 points")
     void isOverShouldReturnTrueWhenPlayerScoreIs20() {
         testGame.getCurrentPlayer().advancePlayerPos(20);
-        assertTrue(testGame.isOver());
+        assertTrue(testGame.isLastRound());
     }
 
     @Test
@@ -180,7 +184,7 @@ class GameTest {
     void isOverShouldReturnFalseWhenPlayerScoreIsLessThan20AndDecksAreNotEmpty() {
         when(mockGlobalBoard.isGoldDeckEmpty()).thenReturn(false);
         when(mockGlobalBoard.isResourceDeckEmpty()).thenReturn(false);
-        assertFalse(testGame.isOver());
+        assertFalse(testGame.isLastRound());
     }
 
     @Test
@@ -188,7 +192,7 @@ class GameTest {
     void isOverShouldReturnTrueWhenBothDecksAreEmpty() {
         when(mockGlobalBoard.isGoldDeckEmpty()).thenReturn(true);
         when(mockGlobalBoard.isResourceDeckEmpty()).thenReturn(true);
-        assertTrue(testGame.isOver());
+        assertTrue(testGame.isLastRound());
     }
 
     @Test
@@ -196,11 +200,11 @@ class GameTest {
     void isOverShouldReturnFalseWhenOnlyOneDeckIsEmpty() {
         when(mockGlobalBoard.isGoldDeckEmpty()).thenReturn(true);
         when(mockGlobalBoard.isResourceDeckEmpty()).thenReturn(false);
-        assertFalse(testGame.isOver());
+        assertFalse(testGame.isLastRound());
 
         when(mockGlobalBoard.isGoldDeckEmpty()).thenReturn(false);
         when(mockGlobalBoard.isResourceDeckEmpty()).thenReturn(true);
-        assertFalse(testGame.isOver());
+        assertFalse(testGame.isLastRound());
     }
 
     @Test
@@ -241,5 +245,35 @@ class GameTest {
         testGame.calculateWinners();
         //(player1pos = 1) == (player2pos = 1) and (player1objectives = 1) == (player2objectives = 1). It's a tie!
         assertTrue(checkWinners(new ArrayList<>(List.of(testPlayer1, testPlayer2))));
+    }
+
+    @Test
+    @DisplayName("isLastPlayer returns true when the provided player is the last player in the game")
+    void isLastPlayerShouldReturnTrueWhenLastPlayer() {
+        testGame.addPlayer("Player2");
+        testGame.setNextPlayer();
+        assertTrue(testGame.isLastPlayer());
+    }
+
+    @Test
+    @DisplayName("isLastPlayer returns false when the provided player is not the last player in the game")
+    void isLastPlayerShouldReturnFalseWhenNotLastPlayer() {
+        assertFalse(testGame.isLastPlayer());
+    }
+
+    @Test
+    @DisplayName("Check if the playerColor is set")
+    void choosePlayerColor() {
+        testGame.choosePlayerColor("Player1", PlayerColorEnum.RED);
+        assertEquals(PlayerColorEnum.RED, testGame.getPlayer("Player1").getPlayerColor());
+    }
+
+    @Test
+    @DisplayName("Check if the playerColor is not set if duplicate")
+    void choosePlayerColorDuplicate() {
+        testGame.addPlayer("Player2");
+        testGame.choosePlayerColor("Player1", PlayerColorEnum.RED);
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> testGame.choosePlayerColor("Player2", PlayerColorEnum.RED));
+        assertEquals("Color already chosen by another player", exception.getMessage());
     }
 }
