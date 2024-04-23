@@ -7,6 +7,7 @@ import java.util.Random;
 /**
  * This class represents a deck of cards in the game.
  * It contains a list of cards and provides a method to draw a card from the deck.
+ *
  * @param <T> The type of cards in the deck (GameCard or ObjectiveCard)
  */
 public class Deck<T> {
@@ -37,6 +38,7 @@ public class Deck<T> {
 
     /**
      * Checks if the deck is empty.
+     *
      * @return true if the deck is empty, false otherwise.
      */
     public boolean isEmpty() {
@@ -46,12 +48,22 @@ public class Deck<T> {
     /**
      * Draws a random card from the deck. The card is removed from the deck.
      * If the deck is empty, it throws a RuntimeException.
+     *
      * @return The card drawn from the deck.
      * @throws RuntimeException if the deck is empty.
      */
-    public T draw(){
+    public T draw() {
         if (deck.isEmpty())
             throw new RuntimeException("The deck is empty");
         return deck.remove(random.nextInt(deck.size()));
+    }
+
+    /**
+     * Returns the list of cards in the deck.
+     *
+     * @return The list of cards in the deck.
+     */
+    public ArrayList<T> getCards() {
+        return deck;
     }
 }

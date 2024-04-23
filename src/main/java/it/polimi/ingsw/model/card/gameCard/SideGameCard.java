@@ -139,5 +139,4 @@ public abstract class SideGameCard {
         if (!(o instanceof SideGameCard that)) return false;
         return Objects.equals(this.topRight, that.topRight) && Objects.equals(this.topLeft, that.topLeft) && Objects.equals(this.bottomLeft, that.bottomLeft) && Objects.equals(this.bottomRight, that.bottomRight);
     }
-
 }

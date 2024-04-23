@@ -17,15 +17,8 @@ import java.util.ArrayList;
 /**
  * This class is responsible for parsing the JSON file containing the cards of the game.
  * It reads the JSON file and creates the decks of cards.
- * The class is a singleton, so only one instance of it can be created.
  */
 public class Parser {
-
-    /**
-     * The instance of the Parser class.
-     */
-    private static Parser instance;
-
     /**
      * The list of resource cards.
      */
@@ -118,7 +111,7 @@ public class Parser {
      *
      * @throws RuntimeException when parsing fails
      */
-    private Parser() {
+    public Parser() {
         try {
             // Create a FileReader to read the JSON file
             Reader reader = new FileReader("src/main/resources/json/CardDB.json");
@@ -137,18 +130,6 @@ public class Parser {
         } catch (Exception e) {
             throw new RuntimeException("Parsing failed");
         }
-    }
-
-    /**
-     * Returns the instance of the Parser class.
-     *
-     * @return The instance of the Parser class.
-     */
-    public static Parser getInstance() {
-        if (instance == null) {
-            instance = new Parser();
-        }
-        return instance;
     }
 
     /**
