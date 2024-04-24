@@ -22,15 +22,21 @@ class GameRecord {
 }
 GameRecord -- GetGamesMessage
 
-class ViewUpdateMessage extends ServerNetworkMessage {
-    
+abstract class ViewUpdateMessage extends ServerNetworkMessage {
+    -PlayerActionsEnum playerAction
 }
 
-abstract class ClientServerMessage {
-    -PlayerActionsEnum playerActionsEnum
+class PlaceCardViewUpdateMessage extends ViewUpdateMessage {
+    -Coordinate coordinate
+    -Card card
+}
+
+abstract class ClientNetworkMessage {
+    -PlayerActionsEnum playerAction
     -<Record T> parameters
 }
-class PlaceCardMessage extends ClientServerMessage {
+class PlaceCardClientMessage extends ClientNetworkMessage {
+    -Coordinate coordinate
     -Card card
 }
 abstract class ServerConnection {
