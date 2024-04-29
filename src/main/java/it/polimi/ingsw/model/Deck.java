@@ -66,4 +66,23 @@ public class Deck<T> {
     public ArrayList<T> getCards() {
         return deck;
     }
+
+    /**
+     * Adds a new card to the deck.
+     * This method first checks if the new card is null, throwing a NullPointerException if it is.
+     * Then it checks if the new card already exists in the deck by comparing it to each card in the deck.
+     * If the new card already exists in the deck, it throws an IllegalArgumentException.
+     * If the new card does not exist in the deck, it is added to the deck.
+     *
+     * @param newCard The card to add to the deck. This cannot be null.
+     * @throws NullPointerException     if the new card is null.
+     * @throws IllegalArgumentException if the new card already exists in the deck.
+     */
+    public void addCard(T newCard) {
+        Objects.requireNonNull(newCard, "Can't add a NULL card to deck");
+        if (deck.stream().anyMatch(c -> c.equals(newCard))) {
+            throw new IllegalArgumentException("Can't add a duplicate card to deck");
+        }
+        deck.add(newCard);
+    }
 }

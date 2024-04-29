@@ -1,11 +1,10 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.player.PlayerColorEnum;
-import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerBoard;
+import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.store.Store;
 
 import java.util.*;
@@ -100,12 +99,15 @@ public class Game {
     }
 
     private Player instanceNewPlayer(String playerName) {
-        if (playerName == null || playerName.isBlank()) {
-            throw new IllegalArgumentException("Player name cannot be null or empty");
-        }
         ArrayList<ObjectiveCard> drawnObjectives = new ArrayList<>(List.of(globalBoard.getObjectiveDeck().draw(), globalBoard.getObjectiveDeck().draw()));
         GameCard starterCard = globalBoard.getStarterDeck().draw();
-        return new Player(playerName, drawnObjectives, starterCard);
+        try {
+            return new Player(playerName, drawnObjectives, starterCard);
+        } catch (Exception e) {
+            drawnObjectives.forEach(objectiveCard -> globalBoard.getObjectiveDeck().addCard(objectiveCard));
+            globalBoard.getStarterDeck().addCard(starterCard);
+            throw e;
+        }
     }
 
     /**
@@ -166,7 +168,6 @@ public class Game {
     public void addPlayer(String playerName) {
         if (players.size() >= maxAllowedPlayers)
             throw new RuntimeException("Maximum number of players already reached");
-        Objects.requireNonNull(playerName, "The player name can't be NULL");
         if (players.stream().map(Player::getPlayerName).anyMatch(name -> name.equals(playerName)))
             throw new IllegalArgumentException("A player with the same name, already exists");
         players.add(instanceNewPlayer(playerName));
