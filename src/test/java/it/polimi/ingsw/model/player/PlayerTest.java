@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.data.Parser;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.utils.Coordinate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -82,5 +84,17 @@ public class PlayerTest {
     public void getObjectiveCardReturnsNonNullAfterSetting() {
         player.setPlayerObjective(objectiveCard);
         assertEquals(objectiveCard, player.getObjectiveCard());
+    }
+
+    @Test
+    @DisplayName("SetGameCard successfully places the card and removes it from the hand")
+    public void setGameCardSuccessfullyPlacesCardAndRemovesFromHand() {
+        Parser parser = new Parser();
+        GameCard card = parser.getStarterDeck().draw();
+        player.getPlayerHand().addCard(card);
+        assertEquals(card, player.getPlayerHand().getCards().getFirst());
+        player.setGameCard(new Coordinate(0, 0), card);
+        assertEquals(card, player.getPlayerBoard().getGameCard(new Coordinate(0, 0)).get());
+        assertFalse(player.getPlayerHand().getCards().contains(card));
     }
 }
