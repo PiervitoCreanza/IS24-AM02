@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.utils.Coordinate;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -187,5 +188,16 @@ public class Player {
      */
     public PlayerColorEnum getPlayerColor() {
         return playerColor;
+    }
+
+    /**
+     * This method is used to set the game card on the player board.
+     *
+     * @param coordinate The coordinate where the game card is to be set.
+     * @param gameCard   The game card to be set.
+     */
+    public void setGameCard(Coordinate coordinate, GameCard gameCard) {
+        playerBoard.setGameCard(coordinate, gameCard);
+        playerHand.removeCard(gameCard);
     }
 }
