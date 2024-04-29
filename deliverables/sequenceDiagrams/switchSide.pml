@@ -1,9 +1,11 @@
 @startuml
     group Switch Side [ok]
     ClientA -> Server : switchSide(playerName, card)
+    rnote over Server #lightgrey : MainController.gameControllerMiddleWares[x].switchCardSide(playerName, card)
     Server -> ClientA : {status: "success"}, VirtualViewUpdate
 
     ClientB -> Server : switchSide(playerName, card)
+    rnote over Server #lightgrey : MainController.gameControllerMiddleWares[x].validatePlayerTurn(playerName)
     Server -> ClientB : {status: failed, message: "It's not ClientB's turn"}
 
 end
@@ -24,6 +26,7 @@ end note
 
 group Switch Side [failed due to wrong game status]
      ClientA -> Server : switchSide(playerName, card)
+     rnote over Server #lightgrey : MainController.gameControllerMiddleWares[x].switchCardSide(playerName, card)
      Server -> ClientA : {status: "failed", message: "Cannot switchSide in current game status"}
 end
 
