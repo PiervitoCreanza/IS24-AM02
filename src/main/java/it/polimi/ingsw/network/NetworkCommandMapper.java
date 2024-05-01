@@ -3,30 +3,62 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.controller.MainController;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.RepresentedGame;
+import it.polimi.ingsw.network.messages.ChosenCardMessage;
+import it.polimi.ingsw.network.messages.ClientCommandMessage;
+import it.polimi.ingsw.network.messages.CreateGameMessage;
+import it.polimi.ingsw.network.messages.JoinGameMessage;
 
+/**
+ * This class is responsible for mapping network commands.
+ * Commands can be sent via netcat using the following syntax:
+ * cat request.json | nc 192.168.1.75 12345
+ * cat request.json | nc localhost 12345
+ */
 public class NetworkCommandMapper {
+    /**
+     * The main controller.
+     */
     private MainController mainController;
 
+    /**
+     * Constructor for NetworkCommandMapper.
+     *
+     * @param mainController The main controller.
+     */
     public NetworkCommandMapper(MainController mainController) {
         this.mainController = mainController;
     }
 
-
+    /**
+     * This method converts a JSON string to a ClientCommandMessage object.
+     *
+     * @param jsonString The JSON string to convert.
+     * @return The converted ClientCommandMessage object, or null if the conversion fails.
+     */
     private static ClientCommandMessage jsonToMessageObjBuilder(String jsonString) {
-
-        //Create Game Message
-        CreateGameMessage createGameMessage = CreateGameMessage.createGameMessageFromJson(jsonString);
+        // Attempt to convert the JSON string to a CreateGameMessage object.
+        CreateGameMessage createGameMessage = null;
+        try {
+            createGameMessage = CreateGameMessage.createGameMessageFromJson(jsonString);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         if (createGameMessage != null) {
-            //check if the Create Game Message is effectively a Create Game message, avoiding Gson filling the object with default values when no valid fields are found in the incoming JSON?
             return createGameMessage;
         }
-        //Join Game message
-        JoinGameMessage joinGameMessage = JoinGameMessage.joinGameFromJson(jsonString);
+
+        // Attempt to convert the JSON string to a JoinGameMessage object.
+        JoinGameMessage joinGameMessage = null;
+        try {
+            joinGameMessage = JoinGameMessage.joinGameFromJson(jsonString);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         if (joinGameMessage != null) {
-            //check if the Game Message is effectively a join game message, avoiding Gson filling the object with default values when no valid fields are found in the incoming JSON?
             return joinGameMessage;
         }
-        //chosen card message
+
+        // Attempt to convert the JSON string to a ChosenCardMessage object.
         ChosenCardMessage chosenCardMessage = ChosenCardMessage.chosenCardMessageFromJson(jsonString);
         if (chosenCardMessage != null) {
             return chosenCardMessage;
@@ -35,31 +67,33 @@ public class NetworkCommandMapper {
         return null;
     }
 
+    /**
+     * This method parses a JSON string and performs an action based on its content.
+     *
+     * @param jsonString The JSON string to parse.
+     * @return A response message indicating the result of the action.
+     */
     public String parse(String jsonString) {
         ClientCommandMessage parsedMessage = jsonToMessageObjBuilder(jsonString);
-        System.out.println(parsedMessage); //print Message Type on Console
+        System.out.println(parsedMessage); // Print the type of the parsed message to the console.
+
         if (parsedMessage == null) {
-            //out.println(parsedMessage.toString()); //Print to remote
-            //out.println("{\"message : 'ok' }\""); //Print to remote
             return "{\"message\" : \"ko, WRONG\"}";
         }
 
-        //using instanceof to check the type of the parsed message, used for RMI also
-        //HAVE TO CHECK FIRST IF THEY ARE CHILDREN AND THEN PARENT BECAUSE OF EXTENDS in CREATEGAMEMESSAGE
+        // Perform an action based on the type of the parsed message.
+        // We use 'instanceof' to determine the type of the parsed message. This approach is also used for RMI.
+        // It's important to check child classes BEFORE the parent class due to inheritance in 'CreateGameMessage'.
         if (parsedMessage instanceof CreateGameMessage msg) {
-            Game game = null;
             try {
-                game = mainController.createGame(msg.gameName, msg.nPlayers, msg.playerName);
-
-                String gameString = new RepresentedGame(game).toJSON();
-                return gameString;
+                Game game = mainController.createGame(msg.getGameName(), msg.nPlayers, msg.getPlayerName());
+                return new RepresentedGame(game).toJSON();
             } catch (Exception e) {
                 return answerMsgToJSON(e.getMessage());
             }
         } else if (parsedMessage instanceof JoinGameMessage msg) {
-            Game game = null;
             try {
-                game = mainController.joinGame(msg.gameName, msg.playerName);
+                mainController.joinGame(msg.getGameName(), msg.getPlayerName());
             } catch (Exception e) {
                 return answerMsgToJSON(e.getMessage());
             }
@@ -67,12 +101,16 @@ public class NetworkCommandMapper {
             return answerMsgToJSON("chosenCardMessage");
         }
 
-
         return "{\"message\" : \"ok\"}";
     }
 
+    /**
+     * This method converts a response message to a JSON string.
+     *
+     * @param answer The response message to convert.
+     * @return The converted JSON string.
+     */
     private static String answerMsgToJSON(String answer) {
         return "{\"message\" : \"" + answer + "\"}";
     }
-    //Per la CLI produco tutto sulle faccine, su Mac funziona
 }

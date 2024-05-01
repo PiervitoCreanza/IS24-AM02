@@ -8,29 +8,46 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-//TCPDecoder
-//command to send JSON file via netcat
-//cat chosenCard.json | nc 192.168.1.75 1234
-//TODO: handling of multiple clients at the same time
 
+/**
+ * This class is responsible for handling the connection with a client over TCP.
+ * It extends Thread, meaning it can run concurrently with other threads.
+ */
 public class TCPClientConnectionHandler extends Thread {
+    /**
+     * Socket object representing the connection to the client.
+     */
     private final Socket socket;
+    /**
+     * NetworkCommandMapper object used to map network commands.
+     */
     private final NetworkCommandMapper networkCommandMapper;
 
+    /**
+     * Constructor for the TCPClientConnectionHandler class.
+     *
+     * @param socket               The socket connected to the client.
+     * @param networkCommandMapper The object used to map network commands.
+     */
     public TCPClientConnectionHandler(Socket socket, NetworkCommandMapper networkCommandMapper) {
         super("EchoServerThread");
         this.socket = socket;
         this.networkCommandMapper = networkCommandMapper;
     }
 
+    /**
+     * The main method that will be run when the thread starts.
+     * It reads from the socket and echoes back the input line until null (client disconnects).
+     */
     public void run() {
         PrintWriter out = null;
         BufferedReader in = null;
         try {
+            // Initialize PrintWriter and BufferedReader for reading from and writing to the socket
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (IOException e) {
-
+            // Handle any IOExceptions that might occur
         }
         String inputLine;
 
@@ -51,7 +68,7 @@ public class TCPClientConnectionHandler extends Thread {
             out.println(statusMessage); //Print to remote
         }
 
-
+        // Close the socket when done
         try {
             socket.close();
         } catch (IOException e) {
@@ -59,8 +76,13 @@ public class TCPClientConnectionHandler extends Thread {
         }
     }
 
+    /**
+     * Method to avoid TCP fragmentation.
+     *
+     * @param in The BufferedReader to read from
+     * @return The complete JSON string
+     */
     private String keepReadingJSON(BufferedReader in) {
-        //Method to avoid TCP fragmentation
         String inputLine = null;
         String allJSON = "";
 
@@ -83,6 +105,11 @@ public class TCPClientConnectionHandler extends Thread {
         return allJSON;
     }
 
+    /**
+     * Checks if a string is a valid JSON string.
+     * @param json The string to check.
+     * @return true if the string is a valid JSON string, false otherwise.
+     */
     private static boolean isJson(String json) {
         try {
             JsonParser.parseString(json);
@@ -91,6 +118,4 @@ public class TCPClientConnectionHandler extends Thread {
         }
         return true;
     }
-
-
 }
