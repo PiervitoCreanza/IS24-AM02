@@ -40,7 +40,7 @@ public class TCPClientConnectionHandler extends Thread {
             if (inputLine == null || (inputLine.isEmpty())) {
                 break;
             }
-            System.out.println(inputLine); // Print to console also.
+            //System.out.println(inputLine); // Print JSON to console.
             //out.println(inputLine); //Print to remote
             //out.println(); //Print to remote
 

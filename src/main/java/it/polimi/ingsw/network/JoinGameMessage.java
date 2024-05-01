@@ -3,8 +3,8 @@ package it.polimi.ingsw.network;
 import com.google.gson.Gson;
 
 public class JoinGameMessage extends ClientCommandMessage {
-    private String gameName;
-    private String playerName;
+    protected String gameName;
+    protected String playerName;
 
     public JoinGameMessage(String gameName, String playerName) {
         this.gameName = gameName;
