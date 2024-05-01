@@ -9,13 +9,16 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+//TCPDecoder
 //command to send JSON file via netcat
 //cat chosenCard.json | nc 192.168.1.75 1234
+//TODO: handling of multiple clients at the same time
+
 public class TCPClientConnectionHandler extends Thread {
     private final Socket socket;
-    private final NetworkMessageDispatcher networkMessageDispatcher;
+    private final NetworkCommandMapper networkMessageDispatcher;
 
-    public TCPClientConnectionHandler(Socket socket, NetworkMessageDispatcher networkMessageDispatcher) {
+    public TCPClientConnectionHandler(Socket socket, NetworkCommandMapper networkMessageDispatcher) {
         super("EchoServerThread");
         this.socket = socket;
         this.networkMessageDispatcher = networkMessageDispatcher;
@@ -39,15 +42,15 @@ public class TCPClientConnectionHandler extends Thread {
                 break;
             }
             System.out.println(inputLine); // Print to console also.
-            out.println(inputLine); //Print to remote
-            out.println(); //Print to remote
+            //out.println(inputLine); //Print to remote
+            //out.println(); //Print to remote
 
             //Gson stops parsing when encounters a newline character
             //ChosenCardMessage parsedMessage = chosenCardMessageFromJson(inputLine);
             ClientCommandMessage parsedMessage = jsonToMessageObjBuilder(inputLine);
             System.out.println(parsedMessage);
             if (parsedMessage != null) {
-                out.println(parsedMessage.toString()); //Print to remote
+                //out.println(parsedMessage.toString()); //Print to remote
                 out.println("{\"message : 'ok' }\""); //Print to remote
             } else {
                 out.println("{:}"); //sending back an empty JSON
