@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-
 //TCPDecoder
 //command to send JSON file via netcat
 //cat chosenCard.json | nc 192.168.1.75 1234
@@ -16,12 +15,12 @@ import java.net.Socket;
 
 public class TCPClientConnectionHandler extends Thread {
     private final Socket socket;
-    private final NetworkCommandMapper networkMessageDispatcher;
+    private final NetworkCommandMapper networkCommandMapper;
 
-    public TCPClientConnectionHandler(Socket socket, NetworkCommandMapper networkMessageDispatcher) {
+    public TCPClientConnectionHandler(Socket socket, NetworkCommandMapper networkCommandMapper) {
         super("EchoServerThread");
         this.socket = socket;
-        this.networkMessageDispatcher = networkMessageDispatcher;
+        this.networkCommandMapper = networkCommandMapper;
     }
 
     public void run() {
@@ -47,14 +46,9 @@ public class TCPClientConnectionHandler extends Thread {
 
             //Gson stops parsing when encounters a newline character
             //ChosenCardMessage parsedMessage = chosenCardMessageFromJson(inputLine);
-            ClientCommandMessage parsedMessage = jsonToMessageObjBuilder(inputLine);
-            System.out.println(parsedMessage);
-            if (parsedMessage != null) {
-                //out.println(parsedMessage.toString()); //Print to remote
-                out.println("{\"message : 'ok' }\""); //Print to remote
-            } else {
-                out.println("{:}"); //sending back an empty JSON
-            }
+            String statusMessage = this.networkCommandMapper.parse(inputLine);
+            System.out.println(statusMessage);
+            out.println(statusMessage); //Print to remote
         }
 
 
@@ -66,6 +60,7 @@ public class TCPClientConnectionHandler extends Thread {
     }
 
     private String keepReadingJSON(BufferedReader in) {
+        //Method to avoid TCP fragmentation
         String inputLine = null;
         String allJSON = "";
 
@@ -88,7 +83,7 @@ public class TCPClientConnectionHandler extends Thread {
         return allJSON;
     }
 
-    public static boolean isJson(String json) {
+    private static boolean isJson(String json) {
         try {
             JsonParser.parseString(json);
         } catch (JsonSyntaxException e) {
@@ -97,20 +92,5 @@ public class TCPClientConnectionHandler extends Thread {
         return true;
     }
 
-    private static ClientCommandMessage jsonToMessageObjBuilder(String jsonString) {
-        //login message
-        JoinGameMessage joinGameMessage = JoinGameMessage.joinGameFromJson(jsonString);
-        if (joinGameMessage != null) {
-            //check if the Game Message is effectively a join game message, avoiding Gson filling the object with default values when no valid fields are found in the incoming JSON?
-            return joinGameMessage;
-        }
-        //chosen card message
-        ChosenCardMessage chosenCardMessage = ChosenCardMessage.chosenCardMessageFromJson(jsonString);
-        if (chosenCardMessage != null) {
-            return chosenCardMessage;
-        }
-
-        return null;
-    }
 
 }

@@ -20,8 +20,13 @@ public class JoinGameMessage extends ClientCommandMessage {
     }
 
     public static JoinGameMessage joinGameFromJson(String json) {
+        JoinGameMessage temp;
         //return new Gson().fromJson(json, JoinGameMessage.class);
-        JoinGameMessage temp = new Gson().fromJson(json, JoinGameMessage.class);
+        try {
+            temp = new Gson().fromJson(json, JoinGameMessage.class);
+        } catch (Exception e) {
+            return null;
+        }
         if (temp.isValid())
             return temp;
         return null;
