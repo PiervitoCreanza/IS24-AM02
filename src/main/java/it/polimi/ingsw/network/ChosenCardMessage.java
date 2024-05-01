@@ -1,13 +1,18 @@
 package it.polimi.ingsw.network;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 public class ChosenCardMessage extends ClientCommandMessage {
     private long chosenCard;
     private long playerID;
 
     public static ChosenCardMessage chosenCardMessageFromJson(String json) {
-        return new Gson().fromJson(json, ChosenCardMessage.class);
+        try {
+            return new Gson().fromJson(json, ChosenCardMessage.class);
+        } catch (JsonSyntaxException e) {
+            return null;
+        }
     }
 
     public static ChosenCardMessage joinGameFromJson(String json) {
