@@ -2,17 +2,26 @@ package it.polimi.ingsw.network;
 
 import com.google.gson.Gson;
 
-public class ChosenCardMessage extends ClientCommandMessage {
-    private long chosenCard;
-    private long playerID;
+public class JoinGameMessage extends ClientCommandMessage {
+    private String gameName;
+    private String playerName;
 
-    public static ChosenCardMessage chosenCardMessageFromJson(String json) {
-        return new Gson().fromJson(json, ChosenCardMessage.class);
+    public JoinGameMessage(String gameName, String playerName) {
+        this.gameName = gameName;
+        this.playerName = playerName;
     }
 
-    public static ChosenCardMessage joinGameFromJson(String json) {
+    public String getGameName() {
+        return gameName;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public static JoinGameMessage joinGameFromJson(String json) {
         //return new Gson().fromJson(json, JoinGameMessage.class);
-        ChosenCardMessage temp = new Gson().fromJson(json, ChosenCardMessage.class);
+        JoinGameMessage temp = new Gson().fromJson(json, JoinGameMessage.class);
         if (temp.isValid())
             return temp;
         return null;
@@ -23,6 +32,6 @@ public class ChosenCardMessage extends ClientCommandMessage {
 
     private boolean isValid() {
         //We are checking if the message contains valid data, GSON fills the object with default values if the JSON fields are not valid
-        return chosenCard != 0 && playerID != 0;
+        return gameName != null && playerName != null;
     }
 }

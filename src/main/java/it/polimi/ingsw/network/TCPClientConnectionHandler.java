@@ -9,16 +9,16 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import static it.polimi.ingsw.network.ChosenCardMessage.chosenCardMessageFromJson;
-
 //command to send JSON file via netcat
 //cat chosenCard.json | nc 192.168.1.75 1234
-public class EchoThread extends Thread {
+public class TCPClientConnectionHandler extends Thread {
     private final Socket socket;
+    private final NetworkMessageDispatcher networkMessageDispatcher;
 
-    public EchoThread(Socket socket) {
+    public TCPClientConnectionHandler(Socket socket, NetworkMessageDispatcher networkMessageDispatcher) {
         super("EchoServerThread");
         this.socket = socket;
+        this.networkMessageDispatcher = networkMessageDispatcher;
     }
 
     public void run() {
@@ -43,9 +43,15 @@ public class EchoThread extends Thread {
             out.println(); //Print to remote
 
             //Gson stops parsing when encounters a newline character
-            ChosenCardMessage parsedMessage = chosenCardMessageFromJson(inputLine);
+            //ChosenCardMessage parsedMessage = chosenCardMessageFromJson(inputLine);
+            ClientCommandMessage parsedMessage = jsonToMessageObjBuilder(inputLine);
             System.out.println(parsedMessage);
-            out.println(parsedMessage.toString()); //Print to remote
+            if (parsedMessage != null) {
+                out.println(parsedMessage.toString()); //Print to remote
+                out.println("{\"message : 'ok' }\""); //Print to remote
+            } else {
+                out.println("{:}"); //sending back an empty JSON
+            }
         }
 
 
@@ -86,5 +92,21 @@ public class EchoThread extends Thread {
             return false;
         }
         return true;
+    }
+
+    private static ClientCommandMessage jsonToMessageObjBuilder(String jsonString) {
+        //login message
+        JoinGameMessage joinGameMessage = JoinGameMessage.joinGameFromJson(jsonString);
+        if (joinGameMessage != null) {
+            //check if the Game Message is effectively a join game message, avoiding Gson filling the object with default values when no valid fields are found in the incoming JSON?
+            return joinGameMessage;
+        }
+        //chosen card message
+        ChosenCardMessage chosenCardMessage = ChosenCardMessage.chosenCardMessageFromJson(jsonString);
+        if (chosenCardMessage != null) {
+            return chosenCardMessage;
+        }
+
+        return null;
     }
 }
