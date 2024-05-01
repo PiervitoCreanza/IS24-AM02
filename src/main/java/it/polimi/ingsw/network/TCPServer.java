@@ -19,7 +19,7 @@ public class TCPServer {
         }
 
         try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
-            System.out.println("Echo Server is listening on port " + portNumber);
+            System.out.println("Codex Naturalis Server is listening on port " + portNumber);
 
             // Server runs indefinitely, accepting and handling each client connection in a separate thread.
             while (true) {

@@ -3,7 +3,7 @@ package it.polimi.ingsw.network;
 import com.google.gson.Gson;
 
 public class CreateGameMessage extends JoinGameMessage {
-    private int nPlayers;
+    protected int nPlayers;
 
     public CreateGameMessage(String gameName, int nPlayers, String playerName) {
         super(gameName, playerName);

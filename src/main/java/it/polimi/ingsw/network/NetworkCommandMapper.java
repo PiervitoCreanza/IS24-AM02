@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.MainController;
+import it.polimi.ingsw.model.Game;
 
 public class NetworkCommandMapper {
     private MainController mainController;
@@ -41,7 +42,32 @@ public class NetworkCommandMapper {
             //out.println("{\"message : 'ok' }\""); //Print to remote
             return "{\"message\" : \"ko, WRONG\"}";
         }
-        //AAAmainController.createGame();
+
+        //using instanceof to check the type of the parsed message, used for RMI also
+        //HAVE TO CHECK FIRST IF THEY ARE CHILDREN AND THEN PARENT BECAUSE OF EXTENDS in CREATEGAMEMESSAGE
+        if (parsedMessage instanceof CreateGameMessage msg) {
+            Game game = null;
+            try {
+                game = mainController.createGame(msg.gameName, msg.nPlayers, msg.playerName);
+            } catch (Exception e) {
+                return answerMsgToJSON(e.getMessage());
+            }
+        } else if (parsedMessage instanceof JoinGameMessage msg) {
+            Game game = null;
+            try {
+                game = mainController.joinGame(msg.gameName, msg.playerName);
+            } catch (Exception e) {
+                return answerMsgToJSON(e.getMessage());
+            }
+        } else if (parsedMessage instanceof ChosenCardMessage msg) {
+            return answerMsgToJSON("chosenCardMessage");
+        }
+
+
         return "{\"message\" : \"ok\"}";
+    }
+
+    private static String answerMsgToJSON(String answer) {
+        return "{\"message\" : \"" + answer + "\"}";
     }
 }
