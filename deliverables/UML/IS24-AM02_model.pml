@@ -21,9 +21,6 @@ package "Controller"{
         +getGame()
     }
 
-    note top of MainController
-    Interfaccia con client
-    end note
 
      note top of MainController
         I tipi di ritorno del controller

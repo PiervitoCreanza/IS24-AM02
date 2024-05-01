@@ -1,29 +1,32 @@
 @startuml
     group Switch Side [ok]
     ClientA -> Server : switchSide(playerName, card)
+    rnote over Server #lightgrey : MainController.gameControllerMiddleWares[x].switchCardSide(playerName, card)
     Server -> ClientA : {status: "success"}, VirtualViewUpdate
 
     ClientB -> Server : switchSide(playerName, card)
+    rnote over Server #lightgrey : MainController.gameControllerMiddleWares[x].validatePlayerTurn(playerName)
     Server -> ClientB : {status: failed, message: "It's not ClientB's turn"}
 
 end
 
 note right of Server #aqua
-Qualsiasi giocatore puó fare switchSide in qualsiasi momento (suo turno o no),
-ma la modifica avviene solamente localmente.
+Any player can make switchSide at any time (his turn or not),
+but the change happens only locally.
 
-Posso fare switchSide quando voglio in locale (anche quando non é il mio turno).
-Per evitare disallineamenti client/server:
-- Se è stata girata, quando é il turno del player,
-- PRIMA di inviare placeCard(), invio switchSide() al Model;
-- cosí si evita anche sorta di "DDos" di switchSide()
+I can do switchSide whenever I want locally (even when it is not my turn).
+To avoid client/server misalignment:
+- If it has been turned, when it is the player's turn,
+- BEFORE sending placeCard(), I send switchSide() to the Model;
+- so it also avoids sort of “DDos” of switchSide().
 
-L'errore qui sotto riproduce un caso in cui si prova  a girare carta SUL MODEL
-quando non é il momento opportuno (come spiegato qui sopra)
+The error below reproduces a case where you try to turn card ON MODEL
+when it is not the appropriate time (as explained above)
 end note
 
 group Switch Side [failed due to wrong game status]
      ClientA -> Server : switchSide(playerName, card)
+     rnote over Server #lightgrey : MainController.gameControllerMiddleWares[x].switchCardSide(playerName, card)
      Server -> ClientA : {status: "failed", message: "Cannot switchSide in current game status"}
 end
 
