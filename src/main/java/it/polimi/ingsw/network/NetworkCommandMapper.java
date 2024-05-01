@@ -12,8 +12,13 @@ public class NetworkCommandMapper {
 
     private static ClientCommandMessage jsonToMessageObjBuilder(String jsonString) {
 
-        //
-        //login message
+        //Create Game Message
+        CreateGameMessage createGameMessage = CreateGameMessage.createGameMessageFromJson(jsonString);
+        if (createGameMessage != null) {
+            //check if the Create Game Message is effectively a Create Game message, avoiding Gson filling the object with default values when no valid fields are found in the incoming JSON?
+            return createGameMessage;
+        }
+        //Join Game message
         JoinGameMessage joinGameMessage = JoinGameMessage.joinGameFromJson(jsonString);
         if (joinGameMessage != null) {
             //check if the Game Message is effectively a join game message, avoiding Gson filling the object with default values when no valid fields are found in the incoming JSON?
@@ -30,12 +35,13 @@ public class NetworkCommandMapper {
 
     public String parse(String jsonString) {
         ClientCommandMessage parsedMessage = jsonToMessageObjBuilder(jsonString);
-        System.out.println(parsedMessage);
+        System.out.println(parsedMessage); //print Message Type on Console
         if (parsedMessage == null) {
             //out.println(parsedMessage.toString()); //Print to remote
             //out.println("{\"message : 'ok' }\""); //Print to remote
-            return "{\"message\" : \"ko\"}";
+            return "{\"message\" : \"ko, WRONG\"}";
         }
+        //AAAmainController.createGame();
         return "{\"message\" : \"ok\"}";
     }
 }
