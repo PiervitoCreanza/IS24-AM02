@@ -296,6 +296,11 @@ public class Game {
         getPlayer(playerName).setPlayerColor(playerColor);
     }
 
+    /**
+     * Returns the maximum number of players allowed in the game.
+     *
+     * @return The maximum number of players that can join a game.
+     */
     public int getMaxAllowedPlayers() {
         return maxAllowedPlayers;
     }
