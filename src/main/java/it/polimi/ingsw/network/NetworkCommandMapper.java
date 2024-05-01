@@ -2,6 +2,7 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.MainController;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.RepresentedGame;
 
 public class NetworkCommandMapper {
     private MainController mainController;
@@ -49,6 +50,9 @@ public class NetworkCommandMapper {
             Game game = null;
             try {
                 game = mainController.createGame(msg.gameName, msg.nPlayers, msg.playerName);
+
+                String gameString = new RepresentedGame(game).toJSON();
+                return gameString;
             } catch (Exception e) {
                 return answerMsgToJSON(e.getMessage());
             }
@@ -70,4 +74,5 @@ public class NetworkCommandMapper {
     private static String answerMsgToJSON(String answer) {
         return "{\"message\" : \"" + answer + "\"}";
     }
+    //Per la CLI produco tutto sulle faccine, su Mac funziona
 }

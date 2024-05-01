@@ -295,4 +295,8 @@ public class Game {
         }
         getPlayer(playerName).setPlayerColor(playerColor);
     }
+
+    public int getMaxAllowedPlayers() {
+        return maxAllowedPlayers;
+    }
 }
