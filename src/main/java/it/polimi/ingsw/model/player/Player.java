@@ -2,8 +2,8 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
-import it.polimi.ingsw.network.server.virtualView.PlayerView;
-import it.polimi.ingsw.network.server.virtualView.VirtualViewable;
+import it.polimi.ingsw.network.virtualView.PlayerView;
+import it.polimi.ingsw.network.virtualView.VirtualViewable;
 import it.polimi.ingsw.model.utils.Coordinate;
 
 import java.util.ArrayList;

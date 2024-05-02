@@ -1,9 +1,7 @@
-package it.polimi.ingsw.network.server.TCP;
+package it.polimi.ingsw.network.TCP;
 
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import it.polimi.ingsw.network.server.Connection;
-import it.polimi.ingsw.network.server.NetworkCommandMapper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,34 +10,30 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.UUID;
 
 /**
  * This class is responsible for handling the connection with a client over TCP.
  * It extends Thread, meaning it can run concurrently with other threads.
  */
-public class TCPClientConnectionHandler extends Thread implements TCPObservable, Connection {
+public class TCPConnectionHandler extends Thread implements TCPObservable {
     /**
      * Socket object representing the connection to the client.
      */
     private final Socket socket;
-    /**
-     * NetworkCommandMapper object used to map network commands.
-     */
-    private final NetworkCommandMapper networkCommandMapper;
 
+    /**
+     * Set of observers that will be notified when a message is received.
+     */
     private final HashSet<TCPObserver> observers = new HashSet<>();
 
     /**
-     * Constructor for the TCPClientConnectionHandler class.
+     * Constructor for the TCPConnectionHandler class.
      *
-     * @param socket               The socket connected to the client.
-     * @param networkCommandMapper The object used to map network commands.
+     * @param socket The socket connected to the client.
      */
-    public TCPClientConnectionHandler(Socket socket, NetworkCommandMapper networkCommandMapper) {
-        super("TCPClientConnectionHandler");
+    public TCPConnectionHandler(Socket socket) {
+        super("TCPConnectionHandler");
         this.socket = socket;
-        this.networkCommandMapper = networkCommandMapper;
     }
 
     /**
@@ -139,9 +133,12 @@ public class TCPClientConnectionHandler extends Thread implements TCPObservable,
     }
 
     private void notifyObservers(String message) {
-        for (TCPObserver observer : new ArrayList<>(observers)) {
-            observer.notify(this, message);
-        }
+        // Notify all observers in a new thread to avoid blocking the main thread and missing messages.
+        observers.forEach(observer -> new Thread(() -> observer.notify(message)).start());
+    }
+
+    public void sendMessage(String message) {
+        // TODO: Send the message
     }
 
 

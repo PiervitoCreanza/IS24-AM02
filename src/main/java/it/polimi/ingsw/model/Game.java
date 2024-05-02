@@ -6,8 +6,8 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.store.Store;
-import it.polimi.ingsw.network.server.virtualView.GameView;
-import it.polimi.ingsw.network.server.virtualView.VirtualViewable;
+import it.polimi.ingsw.network.virtualView.GameView;
+import it.polimi.ingsw.network.virtualView.VirtualViewable;
 
 import java.util.*;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.server.virtualView;
+package it.polimi.ingsw.network.virtualView;
 
 /**
  * The VirtualViewable interface represents an object that can provide a virtual view.

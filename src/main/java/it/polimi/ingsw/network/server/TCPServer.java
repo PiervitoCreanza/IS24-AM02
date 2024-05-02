@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.MainController;
-import it.polimi.ingsw.network.server.TCP.TCPClientConnectionHandler;
+import it.polimi.ingsw.network.server.TCP.TCPServerAdapter;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -39,11 +39,10 @@ public class TCPServer {
             // The server runs indefinitely, accepting and handling each client connection in a separate thread.
             while (true) {
                 // Accept a new client connection. This method blocks until a connection is made.
-                // Once a connection is made, a new TCPClientConnectionHandler is created to handle the connection.
+                // Once a connection is made, a new TCPConnectionHandler is created to handle the connection.
                 // The handler is then started, which causes its run method to be called in a separate thread.
-                TCPClientConnectionHandler h = new TCPClientConnectionHandler(serverSocket.accept(), networkCommandMapper);
-                h.start();
-                networkCommandMapper.addConnection(h);
+                TCPServerAdapter messageHandler = new TCPServerAdapter(serverSocket.accept(), networkCommandMapper);
+                networkCommandMapper.addConnection(messageHandler);
             }
         } catch (IOException e) {
             // If an IOException occurs (such as if the server fails to bind to the specified port), print an error message and exit the program.

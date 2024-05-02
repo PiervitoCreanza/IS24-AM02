@@ -22,7 +22,7 @@ public class SwitchCardSideClientMessage extends GameControllerClientMessage {
      * @param gameCard   The game card to be switched. This cannot be null.
      */
     public SwitchCardSideClientMessage(String gameName, String playerName, GameCard gameCard) {
-        super(PlayerActionEnum.SWITCHCARDSIDE, gameName, playerName);
+        super(PlayerActionEnum.SWITCH_CARD_SIDE, gameName, playerName);
         this.gameCard = gameCard;
     }
 

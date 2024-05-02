@@ -22,7 +22,7 @@ public class DrawCardFromFieldClientMessage extends GameControllerClientMessage 
      * @param gameCard   The game card to be drawn. This cannot be null.
      */
     public DrawCardFromFieldClientMessage(String gameName, String playerName, GameCard gameCard) {
-        super(PlayerActionEnum.DRAWCARDFROMFIELD, gameName, playerName);
+        super(PlayerActionEnum.DRAW_CARD_FROM_FIELD, gameName, playerName);
         this.gameCard = gameCard;
     }
 

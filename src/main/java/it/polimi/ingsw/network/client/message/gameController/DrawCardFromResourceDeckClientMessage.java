@@ -15,6 +15,6 @@ public class DrawCardFromResourceDeckClientMessage extends GameControllerClientM
      * @param playerName The name of the player who is drawing the card. This cannot be null.
      */
     public DrawCardFromResourceDeckClientMessage(String gameName, String playerName) {
-        super(PlayerActionEnum.DRAWCARDFROMRESOURCEDECK, gameName, playerName);
+        super(PlayerActionEnum.DRAW_CARD_FROM_RESOURCE_DECK, gameName, playerName);
     }
 }

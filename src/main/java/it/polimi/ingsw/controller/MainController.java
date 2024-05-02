@@ -1,8 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.network.server.virtualView.GameControllerView;
-import it.polimi.ingsw.network.server.virtualView.GameView;
+import it.polimi.ingsw.network.virtualView.GameControllerView;
 
 import java.util.ArrayList;
 import java.util.Optional;

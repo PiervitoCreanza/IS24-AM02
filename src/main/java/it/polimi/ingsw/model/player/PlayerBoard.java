@@ -6,8 +6,8 @@ import it.polimi.ingsw.model.utils.PointCornerPositionPair;
 import it.polimi.ingsw.model.card.corner.CornerPosition;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
-import it.polimi.ingsw.network.server.virtualView.PlayerBoardView;
-import it.polimi.ingsw.network.server.virtualView.VirtualViewable;
+import it.polimi.ingsw.network.virtualView.PlayerBoardView;
+import it.polimi.ingsw.network.virtualView.VirtualViewable;
 
 import java.util.ArrayList;
 import java.util.HashMap;

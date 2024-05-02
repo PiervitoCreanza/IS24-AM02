@@ -15,6 +15,6 @@ public class DrawCardFromGoldDeckClientMessage extends GameControllerClientMessa
      * @param playerName The name of the player who is drawing the card. This cannot be null.
      */
     public DrawCardFromGoldDeckClientMessage(String gameName, String playerName) {
-        super(PlayerActionEnum.DRAWCARDFROMGOLDDECK, gameName, playerName);
+        super(PlayerActionEnum.DRAW_CARD_FROM_GOLD_DECK, gameName, playerName);
     }
 }

@@ -5,8 +5,8 @@ import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
-import it.polimi.ingsw.network.server.virtualView.GameControllerView;
-import it.polimi.ingsw.network.server.virtualView.VirtualViewable;
+import it.polimi.ingsw.network.virtualView.GameControllerView;
+import it.polimi.ingsw.network.virtualView.VirtualViewable;
 
 /**
  * This class represents the middleware between the GameController and the PlayerActions interface.

@@ -1,4 +1,7 @@
-package it.polimi.ingsw.network.client.message;
+package it.polimi.ingsw.network.client.message.mainController;
+
+import it.polimi.ingsw.network.client.message.ClientMessage;
+import it.polimi.ingsw.network.client.message.PlayerActionEnum;
 
 /**
  * This class extends the ClientMessage class and represents a specific type of client message: a request to join a game.
@@ -23,7 +26,7 @@ public class JoinGameClientMessage extends ClientMessage {
      * @param playerName The name of the player who is joining the game. This cannot be null.
      */
     public JoinGameClientMessage(String gameName, String playerName) {
-        super(PlayerActionEnum.JOINGAME);
+        super(PlayerActionEnum.JOIN_GAME);
         this.gameName = gameName;
         this.playerName = playerName;
     }

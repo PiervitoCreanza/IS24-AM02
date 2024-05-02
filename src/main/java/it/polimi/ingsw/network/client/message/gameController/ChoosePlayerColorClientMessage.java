@@ -21,7 +21,7 @@ public class ChoosePlayerColorClientMessage extends GameControllerClientMessage 
      * @param playerName  The name of the player who is choosing the color. This cannot be null.
      */
     public ChoosePlayerColorClientMessage(String playerColor, String gameName, String playerName) {
-        super(PlayerActionEnum.CHOOSEPLAYERCOLOR, gameName, playerName);
+        super(PlayerActionEnum.CHOOSE_PLAYER_COLOR, gameName, playerName);
         this.playerColor = playerColor;
     }
 
