@@ -30,7 +30,7 @@ public class TCPClientConnectionHandler extends Thread {
      * @param networkCommandMapper The object used to map network commands.
      */
     public TCPClientConnectionHandler(Socket socket, NetworkCommandMapper networkCommandMapper) {
-        super("EchoServerThread");
+        super("TCPClientConnectionHandler");
         this.socket = socket;
         this.networkCommandMapper = networkCommandMapper;
     }

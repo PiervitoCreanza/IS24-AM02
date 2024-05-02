@@ -38,12 +38,12 @@ public class RepresentedGame {
      */
     public RepresentedGame(Game game) {
         //TODO:We'll need to substitute RAND with GUID library to allow JSON serialization
-        //this.gameName = game.getGameName();
-        //this.maxAllowedPlayers = game.getMaxAllowedPlayers();
-        //this.players = game.getPlayers();
-        //this.winners = game.getWinners();
-        //this.globalBoard = game.getGlobalBoard();
-        //this.currentPlayer = game.getCurrentPlayer();
+        this.gameName = game.getGameName();
+        this.maxAllowedPlayers = game.getMaxAllowedPlayers();
+        this.players = game.getPlayers();
+        this.winners = game.getWinners();
+        this.globalBoard = game.getGlobalBoard();
+        this.currentPlayer = game.getCurrentPlayer();
     }
 
     /**

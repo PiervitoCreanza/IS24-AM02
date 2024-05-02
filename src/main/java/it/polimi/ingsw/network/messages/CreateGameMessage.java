@@ -37,7 +37,7 @@ public class CreateGameMessage extends JoinGameMessage {
     public static CreateGameMessage createGameMessageFromJson(String json) throws Exception {
         CreateGameMessage temp;
         try {
-            temp = new Gson().fromJson(json, CreateGameMessage.class);
+            temp = new Gson().fromJson(json, CreateGameMessage.class); //Avoid possible JSON fragmentation caused by TCP
         } catch (Exception e) {
             return null;
         }
