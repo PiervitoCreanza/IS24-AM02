@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.utils.PointCornerPositionPair;
 import it.polimi.ingsw.model.card.corner.CornerPosition;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
+import it.polimi.ingsw.network.server.virtualView.PlayerBoardView;
+import it.polimi.ingsw.network.server.virtualView.VirtualViewable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +20,7 @@ import java.util.Optional;
  * It also contains a GameItemStore, representing the items the player has collected.
  * Each player board has a starter card that is set when the board is created.
  */
-public class PlayerBoard {
+public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
     /**
      * A map from points to game cards, representing the layout of the game cards on the board.
      */
@@ -244,5 +246,15 @@ public class PlayerBoard {
                 gameItems.decrement(coveredItem, 1);
             }
         });
+    }
+
+    /**
+     * This method is used to get the virtual view of the player's board.
+     *
+     * @return PlayerBoardView This returns the virtual view of the player's board.
+     */
+    @Override
+    public PlayerBoardView getVirtualView() {
+        return new PlayerBoardView(playerBoard, gameItems);
     }
 }

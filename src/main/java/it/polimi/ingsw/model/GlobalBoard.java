@@ -3,6 +3,8 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.data.Parser;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.network.server.virtualView.GlobalBoardView;
+import it.polimi.ingsw.network.server.virtualView.VirtualViewable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.List;
  * It contains decks of different types of cards and the cards present on the field.
  * It also contains the two global objectives.
  */
-public class GlobalBoard {
+public class GlobalBoard implements VirtualViewable<GlobalBoardView> {
 
     /**
      * Represents the deck of gold cards in the game.
@@ -188,5 +190,16 @@ public class GlobalBoard {
         } else {
             throw new IllegalArgumentException("This card is not present on the field");
         }
+    }
+
+    /**
+     * Returns the virtual view of the global board.
+     *
+     * @return The virtual view of the global board.
+     */
+    @Override
+    public GlobalBoardView getVirtualView() {
+        // TODO: Change the class and get tje first card.
+        return new GlobalBoardView(fieldGoldCards.getFirst(), fieldResourceCards.getFirst(), fieldGoldCards, fieldResourceCards);
     }
 }
