@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.server.virtualView;
+package it.polimi.ingsw.network.virtualView;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 

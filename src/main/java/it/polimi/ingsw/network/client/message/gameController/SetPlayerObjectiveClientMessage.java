@@ -22,7 +22,7 @@ public class SetPlayerObjectiveClientMessage extends GameControllerClientMessage
      * @param objectiveCard The objective card to be set. This cannot be null.
      */
     public SetPlayerObjectiveClientMessage(String gameName, String playerName, ObjectiveCard objectiveCard) {
-        super(PlayerActionEnum.SETPLAYEROBJECTIVE, gameName, playerName);
+        super(PlayerActionEnum.SET_PLAYER_OBJECTIVE, gameName, playerName);
         this.objectiveCard = objectiveCard;
     }
 

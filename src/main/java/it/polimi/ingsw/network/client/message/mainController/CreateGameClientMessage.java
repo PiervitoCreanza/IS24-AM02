@@ -1,4 +1,7 @@
-package it.polimi.ingsw.network.client.message;
+package it.polimi.ingsw.network.client.message.mainController;
+
+import it.polimi.ingsw.network.client.message.ClientMessage;
+import it.polimi.ingsw.network.client.message.PlayerActionEnum;
 
 /**
  * This class extends the ClientMessage class and represents a specific type of client message: a request to create a game.
@@ -29,7 +32,7 @@ public class CreateGameClientMessage extends ClientMessage {
      * @param playerName The name of the player who is creating the game. This cannot be null.
      */
     public CreateGameClientMessage(String gameName, int nPlayers, String playerName) {
-        super(PlayerActionEnum.CREATEGAME);
+        super(PlayerActionEnum.CREATE_GAME);
         this.gameName = gameName;
         this.nPlayers = nPlayers;
         this.playerName = playerName;

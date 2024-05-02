@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
-import it.polimi.ingsw.network.server.virtualView.PlayerHandView;
-import it.polimi.ingsw.network.server.virtualView.VirtualViewable;
+import it.polimi.ingsw.network.virtualView.PlayerHandView;
+import it.polimi.ingsw.network.virtualView.VirtualViewable;
 
 import java.util.ArrayList;
 

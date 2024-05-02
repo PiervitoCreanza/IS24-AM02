@@ -29,7 +29,7 @@ public class PlaceCardClientMessage extends GameControllerClientMessage {
      * @param card       The game card to be placed. This cannot be null.
      */
     public PlaceCardClientMessage(String gameName, String playerName, Coordinate coordinate, GameCard card) {
-        super(PlayerActionEnum.PLACECARD, gameName, playerName);
+        super(PlayerActionEnum.PLACE_CARD, gameName, playerName);
         this.coordinate = coordinate;
         this.card = card;
     }

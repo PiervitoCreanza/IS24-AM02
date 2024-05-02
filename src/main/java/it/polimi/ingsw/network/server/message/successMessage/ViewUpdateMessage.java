@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.server.message.successMessage;
 
-import it.polimi.ingsw.network.server.virtualView.GameControllerView;
+import it.polimi.ingsw.network.virtualView.GameControllerView;
 
 public class ViewUpdateMessage extends SuccessServerMessage {
     private GameControllerView view;

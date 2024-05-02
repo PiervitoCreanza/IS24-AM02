@@ -1,4 +1,7 @@
-package it.polimi.ingsw.network.client.message;
+package it.polimi.ingsw.network.client.message.mainController;
+
+import it.polimi.ingsw.network.client.message.ClientMessage;
+import it.polimi.ingsw.network.client.message.PlayerActionEnum;
 
 /**
  * This class extends the ClientMessage class and represents a specific type of client message: a request to get games.
@@ -10,6 +13,6 @@ public class GetGamesClientMessage extends ClientMessage {
      * Initializes the player action with the GETGAMES value.
      */
     public GetGamesClientMessage() {
-        super(PlayerActionEnum.GETGAMES);
+        super(PlayerActionEnum.GET_GAMES);
     }
 }
