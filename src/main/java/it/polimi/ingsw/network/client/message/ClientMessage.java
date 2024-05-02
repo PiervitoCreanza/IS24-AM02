@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.client.message;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 
 import java.util.Objects;
@@ -69,7 +70,7 @@ public abstract class ClientMessage {
         return 0;
     }
 
-    public String getPlayerColor() {
+    public PlayerColorEnum getPlayerColor() {
         return null;
     }
 

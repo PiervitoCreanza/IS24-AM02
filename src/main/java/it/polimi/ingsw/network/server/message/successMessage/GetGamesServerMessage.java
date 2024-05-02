@@ -1,11 +1,14 @@
 package it.polimi.ingsw.network.server.message.successMessage;
 
+import it.polimi.ingsw.network.server.message.ServerActionEnum;
+import it.polimi.ingsw.network.server.message.ServerMessage;
+
 import java.util.HashSet;
 
 /**
  * Network message used to send the list of games to the client.
  */
-public class GetGamesServerMessage extends SuccessServerMessage {
+public class GetGamesServerMessage extends ServerMessage {
     /**
      * The list of games.
      */
@@ -17,7 +20,7 @@ public class GetGamesServerMessage extends SuccessServerMessage {
      * @param games the list of games.
      */
     public GetGamesServerMessage(HashSet<GameRecord> games) {
-        super(ServerActionsEnum.GET_GAMES);
+        super(ServerActionEnum.GET_GAMES);
         this.games = games;
     }
 

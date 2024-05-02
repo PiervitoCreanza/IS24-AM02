@@ -1,13 +1,13 @@
 package it.polimi.ingsw.network.server.message;
 
 public abstract class ServerMessage {
-    public MessageStatusEnum status;
+    public ServerActionEnum action;
 
-    public ServerMessage(MessageStatusEnum status) {
-        this.status = status;
+    public ServerMessage(ServerActionEnum action) {
+        this.action = action;
     }
 
-    public MessageStatusEnum getStatus() {
-        return status;
+    public ServerActionEnum getStatus() {
+        return action;
     }
 }

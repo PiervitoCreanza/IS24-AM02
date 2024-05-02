@@ -1,8 +1,11 @@
 package it.polimi.ingsw.network.server.message.successMessage;
 
-public class DeleteGameServerMessage extends SuccessServerMessage {
+import it.polimi.ingsw.network.server.message.ServerActionEnum;
+import it.polimi.ingsw.network.server.message.ServerMessage;
 
-    public DeleteGameServerMessage(ServerActionsEnum action) {
-        super(ServerActionsEnum.DELETE_GAME);
+public class DeleteGameServerMessage extends ServerMessage {
+
+    public DeleteGameServerMessage(ServerActionEnum action) {
+        super(ServerActionEnum.DELETE_GAME);
     }
 }
