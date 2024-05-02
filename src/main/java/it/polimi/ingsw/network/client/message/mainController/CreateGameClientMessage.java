@@ -3,6 +3,8 @@ package it.polimi.ingsw.network.client.message.mainController;
 import it.polimi.ingsw.network.client.message.ClientMessage;
 import it.polimi.ingsw.network.client.message.PlayerActionEnum;
 
+import java.util.Objects;
+
 /**
  * This class extends the ClientMessage class and represents a specific type of client message: a request to create a game.
  * It contains the name of the game to be created, the number of players, and the name of the player who is creating the game.
@@ -63,5 +65,20 @@ public class CreateGameClientMessage extends ClientMessage {
      */
     public String getPlayerName() {
         return playerName;
+    }
+
+    /**
+     * Overrides the equals method from the Object class.
+     * Checks if the object passed as parameter is equal to the current instance.
+     *
+     * @param o The object to compare with the current instance.
+     * @return true if the objects are equal, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CreateGameClientMessage that)) return false;
+        if (!super.equals(o)) return false;
+        return this.nPlayers == that.nPlayers && Objects.equals(this.gameName, that.gameName) && Objects.equals(this.playerName, that.playerName);
     }
 }

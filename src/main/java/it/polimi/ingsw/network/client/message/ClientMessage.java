@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.client.message;
 
+import java.util.Objects;
+
 /**
  * This abstract class represents a network message from the client.
  * It contains a player action, which is an enum representing the type of action the player has taken.
@@ -29,5 +31,19 @@ public abstract class ClientMessage {
      */
     public PlayerActionEnum getPlayerAction() {
         return playerAction;
+    }
+
+    /**
+     * Overrides the equals method from the Object class.
+     * Checks if the object passed as parameter is equal to the current instance.
+     *
+     * @param o The object to compare with the current instance.
+     * @return true if the objects are equal, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ClientMessage that)) return false;
+        return Objects.equals(this.playerAction, that.playerAction);
     }
 }

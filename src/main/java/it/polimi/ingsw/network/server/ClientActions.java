@@ -5,13 +5,10 @@ import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 
-import java.util.UUID;
-
 /**
  * This interface defines the actions that a client can perform in the game.
  */
 public interface ClientActions {
-
     /**
      * Creates a new game with the given game name and number of players.
      *
