@@ -5,12 +5,14 @@ import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.network.server.virtualView.GameControllerView;
+import it.polimi.ingsw.network.server.virtualView.VirtualViewable;
 
 /**
  * This class represents the middleware between the GameController and the PlayerActions interface.
  * It implements the PlayerActions interface and defines the actions flow that a player can perform in the game.
  */
-public class GameControllerMiddleware implements PlayerActions {
+public class GameControllerMiddleware implements PlayerActions, VirtualViewable<GameControllerView> {
     /**
      * The GameController instance.
      */
@@ -292,5 +294,15 @@ public class GameControllerMiddleware implements PlayerActions {
         } else {
             gameStatus = GameStatusEnum.INIT_PLACE_STARTER_CARD;
         }
+    }
+
+    /**
+     * Gets the virtual view of the game controller.
+     *
+     * @return the virtual view of the game controller.
+     */
+    @Override
+    public GameControllerView getVirtualView() {
+        return new GameControllerView(game.getVirtualView(), gameStatus);
     }
 }

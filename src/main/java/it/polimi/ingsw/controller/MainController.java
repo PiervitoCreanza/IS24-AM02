@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.network.server.virtualView.GameControllerView;
 import it.polimi.ingsw.network.server.virtualView.GameView;
 
 import java.util.ArrayList;
@@ -40,11 +41,11 @@ public class MainController {
      * @return The GameView of the game with the specified name.
      * @throws IllegalArgumentException if a game with the specified name does not exist.
      */
-    public GameView getVirtualView(String gameName) {
+    public GameControllerView getVirtualView(String gameName) {
         Optional<GameControllerMiddleware> chosenGameControllerMiddleware = findGame(gameName);
         if (chosenGameControllerMiddleware.isEmpty())
             throw new IllegalArgumentException("A game with the name \"" + gameName + "\" doesn't exists");
-        return chosenGameControllerMiddleware.get().getGame().getVirtualView();
+        return chosenGameControllerMiddleware.get().getVirtualView();
     }
 
     /**
