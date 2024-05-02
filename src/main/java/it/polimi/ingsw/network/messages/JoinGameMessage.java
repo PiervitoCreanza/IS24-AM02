@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.messages;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.network.server.message.ClientCommandMessage;
 
 /**
  * This class represents a message that is sent when a player joins a game.

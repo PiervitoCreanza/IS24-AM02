@@ -3,10 +3,10 @@ package it.polimi.ingsw.network.client.message.gameController;
 import it.polimi.ingsw.network.client.message.PlayerActionEnum;
 
 /**
- * This class extends the InGameClientMessage class and represents a specific type of in-game client message: a request to choose a player color.
+ * This class extends the GameControllerClientMessage class and represents a specific type of in-game client message: a request to choose a player color.
  * It contains the name of the game, the name of the player who is choosing the color, and the chosen color.
  */
-public class ChoosePlayerColorClientMessage extends InGameClientMessage {
+public class ChoosePlayerColorClientMessage extends GameControllerClientMessage {
     /**
      * The chosen player color.
      */

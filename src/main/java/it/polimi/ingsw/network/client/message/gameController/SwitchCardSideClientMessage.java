@@ -4,10 +4,10 @@ import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.network.client.message.PlayerActionEnum;
 
 /**
- * This class extends the InGameClientMessage class and represents a specific type of in-game client message: a request to switch the side of a card.
+ * This class extends the GameControllerClientMessage class and represents a specific type of in-game client message: a request to switch the side of a card.
  * It contains the name of the game, the name of the player who is switching the card side, and the game card to be switched.
  */
-public class SwitchCardSideClientMessage extends InGameClientMessage {
+public class SwitchCardSideClientMessage extends GameControllerClientMessage {
     /**
      * The game card to be switched.
      */

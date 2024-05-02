@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.messages;
+package it.polimi.ingsw.network.server.message;
 
 /**
  * This class represents a client command message.

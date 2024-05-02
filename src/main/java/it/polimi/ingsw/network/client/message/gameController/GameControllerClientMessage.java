@@ -1,14 +1,14 @@
 package it.polimi.ingsw.network.client.message.gameController;
 
-import it.polimi.ingsw.network.client.message.ClientNetworkMessage;
+import it.polimi.ingsw.network.client.message.ClientMessage;
 import it.polimi.ingsw.network.client.message.PlayerActionEnum;
 
 /**
- * This abstract class extends the ClientNetworkMessage class and represents a specific type of client message: an in-game message.
+ * This abstract class extends the ClientMessage class and represents a specific type of client message: an in-game message.
  * It contains the name of the game and the name of the player who is sending the message.
  * This class is meant to be extended by other classes that represent specific types of in-game client messages.
  */
-public abstract class InGameClientMessage extends ClientNetworkMessage {
+public abstract class GameControllerClientMessage extends ClientMessage {
     /**
      * The name of the game.
      */
@@ -20,14 +20,14 @@ public abstract class InGameClientMessage extends ClientNetworkMessage {
     private final String playerName;
 
     /**
-     * Constructor for InGameClientMessage.
+     * Constructor for GameControllerClientMessage.
      * Initializes the player action with the specified value, and sets the game name and player name.
      *
      * @param playerAction The action taken by the player. This cannot be null.
      * @param gameName     The name of the game. This cannot be null.
      * @param playerName   The name of the player who is sending the message. This cannot be null.
      */
-    public InGameClientMessage(PlayerActionEnum playerAction, String gameName, String playerName) {
+    public GameControllerClientMessage(PlayerActionEnum playerAction, String gameName, String playerName) {
         super(playerAction);
         this.gameName = gameName;
         this.playerName = playerName;

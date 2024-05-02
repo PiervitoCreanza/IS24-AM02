@@ -4,10 +4,10 @@ import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.network.client.message.PlayerActionEnum;
 
 /**
- * This class extends the InGameClientMessage class and represents a specific type of in-game client message: a request to set a player objective.
+ * This class extends the GameControllerClientMessage class and represents a specific type of in-game client message: a request to set a player objective.
  * It contains the name of the game, the name of the player who is setting the objective, and the objective card to be set.
  */
-public class SetPlayerObjectiveClientMessage extends InGameClientMessage {
+public class SetPlayerObjectiveClientMessage extends GameControllerClientMessage {
     /**
      * The objective card to be set.
      */

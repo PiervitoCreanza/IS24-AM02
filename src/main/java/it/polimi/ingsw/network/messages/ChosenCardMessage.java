@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.messages;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.network.server.message.ClientCommandMessage;
 
 /**
  * This class represents a message that is sent when a card is chosen.

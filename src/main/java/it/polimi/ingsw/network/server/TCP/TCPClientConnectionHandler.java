@@ -1,19 +1,24 @@
-package it.polimi.ingsw.network;
+package it.polimi.ingsw.network.server.TCP;
 
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.network.server.Connection;
+import it.polimi.ingsw.network.server.NetworkCommandMapper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.UUID;
 
 /**
  * This class is responsible for handling the connection with a client over TCP.
  * It extends Thread, meaning it can run concurrently with other threads.
  */
-public class TCPClientConnectionHandler extends Thread {
+public class TCPClientConnectionHandler extends Thread implements TCPObservable, Connection {
     /**
      * Socket object representing the connection to the client.
      */
@@ -22,6 +27,8 @@ public class TCPClientConnectionHandler extends Thread {
      * NetworkCommandMapper object used to map network commands.
      */
     private final NetworkCommandMapper networkCommandMapper;
+
+    private final HashSet<TCPObserver> observers = new HashSet<>();
 
     /**
      * Constructor for the TCPClientConnectionHandler class.
@@ -62,10 +69,11 @@ public class TCPClientConnectionHandler extends Thread {
             //out.println(); //Print to remote
 
             //Gson stops parsing when encounters a newline character
-            //ChosenCardMessage parsedMessage = chosenCardMessageFromJson(inputLine);
-            String statusMessage = this.networkCommandMapper.parse(inputLine);
-            System.out.println(statusMessage);
-            out.println(statusMessage); //Print to remote
+            notifyObservers(inputLine);
+            // TODO We need to add a method to send messages
+            //String statusMessage = this.networkCommandMapper.parse(inputLine);
+            //System.out.println(statusMessage);
+            //out.println(statusMessage); //Print to remote
         }
 
         // Close the socket when done
@@ -107,6 +115,7 @@ public class TCPClientConnectionHandler extends Thread {
 
     /**
      * Checks if a string is a valid JSON string.
+     *
      * @param json The string to check.
      * @return true if the string is a valid JSON string, false otherwise.
      */
@@ -118,4 +127,22 @@ public class TCPClientConnectionHandler extends Thread {
         }
         return true;
     }
+
+    @Override
+    public void addObserver(TCPObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(TCPObserver observer) {
+        observers.remove(observer);
+    }
+
+    private void notifyObservers(String message) {
+        for (TCPObserver observer : new ArrayList<>(observers)) {
+            observer.notify(this, message);
+        }
+    }
+
+
 }
