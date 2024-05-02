@@ -8,8 +8,6 @@ import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ItemObjectiveCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.card.objectiveCard.PositionalObjectiveCard;
-import it.polimi.ingsw.network.adapters.ClientMessageAdapter;
-import it.polimi.ingsw.network.client.message.ClientMessage;
 
 import java.io.FileReader;
 import java.io.Reader;
@@ -46,8 +44,6 @@ public class Parser {
      */
     private final Gson gson = new GsonBuilder()
             .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter())
-            .registerTypeAdapter(ObjectiveCard.class, new ObjectiveCardAdapter())
-            .registerTypeAdapter(ClientMessage.class, new ClientMessageAdapter())
             .create();
 
     /**
