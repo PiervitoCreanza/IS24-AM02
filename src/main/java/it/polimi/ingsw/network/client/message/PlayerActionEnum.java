@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.clientMessage;
+package it.polimi.ingsw.network.client.message;
 
 public enum PlayerActionEnum {
     GETGAMES,
