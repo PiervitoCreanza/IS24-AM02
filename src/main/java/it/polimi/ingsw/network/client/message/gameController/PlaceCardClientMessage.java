@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.message.PlayerActionEnum;
 
+import java.util.Objects;
+
 /**
  * This class extends the GameControllerClientMessage class and represents a specific type of in-game client message: a request to place a card.
  * It contains the name of the game, the name of the player who is placing the card, the coordinate where the card is to be placed, and the game card to be placed.
@@ -50,5 +52,20 @@ public class PlaceCardClientMessage extends GameControllerClientMessage {
      */
     public GameCard getCard() {
         return card;
+    }
+
+    /**
+     * Overrides the equals method from the Object class.
+     * Checks if the object passed as parameter is equal to the current instance.
+     *
+     * @param o The object to compare with the current instance.
+     * @return true if the objects are equal, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PlaceCardClientMessage that)) return false;
+        if (!super.equals(o)) return false;
+        return Objects.equals(this.coordinate, that.coordinate) && Objects.equals(this.card, that.card);
     }
 }
