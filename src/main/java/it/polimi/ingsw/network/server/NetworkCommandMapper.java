@@ -1,40 +1,35 @@
-package it.polimi.ingsw.network;
+package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.MainController;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.RepresentedGame;
+import it.polimi.ingsw.network.client.message.ClientMessage;
 import it.polimi.ingsw.network.messages.ChosenCardMessage;
-import it.polimi.ingsw.network.messages.ClientCommandMessage;
+import it.polimi.ingsw.network.server.TCP.TCPClientConnectionHandler;
+import it.polimi.ingsw.network.server.message.ClientCommandMessage;
 import it.polimi.ingsw.network.messages.CreateGameMessage;
 import it.polimi.ingsw.network.messages.JoinGameMessage;
+import it.polimi.ingsw.network.server.message.ServerMessage;
 
-/**
- * This class is responsible for mapping network commands.
- * Commands can be sent via netcat using the following syntax:
- * cat request.json | nc 192.168.1.75 12345
- * cat request.json | nc localhost 12345
- */
-public class NetworkCommandMapper {
-    /**
-     * The main controller.
-     */
-    private MainController mainController;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.UUID;
 
-    /**
-     * Constructor for NetworkCommandMapper.
-     *
-     * @param mainController The main controller.
-     */
+
+public class NetworkCommandMapper implements ClientActions {
+
+    private final MainController mainController;
+
+    private final HashSet<Connection> connections = new HashSet<>();
+
+    private final HashMap<String, HashSet<Connection>> gameConnectionMapper = new HashMap<>();
+
+
     public NetworkCommandMapper(MainController mainController) {
         this.mainController = mainController;
     }
 
-    /**
-     * This method converts a JSON string to a ClientCommandMessage object.
-     *
-     * @param jsonString The JSON string to convert.
-     * @return The converted ClientCommandMessage object, or null if the conversion fails.
-     */
+
     private static ClientCommandMessage jsonToMessageObjBuilder(String jsonString) {
         // Attempt to convert the JSON string to a CreateGameMessage object.
         CreateGameMessage createGameMessage = null;
@@ -60,19 +55,10 @@ public class NetworkCommandMapper {
 
         // Attempt to convert the JSON string to a ChosenCardMessage object.
         ChosenCardMessage chosenCardMessage = ChosenCardMessage.chosenCardMessageFromJson(jsonString);
-        if (chosenCardMessage != null) {
-            return chosenCardMessage;
-        }
-
-        return null;
+        return chosenCardMessage;
     }
 
-    /**
-     * This method parses a JSON string and performs an action based on its content.
-     *
-     * @param jsonString The JSON string to parse.
-     * @return A response message indicating the result of the action.
-     */
+
     public String parse(String jsonString) {
         ClientCommandMessage parsedMessage = jsonToMessageObjBuilder(jsonString);
         System.out.println(parsedMessage); // Print the type of the parsed message to the console.
@@ -104,13 +90,46 @@ public class NetworkCommandMapper {
         return "{\"message\" : \"ok\"}";
     }
 
-    /**
-     * This method converts a response message to a JSON string.
-     *
-     * @param answer The response message to convert.
-     * @return The converted JSON string.
-     */
+
     private static String answerMsgToJSON(String answer) {
         return "{\"message\" : \"" + answer + "\"}";
     }
+
+    public void addConnection(TCPClientConnectionHandler connection) {
+        connections.add(connection);
+    }
+
+    public void removeConnection(TCPClientConnectionHandler connection) {
+        connections.remove(connection);
+    }
+
+    @Override
+    public ServerMessage createGame(Connection connection, String gameName, int nPlayers) {
+        try {
+            Game game = mainController.createGame(gameName, nPlayers, gameName);
+            // TODO: Pass data to ServerMessage
+            return new ServerMessage();
+        } catch (Exception e) {
+            return new ServerMessage();
+        }
+    }
+
+    @Override
+    public ServerMessage joinGame(Connection connection, String gameName, String playerName) {
+        try {
+            mainController.joinGame(gameName, playerName);
+            gameConnectionMapper.get(gameName).add(connection);
+            return new ServerMessage();
+        } catch (Exception e) {
+            return new ServerMessage();
+        }
+    }
+
+    private void broadcastMessage(String gameName, ServerMessage message) {
+        for (Connection connection : gameConnectionMapper.get(gameName)) {
+            connection.sendMessage(message);
+        }
+    }
+
+    public 
 }

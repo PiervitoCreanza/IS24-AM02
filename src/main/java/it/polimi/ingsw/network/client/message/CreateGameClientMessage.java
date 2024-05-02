@@ -1,10 +1,10 @@
 package it.polimi.ingsw.network.client.message;
 
 /**
- * This class extends the ClientNetworkMessage class and represents a specific type of client message: a request to create a game.
+ * This class extends the ClientMessage class and represents a specific type of client message: a request to create a game.
  * It contains the name of the game to be created, the number of players, and the name of the player who is creating the game.
  */
-public class CreateGameClientMessage extends ClientNetworkMessage {
+public class CreateGameClientMessage extends ClientMessage {
     /**
      * The name of the game to be created.
      */
