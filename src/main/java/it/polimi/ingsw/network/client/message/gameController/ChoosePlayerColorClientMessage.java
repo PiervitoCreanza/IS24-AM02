@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client.message.gameController;
 
+import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.network.client.message.ClientMessage;
 import it.polimi.ingsw.network.client.message.PlayerActionEnum;
 
@@ -13,7 +14,7 @@ public class ChoosePlayerColorClientMessage extends ClientMessage {
     /**
      * The chosen player color.
      */
-    private final String playerColor;
+    private final PlayerColorEnum playerColor;
 
     /**
      * Constructor for ChoosePlayerColorClientMessage.
@@ -23,7 +24,7 @@ public class ChoosePlayerColorClientMessage extends ClientMessage {
      * @param gameName    The name of the game. This cannot be null.
      * @param playerName  The name of the player who is choosing the color. This cannot be null.
      */
-    public ChoosePlayerColorClientMessage(String playerColor, String gameName, String playerName) {
+    public ChoosePlayerColorClientMessage(PlayerColorEnum playerColor, String gameName, String playerName) {
         super(PlayerActionEnum.CHOOSE_PLAYER_COLOR, gameName, playerName);
         this.playerColor = playerColor;
     }
@@ -33,7 +34,7 @@ public class ChoosePlayerColorClientMessage extends ClientMessage {
      *
      * @return The chosen player color.
      */
-    public String getPlayerColor() {
+    public PlayerColorEnum getPlayerColor() {
         return playerColor;
     }
 

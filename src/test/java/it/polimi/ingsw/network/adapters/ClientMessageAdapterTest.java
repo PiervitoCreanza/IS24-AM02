@@ -15,6 +15,7 @@ import it.polimi.ingsw.model.card.objectiveCard.ItemObjectiveCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.card.objectiveCard.PositionalData;
 import it.polimi.ingsw.model.card.objectiveCard.PositionalObjectiveCard;
+import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 import it.polimi.ingsw.network.client.message.ClientMessage;
@@ -81,7 +82,7 @@ public class ClientMessageAdapterTest {
     @Test
     @DisplayName("Test if serialization and deserialization of ChoosePlayerColorClientMessage works")
     public void serializeAndDeserializeChoosePlayerColorClientMessage() {
-        ClientMessage choosePlayerColorClientMessage = new ChoosePlayerColorClientMessage("Red", "Game1", "Player1");
+        ClientMessage choosePlayerColorClientMessage = new ChoosePlayerColorClientMessage(PlayerColorEnum.RED, "Game1", "Player1");
         // Serialize
         String jsonChoosePlayerColorClientMessage = this.gson.toJson(choosePlayerColorClientMessage);
         // Deserialize

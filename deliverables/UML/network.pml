@@ -18,18 +18,31 @@ package Network {
             -GameControllerView view
             +ViewUpdateServerMessage(GameControllerView view)
         }
-        abstract class ClientMessage implements Message {}
-        class GetGamesClientMessage extends ClientMessage {}
-        class CreateGameClientMessage extends ClientMessage {}
-        class JoinGameClientMessage extends ClientMessage {}
-        class ChoosePlayerColorClientMessage extends ClientMessage {}
-        class SetPlayerObjectiveClientMessage extends ClientMessage {}
-        class PlaceCardClientMessage extends ClientMessage {}
-        class DrawCardFromFieldClientMessage extends ClientMessage {}
-        class DrawCardFromResourceDeckClientMessage extends ClientMessage {}
-        class DrawCardFromGoldDeckClientMessage extends ClientMessage {}
-        class SwitchCardSideClientMessage extends ClientMessage {}
-
+        abstract class ClientMessage implements Message {
+            -PlayerActionEnum playerAction
+            #String gameName
+            #String playerName
+            +PlayerActionEnum getPlayerAction()
+            +String getGameName()
+            +String getPlayerName()
+            +int getNPlayers()
+            +String getPlayerColor()
+            +ObjectiveCard getObjectiveCard()
+            +Coordinate getCoordinate()
+            +GameCard getGameCard()
+        }
+        class SubClasses extends ClientMessage {
+            -GetGamesClientMessage
+            -CreateGameClientMessage
+            -JoinGameClientMessage
+            -ChoosePlayerColorClientMessage
+            -SetPlayerObjectiveClientMessage
+            -PlaceCardClientMessage
+            -DrawCardFromFieldClientMessage
+            -DrawCardFromResourceDeckClientMessage
+            -DrawCardFromGoldDeckClientMessage
+            -SwitchCardSideClientMessage
+        }
     }
     interface Observable {
                 +void setObserver(Observer observer)
