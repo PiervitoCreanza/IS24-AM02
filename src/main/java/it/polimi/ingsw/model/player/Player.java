@@ -2,6 +2,8 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
+import it.polimi.ingsw.network.server.virtualView.PlayerView;
+import it.polimi.ingsw.network.server.virtualView.VirtualViewable;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -10,7 +12,7 @@ import java.util.Objects;
  * The Player class represents a player in the game.
  * It contains the player's attributes and the PlayerBoard.
  */
-public class Player {
+public class Player implements VirtualViewable<PlayerView> {
     /**
      * The name of the player.
      */
@@ -187,5 +189,15 @@ public class Player {
      */
     public PlayerColorEnum getPlayerColor() {
         return playerColor;
+    }
+
+    /**
+     * Gets the virtual view provided by this object.
+     *
+     * @return the virtual view of type PlayerView
+     */
+    @Override
+    public PlayerView getVirtualView() {
+        return new PlayerView(playerName, playerPos, objectiveCard, choosableObjectives, isConnected, playerBoard.getStarterCard(), playerHand.getVirtualView(), playerBoard.getVirtualView());
     }
 }
