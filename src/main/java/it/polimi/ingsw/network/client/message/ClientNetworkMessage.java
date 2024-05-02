@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.clientMessage;
+package it.polimi.ingsw.network.client.message;
 
 public abstract class ClientNetworkMessage {
     private final PlayerActionEnum playerAction;

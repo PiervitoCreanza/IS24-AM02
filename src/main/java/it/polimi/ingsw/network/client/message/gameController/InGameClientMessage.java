@@ -1,7 +1,7 @@
-package it.polimi.ingsw.network.clientMessage.InGameClientMessage;
+package it.polimi.ingsw.network.client.message.gameController;
 
-import it.polimi.ingsw.network.clientMessage.ClientNetworkMessage;
-import it.polimi.ingsw.network.clientMessage.PlayerActionEnum;
+import it.polimi.ingsw.network.client.message.ClientNetworkMessage;
+import it.polimi.ingsw.network.client.message.PlayerActionEnum;
 
 public abstract class InGameClientMessage extends ClientNetworkMessage {
     private final String gameName;
