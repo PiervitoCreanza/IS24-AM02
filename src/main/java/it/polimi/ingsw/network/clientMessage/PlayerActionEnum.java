@@ -1,0 +1,14 @@
+package it.polimi.ingsw.network.clientMessage;
+
+public enum PlayerActionEnum {
+    GETGAMES,
+    CREATEGAME,
+    JOINGAME,
+    CHOOSEPLAYERCOLOR,
+    PLACECARD,
+    DRAWCARDFROMFIELD,
+    DRAWCARDFROMRESOURCEDECK,
+    DRAWCARDFROMGOLDDECK,
+    SWITCHCARDSIDE,
+    SETPLAYEROBJECTIVE
+}
