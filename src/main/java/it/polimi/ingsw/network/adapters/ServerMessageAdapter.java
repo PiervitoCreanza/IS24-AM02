@@ -30,7 +30,7 @@ public class ServerMessageAdapter implements JsonDeserializer<ServerMessage> {
         JsonObject jsonObject = jsonElement.getAsJsonObject();
         Class<?> serverMessageTypeClass;
         // We get the "ServerAction" property
-        String serverMessageType = jsonObject.get("messageServerType").getAsString();
+        String serverMessageType = jsonObject.get("serverAction").getAsString();
         // We decide which is the class type of the side
         switch (serverMessageType) {
             case "UPDATE_VIEW" -> serverMessageTypeClass = UpdateViewServerMessage.class;
@@ -41,33 +41,5 @@ public class ServerMessageAdapter implements JsonDeserializer<ServerMessage> {
         }
         // We deserialize the "serverMessageType" with the class type found above and return it
         return jsonDeserializationContext.deserialize(jsonObject, serverMessageTypeClass);
-    }
-
-    public JsonElement serialize(ServerMessage serverMessage, Type type, JsonSerializationContext jsonSerializationContext) {
-        JsonObject jsonObject = new JsonObject();
-        Class<?> messageServerTypeClass;
-        String messageServerType;
-        switch (serverMessage) {
-            case UpdateViewServerMessage ignored -> {
-                messageServerType = "UPDATE_VIEW";
-                messageServerTypeClass = UpdateViewServerMessage.class;
-            }
-            case DeleteGameServerMessage ignored -> {
-                messageServerType = "DELETE_GAME";
-                messageServerTypeClass = DeleteGameServerMessage.class;
-            }
-            case GetGamesServerMessage ignored -> {
-                messageServerType = "GET_GAMES";
-                messageServerTypeClass = GetGamesServerMessage.class;
-            }
-            case ErrorServerMessage ignored -> {
-                messageServerType = "ERROR";
-                messageServerTypeClass = ErrorServerMessage.class;
-            }
-            default -> throw new RuntimeException("serverMessage is of unknown class");
-        }
-        jsonObject.addProperty("messageServerType", messageServerType);
-        jsonObject.add("messageServerContent", jsonSerializationContext.serialize(serverMessage, messageServerTypeClass));
-        return jsonObject;
     }
 }

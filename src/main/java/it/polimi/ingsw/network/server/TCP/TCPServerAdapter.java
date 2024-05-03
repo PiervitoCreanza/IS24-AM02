@@ -84,6 +84,7 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
                     networkCommandMapper.switchCardSide(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
             default -> System.out.print("Invalid action");
         }
+        // Debug
         System.out.println("Received message: " + message);
     }
 
@@ -95,9 +96,9 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
     @Override
     public void sendMessage(ServerMessage message) {
         String serializedMessage = this.gson.toJson(message);
+        this.clientConnectionHandler.sendMessage(serializedMessage);
+        // Debug
         System.out.println("Sending message: " + serializedMessage);
-        //this.clientConnectionHandler.sendMessage(serializedMessage);
-        //TODO: Serialize message and send it to the client
     }
 
     /**
@@ -105,6 +106,8 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
      */
     @Override
     public void closeConnection() {
-        // TODO: Close the connection
+        this.clientConnectionHandler.closeConnection();
+        // Debug
+        System.out.println("Close the connection.");
     }
 }
