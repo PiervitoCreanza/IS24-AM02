@@ -199,6 +199,6 @@ public class GlobalBoard implements VirtualViewable<GlobalBoardView> {
      */
     @Override
     public GlobalBoardView getVirtualView() {
-        return new GlobalBoardView(fieldGoldCards.getFirst(), fieldResourceCards.getFirst(), fieldGoldCards, fieldResourceCards);
+        return new GlobalBoardView(goldDeck.getFirst(), resourceDeck.getFirst(), fieldGoldCards, fieldResourceCards);
     }
 }
