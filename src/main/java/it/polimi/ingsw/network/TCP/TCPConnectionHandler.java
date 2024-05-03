@@ -8,7 +8,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.HashSet;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -51,7 +54,7 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
      *
      * @param socket The socket connected to the client.
      */
-    public TCPConnectionHandler(Socket socket) {
+    public TCPConnectionHandler(Socket socket, boolean activatePinging) {
         super("TCPConnectionHandler");
         this.socket = socket;
 
@@ -60,13 +63,41 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
             this.out = new PrintWriter(socket.getOutputStream(), true);
             this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.isConnected = true;
-            // Set the timeout to 4 seconds
-            this.socket.setSoTimeout(4000);
+
+            // Set the timeout to 4 seconds. If no message is received in this time, the socket will throw a SocketTimeoutException.
+            // This is useful to detect when the client disconnects.
+            this.socket.setSoTimeout(5000);
 
             notifyReceivedMessages();
+
+            // Activate pinging if the handler is used on the server
+            if (activatePinging) {
+                ping();
+            }
+
         } catch (IOException e) {
             // Handle any IOExceptions that might occur
         }
+    }
+
+    private void ping() {
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (!isConnected) {
+                    cancel();
+                    return;
+                }
+
+                try {
+                    send("ping");
+                } catch (Exception e) {
+                    System.out.println("Client disconnected");
+                    isConnected = false;
+                    cancel();
+                }
+            }
+        }, 0, 2500);
     }
 
 
@@ -76,7 +107,6 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
      */
     public void run() {
         String json;
-
         // Read from socket and echo back the input line until null (client disconnects).
         while (isConnected) { //while for next JSON
             json = keepReadingJSON(in);
@@ -99,13 +129,23 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
 
         try {
             String inputLine;
-            while ((inputLine = in.readLine()) != null && !isJson(allJSON.toString())) {
-                if (!"pong".equals(inputLine)) {
-                    allJSON.append(inputLine);
+            while (true) {
+                this.socket.setSoTimeout(5000);
+                inputLine = in.readLine();
+                if (inputLine == null) {
+                    break;
                 }
+
+                if (isJson(inputLine) && !allJSON.isEmpty()) {
+                    break;
+                }
+                allJSON.append(inputLine);
             }
-        } catch (Exception e) {
+        } catch (SocketTimeoutException e) {
             isConnected = false;
+        } catch (IOException e) {
+            // Handle any IOExceptions that might occur
+            throw new RuntimeException(e);
         }
 
         return allJSON.toString();
@@ -178,13 +218,10 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
      *
      * @param message The message to be sent.
      */
-    public void sendMessage(String message) {
-        try {
-            out.println(message);
-            out.flush();
-        } catch (Exception e) {
-            isConnected = false;
-        }
+    public void send(String message) {
+        // TODO: Handle error if necessary
+        out.println(message);
+        out.flush();
     }
 
 
