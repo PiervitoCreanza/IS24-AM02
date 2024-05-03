@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.server.TCP;
 
+import it.polimi.ingsw.network.TCP.Observer;
 import it.polimi.ingsw.network.TCP.TCPConnectionHandler;
-import it.polimi.ingsw.network.TCP.TCPObserver;
 import it.polimi.ingsw.network.server.NetworkCommandMapper;
 import it.polimi.ingsw.network.server.ServerMessageHandler;
 import it.polimi.ingsw.network.server.message.ServerMessage;
@@ -11,9 +11,9 @@ import java.net.Socket;
 /**
  * The TCPServerAdapter class is responsible for handling TCP server operations.
  * It masks the TCPConnectionHandler in order to make RMI and TCP server operations interchangeable.
- * It implements the TCPObserver and ServerMessageHandler interfaces.
+ * It implements the Observer and ServerMessageHandler interfaces.
  */
-public class TCPServerAdapter implements TCPObserver, ServerMessageHandler {
+public class TCPServerAdapter implements Observer<String>, ServerMessageHandler {
     /**
      * The NetworkCommandMapper object is used to map network commands to actions in the game.
      */
