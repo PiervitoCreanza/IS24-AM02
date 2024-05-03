@@ -3,8 +3,8 @@ package it.polimi.ingsw.network.server.message.successMessage;
 import it.polimi.ingsw.network.server.message.MessageStatusEnum;
 import it.polimi.ingsw.network.server.message.ServerMessage;
 
-public class SuccessServerMessage extends ServerMessage {
-    private ServerActionsEnum action;
+public abstract class SuccessServerMessage extends ServerMessage {
+    private final ServerActionsEnum action;
 
     public SuccessServerMessage(ServerActionsEnum action) {
         super(MessageStatusEnum.SUCCESS);

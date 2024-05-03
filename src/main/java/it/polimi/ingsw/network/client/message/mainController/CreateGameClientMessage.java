@@ -11,19 +11,9 @@ import java.util.Objects;
  */
 public class CreateGameClientMessage extends ClientMessage {
     /**
-     * The name of the game to be created.
-     */
-    private final String gameName;
-
-    /**
      * The number of players in the game to be created.
      */
     private final int nPlayers;
-
-    /**
-     * The name of the player who is creating the game.
-     */
-    private final String playerName;
 
     /**
      * Constructor for CreateGameClientMessage.
@@ -34,19 +24,8 @@ public class CreateGameClientMessage extends ClientMessage {
      * @param playerName The name of the player who is creating the game. This cannot be null.
      */
     public CreateGameClientMessage(String gameName, int nPlayers, String playerName) {
-        super(PlayerActionEnum.CREATE_GAME);
-        this.gameName = gameName;
+        super(PlayerActionEnum.CREATE_GAME, gameName, playerName);
         this.nPlayers = nPlayers;
-        this.playerName = playerName;
-    }
-
-    /**
-     * Returns the name of the game to be created.
-     *
-     * @return The name of the game to be created.
-     */
-    public String getGameName() {
-        return gameName;
     }
 
     /**
@@ -54,17 +33,9 @@ public class CreateGameClientMessage extends ClientMessage {
      *
      * @return The number of players in the game to be created.
      */
-    public int getnPlayers() {
+    @Override
+    public int getNPlayers() {
         return nPlayers;
-    }
-
-    /**
-     * Returns the name of the player who is creating the game.
-     *
-     * @return The name of the player who is creating the game.
-     */
-    public String getPlayerName() {
-        return playerName;
     }
 
     /**

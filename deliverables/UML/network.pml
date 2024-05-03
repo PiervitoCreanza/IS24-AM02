@@ -18,7 +18,18 @@ package Network {
             -GameControllerView view
             +ViewUpdateServerMessage(GameControllerView view)
         }
-        class ClientMessage implements Message {}
+        abstract class ClientMessage implements Message {}
+        class GetGamesClientMessage extends ClientMessage {}
+        class CreateGameClientMessage extends ClientMessage {}
+        class JoinGameClientMessage extends ClientMessage {}
+        class ChoosePlayerColorClientMessage extends ClientMessage {}
+        class SetPlayerObjectiveClientMessage extends ClientMessage {}
+        class PlaceCardClientMessage extends ClientMessage {}
+        class DrawCardFromFieldClientMessage extends ClientMessage {}
+        class DrawCardFromResourceDeckClientMessage extends ClientMessage {}
+        class DrawCardFromGoldDeckClientMessage extends ClientMessage {}
+        class SwitchCardSideClientMessage extends ClientMessage {}
+
     }
     interface Observable {
                 +void setObserver(Observer observer)

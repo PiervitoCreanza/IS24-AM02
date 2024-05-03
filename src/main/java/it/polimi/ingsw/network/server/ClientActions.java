@@ -9,6 +9,13 @@ import it.polimi.ingsw.model.utils.Coordinate;
  * This interface defines the actions that a client can perform in the game.
  */
 public interface ClientActions {
+
+    /**
+     * Retrieves the list of available games.
+     * This method is used when a client wants to see all the games that are currently available to join.
+     */
+    void getGames();
+
     /**
      * Creates a new game with the given game name and number of players.
      *

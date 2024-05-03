@@ -6,7 +6,7 @@ import it.polimi.ingsw.network.client.message.PlayerActionEnum;
  * This class extends the GameControllerClientMessage class and represents a specific type of in-game client message: a request to draw a card from the gold deck.
  * It contains the name of the game and the name of the player who is drawing the card.
  */
-public class DrawCardFromGoldDeckClientMessage extends GameControllerClientMessage {
+public class DrawCardFromGoldDeckClientMessage extends ClientMessage {
     /**
      * Constructor for DrawCardFromGoldDeckClientMessage.
      * Initializes the player action with the DRAWCARDFROMGOLDDECK value, and sets the game name and player name.

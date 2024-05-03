@@ -3,6 +3,10 @@ package it.polimi.ingsw.network.adapters;
 import com.google.gson.*;
 import it.polimi.ingsw.network.client.message.ClientMessage;
 import it.polimi.ingsw.network.client.message.gameController.*;
+import it.polimi.ingsw.network.client.message.mainController.CreateGameClientMessage;
+import it.polimi.ingsw.network.client.message.mainController.DeleteGameClientMessage;
+import it.polimi.ingsw.network.client.message.mainController.GetGamesClientMessage;
+import it.polimi.ingsw.network.client.message.mainController.JoinGameClientMessage;
 
 import java.lang.reflect.Type;
 
@@ -30,16 +34,17 @@ public class ClientMessageAdapter implements JsonDeserializer<ClientMessage> {
         String clientMessageType = jsonObject.get("playerAction").getAsString();
         // We decide which is the class type of the side
         switch (clientMessageType) {
-            case "GETGAMES" -> clientMessageTypeClass = GetGamesClientMessage.class;
-            case "CREATEGAME" -> clientMessageTypeClass = CreateGameClientMessage.class;
-            case "JOINGAME" -> clientMessageTypeClass = JoinGameClientMessage.class;
-            case "CHOOSEPLAYERCOLOR" -> clientMessageTypeClass = ChoosePlayerColorClientMessage.class;
-            case "SETPLAYEROBJECTIVE" -> clientMessageTypeClass = SetPlayerObjectiveClientMessage.class;
-            case "PLACECARD" -> clientMessageTypeClass = PlaceCardClientMessage.class;
-            case "DRAWCARDFROMFIELD" -> clientMessageTypeClass = DrawCardFromFieldClientMessage.class;
-            case "DRAWCARDFROMRESOURCEDECK" -> clientMessageTypeClass = DrawCardFromResourceDeckClientMessage.class;
-            case "DRAWCARDFROMGOLDDECK" -> clientMessageTypeClass = DrawCardFromGoldDeckClientMessage.class;
-            case "SWITCHCARDSIDE" -> clientMessageTypeClass = SwitchCardSideClientMessage.class;
+            case "GET_GAMES" -> clientMessageTypeClass = GetGamesClientMessage.class;
+            case "CREATE_GAME" -> clientMessageTypeClass = CreateGameClientMessage.class;
+            case "DELETE_GAME" -> clientMessageTypeClass = DeleteGameClientMessage.class;
+            case "JOIN_GAME" -> clientMessageTypeClass = JoinGameClientMessage.class;
+            case "CHOOSE_PLAYER_COLOR" -> clientMessageTypeClass = ChoosePlayerColorClientMessage.class;
+            case "SET_PLAYER_OBJECTIVE" -> clientMessageTypeClass = SetPlayerObjectiveClientMessage.class;
+            case "PLACE_CARD" -> clientMessageTypeClass = PlaceCardClientMessage.class;
+            case "DRAW_CARD_FROM_FIELD" -> clientMessageTypeClass = DrawCardFromFieldClientMessage.class;
+            case "DRAW_CARD_FROM_RESOURCE_DECK" -> clientMessageTypeClass = DrawCardFromResourceDeckClientMessage.class;
+            case "DRAW_CARD_FROM_GOLD_DECK" -> clientMessageTypeClass = DrawCardFromGoldDeckClientMessage.class;
+            case "SWITCH_CARD_SIDE" -> clientMessageTypeClass = SwitchCardSideClientMessage.class;
             default -> throw new JsonParseException("playerAction property is missing or wrong");
         }
         // We deserialize the "sideContent" with the class type found above and return it

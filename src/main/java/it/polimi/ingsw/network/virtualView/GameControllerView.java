@@ -9,5 +9,5 @@ import it.polimi.ingsw.controller.GameStatusEnum;
  */
 public record GameControllerView(
         GameView gameView,
-        GameStatusEnum gameStatus) {
+        GameStatusEnum gameStatus, boolean isLastRound) {
 }

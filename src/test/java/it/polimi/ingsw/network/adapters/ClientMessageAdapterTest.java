@@ -18,10 +18,11 @@ import it.polimi.ingsw.model.card.objectiveCard.PositionalObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 import it.polimi.ingsw.network.client.message.ClientMessage;
-import it.polimi.ingsw.network.client.message.CreateGameClientMessage;
-import it.polimi.ingsw.network.client.message.GetGamesClientMessage;
-import it.polimi.ingsw.network.client.message.JoinGameClientMessage;
 import it.polimi.ingsw.network.client.message.gameController.*;
+import it.polimi.ingsw.network.client.message.mainController.CreateGameClientMessage;
+import it.polimi.ingsw.network.client.message.mainController.DeleteGameClientMessage;
+import it.polimi.ingsw.network.client.message.mainController.GetGamesClientMessage;
+import it.polimi.ingsw.network.client.message.mainController.JoinGameClientMessage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -55,6 +56,16 @@ public class ClientMessageAdapterTest {
         String jsonCreateGameClientMessage = this.gson.toJson(createGameClientMessage);
         // Deserialize
         assertEquals(createGameClientMessage, this.gson.fromJson(jsonCreateGameClientMessage, ClientMessage.class));
+    }
+
+    @Test
+    @DisplayName("Test if serialization and deserialization of DeleteGameClientMessage works")
+    public void serializeAndDeserializeDeleteGameClientMessage() {
+        ClientMessage deleteGameClientMessage = new DeleteGameClientMessage("Game1", "Player1");
+        // Serialize
+        String jsonCreateGameClientMessage = this.gson.toJson(deleteGameClientMessage);
+        // Deserialize
+        assertEquals(deleteGameClientMessage, this.gson.fromJson(jsonCreateGameClientMessage, ClientMessage.class));
     }
 
     @Test
