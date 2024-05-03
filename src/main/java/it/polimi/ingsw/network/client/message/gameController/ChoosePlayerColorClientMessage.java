@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client.message.gameController;
 
+import it.polimi.ingsw.network.client.message.ClientMessage;
 import it.polimi.ingsw.network.client.message.PlayerActionEnum;
 
 import java.util.Objects;
