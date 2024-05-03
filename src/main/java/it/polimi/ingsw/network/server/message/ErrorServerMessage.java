@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.server.message;
 
+import java.util.Objects;
+
 public class ErrorServerMessage extends ServerMessage {
     private final String message;
 
@@ -10,5 +12,13 @@ public class ErrorServerMessage extends ServerMessage {
 
     public String getMessage() {
         return message;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ErrorServerMessage that)) return false;
+        if (!super.equals(o)) return false;
+        return Objects.equals(this.getMessage(), that.getMessage());
     }
 }
