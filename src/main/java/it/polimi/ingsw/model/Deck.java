@@ -63,6 +63,15 @@ public class Deck<T> {
     }
 
     /**
+     * Returns the first card in the deck.
+     *
+     * @return The first card in the deck.
+     */
+    public T getFirst() {
+        return deck.getFirst();
+    }
+
+    /**
      * Adds a new card to the deck.
      * This method first checks if the new card is null, throwing a NullPointerException if it is.
      * Then it checks if the new card already exists in the deck by comparing it to each card in the deck.
