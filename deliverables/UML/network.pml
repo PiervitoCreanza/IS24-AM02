@@ -65,7 +65,7 @@ package Network {
             It also sends the messages to the clients
         end note
 
-        class RMIConnectionHandler implements ServerMessageHandler {
+        class RMIClientConnectionHandler implements ServerMessageHandler, ClientActions {
             +void sendMessage(ServerMessage message)
         }
 
@@ -77,7 +77,6 @@ package Network {
                   -void broadcastMessage(ServerMessage msg, String gameName)
                   +void addConnection(ServerMessageHandler connection, String gameName)
                   +void removeConnection(ServerMessageHandler connection, String gameName)
-                  +void broadcastMessage(ServerMessage msg, String gameName)
               }
               NetworkCommandMapper *-- ServerMessageHandler
         note left of NetworkCommandMapper
@@ -89,14 +88,14 @@ package Network {
 
         package "Client"{
             interface ClientMessageHandler {
-                +void handleMessage(ClientMessage message)
+                +void sendMessage(ClientMessage message)
                 +void closeConnection()
             }
-            class "ClientCommandMapper" implements "ClientActions" {
-
+            class "ClientCommandMapper" implements "ServerActions" {
+                -ClientMessageHandler connection
             }
-            class RMIConnectionHandler implements ClientMessageHandler {
-                +void handleMessage(ClientMessage message)
+            class RMIServerConnectionHandler implements ClientMessageHandler, ServerActions {
+                +void sendMessage(ClientMessage message)
             }
             ClientCommandMapper *-- ClientMessageHandler
             class TCPClientAdapter implements ClientMessageHandler {
