@@ -8,14 +8,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * This class is responsible for handling the connection with a client over TCP.
  * It extends Thread, meaning it can run concurrently with other threads.
  */
-public class TCPConnectionHandler extends Thread implements TCPObservable {
+public class TCPConnectionHandler extends Thread implements Observable<String> {
     /**
      * Socket object representing the connection to the client.
      */
@@ -24,7 +24,27 @@ public class TCPConnectionHandler extends Thread implements TCPObservable {
     /**
      * Set of observers that will be notified when a message is received.
      */
-    private final HashSet<TCPObserver> observers = new HashSet<>();
+    private final HashSet<Observer<String>> observers = new HashSet<>();
+
+    /**
+     * PrintWriter object used to write to the socket.
+     */
+    private PrintWriter out;
+
+    /**
+     * BufferedReader object used to read from the socket.
+     */
+    private BufferedReader in;
+
+    /**
+     * Boolean value indicating whether the connection is active.
+     */
+    private boolean isConnected = false;
+
+    /**
+     * Queue of received messages.
+     */
+    private final LinkedBlockingQueue<String> receivedMessages = new LinkedBlockingQueue<>();
 
     /**
      * Constructor for the TCPConnectionHandler class.
@@ -34,48 +54,38 @@ public class TCPConnectionHandler extends Thread implements TCPObservable {
     public TCPConnectionHandler(Socket socket) {
         super("TCPConnectionHandler");
         this.socket = socket;
+
+        try {
+            // Initialize PrintWriter and BufferedReader for reading from and writing to the socket
+            this.out = new PrintWriter(socket.getOutputStream(), true);
+            this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            this.isConnected = true;
+            // Set the timeout to 4 seconds
+            this.socket.setSoTimeout(4000);
+
+            notifyReceivedMessages();
+        } catch (IOException e) {
+            // Handle any IOExceptions that might occur
+        }
     }
+
 
     /**
      * The main method that will be run when the thread starts.
      * It reads from the socket and echoes back the input line until null (client disconnects).
      */
     public void run() {
-        PrintWriter out = null;
-        BufferedReader in = null;
-        try {
-            // Initialize PrintWriter and BufferedReader for reading from and writing to the socket
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        } catch (IOException e) {
-            // Handle any IOExceptions that might occur
-        }
-        String inputLine;
+        String json;
 
         // Read from socket and echo back the input line until null (client disconnects).
-        while (true) { //while for next JSON
-            inputLine = keepReadingJSON(in);
-            if (inputLine == null || (inputLine.isEmpty())) {
-                break;
+        while (isConnected) { //while for next JSON
+            json = keepReadingJSON(in);
+            if (!json.isEmpty()) {
+                // The queue accepts at least Integer.MAX_VALUE messages. If the queue is full, the message will be dropped.
+                receivedMessages.offer(json);
             }
-            //System.out.println(inputLine); // Print JSON to console.
-            //out.println(inputLine); //Print to remote
-            //out.println(); //Print to remote
-
-            //Gson stops parsing when encounters a newline character
-            notifyObservers(inputLine);
-            // TODO We need to add a method to send messages
-            //String statusMessage = this.networkCommandMapper.parse(inputLine);
-            //System.out.println(statusMessage);
-            //out.println(statusMessage); //Print to remote
         }
-
-        // Close the socket when done
-        try {
-            socket.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        closeConnection();
     }
 
     /**
@@ -85,26 +95,20 @@ public class TCPConnectionHandler extends Thread implements TCPObservable {
      * @return The complete JSON string
      */
     private String keepReadingJSON(BufferedReader in) {
-        String inputLine = null;
-        String allJSON = "";
+        StringBuilder allJSON = new StringBuilder();
 
-        while (true) {
-            try {
-                inputLine = in.readLine();
-                if (inputLine == null) {
-                    break;
+        try {
+            String inputLine;
+            while ((inputLine = in.readLine()) != null && !isJson(allJSON.toString())) {
+                if (!"pong".equals(inputLine)) {
+                    allJSON.append(inputLine);
                 }
-                allJSON += inputLine;
-
-                if (isJson(allJSON)) {
-                    break;
-                }
-            } catch (IOException e) {
-                return null;
             }
+        } catch (Exception e) {
+            isConnected = false;
         }
 
-        return allJSON;
+        return allJSON.toString();
     }
 
     /**
@@ -122,24 +126,77 @@ public class TCPConnectionHandler extends Thread implements TCPObservable {
         return true;
     }
 
+    /**
+     * Method to notify the observers of received messages.
+     */
+    private void notifyReceivedMessages() {
+        // We perform this action in a thread to make it non-blocking and so keep receiving messages.
+        // The method will notify each message synchronously.
+        new Thread(() -> {
+            while (isConnected) {
+                String message = receivedMessages.poll();
+                if (message != null) {
+                    synchronized (observers) {
+                        observers.forEach(observer -> observer.notify(message));
+                    }
+
+                }
+
+            }
+        }).start();
+
+    }
+
+    /**
+     * Adds an observer to the observable.
+     *
+     * @param observer the observer to be added
+     */
     @Override
-    public void addObserver(TCPObserver observer) {
-        observers.add(observer);
+    public void addObserver(Observer<String> observer) {
+        synchronized (observers) {
+            observers.add(observer);
+        }
+
     }
 
+    /**
+     * Removes an observer from the observable.
+     *
+     * @param observer the observer to be removed
+     */
     @Override
-    public void removeObserver(TCPObserver observer) {
-        observers.remove(observer);
+    public void removeObserver(Observer<String> observer) {
+        synchronized (observers) {
+            observers.remove(observer);
+        }
+
     }
 
-    private void notifyObservers(String message) {
-        // Notify all observers in a new thread to avoid blocking the main thread and missing messages.
-        observers.forEach(observer -> new Thread(() -> observer.notify(message)).start());
-    }
-
+    /**
+     * Sends a message to the client.
+     *
+     * @param message The message to be sent.
+     */
     public void sendMessage(String message) {
-        // TODO: Send the message
+        try {
+            out.println(message);
+            out.flush();
+        } catch (Exception e) {
+            isConnected = false;
+        }
     }
 
 
+    /**
+     * Closes the connection with the client.
+     */
+    public void closeConnection() {
+        try {
+            socket.close();
+            isConnected = false;
+        } catch (IOException e) {
+            // Handle any IOExceptions that might occur
+        }
+    }
 }
