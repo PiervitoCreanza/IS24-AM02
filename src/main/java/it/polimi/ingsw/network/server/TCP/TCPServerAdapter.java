@@ -64,7 +64,7 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
         switch (playerAction) {
             case GET_GAMES -> networkCommandMapper.getGames();
             case CREATE_GAME ->
-                    networkCommandMapper.createGame(this, receivedMessage.getGameName(), receivedMessage.getNPlayers());
+                    networkCommandMapper.createGame(this, receivedMessage.getGameName(), receivedMessage.getNPlayers(), receivedMessage.getPlayerName());
             case DELETE_GAME -> networkCommandMapper.deleteGame(this, receivedMessage.getGameName());
             case JOIN_GAME ->
                     networkCommandMapper.joinGame(this, receivedMessage.getGameName(), receivedMessage.getPlayerName());

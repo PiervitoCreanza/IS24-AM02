@@ -22,7 +22,7 @@ public interface ClientActions {
      * @param gameName the name of the game.
      * @param nPlayers the number of players in the game.
      */
-    void createGame(ServerMessageHandler messageHandler, String gameName, int nPlayers);
+    void createGame(ServerMessageHandler messageHandler, String gameName, int nPlayers, String playerName);
 
     /**
      * Leaves the game.
