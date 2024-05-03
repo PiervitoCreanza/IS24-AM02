@@ -8,50 +8,55 @@ public enum PlayerActionEnum {
     /**
      * Represents a request to get the list of available games.
      */
-    GETGAMES,
+    GET_GAMES,
 
     /**
      * Represents a request to create a new game.
      */
-    CREATEGAME,
+    CREATE_GAME,
+
+    /**
+     * Represents a request to delete an existing game.
+     */
+    DELETE_GAME,
 
     /**
      * Represents a request to join an existing game.
      */
-    JOINGAME,
+    JOIN_GAME,
 
     /**
      * Represents a request to choose a player color.
      */
-    CHOOSEPLAYERCOLOR,
+    CHOOSE_PLAYER_COLOR,
 
     /**
      * Represents a request to set a player objective.
      */
-    SETPLAYEROBJECTIVE,
+    SET_PLAYER_OBJECTIVE,
 
     /**
      * Represents a request to place a card.
      */
-    PLACECARD,
+    PLACE_CARD,
 
     /**
      * Represents a request to draw a card from the field.
      */
-    DRAWCARDFROMFIELD,
+    DRAW_CARD_FROM_FIELD,
 
     /**
      * Represents a request to draw a card from the resource deck.
      */
-    DRAWCARDFROMRESOURCEDECK,
+    DRAW_CARD_FROM_RESOURCE_DECK,
 
     /**
      * Represents a request to draw a card from the gold deck.
      */
-    DRAWCARDFROMGOLDDECK,
+    DRAW_CARD_FROM_GOLD_DECK,
 
     /**
      * Represents a request to switch the side of a card.
      */
-    SWITCHCARDSIDE
+    SWITCH_CARD_SIDE
 }

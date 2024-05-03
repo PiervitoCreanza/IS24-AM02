@@ -9,7 +9,7 @@ import java.util.Objects;
  * This class extends the GameControllerClientMessage class and represents a specific type of in-game client message: a request to draw a card from the field.
  * It contains the name of the game, the name of the player who is drawing the card, and the game card to be drawn.
  */
-public class DrawCardFromFieldClientMessage extends GameControllerClientMessage {
+public class DrawCardFromFieldClientMessage extends ClientMessage {
     /**
      * The game card to be drawn.
      */
@@ -33,6 +33,7 @@ public class DrawCardFromFieldClientMessage extends GameControllerClientMessage 
      *
      * @return The game card to be drawn.
      */
+    @Override
     public GameCard getGameCard() {
         return gameCard;
     }

@@ -13,7 +13,7 @@ public class GetGamesClientMessage extends ClientMessage {
      * Initializes the player action with the GETGAMES value.
      */
     public GetGamesClientMessage() {
-        super(PlayerActionEnum.GET_GAMES);
+        super(PlayerActionEnum.GET_GAMES, null, null);
     }
 
     /**

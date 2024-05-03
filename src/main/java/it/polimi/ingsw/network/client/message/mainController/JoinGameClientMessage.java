@@ -11,16 +11,6 @@ import java.util.Objects;
  */
 public class JoinGameClientMessage extends ClientMessage {
     /**
-     * The name of the game to be joined.
-     */
-    private final String gameName;
-
-    /**
-     * The name of the player who is joining the game.
-     */
-    private final String playerName;
-
-    /**
      * Constructor for JoinGameClientMessage.
      * Initializes the player action with the JOINGAME value, and sets the game name and player name.
      *
@@ -28,27 +18,7 @@ public class JoinGameClientMessage extends ClientMessage {
      * @param playerName The name of the player who is joining the game. This cannot be null.
      */
     public JoinGameClientMessage(String gameName, String playerName) {
-        super(PlayerActionEnum.JOIN_GAME);
-        this.gameName = gameName;
-        this.playerName = playerName;
-    }
-
-    /**
-     * Returns the name of the game to be joined.
-     *
-     * @return The name of the game to be joined.
-     */
-    public String getGameName() {
-        return gameName;
-    }
-
-    /**
-     * Returns the name of the player who is joining the game.
-     *
-     * @return The name of the player who is joining the game.
-     */
-    public String getPlayerName() {
-        return playerName;
+        super(PlayerActionEnum.JOIN_GAME, gameName, playerName);
     }
 
     /**

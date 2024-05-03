@@ -9,7 +9,7 @@ import java.util.Objects;
  * This class extends the GameControllerClientMessage class and represents a specific type of in-game client message: a request to set a player objective.
  * It contains the name of the game, the name of the player who is setting the objective, and the objective card to be set.
  */
-public class SetPlayerObjectiveClientMessage extends GameControllerClientMessage {
+public class SetPlayerObjectiveClientMessage extends ClientMessage {
     /**
      * The objective card to be set.
      */
@@ -33,6 +33,7 @@ public class SetPlayerObjectiveClientMessage extends GameControllerClientMessage
      *
      * @return The objective card to be set.
      */
+    @Override
     public ObjectiveCard getObjectiveCard() {
         return objectiveCard;
     }

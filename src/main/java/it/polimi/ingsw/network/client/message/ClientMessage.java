@@ -1,5 +1,9 @@
 package it.polimi.ingsw.network.client.message;
 
+import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.utils.Coordinate;
+
 import java.util.Objects;
 
 /**
@@ -14,14 +18,20 @@ public abstract class ClientMessage {
      */
     private final PlayerActionEnum playerAction;
 
+    protected final String gameName;
+
+    protected final String playerName;
+
     /**
      * Constructor for ClientMessage.
      * Initializes the player action with the specified value.
      *
      * @param playerAction The action taken by the player. This cannot be null.
      */
-    public ClientMessage(PlayerActionEnum playerAction) {
+    public ClientMessage(PlayerActionEnum playerAction, String gameName, String playerName) {
         this.playerAction = playerAction;
+        this.gameName = gameName;
+        this.playerName = playerName;
     }
 
     /**
@@ -45,5 +55,33 @@ public abstract class ClientMessage {
         if (this == o) return true;
         if (!(o instanceof ClientMessage that)) return false;
         return Objects.equals(this.playerAction, that.playerAction);
+    }
+
+    public String getGameName() {
+        return gameName;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public int getNPlayers() {
+        return 0;
+    }
+
+    public String getPlayerColor() {
+        return null;
+    }
+
+    public ObjectiveCard getObjectiveCard() {
+        return null;
+    }
+
+    public Coordinate getCoordinate() {
+        return null;
+    }
+
+    public GameCard getGameCard() {
+        return null;
     }
 }

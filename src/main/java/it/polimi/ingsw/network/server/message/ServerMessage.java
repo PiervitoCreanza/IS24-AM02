@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.server.message;
 
-public class ServerMessage {
+public abstract class ServerMessage {
     public MessageStatusEnum status;
 
     public ServerMessage(MessageStatusEnum status) {
