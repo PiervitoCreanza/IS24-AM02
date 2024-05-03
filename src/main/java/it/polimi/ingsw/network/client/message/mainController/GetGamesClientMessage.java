@@ -15,4 +15,18 @@ public class GetGamesClientMessage extends ClientMessage {
     public GetGamesClientMessage() {
         super(PlayerActionEnum.GET_GAMES);
     }
+
+    /**
+     * Overrides the equals method from the Object class.
+     * Checks if the object passed as parameter is equal to the current instance.
+     *
+     * @param o The object to compare with the current instance.
+     * @return true if the objects are equal, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GetGamesClientMessage)) return false;
+        return super.equals(o);
+    }
 }

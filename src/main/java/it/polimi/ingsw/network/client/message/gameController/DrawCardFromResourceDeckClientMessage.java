@@ -17,4 +17,18 @@ public class DrawCardFromResourceDeckClientMessage extends GameControllerClientM
     public DrawCardFromResourceDeckClientMessage(String gameName, String playerName) {
         super(PlayerActionEnum.DRAW_CARD_FROM_RESOURCE_DECK, gameName, playerName);
     }
+
+    /**
+     * Overrides the equals method from the Object class.
+     * Checks if the object passed as parameter is equal to the current instance.
+     *
+     * @param o The object to compare with the current instance.
+     * @return true if the objects are equal, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DrawCardFromResourceDeckClientMessage)) return false;
+        return super.equals(o);
+    }
 }

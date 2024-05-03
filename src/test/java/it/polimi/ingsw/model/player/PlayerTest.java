@@ -1,8 +1,7 @@
 package it.polimi.ingsw.model.player;
 
-import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
-import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-@DisplayName("Player Test")
+@DisplayName("PlayerTest")
 public class PlayerTest {
     private Player player;
     private ObjectiveCard objectiveCard;
