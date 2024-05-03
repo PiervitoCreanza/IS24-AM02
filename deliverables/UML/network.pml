@@ -20,19 +20,19 @@ package Network {
         }
         class ClientMessage implements Message {}
     }
-    interface TCPObservable {
-                +void setObserver(TCPObserver observer)
-                +void removeObserver(TCPObserver observer)
+    interface Observable {
+                +void setObserver(Observer observer)
+                +void removeObserver(Observer observer)
             }
-    class TCPConnectionHandler implements TCPObservable {
-        -ArrayList<TCPObserver> observers
-        +void setObserver(TCPObserver observer)
-        +void removeObserver(TCPObserver observer)
+    class TCPConnectionHandler implements Observable {
+        -ArrayList<Observer> observers
+        +void setObserver(Observer observer)
+        +void removeObserver(Observer observer)
         +void sendMessage(String msg)
     }
 
-    interface TCPObserver {
-        +void notify(String msg)
+    interface Observer<T> {
+        +void notify(T msg)
     }
 
     note bottom of TCPConnectionHandler
@@ -57,7 +57,7 @@ package Network {
                 +void notify(String msg)
                 +void sendMessage(ServerMessage message)
         }
-        TCPServerAdapter <|.. TCPObserver
+        TCPServerAdapter <|.. Observer
         TCPServerAdapter *-- TCPConnectionHandler
 
         note left of TCPServerAdapter
@@ -103,7 +103,7 @@ package Network {
                 -TCPConnectionHandler connection
                 +void sendMessage(ClientMessage message)
             }
-            TCPClientAdapter <|.. TCPObserver
+            TCPClientAdapter <|.. Observer
             TCPClientAdapter *-- TCPConnectionHandler
             note left of ClientCommandMapper
                 This class sends the messages to the server
