@@ -34,7 +34,7 @@ public class TCPServer {
 
         // Try to create a new ServerSocket that listens on the specified port number.
         try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
-            System.out.println("Codex Naturalis Server is listening on port " + portNumber);
+            System.out.println("Codex Naturalis TCP Server is listening on port " + portNumber);
 
             // The server runs indefinitely, accepting and handling each client connection in a separate thread.
             while (true) {

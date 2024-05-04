@@ -2,6 +2,8 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.network.server.message.ServerMessage;
 
+import java.rmi.RemoteException;
+
 /**
  * The ServerMessageHandler interface defines the methods that a server message handler must implement.
  * A server message handler is used to make RMI and TCP connections interchangeable.
@@ -12,10 +14,12 @@ public interface ServerMessageHandler {
      *
      * @param message the message to be sent
      */
-    void sendMessage(ServerMessage message);
+    void sendMessage(ServerMessage message) throws RemoteException;
 
     /**
      * Closes the connection to the client.
      */
-    void closeConnection();
+    void closeConnection() throws RemoteException;
+
+    public NetworkCommandMapper networkCommandMapper = null;
 }
