@@ -12,7 +12,7 @@ import it.polimi.ingsw.network.adapters.ClientMessageAdapter;
 import it.polimi.ingsw.network.client.message.ClientMessage;
 import it.polimi.ingsw.network.client.message.PlayerActionEnum;
 import it.polimi.ingsw.network.server.NetworkCommandMapper;
-import it.polimi.ingsw.network.server.MessageHandler;
+import it.polimi.ingsw.network.server.ServerMessageHandler;
 import it.polimi.ingsw.network.server.message.ServerMessage;
 
 import java.io.IOException;
@@ -23,7 +23,7 @@ import java.net.Socket;
  * It masks the TCPConnectionHandler in order to make RMI and TCP server operations interchangeable.
  * It implements the Observer and MessageHandler interfaces.
  */
-public class TCPServerAdapter implements Observer<String>, MessageHandler<ServerMessage> {
+public class TCPServerAdapter implements Observer<String>, ServerMessageHandler {
     /**
      * The NetworkCommandMapper object is used to map network commands to actions in the game.
      */
@@ -66,23 +66,23 @@ public class TCPServerAdapter implements Observer<String>, MessageHandler<Server
             case GET_GAMES -> networkCommandMapper.getGames(this);
             case CREATE_GAME ->
                     networkCommandMapper.createGame(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getNPlayers());
-            case DELETE_GAME -> networkCommandMapper.deleteGame(this, receivedMessage.getGameName());
+            case DELETE_GAME -> networkCommandMapper.deleteGame(receivedMessage.getGameName());
             case JOIN_GAME ->
                     networkCommandMapper.joinGame(this, receivedMessage.getGameName(), receivedMessage.getPlayerName());
             case CHOOSE_PLAYER_COLOR ->
-                    networkCommandMapper.choosePlayerColor(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getPlayerColor());
+                    networkCommandMapper.choosePlayerColor(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getPlayerColor());
             case SET_PLAYER_OBJECTIVE ->
-                    networkCommandMapper.setPlayerObjective(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getObjectiveCard());
+                    networkCommandMapper.setPlayerObjective(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getObjectiveCard());
             case PLACE_CARD ->
-                    networkCommandMapper.placeCard(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getCoordinate(), receivedMessage.getGameCard());
+                    networkCommandMapper.placeCard(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getCoordinate(), receivedMessage.getGameCard());
             case DRAW_CARD_FROM_FIELD ->
-                    networkCommandMapper.drawCardFromField(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
+                    networkCommandMapper.drawCardFromField(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
             case DRAW_CARD_FROM_RESOURCE_DECK ->
-                    networkCommandMapper.drawCardFromResourceDeck(this, receivedMessage.getGameName(), receivedMessage.getPlayerName());
+                    networkCommandMapper.drawCardFromResourceDeck(receivedMessage.getGameName(), receivedMessage.getPlayerName());
             case DRAW_CARD_FROM_GOLD_DECK ->
-                    networkCommandMapper.drawCardFromGoldDeck(this, receivedMessage.getGameName(), receivedMessage.getPlayerName());
+                    networkCommandMapper.drawCardFromGoldDeck(receivedMessage.getGameName(), receivedMessage.getPlayerName());
             case SWITCH_CARD_SIDE ->
-                    networkCommandMapper.switchCardSide(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
+                    networkCommandMapper.switchCardSide(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
             default -> System.out.print("Invalid action");
         }
         // Debug
@@ -100,7 +100,7 @@ public class TCPServerAdapter implements Observer<String>, MessageHandler<Server
         try {
             this.clientConnectionHandler.send(serializedMessage);
         } catch (IOException e) {
-            System.out.println("Error sending message: " );
+            System.out.println("Error sending message: ");
             return;
         }
 

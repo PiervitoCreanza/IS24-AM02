@@ -67,8 +67,8 @@ package Network {
     package "Server" {
 
 
-        interface MessageHandler<T> {
-            +void sendMessage(T message)
+        interface MessageHandler {
+            +void sendMessage(ServerMessage message)
             +void closeConnection()
         }
 
