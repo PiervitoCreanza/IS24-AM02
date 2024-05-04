@@ -7,10 +7,26 @@ import it.polimi.ingsw.model.utils.Coordinate;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-//TODO: understand if the extension of Remote by this interface (mandatory for RMI) doesnt break the design of the project
-//the idea of having another interface that extends this one AND REMOTE doesnt work because the methods of this interface wouldn't be remote
 /**
- * This interface defines the actions that a client can perform in the game.
+ * The ClientActions interface extends the Remote interface to enable remote method invocation (RMI)
+ * capabilities across different network protocols. This interface is crucial for ensuring methods
+ * within the client-side operations can appropriately handle RemoteExceptions as required by Java RMI.
+ *
+ * Key Points:
+ * - The interface extends Remote, mandating all methods to be capable of throwing RemoteExceptions.
+ * - Adheres to the "require no more, promise no less" principle whereby if the parent interface
+ *   declares certain exceptions, the implementing classes (IMPLEMENTATION) may opt to throw any subset of these.
+ * - The RMI implementation is strict in enforcing RemoteExceptions, ensuring full RMI compatibility.
+ * - The TCP adaptation (e.g., in TCPServerAdapter) demonstrates the flexibility of the interface, as
+ *   methods under TCP do not throw RemoteExceptions, reflecting the non-RMI requirements.
+ *
+ * TODO: Verify and ensure that all methods are implemented with correct exception handling in the TCP context.
+ * TODO: Validate and test RMI compatibility and behavior under various network conditions.
+ * TODO: Document each method detailing its specific role, expected inputs, outputs, and potential side effects.
+ *
+ * Example Implementations:
+ * - RMIClientConnectionHandler implements ClientActions for RMI, strictly throwing RemoteExceptions where required.
+ * - TCPServerAdapter implements ClientActions for TCP, omitting RemoteExceptions to suit the protocol's needs.
  */
 public interface ClientActions extends Remote {
 
