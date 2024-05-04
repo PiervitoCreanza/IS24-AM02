@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.network.server.message.ErrorServerMessage;
-import it.polimi.ingsw.network.server.message.successMessage.ViewUpdateMessage;
+import it.polimi.ingsw.network.server.message.successMessage.UpdateViewServerMessage;
 
 /**
  * The ServerActions interface defines the actions that a server can perform.
@@ -26,7 +26,7 @@ public interface ServerActions {
      *
      * @param updatedView The updated view message received from the client.
      */
-    void receiveUpdatedView(ViewUpdateMessage updatedView);
+    void receiveUpdatedView(UpdateViewServerMessage updatedView);
 
     /**
      * This method is called when the server receives an error message.

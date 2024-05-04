@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.store.Store;
+import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameView;
 import it.polimi.ingsw.network.virtualView.VirtualViewable;
 
@@ -315,5 +316,15 @@ public class Game implements VirtualViewable<GameView> {
     @Override
     public GameView getVirtualView() {
         return new GameView(currentPlayer.getPlayerName(), globalBoard.getVirtualView(), players.stream().map(Player::getVirtualView).collect(Collectors.toList()));
+    }
+
+    /**
+     * Returns the game record of the game.
+     * It contains all the details needed by the lobby to display the game.
+     *
+     * @return GameRecord This returns the game record of the game.
+     */
+    public GameRecord getGameRecord() {
+        return new GameRecord(gameName, players.size(), maxAllowedPlayers);
     }
 }

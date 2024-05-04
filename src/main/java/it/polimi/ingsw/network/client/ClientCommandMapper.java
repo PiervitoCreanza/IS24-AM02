@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.client;
 import it.polimi.ingsw.network.client.message.ClientMessage;
 import it.polimi.ingsw.network.server.MessageHandler;
 import it.polimi.ingsw.network.server.message.ErrorServerMessage;
-import it.polimi.ingsw.network.server.message.successMessage.ViewUpdateMessage;
+import it.polimi.ingsw.network.server.message.successMessage.UpdateViewServerMessage;
 
 /**
  * The ClientCommandMapper class is responsible for mapping server commands to updates in the view.
@@ -48,7 +48,7 @@ public class ClientCommandMapper implements ServerActions {
      * @param updatedView The updated view message received from the client.
      */
     @Override
-    public void receiveUpdatedView(ViewUpdateMessage updatedView) {
+    public void receiveUpdatedView(UpdateViewServerMessage updatedView) {
         // TODO: Implement this method
     }
 
