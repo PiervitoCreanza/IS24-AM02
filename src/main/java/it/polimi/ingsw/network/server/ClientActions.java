@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
  * The ClientActions interface extends the Remote interface to enable remote method invocation (RMI)
  * capabilities across different network protocols. This interface is crucial for ensuring methods
  * within the client-side operations can appropriately handle RemoteExceptions as required by Java RMI.
- *
+ * <p>
  * Key Points:
  * - The interface extends Remote, mandating all methods to be capable of throwing RemoteExceptions.
  * - Adheres to the "require no more, promise no less" principle whereby if the parent interface
@@ -19,11 +19,11 @@ import java.rmi.RemoteException;
  * - The RMI implementation is strict in enforcing RemoteExceptions, ensuring full RMI compatibility.
  * - The TCP adaptation (e.g., in TCPServerAdapter) demonstrates the flexibility of the interface, as
  *   methods under TCP do not throw RemoteExceptions, reflecting the non-RMI requirements.
- *
+ * <p>
  * TODO: Verify and ensure that all methods are implemented with correct exception handling in the TCP context.
  * TODO: Validate and test RMI compatibility and behavior under various network conditions.
  * TODO: Document each method detailing its specific role, expected inputs, outputs, and potential side effects.
- *
+ * <p>
  * Example Implementations:
  * - RMIClientConnectionHandler implements ClientActions for RMI, strictly throwing RemoteExceptions where required.
  * - TCPServerAdapter implements ClientActions for TCP, omitting RemoteExceptions to suit the protocol's needs.
