@@ -128,7 +128,7 @@ public class GameCardTest {
         SideGameCard side2 = mock(SideGameCard.class);
         GameCard gameCard1 = new GameCard(1, side1, side2, CardColorEnum.RED);
         GameCard gameCard2 = new GameCard(1, side1, side2, CardColorEnum.RED);
-        assertTrue(gameCard1.equals(gameCard2));
+        assertEquals(gameCard1, gameCard2);
     }
 
     @Test
@@ -139,6 +139,6 @@ public class GameCardTest {
         SideGameCard side3 = mock(SideGameCard.class);
         GameCard gameCard1 = new GameCard(1, side1, side2, CardColorEnum.RED);
         GameCard gameCard2 = new GameCard(2, side1, side3, CardColorEnum.GREEN);
-        assertFalse(gameCard1.equals(gameCard2));
+        assertNotEquals(gameCard1, gameCard2);
     }
 }

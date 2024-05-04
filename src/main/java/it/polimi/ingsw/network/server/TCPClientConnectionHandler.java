@@ -29,12 +29,12 @@ public class TCPClientConnectionHandler extends Thread {
     /**
      * PrintWriter object used to write to the socket.
      */
-    private PrintWriter out;
+    private final PrintWriter out;
 
     /**
      * BufferedReader object used to read from the socket.
      */
-    private BufferedReader in;
+    private final BufferedReader in;
 
     /**
      * Boolean value indicating whether the connection is active.

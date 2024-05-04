@@ -208,7 +208,7 @@ public class PositionalObjectiveCardTest {
         gameItemStore.set(GameItemEnum.FUNGI, 3);
         ItemObjectiveCard itemObjectiveCard1 = new ItemObjectiveCard(1, 2, gameItemStore);
         ItemObjectiveCard itemObjectiveCard2 = new ItemObjectiveCard(1, 2, gameItemStore);
-        assertTrue(itemObjectiveCard1.equals(itemObjectiveCard2));
+        assertEquals(itemObjectiveCard1, itemObjectiveCard2);
     }
 
     @Test
@@ -222,6 +222,6 @@ public class PositionalObjectiveCardTest {
         gameItemStore2.set(GameItemEnum.ANIMAL, 2);
         ItemObjectiveCard itemObjectiveCard2 = new ItemObjectiveCard(1, 2, gameItemStore2);
 
-        assertFalse(itemObjectiveCard1.equals(itemObjectiveCard2));
+        assertNotEquals(itemObjectiveCard1, itemObjectiveCard2);
     }
 }

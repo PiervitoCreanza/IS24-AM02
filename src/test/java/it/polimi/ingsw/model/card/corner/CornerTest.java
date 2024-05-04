@@ -57,7 +57,7 @@ public class CornerTest {
     void equalsShouldReturnTrueWhenComparingCornersWithSameAttributes() {
         Corner corner1 = new Corner(true, GameItemEnum.NONE);
         Corner corner2 = new Corner(true, GameItemEnum.NONE);
-        assertTrue(corner1.equals(corner2));
+        assertEquals(corner1, corner2);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class CornerTest {
     void equalsShouldReturnFalseWhenComparingCornersWithDifferentCoveredStatus() {
         Corner corner1 = new Corner(true, GameItemEnum.NONE);
         Corner corner2 = new Corner(false, GameItemEnum.NONE);
-        assertFalse(corner1.equals(corner2));
+        assertNotEquals(corner1, corner2);
     }
 
     @Test
@@ -73,7 +73,7 @@ public class CornerTest {
     void equalsShouldReturnFalseWhenComparingCornersWithDifferentGameItems() {
         Corner corner1 = new Corner(true, GameItemEnum.NONE);
         Corner corner2 = new Corner(true, GameItemEnum.PLANT);
-        assertFalse(corner1.equals(corner2));
+        assertNotEquals(corner1, corner2);
     }
 }
 
