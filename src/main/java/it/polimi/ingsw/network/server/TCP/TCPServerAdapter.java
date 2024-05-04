@@ -15,12 +15,13 @@ import it.polimi.ingsw.network.server.NetworkCommandMapper;
 import it.polimi.ingsw.network.server.ServerMessageHandler;
 import it.polimi.ingsw.network.server.message.ServerMessage;
 
+import java.io.IOException;
 import java.net.Socket;
 
 /**
  * The TCPServerAdapter class is responsible for handling TCP server operations.
  * It masks the TCPConnectionHandler in order to make RMI and TCP server operations interchangeable.
- * It implements the TCPObserver and ServerMessageHandler interfaces.
+ * It implements the Observer and MessageHandler interfaces.
  */
 public class TCPServerAdapter implements Observer<String>, ServerMessageHandler {
     /**
@@ -32,6 +33,16 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
      * The TCPConnectionHandler object is used to handle TCP client connections.
      */
     private final TCPConnectionHandler clientConnectionHandler;
+
+    /**
+     * The name of the game.
+     */
+    private String gameName;
+
+    /**
+     * The name of the player.
+     */
+    private String playerName;
 
     private final Gson gson = new GsonBuilder()
             .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter())
@@ -59,29 +70,35 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
      */
     @Override
     public void notify(String message) {
+        // Handle client disconnection
+        if ("CONNECTION_CLOSED".equals(message)) {
+            networkCommandMapper.handleDisconnection(this);
+            return;
+        }
+
         ClientMessage receivedMessage = this.gson.fromJson(message, ClientMessage.class);
         PlayerActionEnum playerAction = receivedMessage.getPlayerAction();
         switch (playerAction) {
-            case GET_GAMES -> networkCommandMapper.getGames();
+            case GET_GAMES -> networkCommandMapper.getGames(this);
             case CREATE_GAME ->
-                    networkCommandMapper.createGame(this, receivedMessage.getGameName(), receivedMessage.getNPlayers(), receivedMessage.getPlayerName());
-            case DELETE_GAME -> networkCommandMapper.deleteGame(this, receivedMessage.getGameName());
+                    networkCommandMapper.createGame(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getNPlayers());
+            case DELETE_GAME -> networkCommandMapper.deleteGame(receivedMessage.getGameName());
             case JOIN_GAME ->
                     networkCommandMapper.joinGame(this, receivedMessage.getGameName(), receivedMessage.getPlayerName());
             case CHOOSE_PLAYER_COLOR ->
-                    networkCommandMapper.choosePlayerColor(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getPlayerColor());
+                    networkCommandMapper.choosePlayerColor(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getPlayerColor());
             case SET_PLAYER_OBJECTIVE ->
-                    networkCommandMapper.setPlayerObjective(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getObjectiveCard());
+                    networkCommandMapper.setPlayerObjective(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getObjectiveCard());
             case PLACE_CARD ->
-                    networkCommandMapper.placeCard(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getCoordinate(), receivedMessage.getGameCard());
+                    networkCommandMapper.placeCard(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getCoordinate(), receivedMessage.getGameCard());
             case DRAW_CARD_FROM_FIELD ->
-                    networkCommandMapper.drawCardFromField(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
+                    networkCommandMapper.drawCardFromField(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
             case DRAW_CARD_FROM_RESOURCE_DECK ->
-                    networkCommandMapper.drawCardFromResourceDeck(this, receivedMessage.getGameName(), receivedMessage.getPlayerName());
+                    networkCommandMapper.drawCardFromResourceDeck(receivedMessage.getGameName(), receivedMessage.getPlayerName());
             case DRAW_CARD_FROM_GOLD_DECK ->
-                    networkCommandMapper.drawCardFromGoldDeck(this, receivedMessage.getGameName(), receivedMessage.getPlayerName());
+                    networkCommandMapper.drawCardFromGoldDeck(receivedMessage.getGameName(), receivedMessage.getPlayerName());
             case SWITCH_CARD_SIDE ->
-                    networkCommandMapper.switchCardSide(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
+                    networkCommandMapper.switchCardSide(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
             default -> System.out.print("Invalid action");
         }
         // Debug
@@ -96,9 +113,15 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
     @Override
     public void sendMessage(ServerMessage message) {
         String serializedMessage = this.gson.toJson(message);
-        this.clientConnectionHandler.sendMessage(serializedMessage);
+        try {
+            this.clientConnectionHandler.send(serializedMessage);
+        } catch (IOException e) {
+            System.out.println("Error sending message: ");
+            return;
+        }
+
         // Debug
-        System.out.println("Sending message: " + serializedMessage);
+        System.out.println("Message sent: " + serializedMessage);
     }
 
     /**
@@ -108,6 +131,44 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
     public void closeConnection() {
         this.clientConnectionHandler.closeConnection();
         // Debug
-        System.out.println("Close the connection.");
+        System.out.println("Connection closed.");
+    }
+
+    /**
+     * Gets the name of the player associated with the connection.
+     */
+    @Override
+    public String getPlayerName() {
+        return this.playerName;
+    }
+
+    /**
+     * Sets the name of the player associated with the connection.
+     *
+     * @param playerName the name of the player
+     */
+    @Override
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+    
+    /**
+     * Gets the name of the game associated with the connection.
+     *
+     * @return the name of the game
+     */
+    @Override
+    public String getGameName() {
+        return this.gameName;
+    }
+
+    /**
+     * Sets the name of the game associated with the connection.
+     *
+     * @param gameName the name of the game
+     */
+    @Override
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
     }
 }

@@ -79,4 +79,12 @@ interface PlayerActions {
      * @param card       the objective card to be set for the player.
      */
     void setPlayerObjective(String playerName, ObjectiveCard card);
+
+    /**
+     * Sets the connection status of a player.
+     *
+     * @param playerName  the name of the player whose connection status is to be set.
+     * @param isConnected the connection status to be set for the player.
+     */
+    void setPlayerConnectionStatus(String playerName, boolean isConnected);
 }

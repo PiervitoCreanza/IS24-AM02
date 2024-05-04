@@ -67,16 +67,16 @@ package Network {
     package "Server" {
 
 
-        interface ServerMessageHandler {
+        interface MessageHandler {
             +void sendMessage(ServerMessage message)
             +void closeConnection()
         }
 
-        note left of ServerMessageHandler
+        note left of MessageHandler
             Interface that is implemented by the classes that handle the messages
         end note
 
-        class TCPServerAdapter implements ServerMessageHandler {
+        class TCPServerAdapter implements MessageHandler {
                 -TCPConnectionHandler connection
                 +void notify(String msg)
                 +void sendMessage(ServerMessage message)
@@ -89,20 +89,20 @@ package Network {
             It also sends the messages to the clients
         end note
 
-        class RMIClientConnectionHandler implements ServerMessageHandler, ClientActions {
+        class RMIClientConnectionHandler implements MessageHandler, ClientActions {
             +void sendMessage(ServerMessage message)
         }
 
 
       class "NetworkCommandMapper" implements "ClientActions" {
-                  -HashSet<ServerMessageHandler> connections
-                  -HashMap<String gameName, ServerMessageHandler> connectionMap
+                  -HashSet<MessageHandler> connections
+                  -HashMap<String gameName, MessageHandler> connectionMap
                   -MainController mainController
                   -void broadcastMessage(ServerMessage msg, String gameName)
-                  +void addConnection(ServerMessageHandler connection, String gameName)
-                  +void removeConnection(ServerMessageHandler connection, String gameName)
+                  +void addConnection(MessageHandler connection, String gameName)
+                  +void removeConnection(MessageHandler connection, String gameName)
               }
-              NetworkCommandMapper *-- ServerMessageHandler
+              NetworkCommandMapper *-- MessageHandler
         note left of NetworkCommandMapper
                 Executes actions on the controllers, retrieves the view
                 and sends it performing .sendMessage(ServerMessage)

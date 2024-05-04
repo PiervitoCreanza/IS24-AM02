@@ -1,16 +1,14 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.MainController;
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.server.message.ErrorServerMessage;
 import it.polimi.ingsw.network.server.message.ServerMessage;
-import it.polimi.ingsw.network.server.message.successMessage.ServerActionsEnum;
-import it.polimi.ingsw.network.server.message.successMessage.SuccessServerMessage;
-import it.polimi.ingsw.network.server.message.successMessage.ViewUpdateMessage;
+import it.polimi.ingsw.network.server.message.successMessage.*;
+import it.polimi.ingsw.network.server.message.successMessage.UpdateViewServerMessage;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,11 +23,6 @@ public class NetworkCommandMapper implements ClientActions {
      * The MainController object is used to control the main aspects of the game.
      */
     private final MainController mainController;
-
-    /**
-     * A set of ServerMessageHandler objects that are used to handle server messages.
-     */
-    private final HashSet<ServerMessageHandler> messageHandlers = new HashSet<>();
 
     /**
      * A map that associates game names with sets of ServerMessageHandler objects.
@@ -47,21 +40,29 @@ public class NetworkCommandMapper implements ClientActions {
     }
 
     /**
-     * Adds a connection to the set of message handlers.
+     * Sends a message to all players in a game.
      *
-     * @param messageHandler the ServerMessageHandler to be added
+     * @param gameName the name of the game
+     * @param message  the message to be sent
      */
-    public void addConnection(ServerMessageHandler messageHandler) {
-        messageHandlers.add(messageHandler);
+    private void broadcastMessage(String gameName, ServerMessage message) {
+        for (ServerMessageHandler messageHandler : gameConnectionMapper.get(gameName)) {
+            messageHandler.sendMessage(message);
+        }
     }
 
     /**
-     * Removes a connection from the set of message handlers.
+     * Gets the list of available games.
      *
-     * @param messageHandler the ServerMessageHandler to be removed
+     * @param messageHandler the ServerMessageHandler that will handle the response
      */
-    public void removeConnection(ServerMessageHandler messageHandler) {
-        messageHandlers.remove(messageHandler);
+    @Override
+    public void getGames(ServerMessageHandler messageHandler) {
+        try {
+            messageHandler.sendMessage(new GetGamesServerMessage(mainController.getGameRecords()));
+        } catch (Exception e) {
+            messageHandler.sendMessage(new ErrorServerMessage(e.getMessage()));
+        }
     }
 
     /**
@@ -72,13 +73,12 @@ public class NetworkCommandMapper implements ClientActions {
      * @param nPlayers       the number of players in the game
      */
     @Override
-    public void createGame(ServerMessageHandler messageHandler, String gameName, int nPlayers) {
+    public void createGame(ServerMessageHandler messageHandler, String gameName, String playerName, int nPlayers) {
         try {
             gameConnectionMapper.put(gameName, new HashSet<>());
             gameConnectionMapper.get(gameName).add(messageHandler);
-            Game game = mainController.createGame(gameName, nPlayers, gameName);
-            // TODO: Pass data to ServerMessage
-            broadcastMessage(gameName, new SuccessServerMessage(ServerActionsEnum.CREATE_GAME));
+            mainController.createGame(gameName, playerName, nPlayers);
+            broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
         } catch (Exception e) {
             broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
         }
@@ -96,122 +96,163 @@ public class NetworkCommandMapper implements ClientActions {
         try {
             mainController.joinGame(gameName, playerName);
             gameConnectionMapper.get(gameName).add(messageHandler);
-            broadcastMessage(gameName, new ViewUpdateMessage(mainController.getVirtualView(gameName)));
+            messageHandler.setGameName(gameName);
+            messageHandler.setPlayerName(playerName);
+            broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
         } catch (Exception e) {
             broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
         }
     }
 
     /**
-     * Sends a message to all players in a game.
-     *
-     * @param gameName the name of the game
-     * @param message  the message to be sent
-     */
-    private void broadcastMessage(String gameName, ServerMessage message) {
-        for (ServerMessageHandler messageHandler : gameConnectionMapper.get(gameName)) {
-            messageHandler.sendMessage(message);
-        }
-    }
-
-    /**
      * Leaves the game.
      *
-     * @param messageHandler the class that will send the response back to the client
-     * @param gameName       the name of the game.
+     * @param gameName the name of the game.
      */
     @Override
-    public void deleteGame(ServerMessageHandler messageHandler, String gameName) {
-
+    public void deleteGame(String gameName) {
+        try {
+            mainController.deleteGame(gameName);
+            gameConnectionMapper.remove(gameName);
+            broadcastMessage(gameName, new DeleteGameServerMessage());
+        } catch (Exception e) {
+            broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
+        }
     }
 
     /**
      * Chooses the color for a player.
      *
-     * @param messageHandler the class that will send the response back to the client
-     * @param gameName       the name of the game.
-     * @param playerName     the name of the player who is choosing the color.
-     * @param playerColor    the color to be chosen.
+     * @param gameName    the name of the game.
+     * @param playerName  the name of the player who is choosing the color.
+     * @param playerColor the color to be chosen.
      */
     @Override
-    public void choosePlayerColor(ServerMessageHandler messageHandler, String gameName, String playerName, PlayerColorEnum playerColor) {
-        // TODO: Implement method
+    public void choosePlayerColor(String gameName, String playerName, PlayerColorEnum playerColor) {
+        try {
+            mainController.getGameController(gameName).choosePlayerColor(playerName, playerColor);
+            broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
+        } catch (Exception e) {
+            broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
+        }
     }
 
     /**
      * Places a card on the game field.
      *
-     * @param messageHandler the class that will send the response back to the client
-     * @param gameName       the name of the game.
-     * @param playerName     the name of the player who is placing the card.
-     * @param coordinate     the coordinate where the card should be placed.
-     * @param card           the card to be placed.
+     * @param gameName   the name of the game.
+     * @param playerName the name of the player who is placing the card.
+     * @param coordinate the coordinate where the card should be placed.
+     * @param card       the card to be placed.
      */
     @Override
-    public void placeCard(ServerMessageHandler messageHandler, String gameName, String playerName, Coordinate coordinate, GameCard card) {
-        // TODO: Implement method
+    public void placeCard(String gameName, String playerName, Coordinate coordinate, GameCard card) {
+        try {
+            mainController.getGameController(gameName).placeCard(playerName, coordinate, card);
+            broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
+        } catch (Exception e) {
+            broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
+        }
     }
 
     /**
      * Draws a card from the game field.
      *
-     * @param messageHandler the class that will send the response back to the client
-     * @param gameName       the name of the game.
-     * @param playerName     the name of the player who is drawing the card.
-     * @param card           the card to be drawn.
+     * @param gameName   the name of the game.
+     * @param playerName the name of the player who is drawing the card.
+     * @param card       the card to be drawn.
      */
     @Override
-    public void drawCardFromField(ServerMessageHandler messageHandler, String gameName, String playerName, GameCard card) {
-        // TODO: Implement method
+    public void drawCardFromField(String gameName, String playerName, GameCard card) {
+        try {
+            mainController.getGameController(gameName).drawCardFromField(playerName, card);
+            broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
+        } catch (Exception e) {
+            broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
+        }
     }
 
     /**
      * Draws a card from the resource deck.
      *
-     * @param messageHandler the class that will send the response back to the client
-     * @param gameName       the name of the game.
-     * @param playerName     the name of the player who is drawing the card.
+     * @param gameName   the name of the game.
+     * @param playerName the name of the player who is drawing the card.
      */
     @Override
-    public void drawCardFromResourceDeck(ServerMessageHandler messageHandler, String gameName, String playerName) {
-        // TODO: Implement method
+    public void drawCardFromResourceDeck(String gameName, String playerName) {
+        try {
+            mainController.getGameController(gameName).drawCardFromResourceDeck(playerName);
+            broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
+        } catch (Exception e) {
+            broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
+        }
     }
 
     /**
      * Draws a card from the gold deck.
      *
-     * @param messageHandler the class that will send the response back to the client
-     * @param gameName       the name of the game.
-     * @param playerName     the name of the player who is drawing the card.
+     * @param gameName   the name of the game.
+     * @param playerName the name of the player who is drawing the card.
      */
     @Override
-    public void drawCardFromGoldDeck(ServerMessageHandler messageHandler, String gameName, String playerName) {
-        // TODO: Implement method
+    public void drawCardFromGoldDeck(String gameName, String playerName) {
+        try {
+            mainController.getGameController(gameName).drawCardFromGoldDeck(playerName);
+            broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
+        } catch (Exception e) {
+            broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
+        }
     }
 
     /**
      * Switches the side of a card.
      *
-     * @param messageHandler the class that will send the response back to the client
-     * @param gameName       the name of the game.
-     * @param playerName     the name of the player who is switching the card side.
-     * @param card           the card whose side is to be switched.
+     * @param gameName   the name of the game.
+     * @param playerName the name of the player who is switching the card side.
+     * @param card       the card whose side is to be switched.
      */
     @Override
-    public void switchCardSide(ServerMessageHandler messageHandler, String gameName, String playerName, GameCard card) {
-        // TODO: Implement method
+    public void switchCardSide(String gameName, String playerName, GameCard card) {
+        try {
+            mainController.getGameController(gameName).switchCardSide(playerName, card);
+            broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
+        } catch (Exception e) {
+            broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
+        }
     }
 
     /**
      * Sets the objective for a player.
      *
-     * @param messageHandler the class that will send the response back to the client
-     * @param gameName       the name of the game.
-     * @param playerName     the name of the player whose objective is to be set.
-     * @param card           the objective card to be set for the player.
+     * @param gameName   the name of the game.
+     * @param playerName the name of the player whose objective is to be set.
+     * @param card       the objective card to be set for the player.
      */
     @Override
-    public void setPlayerObjective(ServerMessageHandler messageHandler, String gameName, String playerName, ObjectiveCard card) {
-        // TODO: Implement method
+    public void setPlayerObjective(String gameName, String playerName, ObjectiveCard card) {
+        try {
+            mainController.getGameController(gameName).setPlayerObjective(playerName, card);
+            broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
+        } catch (Exception e) {
+            broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
+        }
+    }
+
+    /**
+     * Handles the disconnection of a client.
+     * If all clients in a game have disconnected, the game is deleted.
+     *
+     * @param messageHandler the ServerMessageHandler that has been disconnected
+     */
+    public void handleDisconnection(ServerMessageHandler messageHandler) {
+        String gameName = messageHandler.getGameName();
+        gameConnectionMapper.get(gameName).remove(messageHandler);
+        mainController.getGameController(gameName).setPlayerConnectionStatus(messageHandler.getPlayerName(), false);
+
+        // If the game is now empty we delete it.
+        if (gameConnectionMapper.get(gameName).isEmpty()) {
+            mainController.deleteGame(gameName);
+            gameConnectionMapper.remove(gameName);
+        }
     }
 }

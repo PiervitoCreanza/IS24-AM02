@@ -66,7 +66,7 @@ public class FrontGameCardTest {
     void equalsShouldReturnTrueWhenComparingCardsWithSameAttributes() {
         FrontGameCard card1 = new FrontGameCard(null, null, null, null, 5);
         FrontGameCard card2 = new FrontGameCard(null, null, null, null, 5);
-        assertTrue(card1.equals(card2));
+        assertEquals(card1, card2);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class FrontGameCardTest {
     void equalsShouldReturnFalseWhenComparingCardsWithDifferentPoints() {
         FrontGameCard card1 = new FrontGameCard(null, null, null, null, 5);
         FrontGameCard card2 = new FrontGameCard(null, null, null, null, 10);
-        assertFalse(card1.equals(card2));
+        assertNotEquals(card1, card2);
     }
 
 }

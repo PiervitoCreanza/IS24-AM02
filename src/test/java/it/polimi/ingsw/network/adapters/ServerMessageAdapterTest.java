@@ -35,7 +35,7 @@ public class ServerMessageAdapterTest {
     @Test
     @DisplayName("Test if serialization and deserialization of UpdateViewServerMessage works")
     public void serializeAndDeserializeUpdateViewServerMessage() {
-        mainController.createGame("gameName", 2, "playerName");
+        mainController.createGame("gameName", "playerName", 2);
         GameControllerView gameControllerView = mainController.getVirtualView("gameName");
         ServerMessage updateViewServerMessage = new UpdateViewServerMessage(gameControllerView);
         // Serialize

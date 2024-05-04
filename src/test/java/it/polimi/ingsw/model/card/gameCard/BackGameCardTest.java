@@ -66,7 +66,7 @@ public class BackGameCardTest {
         Corner corner = new Corner(GameItemEnum.PLANT);
         BackGameCard backGameCard1 = new BackGameCard(corner, corner, corner, corner, gameItemStore);
         BackGameCard backGameCard2 = new BackGameCard(corner, corner, corner, corner, gameItemStore);
-        assertTrue(backGameCard1.equals(backGameCard2));
+        assertEquals(backGameCard1, backGameCard2);
     }
 
     @Test
@@ -81,6 +81,6 @@ public class BackGameCardTest {
         gameItemStore2.set(GameItemEnum.ANIMAL, 2);
         BackGameCard backGameCard2 = new BackGameCard(corner, corner, corner, corner, gameItemStore2);
 
-        assertFalse(backGameCard1.equals(backGameCard2));
+        assertNotEquals(backGameCard1, backGameCard2);
     }
 }

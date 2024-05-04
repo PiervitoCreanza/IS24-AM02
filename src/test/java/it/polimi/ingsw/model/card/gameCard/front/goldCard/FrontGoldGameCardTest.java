@@ -40,7 +40,7 @@ public class FrontGoldGameCardTest {
     void equalsShouldReturnTrueWhenComparingCardsWithSameAttributes() {
         FrontGoldGameCard card1 = new FrontGoldGameCard(null, null, null, null, 0, null);
         FrontGoldGameCard card2 = new FrontGoldGameCard(null, null, null, null, 0, null);
-        assertTrue(card1.equals(card2));
+        assertEquals(card1, card2);
     }
 
     @Test
@@ -51,6 +51,6 @@ public class FrontGoldGameCardTest {
         store2.set(GameItemEnum.ANIMAL, 1);
         FrontGoldGameCard card1 = new FrontGoldGameCard(null, null, null, null, 0, store1);
         FrontGoldGameCard card2 = new FrontGoldGameCard(null, null, null, null, 0, store2);
-        assertFalse(card1.equals(card2));
+        assertNotEquals(card1, card2);
     }
 }
