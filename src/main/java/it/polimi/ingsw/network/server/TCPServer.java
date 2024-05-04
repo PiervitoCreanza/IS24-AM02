@@ -42,7 +42,6 @@ public class TCPServer {
                 // Once a connection is made, a new TCPConnectionHandler is created to handle the connection.
                 // The handler is then started, which causes its run method to be called in a separate thread.
                 TCPServerAdapter messageHandler = new TCPServerAdapter(serverSocket.accept(), networkCommandMapper);
-                networkCommandMapper.addConnection(messageHandler);
             }
         } catch (IOException e) {
             // If an IOException occurs (such as if the server fails to bind to the specified port), print an error message and exit the program.
