@@ -84,8 +84,25 @@ package Network {
             It also sends the messages to the clients
         end note
 
-        class RMIClientConnectionHandler implements MessageHandler, ClientActions {
+        interface RMIClientActions extends ClientActions {
+            +getGames(String ip, Int port,...)
+            +joinGame(String ip, Int port, String gameName,...)
+            +createGame(String ip, Int port, String gameName, ...)
+        }
+
+        class RMIServerAdapter implements MessageHandler, ClientActions {
+            -String playerName
+            -String gameName
+            -ClientActions stub
+            +sendMessage(ServerMessage message)
+            +closeConnection()
+
+        }
+        RMIServerAdapter *-- RMIServerConnectionHandler
+
+        class RMIServerConnectionHandler implements RMIClientActions {
             +void sendMessage(ServerMessage message)
+            -connectToClient(String ip, Int port)
         }
 
 
@@ -113,10 +130,22 @@ package Network {
             class "ClientCommandMapper" implements "ServerActions" {
                 -ClientMessageHandler connection
             }
-            class RMIServerConnectionHandler implements ClientMessageHandler, ServerActions {
-                +void sendMessage(ClientMessage message)
+            class RMIClientConnectionHandler implements ServerActions {
+                +void receiveMessage(ServerMessage message)
             }
+            Client *-- RMIClientConnectionHandler
             ClientCommandMapper *-- ClientMessageHandler
+
+            interface RMIClientActions {
+                +connect(String ip, Int port);
+            }
+
+            class RMIClientAdapter implements ClientMessageHandler {
+                -ServerActions stub
+                +sendMessage(ServerMessage message)
+                +closeConnection()
+            }
+
             class TCPClientAdapter implements ClientMessageHandler {
                 -TCPConnectionHandler connection
                 +void sendMessage(ClientMessage message)
