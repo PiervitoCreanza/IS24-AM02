@@ -14,6 +14,7 @@ public class UpdateViewServerMessage extends ServerMessage {
         this.view = view;
     }
 
+    @Override
     public GameControllerView getView() {
         return view;
     }

@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
-import it.polimi.ingsw.network.server.message.ServerMessage;
 
 /**
  * This interface defines the actions that a client can perform in the game.
@@ -32,9 +31,10 @@ public interface ClientActions {
     /**
      * Leaves the game.
      *
+     * @param messageHandler the message handler to handle the response.
      * @param gameName the name of the game.
      */
-    void deleteGame(String gameName);
+    void deleteGame(ServerMessageHandler messageHandler, String gameName);
 
     /**
      * Joins the game with the given player name.
@@ -48,62 +48,69 @@ public interface ClientActions {
     /**
      * Chooses the color for a player.
      *
+     * @param messageHandler the message handler to handle the response.
      * @param gameName    the name of the game.
      * @param playerName  the name of the player who is choosing the color.
      * @param playerColor the color to be chosen.
      */
-    void choosePlayerColor(String gameName, String playerName, PlayerColorEnum playerColor);
+    void choosePlayerColor(ServerMessageHandler messageHandler, String gameName, String playerName, PlayerColorEnum playerColor);
 
     /**
      * Places a card on the game field.
      *
+     * @param messageHandler the message handler to handle the response.
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is placing the card.
      * @param coordinate the coordinate where the card should be placed.
      * @param card       the card to be placed.
      */
-    void placeCard(String gameName, String playerName, Coordinate coordinate, GameCard card);
+    void placeCard(ServerMessageHandler messageHandler, String gameName, String playerName, Coordinate coordinate, GameCard card);
 
     /**
      * Draws a card from the game field.
      *
+     * @param messageHandler the message handler to handle the response.
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is drawing the card.
      * @param card       the card to be drawn.
      */
-    void drawCardFromField(String gameName, String playerName, GameCard card);
+    void drawCardFromField(ServerMessageHandler messageHandler, String gameName, String playerName, GameCard card);
 
     /**
      * Draws a card from the resource deck.
      *
+     * @param messageHandler the message handler to handle the response.
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is drawing the card.
      */
-    void drawCardFromResourceDeck(String gameName, String playerName);
+    void drawCardFromResourceDeck(ServerMessageHandler messageHandler, String gameName, String playerName);
 
     /**
      * Draws a card from the gold deck.
      *
+     * @param messageHandler the message handler to handle the response.
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is drawing the card.
      */
-    void drawCardFromGoldDeck(String gameName, String playerName);
+    void drawCardFromGoldDeck(ServerMessageHandler messageHandler, String gameName, String playerName);
 
     /**
      * Switches the side of a card.
      *
+     * @param messageHandler the message handler to handle the response.
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is switching the card side.
      * @param card       the card whose side is to be switched.
      */
-    void switchCardSide(String gameName, String playerName, GameCard card);
+    void switchCardSide(ServerMessageHandler messageHandler, String gameName, String playerName, GameCard card);
 
     /**
      * Sets the objective for a player.
      *
+     * @param messageHandler the message handler to handle the response.
      * @param gameName   the name of the game.
      * @param playerName the name of the player whose objective is to be set.
      * @param card       the objective card to be set for the player.
      */
-    void setPlayerObjective(String gameName, String playerName, ObjectiveCard card);
+    void setPlayerObjective(ServerMessageHandler messageHandler, String gameName, String playerName, ObjectiveCard card);
 }
