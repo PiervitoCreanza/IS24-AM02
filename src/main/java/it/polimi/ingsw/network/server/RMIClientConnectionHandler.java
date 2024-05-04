@@ -130,4 +130,6 @@ public class RMIClientConnectionHandler implements ServerMessageHandler, ClientA
 //TODO: if a controller method throws an exception, how do we send it back to the client in RMI?
 
     }
+}
+
 
