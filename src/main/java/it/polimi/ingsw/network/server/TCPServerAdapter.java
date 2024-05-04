@@ -25,8 +25,8 @@ public class TCPServerAdapter implements ServerMessageHandler, ClientActions {
     }
 
     @Override
-    public void createGame(ServerMessageHandler messageHandler, String gameName, int nPlayers) {
-
+    public void createGame(ServerMessageHandler messageHandler, String gameName, int nPlayers, String playerName) {
+        
     }
 
     @Override

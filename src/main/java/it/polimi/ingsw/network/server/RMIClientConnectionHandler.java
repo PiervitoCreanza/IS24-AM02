@@ -26,9 +26,10 @@ public class RMIClientConnectionHandler implements ServerMessageHandler, ClientA
     }
 
     @Override
-    public void createGame(ServerMessageHandler messageHandler, String gameName, int nPlayers) throws RemoteException {
-        //TODO: implement method
+    public void createGame(ServerMessageHandler messageHandler, String gameName, int nPlayers, String playerName) throws RemoteException {
+
     }
+
 
     @Override
     public void deleteGame(ServerMessageHandler messageHandler, String gameName) throws RemoteException {
@@ -127,7 +128,8 @@ public class RMIClientConnectionHandler implements ServerMessageHandler, ClientA
         }
         System.err.println("Server ready"); //add a bit of color to the CLI ;)
 
-//TODO: if a controller method throws an exception, how do we send it back to the client in RMI?
+        //TODO: if a controller method throws an exception, how do we send it back to the client in RMI?
+        //All exceptions are catched by the NetworkCommandMapper and sent back to the client using sendMessage invocatio
 
     }
 }

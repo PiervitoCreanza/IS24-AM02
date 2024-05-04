@@ -6,8 +6,8 @@ import it.polimi.ingsw.data.ObjectiveCardAdapter;
 import it.polimi.ingsw.data.SideGameCardAdapter;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
-import it.polimi.ingsw.network.TCP.Observer;
-import it.polimi.ingsw.network.TCP.TCPConnectionHandler;
+import it.polimi.ingsw.network.TCP_utils.Observer;
+import it.polimi.ingsw.network.TCP_utils.TCPConnectionHandler;
 import it.polimi.ingsw.network.adapters.ClientMessageAdapter;
 import it.polimi.ingsw.network.client.message.ClientMessage;
 import it.polimi.ingsw.network.client.message.PlayerActionEnum;
@@ -62,9 +62,12 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
         ClientMessage receivedMessage = this.gson.fromJson(message, ClientMessage.class);
         PlayerActionEnum playerAction = receivedMessage.getPlayerAction();
         switch (playerAction) {
-            case GET_GAMES -> networkCommandMapper.getGames();
-            case CREATE_GAME ->
-                    networkCommandMapper.createGame(this, receivedMessage.getGameName(), receivedMessage.getNPlayers(), receivedMessage.getPlayerName());
+            case GET_GAMES ->
+                    networkCommandMapper.getGames(); //TODO: this exception should be handled by the RMIAdapter
+            case CREATE_GAME -> networkCommandMapper.createGame(this,
+                    receivedMessage.getGameName(),
+                    receivedMessage.getNPlayers(),
+                    receivedMessage.getPlayerName());
             case DELETE_GAME -> networkCommandMapper.deleteGame(this, receivedMessage.getGameName());
             case JOIN_GAME ->
                     networkCommandMapper.joinGame(this, receivedMessage.getGameName(), receivedMessage.getPlayerName());

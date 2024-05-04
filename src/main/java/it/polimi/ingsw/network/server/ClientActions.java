@@ -42,7 +42,7 @@ public interface ClientActions extends Remote {
      * @param gameName the name of the game.
      * @param nPlayers the number of players in the game.
      */
-    void createGame(ServerMessageHandler messageHandler, String gameName, int nPlayers) throws RemoteException;
+    void createGame(ServerMessageHandler messageHandler, String gameName, int nPlayers, String playerName) throws RemoteException;
 
     /**
      * Leaves the game.

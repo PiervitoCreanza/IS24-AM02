@@ -12,6 +12,7 @@ import it.polimi.ingsw.network.server.message.successMessage.ServerActionsEnum;
 import it.polimi.ingsw.network.server.message.successMessage.SuccessServerMessage;
 import it.polimi.ingsw.network.server.message.successMessage.ViewUpdateMessage;
 
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -64,6 +65,11 @@ public class NetworkCommandMapper implements ClientActions {
         messageHandlers.remove(messageHandler);
     }
 
+    @Override
+    public void getGames() throws RemoteException {
+        //TODO: JavaDoc && implement method
+    }
+
     /**
      * Creates a new game with the specified name and number of players.
      *
@@ -72,7 +78,7 @@ public class NetworkCommandMapper implements ClientActions {
      * @param nPlayers       the number of players in the game
      */
     @Override
-    public void createGame(ServerMessageHandler messageHandler, String gameName, int nPlayers) {
+    public void createGame(ServerMessageHandler messageHandler, String gameName, int nPlayers, String playerName) {
         try {
             gameConnectionMapper.put(gameName, new HashSet<>());
             gameConnectionMapper.get(gameName).add(messageHandler);
@@ -110,7 +116,7 @@ public class NetworkCommandMapper implements ClientActions {
      */
     private void broadcastMessage(String gameName, ServerMessage message) {
         for (ServerMessageHandler messageHandler : gameConnectionMapper.get(gameName)) {
-            messageHandler.sendMessage(message);
+            messageHandler.sendMessage(message); //TODO: this exception should be handled by the RMIAdapter
         }
     }
 

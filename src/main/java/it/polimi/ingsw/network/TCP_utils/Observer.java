@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.TCP;
+package it.polimi.ingsw.network.TCP_utils;
 
 /**
  * The Observer interface is used to notify objects of changes in the observable object.

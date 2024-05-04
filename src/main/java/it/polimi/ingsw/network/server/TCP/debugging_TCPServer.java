@@ -1,7 +1,7 @@
-package it.polimi.ingsw.network.server;
+package it.polimi.ingsw.network.server.TCP;
 
 import it.polimi.ingsw.controller.MainController;
-import it.polimi.ingsw.network.server.TCP.TCPServerAdapter;
+import it.polimi.ingsw.network.server.NetworkCommandMapper;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -10,7 +10,7 @@ import java.net.ServerSocket;
  * This class is responsible for setting up and running the TCP server.
  * It listens for incoming client connections and handles each one in a separate thread.
  */
-public class TCPServer {
+public class debugging_TCPServer {
     /**
      * The entry point of the application.
      *
@@ -28,7 +28,7 @@ public class TCPServer {
 
         // If a port number is passed as a command line argument, override the default port number.
         if (args.length == 1) {
-            System.err.println("Usage: java TCPServer <port number>");
+            System.err.println("Usage: java debugging_TCPServer <port number>");
             portNumber = Integer.parseInt(args[0]);
         }
 

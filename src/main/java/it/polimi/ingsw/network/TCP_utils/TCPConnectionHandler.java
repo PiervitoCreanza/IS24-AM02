@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.TCP;
+package it.polimi.ingsw.network.TCP_utils;
 
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
