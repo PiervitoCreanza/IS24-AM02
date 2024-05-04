@@ -10,7 +10,8 @@ public class ErrorServerMessage extends ServerMessage {
         this.message = message;
     }
 
-    public String getMessage() {
+    @Override
+    public String getErrorMessage() {
         return message;
     }
 
@@ -19,6 +20,6 @@ public class ErrorServerMessage extends ServerMessage {
         if (this == o) return true;
         if (!(o instanceof ErrorServerMessage that)) return false;
         if (!super.equals(o)) return false;
-        return Objects.equals(this.getMessage(), that.getMessage());
+        return Objects.equals(this.getErrorMessage(), that.getErrorMessage());
     }
 }

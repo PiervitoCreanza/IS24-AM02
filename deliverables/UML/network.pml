@@ -3,20 +3,14 @@ package Network {
     package message {
         interface Message {}
         abstract class ServerMessage implements Message {
-            -MessageStatusEnum status
-            +getMessageStatus()
+            -ServerActionEnum serverAction
+            +getServerAction()
         }
-        class ErrorServerMessage extends ServerMessage {
-            -String message
-            +ErrorServerMessage(String message)
-        }
-        class SuccessServerMessage extends ServerMessage {
-            -ServerActionEnum action
-            +GameServerMessage(ServerActionEnum action)
-        }
-        class ViewUpdateMessage extends SuccessServerMessage {
-            -GameControllerView view
-            +ViewUpdateServerMessage(GameControllerView view)
+        class MessageServerSubClasses extends ServerMessage {
+            -UpdateViewServerMessage
+            -DeleteGameServerMessage
+            -GetGamesServerMessage
+            -ErrorServerMessage
         }
         abstract class ClientMessage implements Message {
             -PlayerActionEnum playerAction
@@ -31,9 +25,10 @@ package Network {
             +Coordinate getCoordinate()
             +GameCard getGameCard()
         }
-        class SubClasses extends ClientMessage {
+        class ClientMessageSubClasses extends ClientMessage {
             -GetGamesClientMessage
             -CreateGameClientMessage
+            -DeleteGameClientMessage
             -JoinGameClientMessage
             -ChoosePlayerColorClientMessage
             -SetPlayerObjectiveClientMessage

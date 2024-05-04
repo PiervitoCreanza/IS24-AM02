@@ -1,7 +1,9 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.network.server.message.ErrorServerMessage;
-import it.polimi.ingsw.network.server.message.successMessage.UpdateViewServerMessage;
+import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
+import it.polimi.ingsw.network.virtualView.GameControllerView;
+
+import java.util.HashSet;
 
 /**
  * The ClientCommandMapper class is responsible for mapping server commands to updates in the view.
@@ -11,14 +13,16 @@ public class ClientCommandMapper implements ServerActions {
     /**
      * The MessageHandler object is used to handle messages received from the server.
      */
-    private final ClientMessageHandler messageHandler;
+    private ClientMessageHandler messageHandler;
 
     /**
      * Constructs a new ClientCommandMapper object with the specified message handler.
      *
-     * @param messageHandler the message handler to be used by the ClientCommandMapper
      */
-    public ClientCommandMapper(ClientMessageHandler messageHandler) {
+    public ClientCommandMapper() {
+    }
+
+    public void setMessageHandler(ClientMessageHandler messageHandler) {
         this.messageHandler = messageHandler;
     }
 
@@ -27,7 +31,8 @@ public class ClientCommandMapper implements ServerActions {
      * TODO: add parameters as needed.
      */
     @Override
-    public void receiveGameList() {
+    public void receiveGameList(HashSet<GameRecord> games) {
+        System.out.println("Received games: " + games);
         // TODO: Implement this method
     }
 
@@ -36,7 +41,8 @@ public class ClientCommandMapper implements ServerActions {
      * TODO: add parameters as needed.
      */
     @Override
-    public void receiveGameDeleted() {
+    public void receiveGameDeleted(String message) {
+        System.out.println(message);
         // TODO: Implement this method
     }
 
@@ -46,7 +52,8 @@ public class ClientCommandMapper implements ServerActions {
      * @param updatedView The updated view message received from the client.
      */
     @Override
-    public void receiveUpdatedView(UpdateViewServerMessage updatedView) {
+    public void receiveUpdatedView(GameControllerView updatedView) {
+        System.out.println("Received updated view: " + updatedView);
         // TODO: Implement this method
     }
 
@@ -56,7 +63,8 @@ public class ClientCommandMapper implements ServerActions {
      * @param errorMessage The error message received from the client.
      */
     @Override
-    public void receiveErrorMessage(ErrorServerMessage errorMessage) {
+    public void receiveErrorMessage(String errorMessage) {
+        System.out.println("Received error message: " + errorMessage);
         // TODO: Implement this method
     }
 }

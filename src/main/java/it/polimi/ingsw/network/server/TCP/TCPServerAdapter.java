@@ -78,27 +78,28 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
 
         ClientMessage receivedMessage = this.gson.fromJson(message, ClientMessage.class);
         PlayerActionEnum playerAction = receivedMessage.getPlayerAction();
+        // Thanks to polymorphism, the correct method is called based on the playerAction (ClientMessage have all the methods of subclasses, so when we get the right message the methods was overridden)
         switch (playerAction) {
             case GET_GAMES -> networkCommandMapper.getGames(this);
             case CREATE_GAME ->
                     networkCommandMapper.createGame(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getNPlayers());
-            case DELETE_GAME -> networkCommandMapper.deleteGame(receivedMessage.getGameName());
+            case DELETE_GAME -> networkCommandMapper.deleteGame(this, receivedMessage.getGameName());
             case JOIN_GAME ->
                     networkCommandMapper.joinGame(this, receivedMessage.getGameName(), receivedMessage.getPlayerName());
             case CHOOSE_PLAYER_COLOR ->
-                    networkCommandMapper.choosePlayerColor(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getPlayerColor());
+                    networkCommandMapper.choosePlayerColor(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getPlayerColor());
             case SET_PLAYER_OBJECTIVE ->
-                    networkCommandMapper.setPlayerObjective(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getObjectiveCard());
+                    networkCommandMapper.setPlayerObjective(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getObjectiveCard());
             case PLACE_CARD ->
-                    networkCommandMapper.placeCard(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getCoordinate(), receivedMessage.getGameCard());
+                    networkCommandMapper.placeCard(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getCoordinate(), receivedMessage.getGameCard());
             case DRAW_CARD_FROM_FIELD ->
-                    networkCommandMapper.drawCardFromField(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
+                    networkCommandMapper.drawCardFromField(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
             case DRAW_CARD_FROM_RESOURCE_DECK ->
-                    networkCommandMapper.drawCardFromResourceDeck(receivedMessage.getGameName(), receivedMessage.getPlayerName());
+                    networkCommandMapper.drawCardFromResourceDeck(this, receivedMessage.getGameName(), receivedMessage.getPlayerName());
             case DRAW_CARD_FROM_GOLD_DECK ->
-                    networkCommandMapper.drawCardFromGoldDeck(receivedMessage.getGameName(), receivedMessage.getPlayerName());
+                    networkCommandMapper.drawCardFromGoldDeck(this, receivedMessage.getGameName(), receivedMessage.getPlayerName());
             case SWITCH_CARD_SIDE ->
-                    networkCommandMapper.switchCardSide(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
+                    networkCommandMapper.switchCardSide(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
             default -> System.out.print("Invalid action");
         }
         // Debug

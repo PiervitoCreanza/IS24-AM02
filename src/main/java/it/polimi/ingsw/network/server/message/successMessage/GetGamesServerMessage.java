@@ -30,6 +30,7 @@ public class GetGamesServerMessage extends ServerMessage {
      *
      * @return the set of games.
      */
+    @Override
     public HashSet<GameRecord> getGames() {
         return games;
     }
@@ -40,6 +41,7 @@ public class GetGamesServerMessage extends ServerMessage {
      * @param gameName the name of the game.
      * @return the game record with the given name, null if no game with the given name is found.
      */
+    @Override
     public GameRecord getGame(String gameName) {
         return games.stream().filter(game -> game.gameName().equals(gameName)).findFirst().orElse(null);
     }

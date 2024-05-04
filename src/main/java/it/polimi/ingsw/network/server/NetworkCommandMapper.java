@@ -80,7 +80,7 @@ public class NetworkCommandMapper implements ClientActions {
             mainController.createGame(gameName, playerName, nPlayers);
             broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
         } catch (Exception e) {
-            broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
+            messageHandler.sendMessage(new ErrorServerMessage(e.getMessage()));
         }
     }
 
@@ -100,7 +100,7 @@ public class NetworkCommandMapper implements ClientActions {
             messageHandler.setPlayerName(playerName);
             broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
         } catch (Exception e) {
-            broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
+            messageHandler.sendMessage(new ErrorServerMessage(e.getMessage()));
         }
     }
 
@@ -110,13 +110,13 @@ public class NetworkCommandMapper implements ClientActions {
      * @param gameName the name of the game.
      */
     @Override
-    public void deleteGame(String gameName) {
+    public void deleteGame(ServerMessageHandler messageHandler, String gameName) {
         try {
             mainController.deleteGame(gameName);
             gameConnectionMapper.remove(gameName);
             broadcastMessage(gameName, new DeleteGameServerMessage());
         } catch (Exception e) {
-            broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
+            messageHandler.sendMessage(new ErrorServerMessage(e.getMessage()));
         }
     }
 
@@ -128,12 +128,12 @@ public class NetworkCommandMapper implements ClientActions {
      * @param playerColor the color to be chosen.
      */
     @Override
-    public void choosePlayerColor(String gameName, String playerName, PlayerColorEnum playerColor) {
+    public void choosePlayerColor(ServerMessageHandler messageHandler, String gameName, String playerName, PlayerColorEnum playerColor) {
         try {
             mainController.getGameController(gameName).choosePlayerColor(playerName, playerColor);
             broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
         } catch (Exception e) {
-            broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
+            messageHandler.sendMessage(new ErrorServerMessage(e.getMessage()));
         }
     }
 
@@ -146,12 +146,12 @@ public class NetworkCommandMapper implements ClientActions {
      * @param card       the card to be placed.
      */
     @Override
-    public void placeCard(String gameName, String playerName, Coordinate coordinate, GameCard card) {
+    public void placeCard(ServerMessageHandler messageHandler, String gameName, String playerName, Coordinate coordinate, GameCard card) {
         try {
             mainController.getGameController(gameName).placeCard(playerName, coordinate, card);
             broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
         } catch (Exception e) {
-            broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
+            messageHandler.sendMessage(new ErrorServerMessage(e.getMessage()));
         }
     }
 
@@ -163,12 +163,12 @@ public class NetworkCommandMapper implements ClientActions {
      * @param card       the card to be drawn.
      */
     @Override
-    public void drawCardFromField(String gameName, String playerName, GameCard card) {
+    public void drawCardFromField(ServerMessageHandler messageHandler, String gameName, String playerName, GameCard card) {
         try {
             mainController.getGameController(gameName).drawCardFromField(playerName, card);
             broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
         } catch (Exception e) {
-            broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
+            messageHandler.sendMessage(new ErrorServerMessage(e.getMessage()));
         }
     }
 
@@ -179,12 +179,12 @@ public class NetworkCommandMapper implements ClientActions {
      * @param playerName the name of the player who is drawing the card.
      */
     @Override
-    public void drawCardFromResourceDeck(String gameName, String playerName) {
+    public void drawCardFromResourceDeck(ServerMessageHandler messageHandler, String gameName, String playerName) {
         try {
             mainController.getGameController(gameName).drawCardFromResourceDeck(playerName);
             broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
         } catch (Exception e) {
-            broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
+            messageHandler.sendMessage(new ErrorServerMessage(e.getMessage()));
         }
     }
 
@@ -195,12 +195,12 @@ public class NetworkCommandMapper implements ClientActions {
      * @param playerName the name of the player who is drawing the card.
      */
     @Override
-    public void drawCardFromGoldDeck(String gameName, String playerName) {
+    public void drawCardFromGoldDeck(ServerMessageHandler messageHandler, String gameName, String playerName) {
         try {
             mainController.getGameController(gameName).drawCardFromGoldDeck(playerName);
             broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
         } catch (Exception e) {
-            broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
+            messageHandler.sendMessage(new ErrorServerMessage(e.getMessage()));
         }
     }
 
@@ -212,12 +212,12 @@ public class NetworkCommandMapper implements ClientActions {
      * @param card       the card whose side is to be switched.
      */
     @Override
-    public void switchCardSide(String gameName, String playerName, GameCard card) {
+    public void switchCardSide(ServerMessageHandler messageHandler, String gameName, String playerName, GameCard card) {
         try {
             mainController.getGameController(gameName).switchCardSide(playerName, card);
             broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
         } catch (Exception e) {
-            broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
+            messageHandler.sendMessage(new ErrorServerMessage(e.getMessage()));
         }
     }
 
@@ -229,12 +229,12 @@ public class NetworkCommandMapper implements ClientActions {
      * @param card       the objective card to be set for the player.
      */
     @Override
-    public void setPlayerObjective(String gameName, String playerName, ObjectiveCard card) {
+    public void setPlayerObjective(ServerMessageHandler messageHandler, String gameName, String playerName, ObjectiveCard card) {
         try {
             mainController.getGameController(gameName).setPlayerObjective(playerName, card);
             broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
         } catch (Exception e) {
-            broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
+            messageHandler.sendMessage(new ErrorServerMessage(e.getMessage()));
         }
     }
 
