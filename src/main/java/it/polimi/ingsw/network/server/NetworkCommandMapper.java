@@ -25,10 +25,10 @@ public class NetworkCommandMapper implements ClientActions {
     private final MainController mainController;
 
     /**
-     * A map that associates game names with sets of MessageHandler<ServerMessage> objects.
+     * A map that associates game names with sets of ServerMessageHandler objects.
      * This is used to keep track of the connections for each game.
      */
-    private final HashMap<String, HashSet<MessageHandler<ServerMessage>>> gameConnectionMapper = new HashMap<>();
+    private final HashMap<String, HashSet<ServerMessageHandler>> gameConnectionMapper = new HashMap<>();
 
     /**
      * Constructs a new NetworkCommandMapper object with the specified MainController.
@@ -46,7 +46,7 @@ public class NetworkCommandMapper implements ClientActions {
      * @param message  the message to be sent
      */
     private void broadcastMessage(String gameName, ServerMessage message) {
-        for (MessageHandler<ServerMessage> messageHandler : gameConnectionMapper.get(gameName)) {
+        for (ServerMessageHandler messageHandler : gameConnectionMapper.get(gameName)) {
             messageHandler.sendMessage(message);
         }
     }
@@ -54,10 +54,10 @@ public class NetworkCommandMapper implements ClientActions {
     /**
      * Gets the list of available games.
      *
-     * @param messageHandler the MessageHandler<ServerMessage> that will handle the response
+     * @param messageHandler the ServerMessageHandler that will handle the response
      */
     @Override
-    public void getGames(MessageHandler<ServerMessage> messageHandler) {
+    public void getGames(ServerMessageHandler messageHandler) {
         try {
             messageHandler.sendMessage(new GetGamesServerMessage(mainController.getGameRecords()));
         } catch (Exception e) {
@@ -68,12 +68,12 @@ public class NetworkCommandMapper implements ClientActions {
     /**
      * Creates a new game with the specified name and number of players.
      *
-     * @param messageHandler the MessageHandler<ServerMessage> that will handle the response
+     * @param messageHandler the ServerMessageHandler that will handle the response
      * @param gameName       the name of the game to be created
      * @param nPlayers       the number of players in the game
      */
     @Override
-    public void createGame(MessageHandler<ServerMessage> messageHandler, String gameName, String playerName, int nPlayers) {
+    public void createGame(ServerMessageHandler messageHandler, String gameName, String playerName, int nPlayers) {
         try {
             gameConnectionMapper.put(gameName, new HashSet<>());
             gameConnectionMapper.get(gameName).add(messageHandler);
@@ -87,12 +87,12 @@ public class NetworkCommandMapper implements ClientActions {
     /**
      * Allows a player to join a game.
      *
-     * @param messageHandler the MessageHandler<ServerMessage> that will handle the response
+     * @param messageHandler the ServerMessageHandler that will handle the response
      * @param gameName       the name of the game to join
      * @param playerName     the name of the player joining the game
      */
     @Override
-    public void joinGame(MessageHandler<ServerMessage> messageHandler, String gameName, String playerName) {
+    public void joinGame(ServerMessageHandler messageHandler, String gameName, String playerName) {
         try {
             mainController.joinGame(gameName, playerName);
             gameConnectionMapper.get(gameName).add(messageHandler);
@@ -105,11 +105,10 @@ public class NetworkCommandMapper implements ClientActions {
     /**
      * Leaves the game.
      *
-     * @param messageHandler the class that will send the response back to the client
-     * @param gameName       the name of the game.
+     * @param gameName the name of the game.
      */
     @Override
-    public void deleteGame(MessageHandler<ServerMessage> messageHandler, String gameName) {
+    public void deleteGame(String gameName) {
         try {
             mainController.deleteGame(gameName);
             gameConnectionMapper.remove(gameName);
@@ -122,13 +121,12 @@ public class NetworkCommandMapper implements ClientActions {
     /**
      * Chooses the color for a player.
      *
-     * @param messageHandler the class that will send the response back to the client
-     * @param gameName       the name of the game.
-     * @param playerName     the name of the player who is choosing the color.
-     * @param playerColor    the color to be chosen.
+     * @param gameName    the name of the game.
+     * @param playerName  the name of the player who is choosing the color.
+     * @param playerColor the color to be chosen.
      */
     @Override
-    public void choosePlayerColor(MessageHandler<ServerMessage> messageHandler, String gameName, String playerName, PlayerColorEnum playerColor) {
+    public void choosePlayerColor(String gameName, String playerName, PlayerColorEnum playerColor) {
         try {
             mainController.getGameController(gameName).choosePlayerColor(playerName, playerColor);
             broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
@@ -140,14 +138,13 @@ public class NetworkCommandMapper implements ClientActions {
     /**
      * Places a card on the game field.
      *
-     * @param messageHandler the class that will send the response back to the client
-     * @param gameName       the name of the game.
-     * @param playerName     the name of the player who is placing the card.
-     * @param coordinate     the coordinate where the card should be placed.
-     * @param card           the card to be placed.
+     * @param gameName   the name of the game.
+     * @param playerName the name of the player who is placing the card.
+     * @param coordinate the coordinate where the card should be placed.
+     * @param card       the card to be placed.
      */
     @Override
-    public void placeCard(MessageHandler<ServerMessage> messageHandler, String gameName, String playerName, Coordinate coordinate, GameCard card) {
+    public void placeCard(String gameName, String playerName, Coordinate coordinate, GameCard card) {
         try {
             mainController.getGameController(gameName).placeCard(playerName, coordinate, card);
             broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
@@ -159,13 +156,12 @@ public class NetworkCommandMapper implements ClientActions {
     /**
      * Draws a card from the game field.
      *
-     * @param messageHandler the class that will send the response back to the client
-     * @param gameName       the name of the game.
-     * @param playerName     the name of the player who is drawing the card.
-     * @param card           the card to be drawn.
+     * @param gameName   the name of the game.
+     * @param playerName the name of the player who is drawing the card.
+     * @param card       the card to be drawn.
      */
     @Override
-    public void drawCardFromField(MessageHandler<ServerMessage> messageHandler, String gameName, String playerName, GameCard card) {
+    public void drawCardFromField(String gameName, String playerName, GameCard card) {
         try {
             mainController.getGameController(gameName).drawCardFromField(playerName, card);
             broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
@@ -177,12 +173,11 @@ public class NetworkCommandMapper implements ClientActions {
     /**
      * Draws a card from the resource deck.
      *
-     * @param messageHandler the class that will send the response back to the client
-     * @param gameName       the name of the game.
-     * @param playerName     the name of the player who is drawing the card.
+     * @param gameName   the name of the game.
+     * @param playerName the name of the player who is drawing the card.
      */
     @Override
-    public void drawCardFromResourceDeck(MessageHandler<ServerMessage> messageHandler, String gameName, String playerName) {
+    public void drawCardFromResourceDeck(String gameName, String playerName) {
         try {
             mainController.getGameController(gameName).drawCardFromResourceDeck(playerName);
             broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
@@ -194,12 +189,11 @@ public class NetworkCommandMapper implements ClientActions {
     /**
      * Draws a card from the gold deck.
      *
-     * @param messageHandler the class that will send the response back to the client
-     * @param gameName       the name of the game.
-     * @param playerName     the name of the player who is drawing the card.
+     * @param gameName   the name of the game.
+     * @param playerName the name of the player who is drawing the card.
      */
     @Override
-    public void drawCardFromGoldDeck(MessageHandler<ServerMessage> messageHandler, String gameName, String playerName) {
+    public void drawCardFromGoldDeck(String gameName, String playerName) {
         try {
             mainController.getGameController(gameName).drawCardFromGoldDeck(playerName);
             broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
@@ -211,13 +205,12 @@ public class NetworkCommandMapper implements ClientActions {
     /**
      * Switches the side of a card.
      *
-     * @param messageHandler the class that will send the response back to the client
-     * @param gameName       the name of the game.
-     * @param playerName     the name of the player who is switching the card side.
-     * @param card           the card whose side is to be switched.
+     * @param gameName   the name of the game.
+     * @param playerName the name of the player who is switching the card side.
+     * @param card       the card whose side is to be switched.
      */
     @Override
-    public void switchCardSide(MessageHandler<ServerMessage> messageHandler, String gameName, String playerName, GameCard card) {
+    public void switchCardSide(String gameName, String playerName, GameCard card) {
         try {
             mainController.getGameController(gameName).switchCardSide(playerName, card);
             broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
@@ -229,13 +222,12 @@ public class NetworkCommandMapper implements ClientActions {
     /**
      * Sets the objective for a player.
      *
-     * @param messageHandler the class that will send the response back to the client
-     * @param gameName       the name of the game.
-     * @param playerName     the name of the player whose objective is to be set.
-     * @param card           the objective card to be set for the player.
+     * @param gameName   the name of the game.
+     * @param playerName the name of the player whose objective is to be set.
+     * @param card       the objective card to be set for the player.
      */
     @Override
-    public void setPlayerObjective(MessageHandler<ServerMessage> messageHandler, String gameName, String playerName, ObjectiveCard card) {
+    public void setPlayerObjective(String gameName, String playerName, ObjectiveCard card) {
         try {
             mainController.getGameController(gameName).setPlayerObjective(playerName, card);
             broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));

@@ -17,31 +17,33 @@ public interface ClientActions {
      *
      * @param messageHandler the message handler to handle the response.
      */
-    void getGames(MessageHandler<ServerMessage> messageHandler);
+    void getGames(ServerMessageHandler messageHandler);
 
     /**
      * Creates a new game with the given game name and number of players.
      *
-     * @param gameName   the name of the game.
-     * @param playerName the name of the player.
-     * @param nPlayers   the number of players in the game.
+     * @param messageHandler the message handler to handle the response.
+     * @param gameName       the name of the game.
+     * @param playerName     the name of the player.
+     * @param nPlayers       the number of players in the game.
      */
-    void createGame(MessageHandler<ServerMessage> messageHandler, String gameName, String playerName, int nPlayers);
+    void createGame(ServerMessageHandler messageHandler, String gameName, String playerName, int nPlayers);
 
     /**
      * Leaves the game.
      *
      * @param gameName the name of the game.
      */
-    void deleteGame(MessageHandler<ServerMessage> messageHandler, String gameName);
+    void deleteGame(String gameName);
 
     /**
      * Joins the game with the given player name.
      *
-     * @param gameName   the name of the game.
-     * @param playerName the name of the player who is joining the game.
+     * @param messageHandler the message handler to handle the response.
+     * @param gameName       the name of the game.
+     * @param playerName     the name of the player who is joining the game.
      */
-    void joinGame(MessageHandler<ServerMessage> messageHandler, String gameName, String playerName);
+    void joinGame(ServerMessageHandler messageHandler, String gameName, String playerName);
 
     /**
      * Chooses the color for a player.
@@ -50,7 +52,7 @@ public interface ClientActions {
      * @param playerName  the name of the player who is choosing the color.
      * @param playerColor the color to be chosen.
      */
-    void choosePlayerColor(MessageHandler<ServerMessage> messageHandler, String gameName, String playerName, PlayerColorEnum playerColor);
+    void choosePlayerColor(String gameName, String playerName, PlayerColorEnum playerColor);
 
     /**
      * Places a card on the game field.
@@ -60,7 +62,7 @@ public interface ClientActions {
      * @param coordinate the coordinate where the card should be placed.
      * @param card       the card to be placed.
      */
-    void placeCard(MessageHandler<ServerMessage> messageHandler, String gameName, String playerName, Coordinate coordinate, GameCard card);
+    void placeCard(String gameName, String playerName, Coordinate coordinate, GameCard card);
 
     /**
      * Draws a card from the game field.
@@ -69,7 +71,7 @@ public interface ClientActions {
      * @param playerName the name of the player who is drawing the card.
      * @param card       the card to be drawn.
      */
-    void drawCardFromField(MessageHandler<ServerMessage> messageHandler, String gameName, String playerName, GameCard card);
+    void drawCardFromField(String gameName, String playerName, GameCard card);
 
     /**
      * Draws a card from the resource deck.
@@ -77,7 +79,7 @@ public interface ClientActions {
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is drawing the card.
      */
-    void drawCardFromResourceDeck(MessageHandler<ServerMessage> messageHandler, String gameName, String playerName);
+    void drawCardFromResourceDeck(String gameName, String playerName);
 
     /**
      * Draws a card from the gold deck.
@@ -85,7 +87,7 @@ public interface ClientActions {
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is drawing the card.
      */
-    void drawCardFromGoldDeck(MessageHandler<ServerMessage> messageHandler, String gameName, String playerName);
+    void drawCardFromGoldDeck(String gameName, String playerName);
 
     /**
      * Switches the side of a card.
@@ -94,7 +96,7 @@ public interface ClientActions {
      * @param playerName the name of the player who is switching the card side.
      * @param card       the card whose side is to be switched.
      */
-    void switchCardSide(MessageHandler<ServerMessage> messageHandler, String gameName, String playerName, GameCard card);
+    void switchCardSide(String gameName, String playerName, GameCard card);
 
     /**
      * Sets the objective for a player.
@@ -103,5 +105,5 @@ public interface ClientActions {
      * @param playerName the name of the player whose objective is to be set.
      * @param card       the objective card to be set for the player.
      */
-    void setPlayerObjective(MessageHandler<ServerMessage> messageHandler, String gameName, String playerName, ObjectiveCard card);
+    void setPlayerObjective(String gameName, String playerName, ObjectiveCard card);
 }

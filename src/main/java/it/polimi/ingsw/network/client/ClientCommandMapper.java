@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.network.client.message.ClientMessage;
-import it.polimi.ingsw.network.server.MessageHandler;
 import it.polimi.ingsw.network.server.message.ErrorServerMessage;
 import it.polimi.ingsw.network.server.message.successMessage.UpdateViewServerMessage;
 
@@ -13,14 +11,14 @@ public class ClientCommandMapper implements ServerActions {
     /**
      * The MessageHandler object is used to handle messages received from the server.
      */
-    private final MessageHandler<ClientMessage> messageHandler;
+    private final ClientMessageHandler messageHandler;
 
     /**
      * Constructs a new ClientCommandMapper object with the specified message handler.
      *
      * @param messageHandler the message handler to be used by the ClientCommandMapper
      */
-    public ClientCommandMapper(MessageHandler<ClientMessage> messageHandler) {
+    public ClientCommandMapper(ClientMessageHandler messageHandler) {
         this.messageHandler = messageHandler;
     }
 
