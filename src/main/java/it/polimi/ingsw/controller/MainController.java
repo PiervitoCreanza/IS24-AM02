@@ -34,6 +34,19 @@ public class MainController {
     }
 
     /**
+     * Returns the game with the specified name.
+     *
+     * @param gameName The name of the game to get.
+     * @return Game the game with the specified name.
+     */
+    public GameControllerMiddleware getGameController(String gameName) {
+        Optional<GameControllerMiddleware> chosenGameControllerMiddleware = findGame(gameName);
+        if (chosenGameControllerMiddleware.isEmpty())
+            throw new IllegalArgumentException("A game with the name \"" + gameName + "\" doesn't exists");
+        return chosenGameControllerMiddleware.get();
+    }
+
+    /**
      * Returns the GameView of the game with the specified name.
      *
      * @param gameName The name of the game to get the GameView of.

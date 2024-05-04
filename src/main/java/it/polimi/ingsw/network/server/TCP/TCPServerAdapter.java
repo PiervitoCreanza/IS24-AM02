@@ -12,17 +12,18 @@ import it.polimi.ingsw.network.adapters.ClientMessageAdapter;
 import it.polimi.ingsw.network.client.message.ClientMessage;
 import it.polimi.ingsw.network.client.message.PlayerActionEnum;
 import it.polimi.ingsw.network.server.NetworkCommandMapper;
-import it.polimi.ingsw.network.server.ServerMessageHandler;
+import it.polimi.ingsw.network.server.MessageHandler;
 import it.polimi.ingsw.network.server.message.ServerMessage;
 
+import java.io.IOException;
 import java.net.Socket;
 
 /**
  * The TCPServerAdapter class is responsible for handling TCP server operations.
  * It masks the TCPConnectionHandler in order to make RMI and TCP server operations interchangeable.
- * It implements the TCPObserver and ServerMessageHandler interfaces.
+ * It implements the Observer and MessageHandler interfaces.
  */
-public class TCPServerAdapter implements Observer<String>, ServerMessageHandler {
+public class TCPServerAdapter implements Observer<String>, MessageHandler<ServerMessage> {
     /**
      * The NetworkCommandMapper object is used to map network commands to actions in the game.
      */
@@ -62,9 +63,9 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
         ClientMessage receivedMessage = this.gson.fromJson(message, ClientMessage.class);
         PlayerActionEnum playerAction = receivedMessage.getPlayerAction();
         switch (playerAction) {
-            case GET_GAMES -> networkCommandMapper.getGames();
+            case GET_GAMES -> networkCommandMapper.getGames(this);
             case CREATE_GAME ->
-                    networkCommandMapper.createGame(this, receivedMessage.getGameName(), receivedMessage.getNPlayers(), receivedMessage.getPlayerName());
+                    networkCommandMapper.createGame(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getNPlayers());
             case DELETE_GAME -> networkCommandMapper.deleteGame(this, receivedMessage.getGameName());
             case JOIN_GAME ->
                     networkCommandMapper.joinGame(this, receivedMessage.getGameName(), receivedMessage.getPlayerName());
@@ -96,9 +97,15 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
     @Override
     public void sendMessage(ServerMessage message) {
         String serializedMessage = this.gson.toJson(message);
-        this.clientConnectionHandler.sendMessage(serializedMessage);
+        try {
+            this.clientConnectionHandler.send(serializedMessage);
+        } catch (IOException e) {
+            System.out.println("Error sending message: " );
+            return;
+        }
+
         // Debug
-        System.out.println("Sending message: " + serializedMessage);
+        System.out.println("Message sent: " + serializedMessage);
     }
 
     /**
@@ -108,6 +115,6 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
     public void closeConnection() {
         this.clientConnectionHandler.closeConnection();
         // Debug
-        System.out.println("Close the connection.");
+        System.out.println("Connection closed.");
     }
 }
