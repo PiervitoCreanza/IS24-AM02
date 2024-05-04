@@ -116,4 +116,15 @@ public class GameController implements PlayerActions {
     public void setPlayerObjective(String playerName, ObjectiveCard card) {
         game.getPlayer(playerName).setPlayerObjective(card);
     }
+
+    /**
+     * Sets the player connection status.
+     *
+     * @param playerName  the name of the player.
+     * @param isConnected the connection status of the player.
+     */
+    @Override
+    public void setPlayerConnectionStatus(String playerName, boolean isConnected) {
+        game.getPlayer(playerName).setConnected(isConnected);
+    }
 }

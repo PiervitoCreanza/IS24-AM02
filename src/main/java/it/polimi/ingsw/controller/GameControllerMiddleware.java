@@ -297,6 +297,16 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
     }
 
     /**
+     * Sets the connection status of a player.
+     *
+     * @param playerName  the name of the player whose connection status is to be set.
+     * @param isConnected the connection status to be set.
+     */
+    public void setPlayerConnectionStatus(String playerName, boolean isConnected) {
+        gameController.setPlayerConnectionStatus(playerName, isConnected);
+    }
+
+    /**
      * Gets the virtual view of the game controller.
      *
      * @return the virtual view of the game controller.
