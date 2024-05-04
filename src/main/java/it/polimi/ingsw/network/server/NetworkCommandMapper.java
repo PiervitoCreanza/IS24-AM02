@@ -96,6 +96,8 @@ public class NetworkCommandMapper implements ClientActions {
         try {
             mainController.joinGame(gameName, playerName);
             gameConnectionMapper.get(gameName).add(messageHandler);
+            messageHandler.setGameName(gameName);
+            messageHandler.setPlayerName(playerName);
             broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
         } catch (Exception e) {
             broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
@@ -233,6 +235,24 @@ public class NetworkCommandMapper implements ClientActions {
             broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
         } catch (Exception e) {
             broadcastMessage(gameName, new ErrorServerMessage(e.getMessage()));
+        }
+    }
+
+    /**
+     * Handles the disconnection of a client.
+     * If all clients in a game have disconnected, the game is deleted.
+     *
+     * @param messageHandler the ServerMessageHandler that has been disconnected
+     */
+    public void handleDisconnection(ServerMessageHandler messageHandler) {
+        String gameName = messageHandler.getGameName();
+        gameConnectionMapper.get(gameName).remove(messageHandler);
+        mainController.getGameController(gameName).setPlayerConnectionStatus(messageHandler.getPlayerName(), false);
+
+        // If the game is now empty we delete it.
+        if (gameConnectionMapper.get(gameName).isEmpty()) {
+            mainController.deleteGame(gameName);
+            gameConnectionMapper.remove(gameName);
         }
     }
 }

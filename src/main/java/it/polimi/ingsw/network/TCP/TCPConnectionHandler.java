@@ -68,7 +68,7 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
 
             // Start the thread that executes received messages
             notifyReceivedMessages();
-            
+
             heartbeat();
 
         } catch (IOException e) {
@@ -233,12 +233,17 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
      * It is synchronized to prevent closing a connection while sending a message.
      */
     public synchronized void closeConnection() {
-        try {
-            this.isConnected.set(false);
-            socket.close();
-        } catch (IOException e) {
-            // TODO: Handle any IOExceptions that might occur
+        if (!this.socket.isClosed()) {
+            try {
+                this.isConnected.set(false);
+                this.receivedMessages.clear();
+                this.receivedMessages.offer("CONNECTION_CLOSED");
+                socket.close();
+            } catch (IOException e) {
+                // TODO: Handle any IOExceptions that might occur
+            }
         }
+
     }
 }
 

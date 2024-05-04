@@ -34,6 +34,16 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
      */
     private final TCPConnectionHandler clientConnectionHandler;
 
+    /**
+     * The name of the game.
+     */
+    private String gameName;
+
+    /**
+     * The name of the player.
+     */
+    private String playerName;
+
     private final Gson gson = new GsonBuilder()
             .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter())
             .registerTypeAdapter(ObjectiveCard.class, new ObjectiveCardAdapter())
@@ -60,6 +70,12 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
      */
     @Override
     public void notify(String message) {
+        // Handle client disconnection
+        if ("CONNECTION_CLOSED".equals(message)) {
+            networkCommandMapper.handleDisconnection(this);
+            return;
+        }
+
         ClientMessage receivedMessage = this.gson.fromJson(message, ClientMessage.class);
         PlayerActionEnum playerAction = receivedMessage.getPlayerAction();
         switch (playerAction) {
@@ -116,5 +132,43 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
         this.clientConnectionHandler.closeConnection();
         // Debug
         System.out.println("Connection closed.");
+    }
+
+    /**
+     * Gets the name of the player associated with the connection.
+     */
+    @Override
+    public String getPlayerName() {
+        return this.playerName;
+    }
+
+    /**
+     * Sets the name of the player associated with the connection.
+     *
+     * @param playerName the name of the player
+     */
+    @Override
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+    
+    /**
+     * Gets the name of the game associated with the connection.
+     *
+     * @return the name of the game
+     */
+    @Override
+    public String getGameName() {
+        return this.gameName;
+    }
+
+    /**
+     * Sets the name of the game associated with the connection.
+     *
+     * @param gameName the name of the game
+     */
+    @Override
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
     }
 }
