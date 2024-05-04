@@ -68,8 +68,7 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
 
             // Start the thread that executes received messages
             notifyReceivedMessages();
-
-            // Activate pinging if the handler is used on the server
+            
             heartbeat();
 
         } catch (IOException e) {
