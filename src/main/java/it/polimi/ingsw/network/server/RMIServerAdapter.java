@@ -73,6 +73,16 @@ public class RMIServerAdapter implements ServerMessageHandler {
     }
 
     /**
+     * Sets the name of the game associated with the connection.
+     *
+     * @param gameName the name of the game
+     */
+    @Override
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
+    }
+
+    /**
      * Closes the connection to the client.
      */
     @Override
