@@ -4,5 +4,5 @@ public enum ServerActionEnum {
     UPDATE_VIEW,
     DELETE_GAME,
     GET_GAMES,
-    ERROR
+    ERROR_MSG
 }

@@ -140,7 +140,7 @@ package Network {
                 +connect(String ip, Int port);
             }
 
-            class RMIClientAsAClient implements ClientMessageHandler {
+            class RMIConnectionHandler implements ClientMessageHandler {
                 -ServerActions stub
                 +sendMessage(ServerMessage message)
                 +closeConnection()
