@@ -5,6 +5,11 @@ import it.polimi.ingsw.network.virtualView.GameControllerView;
 
 import java.util.HashSet;
 
+
+//TODO: S to C -> IMPLEMENTARE metodi qui che ricevono il messaggio e stampano errore o aggiornano View con cose cambiate (o meglio, triggerano evento di conseguenza)
+
+//Questa classe mappa i comandi del server agli aggiornamenti della view
+//e GUI/TUI del client a chiamate remote al server
 /**
  * The ClientCommandMapper class is responsible for mapping server commands to updates in the view.
  * It implements the ClientActions interface.
@@ -22,18 +27,20 @@ public class ClientCommandMapper implements ServerActions {
     public ClientCommandMapper() {
     }
 
+    public void getGames() {
+        // messageHandler.sendMessage(new GetGamesClientMessage());
+    }
     public void setMessageHandler(ClientMessageHandler messageHandler) {
         this.messageHandler = messageHandler;
     }
 
     /**
      * This method is called when the server receives a request for the list of games.
-     * TODO: add parameters as needed.
      */
     @Override
     public void receiveGameList(HashSet<GameRecord> games) {
         System.out.println("Received games: " + games);
-        // TODO: Implement this method
+        // TODO: Implement this method for JavaFx events
     }
 
     /**
@@ -43,7 +50,7 @@ public class ClientCommandMapper implements ServerActions {
     @Override
     public void receiveGameDeleted(String message) {
         System.out.println(message);
-        // TODO: Implement this method
+        // TODO: Implement this method for JavaFx events
     }
 
     /**
@@ -54,7 +61,7 @@ public class ClientCommandMapper implements ServerActions {
     @Override
     public void receiveUpdatedView(GameControllerView updatedView) {
         System.out.println("Received updated view: " + updatedView);
-        // TODO: Implement this method
+        // TODO: Implement this method for JavaFx events
     }
 
     /**
@@ -65,6 +72,7 @@ public class ClientCommandMapper implements ServerActions {
     @Override
     public void receiveErrorMessage(String errorMessage) {
         System.out.println("Received error message: " + errorMessage);
-        // TODO: Implement this method
+        // TODO: Implement this method for JavaFx events
     }
+
 }

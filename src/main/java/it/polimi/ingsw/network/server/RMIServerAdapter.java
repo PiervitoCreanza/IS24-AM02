@@ -26,16 +26,11 @@ public class RMIServerAdapter implements ServerMessageHandler {
         ServerActionEnum serverAction = message.getServerAction();
         try {
             switch (serverAction) {
-                case UPDATE_VIEW:
-                    stub.receiveUpdatedView(message.getView());
-                case DELETE_GAME:
-                    stub.receiveGameDeleted("Game deleted successfully");
-                case GET_GAMES:
-                    stub.receiveGameList(message.getGames());
-                case ERROR:
-                    stub.receiveErrorMessage(message.getErrorMessage());
-                default:
-                    System.err.print("Invalid action");
+                case UPDATE_VIEW -> stub.receiveUpdatedView(message.getView());
+                case DELETE_GAME -> stub.receiveGameDeleted("Game deleted successfully");
+                case GET_GAMES -> stub.receiveGameList(message.getGames());
+                case ERROR_MSG -> stub.receiveErrorMessage(message.getErrorMessage());
+                default -> System.err.print("Invalid action\n");
             }
         } catch (RemoteException e) {
             e.printStackTrace();

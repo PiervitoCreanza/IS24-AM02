@@ -6,7 +6,7 @@ public class ErrorServerMessage extends ServerMessage {
     private final String message;
 
     public ErrorServerMessage(String message) {
-        super(ServerActionEnum.ERROR);
+        super(ServerActionEnum.ERROR_MSG);
         this.message = message;
     }
 
