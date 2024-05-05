@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.network.client.RMIServerActions;
 
 import java.rmi.RemoteException;
 
@@ -13,7 +14,7 @@ public interface RMIClientActions extends ClientActions {
      * Retrieves the list of available games.
      * This method is used when a client wants to see all the games that are currently available to join.
      */
-    void getGames(String ip, int port) throws RemoteException;
+    void getGames(RMIServerActions stub) throws RemoteException;
 
     /**
      * Creates a new game with the given game name and number of players.
@@ -22,7 +23,10 @@ public interface RMIClientActions extends ClientActions {
      * @param playerName the name of the player.
      * @param nPlayers   the number of players in the game.
      */
-    void createGame(String ip, int port, String gameName, String playerName, int nPlayers) throws RemoteException;
+    void createGame(RMIClientActions stub, String gameName, String playerName, int nPlayers) throws RemoteException;
+    //TODO: the adapter here will save the stub into the map in which we'll have both TCP and RMI connection mapping
+    //TODO: the adapter will uniform to a ServerMessageHandler the RMI connections' stubs
+
 
     /**
      * Leaves the game.
@@ -37,7 +41,9 @@ public interface RMIClientActions extends ClientActions {
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is joining the game.
      */
-    void joinGame(String ip, int port, String gameName, String playerName) throws RemoteException;
+    void joinGame(RMIClientActions stub, String gameName, String playerName) throws RemoteException;
+    //TODO: the adapter here will save the stub into the map in which we'll have both TCP and RMI connection mapping
+    //TODO: the adapter will uniform to a ServerMessageHandler the RMI connections' stubs
 
     /**
      * Chooses the color for a player.

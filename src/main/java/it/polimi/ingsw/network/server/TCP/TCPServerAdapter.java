@@ -100,7 +100,7 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
                     networkCommandMapper.drawCardFromGoldDeck(this, receivedMessage.getGameName(), receivedMessage.getPlayerName());
             case SWITCH_CARD_SIDE ->
                     networkCommandMapper.switchCardSide(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
-            default -> System.out.print("Invalid action");
+            default -> System.err.print("Invalid action");
         }
         // Debug
         System.out.println("Received message: " + message);

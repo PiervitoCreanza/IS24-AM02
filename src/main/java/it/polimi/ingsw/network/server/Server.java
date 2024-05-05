@@ -7,11 +7,14 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.rmi.RemoteException;
 
+//TODO: test multiple RMI clients on the same port
+//TODO: see fixIt() method in IngConti example https://mattiacolombo.link/2xjxdc
+
 /**
  * This class is responsible for setting up and running the TCP server.
  * It listens for incoming client connections and handles each one in a separate thread.
  */
-public class TCPServer {
+public class Server {
     /**
      * The entry point of the application.
      *
@@ -23,18 +26,19 @@ public class TCPServer {
 
         // Create a new NetworkCommandMapper instance. This will be responsible for mapping network commands.
         NetworkCommandMapper networkCommandMapper = new NetworkCommandMapper(mainController);
-
+        //TODO: specify RMI and TCP ports. Adequate with 2 CLI args.
         // Set the default port number to 12345.
         int portNumber = 12345;
 
         // If a port number is passed as a command line argument, override the default port number.
         if (args.length == 1) {
-            System.err.println("Usage: java TCPServer <port number>");
+            System.err.println("Usage: java Server <port number>");
             portNumber = Integer.parseInt(args[0]);
         }
+        //TODO: RMIServerConnectionHandler rmiServerConnectionHandler = new RMIServerConnectionHandler(networkCommandMapper);
         RMIServerConnectionHandler rmiServerConnectionHandler = new RMIServerConnectionHandler();
         try {
-            RMIServerConnectionHandler.createRegistry();
+            rmiServerConnectionHandler.instanceRMIServerConnectionHandler(1777, networkCommandMapper);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
