@@ -8,6 +8,7 @@ import java.util.HashSet;
 public abstract class ServerMessage {
     public ServerActionEnum serverAction;
 
+
     public ServerMessage(ServerActionEnum serverAction) {
         this.serverAction = serverAction;
     }

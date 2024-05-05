@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.utils.store;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -11,7 +12,7 @@ import java.util.stream.Collectors;
  *
  * @param <T> the type of the objects in the store
  */
-public class Store<T> {
+public class Store<T> implements Serializable {
     /**
      * The store that contains the objects and their amounts.
      */

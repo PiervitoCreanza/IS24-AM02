@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.utils.Coordinate;
 
 import java.rmi.RemoteException;
 
-public interface RMIClientActions {
+public interface RMIClientActions extends ClientActions {
 
     /**
      * Retrieves the list of available games.
