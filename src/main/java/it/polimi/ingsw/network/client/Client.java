@@ -11,19 +11,39 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-
 public class Client {
     public static void main(String[] args) {
-        String connectionType = null;
-        String ipAddress = null;
-        int portNumber = 0;
+        CommandLine cmd = parseCommandLineArgs(args);
+        // get values from options
+        String connectionType = cmd.getOptionValue("c");
+        String ipAddress = cmd.getOptionValue("ip", "localhost"); // default is localhost
+        int TCPPortNumber = Integer.parseInt(cmd.getOptionValue("TCP_P", "12345"));
+        int RMIPortNumber = Integer.parseInt(cmd.getOptionValue("RMI_P", "1099"));
+
+        switch (connectionType.toLowerCase()) {
+            case "tcp" -> {
+                System.err.println("Hai avviato una connessione TCP con IP: " + ipAddress + " e porta: " + TCPPortNumber);
+                startTCPClient(ipAddress, TCPPortNumber);
+            }
+            case "rmi" -> {
+                System.err.println("Hai avviato una connessione RMI con IP: " + ipAddress + " e porta: " + RMIPortNumber);
+                startRMIClient(ipAddress, RMIPortNumber);
+            }
+            default -> {
+                System.err.println("Invalid connection type. Please specify either TCP or RMI.");
+            }
+        }
+    }
+
+    private static CommandLine parseCommandLineArgs(String[] args) {
         // create Options object
         Options options = new Options();
 
         // add options
         options.addOption("c", true, "Connection type (TCP or RMI). This is mandatory.");
         options.addOption("ip", true, "IP address (default is localhost).");
-        options.addOption("p", true, "Port number (default is 12345).");
+        options.addOption("TCP_P", true, "TCP Port number (default is 12345).");
+        options.addOption("RMI_P", true, "RMI Port number (default is 12345).");
 
         CommandLineParser parser = new DefaultParser();
 
@@ -34,33 +54,18 @@ public class Client {
             // check mandatory options
             if (!cmd.hasOption("c")) {
                 System.err.println("Please specify the connection type (TCP or RMI) using the -c option.");
-                return;
+                System.exit(1);
             }
 
-            // get values from options
-            connectionType = cmd.getOptionValue("c");
-            ipAddress = cmd.getOptionValue("ip", "localhost"); // default is localhost
-            portNumber = Integer.parseInt(cmd.getOptionValue("p", "12345")); // default is 12345
-
+            return cmd;
         } catch (ParseException e) {
             System.err.println("Parsing failed. Reason: " + e.getMessage());
-            return;
+            System.exit(1);
         }
 
-        switch (connectionType.toLowerCase()) {
-            case "tcp" -> {
-                System.out.println("Hai avviato una connessione TCP con IP: " + ipAddress + " e porta: " + portNumber);
-                startTCPClient(ipAddress, portNumber);
-            }
-            case "rmi" -> {
-                System.out.println("Hai avviato una connessione RMI con IP: " + ipAddress + " e porta: " + portNumber);
-                startRMIClient(ipAddress, portNumber);
-            }
-            default -> {
-                System.err.println("Invalid connection type. Please specify either TCP or RMI.");
-            }
-        }
+        return null;
     }
+
     private static void startTCPClient(String ipAddress, int portNumber) {
         try {
             System.out.println("Hello, this is the client!");
