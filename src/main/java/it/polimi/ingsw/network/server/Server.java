@@ -74,6 +74,9 @@ public class Server {
 
     private static void RMIServerStart(NetworkCommandMapper networkCommandMapper, Integer RMIPortNumber) {
         try {
+            //TODO Conti fixit
+            System.setProperty("java.rmi.server.hostname", "10.144.13.30");
+
             RMIServerConnectionHandler rmiServerConnectionHandler = new RMIServerConnectionHandler(networkCommandMapper);
             RMIClientActions stub = (RMIClientActions) UnicastRemoteObject.exportObject(rmiServerConnectionHandler, RMIPortNumber);
             Registry registry = LocateRegistry.createRegistry(RMIPortNumber);

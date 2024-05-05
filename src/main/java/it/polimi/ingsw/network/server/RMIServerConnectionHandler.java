@@ -8,6 +8,8 @@ import it.polimi.ingsw.network.TCP.Observer;
 import it.polimi.ingsw.network.client.ServerActions;
 
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 public class RMIServerConnectionHandler implements RMIClientActions, Observer<ServerMessageHandler> {
 
@@ -27,13 +29,12 @@ public class RMIServerConnectionHandler implements RMIClientActions, Observer<Se
     /**
      * Retrieves the list of available games.
      * This method is used when a client wants to see all the games that are currently available to join.
-     *
      */
     @Override
-    public void getGames(ServerActions stub) throws RemoteException {
+    public void getGames(String clientIpAddress, int clientPortNumber) throws RemoteException {
         new Thread(() -> {
             //Instance new RMIAdapter(stub)
-            networkCommandMapper.getGames(istanceRMIServerAdapter(stub));
+            networkCommandMapper.getGames(istanceRMIServerAdapter(createClientStub(clientIpAddress, clientPortNumber)));
         }).start();
     }
 
@@ -47,9 +48,9 @@ public class RMIServerConnectionHandler implements RMIClientActions, Observer<Se
      * @param nPlayers   the number of players in the game.
      */
     @Override
-    public void createGame(ServerActions stub, String gameName, String playerName, int nPlayers) throws RemoteException {
+    public void createGame(String clientIpAddress, int clientPortNumber, String gameName, String playerName, int nPlayers) throws RemoteException {
         new Thread(() -> {
-            networkCommandMapper.createGame(istanceRMIServerAdapter(stub), gameName, playerName, nPlayers);
+            networkCommandMapper.createGame(istanceRMIServerAdapter(createClientStub(clientIpAddress, clientPortNumber)), gameName, playerName, nPlayers);
         }).start();
     }
 
@@ -59,10 +60,10 @@ public class RMIServerConnectionHandler implements RMIClientActions, Observer<Se
      * @param gameName the name of the game.
      */
     @Override
-    public void deleteGame(ServerActions stub, String gameName) throws RemoteException {
+    public void deleteGame(String clientIpAddress, int clientPortNumber, String gameName) throws RemoteException {
         new Thread(() -> {
             //TODO: Add playerName, only host can delete the game
-            networkCommandMapper.deleteGame(istanceRMIServerAdapter(stub), gameName);
+            networkCommandMapper.deleteGame(istanceRMIServerAdapter(createClientStub(clientIpAddress, clientPortNumber)), gameName);
         }).start();
     }
 
@@ -73,9 +74,9 @@ public class RMIServerConnectionHandler implements RMIClientActions, Observer<Se
      * @param playerName the name of the player who is joining the game.
      */
     @Override
-    public void joinGame(ServerActions stub, String gameName, String playerName) throws RemoteException {
+    public void joinGame(String clientIpAddress, int clientPortNumber, String gameName, String playerName) throws RemoteException {
         new Thread(() -> {
-            networkCommandMapper.joinGame(istanceRMIServerAdapter(stub), gameName, playerName);
+            networkCommandMapper.joinGame(istanceRMIServerAdapter(createClientStub(clientIpAddress, clientPortNumber)), gameName, playerName);
         }).start();
     }
 
@@ -180,5 +181,17 @@ public class RMIServerConnectionHandler implements RMIClientActions, Observer<Se
         RMIServerAdapter rmiServerAdapter = new RMIServerAdapter(stub);
         rmiServerAdapter.addObserver(this);
         return rmiServerAdapter;
+    }
+
+    private ServerActions createClientStub(String clientIpAddress, int clientPortNumber) {
+        Registry registry = null;
+        ServerActions stub;
+        try {
+            registry = LocateRegistry.getRegistry(clientIpAddress, clientPortNumber);
+            stub = (ServerActions) registry.lookup("ServerActions");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return stub;
     }
 }
