@@ -23,6 +23,10 @@ public class RMIClientAsAServer implements RMIServerActions {
     public void receiveMessage(ServerMessage message) {
         System.err.println("Ho ricevuto un messaggio dal Server! " + message);
         System.out.println(message.getView());
+        System.out.println(message.getView().gameView().globalBoardView().fieldGoldCards().getFirst().getCurrentSide().getClass());
+        System.out.println(message.getView().gameView().globalBoardView().fieldGoldCards().getLast().getCurrentSide().getClass());
+        System.out.println(message.getView().gameView().globalBoardView().fieldResourceCards().getFirst().getCurrentSide().getClass());
+        System.out.println(message.getView().gameView().globalBoardView().fieldResourceCards().getLast().getCurrentSide().getClass());
     }
 
     public void createRegistry() throws RemoteException {
