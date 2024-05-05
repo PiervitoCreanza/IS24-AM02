@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.network.client.message.mainController.CreateGameClientMessage;
 import it.polimi.ingsw.network.client.message.mainController.GetGamesClientMessage;
 import it.polimi.ingsw.network.server.RMIClientActions;
 import org.apache.commons.cli.*;
@@ -60,8 +61,6 @@ public class Client {
             }
         }
     }
-
-
     private static void startTCPClient(String ipAddress, int portNumber) {
         try {
             System.out.println("Hello, this is the client!");
@@ -72,19 +71,19 @@ public class Client {
             ClientCommandMapper clientCommandMapper = new ClientCommandMapper();
             TCPClientAdapter clientAdapter = new TCPClientAdapter(serverSocket, clientCommandMapper);
 
-            /*
+
             clientCommandMapper.setMessageHandler(clientAdapter);
             //Request the list of games
             clientAdapter.sendMessage(new GetGamesClientMessage());
             //Trying to join a non-existing game
-            clientAdapter.sendMessage(new JoinGameClientMessage("game_inesistente", "Marco"));
+            //clientAdapter.sendMessage(new JoinGameClientMessage("game_inesistente", "Marco"));
             //Trying to create a game with a wrong maxPlayers number
-            clientAdapter.sendMessage(new CreateGameClientMessage("pippo", 6, "Marco"));
+            //clientAdapter.sendMessage(new CreateGameClientMessage("pippo", 6, "Marco"));
             // Create a valid game
             clientAdapter.sendMessage(new CreateGameClientMessage("pippo", 3, "Simone"));
             //Request the list of active games again
             clientAdapter.sendMessage(new GetGamesClientMessage());
-            */
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -94,18 +93,16 @@ public class Client {
     private static void startRMIClient(String ipAddress, int portNumber) {
         // Getting the registry
         try {
-            //Client as a client
+            //Client as a client, getting the registry
             Registry registry = LocateRegistry.getRegistry(ipAddress, portNumber);
             // Looking up the registry for the remote object
             RMIClientActions stub = (RMIClientActions) registry.lookup("ClientActions");
-            RMIClientAsAClient clientMessageSender = new RMIClientAsAClient(stub, ipAddress, portNumber + 1);
+            RMIClientAsAClient clientMessageSender = new RMIClientAsAClient(stub);
             //Client as a server
-            RMIClientAsAServer messageHandler = new RMIClientAsAServer(portNumber);
-            messageHandler.createRegistry();
-
+            RMIClientAsAServer messageHandler = new RMIClientAsAServer();
 
             //Test
-            clientMessageSender.sendMessage(new GetGamesClientMessage());
+            clientMessageSender.sendMessage(messageHandler, new GetGamesClientMessage());
 
         } catch (RemoteException e) {
             throw new RuntimeException(e);
@@ -113,6 +110,10 @@ public class Client {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public void receive(String message) throws RemoteException {
+        System.out.println(message);
     }
 
 

@@ -12,11 +12,9 @@ import java.rmi.server.UnicastRemoteObject;
 //TODO: who physically takes the RemoteObject here?
 //getGames, virtualView, errorMessage
 //TODO: then CORRECT GUI updates will be called based on the received VirtualView
-public class RMIClientAsAServer implements RMIServerActions {
-    private final int RMIport;
+public class RMIClientAsAServer extends UnicastRemoteObject implements RMIServerActions {
 
-    public RMIClientAsAServer(int port) {
-        this.RMIport = port + 1;
+    public RMIClientAsAServer() throws RemoteException {
     }
 
     @Override
@@ -29,7 +27,7 @@ public class RMIClientAsAServer implements RMIServerActions {
         System.out.println(message.getView().gameView().globalBoardView().fieldResourceCards().getLast().getCurrentSide().getClass());
     }
 
-    public void createRegistry() throws RemoteException {
+    /*public void createRegistry() throws RemoteException {
         //TODO: move the RMIServer Main from here?
 
         // Create a new instance of RMIServerConnectionHandler
@@ -64,7 +62,7 @@ public class RMIClientAsAServer implements RMIServerActions {
         //TODO: if a controller method throws an exception, how do we send it back to the client in RMI?
         //All exceptions are catched by the NetworkCommandMapper and sent back to the client using sendMessage invocatio
 
-    }
+    }*/
 
     /*
     public static void main(String[] args) throws RemoteException {
