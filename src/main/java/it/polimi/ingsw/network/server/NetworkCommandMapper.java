@@ -24,6 +24,7 @@ public class NetworkCommandMapper {
      */
     private final MainController mainController;
 
+
     /**
      * A map that associates game names with sets of ServerMessageHandler objects.
      * This is used to keep track of the connections for each game.
