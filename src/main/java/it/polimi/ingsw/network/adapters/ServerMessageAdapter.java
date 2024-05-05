@@ -36,7 +36,7 @@ public class ServerMessageAdapter implements JsonDeserializer<ServerMessage> {
             case "UPDATE_VIEW" -> serverMessageTypeClass = UpdateViewServerMessage.class;
             case "DELETE_GAME" -> serverMessageTypeClass = DeleteGameServerMessage.class;
             case "GET_GAMES" -> serverMessageTypeClass = GetGamesServerMessage.class;
-            case "ERROR" -> serverMessageTypeClass = ErrorServerMessage.class;
+            case "ERROR_MSG" -> serverMessageTypeClass = ErrorServerMessage.class;
             default -> throw new JsonParseException("playerAction property is missing or wrong");
         }
         // We deserialize the "serverMessageType" with the class type found above and return it
