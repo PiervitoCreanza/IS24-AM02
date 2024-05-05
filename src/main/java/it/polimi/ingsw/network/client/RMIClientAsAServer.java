@@ -22,24 +22,49 @@ public class RMIClientConnectionHandler implements ClientMessageHandler, RMIServ
 
     }
 
-    @Override
-    public void sendMessage(ClientMessage message) throws RemoteException {
-        //TODO: implement method
-        //SERVER to CLIENT invocation
+    public void createRegistry() throws RemoteException {
+        //TODO: move the RMIServer Main from here?
+
+        // Create a new instance of RMIServerConnectionHandler
+        RMIClientAsAServer RMI_S_to_C_ConnectionHandler = new RMIClientAsAServer(RMIport);
+        RMIServerActions stub = null;
+        try {
+            // Export the remote object to make it available to receive incoming calls
+            // Cast the exported object to the ClientActions interface
+            stub = (RMIServerActions) UnicastRemoteObject.exportObject(RMI_S_to_C_ConnectionHandler, RMIport);
+        } catch (RemoteException e) {
+            // Print the stack trace for debugging purposes if a RemoteException occurs
+            e.printStackTrace();
+        }
+
+        // Bind the remote object's stub in the registry
+        Registry registry = null;
+        try {
+            registry = LocateRegistry.createRegistry(RMIport);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            registry.bind("ServerActions", stub);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (AlreadyBoundException e) {
+            e.printStackTrace();
+        }
+        System.err.println("CLIENT AS A Server ready"); //add a bit of color to the CLI ;)
+
+        //TODO: if a controller method throws an exception, how do we send it back to the client in RMI?
+        //All exceptions are catched by the NetworkCommandMapper and sent back to the client using sendMessage invocatio
 
     }
 
-    @Override
-    public void closeConnection() throws RemoteException {
-        //TODO: implement method
-    }
-
-
+    /*
     public static void main(String[] args) throws RemoteException {
         //TODO: move the RMIServer Main from here?
 
-        // Create a new instance of RMIClientConnectionHandler
-        RMIClientConnectionHandler rmiClientConnectionHandler = new RMIClientConnectionHandler();
+        // Create a new instance of RMIClientAsAServer
+        RMIClientAsAServer rmiClientAsAServer = new RMIClientAsAServer();
         RMIServerActions stub = null;
 
         // If a port number is passed as a command line argument, override the default port number.
@@ -51,7 +76,7 @@ public class RMIClientConnectionHandler implements ClientMessageHandler, RMIServ
         try {
             // Export the remote object to make it available to receive incoming calls
             // Cast the exported object to the ClientActions interface
-            stub = (RMIServerActions) UnicastRemoteObject.exportObject(rmiClientConnectionHandler, RMIport);
+            stub = (RMIServerActions) UnicastRemoteObject.exportObject(rmiClientAsAServer, RMIport);
         } catch (RemoteException e) {
             // Print the stack trace for debugging purposes if a RemoteException occurs
             e.printStackTrace();
@@ -77,6 +102,7 @@ public class RMIClientConnectionHandler implements ClientMessageHandler, RMIServ
         //TODO: if a controller method throws an exception, how do we send it back to the client in RMI?
         //All exceptions are catched by the NetworkCommandMapper and sent back to the client using sendMessage invocatio
     }
+     */
 }
 
 

@@ -3,12 +3,12 @@ package it.polimi.ingsw.model.card.objectiveCard;
 import it.polimi.ingsw.model.card.CardColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 
-import java.util.Objects;
+import java.io.Serializable;
 
 /**
  * This is a supporter record used to represent the pattern contained in the target location card.
  */
-public record PositionalData(Coordinate coordinate, CardColorEnum cardColorEnum) {
+public record PositionalData(Coordinate coordinate, CardColorEnum cardColorEnum) implements Serializable {
     /**
      * Checks if the given object is equal to this PositionalObjectiveCard.
      * Two PositionalObjectiveCards are equal if they have the same cardId, pointsWon, and positionalData.

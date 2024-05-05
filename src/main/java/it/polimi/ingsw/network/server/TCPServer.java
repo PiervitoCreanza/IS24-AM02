@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.server.TCP.TCPServerAdapter;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.rmi.RemoteException;
 
 /**
  * This class is responsible for setting up and running the TCP server.

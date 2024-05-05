@@ -2,14 +2,14 @@ package it.polimi.ingsw.model.card.objectiveCard;
 
 import it.polimi.ingsw.model.player.PlayerBoard;
 
-import java.util.Objects;
+import java.io.Serializable;
 
 /**
  * This abstract class represents an objective card in the game.
  * Each objective card allows the player to earn points based on certain criteria.
  * The specific criteria are defined in the subclasses of this class.
  */
-abstract public class ObjectiveCard {
+abstract public class ObjectiveCard implements Serializable {
 
     /**
      * The unique identifier of this objective card.
