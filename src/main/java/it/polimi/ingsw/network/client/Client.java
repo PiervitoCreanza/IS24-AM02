@@ -9,33 +9,34 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Objects;
 
 public class Client {
 
     private static final ClientCommandMapper clientCommandMapper = new ClientCommandMapper();
 
-    private static String ipAddress;
-    private static int portNumber;
+    private static String serverIpAddress;
+    private static int serverPortNumber;
+    private static String clientIpAddress = "10.144.94.21";
+    private static int clientPortNumber;
 
     public static void main(String[] args) {
         CommandLine cmd = parseCommandLineArgs(args);
         // get values from options
         String connectionType = cmd.getOptionValue("c");
-        ipAddress = cmd.getOptionValue("ip", "localhost"); // default is localhost
-        portNumber = Integer.parseInt(cmd.getOptionValue("p", (connectionType.equals("TCP") ? "12345" : "1099")));
+        serverIpAddress = cmd.getOptionValue("ip", "localhost"); // default is localhost
+        serverPortNumber = Integer.parseInt(cmd.getOptionValue("p", (connectionType.equals("TCP") ? "12345" : "1099")));
 
         switch (connectionType.toLowerCase()) {
             case "tcp" -> {
-                System.out.println(Utils.ANSI_BLUE + "Started a TCP connection with IP: " + ipAddress + " on port: " + portNumber + Utils.ANSI_RESET);
+                System.out.println(Utils.ANSI_BLUE + "Started a TCP connection with IP: " + serverIpAddress + " on port: " + serverPortNumber + Utils.ANSI_RESET);
                 startTCPClient();
             }
             case "rmi" -> {
-                System.out.println(Utils.ANSI_YELLOW + "Started an RMI connection with IP: " + ipAddress + " on port: " + portNumber + Utils.ANSI_RESET);
+                System.out.println(Utils.ANSI_YELLOW + "Started an RMI connection with IP: " + serverIpAddress + " on port: " + serverPortNumber + Utils.ANSI_RESET);
                 startRMIClient();
             }
             default -> System.err.println("Invalid connection type. Please specify either TCP or RMI.");
@@ -76,9 +77,9 @@ public class Client {
     private static void startTCPClient() {
         try {
             System.out.println("Hello, this is the client!");
-            Socket serverSocket = new Socket(ipAddress, portNumber);
+            Socket serverSocket = new Socket(serverIpAddress, serverPortNumber);
             // Print configuration
-            System.err.println("Starting client  with connection to server at " + ipAddress + " on port " + portNumber);
+            System.err.println("Starting client  with connection to server at " + serverIpAddress + " on port " + serverPortNumber);
             TCPClientAdapter clientAdapter = new TCPClientAdapter(serverSocket, clientCommandMapper);
             clientCommandMapper.setMessageHandler(clientAdapter);
             printTUIMenu();
@@ -89,18 +90,24 @@ public class Client {
 
     private static void startRMIClient() {
         // Getting the registry
-        //TODO: save serverStub -> stub chiamato dal client per eseguire metodi remoti
-        //TODO: save thisClientStub -> stub esposto al server dal client
         try {
+            //TODO
+            clientPortNumber = serverPortNumber + 1;
+            //Client as a server, binding the registry
             ServerActions rmiClientConnectionHandler = new RMIClientConnectionHandler(clientCommandMapper);
+            ServerActions clientStub = (ServerActions) UnicastRemoteObject.exportObject(rmiClientConnectionHandler, clientPortNumber);
+            Registry clientRegistry = LocateRegistry.createRegistry(clientPortNumber);
+            clientRegistry.bind("ServerActions", clientStub);
+
+
             //Client as a client, getting the registry
-            Registry registry = LocateRegistry.getRegistry(ipAddress, portNumber);
+            Registry serverRegistry = LocateRegistry.getRegistry(serverIpAddress, serverPortNumber);
             // Looking up the registry for the remote object
-            RMIClientActions serverStub = (RMIClientActions) registry.lookup("ClientActions");
-            RMIClientAdapter rmiClientAdapter = new RMIClientAdapter(serverStub, rmiClientConnectionHandler);
+            RMIClientActions serverStub = (RMIClientActions) serverRegistry.lookup("ClientActions");
+            RMIClientAdapter rmiClientAdapter = new RMIClientAdapter(serverStub, clientIpAddress, clientPortNumber);
             clientCommandMapper.setMessageHandler(rmiClientAdapter); //Adding stub to the mapper
             printTUIMenu();
-        } catch (RemoteException | NotBoundException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
