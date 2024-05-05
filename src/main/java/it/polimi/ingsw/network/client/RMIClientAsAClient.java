@@ -23,7 +23,7 @@ public class RMIClientAsAClient implements ClientMessageHandler {
         //it's like: "Hey server, I just triggered you with the getGames action, call the method on me to give me those games!"
         //TODO: Listeners?
         PlayerActionEnum playerAction = message.getPlayerAction();
-        switch (playerAction) {
+        /*switch (playerAction) {
             //TODO: will have to save the IP address of the server on the ClientAsAServer, maybe we could get it from the stub/registry?
             case GET_GAMES -> stub.getGames(rmiClient);
             case CREATE_GAME ->
@@ -43,9 +43,8 @@ public class RMIClientAsAClient implements ClientMessageHandler {
             case DRAW_CARD_FROM_GOLD_DECK -> stub.drawCardFromGoldDeck(message.getGameName(), message.getPlayerName());
             case SWITCH_CARD_SIDE ->
                     stub.switchCardSide(message.getGameName(), message.getPlayerName(), message.getGameCard());
-        }
+        }*/
     }
-
     /**
      * Sends a message to the client.
      *
