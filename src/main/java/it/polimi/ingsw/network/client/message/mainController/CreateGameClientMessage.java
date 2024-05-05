@@ -20,10 +20,10 @@ public class CreateGameClientMessage extends ClientMessage {
      * Initializes the player action with the CREATEGAME value, and sets the game name, number of players, and player name.
      *
      * @param gameName   The name of the game to be created. This cannot be null.
-     * @param nPlayers   The number of players in the game to be created. This cannot be null.
      * @param playerName The name of the player who is creating the game. This cannot be null.
+     * @param nPlayers   The number of players in the game to be created. This cannot be null.
      */
-    public CreateGameClientMessage(String gameName, int nPlayers, String playerName) {
+    public CreateGameClientMessage(String gameName, String playerName, int nPlayers) {
         super(PlayerActionEnum.CREATE_GAME, gameName, playerName);
         this.nPlayers = nPlayers;
     }

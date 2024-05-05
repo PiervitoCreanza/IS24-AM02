@@ -3,16 +3,16 @@ package it.polimi.ingsw.network.server.message;
 import java.util.Objects;
 
 public class ErrorServerMessage extends ServerMessage {
-    private final String message;
+    private final String errorMessage;
 
     public ErrorServerMessage(String message) {
         super(ServerActionEnum.ERROR_MSG);
-        this.message = message;
+        this.errorMessage = message;
     }
 
     @Override
     public String getErrorMessage() {
-        return message;
+        return errorMessage;
     }
 
     @Override
@@ -20,6 +20,6 @@ public class ErrorServerMessage extends ServerMessage {
         if (this == o) return true;
         if (!(o instanceof ErrorServerMessage that)) return false;
         if (!super.equals(o)) return false;
-        return Objects.equals(this.getErrorMessage(), that.getErrorMessage());
+        return Objects.equals(this.errorMessage, that.errorMessage);
     }
 }

@@ -31,6 +31,8 @@ public class RMIClientConnectionHandler extends UnicastRemoteObject implements S
             //Instance new RMIAdapter(stub)
             clientCommandMapper.receiveGameList(games);
         }).start();
+        // Debug
+        System.out.println("RMI received message: " + games);
     }
 
     /**
@@ -45,6 +47,8 @@ public class RMIClientConnectionHandler extends UnicastRemoteObject implements S
             //Instance new RMIAdapter(stub)
             clientCommandMapper.receiveGameDeleted(message);
         }).start();
+        // Debug
+        System.out.println("RMI received message: " + message);
     }
 
     /**
@@ -58,6 +62,8 @@ public class RMIClientConnectionHandler extends UnicastRemoteObject implements S
             //Instance new RMIAdapter(stub)
             clientCommandMapper.receiveUpdatedView(updatedView);
         }).start();
+        // Debug
+        System.out.println("RMI received message: " + updatedView);
     }
 
     /**
@@ -70,6 +76,8 @@ public class RMIClientConnectionHandler extends UnicastRemoteObject implements S
         new Thread(() -> {
             clientCommandMapper.receiveErrorMessage(errorMessage);
         }).start();
+        // Debug
+        System.out.println("RMI received message: " + errorMessage);
     }
 }
 
