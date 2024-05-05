@@ -4,14 +4,13 @@ import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.HashSet;
 
 //TODO: here methods should be launched once the VirtualView is received from the server
 //TODO: who physically takes the RemoteObject here?
 //getGames, virtualView, errorMessage
 //TODO: then CORRECT GUI updates will be called based on the received VirtualView
-public class RMIClientConnectionHandler extends UnicastRemoteObject implements ServerActions {
+public class RMIClientConnectionHandler implements ServerActions {
     private final ClientCommandMapper clientCommandMapper;
 
     public RMIClientConnectionHandler(ClientCommandMapper clientCommandMapper) throws RemoteException {
