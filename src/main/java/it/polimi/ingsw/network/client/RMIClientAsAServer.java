@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.network.client.message.ClientMessage;
 import it.polimi.ingsw.network.server.message.ServerMessage;
 
 import java.rmi.AlreadyBoundException;
@@ -9,17 +8,21 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
+//TODO: here methods should be launched once the VirtualView is received from the server
+//TODO: who physically takes the RemoteObject here?
+//getGames, virtualView, errorMessage
+//TODO: then CORRECT GUI updates will be called based on the received VirtualView
+public class RMIClientAsAServer implements RMIServerActions {
+    private final int RMIport;
 
-public class RMIClientConnectionHandler implements ClientMessageHandler, RMIServerActions {
-    static int RMIport = 1099;
-
-    protected RMIClientConnectionHandler() throws RemoteException {
-        super();
+    public RMIClientAsAServer(int port) {
+        this.RMIport = port + 1;
     }
 
     @Override
     public void receiveMessage(ServerMessage message) {
-
+        System.err.println("Ho ricevuto un messaggio dal Server! " + message);
+        System.out.println(message.getView());
     }
 
     public void createRegistry() throws RemoteException {
