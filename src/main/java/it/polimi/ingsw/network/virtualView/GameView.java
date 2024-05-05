@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.virtualView;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,7 +9,8 @@ import java.util.Objects;
  * It is a record class, which means it is an immutable data carrier with the fields specified in the record declaration.
  * This class holds a string representing the current player, a GlobalBoardView object, and a list of PlayerView objects.
  */
-public record GameView(String currentPlayer, GlobalBoardView globalBoardView, List<PlayerView> playerViews) {
+public record GameView(String currentPlayer, GlobalBoardView globalBoardView,
+                       List<PlayerView> playerViews) implements Serializable {
 
     @Override
     public boolean equals(Object o) {

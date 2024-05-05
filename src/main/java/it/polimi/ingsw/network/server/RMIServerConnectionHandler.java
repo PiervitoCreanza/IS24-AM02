@@ -1,9 +1,12 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.network.client.ClientMessageHandler;
+import it.polimi.ingsw.controller.MainController;
+import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.player.PlayerColorEnum;
+import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.RMIServerActions;
-import it.polimi.ingsw.network.client.message.ClientMessage;
-import it.polimi.ingsw.network.server.message.ServerMessage;
+import it.polimi.ingsw.network.server.message.successMessage.UpdateViewServerMessage;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
@@ -53,6 +56,22 @@ public class RMIServerConnectionHandler implements RMIClientActions {
         //TODO: if a controller method throws an exception, how do we send it back to the client in RMI?
         //All exceptions are catched by the NetworkCommandMapper and sent back to the client using sendMessage invocatio
 
+    }
+
+    protected void RMIClientConnectionHandler() throws RemoteException {
+        //super();
+    }
+
+    private RMIServerActions createClientStub(String ip, int port) {
+        Registry registry = null;
+        RMIServerActions stub;
+        try {
+            registry = LocateRegistry.getRegistry(ip, port);
+            stub = (RMIServerActions) registry.lookup("ServerActions");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return stub;
     }
 
     /**

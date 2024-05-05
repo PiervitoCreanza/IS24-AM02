@@ -32,6 +32,12 @@ public class TCPServer {
             System.err.println("Usage: java TCPServer <port number>");
             portNumber = Integer.parseInt(args[0]);
         }
+        RMIServerConnectionHandler rmiServerConnectionHandler = new RMIServerConnectionHandler();
+        try {
+            RMIServerConnectionHandler.createRegistry();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
 
         // Try to create a new ServerSocket that listens on the specified port number.
         try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
