@@ -16,11 +16,11 @@ public interface ClientMessageHandler extends MessageHandler<ClientMessage> {
      * @param message the message to be sent
      */
     @Override
-    void sendMessage(ClientMessage message) throws RemoteException;
+    void sendMessage(ClientMessage message);
 
     /**
      * Closes the connection to the client.
      */
     @Override
-    void closeConnection() throws RemoteException;
+    void closeConnection();
 }

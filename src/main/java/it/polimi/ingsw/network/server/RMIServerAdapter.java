@@ -27,7 +27,7 @@ public class RMIServerAdapter implements ServerMessageHandler {
         try {
             switch (serverAction) {
                 case UPDATE_VIEW -> stub.receiveUpdatedView(message.getView());
-                case DELETE_GAME -> stub.receiveGameDeleted("Game deleted successfully");
+                case DELETE_GAME -> stub.receiveGameDeleted(message.getSuccessDeleteMessage());
                 case GET_GAMES -> stub.receiveGameList(message.getGames());
                 case ERROR_MSG -> stub.receiveErrorMessage(message.getErrorMessage());
                 default -> System.err.print("Invalid action\n");
@@ -35,6 +35,9 @@ public class RMIServerAdapter implements ServerMessageHandler {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+
+        // Debug
+        System.out.println("RMI message sent: " + message);
     }
 
     /**

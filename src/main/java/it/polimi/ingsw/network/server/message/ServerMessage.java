@@ -40,4 +40,8 @@ public abstract class ServerMessage implements Serializable {
     public String getErrorMessage() {
         return null;
     }
+
+    public String getSuccessDeleteMessage() {
+        return null;
+    }
 }
