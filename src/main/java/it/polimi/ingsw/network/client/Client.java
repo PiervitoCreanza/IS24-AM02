@@ -1,42 +1,45 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.Utils;
-import it.polimi.ingsw.network.client.message.mainController.CreateGameClientMessage;
-import it.polimi.ingsw.network.client.message.mainController.GetGamesClientMessage;
-import it.polimi.ingsw.network.client.message.mainController.JoinGameClientMessage;
+import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.network.server.RMIClientActions;
 import org.apache.commons.cli.*;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Socket;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Objects;
 
 
-//TODO: start RMI ClientAsAServer service
 public class Client {
+
+    private static final ClientCommandMapper clientCommandMapper = new ClientCommandMapper();
+
+    private static String ipAddress;
+    private static int portNumber;
+
     public static void main(String[] args) {
         CommandLine cmd = parseCommandLineArgs(args);
-        ClientCommandMapper clientCommandMapper = new ClientCommandMapper();
-
         // get values from options
         String connectionType = cmd.getOptionValue("c");
-        String ipAddress = cmd.getOptionValue("ip", "localhost"); // default is localhost
-        int portNumber = Integer.parseInt(cmd.getOptionValue("p", (connectionType.equals("TCP") ? "12345" : "1099")));
-
+        ipAddress = cmd.getOptionValue("ip", "localhost"); // default is localhost
+        portNumber = Integer.parseInt(cmd.getOptionValue("p", (connectionType.equals("TCP") ? "12345" : "1099")));
 
         switch (connectionType.toLowerCase()) {
             case "tcp" -> {
                 System.out.println(Utils.ANSI_BLUE + "Started a TCP connection with IP: " + ipAddress + " on port: " + portNumber + Utils.ANSI_RESET);
-                startTCPClient(clientCommandMapper, ipAddress, portNumber);
+                startTCPClient();
             }
             case "rmi" -> {
                 System.out.println(Utils.ANSI_YELLOW + "Started an RMI connection with IP: " + ipAddress + " on port: " + portNumber + Utils.ANSI_RESET);
-                startRMIClient(clientCommandMapper, ipAddress, portNumber);
+                startRMIClient();
             }
             default -> System.err.println("Invalid connection type. Please specify either TCP or RMI.");
-
         }
     }
 
@@ -71,36 +74,21 @@ public class Client {
         return null;
     }
 
-    private static void startTCPClient(ClientCommandMapper clientCommandMapper, String ipAddress, int portNumber) {
+    private static void startTCPClient() {
         try {
             System.out.println("Hello, this is the client!");
             Socket serverSocket = new Socket(ipAddress, portNumber);
             // Print configuration
             System.err.println("Starting client  with connection to server at " + ipAddress + " on port " + portNumber);
-
-
             TCPClientAdapter clientAdapter = new TCPClientAdapter(serverSocket, clientCommandMapper);
-
-
             clientCommandMapper.setMessageHandler(clientAdapter);
-            //Request the list of games
-            clientAdapter.sendMessage(new GetGamesClientMessage());
-            //Trying to join a non-existing game
-            //clientAdapter.sendMessage(new JoinGameClientMessage("game_inesistente", "Marco"));
-            //Trying to create a game with a wrong maxPlayers number
-            //clientAdapter.sendMessage(new CreateGameClientMessage("pippo", 6, "Marco"));
-            // Create a valid game
-            clientAdapter.sendMessage(new CreateGameClientMessage("pippo", 3, "Simone"));
-            //Request the list of active games again
-            clientAdapter.sendMessage(new GetGamesClientMessage());
-
-
+            printTUIMenu();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static void startRMIClient(ClientCommandMapper clientCommandMapper, String ipAddress, int portNumber) {
+    private static void startRMIClient() {
         // Getting the registry
         //TODO: save serverStub -> stub chiamato dal client per eseguire metodi remoti
         //TODO: save thisClientStub -> stub esposto al server dal client
@@ -112,24 +100,131 @@ public class Client {
             RMIClientActions serverStub = (RMIClientActions) registry.lookup("ClientActions");
             RMIClientAdapter rmiClientAdapter = new RMIClientAdapter(serverStub, rmiClientConnectionHandler);
             clientCommandMapper.setMessageHandler(rmiClientAdapter); //Adding stub to the mapper
-
-            //Test: should return a list of empty games
-            rmiClientAdapter.sendMessage(new GetGamesClientMessage());
-            //Trying to join a non-existing game
-            rmiClientAdapter.sendMessage(new JoinGameClientMessage("pippo", "s"));
-            //Trying to create a game with a wrong maxPlayers number
-            rmiClientAdapter.sendMessage(new CreateGameClientMessage("pippo", 6, "Marco"));
-            // Create a valid game
-            rmiClientAdapter.sendMessage(new CreateGameClientMessage("pippo", 3, "Simone"));
-            //Request the list of active games again
-            rmiClientAdapter.sendMessage(new GetGamesClientMessage());
-
+            printTUIMenu();
         } catch (RemoteException | NotBoundException e) {
             throw new RuntimeException(e);
         }
-
     }
 
+    private static void printTUIMenu() {
+        //TODO: substitute rmiClientAdapter with value coming from mapper
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String input = null;
+        try {
+            while (!Objects.equals(input, "12")) {
+                System.out.print("1) Get games\n");
+                System.out.print("2) Create game\n");
+                System.out.print("3) Delete game\n");
+                System.out.print("4) Join game\n");
+                System.out.print("5) Choose player color\n");
+                System.out.print("6) Set player objective\n");
+                System.out.print("7) Place card\n");
+                System.out.print("8) Draw card from field\n");
+                System.out.print("9) Draw card from resource deck\n");
+                System.out.print("10) Draw card from gold deck\n");
+                System.out.print("11) Switch the side of a card\n");
+                System.out.print("12) Exit\n");
+                input = reader.readLine();
 
+                String gameName = "";
+                String numPlayers = "";
+                String playerName = "";
+
+                switch (input) {
+                    case "1" -> {
+                        clearConsole();
+                        clientCommandMapper.getGames();
+                    }
+                    case "2" -> {
+                        clearConsole();
+                        System.out.println("Enter game name to create: ");
+                        gameName = reader.readLine();
+                        System.out.println("Enter number of players: ");
+                        numPlayers = reader.readLine();
+                        System.out.println("Enter player name: ");
+                        playerName = reader.readLine();
+                        clientCommandMapper.createGame(gameName, playerName, Integer.parseInt(numPlayers));
+                    }
+                    case "3" -> {
+                        clearConsole();
+                        System.out.println("Enter game name to delete: ");
+                        gameName = reader.readLine();
+                        System.out.println("Enter player name: ");
+                        playerName = reader.readLine();
+                        clientCommandMapper.deleteGame(gameName, playerName);
+                    }
+                    case "4" -> {
+                        clearConsole();
+                        System.out.println("Enter game name to join: ");
+                        gameName = reader.readLine();
+                        System.out.println("Enter player name: ");
+                        playerName = reader.readLine();
+                        clientCommandMapper.joinGame(gameName, playerName);
+                    }
+                    case "5" -> {
+                        clearConsole();
+                        clientCommandMapper.choosePlayerColor(gameName, playerName, PlayerColorEnum.RED);
+                    }
+                    case "6" -> {
+                        clearConsole();
+                        //TODO: gather arguments on updated VirtualView
+                        System.out.print("Not implemented");
+                    }
+                    case "7" -> {
+                        //TODO: gather arguments on updated VirtualView
+                        clearConsole();
+                        System.out.print("Not implemented");
+                    }
+                    case "8" -> {
+                        //TODO: gather arguments on updated VirtualView
+                        clearConsole();
+
+                        System.out.print("Not implemented");
+                    }
+                    case "9" -> {
+                        //TODO: gather arguments on updated VirtualView
+                        clearConsole();
+                        System.out.print("Not implemented");
+                    }
+                    case "10" -> {
+                        //TODO: gather arguments on updated VirtualView
+                        clearConsole();
+                        System.out.print("Not implemented");
+                    }
+                    case "11" -> {
+                        //TODO: gather arguments on updated VirtualView
+                        clearConsole();
+                        System.out.print("Not implemented");
+                    }
+                    case "12" -> {
+                        System.out.println("Exiting...");
+                    }
+                    default -> System.out.println("Invalid input");
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void clearConsole() {
+        String os = System.getProperty("os.name").toLowerCase();
+
+        try {
+            if (os.contains("win")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else if (os.contains("nix") || os.contains("nux") || os.contains("mac")) {
+                System.out.print(Utils.ANSI_CLEAR_UNIX);
+            } else {
+                // Fallback to printing new lines if OS detection failed
+                for (int i = 0; i < 100; i++) {
+                    System.out.println();
+                }
+            }
+        } catch (Exception e) {
+            // Handle any exceptions
+        }
+
+    }
 }
 

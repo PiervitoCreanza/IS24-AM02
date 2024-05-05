@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.client;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.Utils;
 import it.polimi.ingsw.data.ObjectiveCardAdapter;
 import it.polimi.ingsw.data.SideGameCardAdapter;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
@@ -62,13 +63,13 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
         ServerActionEnum serverAction = receivedMessage.getServerAction();
         switch (serverAction) {
             case UPDATE_VIEW -> clientCommandMapper.receiveUpdatedView(receivedMessage.getView());
-            case DELETE_GAME -> clientCommandMapper.receiveGameDeleted("Game deleted successfully.");
+            case DELETE_GAME -> clientCommandMapper.receiveGameDeleted(receivedMessage.getSuccessDeleteMessage());
             case GET_GAMES -> clientCommandMapper.receiveGameList(receivedMessage.getGames());
             case ERROR_MSG -> clientCommandMapper.receiveErrorMessage(receivedMessage.getErrorMessage());
             default -> System.out.print("Invalid action");
         }
         // Debug
-        System.out.println("Received message: " + message);
+        System.out.println(Utils.ANSI_CYAN + "TCP received message: " + message + Utils.ANSI_RESET);
     }
 
     /**

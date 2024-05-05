@@ -103,7 +103,7 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
             default -> System.err.print("Invalid action");
         }
         // Debug
-        System.out.println("Received message: " + message);
+        System.out.println("TCP received message: " + message);
     }
 
     /**
@@ -122,7 +122,7 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
         }
 
         // Debug
-        System.out.println("Message sent: " + serializedMessage);
+        System.out.println("TCP message sent: " + serializedMessage);
     }
 
     /**
