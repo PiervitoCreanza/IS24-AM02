@@ -64,7 +64,7 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
             case UPDATE_VIEW -> clientCommandMapper.receiveUpdatedView(receivedMessage.getView());
             case DELETE_GAME -> clientCommandMapper.receiveGameDeleted("Game deleted successfully.");
             case GET_GAMES -> clientCommandMapper.receiveGameList(receivedMessage.getGames());
-            case ERROR -> clientCommandMapper.receiveErrorMessage(receivedMessage.getErrorMessage());
+            case ERROR_MSG -> clientCommandMapper.receiveErrorMessage(receivedMessage.getErrorMessage());
             default -> System.out.print("Invalid action");
         }
         // Debug

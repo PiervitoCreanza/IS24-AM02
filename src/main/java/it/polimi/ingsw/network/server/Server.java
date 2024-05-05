@@ -78,7 +78,7 @@ public class Server {
             RMIClientActions stub = (RMIClientActions) UnicastRemoteObject.exportObject(rmiServerConnectionHandler, RMIPortNumber);
             Registry registry = LocateRegistry.createRegistry(RMIPortNumber);
             registry.bind("ClientActions", stub);
-            System.err.println(Utils.ANSI_RED + "Codex Naturalis RMI Server ready on port: " + RMIPortNumber + Utils.ANSI_RESET);
+            System.err.println(Utils.ANSI_YELLOW + "Codex Naturalis RMI Server ready on port: " + RMIPortNumber + Utils.ANSI_RESET);
         } catch (RemoteException | AlreadyBoundException e) {
             e.printStackTrace();
         }
@@ -94,5 +94,9 @@ public class Server {
             System.err.println("Could not listen on port " + TCPPortNumber);
             System.exit(-1);
         }
+    }
+
+    private static void RMIServerAsAClientStart(NetworkCommandMapper networkCommandMapper, Integer RMIPortNumber) {
+        //TODO: implement
     }
 }
