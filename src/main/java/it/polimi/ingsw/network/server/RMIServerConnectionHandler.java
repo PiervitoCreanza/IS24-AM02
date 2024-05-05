@@ -15,22 +15,23 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 
-//todo: 1) receive the messages from the client correctly
 public class RMIServerConnectionHandler implements RMIClientActions {
-    static int RMIport = 1777;
+
     private final RMIServerAdapter serverAdapter = null;
     private final MainController mainController = new MainController();
 
-    public static void createRegistry() throws RemoteException {
-        //TODO: move the RMIServer Main from here?
+    public void instanceRMIServerConnectionHandler(int portNumber, NetworkCommandMapper networkCommandMapper) throws RemoteException {
 
         // Create a new instance of RMIServerConnectionHandler
         RMIServerConnectionHandler rmiClientConnectionHandler = new RMIServerConnectionHandler();
+        // Stub for the remote methods that a ClientAsAClient can call on the Server
         RMIClientActions stub = null;
         try {
-            // Export the remote object to make it available to receive incoming calls
+            // Make stub available to calls from the RMI Client
             // Cast the exported object to the ClientActions interface
-            stub = (RMIClientActions) UnicastRemoteObject.exportObject(rmiClientConnectionHandler, RMIport);
+            //rmiClientConnectionHandler contains the effective implementation of the methods that the client can call
+            //stub is the object that the client will use to call the methods
+            stub = (RMIClientActions) UnicastRemoteObject.exportObject(rmiClientConnectionHandler, portNumber);
         } catch (RemoteException e) {
             // Print the stack trace for debugging purposes if a RemoteException occurs
             e.printStackTrace();
@@ -39,28 +40,24 @@ public class RMIServerConnectionHandler implements RMIClientActions {
         // Bind the remote object's stub in the registry
         Registry registry = null;
         try {
-            registry = LocateRegistry.createRegistry(RMIport);
+            //Create the registry on the specified port
+            registry = LocateRegistry.createRegistry(portNumber);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
 
         try {
+            //Bind the stub to the registry
             registry.bind("ClientActions", stub);
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (AlreadyBoundException e) {
             e.printStackTrace();
         }
-        System.err.println("Server ready"); //add a bit of color to the CLI ;)
-
-        //TODO: if a controller method throws an exception, how do we send it back to the client in RMI?
-        //All exceptions are catched by the NetworkCommandMapper and sent back to the client using sendMessage invocatio
-
+        System.err.println("Server ready");
     }
 
-    protected void RMIClientConnectionHandler() throws RemoteException {
-        //super();
-    }
+
 
     private RMIServerActions createClientStub(String ip, int port) {
         Registry registry = null;
@@ -78,40 +75,34 @@ public class RMIServerConnectionHandler implements RMIClientActions {
      * Retrieves the list of available games.
      * This method is used when a client wants to see all the games that are currently available to join.
      *
-     * @param ip
-     * @param port
      */
     @Override
-    public void getGames(String ip, int port) throws RemoteException {
+    public void getGames(RMIServerActions stub) throws RemoteException {
         new Thread(() -> {
             System.err.println("È arrivata una chiamata remota getGames() dal client!");
-            RMIServerActions stub = createClientStub(ip, port);
             mainController.createGame("PartitonaRMI", "IngConti", 4);
             try {
                 stub.receiveMessage(new UpdateViewServerMessage(mainController.getVirtualView("PartitonaRMI")));
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
-                //TODO: java.rmi.MarshalException: error marshalling arguments; nested exception is:
-                //	java.io.NotSerializableException: it.polimi.ingsw.network.server.message.ErrorServerMessage
 
             }
         }).start();
-        //è arrivato un messaggio getGames
-        //chiamo un metodo del server che mi manda indietro la lista delle partite
     }
 
+
+
+    /* All the methods that can be called from a ClientAsAClient on Server */
 
     /**
      * Creates a new game with the given game name and number of players.
      *
-     * @param ip
-     * @param port
      * @param gameName   the name of the game.
      * @param playerName the name of the player.
      * @param nPlayers   the number of players in the game.
      */
     @Override
-    public void createGame(String ip, int port, String gameName, String playerName, int nPlayers) throws RemoteException {
+    public void createGame(RMIClientActions stub, String gameName, String playerName, int nPlayers) throws RemoteException {
 
     }
 
@@ -128,13 +119,11 @@ public class RMIServerConnectionHandler implements RMIClientActions {
     /**
      * Joins the game with the given player name.
      *
-     * @param ip
-     * @param port
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is joining the game.
      */
     @Override
-    public void joinGame(String ip, int port, String gameName, String playerName) throws RemoteException {
+    public void joinGame(RMIClientActions stub, String gameName, String playerName) throws RemoteException {
 
     }
 
