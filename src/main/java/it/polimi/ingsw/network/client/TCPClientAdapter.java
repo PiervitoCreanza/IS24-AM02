@@ -21,6 +21,7 @@ import java.net.Socket;
  * The TCPClientAdapter class is responsible for handling TCP client operations.
  * It masks the TCPConnectionHandler in order to make RMI and TCP server operations interchangeable.
  * It implements the TCPObserver and ClientMessageHandler interfaces.
+ * It is UNIQUE to every RMI player.
  */
 public class TCPClientAdapter implements Observer<String>, ClientMessageHandler {
     /**
@@ -98,4 +99,6 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
         // Debug
         System.out.println("Close the connection.");
     }
+
+    
 }
