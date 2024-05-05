@@ -10,7 +10,6 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface RMIClientActions extends Remote {
-
     /**
      * Retrieves the list of available games.
      * This method is used when a client wants to see all the games that are currently available to join.

@@ -11,9 +11,17 @@ import java.rmi.RemoteException;
 public class RMIServerConnectionHandler implements RMIClientActions {
     private final NetworkCommandMapper networkCommandMapper;
 
+
     public RMIServerConnectionHandler(NetworkCommandMapper networkCommandMapper) {
         this.networkCommandMapper = networkCommandMapper;
     }
+
+
+    /**
+     * @throws RemoteException
+     * If this method is called correctly on the client, it means connection is still alive.
+     * If not, it'll return an exception.
+     */
 
     /**
      * Retrieves the list of available games.
