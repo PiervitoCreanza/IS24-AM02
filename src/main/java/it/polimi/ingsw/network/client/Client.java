@@ -35,9 +35,8 @@ public class Client {
                 System.out.println(Utils.ANSI_YELLOW + "Started an RMI connection with IP: " + ipAddress + " on port: " + portNumber + Utils.ANSI_RESET);
                 startRMIClient(clientCommandMapper, ipAddress, portNumber);
             }
-            default -> {
-                System.err.println("Invalid connection type. Please specify either TCP or RMI.");
-            }
+            default -> System.err.println("Invalid connection type. Please specify either TCP or RMI.");
+
         }
     }
 
@@ -67,6 +66,7 @@ public class Client {
             System.err.println("Parsing failed. Reason: " + e.getMessage());
             System.exit(1);
         }
+
 
         return null;
     }
@@ -124,16 +124,10 @@ public class Client {
             //Request the list of active games again
             rmiClientAdapter.sendMessage(new GetGamesClientMessage());
 
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        } catch (NotBoundException e) {
+        } catch (RemoteException | NotBoundException e) {
             throw new RuntimeException(e);
         }
 
-    }
-
-    public void receive(String message) throws RemoteException {
-        System.out.println(message);
     }
 
 
