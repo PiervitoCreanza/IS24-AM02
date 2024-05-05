@@ -2,10 +2,7 @@ package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.network.server.message.ServerMessage;
 
-import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 //TODO: here methods should be launched once the VirtualView is received from the server
