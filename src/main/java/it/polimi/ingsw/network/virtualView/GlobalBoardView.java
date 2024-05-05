@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.virtualView;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -10,7 +11,7 @@ import java.util.Objects;
  * It is a record class, which means it is an immutable data carrier with the fields specified in the record declaration.
  */
 public record GlobalBoardView(GameCard goldFirstCard, GameCard resourceFirstCard, ArrayList<GameCard> fieldGoldCards,
-                              ArrayList<GameCard> fieldResourceCards) {
+                              ArrayList<GameCard> fieldResourceCards) implements Serializable {
 
     @Override
     public boolean equals(Object o) {
