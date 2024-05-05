@@ -41,4 +41,6 @@ public interface ServerActions extends Remote {
      * @param errorMessage The error message received from the client.
      */
     void receiveErrorMessage(String errorMessage) throws RemoteException;
+
+    void heartbeat() throws RemoteException;
 }
