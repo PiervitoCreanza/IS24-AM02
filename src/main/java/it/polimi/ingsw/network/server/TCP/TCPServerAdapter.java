@@ -163,6 +163,14 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
         return this.gameName;
     }
 
+    @Override
+    public void heartbeat() {
+        //TODO Unify with RMI?
+        // We need this method in rmi because
+        // we start pinging only when the connection is "saved"
+        // is there any way to make it similar on TCP?
+    }
+
     /**
      * Sets the name of the game associated with the connection.
      *

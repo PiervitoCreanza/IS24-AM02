@@ -1,17 +1,27 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.network.TCP.Observable;
+import it.polimi.ingsw.network.TCP.Observer;
 import it.polimi.ingsw.network.client.ServerActions;
 import it.polimi.ingsw.network.server.message.ServerActionEnum;
 import it.polimi.ingsw.network.server.message.ServerMessage;
 
 import java.rmi.RemoteException;
+import java.util.HashSet;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-public class RMIServerAdapter implements ServerMessageHandler {
+public class RMIServerAdapter implements ServerMessageHandler, Observable<ServerMessageHandler> {
     private final ServerActions stub;
 
     private String playerName;
 
     private String gameName;
+
+    private final HashSet<Observer<ServerMessageHandler>> observers = new HashSet<>();
+
+    private final AtomicBoolean isConnected = new AtomicBoolean(false);
 
     public RMIServerAdapter(ServerActions stub) {
         this.stub = stub;
@@ -33,7 +43,8 @@ public class RMIServerAdapter implements ServerMessageHandler {
                 default -> System.err.print("Invalid action\n");
             }
         } catch (RemoteException e) {
-            e.printStackTrace();
+            if (isConnected.get())
+                closeConnection();
         }
 
         // Debug
@@ -70,6 +81,27 @@ public class RMIServerAdapter implements ServerMessageHandler {
         return this.gameName;
     }
 
+    @Override
+    public void heartbeat() {
+        this.isConnected.set(true);
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (!isConnected.get()) {
+                    cancel();
+                    return;
+                }
+                try {
+                    stub.heartbeat();
+                } catch (RemoteException e) {
+                    System.out.println("RMI Client disconnected - detected when pinging");
+                    closeConnection();
+                    cancel();
+                }
+            }
+        }, 0, 2500);
+    }
+
     /**
      * Sets the name of the game associated with the connection.
      *
@@ -84,6 +116,24 @@ public class RMIServerAdapter implements ServerMessageHandler {
      * Closes the connection to the client.
      */
     @Override
-    public void closeConnection() throws RemoteException {
+    public void closeConnection() {
+        this.isConnected.set(false);
+        synchronized (observers) {
+            observers.forEach(observer -> observer.notify(this));
+        }
+    }
+
+    @Override
+    public void addObserver(Observer<ServerMessageHandler> observer) {
+        synchronized (observers) {
+            observers.add(observer);
+        }
+    }
+
+    @Override
+    public void removeObserver(Observer<ServerMessageHandler> observer) {
+        synchronized (observers) {
+            observers.remove(observer);
+        }
     }
 }

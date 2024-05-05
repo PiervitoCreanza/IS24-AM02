@@ -79,9 +79,9 @@ public class NetworkCommandMapper {
     public void createGame(ServerMessageHandler messageHandler, String gameName, String playerName, int nPlayers) {
         try {
             mainController.createGame(gameName, playerName, nPlayers);
-            //TODO Why these properties weren't set in create game? @Pier
             messageHandler.setGameName(gameName);
             messageHandler.setPlayerName(playerName);
+            messageHandler.heartbeat();
 
             gameConnectionMapper.put(gameName, new HashMap<>());
             gameConnectionMapper.get(gameName).put(playerName, messageHandler);
