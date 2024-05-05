@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.virtualView;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -12,7 +13,7 @@ import java.util.Objects;
  */
 public record PlayerView(String playerName, int playerPos, ObjectiveCard objectiveCard,
                          ArrayList<ObjectiveCard> choosableObjectives, boolean isConnected, GameCard starterCard,
-                         PlayerHandView playerHandView, PlayerBoardView playerBoardView) {
+                         PlayerHandView playerHandView, PlayerBoardView playerBoardView) implements Serializable {
 
     @Override
     public boolean equals(Object o) {

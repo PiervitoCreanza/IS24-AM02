@@ -62,16 +62,16 @@ package Network {
     package "Server" {
 
 
-        interface MessageHandler {
+        interface ServerMessageHandler {
             +void sendMessage(ServerMessage message)
             +void closeConnection()
         }
 
-        note left of MessageHandler
+        note left of ServerMessageHandler
             Interface that is implemented by the classes that handle the messages
         end note
 
-        class TCPServerAdapter implements MessageHandler {
+        class TCPServerAdapter implements ServerMessageHandler {
                 -TCPConnectionHandler connection
                 +void notify(String msg)
                 +void sendMessage(ServerMessage message)
@@ -90,7 +90,7 @@ package Network {
             +createGame(String ip, Int port, String gameName, ...)
         }
 
-        class RMIServerAdapter implements MessageHandler, ClientActions {
+        class RMIServerAdapter implements ServerMessageHandler, ClientActions {
             -String playerName
             -String gameName
             -ClientActions stub
@@ -107,14 +107,14 @@ package Network {
 
 
       class "NetworkCommandMapper" implements "ClientActions" {
-                  -HashSet<MessageHandler> connections
-                  -HashMap<String gameName, MessageHandler> connectionMap
+                  -HashSet<ServerMessageHandler> connections
+                  -HashMap<String gameName, ServerMessageHandler> connectionMap
                   -MainController mainController
                   -void broadcastMessage(ServerMessage msg, String gameName)
-                  +void addConnection(MessageHandler connection, String gameName)
-                  +void removeConnection(MessageHandler connection, String gameName)
+                  +void addConnection(ServerMessageHandler connection, String gameName)
+                  +void removeConnection(ServerMessageHandler connection, String gameName)
               }
-              NetworkCommandMapper *-- MessageHandler
+              NetworkCommandMapper *-- ServerMessageHandler
         note left of NetworkCommandMapper
                 Executes actions on the controllers, retrieves the view
                 and sends it performing .sendMessage(ServerMessage)
@@ -130,17 +130,17 @@ package Network {
             class "ClientCommandMapper" implements "ServerActions" {
                 -ClientMessageHandler connection
             }
-            class RMIClientConnectionHandler implements ServerActions {
+            class RMIClientAsAServer implements ServerActions {
                 +void receiveMessage(ServerMessage message)
             }
-            Client *-- RMIClientConnectionHandler
+            Client *-- RMIClientAsAServer
             ClientCommandMapper *-- ClientMessageHandler
 
             interface RMIClientActions {
                 +connect(String ip, Int port);
             }
 
-            class RMIClientAdapter implements ClientMessageHandler {
+            class RMIClientAsAClient implements ClientMessageHandler {
                 -ServerActions stub
                 +sendMessage(ServerMessage message)
                 +closeConnection()
