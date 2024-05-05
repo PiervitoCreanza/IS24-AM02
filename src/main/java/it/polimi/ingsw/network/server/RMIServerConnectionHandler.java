@@ -4,24 +4,25 @@ import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.network.TCP.Observer;
 import it.polimi.ingsw.network.client.ServerActions;
 
 import java.rmi.RemoteException;
 
-public class RMIServerConnectionHandler implements RMIClientActions {
-    private final NetworkCommandMapper networkCommandMapper;
+public class RMIServerConnectionHandler implements RMIClientActions, Observer<ServerMessageHandler> {
 
+    private final NetworkCommandMapper networkCommandMapper;
 
     public RMIServerConnectionHandler(NetworkCommandMapper networkCommandMapper) {
         this.networkCommandMapper = networkCommandMapper;
     }
 
-
-    /**
-     * @throws RemoteException
-     * If this method is called correctly on the client, it means connection is still alive.
-     * If not, it'll return an exception.
-     */
+    @Override
+    public void notify(ServerMessageHandler handler) {
+        new Thread(() -> {
+            networkCommandMapper.handleDisconnection(handler);
+        }).start();
+    }
 
     /**
      * Retrieves the list of available games.
@@ -32,7 +33,7 @@ public class RMIServerConnectionHandler implements RMIClientActions {
     public void getGames(ServerActions stub) throws RemoteException {
         new Thread(() -> {
             //Instance new RMIAdapter(stub)
-            networkCommandMapper.getGames(new RMIServerAdapter(stub));
+            networkCommandMapper.getGames(istanceRMIServerAdapter(stub));
         }).start();
     }
 
@@ -48,7 +49,7 @@ public class RMIServerConnectionHandler implements RMIClientActions {
     @Override
     public void createGame(ServerActions stub, String gameName, String playerName, int nPlayers) throws RemoteException {
         new Thread(() -> {
-            networkCommandMapper.createGame(new RMIServerAdapter(stub), gameName, playerName, nPlayers);
+            networkCommandMapper.createGame(istanceRMIServerAdapter(stub), gameName, playerName, nPlayers);
         }).start();
     }
 
@@ -61,7 +62,7 @@ public class RMIServerConnectionHandler implements RMIClientActions {
     public void deleteGame(ServerActions stub, String gameName) throws RemoteException {
         new Thread(() -> {
             //TODO: Add playerName, only host can delete the game
-            networkCommandMapper.deleteGame(new RMIServerAdapter(stub), gameName);
+            networkCommandMapper.deleteGame(istanceRMIServerAdapter(stub), gameName);
         }).start();
     }
 
@@ -74,7 +75,7 @@ public class RMIServerConnectionHandler implements RMIClientActions {
     @Override
     public void joinGame(ServerActions stub, String gameName, String playerName) throws RemoteException {
         new Thread(() -> {
-            networkCommandMapper.joinGame(new RMIServerAdapter(stub), gameName, playerName);
+            networkCommandMapper.joinGame(istanceRMIServerAdapter(stub), gameName, playerName);
         }).start();
     }
 
@@ -175,4 +176,9 @@ public class RMIServerConnectionHandler implements RMIClientActions {
         }).start();
     }
 
+    private RMIServerAdapter istanceRMIServerAdapter(ServerActions stub) {
+        RMIServerAdapter rmiServerAdapter = new RMIServerAdapter(stub);
+        rmiServerAdapter.addObserver(this);
+        return rmiServerAdapter;
+    }
 }

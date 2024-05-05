@@ -12,6 +12,7 @@ import it.polimi.ingsw.network.client.message.mainController.JoinGameClientMessa
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 
+import java.rmi.RemoteException;
 import java.util.HashSet;
 
 
@@ -99,6 +100,11 @@ public class ClientCommandMapper implements ServerActions {
     @Override
     public void receiveErrorMessage(String errorMessage) {
         System.out.println("Received error message: " + errorMessage);
+
+    }
+
+    @Override
+    public void heartbeat() throws RemoteException {
 
     }
 

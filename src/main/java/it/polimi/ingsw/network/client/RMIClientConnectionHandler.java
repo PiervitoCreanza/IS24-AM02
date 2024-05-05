@@ -79,6 +79,11 @@ public class RMIClientConnectionHandler extends UnicastRemoteObject implements S
         // Debug
         System.out.println("RMI received message: " + errorMessage);
     }
+
+    @Override
+    public void heartbeat() throws RemoteException {
+        System.out.println("Ping received");
+    }
 }
 
 

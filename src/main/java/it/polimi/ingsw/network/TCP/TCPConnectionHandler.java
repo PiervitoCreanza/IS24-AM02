@@ -195,7 +195,6 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
         synchronized (observers) {
             observers.add(observer);
         }
-
     }
 
     /**
@@ -209,7 +208,6 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
         synchronized (observers) {
             observers.remove(observer);
         }
-
     }
 
     /**
@@ -242,7 +240,6 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
                 // TODO: Handle any IOExceptions that might occur
             }
         }
-
     }
 }
 
