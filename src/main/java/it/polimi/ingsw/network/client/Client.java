@@ -214,7 +214,7 @@ public class Client {
                                 }
                             }
                         }
-                        System.out.print("Placed!");
+                        System.out.println("Placed!");
                     }
                     case "6" -> {
                         System.out.println("Choose player color: RED, BLUE, GREEN, YELLOW");
