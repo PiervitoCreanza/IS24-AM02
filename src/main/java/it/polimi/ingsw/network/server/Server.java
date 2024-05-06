@@ -6,6 +6,7 @@ import it.polimi.ingsw.network.server.TCP.TCPServerAdapter;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
@@ -53,6 +54,7 @@ public class Server {
         options.addOption("TCP_P", true, "TCP ServerApp Port number (default is 12345).");
         options.addOption("RMI_P", true, "RMI ServerApp Port number (default is 1099).");
         options.addOption("IP", true, "RMI ServerApp server external IP (default is localhost).");
+        options.addOption("lan", "Start the server with his lan ip address.");
 
         CommandLineParser parser = new DefaultParser();
 

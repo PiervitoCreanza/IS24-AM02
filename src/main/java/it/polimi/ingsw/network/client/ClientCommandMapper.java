@@ -20,6 +20,8 @@ public class ClientCommandMapper implements ServerActions {
 
     private ClientMessageHandler messageHandler;
 
+    private GameControllerView view;
+
 
     public ClientCommandMapper() {
     }
@@ -93,6 +95,7 @@ public class ClientCommandMapper implements ServerActions {
 
     @Override
     public void receiveUpdatedView(GameControllerView updatedView) {
+        this.view = updatedView;
         System.out.println("Received updated view: " + updatedView);
         //TODO: JavaFx event trigger
     }
@@ -112,4 +115,7 @@ public class ClientCommandMapper implements ServerActions {
         this.messageHandler = messageHandler;
     }
 
+    public GameControllerView getView() {
+        return view;
+    }
 }
