@@ -15,6 +15,7 @@ public class RMIClientAdapter implements ClientMessageHandler {
         this.serverStub = serverStub;
         this.thisClientStub = thisClientStub;
     }
+
     /**
      * Sends a message to the client.
      *

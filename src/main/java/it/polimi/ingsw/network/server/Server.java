@@ -36,11 +36,12 @@ public class Server {
         CommandLine cmd = parseCommandLineArgs(args);
         int TCPPortNumber = Integer.parseInt(cmd.getOptionValue("TCP_P", "12345")); // default is 12345
         int RMIPortNumber = Integer.parseInt(cmd.getOptionValue("RMI_P", "1099"));
+        String serverIp = cmd.getOptionValue("IP", "localhost");
 
         /* ***************************************
          * START RMI SERVER
          * ***************************************/
-        RMIServerStart(networkCommandMapper, RMIPortNumber);
+        RMIServerStart(networkCommandMapper, RMIPortNumber, serverIp);
         /* ***************************************
          * START TCP SERVER
          * ***************************************/
@@ -51,6 +52,7 @@ public class Server {
         Options options = new Options();
         options.addOption("TCP_P", true, "TCP ServerApp Port number (default is 12345).");
         options.addOption("RMI_P", true, "RMI ServerApp Port number (default is 1099).");
+        options.addOption("IP", true, "RMI ServerApp server external IP (default is localhost).");
 
         CommandLineParser parser = new DefaultParser();
 
@@ -72,8 +74,11 @@ public class Server {
         return null;
     }
 
-    private static void RMIServerStart(NetworkCommandMapper networkCommandMapper, Integer RMIPortNumber) {
+    private static void RMIServerStart(NetworkCommandMapper networkCommandMapper, Integer RMIPortNumber, String serverIp) {
         try {
+            //TODO Conti fixit
+            System.setProperty("java.rmi.server.hostname", serverIp);
+
             RMIServerConnectionHandler rmiServerConnectionHandler = new RMIServerConnectionHandler(networkCommandMapper);
             RMIClientActions stub = (RMIClientActions) UnicastRemoteObject.exportObject(rmiServerConnectionHandler, RMIPortNumber);
             Registry registry = LocateRegistry.createRegistry(RMIPortNumber);

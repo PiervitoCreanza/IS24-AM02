@@ -13,29 +13,34 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Objects;
 
 public class Client {
 
     private static final ClientCommandMapper clientCommandMapper = new ClientCommandMapper();
 
-    private static String ipAddress;
-    private static int portNumber;
+    private static String serverIpAddress;
+    private static int serverPortNumber;
+    private static String clientIpAddress;
+    private static int clientPortNumber;
 
     public static void main(String[] args) {
         CommandLine cmd = parseCommandLineArgs(args);
         // get values from options
         String connectionType = cmd.getOptionValue("c");
-        ipAddress = cmd.getOptionValue("ip", "localhost"); // default is localhost
-        portNumber = Integer.parseInt(cmd.getOptionValue("p", (connectionType.equals("TCP") ? "12345" : "1099")));
+        serverIpAddress = cmd.getOptionValue("ip_s", "localhost"); // default is localhost
+        serverPortNumber = Integer.parseInt(cmd.getOptionValue("p_s", (connectionType.equals("TCP") ? "12345" : "1099")));
+        clientIpAddress = cmd.getOptionValue("ip_c", "localhost"); // default is localhost
+        clientPortNumber = Integer.parseInt(cmd.getOptionValue("p_c", Integer.toString(serverPortNumber)));
 
         switch (connectionType.toLowerCase()) {
             case "tcp" -> {
-                System.out.println(Utils.ANSI_BLUE + "Started a TCP connection with IP: " + ipAddress + " on port: " + portNumber + Utils.ANSI_RESET);
+                System.out.println(Utils.ANSI_BLUE + "Started a TCP connection with IP: " + serverIpAddress + " on port: " + serverPortNumber + Utils.ANSI_RESET);
                 startTCPClient();
             }
             case "rmi" -> {
-                System.out.println(Utils.ANSI_YELLOW + "Started an RMI connection with IP: " + ipAddress + " on port: " + portNumber + Utils.ANSI_RESET);
+                System.out.println(Utils.ANSI_YELLOW + "Started an RMI connection with IP: " + serverIpAddress + " on port: " + serverPortNumber + Utils.ANSI_RESET);
                 startRMIClient();
             }
             default -> System.err.println("Invalid connection type. Please specify either TCP or RMI.");
@@ -48,8 +53,10 @@ public class Client {
 
         // add options
         options.addOption("c", true, "Connection type (TCP or RMI). This is mandatory.");
-        options.addOption("ip", true, "IP address (default is localhost).");
-        options.addOption("p", true, "Port number (default is 12345 for TCP and 1099 for RMI).");
+        options.addOption("ip_s", true, "IP address (default is localhost).");
+        options.addOption("p_s", true, "Port number (default is 12345 for TCP and 1099 for RMI).");
+        options.addOption("ip_c", true, "Client IP address (default is localhost).");
+        options.addOption("p_c", true, "Client port number (default is the same as the server port number).");
 
         CommandLineParser parser = new DefaultParser();
 
@@ -76,9 +83,9 @@ public class Client {
     private static void startTCPClient() {
         try {
             System.out.println("Hello, this is the client!");
-            Socket serverSocket = new Socket(ipAddress, portNumber);
+            Socket serverSocket = new Socket(serverIpAddress, serverPortNumber);
             // Print configuration
-            System.err.println("Starting client  with connection to server at " + ipAddress + " on port " + portNumber);
+            System.err.println("Starting client  with connection to server at " + serverIpAddress + " on port " + serverPortNumber);
             TCPClientAdapter clientAdapter = new TCPClientAdapter(serverSocket, clientCommandMapper);
             clientCommandMapper.setMessageHandler(clientAdapter);
             printTUIMenu();
@@ -89,15 +96,16 @@ public class Client {
 
     private static void startRMIClient() {
         // Getting the registry
-        //TODO: save serverStub -> stub chiamato dal client per eseguire metodi remoti
-        //TODO: save thisClientStub -> stub esposto al server dal client
         try {
-            ServerActions rmiClientConnectionHandler = new RMIClientConnectionHandler(clientCommandMapper);
+            System.setProperty("java.rmi.server.hostname", clientIpAddress);
+
+            RMIClientConnectionHandler rmiClientConnectionHandler = new RMIClientConnectionHandler(clientCommandMapper);
+            ServerActions clientStub = (ServerActions) UnicastRemoteObject.exportObject(rmiClientConnectionHandler, clientPortNumber);
             //Client as a client, getting the registry
-            Registry registry = LocateRegistry.getRegistry(ipAddress, portNumber);
+            Registry registry = LocateRegistry.getRegistry(serverIpAddress, serverPortNumber);
             // Looking up the registry for the remote object
             RMIClientActions serverStub = (RMIClientActions) registry.lookup("ClientActions");
-            RMIClientAdapter rmiClientAdapter = new RMIClientAdapter(serverStub, rmiClientConnectionHandler);
+            RMIClientAdapter rmiClientAdapter = new RMIClientAdapter(serverStub, clientStub);
             clientCommandMapper.setMessageHandler(rmiClientAdapter); //Adding stub to the mapper
             printTUIMenu();
         } catch (RemoteException | NotBoundException e) {
