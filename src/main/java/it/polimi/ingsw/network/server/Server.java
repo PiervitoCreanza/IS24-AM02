@@ -37,7 +37,14 @@ public class Server {
         CommandLine cmd = parseCommandLineArgs(args);
         int TCPPortNumber = Integer.parseInt(cmd.getOptionValue("TCP_P", "12345")); // default is 12345
         int RMIPortNumber = Integer.parseInt(cmd.getOptionValue("RMI_P", "1099"));
-        String serverIp = cmd.getOptionValue("IP", "localhost");
+        String serverIp;
+        if (cmd.hasOption("lan")) {
+            try {
+                serverIp = InetAddress.getLocalHost().getHostAddress();
+            } catch (Exception e) {
+                serverIp = "localhost";
+            }
+        } else serverIp = cmd.getOptionValue("IP", "localhost");
 
         /* ***************************************
          * START RMI SERVER
