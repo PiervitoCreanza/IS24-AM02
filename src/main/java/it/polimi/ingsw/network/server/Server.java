@@ -6,8 +6,9 @@ import it.polimi.ingsw.network.server.TCP.TCPServerAdapter;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
-import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -40,12 +41,16 @@ public class Server {
         String serverIp;
         if (cmd.hasOption("lan")) {
             try {
-                serverIp = InetAddress.getLocalHost().getHostAddress();
+                Socket socket = new Socket();
+                socket.connect(new InetSocketAddress("google.com", 80));
+                serverIp = socket.getLocalAddress().getHostAddress();
+                socket.close();
             } catch (Exception e) {
                 serverIp = "localhost";
             }
         } else serverIp = cmd.getOptionValue("IP", "localhost");
 
+        System.out.println(Utils.ANSI_PURPLE + "ServerApp IP: " + serverIp + Utils.ANSI_RESET);
         /* ***************************************
          * START RMI SERVER
          * ***************************************/
