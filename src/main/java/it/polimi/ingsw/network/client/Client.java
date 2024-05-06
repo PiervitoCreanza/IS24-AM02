@@ -20,15 +20,17 @@ public class Client {
 
     private static String serverIpAddress;
     private static int serverPortNumber;
-    private static String clientIpAddress = "10.144.94.21";
+    private static String clientIpAddress;
     private static int clientPortNumber;
 
     public static void main(String[] args) {
         CommandLine cmd = parseCommandLineArgs(args);
         // get values from options
         String connectionType = cmd.getOptionValue("c");
-        serverIpAddress = cmd.getOptionValue("ip", "localhost"); // default is localhost
-        serverPortNumber = Integer.parseInt(cmd.getOptionValue("p", (connectionType.equals("TCP") ? "12345" : "1099")));
+        serverIpAddress = cmd.getOptionValue("ip_s", "localhost"); // default is localhost
+        serverPortNumber = Integer.parseInt(cmd.getOptionValue("p_s", (connectionType.equals("TCP") ? "12345" : "1099")));
+        clientIpAddress = cmd.getOptionValue("ip_c", "localhost"); // default is localh
+        clientPortNumber = Integer.parseInt(cmd.getOptionValue("p_c", Integer.toString(serverPortNumber)));
 
         switch (connectionType.toLowerCase()) {
             case "tcp" -> {
@@ -91,8 +93,9 @@ public class Client {
     private static void startRMIClient() {
         // Getting the registry
         try {
+            //TODO Conti fixit
+            System.setProperty("java.rmi.server.hostname", clientIpAddress);
             //TODO
-            clientPortNumber = serverPortNumber + 1;
             //Client as a server, binding the registry
             ServerActions rmiClientConnectionHandler = new RMIClientConnectionHandler(clientCommandMapper);
             ServerActions clientStub = (ServerActions) UnicastRemoteObject.exportObject(rmiClientConnectionHandler, clientPortNumber);
