@@ -45,6 +45,7 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
     private String playerName;
 
     private final Gson gson = new GsonBuilder()
+            .enableComplexMapKeySerialization()
             .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter())
             .registerTypeAdapter(ObjectiveCard.class, new ObjectiveCardAdapter())
             .registerTypeAdapter(ClientMessage.class, new ClientMessageAdapter())
@@ -152,7 +153,7 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
-    
+
     /**
      * Gets the name of the game associated with the connection.
      *
