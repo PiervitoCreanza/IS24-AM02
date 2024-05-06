@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -95,24 +97,18 @@ public class Client {
     private static void startRMIClient() {
         // Getting the registry
         try {
-            //TODO Conti fixit
             System.setProperty("java.rmi.server.hostname", clientIpAddress);
-            //TODO
-            //Client as a server, binding the registry
-            ServerActions rmiClientConnectionHandler = new RMIClientConnectionHandler(clientCommandMapper);
+
+            RMIClientConnectionHandler rmiClientConnectionHandler = new RMIClientConnectionHandler(clientCommandMapper);
             ServerActions clientStub = (ServerActions) UnicastRemoteObject.exportObject(rmiClientConnectionHandler, clientPortNumber);
-            Registry clientRegistry = LocateRegistry.createRegistry(clientPortNumber);
-            clientRegistry.bind("ServerActions", clientStub);
-
-
             //Client as a client, getting the registry
-            Registry serverRegistry = LocateRegistry.getRegistry(serverIpAddress, serverPortNumber);
+            Registry registry = LocateRegistry.getRegistry(serverIpAddress, serverPortNumber);
             // Looking up the registry for the remote object
-            RMIClientActions serverStub = (RMIClientActions) serverRegistry.lookup("ClientActions");
-            RMIClientAdapter rmiClientAdapter = new RMIClientAdapter(serverStub, clientIpAddress, clientPortNumber);
+            RMIClientActions serverStub = (RMIClientActions) registry.lookup("ClientActions");
+            RMIClientAdapter rmiClientAdapter = new RMIClientAdapter(serverStub, clientStub);
             clientCommandMapper.setMessageHandler(rmiClientAdapter); //Adding stub to the mapper
             printTUIMenu();
-        } catch (Exception e) {
+        } catch (RemoteException | NotBoundException e) {
             throw new RuntimeException(e);
         }
     }

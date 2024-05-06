@@ -9,14 +9,11 @@ import java.rmi.RemoteException;
 public class RMIClientAdapter implements ClientMessageHandler {
     private final RMIClientActions serverStub;
 
-    private final String clientIpAddress;
+    private final ServerActions thisClientStub;
 
-    private final int clientPortNumber;
-
-    public RMIClientAdapter(RMIClientActions serverStub, String clientIpAddress, int clientPortNumber) {
+    public RMIClientAdapter(RMIClientActions serverStub, ServerActions thisClientStub) {
         this.serverStub = serverStub;
-        this.clientIpAddress = clientIpAddress;
-        this.clientPortNumber = clientPortNumber;
+        this.thisClientStub = thisClientStub;
     }
 
     /**
@@ -33,13 +30,12 @@ public class RMIClientAdapter implements ClientMessageHandler {
         try {
             switch (playerAction) {
                 //TODO: will have to save the IP address of the server on the ClientAsAServer, maybe we could get it from the stub/registry?
-                case GET_GAMES -> serverStub.getGames(this.clientIpAddress, this.clientPortNumber);
+                case GET_GAMES -> serverStub.getGames(thisClientStub);
                 case CREATE_GAME ->
-                        serverStub.createGame(this.clientIpAddress, this.clientPortNumber, message.getGameName(), message.getPlayerName(), message.getNPlayers());
-                case DELETE_GAME ->
-                        serverStub.deleteGame(this.clientIpAddress, this.clientPortNumber, message.getGameName());
+                        serverStub.createGame(this.thisClientStub, message.getGameName(), message.getPlayerName(), message.getNPlayers());
+                case DELETE_GAME -> serverStub.deleteGame(thisClientStub, message.getGameName());
                 case JOIN_GAME ->
-                        serverStub.joinGame(this.clientIpAddress, this.clientPortNumber, message.getGameName(), message.getPlayerName());
+                        serverStub.joinGame(this.thisClientStub, message.getGameName(), message.getPlayerName());
                 case CHOOSE_PLAYER_COLOR ->
                         serverStub.choosePlayerColor(message.getGameName(), message.getPlayerName(), message.getPlayerColor());
                 case SET_PLAYER_OBJECTIVE ->
