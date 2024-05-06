@@ -11,7 +11,7 @@ import org.apache.commons.cli.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -42,7 +42,11 @@ public class Client {
         serverPortNumber = Integer.parseInt(cmd.getOptionValue("p_s", (connectionType.equals("TCP") ? "12345" : "1099")));
         if (lan) {
             try {
-                clientIpAddress = InetAddress.getLocalHost().getHostAddress();
+                Socket socket = new Socket();
+                socket.connect(new InetSocketAddress("google.com", 80));
+                clientIpAddress = socket.getLocalAddress().getHostAddress();
+                socket.close();
+
             } catch (Exception e) {
                 clientIpAddress = "localhost";
             }
@@ -51,6 +55,7 @@ public class Client {
         }
         clientPortNumber = Integer.parseInt(cmd.getOptionValue("p_c", Integer.toString(serverPortNumber)));
 
+        System.out.println(Utils.ANSI_PURPLE + "Client IP: " + clientIpAddress + Utils.ANSI_RESET);
 
         switch (connectionType.toLowerCase()) {
             case "tcp" -> {
@@ -59,6 +64,7 @@ public class Client {
             }
             case "rmi" -> {
                 System.out.println(Utils.ANSI_YELLOW + "Started an RMI connection with IP: " + serverIpAddress + " on port: " + serverPortNumber + Utils.ANSI_RESET);
+                System.out.println(Utils.ANSI_YELLOW + "Waiting RMI request on IP: " + clientIpAddress + " on port: " + clientPortNumber + Utils.ANSI_RESET);
                 startRMIClient();
             }
             default -> System.err.println("Invalid connection type. Please specify either TCP or RMI.");
@@ -102,7 +108,6 @@ public class Client {
 
     private static void startTCPClient() {
         try {
-            System.out.println("Hello, this is the client!");
             Socket serverSocket = new Socket(serverIpAddress, serverPortNumber);
             // Print configuration
             System.err.println("Starting client  with connection to server at " + serverIpAddress + " on port " + serverPortNumber);
