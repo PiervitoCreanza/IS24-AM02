@@ -42,7 +42,9 @@ public class Parser {
     /**
      * Gson object with custom deserializer for SideGameCard.
      */
-    private final Gson gson = new GsonBuilder().registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter()).create();
+    private final Gson gson = new GsonBuilder()
+            .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter())
+            .create();
 
     /**
      * Generic method to parse and add cards to a list.

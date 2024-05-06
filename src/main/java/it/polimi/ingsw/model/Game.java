@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.store.Store;
+import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
+import it.polimi.ingsw.network.virtualView.GameView;
+import it.polimi.ingsw.network.virtualView.VirtualViewable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -13,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * Class that represents a single game in the system.
  */
-public class Game {
+public class Game implements VirtualViewable<GameView> {
 
     /**
      * Represents the name of the game.
@@ -294,5 +297,34 @@ public class Game {
             throw new IllegalArgumentException("Color already chosen by another player");
         }
         getPlayer(playerName).setPlayerColor(playerColor);
+    }
+
+    /**
+     * Returns the maximum number of players allowed in the game.
+     *
+     * @return The maximum number of players that can join a game.
+     */
+    public int getMaxAllowedPlayers() {
+        return maxAllowedPlayers;
+    }
+
+    /**
+     * Returns the virtual view of the game.
+     *
+     * @return GameView This returns the virtual view of the game.
+     */
+    @Override
+    public GameView getVirtualView() {
+        return new GameView(currentPlayer.getPlayerName(), globalBoard.getVirtualView(), players.stream().map(Player::getVirtualView).collect(Collectors.toList()));
+    }
+
+    /**
+     * Returns the game record of the game.
+     * It contains all the details needed by the lobby to display the game.
+     *
+     * @return GameRecord This returns the game record of the game.
+     */
+    public GameRecord getGameRecord() {
+        return new GameRecord(gameName, players.size(), maxAllowedPlayers);
     }
 }
