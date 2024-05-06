@@ -17,16 +17,16 @@ to accommodate two main development approaches for flexibility.
 
 | Functionality     | Status                  | 
 |-------------------|-------------------------|
-| Basic rules       | :construction:          |
-| Complete rules    | :ballot_box_with_check: |
-| Socket connection | :ballot_box_with_check: |
-| RMI connection    | :ballot_box_with_check: |
-| CLI               | :ballot_box_with_check: |
+| Basic rules       | :white_check_mark:      |
+| Complete rules    | :white_check_mark:      |
+| Socket connection | :construction:          |
+| RMI connection    | :construction:          |
+| CLI               | :construction:          |
 | GUI               | :ballot_box_with_check: |
-| Multiple games    | :ballot_box_with_check: |
+| Multiple games    | :white_check_mark:      |
 | Persistence       | :x:                     |
 | Resilience        | :ballot_box_with_check: |
-| Chat              | :ballot_box_with_check: |
+| Chat              | :construction:          |
 
 **Legend**
 | Symbol | Functionality status |
