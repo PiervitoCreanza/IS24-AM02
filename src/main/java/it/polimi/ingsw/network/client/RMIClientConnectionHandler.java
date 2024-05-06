@@ -81,7 +81,7 @@ public class RMIClientConnectionHandler implements ServerActions {
 
     @Override
     public void heartbeat() throws RemoteException {
-        System.out.println("Ping received");
+        //System.out.println("Ping received");
     }
 }
 
