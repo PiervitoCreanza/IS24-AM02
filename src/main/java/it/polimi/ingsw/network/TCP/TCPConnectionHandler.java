@@ -233,9 +233,10 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
     public synchronized void closeConnection() {
         if (!this.socket.isClosed()) {
             try {
+                // TODO: Improve code
                 this.isConnected.set(false);
                 this.receivedMessages.clear();
-                this.receivedMessages.offer("CONNECTION_CLOSED");
+                observers.forEach(observer -> observer.notify("CONNECTION_CLOSED"));
                 socket.close();
             } catch (IOException e) {
                 // TODO: Handle any IOExceptions that might occur

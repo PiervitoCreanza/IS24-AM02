@@ -77,6 +77,8 @@ public class NetworkCommandMapper implements ClientActions {
         try {
             gameConnectionMapper.put(gameName, new HashSet<>());
             gameConnectionMapper.get(gameName).add(messageHandler);
+            messageHandler.setGameName(gameName);
+            messageHandler.setPlayerName(playerName);
             mainController.createGame(gameName, playerName, nPlayers);
             broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
         } catch (Exception e) {
@@ -113,8 +115,9 @@ public class NetworkCommandMapper implements ClientActions {
     public void deleteGame(ServerMessageHandler messageHandler, String gameName) {
         try {
             mainController.deleteGame(gameName);
-            gameConnectionMapper.remove(gameName);
             broadcastMessage(gameName, new DeleteGameServerMessage());
+            // TODO: Close connections
+            gameConnectionMapper.remove(gameName);
         } catch (Exception e) {
             messageHandler.sendMessage(new ErrorServerMessage(e.getMessage()));
         }
@@ -249,10 +252,12 @@ public class NetworkCommandMapper implements ClientActions {
         gameConnectionMapper.get(gameName).remove(messageHandler);
         mainController.getGameController(gameName).setPlayerConnectionStatus(messageHandler.getPlayerName(), false);
 
+        System.out.println("[Server] Player " + messageHandler.getPlayerName() + " disconnected from game " + gameName + ". Remaining players: " + gameConnectionMapper.get(gameName).size());
         // If the game is now empty we delete it.
         if (gameConnectionMapper.get(gameName).isEmpty()) {
             mainController.deleteGame(gameName);
             gameConnectionMapper.remove(gameName);
+            System.out.println("[Server] Game " + gameName + " deleted.");
         }
     }
 }
