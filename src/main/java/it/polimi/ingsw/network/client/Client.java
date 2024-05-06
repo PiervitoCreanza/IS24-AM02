@@ -29,7 +29,7 @@ public class Client {
         String connectionType = cmd.getOptionValue("c");
         serverIpAddress = cmd.getOptionValue("ip_s", "localhost"); // default is localhost
         serverPortNumber = Integer.parseInt(cmd.getOptionValue("p_s", (connectionType.equals("TCP") ? "12345" : "1099")));
-        clientIpAddress = cmd.getOptionValue("ip_c", "localhost"); // default is localh
+        clientIpAddress = cmd.getOptionValue("ip_c", "localhost"); // default is localhost
         clientPortNumber = Integer.parseInt(cmd.getOptionValue("p_c", Integer.toString(serverPortNumber)));
 
         switch (connectionType.toLowerCase()) {
@@ -51,8 +51,10 @@ public class Client {
 
         // add options
         options.addOption("c", true, "Connection type (TCP or RMI). This is mandatory.");
-        options.addOption("ip", true, "IP address (default is localhost).");
-        options.addOption("p", true, "Port number (default is 12345 for TCP and 1099 for RMI).");
+        options.addOption("ip_s", true, "IP address (default is localhost).");
+        options.addOption("p_s", true, "Port number (default is 12345 for TCP and 1099 for RMI).");
+        options.addOption("ip_c", true, "Client IP address (default is localhost).");
+        options.addOption("p_c", true, "Client port number (default is the same as the server port number).");
 
         CommandLineParser parser = new DefaultParser();
 
