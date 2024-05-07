@@ -2,11 +2,14 @@ package it.polimi.ingsw.network.adapters;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.controller.GameControllerMiddleware;
 import it.polimi.ingsw.controller.MainController;
 import it.polimi.ingsw.data.ObjectiveCardAdapter;
 import it.polimi.ingsw.data.SideGameCardAdapter;
+import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.server.message.ErrorServerMessage;
 import it.polimi.ingsw.network.server.message.ServerMessage;
 import it.polimi.ingsw.network.server.message.successMessage.DeleteGameServerMessage;
@@ -25,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ServerMessageAdapterTest {
 
     Gson gson = new GsonBuilder()
+            .enableComplexMapKeySerialization()
             .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter())
             .registerTypeAdapter(ObjectiveCard.class, new ObjectiveCardAdapter())
             .registerTypeAdapter(ServerMessage.class, new ServerMessageAdapter())
@@ -35,8 +39,15 @@ public class ServerMessageAdapterTest {
     @Test
     @DisplayName("Test if serialization and deserialization of UpdateViewServerMessage works")
     public void serializeAndDeserializeUpdateViewServerMessage() {
+
         mainController.createGame("gameName", "playerName", 2);
+        mainController.joinGame("gameName", "playerName2");
+        GameControllerMiddleware gameControllerMiddleware = mainController.getGameController("gameName");
         GameControllerView gameControllerView = mainController.getVirtualView("gameName");
+        GameCard gameCard = mainController.getVirtualView("gameName").gameView().playerViews().stream().filter(playerView -> playerView.playerName().equals("playerName")).findFirst().get().starterCard();
+        gameControllerMiddleware.placeCard("playerName", new Coordinate(0, 0), gameCard);
+        gameControllerView = mainController.getVirtualView("gameName");
+
         ServerMessage updateViewServerMessage = new UpdateViewServerMessage(gameControllerView);
         // Serialize
         String jsonUpdateViewServerMessage = this.gson.toJson(updateViewServerMessage);

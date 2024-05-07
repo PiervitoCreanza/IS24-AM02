@@ -6,7 +6,9 @@ import it.polimi.ingsw.network.server.TCP.TCPServerAdapter;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -36,8 +38,19 @@ public class Server {
         CommandLine cmd = parseCommandLineArgs(args);
         int TCPPortNumber = Integer.parseInt(cmd.getOptionValue("TCP_P", "12345")); // default is 12345
         int RMIPortNumber = Integer.parseInt(cmd.getOptionValue("RMI_P", "1099"));
-        String serverIp = cmd.getOptionValue("IP", "localhost");
+        String serverIp;
+        if (cmd.hasOption("lan")) {
+            try {
+                Socket socket = new Socket();
+                socket.connect(new InetSocketAddress("google.com", 80));
+                serverIp = socket.getLocalAddress().getHostAddress();
+                socket.close();
+            } catch (Exception e) {
+                serverIp = "localhost";
+            }
+        } else serverIp = cmd.getOptionValue("IP", "localhost");
 
+        System.out.println(Utils.ANSI_PURPLE + "ServerApp IP: " + serverIp + Utils.ANSI_RESET);
         /* ***************************************
          * START RMI SERVER
          * ***************************************/
@@ -53,6 +66,7 @@ public class Server {
         options.addOption("TCP_P", true, "TCP ServerApp Port number (default is 12345).");
         options.addOption("RMI_P", true, "RMI ServerApp Port number (default is 1099).");
         options.addOption("IP", true, "RMI ServerApp server external IP (default is localhost).");
+        options.addOption("lan", "Start the server with his lan ip address.");
 
         CommandLineParser parser = new DefaultParser();
 

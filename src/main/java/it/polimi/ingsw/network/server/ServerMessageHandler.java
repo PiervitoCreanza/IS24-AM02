@@ -44,7 +44,6 @@ public interface ServerMessageHandler extends MessageHandler<ServerMessage> {
      */
     String getGameName();
 
-    void heartbeat();
     /**
      * Closes the connection to the client.
      */

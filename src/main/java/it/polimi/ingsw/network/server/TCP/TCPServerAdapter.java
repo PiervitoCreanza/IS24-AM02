@@ -45,6 +45,7 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
     private String playerName;
 
     private final Gson gson = new GsonBuilder()
+            .enableComplexMapKeySerialization()
             .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter())
             .registerTypeAdapter(ObjectiveCard.class, new ObjectiveCardAdapter())
             .registerTypeAdapter(ClientMessage.class, new ClientMessageAdapter())
@@ -162,14 +163,6 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
     @Override
     public String getGameName() {
         return this.gameName;
-    }
-
-    @Override
-    public void heartbeat() {
-        //TODO Unify with RMI?
-        // We need this method in rmi because
-        // we start pinging only when the connection is "saved"
-        // is there any way to make it similar on TCP?
     }
 
     /**

@@ -25,6 +25,7 @@ public class RMIServerAdapter implements ServerMessageHandler, Observable<Server
 
     public RMIServerAdapter(ServerActions stub) {
         this.stub = stub;
+        heartbeat();
     }
     /**
      * Sends a message to the client.
@@ -81,7 +82,6 @@ public class RMIServerAdapter implements ServerMessageHandler, Observable<Server
         return this.gameName;
     }
 
-    @Override
     public void heartbeat() {
         this.isConnected.set(true);
         new Timer().scheduleAtFixedRate(new TimerTask() {
