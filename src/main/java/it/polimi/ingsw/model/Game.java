@@ -148,6 +148,20 @@ public class Game implements VirtualViewable<GameView> {
     }
 
     /**
+     * Check if a player is disconnected.
+     *
+     * @param playerName The name of the player to check.
+     * @return true if the player is connected, false otherwise.
+     */
+    public boolean isPlayerDisconnected(String playerName) {
+        try {
+            return !getPlayer(playerName).isConnected();
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    /**
      * Returns the global board of the game.
      *
      * @return The GlobalBoard object that represents the global board of the game.
@@ -208,7 +222,8 @@ public class Game implements VirtualViewable<GameView> {
      * This method updates the currentPlayer variable to the next player in the list of players.
      */
     public void setNextPlayer() {
-        currentPlayer = players.get((players.indexOf(currentPlayer) + 1) % maxAllowedPlayers);
+        ArrayList<Player> connectedPlayers = players.stream().filter(Player::isConnected).collect(Collectors.toCollection(ArrayList::new));
+        currentPlayer = connectedPlayers.get((connectedPlayers.indexOf(currentPlayer) + 1) % connectedPlayers.size());
     }
 
     /**
