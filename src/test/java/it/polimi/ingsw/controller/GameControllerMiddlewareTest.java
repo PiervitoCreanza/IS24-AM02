@@ -13,8 +13,7 @@ import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 class GameControllerMiddlewareTest {
@@ -54,6 +53,21 @@ class GameControllerMiddlewareTest {
     void joinGame() {
         gameControllerMiddleware.joinGame("playerName");
         assertEquals(GameStatusEnum.WAIT_FOR_PLAYERS, gameControllerMiddleware.getGameStatus());
+    }
+
+    @Test
+    @DisplayName("Test if a player can re-join the game after disconenction")
+    void joinGame1() {
+        GameControllerMiddleware gameControllerMiddleware = new GameControllerMiddleware("gameName", 3, "player1");
+        gameControllerMiddleware.joinGame("playerName");
+        assertEquals(GameStatusEnum.WAIT_FOR_PLAYERS, gameControllerMiddleware.getGameStatus());
+        Exception e = assertThrows(IllegalArgumentException.class, () -> gameControllerMiddleware.joinGame("playerName"));
+        assertEquals("A player with the same name, already exists", e.getMessage());
+        gameControllerMiddleware.getGame().getPlayer("playerName").setConnected(false);
+        gameControllerMiddleware.joinGame("playerName");
+        assertTrue(gameControllerMiddleware.getGame().getPlayer("playerName").isConnected());
+
+
     }
 
     @Test

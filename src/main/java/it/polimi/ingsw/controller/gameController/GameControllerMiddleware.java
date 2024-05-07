@@ -140,11 +140,18 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      */
     @Override
     public void joinGame(String playerName) {
-        if (gameStatus != GameStatusEnum.WAIT_FOR_PLAYERS) {
+        // If the game is not in the WAIT_FOR_PLAYERS status or the player is already connected, an exception is thrown
+        if (gameStatus != GameStatusEnum.WAIT_FOR_PLAYERS && !game.isPlayerDisconnected(playerName)) {
             throw new IllegalStateException("Cannot join game in current game status");
         }
-        gameController.joinGame(playerName);
 
+        if (game.isPlayerDisconnected(playerName)) {
+            // If the player was disconnected we update his connection status.
+            game.getPlayer(playerName).setConnected(true);
+        } else {
+            // Else we add the player to the game
+            gameController.joinGame(playerName);
+        }
 
         // If the game is ready to start, the game status is set to INIT_PLACE_STARTER_CARD
         if (game.isStarted()) {
