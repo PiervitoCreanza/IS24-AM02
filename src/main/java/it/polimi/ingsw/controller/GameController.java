@@ -127,4 +127,14 @@ public class GameController implements PlayerActions {
     public void setPlayerConnectionStatus(String playerName, boolean isConnected) {
         game.getPlayer(playerName).setConnected(isConnected);
     }
+
+    /**
+     * Checks if the player is the creator of the game.
+     *
+     * @param playerName the name of the player.
+     * @return true if the player is the creator of the game, false otherwise.
+     */
+    public boolean isCreator(String playerName) {
+        return game.getPlayers().getFirst().getPlayerName().equals(playerName);
+    }
 }

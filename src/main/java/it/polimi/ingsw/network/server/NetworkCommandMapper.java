@@ -115,15 +115,15 @@ public class NetworkCommandMapper {
     /**
      * Leaves the game.
      *
-     * @param gameName the name of the game.
+     * @param messageHandler the ServerMessageHandler that will handle the response
+     * @param gameName       the name of the game.
      */
     public void deleteGame(ServerMessageHandler messageHandler, String gameName) {
         try {
-            //TODO : Need player name of the Host
-            mainController.deleteGame(gameName);
+            mainController.deleteGame(gameName, messageHandler.getPlayerName());
             broadcastMessage(gameName, new DeleteGameServerMessage());
-            // TODO: Close connections
-            gameConnectionMapper.remove(gameName);
+            // We close the connections. This will trigger the handleDisconnection method and so the game deletion.
+            closeConnections(gameName);
         } catch (Exception e) {
             messageHandler.sendMessage(new ErrorServerMessage(e.getMessage()));
         }

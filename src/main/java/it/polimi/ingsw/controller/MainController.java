@@ -91,6 +91,24 @@ public class MainController {
     /**
      * Deletes a gameControllerMiddleware with the specified name from the list of gameControllerMiddlewares.
      *
+     * @param gameName   The name of the game to be deleted.
+     * @param playerName The name of the player deleting the game.
+     * @throws IllegalArgumentException if a game with the specified name does not exist.
+     */
+    public void deleteGame(String gameName, String playerName) {
+        Optional<GameControllerMiddleware> chosenGameControllerMiddleware = findGame(gameName);
+        if (chosenGameControllerMiddleware.isEmpty())
+            throw new IllegalArgumentException("A game with the name \"" + gameName + "\" doesn't exists");
+        GameControllerMiddleware gameControllerMiddleware = chosenGameControllerMiddleware.get();
+        if (!gameControllerMiddleware.isCreator(playerName)) {
+            throw new IllegalArgumentException("Only the creator of the game can delete it");
+        }
+        gameControllerMiddlewares.remove(gameControllerMiddleware);
+    }
+
+    /**
+     * Deletes a gameControllerMiddleware with the specified name from the list of gameControllerMiddlewares.
+     *
      * @param gameName The name of the game to be deleted.
      * @throws IllegalArgumentException if a game with the specified name does not exist.
      */
@@ -98,7 +116,8 @@ public class MainController {
         Optional<GameControllerMiddleware> chosenGameControllerMiddleware = findGame(gameName);
         if (chosenGameControllerMiddleware.isEmpty())
             throw new IllegalArgumentException("A game with the name \"" + gameName + "\" doesn't exists");
-        gameControllerMiddlewares.remove(chosenGameControllerMiddleware.get());
+        GameControllerMiddleware gameControllerMiddleware = chosenGameControllerMiddleware.get();
+        gameControllerMiddlewares.remove(gameControllerMiddleware);
     }
 
     /**

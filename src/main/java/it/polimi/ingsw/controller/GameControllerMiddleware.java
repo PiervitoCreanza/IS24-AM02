@@ -298,6 +298,17 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
     }
 
     /**
+     * Checks if the player is the creator of the game.
+     *
+     * @param playerName the name of the player.
+     * @return true if the player is the creator of the game, false otherwise.
+     */
+    @Override
+    public boolean isCreator(String playerName) {
+        return gameController.isCreator(playerName);
+    }
+
+    /**
      * Gets the virtual view of the game controller.
      *
      * @return the virtual view of the game controller.
