@@ -101,6 +101,7 @@ public class NetworkCommandMapper {
      */
     public void joinGame(ServerMessageHandler messageHandler, String gameName, String playerName) {
         try {
+            // TODO: Start heartbeat
             mainController.joinGame(gameName, playerName);
 
             messageHandler.setGameName(gameName);
@@ -193,6 +194,7 @@ public class NetworkCommandMapper {
             gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerMessage(e.getMessage()));
         }
     }
+
     /**
      * Draws a card from the resource deck.
      *
