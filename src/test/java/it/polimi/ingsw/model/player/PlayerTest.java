@@ -95,5 +95,9 @@ public class PlayerTest {
         player.setGameCard(new Coordinate(0, 0), card);
         assertEquals(card, player.getPlayerBoard().getGameCard(new Coordinate(0, 0)).get());
         assertFalse(player.getPlayerHand().getCards().contains(card));
+
+        String message = assertThrows(IllegalArgumentException.class, () -> player.setGameCard(new Coordinate(0, 0), card)).getMessage();
+        assertEquals("Player does not have the card in hand", message);
     }
+
 }
