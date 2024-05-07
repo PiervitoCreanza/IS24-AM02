@@ -143,13 +143,25 @@ class GameTest {
     @Test
     @DisplayName("setNextPlayer changes currentPlayer")
     void setNextPlayerShouldChangeCurrentPlayer() {
-        testGame.addPlayer("Player2");
-        Player firstPlayer = testGame.getCurrentPlayer();
-        testGame.setNextPlayer();
-        Player secondPlayer = testGame.getCurrentPlayer();
-        assertNotEquals(firstPlayer, secondPlayer);
-        testGame.setNextPlayer();
-        assertEquals(firstPlayer, testGame.getCurrentPlayer());
+        Game game = new Game("gameName", 3, "player1");
+        game.addPlayer("player2");
+        game.addPlayer("player3");
+        Player firstPlayer = game.getPlayer("player1");
+        Player secondPlayer = game.getPlayer("player2");
+        Player thirdPlayer = game.getPlayer("player3");
+        assertEquals(firstPlayer, game.getCurrentPlayer());
+        game.setNextPlayer();
+        assertEquals(secondPlayer, game.getCurrentPlayer());
+        game.setNextPlayer();
+        assertEquals(thirdPlayer, game.getCurrentPlayer());
+        game.setNextPlayer();
+        assertEquals(firstPlayer, game.getCurrentPlayer());
+        secondPlayer.setConnected(false);
+        game.setNextPlayer();
+        assertEquals(thirdPlayer, game.getCurrentPlayer());
+        firstPlayer.setConnected(false);
+        game.setNextPlayer();
+        assertEquals(thirdPlayer, game.getCurrentPlayer());
     }
 
     @Test
