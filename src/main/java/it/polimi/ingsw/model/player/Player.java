@@ -2,9 +2,9 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.virtualView.PlayerView;
 import it.polimi.ingsw.network.virtualView.VirtualViewable;
-import it.polimi.ingsw.model.utils.Coordinate;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -199,7 +199,7 @@ public class Player implements VirtualViewable<PlayerView> {
      * @param gameCard   The game card to be set.
      */
     public void setGameCard(Coordinate coordinate, GameCard gameCard) {
-        if (!playerHand.containsCard(gameCard)) {
+        if (!playerHand.containsCard(gameCard) && !playerBoard.getStarterCard().equals(gameCard)) {
             throw new IllegalArgumentException("Player does not have the card in hand");
         }
         playerBoard.setGameCard(coordinate, gameCard);
