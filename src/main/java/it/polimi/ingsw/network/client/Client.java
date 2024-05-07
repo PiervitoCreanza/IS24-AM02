@@ -147,19 +147,24 @@ public class Client {
 
         try {
             while (!Objects.equals(input, "13")) {
-                System.out.print("1) Get games\n");
-                System.out.print("2) Create game\n");
-                System.out.print("3) Delete game\n");
-                System.out.print("4) Join game\n");
-                System.out.print("5) Set StarterCard\n");
-                System.out.print("6) Choose player color\n");
-                System.out.print("7) Set ObjectiveCard \n");
-                System.out.print("8) Place card\n");
-                System.out.print("9) Draw card from field\n");
-                System.out.print("10) Draw card from resource deck\n");
-                System.out.print("11) Draw card from gold deck\n");
-                System.out.print("12) Show map\n");
-                System.out.print("13) Exit\n");
+                if (gameName.isBlank()) {
+                    System.out.print("1) Get games\n");
+                    System.out.print("2) Create game\n");
+                    System.out.print("3) Delete game\n");
+                    System.out.print("4) Join game\n");
+                } else {
+                    System.out.println("Current player: " + clientCommandMapper.getView().gameView().currentPlayer());
+                    System.out.println("Current game status: " + clientCommandMapper.getView().gameStatus());
+                    System.out.print("5) Set StarterCard\n");
+                    System.out.print("6) Choose player color\n");
+                    System.out.print("7) Set ObjectiveCard \n");
+                    System.out.print("8) Place card\n");
+                    System.out.print("9) Draw card from field\n");
+                    System.out.print("10) Draw card from resource deck\n");
+                    System.out.print("11) Draw card from gold deck\n");
+                    System.out.print("12) Show map\n");
+                    System.out.print("13) Exit\n");
+                }
                 input = reader.readLine();
 
                 String finalPlayerName = playerName;
@@ -198,7 +203,9 @@ public class Client {
                         String choice = "0";
                         boolean side = false;
                         while (!choice.equals("2")) {
-                            System.out.println("This is your startercard: " + starterCard.getCurrentSide().getGameItemStore());
+                            System.out.print("These are your starter card items: ");
+                            starterCard.getCurrentSide().getGameItemStore().getNonEmptyKeys().forEach(System.out::print);
+                            System.out.println();
                             System.out.println("1) Change side");
                             System.out.println("2) Place card");
                             choice = reader.readLine();
