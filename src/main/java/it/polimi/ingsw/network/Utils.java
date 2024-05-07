@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.network;
 
 public class Utils {
     public static final String ANSI_RESET = "\u001B[0m";

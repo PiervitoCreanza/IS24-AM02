@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.Utils;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
+import it.polimi.ingsw.network.Utils;
 import it.polimi.ingsw.network.server.RMIClientActions;
 import org.apache.commons.cli.*;
 

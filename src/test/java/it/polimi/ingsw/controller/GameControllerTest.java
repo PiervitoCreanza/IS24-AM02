@@ -1,12 +1,13 @@
 package it.polimi.ingsw.controller;
 
+
 import it.polimi.ingsw.Utils;
 import it.polimi.ingsw.data.Parser;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -79,6 +80,15 @@ class GameControllerTest {
         assertEquals(card, game.getPlayer("player1").getObjectiveCard());
     }
 
+    @Test
+    @DisplayName("Should throw exception when card is not in player hand")
+    void switchCardSideShouldThrowExceptionWhenCardIsNotInHand() {
+        // Draw a card from the resource deck (The player has no cards in hand)
+        GameCard mockCard = Mockito.mock(GameCard.class);
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> gameController.switchCardSide("player1", mockCard));
+        assertEquals("Card cannot be switched. Not present in player's hand", exception.getMessage());
+
+    }
     @Test
     @DisplayName("Should switch card side when switchCardSide is called")
     void shouldSwitchCardSideWhenSwitchCardSideIsCalled() {

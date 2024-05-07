@@ -2,13 +2,13 @@ package it.polimi.ingsw.network.client;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.Utils;
 import it.polimi.ingsw.data.ObjectiveCardAdapter;
 import it.polimi.ingsw.data.SideGameCardAdapter;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.network.TCP.Observer;
 import it.polimi.ingsw.network.TCP.TCPConnectionHandler;
+import it.polimi.ingsw.network.Utils;
 import it.polimi.ingsw.network.adapters.ServerMessageAdapter;
 import it.polimi.ingsw.network.client.message.ClientMessage;
 import it.polimi.ingsw.network.server.message.ServerActionEnum;

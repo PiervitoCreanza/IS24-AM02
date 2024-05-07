@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.Utils;
 import it.polimi.ingsw.controller.MainController;
+import it.polimi.ingsw.network.Utils;
 import it.polimi.ingsw.network.server.TCP.TCPServerAdapter;
 import org.apache.commons.cli.*;
 
