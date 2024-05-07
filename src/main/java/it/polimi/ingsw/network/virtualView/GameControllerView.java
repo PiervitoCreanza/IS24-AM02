@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.virtualView;
 
 import it.polimi.ingsw.controller.GameStatusEnum;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -9,7 +10,8 @@ import java.util.Objects;
  * It is a record class, which means it is an immutable data carrier with the fields specified in the record declaration.
  * This class holds a GameView object and a GameStatusEnum object.
  */
-public record GameControllerView(GameView gameView, GameStatusEnum gameStatus, boolean isLastRound) {
+public record GameControllerView(GameView gameView, GameStatusEnum gameStatus,
+                                 boolean isLastRound) implements Serializable {
 
     @Override
     public boolean equals(Object o) {

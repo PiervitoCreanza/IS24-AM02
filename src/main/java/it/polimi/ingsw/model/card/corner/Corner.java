@@ -2,13 +2,13 @@ package it.polimi.ingsw.model.card.corner;
 
 import it.polimi.ingsw.model.card.GameItemEnum;
 
-import java.util.Objects;
+import java.io.Serializable;
 
 /**
  * This class represents a corner of a game card in the game.
  * Each corner can be covered or uncovered and can contain a game item.
  */
-public class Corner {
+public class Corner implements Serializable {
     /**
      * A boolean indicating whether the corner is covered or not.
      */

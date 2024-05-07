@@ -37,9 +37,6 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      */
     private int remainingRoundsToEndGame = 1;
 
-    private void sendErrorToClient(Exception e) {
-
-    }
 
     /**
      * Constructor for GameControllerMiddleware.
@@ -145,11 +142,8 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
         if (gameStatus != GameStatusEnum.WAIT_FOR_PLAYERS) {
             throw new IllegalStateException("Cannot join game in current game status");
         }
-        try {
-            gameController.joinGame(playerName);
-        } catch (IllegalArgumentException e) {
-            sendErrorToClient(e);
-        }
+        gameController.joinGame(playerName);
+
 
         // If the game is ready to start, the game status is set to INIT_PLACE_STARTER_CARD
         if (game.isStarted()) {
@@ -171,11 +165,8 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
             throw new IllegalStateException("Cannot place card in current game status");
         }
 
-        try {
-            gameController.placeCard(playerName, coordinate, card);
-        } catch (IllegalArgumentException e) {
-            sendErrorToClient(e);
-        }
+
+        gameController.placeCard(playerName, coordinate, card);
 
 
         // If we are in the init status the next phase is to draw the hand cards and choose the player color
@@ -304,6 +295,17 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      */
     public void setPlayerConnectionStatus(String playerName, boolean isConnected) {
         gameController.setPlayerConnectionStatus(playerName, isConnected);
+    }
+
+    /**
+     * Checks if the player is the creator of the game.
+     *
+     * @param playerName the name of the player.
+     * @return true if the player is the creator of the game, false otherwise.
+     */
+    @Override
+    public boolean isCreator(String playerName) {
+        return gameController.isCreator(playerName);
     }
 
     /**

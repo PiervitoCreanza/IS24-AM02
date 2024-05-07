@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.network.TCP.Observer;
 import it.polimi.ingsw.network.TCP.TCPConnectionHandler;
+import it.polimi.ingsw.network.Utils;
 import it.polimi.ingsw.network.adapters.ServerMessageAdapter;
 import it.polimi.ingsw.network.client.message.ClientMessage;
 import it.polimi.ingsw.network.server.message.ServerActionEnum;
@@ -20,6 +21,7 @@ import java.net.Socket;
  * The TCPClientAdapter class is responsible for handling TCP client operations.
  * It masks the TCPConnectionHandler in order to make RMI and TCP server operations interchangeable.
  * It implements the TCPObserver and ClientMessageHandler interfaces.
+ * It is UNIQUE to every RMI player.
  */
 public class TCPClientAdapter implements Observer<String>, ClientMessageHandler {
     /**
@@ -62,13 +64,13 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
         ServerActionEnum serverAction = receivedMessage.getServerAction();
         switch (serverAction) {
             case UPDATE_VIEW -> clientCommandMapper.receiveUpdatedView(receivedMessage.getView());
-            case DELETE_GAME -> clientCommandMapper.receiveGameDeleted("Game deleted successfully.");
+            case DELETE_GAME -> clientCommandMapper.receiveGameDeleted(receivedMessage.getSuccessDeleteMessage());
             case GET_GAMES -> clientCommandMapper.receiveGameList(receivedMessage.getGames());
-            case ERROR -> clientCommandMapper.receiveErrorMessage(receivedMessage.getErrorMessage());
+            case ERROR_MSG -> clientCommandMapper.receiveErrorMessage(receivedMessage.getErrorMessage());
             default -> System.out.print("Invalid action");
         }
         // Debug
-        System.out.println("Received message: " + message);
+        System.out.println(Utils.ANSI_CYAN + "TCP received message: " + message + Utils.ANSI_RESET);
     }
 
     /**
@@ -97,4 +99,6 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
         // Debug
         System.out.println("Close the connection.");
     }
+
+    
 }

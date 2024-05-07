@@ -51,6 +51,6 @@ public class GetGamesServerMessage extends ServerMessage {
         if (this == o) return true;
         if (!(o instanceof GetGamesServerMessage that)) return false;
         if (!super.equals(o)) return false;
-        return Objects.equals(this.getGames(), that.getGames());
+        return Objects.equals(this.games, that.games);
     }
 }

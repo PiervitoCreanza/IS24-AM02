@@ -3,10 +3,12 @@ package it.polimi.ingsw.network.server.message;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
-public abstract class ServerMessage {
+public abstract class ServerMessage implements Serializable {
     public ServerActionEnum serverAction;
+
 
     public ServerMessage(ServerActionEnum serverAction) {
         this.serverAction = serverAction;
@@ -36,6 +38,10 @@ public abstract class ServerMessage {
     }
 
     public String getErrorMessage() {
+        return null;
+    }
+
+    public String getSuccessDeleteMessage() {
         return null;
     }
 }

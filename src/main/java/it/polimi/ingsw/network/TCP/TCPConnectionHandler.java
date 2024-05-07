@@ -64,7 +64,7 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
 
             // Set the timeout to 5 seconds. If no message is received in this time, the socket will throw a SocketTimeoutException.
             // This is useful to detect when the client disconnects.
-            //TODO this.socket.setSoTimeout(5000);
+            this.socket.setSoTimeout(5000);
 
             // Start the thread that executes received messages
             notifyReceivedMessages();
@@ -195,7 +195,6 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
         synchronized (observers) {
             observers.add(observer);
         }
-
     }
 
     /**
@@ -209,7 +208,6 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
         synchronized (observers) {
             observers.remove(observer);
         }
-
     }
 
     /**
@@ -242,7 +240,6 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
                 // TODO: Handle any IOExceptions that might occur
             }
         }
-
     }
 }
 

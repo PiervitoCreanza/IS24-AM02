@@ -52,7 +52,7 @@ public class ClientMessageAdapterTest {
     @Test
     @DisplayName("Test if serialization and deserialization of CreateGameClientMessage works")
     public void serializeAndDeserializeCreateGameClientMessage() {
-        ClientMessage createGameClientMessage = new CreateGameClientMessage("Game1", 3, "Player1");
+        ClientMessage createGameClientMessage = new CreateGameClientMessage("Game1", "Player1", 3);
         // Serialize
         String jsonCreateGameClientMessage = this.gson.toJson(createGameClientMessage);
         // Deserialize
@@ -82,7 +82,7 @@ public class ClientMessageAdapterTest {
     @Test
     @DisplayName("Test if serialization and deserialization of ChoosePlayerColorClientMessage works")
     public void serializeAndDeserializeChoosePlayerColorClientMessage() {
-        ClientMessage choosePlayerColorClientMessage = new ChoosePlayerColorClientMessage(PlayerColorEnum.RED, "Game1", "Player1");
+        ClientMessage choosePlayerColorClientMessage = new ChoosePlayerColorClientMessage("Game1", "Player1", PlayerColorEnum.RED);
         // Serialize
         String jsonChoosePlayerColorClientMessage = this.gson.toJson(choosePlayerColorClientMessage);
         // Deserialize

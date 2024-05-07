@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -15,7 +16,7 @@ import java.util.Optional;
  * Represents a game card in the game.
  * Each game card has two sides, a current side and another side, along with a specific color.
  */
-public class GameCard {
+public class GameCard implements Serializable {
 
     /**
      * The unique identifier for the game card.

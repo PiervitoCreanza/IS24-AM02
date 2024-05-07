@@ -87,4 +87,12 @@ interface PlayerActions {
      * @param isConnected the connection status to be set for the player.
      */
     void setPlayerConnectionStatus(String playerName, boolean isConnected);
+
+    /**
+     * Checks if the player is the creator of the game.
+     *
+     * @param playerName the name of the player.
+     * @return true if the player is the creator of the game, false otherwise.
+     */
+    boolean isCreator(String playerName);
 }

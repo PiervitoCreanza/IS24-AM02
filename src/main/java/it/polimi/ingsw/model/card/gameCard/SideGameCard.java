@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -15,7 +16,7 @@ import java.util.stream.Stream;
  * Represents a side of a game card.
  * Each side has four corners, each of which can hold a game item.
  */
-public abstract class SideGameCard {
+public abstract class SideGameCard implements Serializable {
     /**
      * The top right corner of the game card.
      */
