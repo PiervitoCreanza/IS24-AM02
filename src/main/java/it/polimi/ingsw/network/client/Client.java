@@ -214,8 +214,11 @@ public class Client {
                                     starterCard.switchSide();
                                 }
                                 case "2" -> {
-                                    if (side)
+                                    if (side) {
+                                        starterCard.switchSide();
                                         clientCommandMapper.switchCardSide(gameName, playerName, starterCard);
+                                    }
+
                                     clientCommandMapper.placeCard(gameName, playerName, new Coordinate(0, 0), starterCard);
                                 }
                             }
@@ -271,8 +274,11 @@ public class Client {
                                     x = Integer.parseInt(reader.readLine());
                                     System.out.println("Coordniate y:");
                                     y = Integer.parseInt(reader.readLine());
-                                    if (side.get(choiceCard))
+                                    if (side.get(choiceCard)) {
+                                        hand.get(choiceCard).switchSide();
                                         clientCommandMapper.switchCardSide(gameName, playerName, hand.get(choiceCard));
+                                    }
+
                                     clientCommandMapper.placeCard(gameName, playerName, new Coordinate(x, y), hand.get(choiceCard));
                                 }
                             }
