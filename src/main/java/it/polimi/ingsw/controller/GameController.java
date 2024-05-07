@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
 
+import java.util.Optional;
+
 /**
  * This interface defines the actions that a player can perform in the game.
  */
@@ -104,7 +106,11 @@ public class GameController implements PlayerActions {
      * @param card       the card whose side is to be switched.
      */
     public void switchCardSide(String playerName, GameCard card) {
-        game.getPlayer(playerName).getPlayerHand().getCards().stream().filter(c -> c.equals(card)).findFirst().ifPresent(GameCard::switchSide);
+        Optional<GameCard> cardToSwitch = game.getPlayer(playerName).getPlayerHand().getCards().stream().filter(c -> c.equals(card)).findFirst();
+        if (cardToSwitch.isEmpty()) {
+            throw new IllegalArgumentException("Card cannot be switched. Not present in player's hand");
+        }
+        cardToSwitch.get().switchSide();
     }
 
     /**
