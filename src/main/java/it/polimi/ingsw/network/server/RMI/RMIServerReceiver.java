@@ -52,7 +52,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
     @Override
     public void createGame(RMIServerToClientActions stub, String gameName, String playerName, int nPlayers) throws RemoteException {
         new Thread(() -> {
-            serverNetworkControllerMapper.createGame(istanceRMIServerAdapter(stub), gameName, playerName, nPlayers);
+            serverNetworkControllerMapper.createGame(instanceRMIServerAdapter(stub), gameName, playerName, nPlayers);
         }).start();
     }
 
@@ -64,7 +64,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
     @Override
     public void deleteGame(RMIServerToClientActions stub, String gameName, String playerName) throws RemoteException {
         new Thread(() -> {
-            serverNetworkControllerMapper.deleteGame(istanceRMIServerAdapter(stub), gameName, playerName);
+            serverNetworkControllerMapper.deleteGame(instanceRMIServerAdapter(stub), gameName, playerName);
         }).start();
     }
 
@@ -77,7 +77,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
     @Override
     public void joinGame(RMIServerToClientActions stub, String gameName, String playerName) throws RemoteException {
         new Thread(() -> {
-            serverNetworkControllerMapper.joinGame(istanceRMIServerAdapter(stub), gameName, playerName);
+            serverNetworkControllerMapper.joinGame(instanceRMIServerAdapter(stub), gameName, playerName);
         }).start();
     }
 
@@ -178,7 +178,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
         }).start();
     }
 
-    private RMIServerSender istanceRMIServerAdapter(RMIServerToClientActions stub) {
+    private RMIServerSender instanceRMIServerAdapter(RMIServerToClientActions stub) {
         RMIServerSender rmiServerSender = new RMIServerSender(stub);
         rmiServerSender.addObserver(this);
         return rmiServerSender;
