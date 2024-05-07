@@ -59,10 +59,9 @@ public class RMIServerConnectionHandler implements RMIClientActions, Observer<Se
      * @param gameName the name of the game.
      */
     @Override
-    public void deleteGame(ServerActions stub, String gameName) throws RemoteException {
+    public void deleteGame(ServerActions stub, String gameName, String playerName) throws RemoteException {
         new Thread(() -> {
-            //TODO: Add playerName, only host can delete the game
-            networkCommandMapper.deleteGame(istanceRMIServerAdapter(stub), gameName);
+            networkCommandMapper.deleteGame(istanceRMIServerAdapter(stub), gameName, playerName);
         }).start();
     }
 

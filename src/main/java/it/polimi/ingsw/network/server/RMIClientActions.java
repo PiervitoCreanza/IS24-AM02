@@ -33,7 +33,7 @@ public interface RMIClientActions extends Remote {
      *
      * @param gameName the name of the game.
      */
-    void deleteGame(ServerActions stub, String gameName) throws RemoteException;
+    void deleteGame(ServerActions stub, String gameName, String playerName) throws RemoteException;
 
     /**
      * Joins the game with the given player name.

@@ -33,7 +33,8 @@ public class RMIClientAdapter implements ClientMessageHandler {
                 case GET_GAMES -> serverStub.getGames(thisClientStub);
                 case CREATE_GAME ->
                         serverStub.createGame(this.thisClientStub, message.getGameName(), message.getPlayerName(), message.getNPlayers());
-                case DELETE_GAME -> serverStub.deleteGame(thisClientStub, message.getGameName());
+                case DELETE_GAME ->
+                        serverStub.deleteGame(thisClientStub, message.getGameName(), message.getPlayerName());
                 case JOIN_GAME ->
                         serverStub.joinGame(this.thisClientStub, message.getGameName(), message.getPlayerName());
                 case CHOOSE_PLAYER_COLOR ->
