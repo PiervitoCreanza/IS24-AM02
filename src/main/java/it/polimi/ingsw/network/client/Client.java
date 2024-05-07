@@ -147,14 +147,13 @@ public class Client {
 
         try {
             while (!Objects.equals(input, "13")) {
-                if (gameName.isBlank()) {
+                if (gameName.isEmpty()) {
                     System.out.print("1) Get games\n");
                     System.out.print("2) Create game\n");
                     System.out.print("3) Delete game\n");
                     System.out.print("4) Join game\n");
                 } else {
-                    System.out.println("Current player: " + clientCommandMapper.getView().gameView().currentPlayer());
-                    System.out.println("Current game status: " + clientCommandMapper.getView().gameStatus());
+
                     System.out.print("5) Set StarterCard\n");
                     System.out.print("6) Choose player color\n");
                     System.out.print("7) Set ObjectiveCard \n");

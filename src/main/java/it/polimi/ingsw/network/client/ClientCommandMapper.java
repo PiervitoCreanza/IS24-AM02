@@ -97,6 +97,8 @@ public class ClientCommandMapper implements ServerActions {
     public void receiveUpdatedView(GameControllerView updatedView) {
         this.view = updatedView;
         System.out.println("Received updated view: " + updatedView);
+        System.out.println("Current player: " + updatedView.gameView().currentPlayer());
+        System.out.println("Current game status: " + updatedView.gameStatus());
         //TODO: JavaFx event trigger
     }
 
