@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.controller.MainController;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
@@ -81,7 +82,6 @@ public class NetworkCommandMapper {
             mainController.createGame(gameName, playerName, nPlayers);
             messageHandler.setGameName(gameName);
             messageHandler.setPlayerName(playerName);
-            messageHandler.heartbeat();
 
             gameConnectionMapper.put(gameName, new HashMap<>());
             gameConnectionMapper.get(gameName).put(playerName, messageHandler);
@@ -101,7 +101,6 @@ public class NetworkCommandMapper {
      */
     public void joinGame(ServerMessageHandler messageHandler, String gameName, String playerName) {
         try {
-            // TODO: Start heartbeat
             mainController.joinGame(gameName, playerName);
 
             messageHandler.setGameName(gameName);
@@ -174,6 +173,11 @@ public class NetworkCommandMapper {
         try {
             mainController.getGameController(gameName).placeCard(playerName, coordinate, card);
             broadcastMessage(gameName, new UpdateViewServerMessage(mainController.getVirtualView(gameName)));
+
+            // If the game is over we close the connections and delete the game.
+            if (mainController.getGameController(gameName).getGameStatus().equals(GameStatusEnum.GAME_OVER)) {
+                closeConnections(gameName);
+            }
         } catch (Exception e) {
             gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerMessage(e.getMessage()));
         }
@@ -249,15 +253,23 @@ public class NetworkCommandMapper {
      */
     public void handleDisconnection(ServerMessageHandler messageHandler) {
         String gameName = messageHandler.getGameName();
+
         gameConnectionMapper.get(gameName).remove(messageHandler.getPlayerName());
         mainController.getGameController(gameName).setPlayerConnectionStatus(messageHandler.getPlayerName(), false);
 
         System.out.println("[Server] Player " + messageHandler.getPlayerName() + " disconnected from game " + gameName + ". Remaining players: " + gameConnectionMapper.get(gameName).size());
         // If the game is now empty we delete it.
         if (gameConnectionMapper.get(gameName).isEmpty()) {
+            // Delete the game
             mainController.deleteGame(gameName);
             gameConnectionMapper.remove(gameName);
             System.out.println("[Server] Game " + gameName + " deleted.");
+        }
+    }
+
+    private void closeConnections(String gameName) {
+        for (ServerMessageHandler messageHandler : gameConnectionMapper.get(gameName).values()) {
+            messageHandler.closeConnection();
         }
     }
 }
