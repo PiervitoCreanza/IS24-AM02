@@ -83,7 +83,8 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
             case GET_GAMES -> networkCommandMapper.getGames(this);
             case CREATE_GAME ->
                     networkCommandMapper.createGame(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getNPlayers());
-            case DELETE_GAME -> networkCommandMapper.deleteGame(this, receivedMessage.getGameName());
+            case DELETE_GAME ->
+                    networkCommandMapper.deleteGame(this, receivedMessage.getGameName(), receivedMessage.getPlayerName());
             case JOIN_GAME ->
                     networkCommandMapper.joinGame(this, receivedMessage.getGameName(), receivedMessage.getPlayerName());
             case CHOOSE_PLAYER_COLOR ->
@@ -152,7 +153,7 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
-    
+
     /**
      * Gets the name of the game associated with the connection.
      *
