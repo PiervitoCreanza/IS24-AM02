@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 
 import it.polimi.ingsw.Utils;
+import it.polimi.ingsw.controller.gameController.GameController;
 import it.polimi.ingsw.data.Parser;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
@@ -89,6 +90,7 @@ class GameControllerTest {
         assertEquals("Card cannot be switched. Not present in player's hand", exception.getMessage());
 
     }
+
     @Test
     @DisplayName("Should switch card side when switchCardSide is called")
     void shouldSwitchCardSideWhenSwitchCardSideIsCalled() {

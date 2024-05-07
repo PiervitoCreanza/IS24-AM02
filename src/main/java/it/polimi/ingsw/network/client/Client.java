@@ -3,9 +3,13 @@ package it.polimi.ingsw.network.client;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
-import it.polimi.ingsw.network.Utils;
 import it.polimi.ingsw.model.utils.Coordinate;
-import it.polimi.ingsw.network.server.RMIClientActions;
+import it.polimi.ingsw.network.client.RMI.RMIClientReceiver;
+import it.polimi.ingsw.network.client.RMI.RMIClientSender;
+import it.polimi.ingsw.network.client.TCP.TCPClientAdapter;
+import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
+import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
+import it.polimi.ingsw.tui.utils.Utils;
 import org.apache.commons.cli.*;
 
 import java.io.BufferedReader;
@@ -25,7 +29,7 @@ import java.util.Objects;
 
 public class Client {
 
-    private static final ClientCommandMapper clientCommandMapper = new ClientCommandMapper();
+    private static final ClientNetworkControllerMapper CLIENT_NETWORK_CONTROLLER_MAPPER = new ClientNetworkControllerMapper();
 
     private static String serverIpAddress;
     private static int serverPortNumber;
@@ -111,8 +115,8 @@ public class Client {
             Socket serverSocket = new Socket(serverIpAddress, serverPortNumber);
             // Print configuration
             System.err.println("Starting client  with connection to server at " + serverIpAddress + " on port " + serverPortNumber);
-            TCPClientAdapter clientAdapter = new TCPClientAdapter(serverSocket, clientCommandMapper);
-            clientCommandMapper.setMessageHandler(clientAdapter);
+            TCPClientAdapter clientAdapter = new TCPClientAdapter(serverSocket, CLIENT_NETWORK_CONTROLLER_MAPPER);
+            CLIENT_NETWORK_CONTROLLER_MAPPER.setMessageHandler(clientAdapter);
             printTUIMenu();
         } catch (Exception e) {
             e.printStackTrace();
@@ -124,14 +128,14 @@ public class Client {
         try {
             System.setProperty("java.rmi.server.hostname", clientIpAddress);
 
-            RMIClientConnectionHandler rmiClientConnectionHandler = new RMIClientConnectionHandler(clientCommandMapper);
-            ServerActions clientStub = (ServerActions) UnicastRemoteObject.exportObject(rmiClientConnectionHandler, clientPortNumber);
+            RMIClientReceiver rmiClientReceiver = new RMIClientReceiver(CLIENT_NETWORK_CONTROLLER_MAPPER);
+            RMIServerToClientActions clientStub = (RMIServerToClientActions) UnicastRemoteObject.exportObject(rmiClientReceiver, clientPortNumber);
             //Client as a client, getting the registry
             Registry registry = LocateRegistry.getRegistry(serverIpAddress, serverPortNumber);
             // Looking up the registry for the remote object
-            RMIClientActions serverStub = (RMIClientActions) registry.lookup("ClientActions");
-            RMIClientAdapter rmiClientAdapter = new RMIClientAdapter(serverStub, clientStub);
-            clientCommandMapper.setMessageHandler(rmiClientAdapter); //Adding stub to the mapper
+            RMIClientToServerActions serverStub = (RMIClientToServerActions) registry.lookup("ClientToServerActions");
+            RMIClientSender rmiClientSender = new RMIClientSender(serverStub, clientStub);
+            CLIENT_NETWORK_CONTROLLER_MAPPER.setMessageHandler(rmiClientSender); //Adding stub to the mapper
             printTUIMenu();
         } catch (RemoteException | NotBoundException e) {
             throw new RuntimeException(e);
@@ -169,7 +173,7 @@ public class Client {
                 String finalPlayerName = playerName;
                 switch (input) {
                     case "1" -> {
-                        clientCommandMapper.getGames();
+                        CLIENT_NETWORK_CONTROLLER_MAPPER.getGames();
                     }
                     case "2" -> {
                         String numPlayers = "";
@@ -179,25 +183,25 @@ public class Client {
                         numPlayers = reader.readLine();
                         System.out.println("Enter player name: ");
                         playerName = reader.readLine();
-                        clientCommandMapper.createGame(gameName, playerName, Integer.parseInt(numPlayers));
+                        CLIENT_NETWORK_CONTROLLER_MAPPER.createGame(gameName, playerName, Integer.parseInt(numPlayers));
                     }
                     case "3" -> {
                         System.out.println("Enter game name to delete: ");
                         gameName = reader.readLine();
                         System.out.println("Enter player name: ");
                         playerName = reader.readLine();
-                        clientCommandMapper.deleteGame(gameName, playerName);
+                        CLIENT_NETWORK_CONTROLLER_MAPPER.deleteGame(gameName, playerName);
                     }
                     case "4" -> {
                         System.out.println("Enter game name to join: ");
                         gameName = reader.readLine();
                         System.out.println("Enter player name: ");
                         playerName = reader.readLine();
-                        clientCommandMapper.joinGame(gameName, playerName);
+                        CLIENT_NETWORK_CONTROLLER_MAPPER.joinGame(gameName, playerName);
                     }
                     case "5" -> {
                         //TODO: gather arguments on updated VirtualView
-                        GameCard starterCard = clientCommandMapper.getView().gameView().playerViews().stream().filter(playerView -> playerView.playerName().equals(finalPlayerName)).findFirst().get().starterCard();
+                        GameCard starterCard = CLIENT_NETWORK_CONTROLLER_MAPPER.getView().gameView().playerViews().stream().filter(playerView -> playerView.playerName().equals(finalPlayerName)).findFirst().get().starterCard();
                         ;
                         String choice = "0";
                         boolean side = false;
@@ -216,10 +220,10 @@ public class Client {
                                 case "2" -> {
                                     if (side) {
                                         starterCard.switchSide();
-                                        clientCommandMapper.switchCardSide(gameName, playerName, starterCard);
+                                        CLIENT_NETWORK_CONTROLLER_MAPPER.switchCardSide(gameName, playerName, starterCard);
                                     }
 
-                                    clientCommandMapper.placeCard(gameName, playerName, new Coordinate(0, 0), starterCard);
+                                    CLIENT_NETWORK_CONTROLLER_MAPPER.placeCard(gameName, playerName, new Coordinate(0, 0), starterCard);
                                 }
                             }
                         }
@@ -236,15 +240,15 @@ public class Client {
                             case "yellow" -> chosenColor = PlayerColorEnum.YELLOW;
                             default -> throw new IllegalStateException("Unexpected value: " + choice);
                         }
-                        clientCommandMapper.choosePlayerColor(gameName, playerName, chosenColor);
+                        CLIENT_NETWORK_CONTROLLER_MAPPER.choosePlayerColor(gameName, playerName, chosenColor);
                     }
                     case "7" -> {
-                        ArrayList<ObjectiveCard> choosableObjectives = clientCommandMapper.getView().gameView().playerViews().stream().filter(playerView -> playerView.playerName().equals(finalPlayerName)).findFirst().get().choosableObjectives();
+                        ArrayList<ObjectiveCard> choosableObjectives = CLIENT_NETWORK_CONTROLLER_MAPPER.getView().gameView().playerViews().stream().filter(playerView -> playerView.playerName().equals(finalPlayerName)).findFirst().get().choosableObjectives();
                         System.out.println("Choose an objective card: ");
                         System.out.println("1) " + choosableObjectives.getFirst());
                         System.out.println("2) " + choosableObjectives.getLast());
                         String choice = reader.readLine();
-                        clientCommandMapper.setPlayerObjective(gameName, playerName, choosableObjectives.get(Integer.parseInt(choice) - 1));
+                        CLIENT_NETWORK_CONTROLLER_MAPPER.setPlayerObjective(gameName, playerName, choosableObjectives.get(Integer.parseInt(choice) - 1));
                     }
                     case "8" -> {
                         ArrayList<GameCard> hand;
@@ -276,46 +280,46 @@ public class Client {
                                     y = Integer.parseInt(reader.readLine());
                                     if (side.get(choiceCard)) {
                                         hand.get(choiceCard).switchSide();
-                                        clientCommandMapper.switchCardSide(gameName, playerName, hand.get(choiceCard));
+                                        CLIENT_NETWORK_CONTROLLER_MAPPER.switchCardSide(gameName, playerName, hand.get(choiceCard));
                                     }
 
-                                    clientCommandMapper.placeCard(gameName, playerName, new Coordinate(x, y), hand.get(choiceCard));
+                                    CLIENT_NETWORK_CONTROLLER_MAPPER.placeCard(gameName, playerName, new Coordinate(x, y), hand.get(choiceCard));
                                 }
                             }
                         }
                         //TODO: gather arguments on updated VirtualView
                     }
                     case "9" -> {
-                        ArrayList<GameCard> field = new ArrayList<>(clientCommandMapper.getView().gameView().globalBoardView().fieldGoldCards());
-                        field.addAll(clientCommandMapper.getView().gameView().globalBoardView().fieldResourceCards());
+                        ArrayList<GameCard> field = new ArrayList<>(CLIENT_NETWORK_CONTROLLER_MAPPER.getView().gameView().globalBoardView().fieldGoldCards());
+                        field.addAll(CLIENT_NETWORK_CONTROLLER_MAPPER.getView().gameView().globalBoardView().fieldResourceCards());
                         System.out.println("Choose one of the cards on the field: ");
                         System.out.println("1) " + field.get(0));
                         System.out.println("2) " + field.get(1));
                         System.out.println("3) " + field.get(2));
                         System.out.println("4) " + field.get(3));
                         String choice = reader.readLine();
-                        clientCommandMapper.drawCardFromField(gameName, playerName, field.get(Integer.parseInt(choice) - 1));
+                        CLIENT_NETWORK_CONTROLLER_MAPPER.drawCardFromField(gameName, playerName, field.get(Integer.parseInt(choice) - 1));
                     }
                     case "10" -> {
-                        GameCard firstResourceCard = clientCommandMapper.getView().gameView().globalBoardView().resourceFirstCard();
+                        GameCard firstResourceCard = CLIENT_NETWORK_CONTROLLER_MAPPER.getView().gameView().globalBoardView().resourceFirstCard();
                         System.out.println("The first resource card is: " + firstResourceCard.getCardColor());
                         System.out.println("Do you want to draw it? (y/n)");
                         String choice = reader.readLine();
                         if (choice.equalsIgnoreCase("y")) {
-                            clientCommandMapper.drawCardFromResourceDeck(gameName, playerName);
+                            CLIENT_NETWORK_CONTROLLER_MAPPER.drawCardFromResourceDeck(gameName, playerName);
                         }
                     }
                     case "11" -> {
-                        GameCard firstGoldCard = clientCommandMapper.getView().gameView().globalBoardView().goldFirstCard();
+                        GameCard firstGoldCard = CLIENT_NETWORK_CONTROLLER_MAPPER.getView().gameView().globalBoardView().goldFirstCard();
                         System.out.println("The first gold card is: " + firstGoldCard.getCardColor());
                         System.out.println("Do you want to draw it? (y/n)");
                         String choice = reader.readLine();
                         if (choice.equalsIgnoreCase("y")) {
-                            clientCommandMapper.drawCardFromGoldDeck(gameName, playerName);
+                            CLIENT_NETWORK_CONTROLLER_MAPPER.drawCardFromGoldDeck(gameName, playerName);
                         }
                     }
                     case "12" -> {
-                        HashMap<Coordinate, GameCard> map = clientCommandMapper.getView().gameView().playerViews().stream().filter(playerView -> playerView.playerName().equals(finalPlayerName)).findFirst().get().playerBoardView().playerBoard();
+                        HashMap<Coordinate, GameCard> map = CLIENT_NETWORK_CONTROLLER_MAPPER.getView().gameView().playerViews().stream().filter(playerView -> playerView.playerName().equals(finalPlayerName)).findFirst().get().playerBoardView().playerBoard();
                         printBoardAsMatrix(map);
                     }
                     case "13" -> {
@@ -331,7 +335,7 @@ public class Client {
 
     private static ArrayList<GameCard> printHand(String finalPlayerName) {
         int index = 0;
-        ArrayList<GameCard> hand = clientCommandMapper.getView().gameView().playerViews().stream().filter(playerView -> playerView.playerName().equals(finalPlayerName)).findFirst().get().playerHandView().hand();
+        ArrayList<GameCard> hand = CLIENT_NETWORK_CONTROLLER_MAPPER.getView().gameView().playerViews().stream().filter(playerView -> playerView.playerName().equals(finalPlayerName)).findFirst().get().playerHandView().hand();
         System.out.println("Here is your hand:");
         for (GameCard gameCard : hand) {
             System.out.println(index + 1 + ")" + gameCard);

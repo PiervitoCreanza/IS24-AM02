@@ -1,1 +1,803 @@
-<?xml version="1.0" encoding="us-ascii" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="1208px" preserveAspectRatio="none" style="width:3414px;height:1208px;background:#FFFFFF;" version="1.1" viewBox="0 0 3414 1208" width="3414px" zoomAndPan="magnify"><defs/><g><!--cluster Network--><g id="cluster_Network"><path d="M8.5,6 L76.5,6 A3.75,3.75 0 0 1 79,8.5 L86,28.2969 L3404.5,28.2969 A2.5,2.5 0 0 1 3407,30.7969 L3407,1199.27 A2.5,2.5 0 0 1 3404.5,1201.77 L8.5,1201.77 A2.5,2.5 0 0 1 6,1199.27 L6,8.5 A2.5,2.5 0 0 1 8.5,6 " fill="none" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="6" x2="86" y1="28.2969" y2="28.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="67" x="10" y="20.9951">Network</text></g><!--cluster message--><g id="cluster_message"><path d="M32.5,57.15 L104.5,57.15 A3.75,3.75 0 0 1 107,59.65 L114,79.4469 L648.5,79.4469 A2.5,2.5 0 0 1 651,81.9469 L651,736.33 A2.5,2.5 0 0 1 648.5,738.83 L32.5,738.83 A2.5,2.5 0 0 1 30,736.33 L30,59.65 A2.5,2.5 0 0 1 32.5,57.15 " fill="none" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="30" x2="114" y1="79.4469" y2="79.4469"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="71" x="34" y="72.1451">message</text></g><!--cluster Server--><g id="cluster_Server"><path d="M677.5,57.15 L731.5,57.15 A3.75,3.75 0 0 1 734,59.65 L741,79.4469 L2013.5,79.4469 A2.5,2.5 0 0 1 2016,81.9469 L2016,1082.71 A2.5,2.5 0 0 1 2013.5,1085.21 L677.5,1085.21 A2.5,2.5 0 0 1 675,1082.71 L675,59.65 A2.5,2.5 0 0 1 677.5,57.15 " fill="none" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="675" x2="741" y1="79.4469" y2="79.4469"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="53" x="679" y="72.1451">Server</text></g><!--cluster Client--><g id="cluster_Client"><path d="M2042.5,49 L2088.5,49 A3.75,3.75 0 0 1 2091,51.5 L2098,71.2969 L3062.5,71.2969 A2.5,2.5 0 0 1 3065,73.7969 L3065,909.52 A2.5,2.5 0 0 1 3062.5,912.02 L2042.5,912.02 A2.5,2.5 0 0 1 2040,909.52 L2040,51.5 A2.5,2.5 0 0 1 2042.5,49 " fill="none" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="2040" x2="2098" y1="71.2969" y2="71.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="45" x="2044" y="63.9951">Client</text></g><!--class Observable--><g id="elem_Observable"><rect codeLine="41" fill="#F1F1F1" height="80.5938" id="Observable" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="311" x="3080.5" y="807.28"/><ellipse cx="3192.75" cy="823.28" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M3188.6719,819.0456 L3188.6719,816.8894 L3196.0625,816.8894 L3196.0625,819.0456 L3193.5938,819.0456 L3193.5938,827.1238 L3196.0625,827.1238 L3196.0625,829.28 L3188.6719,829.28 L3188.6719,827.1238 L3191.1406,827.1238 L3191.1406,819.0456 L3188.6719,819.0456 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="78" x="3213.25" y="828.1267">Observable</text><line style="stroke:#181818;stroke-width:0.5;" x1="3081.5" x2="3390.5" y1="839.28" y2="839.28"/><line style="stroke:#181818;stroke-width:0.5;" x1="3081.5" x2="3390.5" y1="847.28" y2="847.28"/><ellipse cx="3091.5" cy="860.9284" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="255" x="3100.5" y="864.2751">void setObserver(Observer observer)</text><ellipse cx="3091.5" cy="877.2253" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="285" x="3100.5" y="880.572">void removeObserver(Observer observer)</text></g><!--class TCPConnectionHandler--><g id="elem_TCPConnectionHandler"><rect codeLine="45" fill="#F1F1F1" height="113.1875" id="TCPConnectionHandler" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="311" x="2413.5" y="972.32"/><ellipse cx="2484.25" cy="988.32" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M2487.2188,993.9606 Q2486.6406,994.2575 2486,994.3981 Q2485.3594,994.5544 2484.6563,994.5544 Q2482.1563,994.5544 2480.8281,992.9137 Q2479.5156,991.2575 2479.5156,988.1325 Q2479.5156,985.0075 2480.8281,983.3512 Q2482.1563,981.695 2484.6563,981.695 Q2485.3594,981.695 2486,981.8512 Q2486.6563,982.0075 2487.2188,982.3044 L2487.2188,985.0231 Q2486.5938,984.445 2486,984.1794 Q2485.4063,983.8981 2484.7813,983.8981 Q2483.4375,983.8981 2482.75,984.9762 Q2482.0625,986.0387 2482.0625,988.1325 Q2482.0625,990.2262 2482.75,991.3044 Q2483.4375,992.3669 2484.7813,992.3669 Q2485.4063,992.3669 2486,992.1012 Q2486.5938,991.82 2487.2188,991.2419 L2487.2188,993.9606 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="161" x="2504.75" y="993.1667">TCPConnectionHandler</text><line style="stroke:#181818;stroke-width:0.5;" x1="2414.5" x2="2723.5" y1="1004.32" y2="1004.32"/><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="2421.5" y="1014.9684"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="217" x="2433.5" y="1021.3151">ArrayList&lt;Observer&gt; observers</text><line style="stroke:#181818;stroke-width:0.5;" x1="2414.5" x2="2723.5" y1="1028.6169" y2="1028.6169"/><ellipse cx="2424.5" cy="1042.2653" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="255" x="2433.5" y="1045.612">void setObserver(Observer observer)</text><ellipse cx="2424.5" cy="1058.5622" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="285" x="2433.5" y="1061.9089">void removeObserver(Observer observer)</text><ellipse cx="2424.5" cy="1074.8591" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="214" x="2433.5" y="1078.2057">void sendMessage(String msg)</text></g><!--class Observer--><g id="elem_Observer"><rect codeLine="52" fill="#F1F1F1" height="64.2969" id="Observer" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="148" x="2131" y="996.76"/><ellipse cx="2164.9" cy="1012.76" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M2160.8219,1008.5256 L2160.8219,1006.3694 L2168.2125,1006.3694 L2168.2125,1008.5256 L2165.7438,1008.5256 L2165.7438,1016.6038 L2168.2125,1016.6038 L2168.2125,1018.76 L2160.8219,1018.76 L2160.8219,1016.6038 L2163.2906,1016.6038 L2163.2906,1008.5256 L2160.8219,1008.5256 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="63" x="2183.1" y="1017.6067">Observer</text><rect fill="#FFFFFF" height="15.9688" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" width="9" x="2273" y="993.76"/><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="7" x="2274" y="1005.8987">T</text><line style="stroke:#181818;stroke-width:0.5;" x1="2132" x2="2278" y1="1028.76" y2="1028.76"/><line style="stroke:#181818;stroke-width:0.5;" x1="2132" x2="2278" y1="1036.76" y2="1036.76"/><ellipse cx="2142" cy="1050.4084" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="122" x="2151" y="1053.7551">void notify(T msg)</text></g><g id="elem_GMN17"><path d="M2318.5,1145.5 L2318.5,1185.7656 A0,0 0 0 0 2318.5,1185.7656 L2819.5,1185.7656 A0,0 0 0 0 2819.5,1185.7656 L2819.5,1155.5 L2809.5,1145.5 L2573,1145.5 L2569,1085.88 L2565,1145.5 L2318.5,1145.5 A0,0 0 0 0 2318.5,1145.5 " fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/><path d="M2809.5,1145.5 L2809.5,1155.5 L2819.5,1155.5 L2809.5,1145.5 " fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="468" x="2324.5" y="1162.5669">TCPConnectionHandler is the main class that handles the TCP connection</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="480" x="2324.5" y="1177.6997">It is Observable because it has to notify a class when it receives a message</text></g><!--class Message--><g id="elem_Message"><rect codeLine="3" fill="#F1F1F1" height="48" id="Message" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="95" x="271.5" y="92.15"/><ellipse cx="286.5" cy="108.15" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M282.4219,103.9156 L282.4219,101.7594 L289.8125,101.7594 L289.8125,103.9156 L287.3438,103.9156 L287.3438,111.9938 L289.8125,111.9938 L289.8125,114.15 L282.4219,114.15 L282.4219,111.9938 L284.8906,111.9938 L284.8906,103.9156 L282.4219,103.9156 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="63" x="300.5" y="112.9967">Message</text><line style="stroke:#181818;stroke-width:0.5;" x1="272.5" x2="365.5" y1="124.15" y2="124.15"/><line style="stroke:#181818;stroke-width:0.5;" x1="272.5" x2="365.5" y1="132.15" y2="132.15"/></g><!--class ServerMessage--><g id="elem_ServerMessage"><rect codeLine="4" fill="#F1F1F1" height="80.5938" id="ServerMessage" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="243" x="50.5" y="281.64"/><ellipse cx="114.25" cy="297.64" fill="#A9DCDF" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M114.3594,292.9838 L113.2031,298.0619 L115.5313,298.0619 L114.3594,292.9838 Z M112.875,290.7494 L115.8594,290.7494 L119.2188,303.14 L116.7656,303.14 L116,300.0775 L112.7188,300.0775 L111.9688,303.14 L109.5313,303.14 L112.875,290.7494 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="107" x="134.75" y="302.4867">ServerMessage</text><line style="stroke:#181818;stroke-width:0.5;" x1="51.5" x2="292.5" y1="313.64" y2="313.64"/><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="58.5" y="324.2884"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="217" x="70.5" y="330.6351">ServerActionEnum serverAction</text><line style="stroke:#181818;stroke-width:0.5;" x1="51.5" x2="292.5" y1="337.9369" y2="337.9369"/><ellipse cx="61.5" cy="351.5853" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="120" x="70.5" y="354.932">getServerAction()</text></g><!--class MessageServerSubClasses--><g id="elem_MessageServerSubClasses"><rect codeLine="8" fill="#F1F1F1" height="113.1875" id="MessageServerSubClasses" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="220" x="46" y="552.61"/><ellipse cx="61" cy="568.61" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M63.9688,574.2506 Q63.3906,574.5475 62.75,574.6881 Q62.1094,574.8444 61.4063,574.8444 Q58.9063,574.8444 57.5781,573.2038 Q56.2656,571.5475 56.2656,568.4225 Q56.2656,565.2975 57.5781,563.6413 Q58.9063,561.985 61.4063,561.985 Q62.1094,561.985 62.75,562.1413 Q63.4063,562.2975 63.9688,562.5944 L63.9688,565.3131 Q63.3438,564.735 62.75,564.4694 Q62.1563,564.1881 61.5313,564.1881 Q60.1875,564.1881 59.5,565.2663 Q58.8125,566.3288 58.8125,568.4225 Q58.8125,570.5163 59.5,571.5944 Q60.1875,572.6569 61.5313,572.6569 Q62.1563,572.6569 62.75,572.3913 Q63.3438,572.11 63.9688,571.5319 L63.9688,574.2506 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="188" x="75" y="573.4567">MessageServerSubClasses</text><line style="stroke:#181818;stroke-width:0.5;" x1="47" x2="265" y1="584.61" y2="584.61"/><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="54" y="595.2584"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="189" x="66" y="601.6051">UpdateViewServerMessage</text><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="54" y="611.5553"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="194" x="66" y="617.902">DeleteGameServerMessage</text><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="54" y="627.8522"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="181" x="66" y="634.1989">GetGamesServerMessage</text><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="54" y="644.1491"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="140" x="66" y="650.4957">ErrorServerMessage</text><line style="stroke:#181818;stroke-width:0.5;" x1="47" x2="265" y1="657.7975" y2="657.7975"/></g><!--class ClientMessage--><g id="elem_ClientMessage"><rect codeLine="14" fill="#F1F1F1" height="227.2656" id="ClientMessage" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="271" x="330.5" y="208.3"/><ellipse cx="410.75" cy="224.3" fill="#A9DCDF" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M410.8594,219.6437 L409.7031,224.7219 L412.0313,224.7219 L410.8594,219.6437 Z M409.375,217.4094 L412.3594,217.4094 L415.7188,229.8 L413.2656,229.8 L412.5,226.7375 L409.2188,226.7375 L408.4688,229.8 L406.0313,229.8 L409.375,217.4094 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="102" x="431.25" y="229.1467">ClientMessage</text><line style="stroke:#181818;stroke-width:0.5;" x1="331.5" x2="600.5" y1="240.3" y2="240.3"/><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="338.5" y="250.9484"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="212" x="350.5" y="257.2951">PlayerActionEnum playerAction</text><polygon fill="none" points="341.5,265.2453,345.5,269.2453,341.5,273.2453,337.5,269.2453" style="stroke:#B38D22;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="123" x="350.5" y="273.592">String gameName</text><polygon fill="none" points="341.5,281.5422,345.5,285.5422,341.5,289.5422,337.5,285.5422" style="stroke:#B38D22;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="125" x="350.5" y="289.8889">String playerName</text><line style="stroke:#181818;stroke-width:0.5;" x1="331.5" x2="600.5" y1="297.1906" y2="297.1906"/><ellipse cx="341.5" cy="310.8391" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="245" x="350.5" y="314.1857">PlayerActionEnum getPlayerAction()</text><ellipse cx="341.5" cy="327.1359" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="158" x="350.5" y="330.4826">String getGameName()</text><ellipse cx="341.5" cy="343.4328" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="158" x="350.5" y="346.7795">String getPlayerName()</text><ellipse cx="341.5" cy="359.7297" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="113" x="350.5" y="363.0764">int getNPlayers()</text><ellipse cx="341.5" cy="376.0266" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="154" x="350.5" y="379.3732">String getPlayerColor()</text><ellipse cx="341.5" cy="392.3234" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="229" x="350.5" y="395.6701">ObjectiveCard getObjectiveCard()</text><ellipse cx="341.5" cy="408.6203" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="189" x="350.5" y="411.967">Coordinate getCoordinate()</text><ellipse cx="341.5" cy="424.9172" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="183" x="350.5" y="428.2639">GameCard getGameCard()</text></g><!--class ClientMessageSubClasses--><g id="elem_ClientMessageSubClasses"><rect codeLine="27" fill="#F1F1F1" height="227.2656" id="ClientMessageSubClasses" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="333" x="301.5" y="495.57"/><ellipse cx="372.25" cy="511.57" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M375.2188,517.2106 Q374.6406,517.5075 374,517.6481 Q373.3594,517.8044 372.6563,517.8044 Q370.1563,517.8044 368.8281,516.1637 Q367.5156,514.5075 367.5156,511.3825 Q367.5156,508.2575 368.8281,506.6012 Q370.1563,504.945 372.6563,504.945 Q373.3594,504.945 374,505.1012 Q374.6563,505.2575 375.2188,505.5544 L375.2188,508.2731 Q374.5938,507.695 374,507.4294 Q373.4063,507.1481 372.7813,507.1481 Q371.4375,507.1481 370.75,508.2262 Q370.0625,509.2887 370.0625,511.3825 Q370.0625,513.4762 370.75,514.5544 Q371.4375,515.6169 372.7813,515.6169 Q373.4063,515.6169 374,515.3512 Q374.5938,515.07 375.2188,514.4919 L375.2188,517.2106 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="183" x="392.75" y="516.4167">ClientMessageSubClasses</text><line style="stroke:#181818;stroke-width:0.5;" x1="302.5" x2="633.5" y1="527.57" y2="527.57"/><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="538.2184"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="176" x="321.5" y="544.5651">GetGamesClientMessage</text><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="554.5153"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="189" x="321.5" y="560.862">CreateGameClientMessage</text><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="570.8122"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="189" x="321.5" y="577.1589">DeleteGameClientMessage</text><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="587.1091"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="167" x="321.5" y="593.4557">JoinGameClientMessage</text><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="603.4059"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="233" x="321.5" y="609.7526">ChoosePlayerColorClientMessage</text><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="619.7028"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="230" x="321.5" y="626.0495">SetPlayerObjectiveClientMessage</text><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="635.9997"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="171" x="321.5" y="642.3464">PlaceCardClientMessage</text><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="652.2966"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="236" x="321.5" y="658.6432">DrawCardFromFieldClientMessage</text><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="668.5934"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="307" x="321.5" y="674.9401">DrawCardFromResourceDeckClientMessage</text><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="684.8903"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="272" x="321.5" y="691.237">DrawCardFromGoldDeckClientMessage</text><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="701.1872"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="209" x="321.5" y="707.5339">SwitchCardSideClientMessage</text><line style="stroke:#181818;stroke-width:0.5;" x1="302.5" x2="633.5" y1="714.8356" y2="714.8356"/></g><!--class ServerMessageHandler--><g id="elem_ServerMessageHandler"><rect codeLine="64" fill="#F1F1F1" height="80.5938" id="ServerMessageHandler" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="341" x="1659.5" y="568.9"/><ellipse cx="1745.75" cy="584.9" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M1741.6719,580.6656 L1741.6719,578.5094 L1749.0625,578.5094 L1749.0625,580.6656 L1746.5938,580.6656 L1746.5938,588.7438 L1749.0625,588.7438 L1749.0625,590.9 L1741.6719,590.9 L1741.6719,588.7438 L1744.1406,588.7438 L1744.1406,580.6656 L1741.6719,580.6656 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="160" x="1766.25" y="589.7467">ServerMessageHandler</text><line style="stroke:#181818;stroke-width:0.5;" x1="1660.5" x2="1999.5" y1="600.9" y2="600.9"/><line style="stroke:#181818;stroke-width:0.5;" x1="1660.5" x2="1999.5" y1="608.9" y2="608.9"/><ellipse cx="1670.5" cy="622.5484" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="315" x="1679.5" y="625.8951">void sendMessage(ServerMessage message)</text><ellipse cx="1670.5" cy="638.8453" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="159" x="1679.5" y="642.192">void closeConnection()</text></g><g id="elem_GMN22"><path d="M1147.5,596.63 L1147.5,621.7628 A0,0 0 0 0 1147.5,621.7628 L1624.5,621.7628 A0,0 0 0 0 1624.5,621.7628 L1624.5,614.63 L1659.36,609.2 L1624.5,606.63 L1624.5,606.63 L1614.5,596.63 L1147.5,596.63 A0,0 0 0 0 1147.5,596.63 " fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/><path d="M1614.5,596.63 L1614.5,606.63 L1624.5,606.63 L1614.5,596.63 " fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="456" x="1153.5" y="613.6969">Interface that is implemented by the classes that handle the messages</text></g><!--class TCPServerAdapter--><g id="elem_TCPServerAdapter"><rect codeLine="73" fill="#F1F1F1" height="96.8906" id="TCPServerAdapter" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="341" x="1659.5" y="799.13"/><ellipse cx="1762.75" cy="815.13" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M1765.7188,820.7706 Q1765.1406,821.0675 1764.5,821.2081 Q1763.8594,821.3644 1763.1563,821.3644 Q1760.6563,821.3644 1759.3281,819.7238 Q1758.0156,818.0675 1758.0156,814.9425 Q1758.0156,811.8175 1759.3281,810.1613 Q1760.6563,808.505 1763.1563,808.505 Q1763.8594,808.505 1764.5,808.6613 Q1765.1563,808.8175 1765.7188,809.1144 L1765.7188,811.8331 Q1765.0938,811.255 1764.5,810.9894 Q1763.9063,810.7081 1763.2813,810.7081 Q1761.9375,810.7081 1761.25,811.7863 Q1760.5625,812.8488 1760.5625,814.9425 Q1760.5625,817.0363 1761.25,818.1144 Q1761.9375,819.1769 1763.2813,819.1769 Q1763.9063,819.1769 1764.5,818.9113 Q1765.0938,818.63 1765.7188,818.0519 L1765.7188,820.7706 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="126" x="1783.25" y="819.9767">TCPServerAdapter</text><line style="stroke:#181818;stroke-width:0.5;" x1="1660.5" x2="1999.5" y1="831.13" y2="831.13"/><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="1667.5" y="841.7784"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="243" x="1679.5" y="848.1251">TCPConnectionHandler connection</text><line style="stroke:#181818;stroke-width:0.5;" x1="1660.5" x2="1999.5" y1="855.4269" y2="855.4269"/><ellipse cx="1670.5" cy="869.0753" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="153" x="1679.5" y="872.422">void notify(String msg)</text><ellipse cx="1670.5" cy="885.3722" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="315" x="1679.5" y="888.7189">void sendMessage(ServerMessage message)</text></g><g id="elem_GMN29"><path d="M1159,827.44 L1159,867.7056 A0,0 0 0 0 1159,867.7056 L1625,867.7056 A0,0 0 0 0 1625,867.7056 L1625,851.57 L1659.13,847.57 L1625,843.57 L1625,837.44 L1615,827.44 L1159,827.44 A0,0 0 0 0 1159,827.44 " fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/><path d="M1615,827.44 L1615,837.44 L1625,837.44 L1615,827.44 " fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="445" x="1165" y="844.5069">This class converts the messages from text to objects and vice versa.</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="262" x="1165" y="859.6397">It also sends the messages to the clients</text></g><!--class RMIClientActions--><g id="elem_RMIClientActions"><rect codeLine="86" fill="#F1F1F1" height="96.8906" id="RMIClientActions" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="385" x="690.5" y="560.75"/><ellipse cx="821.25" cy="576.75" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M817.1719,572.5156 L817.1719,570.3594 L824.5625,570.3594 L824.5625,572.5156 L822.0938,572.5156 L822.0938,580.5938 L824.5625,580.5938 L824.5625,582.75 L817.1719,582.75 L817.1719,580.5938 L819.6406,580.5938 L819.6406,572.5156 L817.1719,572.5156 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="115" x="841.75" y="581.5967">RMIClientActions</text><line style="stroke:#181818;stroke-width:0.5;" x1="691.5" x2="1074.5" y1="592.75" y2="592.75"/><line style="stroke:#181818;stroke-width:0.5;" x1="691.5" x2="1074.5" y1="600.75" y2="600.75"/><ellipse cx="701.5" cy="614.3984" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="211" x="710.5" y="617.7451">getGames(String ip, Int port,...)</text><ellipse cx="701.5" cy="630.6953" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="335" x="710.5" y="634.042">joinGame(String ip, Int port, String gameName,...)</text><ellipse cx="701.5" cy="646.9922" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="359" x="710.5" y="650.3389">createGame(String ip, Int port, String gameName, ...)</text></g><!--class ClientActions--><g id="elem_ClientActions"><rect fill="#F1F1F1" height="48" id="ClientActions" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="122" x="918" y="92.15"/><ellipse cx="933" cy="108.15" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M928.9219,103.9156 L928.9219,101.7594 L936.3125,101.7594 L936.3125,103.9156 L933.8438,103.9156 L933.8438,111.9938 L936.3125,111.9938 L936.3125,114.15 L928.9219,114.15 L928.9219,111.9938 L931.3906,111.9938 L931.3906,103.9156 L928.9219,103.9156 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="90" x="947" y="112.9967">ClientActions</text><line style="stroke:#181818;stroke-width:0.5;" x1="919" x2="1039" y1="124.15" y2="124.15"/><line style="stroke:#181818;stroke-width:0.5;" x1="919" x2="1039" y1="132.15" y2="132.15"/></g><!--class RMIServerAdapter--><g id="elem_RMIServerAdapter"><rect codeLine="92" fill="#F1F1F1" height="129.4844" id="RMIServerAdapter" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="309" x="814.5" y="782.83"/><ellipse cx="903.25" cy="798.83" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M906.2188,804.4706 Q905.6406,804.7675 905,804.9081 Q904.3594,805.0644 903.6563,805.0644 Q901.1563,805.0644 899.8281,803.4237 Q898.5156,801.7675 898.5156,798.6425 Q898.5156,795.5175 899.8281,793.8612 Q901.1563,792.205 903.6563,792.205 Q904.3594,792.205 905,792.3612 Q905.6563,792.5175 906.2188,792.8144 L906.2188,795.5331 Q905.5938,794.955 905,794.6894 Q904.4063,794.4081 903.7813,794.4081 Q902.4375,794.4081 901.75,795.4862 Q901.0625,796.5487 901.0625,798.6425 Q901.0625,800.7362 901.75,801.8144 Q902.4375,802.8769 903.7813,802.8769 Q904.4063,802.8769 905,802.6112 Q905.5938,802.33 906.2188,801.7519 L906.2188,804.4706 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="123" x="923.75" y="803.6767">RMIServerAdapter</text><line style="stroke:#181818;stroke-width:0.5;" x1="815.5" x2="1122.5" y1="814.83" y2="814.83"/><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="822.5" y="825.4784"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="125" x="834.5" y="831.8251">String playerName</text><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="822.5" y="841.7753"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="123" x="834.5" y="848.122">String gameName</text><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="822.5" y="858.0722"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="125" x="834.5" y="864.4189">ClientActions stub</text><line style="stroke:#181818;stroke-width:0.5;" x1="815.5" x2="1122.5" y1="871.7206" y2="871.7206"/><ellipse cx="825.5" cy="885.3691" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="283" x="834.5" y="888.7157">sendMessage(ServerMessage message)</text><ellipse cx="825.5" cy="901.6659" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="127" x="834.5" y="905.0126">closeConnection()</text></g><!--class RMIServerConnectionHandler--><g id="elem_RMIServerConnectionHandler"><rect codeLine="102" fill="#F1F1F1" height="80.5938" id="RMIServerConnectionHandler" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="341" x="744.5" y="988.61"/><ellipse cx="809.75" cy="1004.61" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M812.7188,1010.2506 Q812.1406,1010.5475 811.5,1010.6881 Q810.8594,1010.8444 810.1563,1010.8444 Q807.6563,1010.8444 806.3281,1009.2038 Q805.0156,1007.5475 805.0156,1004.4225 Q805.0156,1001.2975 806.3281,999.6413 Q807.6563,997.985 810.1563,997.985 Q810.8594,997.985 811.5,998.1413 Q812.1563,998.2975 812.7188,998.5944 L812.7188,1001.3131 Q812.0938,1000.735 811.5,1000.4694 Q810.9063,1000.1881 810.2813,1000.1881 Q808.9375,1000.1881 808.25,1001.2663 Q807.5625,1002.3288 807.5625,1004.4225 Q807.5625,1006.5163 808.25,1007.5944 Q808.9375,1008.6569 810.2813,1008.6569 Q810.9063,1008.6569 811.5,1008.3913 Q812.0938,1008.11 812.7188,1007.5319 L812.7188,1010.2506 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="202" x="830.25" y="1009.4567">RMIServerConnectionHandler</text><line style="stroke:#181818;stroke-width:0.5;" x1="745.5" x2="1084.5" y1="1020.61" y2="1020.61"/><line style="stroke:#181818;stroke-width:0.5;" x1="745.5" x2="1084.5" y1="1028.61" y2="1028.61"/><ellipse cx="755.5" cy="1042.2584" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="315" x="764.5" y="1045.6051">void sendMessage(ServerMessage message)</text><rect fill="#F24D5C" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="752.5" y="1055.5553"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="237" x="764.5" y="1061.902">connectToClient(String ip, Int port)</text></g><!--class NetworkCommandMapper--><g id="elem_NetworkCommandMapper"><rect codeLine="108" fill="#F1F1F1" height="145.7813" id="NetworkCommandMapper" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="573" x="1427.5" y="249.04"/><ellipse cx="1619.75" cy="265.04" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M1622.7188,270.6806 Q1622.1406,270.9775 1621.5,271.1181 Q1620.8594,271.2744 1620.1563,271.2744 Q1617.6563,271.2744 1616.3281,269.6337 Q1615.0156,267.9775 1615.0156,264.8525 Q1615.0156,261.7275 1616.3281,260.0712 Q1617.6563,258.415 1620.1563,258.415 Q1620.8594,258.415 1621.5,258.5712 Q1622.1563,258.7275 1622.7188,259.0244 L1622.7188,261.7431 Q1622.0938,261.165 1621.5,260.8994 Q1620.9063,260.6181 1620.2813,260.6181 Q1618.9375,260.6181 1618.25,261.6962 Q1617.5625,262.7587 1617.5625,264.8525 Q1617.5625,266.9462 1618.25,268.0244 Q1618.9375,269.0869 1620.2813,269.0869 Q1620.9063,269.0869 1621.5,268.8212 Q1622.0938,268.54 1622.7188,267.9619 L1622.7188,270.6806 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="180" x="1640.25" y="269.8867">NetworkCommandMapper</text><line style="stroke:#181818;stroke-width:0.5;" x1="1428.5" x2="1999.5" y1="281.04" y2="281.04"/><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="1435.5" y="291.6884"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="332" x="1447.5" y="298.0351">HashSet&lt;ServerMessageHandler&gt; connections</text><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="1435.5" y="307.9853"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="490" x="1447.5" y="314.332">HashMap&lt;String gameName, ServerMessageHandler&gt; connectionMap</text><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="1435.5" y="324.2822"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="203" x="1447.5" y="330.6289">MainController mainController</text><line style="stroke:#181818;stroke-width:0.5;" x1="1428.5" x2="1999.5" y1="337.9306" y2="337.9306"/><rect fill="#F24D5C" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="1435.5" y="348.5791"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="446" x="1447.5" y="354.9257">void broadcastMessage(ServerMessage msg, String gameName)</text><ellipse cx="1438.5" cy="367.8759" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="521" x="1447.5" y="371.2226">void addConnection(ServerMessageHandler connection, String gameName)</text><ellipse cx="1438.5" cy="384.1728" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="547" x="1447.5" y="387.5195">void removeConnection(ServerMessageHandler connection, String gameName)</text></g><g id="elem_GMN44"><path d="M1015,294.23 L1015,349.6284 A0,0 0 0 0 1015,349.6284 L1393,349.6284 A0,0 0 0 0 1393,349.6284 L1393,325.93 L1427.09,321.93 L1393,317.93 L1393,304.23 L1383,294.23 L1015,294.23 A0,0 0 0 0 1015,294.23 " fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/><path d="M1383,294.23 L1383,304.23 L1393,304.23 L1383,294.23 " fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="344" x="1021" y="311.2969">Executes actions on the controllers, retrieves the view</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="357" x="1021" y="326.4297">and sends it performing .sendMessage(ServerMessage)</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="325" x="1021" y="341.5625">on all the clients that need to receive the message</text></g><!--class ClientMessageHandler--><g id="elem_ClientMessageHandler"><rect codeLine="125" fill="#F1F1F1" height="80.5938" id="ClientMessageHandler" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="336" x="2359" y="568.9"/><ellipse cx="2445.25" cy="584.9" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M2441.1719,580.6656 L2441.1719,578.5094 L2448.5625,578.5094 L2448.5625,580.6656 L2446.0938,580.6656 L2446.0938,588.7438 L2448.5625,588.7438 L2448.5625,590.9 L2441.1719,590.9 L2441.1719,588.7438 L2443.6406,588.7438 L2443.6406,580.6656 L2441.1719,580.6656 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="155" x="2465.75" y="589.7467">ClientMessageHandler</text><line style="stroke:#181818;stroke-width:0.5;" x1="2360" x2="2694" y1="600.9" y2="600.9"/><line style="stroke:#181818;stroke-width:0.5;" x1="2360" x2="2694" y1="608.9" y2="608.9"/><ellipse cx="2370" cy="622.5484" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="310" x="2379" y="625.8951">void sendMessage(ClientMessage message)</text><ellipse cx="2370" cy="638.8453" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="159" x="2379" y="642.192">void closeConnection()</text></g><!--class ClientCommandMapper--><g id="elem_ClientCommandMapper"><rect codeLine="129" fill="#F1F1F1" height="64.2969" id="ClientCommandMapper" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="263" x="2395.5" y="289.79"/><ellipse cx="2441.75" cy="305.79" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M2444.7188,311.4306 Q2444.1406,311.7275 2443.5,311.8681 Q2442.8594,312.0244 2442.1563,312.0244 Q2439.6563,312.0244 2438.3281,310.3837 Q2437.0156,308.7275 2437.0156,305.6025 Q2437.0156,302.4775 2438.3281,300.8212 Q2439.6563,299.165 2442.1563,299.165 Q2442.8594,299.165 2443.5,299.3212 Q2444.1563,299.4775 2444.7188,299.7744 L2444.7188,302.4931 Q2444.0938,301.915 2443.5,301.6494 Q2442.9063,301.3681 2442.2813,301.3681 Q2440.9375,301.3681 2440.25,302.4462 Q2439.5625,303.5087 2439.5625,305.6025 Q2439.5625,307.6962 2440.25,308.7744 Q2440.9375,309.8369 2442.2813,309.8369 Q2442.9063,309.8369 2443.5,309.5712 Q2444.0938,309.29 2444.7188,308.7119 L2444.7188,311.4306 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="162" x="2462.25" y="310.6367">ClientCommandMapper</text><line style="stroke:#181818;stroke-width:0.5;" x1="2396.5" x2="2657.5" y1="321.79" y2="321.79"/><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="2403.5" y="332.4384"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="237" x="2415.5" y="338.7851">ClientMessageHandler connection</text><line style="stroke:#181818;stroke-width:0.5;" x1="2396.5" x2="2657.5" y1="346.0869" y2="346.0869"/></g><!--class ServerActions--><g id="elem_ServerActions"><rect fill="#F1F1F1" height="48" id="ServerActions" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="127" x="2516.5" y="92.15"/><ellipse cx="2531.5" cy="108.15" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M2527.4219,103.9156 L2527.4219,101.7594 L2534.8125,101.7594 L2534.8125,103.9156 L2532.3438,103.9156 L2532.3438,111.9938 L2534.8125,111.9938 L2534.8125,114.15 L2527.4219,114.15 L2527.4219,111.9938 L2529.8906,111.9938 L2529.8906,103.9156 L2527.4219,103.9156 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="95" x="2545.5" y="112.9967">ServerActions</text><line style="stroke:#181818;stroke-width:0.5;" x1="2517.5" x2="2642.5" y1="124.15" y2="124.15"/><line style="stroke:#181818;stroke-width:0.5;" x1="2517.5" x2="2642.5" y1="132.15" y2="132.15"/></g><!--class RMIClientAsAServer--><g id="elem_RMIClientAsAServer"><rect codeLine="132" fill="#F1F1F1" height="64.2969" id="RMIClientAsAServer" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="356" x="2693" y="289.79"/><ellipse cx="2799.75" cy="305.79" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M2802.7188,311.4306 Q2802.1406,311.7275 2801.5,311.8681 Q2800.8594,312.0244 2800.1563,312.0244 Q2797.6563,312.0244 2796.3281,310.3837 Q2795.0156,308.7275 2795.0156,305.6025 Q2795.0156,302.4775 2796.3281,300.8212 Q2797.6563,299.165 2800.1563,299.165 Q2800.8594,299.165 2801.5,299.3212 Q2802.1563,299.4775 2802.7188,299.7744 L2802.7188,302.4931 Q2802.0938,301.915 2801.5,301.6494 Q2800.9063,301.3681 2800.2813,301.3681 Q2798.9375,301.3681 2798.25,302.4462 Q2797.5625,303.5087 2797.5625,305.6025 Q2797.5625,307.6962 2798.25,308.7744 Q2798.9375,309.8369 2800.2813,309.8369 Q2800.9063,309.8369 2801.5,309.5712 Q2802.0938,309.29 2802.7188,308.7119 L2802.7188,311.4306 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="134" x="2820.25" y="310.6367">RMIClientAsAServer</text><line style="stroke:#181818;stroke-width:0.5;" x1="2694" x2="3048" y1="321.79" y2="321.79"/><line style="stroke:#181818;stroke-width:0.5;" x1="2694" x2="3048" y1="329.79" y2="329.79"/><ellipse cx="2704" cy="343.4384" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="330" x="2713" y="346.7851">void receiveMessage(ServerMessage message)</text></g><!--class Client--><g id="elem_Client"><rect fill="#F1F1F1" height="48" id="Client" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="71" x="2731.5" y="92.15"/><ellipse cx="2746.5" cy="108.15" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M2749.4688,113.7906 Q2748.8906,114.0875 2748.25,114.2281 Q2747.6094,114.3844 2746.9063,114.3844 Q2744.4063,114.3844 2743.0781,112.7438 Q2741.7656,111.0875 2741.7656,107.9625 Q2741.7656,104.8375 2743.0781,103.1813 Q2744.4063,101.525 2746.9063,101.525 Q2747.6094,101.525 2748.25,101.6813 Q2748.9063,101.8375 2749.4688,102.1344 L2749.4688,104.8531 Q2748.8438,104.275 2748.25,104.0094 Q2747.6563,103.7281 2747.0313,103.7281 Q2745.6875,103.7281 2745,104.8063 Q2744.3125,105.8688 2744.3125,107.9625 Q2744.3125,110.0563 2745,111.1344 Q2745.6875,112.1969 2747.0313,112.1969 Q2747.6563,112.1969 2748.25,111.9313 Q2748.8438,111.65 2749.4688,111.0719 L2749.4688,113.7906 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="39" x="2760.5" y="112.9967">Client</text><line style="stroke:#181818;stroke-width:0.5;" x1="2732.5" x2="2801.5" y1="124.15" y2="124.15"/><line style="stroke:#181818;stroke-width:0.5;" x1="2732.5" x2="2801.5" y1="132.15" y2="132.15"/></g><!--class RMIClientActions--><g id="elem_RMIClientActions"><rect codeLine="138" fill="#F1F1F1" height="64.2969" id="RMIClientActions" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="211" x="2837.5" y="84"/><ellipse cx="2881.3" cy="100" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M2877.2219,95.7656 L2877.2219,93.6094 L2884.6125,93.6094 L2884.6125,95.7656 L2882.1438,95.7656 L2882.1438,103.8438 L2884.6125,103.8438 L2884.6125,106 L2877.2219,106 L2877.2219,103.8438 L2879.6906,103.8438 L2879.6906,95.7656 L2877.2219,95.7656 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="115" x="2901.7" y="104.8467">RMIClientActions</text><line style="stroke:#181818;stroke-width:0.5;" x1="2838.5" x2="3047.5" y1="116" y2="116"/><line style="stroke:#181818;stroke-width:0.5;" x1="2838.5" x2="3047.5" y1="124" y2="124"/><ellipse cx="2848.5" cy="137.6484" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="185" x="2857.5" y="140.9951">connect(String ip, Int port);</text></g><!--class RMIConnectionHandler--><g id="elem_RMIConnectionHandler"><rect codeLine="142" fill="#F1F1F1" height="96.8906" id="RMIConnectionHandler" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="309" x="2056.5" y="799.13"/><ellipse cx="2127.75" cy="815.13" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M2130.7188,820.7706 Q2130.1406,821.0675 2129.5,821.2081 Q2128.8594,821.3644 2128.1563,821.3644 Q2125.6563,821.3644 2124.3281,819.7238 Q2123.0156,818.0675 2123.0156,814.9425 Q2123.0156,811.8175 2124.3281,810.1613 Q2125.6563,808.505 2128.1563,808.505 Q2128.8594,808.505 2129.5,808.6613 Q2130.1563,808.8175 2130.7188,809.1144 L2130.7188,811.8331 Q2130.0938,811.255 2129.5,810.9894 Q2128.9063,810.7081 2128.2813,810.7081 Q2126.9375,810.7081 2126.25,811.7863 Q2125.5625,812.8488 2125.5625,814.9425 Q2125.5625,817.0363 2126.25,818.1144 Q2126.9375,819.1769 2128.2813,819.1769 Q2128.9063,819.1769 2129.5,818.9113 Q2130.0938,818.63 2130.7188,818.0519 L2130.7188,820.7706 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="158" x="2148.25" y="819.9767">RMIConnectionHandler</text><line style="stroke:#181818;stroke-width:0.5;" x1="2057.5" x2="2364.5" y1="831.13" y2="831.13"/><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="2064.5" y="841.7784"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="130" x="2076.5" y="848.1251">ServerActions stub</text><line style="stroke:#181818;stroke-width:0.5;" x1="2057.5" x2="2364.5" y1="855.4269" y2="855.4269"/><ellipse cx="2067.5" cy="869.0753" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="283" x="2076.5" y="872.422">sendMessage(ServerMessage message)</text><ellipse cx="2067.5" cy="885.3722" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="127" x="2076.5" y="888.7189">closeConnection()</text></g><!--class TCPClientAdapter--><g id="elem_TCPClientAdapter"><rect codeLine="148" fill="#F1F1F1" height="80.5938" id="TCPClientAdapter" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="336" x="2401" y="807.28"/><ellipse cx="2504.25" cy="823.28" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M2507.2188,828.9206 Q2506.6406,829.2175 2506,829.3581 Q2505.3594,829.5144 2504.6563,829.5144 Q2502.1563,829.5144 2500.8281,827.8738 Q2499.5156,826.2175 2499.5156,823.0925 Q2499.5156,819.9675 2500.8281,818.3113 Q2502.1563,816.655 2504.6563,816.655 Q2505.3594,816.655 2506,816.8113 Q2506.6563,816.9675 2507.2188,817.2644 L2507.2188,819.9831 Q2506.5938,819.405 2506,819.1394 Q2505.4063,818.8581 2504.7813,818.8581 Q2503.4375,818.8581 2502.75,819.9363 Q2502.0625,820.9988 2502.0625,823.0925 Q2502.0625,825.1863 2502.75,826.2644 Q2503.4375,827.3269 2504.7813,827.3269 Q2505.4063,827.3269 2506,827.0613 Q2506.5938,826.78 2507.2188,826.2019 L2507.2188,828.9206 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="121" x="2524.75" y="828.1267">TCPClientAdapter</text><line style="stroke:#181818;stroke-width:0.5;" x1="2402" x2="2736" y1="839.28" y2="839.28"/><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="2409" y="849.9284"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="243" x="2421" y="856.2751">TCPConnectionHandler connection</text><line style="stroke:#181818;stroke-width:0.5;" x1="2402" x2="2736" y1="863.5769" y2="863.5769"/><ellipse cx="2412" cy="877.2253" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="310" x="2421" y="880.572">void sendMessage(ClientMessage message)</text></g><g id="elem_GMN64"><path d="M2055.5,301.8 L2055.5,342.0656 A0,0 0 0 0 2055.5,342.0656 L2360.5,342.0656 A0,0 0 0 0 2360.5,342.0656 L2360.5,325.93 L2395.01,321.93 L2360.5,317.93 L2360.5,311.8 L2350.5,301.8 L2055.5,301.8 A0,0 0 0 0 2055.5,301.8 " fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/><path d="M2350.5,301.8 L2350.5,311.8 L2360.5,311.8 L2350.5,301.8 " fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="284" x="2061.5" y="318.8669">This class sends the messages to the server</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="136" x="2061.5" y="333.9997">and updates the view</text></g><!--reverse link Message to ServerMessage--><g id="link_Message_ServerMessage"><path d="M291.6088,155.1277 C266.7988,189.5177 230.67,239.61 200.48,281.45 " fill="none" id="Message-backto-ServerMessage" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="302.14,140.53,286.7429,151.6173,296.4747,158.6381,302.14,140.53" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link ServerMessage to MessageServerSubClasses--><g id="link_ServerMessage_MessageServerSubClasses"><path d="M168.77,380.5716 C166,429.8616 162.27,496.33 159.14,552.2 " fill="none" id="ServerMessage-backto-MessageServerSubClasses" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="none" points="169.78,362.6,162.7795,380.235,174.7606,380.9083,169.78,362.6" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link Message to ClientMessage--><g id="link_Message_ClientMessage"><path d="M346.3939,155.1258 C358.7639,172.2658 366.03,182.35 384.51,207.96 " fill="none" id="Message-backto-ClientMessage" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="335.86,140.53,341.5286,158.6371,351.2591,151.6145,335.86,140.53" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link ClientMessage to ClientMessageSubClasses--><g id="link_ClientMessage_ClientMessageSubClasses"><path d="M466.9184,453.6795 C467.0584,473.2995 467.07,475.71 467.21,495.34 " fill="none" id="ClientMessage-backto-ClientMessageSubClasses" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="none" points="466.79,435.68,460.9186,453.7224,472.9183,453.6367,466.79,435.68" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link Observable to TCPConnectionHandler--><g id="link_Observable_TCPConnectionHandler"><path d="M3133.1213,895.2205 C3106.3513,906.5405 3093.08,911.18 3065,920.02 C2953.1,955.25 2823.45,983.01 2724.77,1001.55 " fill="none" id="Observable-backto-TCPConnectionHandler" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="3149.7,888.21,3130.7845,889.6943,3135.4581,900.7467,3149.7,888.21" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link ServerMessageHandler to TCPServerAdapter--><g id="link_ServerMessageHandler_TCPServerAdapter"><path d="M1830,667.76 C1830,708.77 1830,754.88 1830,798.71 " fill="none" id="ServerMessageHandler-backto-TCPServerAdapter" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="1830,649.76,1824,667.76,1836,667.76,1830,649.76" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link TCPServerAdapter to Observer--><g id="link_TCPServerAdapter_Observer"><path codeLine="78" d="M1946.2395,904.1639 C2012.4195,935.8039 2081.1,968.66 2138.95,996.32 " fill="none" id="TCPServerAdapter-backto-Observer" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="1930,896.4,1943.6515,909.5771,1948.8275,898.7508,1930,896.4" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link TCPServerAdapter to TCPConnectionHandler--><g id="link_TCPServerAdapter_TCPConnectionHandler"><path codeLine="79" d="M1973.9166,900.2672 C1999.4566,908.6872 2014.72,913.18 2040,920.02 C2152.51,950.47 2182.79,949.02 2297,972.32 C2334.66,980 2375.26,988.29 2413.3,996.06 " fill="none" id="TCPServerAdapter-backto-TCPConnectionHandler" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="1962.52,896.51,1966.9659,902.1875,1973.9166,900.2672,1969.4707,894.5897,1962.52,896.51" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link ClientActions to RMIClientActions--><g id="link_ClientActions_RMIClientActions"><path d="M970.9782,158.1759 C956.1382,234.1259 912.46,457.5 892.3,560.64 " fill="none" id="ClientActions-backto-RMIClientActions" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="none" points="974.43,140.51,965.0896,157.0253,976.8669,159.3265,974.43,140.51" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link ServerMessageHandler to RMIServerAdapter--><g id="link_ServerMessageHandler_RMIServerAdapter"><path d="M1776.6378,661.8656 C1741.0378,694.2656 1699.23,725.93 1642,746.83 C1432.72,823.27 1359.79,735.86 1142,782.83 C1136.06,784.11 1130.04,785.56 1124,787.13 " fill="none" id="ServerMessageHandler-backto-RMIServerAdapter" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="1789.95,649.75,1772.5993,657.4282,1780.6764,666.3029,1789.95,649.75" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link ClientActions to RMIServerAdapter--><g id="link_ClientActions_RMIServerAdapter"><path d="M969.8482,158.0352 C958.1682,213.6152 939.9,339.07 997,435.57 C1022.62,478.87 1068.61,451.56 1093,495.57 C1120.07,544.4 1117.12,696.47 1093,746.83 C1086.73,759.91 1077.82,771.82 1067.62,782.5 " fill="none" id="ClientActions-backto-RMIServerAdapter" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="973.55,140.42,963.9765,156.8013,975.7199,159.2692,973.55,140.42" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link RMIServerAdapter to RMIServerConnectionHandler--><g id="link_RMIServerAdapter_RMIServerConnectionHandler"><path codeLine="100" d="M946.1989,924.3 C938.5989,949.53 933.58,966.19 926.91,988.34 " fill="none" id="RMIServerAdapter-backto-RMIServerConnectionHandler" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="949.66,912.81,944.0994,917.4013,946.1989,924.3,951.7594,919.7087,949.66,912.81" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link RMIClientActions to RMIServerConnectionHandler--><g id="link_RMIClientActions_RMIServerConnectionHandler"><path d="M840.4856,673.4148 C802.0056,735.5748 757.89,831.26 797,920.02 C808.92,947.07 831.35,970.29 853.47,988.18 " fill="none" id="RMIClientActions-backto-RMIServerConnectionHandler" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="849.96,658.11,835.384,670.2566,845.5872,676.5729,849.96,658.11" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link ClientActions to NetworkCommandMapper--><g id="link_ClientActions_NetworkCommandMapper"><path d="M1058.1005,130.2556 C1142.3305,144.7156 1280.33,170.79 1410,208.3 C1450.01,219.88 1492.29,234.17 1532.18,248.65 " fill="none" id="ClientActions-backto-NetworkCommandMapper" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="1040.36,127.21,1057.0853,136.1691,1059.1157,124.3421,1040.36,127.21" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link NetworkCommandMapper to ServerMessageHandler--><g id="link_NetworkCommandMapper_ServerMessageHandler"><path codeLine="116" d="M1747.9404,406.406 C1770.2904,461.366 1795.67,523.78 1813.85,568.48 " fill="none" id="NetworkCommandMapper-backto-ServerMessageHandler" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="1743.42,395.29,1741.9749,402.3548,1747.9404,406.406,1749.3856,399.3412,1743.42,395.29" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link ServerActions to ClientCommandMapper--><g id="link_ServerActions_ClientCommandMapper"><path d="M2569.3903,157.9507 C2559.8503,194.6407 2545.87,248.39 2535.17,289.52 " fill="none" id="ServerActions-backto-ClientCommandMapper" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="2573.92,140.53,2563.5834,156.4408,2575.1972,159.4606,2573.92,140.53" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link ServerActions to RMIClientAsAServer--><g id="link_ServerActions_RMIClientAsAServer"><path d="M2628.125,150.854 C2680.455,187.494 2767.12,248.19 2825.89,289.35 " fill="none" id="ServerActions-backto-RMIClientAsAServer" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="2613.38,140.53,2624.6836,155.769,2631.5663,145.939,2613.38,140.53" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link Client to RMIClientAsAServer--><g id="link_Client_RMIClientAsAServer"><path codeLine="135" d="M2784.3861,151.2179 C2803.1161,187.9079 2833.98,248.39 2854.97,289.52 " fill="none" id="Client-backto-RMIClientAsAServer" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="2778.93,140.53,2778.0954,147.6926,2784.3861,151.2179,2785.2207,144.0552,2778.93,140.53" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link ClientCommandMapper to ClientMessageHandler--><g id="link_ClientCommandMapper_ClientMessageHandler"><path codeLine="136" d="M2527,366.55 C2527,418.92 2527,511.54 2527,568.69 " fill="none" id="ClientCommandMapper-backto-ClientMessageHandler" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="2527,354.55,2523,360.55,2527,366.55,2531,360.55,2527,354.55" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link ClientMessageHandler to RMIConnectionHandler--><g id="link_ClientMessageHandler_RMIConnectionHandler"><path d="M2459.6968,660.5423 C2404.8768,701.5523 2333.58,754.88 2274.98,798.71 " fill="none" id="ClientMessageHandler-backto-RMIConnectionHandler" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="2474.11,649.76,2456.1027,655.7379,2463.2909,665.3467,2474.11,649.76" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link ClientMessageHandler to TCPClientAdapter--><g id="link_ClientMessageHandler_TCPClientAdapter"><path d="M2537.1774,667.4827 C2544.9274,711.1227 2554.19,763.2 2561.95,806.88 " fill="none" id="ClientMessageHandler-backto-TCPClientAdapter" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="2534.03,649.76,2531.2698,668.5318,2543.0849,666.4336,2534.03,649.76" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link TCPClientAdapter to Observer--><g id="link_TCPClientAdapter_Observer"><path codeLine="152" d="M2472.5237,896.1059 C2406.4637,928.6559 2330.25,966.2 2269.09,996.34 " fill="none" id="TCPClientAdapter-backto-Observer" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="2488.67,888.15,2469.8717,890.7237,2475.1756,901.488,2488.67,888.15" style="stroke:#181818;stroke-width:1.0;"/></g><!--reverse link TCPClientAdapter to TCPConnectionHandler--><g id="link_TCPClientAdapter_TCPConnectionHandler"><path codeLine="153" d="M2569,899.93 C2569,924.57 2569,944.71 2569,971.98 " fill="none" id="TCPClientAdapter-backto-TCPConnectionHandler" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="2569,887.93,2565,893.93,2569,899.93,2573,893.93,2569,887.93" style="stroke:#181818;stroke-width:1.0;"/></g><!--SRC=[hLZRRjiu47ttLn3UbtWR-mVM212eQTgYIOCwk- -KDBRLIA90qdQ3hFzzXw9klCbsjWQIsEAPuSoPgrFHv8LkW3o2F33-Gjuc15zLyxG08THV_LIzib82NzC4o4DxTkmEQImafuaaIKw582lWU-0jBYkg70eefUX5EqdrcclyRI8pLjwLkuA8mGC3-c43SeY-cdN7lJNQYEOkZLxjuaWz1K7WbuGojOsqBFgxIgc4Vp8u630Jz15oa71F2nW1tODK2342kUESSVzvaE8epv3Hyob-okchGN4rU610_rX9dfKRia6h7_77UwYbdUCFpZKOh-6pGRngV7kN9adf2oEUkZjj3EQc0ZngX3Yb8c8vupReU_mJqCGzH9Id2ciyiD4HOppDIimH1Uq_sJZbLQkmVJ-IiqPKFJbhHltDdsa6o8H47AZEs15GdzOZeAyiAqz0eYrZ0WQKZs1NRMnwriDWH2OrasDES7fGa4-S5PyooC_5_W31TZo1Zv2yd2bop_Bq17nro6IoLGAhB0sufdD1_-wRxVTOzK8QvtQuw_JQiop5PYar2lXL-uQmviqi8CIXO7iuLqvRfNFqENgAM5b2NS-VQPdcA3PeG5wBvxUSqzTlcP3BzggRxYunUPT3bphIAY_JXlghfZ4KOZDhoFUo3tpvV3DmHYigcSpMhrVFZZWU08cPbAmWREtboo3NJwWWSejpc6PbmxlSKacszR4-GpcIT8A6oYzIAHX48eQ4xWGE2gK2nLbZFg6DziCMIdNA8G6iFe47XPMWI5pjsyJO5APwS4sHdubdMJ36MkkScScUk1YZkR5ZvX5ASkmmFNb6P-tUrl78OIrLD7pscDHrfjU48urTRaDAujUQ-gJfouEOw71flIB0cL54pHgJqagQ1NG6PNL9UVCca11Esjgf_xy2qeynnw_bluj5LqPXs9_pkRzG_56qvSrwscBGDCt81eAaC893rjYqYSIPgkg0rGC7ynqZjSymxAeXqOLTJZGNhAR4qeKQT4AebZuMzxuaVZnyqHD0hqJsT6-VlZcBRptTsyXbrRNALL8nBgyNYuLL7Z-R-Uo54sl5yyWdtQPmdWPYg3ZQ-Ou-NvJlrwDapCUtqFdO1Zit5GkvYqtFBsr4RW_or8NZlqhuxk58sblqZKvU9x5-Gv-TDmtbcMdLlcmmuZuPsZrjlbr6h2ZGtWTQLMfK36oU6XPFFNqERVXCnHOtnAKlKsu6BK-4XF7YfPEnfxIXa4_V0uva38FaB5Vy5yP7dq1DUymPJHCgP81xiN5gQkPHfcD8qtIGSDvvqRjnWLwzI_r6rKVhioyTwb8O7Sj6w_UfS1ow-mN9Jgejfga4LkestGLANAEtQ3picsrgZz_r7JrgAEYcZwiHNhHcl53-Be9Lv9ABLzCy7qu9lJQKWFi4ZezcungE5KD7DqeypRLRmdGLJStgwKUEyOqZl5Au7SBymbc4V3orZRcvqFG7hN-aFGp_sUDj3tElRu4ro6T3tpN5hRxD7Kx-XZeid3g65_HLqn9jG3iKB7CyIBU0V2nC0jbmOaxegQO9zBRxlonF0gIEZQep4t9kqkyCw_SCxC3GFkcIMayrQ-uASwuxxrlPBop8e_FjqZ3Rlv5xeS6jV2XbT6TFUZfE3VRpy4BjCQzjoBlwVxE1hktfblhtyJy0]--></g></svg>
+<?xml version="1.0" encoding="us-ascii" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" contentStyleType="text/css"
+     height="1208px" preserveAspectRatio="none" style="width:3414px;height:1208px;background:#FFFFFF;" version="1.1"
+     viewBox="0 0 3414 1208" width="3414px" zoomAndPan="magnify">
+    <defs/>
+    <g><!--cluster Network-->
+        <g id="cluster_Network">
+            <path d="M8.5,6 L76.5,6 A3.75,3.75 0 0 1 79,8.5 L86,28.2969 L3404.5,28.2969 A2.5,2.5 0 0 1 3407,30.7969 L3407,1199.27 A2.5,2.5 0 0 1 3404.5,1201.77 L8.5,1201.77 A2.5,2.5 0 0 1 6,1199.27 L6,8.5 A2.5,2.5 0 0 1 8.5,6 "
+                  fill="none" style="stroke:#000000;stroke-width:1.5;"/>
+            <line style="stroke:#000000;stroke-width:1.5;" x1="6" x2="86" y1="28.2969" y2="28.2969"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing"
+                  textLength="67" x="10" y="20.9951">Network
+            </text>
+        </g><!--cluster message-->
+        <g id="cluster_message">
+            <path d="M32.5,57.15 L104.5,57.15 A3.75,3.75 0 0 1 107,59.65 L114,79.4469 L648.5,79.4469 A2.5,2.5 0 0 1 651,81.9469 L651,736.33 A2.5,2.5 0 0 1 648.5,738.83 L32.5,738.83 A2.5,2.5 0 0 1 30,736.33 L30,59.65 A2.5,2.5 0 0 1 32.5,57.15 "
+                  fill="none" style="stroke:#000000;stroke-width:1.5;"/>
+            <line style="stroke:#000000;stroke-width:1.5;" x1="30" x2="114" y1="79.4469" y2="79.4469"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing"
+                  textLength="71" x="34" y="72.1451">message
+            </text>
+        </g><!--cluster Server-->
+        <g id="cluster_Server">
+            <path d="M677.5,57.15 L731.5,57.15 A3.75,3.75 0 0 1 734,59.65 L741,79.4469 L2013.5,79.4469 A2.5,2.5 0 0 1 2016,81.9469 L2016,1082.71 A2.5,2.5 0 0 1 2013.5,1085.21 L677.5,1085.21 A2.5,2.5 0 0 1 675,1082.71 L675,59.65 A2.5,2.5 0 0 1 677.5,57.15 "
+                  fill="none" style="stroke:#000000;stroke-width:1.5;"/>
+            <line style="stroke:#000000;stroke-width:1.5;" x1="675" x2="741" y1="79.4469" y2="79.4469"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing"
+                  textLength="53" x="679" y="72.1451">Server
+            </text>
+        </g><!--cluster Client-->
+        <g id="cluster_Client">
+            <path d="M2042.5,49 L2088.5,49 A3.75,3.75 0 0 1 2091,51.5 L2098,71.2969 L3062.5,71.2969 A2.5,2.5 0 0 1 3065,73.7969 L3065,909.52 A2.5,2.5 0 0 1 3062.5,912.02 L2042.5,912.02 A2.5,2.5 0 0 1 2040,909.52 L2040,51.5 A2.5,2.5 0 0 1 2042.5,49 "
+                  fill="none" style="stroke:#000000;stroke-width:1.5;"/>
+            <line style="stroke:#000000;stroke-width:1.5;" x1="2040" x2="2098" y1="71.2969" y2="71.2969"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing"
+                  textLength="45" x="2044" y="63.9951">Client
+            </text>
+        </g><!--class Observable-->
+        <g id="elem_Observable">
+            <rect codeLine="41" fill="#F1F1F1" height="80.5938" id="Observable" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="311" x="3080.5" y="807.28"/>
+            <ellipse cx="3192.75" cy="823.28" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M3188.6719,819.0456 L3188.6719,816.8894 L3196.0625,816.8894 L3196.0625,819.0456 L3193.5938,819.0456 L3193.5938,827.1238 L3196.0625,827.1238 L3196.0625,829.28 L3188.6719,829.28 L3188.6719,827.1238 L3191.1406,827.1238 L3191.1406,819.0456 L3188.6719,819.0456 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing"
+                  textLength="78" x="3213.25" y="828.1267">Observable
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="3081.5" x2="3390.5" y1="839.28" y2="839.28"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="3081.5" x2="3390.5" y1="847.28" y2="847.28"/>
+            <ellipse cx="3091.5" cy="860.9284" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="255"
+                  x="3100.5" y="864.2751">void setObserver(Observer observer)
+            </text>
+            <ellipse cx="3091.5" cy="877.2253" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="285"
+                  x="3100.5" y="880.572">void removeObserver(Observer observer)
+            </text>
+        </g><!--class TCPConnectionHandler-->
+        <g id="elem_TCPConnectionHandler">
+            <rect codeLine="45" fill="#F1F1F1" height="113.1875" id="TCPConnectionHandler" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="311" x="2413.5" y="972.32"/>
+            <ellipse cx="2484.25" cy="988.32" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M2487.2188,993.9606 Q2486.6406,994.2575 2486,994.3981 Q2485.3594,994.5544 2484.6563,994.5544 Q2482.1563,994.5544 2480.8281,992.9137 Q2479.5156,991.2575 2479.5156,988.1325 Q2479.5156,985.0075 2480.8281,983.3512 Q2482.1563,981.695 2484.6563,981.695 Q2485.3594,981.695 2486,981.8512 Q2486.6563,982.0075 2487.2188,982.3044 L2487.2188,985.0231 Q2486.5938,984.445 2486,984.1794 Q2485.4063,983.8981 2484.7813,983.8981 Q2483.4375,983.8981 2482.75,984.9762 Q2482.0625,986.0387 2482.0625,988.1325 Q2482.0625,990.2262 2482.75,991.3044 Q2483.4375,992.3669 2484.7813,992.3669 Q2485.4063,992.3669 2486,992.1012 Q2486.5938,991.82 2487.2188,991.2419 L2487.2188,993.9606 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="161"
+                  x="2504.75" y="993.1667">TCPConnectionHandler
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="2414.5" x2="2723.5" y1="1004.32" y2="1004.32"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="2421.5" y="1014.9684"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="217"
+                  x="2433.5" y="1021.3151">ArrayList&lt;Observer&gt; observers
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="2414.5" x2="2723.5" y1="1028.6169" y2="1028.6169"/>
+            <ellipse cx="2424.5" cy="1042.2653" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="255"
+                  x="2433.5" y="1045.612">void setObserver(Observer observer)
+            </text>
+            <ellipse cx="2424.5" cy="1058.5622" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="285"
+                  x="2433.5" y="1061.9089">void removeObserver(Observer observer)
+            </text>
+            <ellipse cx="2424.5" cy="1074.8591" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="214"
+                  x="2433.5" y="1078.2057">void sendMessage(String msg)
+            </text>
+        </g><!--class Observer-->
+        <g id="elem_Observer">
+            <rect codeLine="52" fill="#F1F1F1" height="64.2969" id="Observer" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="148" x="2131" y="996.76"/>
+            <ellipse cx="2164.9" cy="1012.76" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M2160.8219,1008.5256 L2160.8219,1006.3694 L2168.2125,1006.3694 L2168.2125,1008.5256 L2165.7438,1008.5256 L2165.7438,1016.6038 L2168.2125,1016.6038 L2168.2125,1018.76 L2160.8219,1018.76 L2160.8219,1016.6038 L2163.2906,1016.6038 L2163.2906,1008.5256 L2160.8219,1008.5256 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing"
+                  textLength="63" x="2183.1" y="1017.6067">Observer
+            </text>
+            <rect fill="#FFFFFF" height="15.9688" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;"
+                  width="9" x="2273" y="993.76"/>
+            <text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing"
+                  textLength="7" x="2274" y="1005.8987">T
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="2132" x2="2278" y1="1028.76" y2="1028.76"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="2132" x2="2278" y1="1036.76" y2="1036.76"/>
+            <ellipse cx="2142" cy="1050.4084" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="122"
+                  x="2151" y="1053.7551">void notify(T msg)
+            </text>
+        </g>
+        <g id="elem_GMN17">
+            <path d="M2318.5,1145.5 L2318.5,1185.7656 A0,0 0 0 0 2318.5,1185.7656 L2819.5,1185.7656 A0,0 0 0 0 2819.5,1185.7656 L2819.5,1155.5 L2809.5,1145.5 L2573,1145.5 L2569,1085.88 L2565,1145.5 L2318.5,1145.5 A0,0 0 0 0 2318.5,1145.5 "
+                  fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/>
+            <path d="M2809.5,1145.5 L2809.5,1155.5 L2819.5,1155.5 L2809.5,1145.5 " fill="#FEFFDD"
+                  style="stroke:#181818;stroke-width:0.5;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="468"
+                  x="2324.5" y="1162.5669">TCPConnectionHandler is the main class that handles the TCP connection
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="480"
+                  x="2324.5" y="1177.6997">It is Observable because it has to notify a class when it receives a message
+            </text>
+        </g><!--class Message-->
+        <g id="elem_Message">
+            <rect codeLine="3" fill="#F1F1F1" height="48" id="Message" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="95" x="271.5" y="92.15"/>
+            <ellipse cx="286.5" cy="108.15" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M282.4219,103.9156 L282.4219,101.7594 L289.8125,101.7594 L289.8125,103.9156 L287.3438,103.9156 L287.3438,111.9938 L289.8125,111.9938 L289.8125,114.15 L282.4219,114.15 L282.4219,111.9938 L284.8906,111.9938 L284.8906,103.9156 L282.4219,103.9156 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing"
+                  textLength="63" x="300.5" y="112.9967">Message
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="272.5" x2="365.5" y1="124.15" y2="124.15"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="272.5" x2="365.5" y1="132.15" y2="132.15"/>
+        </g><!--class ServerToClientMessage-->
+        <g id="elem_ServerMessage">
+            <rect codeLine="4" fill="#F1F1F1" height="80.5938" id="ServerMessage" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="243" x="50.5" y="281.64"/>
+            <ellipse cx="114.25" cy="297.64" fill="#A9DCDF" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M114.3594,292.9838 L113.2031,298.0619 L115.5313,298.0619 L114.3594,292.9838 Z M112.875,290.7494 L115.8594,290.7494 L119.2188,303.14 L116.7656,303.14 L116,300.0775 L112.7188,300.0775 L111.9688,303.14 L109.5313,303.14 L112.875,290.7494 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing"
+                  textLength="107" x="134.75" y="302.4867">ServerMessage
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="51.5" x2="292.5" y1="313.64" y2="313.64"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="58.5" y="324.2884"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="217"
+                  x="70.5" y="330.6351">ServerActionEnum serverAction
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="51.5" x2="292.5" y1="337.9369" y2="337.9369"/>
+            <ellipse cx="61.5" cy="351.5853" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="120"
+                  x="70.5" y="354.932">getServerAction()
+            </text>
+        </g><!--class MessageServerSubClasses-->
+        <g id="elem_MessageServerSubClasses">
+            <rect codeLine="8" fill="#F1F1F1" height="113.1875" id="MessageServerSubClasses" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="220" x="46" y="552.61"/>
+            <ellipse cx="61" cy="568.61" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M63.9688,574.2506 Q63.3906,574.5475 62.75,574.6881 Q62.1094,574.8444 61.4063,574.8444 Q58.9063,574.8444 57.5781,573.2038 Q56.2656,571.5475 56.2656,568.4225 Q56.2656,565.2975 57.5781,563.6413 Q58.9063,561.985 61.4063,561.985 Q62.1094,561.985 62.75,562.1413 Q63.4063,562.2975 63.9688,562.5944 L63.9688,565.3131 Q63.3438,564.735 62.75,564.4694 Q62.1563,564.1881 61.5313,564.1881 Q60.1875,564.1881 59.5,565.2663 Q58.8125,566.3288 58.8125,568.4225 Q58.8125,570.5163 59.5,571.5944 Q60.1875,572.6569 61.5313,572.6569 Q62.1563,572.6569 62.75,572.3913 Q63.3438,572.11 63.9688,571.5319 L63.9688,574.2506 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="188" x="75"
+                  y="573.4567">MessageServerSubClasses
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="47" x2="265" y1="584.61" y2="584.61"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="54" y="595.2584"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="189" x="66"
+                  y="601.6051">UpdateViewServerMessage
+            </text>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="54" y="611.5553"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="194" x="66"
+                  y="617.902">DeleteGameServerMessage
+            </text>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="54" y="627.8522"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="181" x="66"
+                  y="634.1989">GetGamesServerMessage
+            </text>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="54" y="644.1491"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="140" x="66"
+                  y="650.4957">ErrorServerMessage
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="47" x2="265" y1="657.7975" y2="657.7975"/>
+        </g><!--class ClientToServerMessage-->
+        <g id="elem_ClientMessage">
+            <rect codeLine="14" fill="#F1F1F1" height="227.2656" id="ClientMessage" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="271" x="330.5" y="208.3"/>
+            <ellipse cx="410.75" cy="224.3" fill="#A9DCDF" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M410.8594,219.6437 L409.7031,224.7219 L412.0313,224.7219 L410.8594,219.6437 Z M409.375,217.4094 L412.3594,217.4094 L415.7188,229.8 L413.2656,229.8 L412.5,226.7375 L409.2188,226.7375 L408.4688,229.8 L406.0313,229.8 L409.375,217.4094 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing"
+                  textLength="102" x="431.25" y="229.1467">ClientMessage
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="331.5" x2="600.5" y1="240.3" y2="240.3"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="338.5" y="250.9484"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="212"
+                  x="350.5" y="257.2951">PlayerActionEnum playerAction
+            </text>
+            <polygon fill="none" points="341.5,265.2453,345.5,269.2453,341.5,273.2453,337.5,269.2453"
+                     style="stroke:#B38D22;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="123"
+                  x="350.5" y="273.592">String gameName
+            </text>
+            <polygon fill="none" points="341.5,281.5422,345.5,285.5422,341.5,289.5422,337.5,285.5422"
+                     style="stroke:#B38D22;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="125"
+                  x="350.5" y="289.8889">String playerName
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="331.5" x2="600.5" y1="297.1906" y2="297.1906"/>
+            <ellipse cx="341.5" cy="310.8391" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="245"
+                  x="350.5" y="314.1857">PlayerActionEnum getPlayerAction()
+            </text>
+            <ellipse cx="341.5" cy="327.1359" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="158"
+                  x="350.5" y="330.4826">String getGameName()
+            </text>
+            <ellipse cx="341.5" cy="343.4328" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="158"
+                  x="350.5" y="346.7795">String getPlayerName()
+            </text>
+            <ellipse cx="341.5" cy="359.7297" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="113"
+                  x="350.5" y="363.0764">int getNPlayers()
+            </text>
+            <ellipse cx="341.5" cy="376.0266" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="154"
+                  x="350.5" y="379.3732">String getPlayerColor()
+            </text>
+            <ellipse cx="341.5" cy="392.3234" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="229"
+                  x="350.5" y="395.6701">ObjectiveCard getObjectiveCard()
+            </text>
+            <ellipse cx="341.5" cy="408.6203" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="189"
+                  x="350.5" y="411.967">Coordinate getCoordinate()
+            </text>
+            <ellipse cx="341.5" cy="424.9172" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="183"
+                  x="350.5" y="428.2639">GameCard getGameCard()
+            </text>
+        </g><!--class ClientMessageSubClasses-->
+        <g id="elem_ClientMessageSubClasses">
+            <rect codeLine="27" fill="#F1F1F1" height="227.2656" id="ClientMessageSubClasses" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="333" x="301.5" y="495.57"/>
+            <ellipse cx="372.25" cy="511.57" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M375.2188,517.2106 Q374.6406,517.5075 374,517.6481 Q373.3594,517.8044 372.6563,517.8044 Q370.1563,517.8044 368.8281,516.1637 Q367.5156,514.5075 367.5156,511.3825 Q367.5156,508.2575 368.8281,506.6012 Q370.1563,504.945 372.6563,504.945 Q373.3594,504.945 374,505.1012 Q374.6563,505.2575 375.2188,505.5544 L375.2188,508.2731 Q374.5938,507.695 374,507.4294 Q373.4063,507.1481 372.7813,507.1481 Q371.4375,507.1481 370.75,508.2262 Q370.0625,509.2887 370.0625,511.3825 Q370.0625,513.4762 370.75,514.5544 Q371.4375,515.6169 372.7813,515.6169 Q373.4063,515.6169 374,515.3512 Q374.5938,515.07 375.2188,514.4919 L375.2188,517.2106 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="183"
+                  x="392.75" y="516.4167">ClientMessageSubClasses
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="302.5" x2="633.5" y1="527.57" y2="527.57"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="538.2184"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="176"
+                  x="321.5" y="544.5651">GetGamesClientMessage
+            </text>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="554.5153"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="189"
+                  x="321.5" y="560.862">CreateGameClientMessage
+            </text>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="570.8122"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="189"
+                  x="321.5" y="577.1589">DeleteGameClientMessage
+            </text>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="587.1091"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="167"
+                  x="321.5" y="593.4557">JoinGameClientMessage
+            </text>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="603.4059"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="233"
+                  x="321.5" y="609.7526">ChoosePlayerColorClientMessage
+            </text>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="619.7028"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="230"
+                  x="321.5" y="626.0495">SetPlayerObjectiveClientMessage
+            </text>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="635.9997"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="171"
+                  x="321.5" y="642.3464">PlaceCardClientMessage
+            </text>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="652.2966"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="236"
+                  x="321.5" y="658.6432">DrawCardFromFieldClientMessage
+            </text>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="668.5934"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="307"
+                  x="321.5" y="674.9401">DrawCardFromResourceDeckClientMessage
+            </text>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="684.8903"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="272"
+                  x="321.5" y="691.237">DrawCardFromGoldDeckClientMessage
+            </text>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="309.5" y="701.1872"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="209"
+                  x="321.5" y="707.5339">SwitchCardSideClientMessage
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="302.5" x2="633.5" y1="714.8356" y2="714.8356"/>
+        </g><!--class ServerMessageHandler-->
+        <g id="elem_ServerMessageHandler">
+            <rect codeLine="64" fill="#F1F1F1" height="80.5938" id="ServerMessageHandler" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="341" x="1659.5" y="568.9"/>
+            <ellipse cx="1745.75" cy="584.9" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M1741.6719,580.6656 L1741.6719,578.5094 L1749.0625,578.5094 L1749.0625,580.6656 L1746.5938,580.6656 L1746.5938,588.7438 L1749.0625,588.7438 L1749.0625,590.9 L1741.6719,590.9 L1741.6719,588.7438 L1744.1406,588.7438 L1744.1406,580.6656 L1741.6719,580.6656 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing"
+                  textLength="160" x="1766.25" y="589.7467">ServerMessageHandler
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="1660.5" x2="1999.5" y1="600.9" y2="600.9"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="1660.5" x2="1999.5" y1="608.9" y2="608.9"/>
+            <ellipse cx="1670.5" cy="622.5484" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="315"
+                  x="1679.5" y="625.8951">void sendMessage(ServerMessage message)
+            </text>
+            <ellipse cx="1670.5" cy="638.8453" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="159"
+                  x="1679.5" y="642.192">void closeConnection()
+            </text>
+        </g>
+        <g id="elem_GMN22">
+            <path d="M1147.5,596.63 L1147.5,621.7628 A0,0 0 0 0 1147.5,621.7628 L1624.5,621.7628 A0,0 0 0 0 1624.5,621.7628 L1624.5,614.63 L1659.36,609.2 L1624.5,606.63 L1624.5,606.63 L1614.5,596.63 L1147.5,596.63 A0,0 0 0 0 1147.5,596.63 "
+                  fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/>
+            <path d="M1614.5,596.63 L1614.5,606.63 L1624.5,606.63 L1614.5,596.63 " fill="#FEFFDD"
+                  style="stroke:#181818;stroke-width:0.5;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="456"
+                  x="1153.5" y="613.6969">Interface that is implemented by the classes that handle the messages
+            </text>
+        </g><!--class TCPServerAdapter-->
+        <g id="elem_TCPServerAdapter">
+            <rect codeLine="73" fill="#F1F1F1" height="96.8906" id="TCPServerAdapter" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="341" x="1659.5" y="799.13"/>
+            <ellipse cx="1762.75" cy="815.13" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M1765.7188,820.7706 Q1765.1406,821.0675 1764.5,821.2081 Q1763.8594,821.3644 1763.1563,821.3644 Q1760.6563,821.3644 1759.3281,819.7238 Q1758.0156,818.0675 1758.0156,814.9425 Q1758.0156,811.8175 1759.3281,810.1613 Q1760.6563,808.505 1763.1563,808.505 Q1763.8594,808.505 1764.5,808.6613 Q1765.1563,808.8175 1765.7188,809.1144 L1765.7188,811.8331 Q1765.0938,811.255 1764.5,810.9894 Q1763.9063,810.7081 1763.2813,810.7081 Q1761.9375,810.7081 1761.25,811.7863 Q1760.5625,812.8488 1760.5625,814.9425 Q1760.5625,817.0363 1761.25,818.1144 Q1761.9375,819.1769 1763.2813,819.1769 Q1763.9063,819.1769 1764.5,818.9113 Q1765.0938,818.63 1765.7188,818.0519 L1765.7188,820.7706 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="126"
+                  x="1783.25" y="819.9767">TCPServerAdapter
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="1660.5" x2="1999.5" y1="831.13" y2="831.13"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="1667.5" y="841.7784"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="243"
+                  x="1679.5" y="848.1251">TCPConnectionHandler connection
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="1660.5" x2="1999.5" y1="855.4269" y2="855.4269"/>
+            <ellipse cx="1670.5" cy="869.0753" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="153"
+                  x="1679.5" y="872.422">void notify(String msg)
+            </text>
+            <ellipse cx="1670.5" cy="885.3722" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="315"
+                  x="1679.5" y="888.7189">void sendMessage(ServerMessage message)
+            </text>
+        </g>
+        <g id="elem_GMN29">
+            <path d="M1159,827.44 L1159,867.7056 A0,0 0 0 0 1159,867.7056 L1625,867.7056 A0,0 0 0 0 1625,867.7056 L1625,851.57 L1659.13,847.57 L1625,843.57 L1625,837.44 L1615,827.44 L1159,827.44 A0,0 0 0 0 1159,827.44 "
+                  fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/>
+            <path d="M1615,827.44 L1615,837.44 L1625,837.44 L1615,827.44 " fill="#FEFFDD"
+                  style="stroke:#181818;stroke-width:0.5;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="445"
+                  x="1165" y="844.5069">This class converts the messages from text to objects and vice versa.
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="262"
+                  x="1165" y="859.6397">It also sends the messages to the clients
+            </text>
+        </g><!--class RMIClientToServerActions-->
+        <g id="elem_RMIClientActions">
+            <rect codeLine="86" fill="#F1F1F1" height="96.8906" id="RMIClientActions" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="385" x="690.5" y="560.75"/>
+            <ellipse cx="821.25" cy="576.75" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M817.1719,572.5156 L817.1719,570.3594 L824.5625,570.3594 L824.5625,572.5156 L822.0938,572.5156 L822.0938,580.5938 L824.5625,580.5938 L824.5625,582.75 L817.1719,582.75 L817.1719,580.5938 L819.6406,580.5938 L819.6406,572.5156 L817.1719,572.5156 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing"
+                  textLength="115" x="841.75" y="581.5967">RMIClientActions
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="691.5" x2="1074.5" y1="592.75" y2="592.75"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="691.5" x2="1074.5" y1="600.75" y2="600.75"/>
+            <ellipse cx="701.5" cy="614.3984" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="211"
+                  x="710.5" y="617.7451">getGames(String ip, Int port,...)
+            </text>
+            <ellipse cx="701.5" cy="630.6953" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="335"
+                  x="710.5" y="634.042">joinGame(String ip, Int port, String gameName,...)
+            </text>
+            <ellipse cx="701.5" cy="646.9922" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="359"
+                  x="710.5" y="650.3389">createGame(String ip, Int port, String gameName, ...)
+            </text>
+        </g><!--class ClientToServerActions-->
+        <g id="elem_ClientActions">
+            <rect fill="#F1F1F1" height="48" id="ClientActions" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="122" x="918" y="92.15"/>
+            <ellipse cx="933" cy="108.15" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M928.9219,103.9156 L928.9219,101.7594 L936.3125,101.7594 L936.3125,103.9156 L933.8438,103.9156 L933.8438,111.9938 L936.3125,111.9938 L936.3125,114.15 L928.9219,114.15 L928.9219,111.9938 L931.3906,111.9938 L931.3906,103.9156 L928.9219,103.9156 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing"
+                  textLength="90" x="947" y="112.9967">ClientActions
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="919" x2="1039" y1="124.15" y2="124.15"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="919" x2="1039" y1="132.15" y2="132.15"/>
+        </g><!--class RMIServerSender-->
+        <g id="elem_RMIServerAdapter">
+            <rect codeLine="92" fill="#F1F1F1" height="129.4844" id="RMIServerAdapter" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="309" x="814.5" y="782.83"/>
+            <ellipse cx="903.25" cy="798.83" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M906.2188,804.4706 Q905.6406,804.7675 905,804.9081 Q904.3594,805.0644 903.6563,805.0644 Q901.1563,805.0644 899.8281,803.4237 Q898.5156,801.7675 898.5156,798.6425 Q898.5156,795.5175 899.8281,793.8612 Q901.1563,792.205 903.6563,792.205 Q904.3594,792.205 905,792.3612 Q905.6563,792.5175 906.2188,792.8144 L906.2188,795.5331 Q905.5938,794.955 905,794.6894 Q904.4063,794.4081 903.7813,794.4081 Q902.4375,794.4081 901.75,795.4862 Q901.0625,796.5487 901.0625,798.6425 Q901.0625,800.7362 901.75,801.8144 Q902.4375,802.8769 903.7813,802.8769 Q904.4063,802.8769 905,802.6112 Q905.5938,802.33 906.2188,801.7519 L906.2188,804.4706 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="123"
+                  x="923.75" y="803.6767">RMIServerAdapter
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="815.5" x2="1122.5" y1="814.83" y2="814.83"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="822.5" y="825.4784"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="125"
+                  x="834.5" y="831.8251">String playerName
+            </text>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="822.5" y="841.7753"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="123"
+                  x="834.5" y="848.122">String gameName
+            </text>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="822.5" y="858.0722"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="125"
+                  x="834.5" y="864.4189">ClientActions stub
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="815.5" x2="1122.5" y1="871.7206" y2="871.7206"/>
+            <ellipse cx="825.5" cy="885.3691" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="283"
+                  x="834.5" y="888.7157">sendMessage(ServerMessage message)
+            </text>
+            <ellipse cx="825.5" cy="901.6659" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="127"
+                  x="834.5" y="905.0126">closeConnection()
+            </text>
+        </g><!--class RMIServerReceiver-->
+        <g id="elem_RMIServerConnectionHandler">
+            <rect codeLine="102" fill="#F1F1F1" height="80.5938" id="RMIServerConnectionHandler" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="341" x="744.5" y="988.61"/>
+            <ellipse cx="809.75" cy="1004.61" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M812.7188,1010.2506 Q812.1406,1010.5475 811.5,1010.6881 Q810.8594,1010.8444 810.1563,1010.8444 Q807.6563,1010.8444 806.3281,1009.2038 Q805.0156,1007.5475 805.0156,1004.4225 Q805.0156,1001.2975 806.3281,999.6413 Q807.6563,997.985 810.1563,997.985 Q810.8594,997.985 811.5,998.1413 Q812.1563,998.2975 812.7188,998.5944 L812.7188,1001.3131 Q812.0938,1000.735 811.5,1000.4694 Q810.9063,1000.1881 810.2813,1000.1881 Q808.9375,1000.1881 808.25,1001.2663 Q807.5625,1002.3288 807.5625,1004.4225 Q807.5625,1006.5163 808.25,1007.5944 Q808.9375,1008.6569 810.2813,1008.6569 Q810.9063,1008.6569 811.5,1008.3913 Q812.0938,1008.11 812.7188,1007.5319 L812.7188,1010.2506 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="202"
+                  x="830.25" y="1009.4567">RMIServerConnectionHandler
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="745.5" x2="1084.5" y1="1020.61" y2="1020.61"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="745.5" x2="1084.5" y1="1028.61" y2="1028.61"/>
+            <ellipse cx="755.5" cy="1042.2584" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="315"
+                  x="764.5" y="1045.6051">void sendMessage(ServerMessage message)
+            </text>
+            <rect fill="#F24D5C" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="752.5" y="1055.5553"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="237"
+                  x="764.5" y="1061.902">connectToClient(String ip, Int port)
+            </text>
+        </g><!--class ServerNetworkControllerMapper-->
+        <g id="elem_NetworkCommandMapper">
+            <rect codeLine="108" fill="#F1F1F1" height="145.7813" id="NetworkCommandMapper" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="573" x="1427.5" y="249.04"/>
+            <ellipse cx="1619.75" cy="265.04" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M1622.7188,270.6806 Q1622.1406,270.9775 1621.5,271.1181 Q1620.8594,271.2744 1620.1563,271.2744 Q1617.6563,271.2744 1616.3281,269.6337 Q1615.0156,267.9775 1615.0156,264.8525 Q1615.0156,261.7275 1616.3281,260.0712 Q1617.6563,258.415 1620.1563,258.415 Q1620.8594,258.415 1621.5,258.5712 Q1622.1563,258.7275 1622.7188,259.0244 L1622.7188,261.7431 Q1622.0938,261.165 1621.5,260.8994 Q1620.9063,260.6181 1620.2813,260.6181 Q1618.9375,260.6181 1618.25,261.6962 Q1617.5625,262.7587 1617.5625,264.8525 Q1617.5625,266.9462 1618.25,268.0244 Q1618.9375,269.0869 1620.2813,269.0869 Q1620.9063,269.0869 1621.5,268.8212 Q1622.0938,268.54 1622.7188,267.9619 L1622.7188,270.6806 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="180"
+                  x="1640.25" y="269.8867">NetworkCommandMapper
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="1428.5" x2="1999.5" y1="281.04" y2="281.04"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="1435.5" y="291.6884"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="332"
+                  x="1447.5" y="298.0351">HashSet&lt;ServerMessageHandler&gt; connections
+            </text>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="1435.5" y="307.9853"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="490"
+                  x="1447.5" y="314.332">HashMap&lt;String gameName, ServerMessageHandler&gt; connectionMap
+            </text>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="1435.5" y="324.2822"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="203"
+                  x="1447.5" y="330.6289">MainController mainController
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="1428.5" x2="1999.5" y1="337.9306" y2="337.9306"/>
+            <rect fill="#F24D5C" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="1435.5" y="348.5791"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="446"
+                  x="1447.5" y="354.9257">void broadcastMessage(ServerMessage msg, String gameName)
+            </text>
+            <ellipse cx="1438.5" cy="367.8759" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="521"
+                  x="1447.5" y="371.2226">void addConnection(ServerMessageHandler connection, String gameName)
+            </text>
+            <ellipse cx="1438.5" cy="384.1728" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="547"
+                  x="1447.5" y="387.5195">void removeConnection(ServerMessageHandler connection, String gameName)
+            </text>
+        </g>
+        <g id="elem_GMN44">
+            <path d="M1015,294.23 L1015,349.6284 A0,0 0 0 0 1015,349.6284 L1393,349.6284 A0,0 0 0 0 1393,349.6284 L1393,325.93 L1427.09,321.93 L1393,317.93 L1393,304.23 L1383,294.23 L1015,294.23 A0,0 0 0 0 1015,294.23 "
+                  fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/>
+            <path d="M1383,294.23 L1383,304.23 L1393,304.23 L1383,294.23 " fill="#FEFFDD"
+                  style="stroke:#181818;stroke-width:0.5;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="344"
+                  x="1021" y="311.2969">Executes actions on the controllers, retrieves the view
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="357"
+                  x="1021" y="326.4297">and sends it performing .sendMessage(ServerMessage)
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="325"
+                  x="1021" y="341.5625">on all the clients that need to receive the message
+            </text>
+        </g><!--class ClientMessageHandler-->
+        <g id="elem_ClientMessageHandler">
+            <rect codeLine="125" fill="#F1F1F1" height="80.5938" id="ClientMessageHandler" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="336" x="2359" y="568.9"/>
+            <ellipse cx="2445.25" cy="584.9" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M2441.1719,580.6656 L2441.1719,578.5094 L2448.5625,578.5094 L2448.5625,580.6656 L2446.0938,580.6656 L2446.0938,588.7438 L2448.5625,588.7438 L2448.5625,590.9 L2441.1719,590.9 L2441.1719,588.7438 L2443.6406,588.7438 L2443.6406,580.6656 L2441.1719,580.6656 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing"
+                  textLength="155" x="2465.75" y="589.7467">ClientMessageHandler
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="2360" x2="2694" y1="600.9" y2="600.9"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="2360" x2="2694" y1="608.9" y2="608.9"/>
+            <ellipse cx="2370" cy="622.5484" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="310"
+                  x="2379" y="625.8951">void sendMessage(ClientMessage message)
+            </text>
+            <ellipse cx="2370" cy="638.8453" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="159"
+                  x="2379" y="642.192">void closeConnection()
+            </text>
+        </g><!--class ClientNetworkControllerMapper-->
+        <g id="elem_ClientCommandMapper">
+            <rect codeLine="129" fill="#F1F1F1" height="64.2969" id="ClientCommandMapper" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="263" x="2395.5" y="289.79"/>
+            <ellipse cx="2441.75" cy="305.79" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M2444.7188,311.4306 Q2444.1406,311.7275 2443.5,311.8681 Q2442.8594,312.0244 2442.1563,312.0244 Q2439.6563,312.0244 2438.3281,310.3837 Q2437.0156,308.7275 2437.0156,305.6025 Q2437.0156,302.4775 2438.3281,300.8212 Q2439.6563,299.165 2442.1563,299.165 Q2442.8594,299.165 2443.5,299.3212 Q2444.1563,299.4775 2444.7188,299.7744 L2444.7188,302.4931 Q2444.0938,301.915 2443.5,301.6494 Q2442.9063,301.3681 2442.2813,301.3681 Q2440.9375,301.3681 2440.25,302.4462 Q2439.5625,303.5087 2439.5625,305.6025 Q2439.5625,307.6962 2440.25,308.7744 Q2440.9375,309.8369 2442.2813,309.8369 Q2442.9063,309.8369 2443.5,309.5712 Q2444.0938,309.29 2444.7188,308.7119 L2444.7188,311.4306 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="162"
+                  x="2462.25" y="310.6367">ClientCommandMapper
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="2396.5" x2="2657.5" y1="321.79" y2="321.79"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="2403.5" y="332.4384"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="237"
+                  x="2415.5" y="338.7851">ClientMessageHandler connection
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="2396.5" x2="2657.5" y1="346.0869" y2="346.0869"/>
+        </g><!--class ServerActions-->
+        <g id="elem_ServerActions">
+            <rect fill="#F1F1F1" height="48" id="ServerActions" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="127" x="2516.5" y="92.15"/>
+            <ellipse cx="2531.5" cy="108.15" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M2527.4219,103.9156 L2527.4219,101.7594 L2534.8125,101.7594 L2534.8125,103.9156 L2532.3438,103.9156 L2532.3438,111.9938 L2534.8125,111.9938 L2534.8125,114.15 L2527.4219,114.15 L2527.4219,111.9938 L2529.8906,111.9938 L2529.8906,103.9156 L2527.4219,103.9156 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing"
+                  textLength="95" x="2545.5" y="112.9967">ServerActions
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="2517.5" x2="2642.5" y1="124.15" y2="124.15"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="2517.5" x2="2642.5" y1="132.15" y2="132.15"/>
+        </g><!--class RMIClientAsAServer-->
+        <g id="elem_RMIClientAsAServer">
+            <rect codeLine="132" fill="#F1F1F1" height="64.2969" id="RMIClientAsAServer" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="356" x="2693" y="289.79"/>
+            <ellipse cx="2799.75" cy="305.79" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M2802.7188,311.4306 Q2802.1406,311.7275 2801.5,311.8681 Q2800.8594,312.0244 2800.1563,312.0244 Q2797.6563,312.0244 2796.3281,310.3837 Q2795.0156,308.7275 2795.0156,305.6025 Q2795.0156,302.4775 2796.3281,300.8212 Q2797.6563,299.165 2800.1563,299.165 Q2800.8594,299.165 2801.5,299.3212 Q2802.1563,299.4775 2802.7188,299.7744 L2802.7188,302.4931 Q2802.0938,301.915 2801.5,301.6494 Q2800.9063,301.3681 2800.2813,301.3681 Q2798.9375,301.3681 2798.25,302.4462 Q2797.5625,303.5087 2797.5625,305.6025 Q2797.5625,307.6962 2798.25,308.7744 Q2798.9375,309.8369 2800.2813,309.8369 Q2800.9063,309.8369 2801.5,309.5712 Q2802.0938,309.29 2802.7188,308.7119 L2802.7188,311.4306 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="134"
+                  x="2820.25" y="310.6367">RMIClientAsAServer
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="2694" x2="3048" y1="321.79" y2="321.79"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="2694" x2="3048" y1="329.79" y2="329.79"/>
+            <ellipse cx="2704" cy="343.4384" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="330"
+                  x="2713" y="346.7851">void receiveMessage(ServerMessage message)
+            </text>
+        </g><!--class Client-->
+        <g id="elem_Client">
+            <rect fill="#F1F1F1" height="48" id="Client" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="71" x="2731.5" y="92.15"/>
+            <ellipse cx="2746.5" cy="108.15" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M2749.4688,113.7906 Q2748.8906,114.0875 2748.25,114.2281 Q2747.6094,114.3844 2746.9063,114.3844 Q2744.4063,114.3844 2743.0781,112.7438 Q2741.7656,111.0875 2741.7656,107.9625 Q2741.7656,104.8375 2743.0781,103.1813 Q2744.4063,101.525 2746.9063,101.525 Q2747.6094,101.525 2748.25,101.6813 Q2748.9063,101.8375 2749.4688,102.1344 L2749.4688,104.8531 Q2748.8438,104.275 2748.25,104.0094 Q2747.6563,103.7281 2747.0313,103.7281 Q2745.6875,103.7281 2745,104.8063 Q2744.3125,105.8688 2744.3125,107.9625 Q2744.3125,110.0563 2745,111.1344 Q2745.6875,112.1969 2747.0313,112.1969 Q2747.6563,112.1969 2748.25,111.9313 Q2748.8438,111.65 2749.4688,111.0719 L2749.4688,113.7906 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="39"
+                  x="2760.5" y="112.9967">Client
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="2732.5" x2="2801.5" y1="124.15" y2="124.15"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="2732.5" x2="2801.5" y1="132.15" y2="132.15"/>
+        </g><!--class RMIClientToServerActions-->
+        <g id="elem_RMIClientActions">
+            <rect codeLine="138" fill="#F1F1F1" height="64.2969" id="RMIClientActions" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="211" x="2837.5" y="84"/>
+            <ellipse cx="2881.3" cy="100" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M2877.2219,95.7656 L2877.2219,93.6094 L2884.6125,93.6094 L2884.6125,95.7656 L2882.1438,95.7656 L2882.1438,103.8438 L2884.6125,103.8438 L2884.6125,106 L2877.2219,106 L2877.2219,103.8438 L2879.6906,103.8438 L2879.6906,95.7656 L2877.2219,95.7656 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing"
+                  textLength="115" x="2901.7" y="104.8467">RMIClientActions
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="2838.5" x2="3047.5" y1="116" y2="116"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="2838.5" x2="3047.5" y1="124" y2="124"/>
+            <ellipse cx="2848.5" cy="137.6484" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="185"
+                  x="2857.5" y="140.9951">connect(String ip, Int port);
+            </text>
+        </g><!--class RMIConnectionHandler-->
+        <g id="elem_RMIConnectionHandler">
+            <rect codeLine="142" fill="#F1F1F1" height="96.8906" id="RMIConnectionHandler" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="309" x="2056.5" y="799.13"/>
+            <ellipse cx="2127.75" cy="815.13" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M2130.7188,820.7706 Q2130.1406,821.0675 2129.5,821.2081 Q2128.8594,821.3644 2128.1563,821.3644 Q2125.6563,821.3644 2124.3281,819.7238 Q2123.0156,818.0675 2123.0156,814.9425 Q2123.0156,811.8175 2124.3281,810.1613 Q2125.6563,808.505 2128.1563,808.505 Q2128.8594,808.505 2129.5,808.6613 Q2130.1563,808.8175 2130.7188,809.1144 L2130.7188,811.8331 Q2130.0938,811.255 2129.5,810.9894 Q2128.9063,810.7081 2128.2813,810.7081 Q2126.9375,810.7081 2126.25,811.7863 Q2125.5625,812.8488 2125.5625,814.9425 Q2125.5625,817.0363 2126.25,818.1144 Q2126.9375,819.1769 2128.2813,819.1769 Q2128.9063,819.1769 2129.5,818.9113 Q2130.0938,818.63 2130.7188,818.0519 L2130.7188,820.7706 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="158"
+                  x="2148.25" y="819.9767">RMIConnectionHandler
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="2057.5" x2="2364.5" y1="831.13" y2="831.13"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="2064.5" y="841.7784"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="130"
+                  x="2076.5" y="848.1251">ServerActions stub
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="2057.5" x2="2364.5" y1="855.4269" y2="855.4269"/>
+            <ellipse cx="2067.5" cy="869.0753" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="283"
+                  x="2076.5" y="872.422">sendMessage(ServerMessage message)
+            </text>
+            <ellipse cx="2067.5" cy="885.3722" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="127"
+                  x="2076.5" y="888.7189">closeConnection()
+            </text>
+        </g><!--class TCPClientAdapter-->
+        <g id="elem_TCPClientAdapter">
+            <rect codeLine="148" fill="#F1F1F1" height="80.5938" id="TCPClientAdapter" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="336" x="2401" y="807.28"/>
+            <ellipse cx="2504.25" cy="823.28" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M2507.2188,828.9206 Q2506.6406,829.2175 2506,829.3581 Q2505.3594,829.5144 2504.6563,829.5144 Q2502.1563,829.5144 2500.8281,827.8738 Q2499.5156,826.2175 2499.5156,823.0925 Q2499.5156,819.9675 2500.8281,818.3113 Q2502.1563,816.655 2504.6563,816.655 Q2505.3594,816.655 2506,816.8113 Q2506.6563,816.9675 2507.2188,817.2644 L2507.2188,819.9831 Q2506.5938,819.405 2506,819.1394 Q2505.4063,818.8581 2504.7813,818.8581 Q2503.4375,818.8581 2502.75,819.9363 Q2502.0625,820.9988 2502.0625,823.0925 Q2502.0625,825.1863 2502.75,826.2644 Q2503.4375,827.3269 2504.7813,827.3269 Q2505.4063,827.3269 2506,827.0613 Q2506.5938,826.78 2507.2188,826.2019 L2507.2188,828.9206 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="121"
+                  x="2524.75" y="828.1267">TCPClientAdapter
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="2402" x2="2736" y1="839.28" y2="839.28"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="2409" y="849.9284"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="243"
+                  x="2421" y="856.2751">TCPConnectionHandler connection
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="2402" x2="2736" y1="863.5769" y2="863.5769"/>
+            <ellipse cx="2412" cy="877.2253" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="310"
+                  x="2421" y="880.572">void sendMessage(ClientMessage message)
+            </text>
+        </g>
+        <g id="elem_GMN64">
+            <path d="M2055.5,301.8 L2055.5,342.0656 A0,0 0 0 0 2055.5,342.0656 L2360.5,342.0656 A0,0 0 0 0 2360.5,342.0656 L2360.5,325.93 L2395.01,321.93 L2360.5,317.93 L2360.5,311.8 L2350.5,301.8 L2055.5,301.8 A0,0 0 0 0 2055.5,301.8 "
+                  fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/>
+            <path d="M2350.5,301.8 L2350.5,311.8 L2360.5,311.8 L2350.5,301.8 " fill="#FEFFDD"
+                  style="stroke:#181818;stroke-width:0.5;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="284"
+                  x="2061.5" y="318.8669">This class sends the messages to the server
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="136"
+                  x="2061.5" y="333.9997">and updates the view
+            </text>
+        </g><!--reverse link Message to ServerToClientMessage-->
+        <g id="link_Message_ServerMessage">
+            <path d="M291.6088,155.1277 C266.7988,189.5177 230.67,239.61 200.48,281.45 " fill="none"
+                  id="Message-backto-ServerMessage" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/>
+            <polygon fill="none" points="302.14,140.53,286.7429,151.6173,296.4747,158.6381,302.14,140.53"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link ServerToClientMessage to MessageServerSubClasses-->
+        <g id="link_ServerMessage_MessageServerSubClasses">
+            <path d="M168.77,380.5716 C166,429.8616 162.27,496.33 159.14,552.2 " fill="none"
+                  id="ServerMessage-backto-MessageServerSubClasses" style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="none" points="169.78,362.6,162.7795,380.235,174.7606,380.9083,169.78,362.6"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link Message to ClientToServerMessage-->
+        <g id="link_Message_ClientMessage">
+            <path d="M346.3939,155.1258 C358.7639,172.2658 366.03,182.35 384.51,207.96 " fill="none"
+                  id="Message-backto-ClientMessage" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/>
+            <polygon fill="none" points="335.86,140.53,341.5286,158.6371,351.2591,151.6145,335.86,140.53"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link ClientToServerMessage to ClientMessageSubClasses-->
+        <g id="link_ClientMessage_ClientMessageSubClasses">
+            <path d="M466.9184,453.6795 C467.0584,473.2995 467.07,475.71 467.21,495.34 " fill="none"
+                  id="ClientMessage-backto-ClientMessageSubClasses" style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="none" points="466.79,435.68,460.9186,453.7224,472.9183,453.6367,466.79,435.68"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link Observable to TCPConnectionHandler-->
+        <g id="link_Observable_TCPConnectionHandler">
+            <path d="M3133.1213,895.2205 C3106.3513,906.5405 3093.08,911.18 3065,920.02 C2953.1,955.25 2823.45,983.01 2724.77,1001.55 "
+                  fill="none" id="Observable-backto-TCPConnectionHandler"
+                  style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/>
+            <polygon fill="none" points="3149.7,888.21,3130.7845,889.6943,3135.4581,900.7467,3149.7,888.21"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link ServerMessageHandler to TCPServerAdapter-->
+        <g id="link_ServerMessageHandler_TCPServerAdapter">
+            <path d="M1830,667.76 C1830,708.77 1830,754.88 1830,798.71 " fill="none"
+                  id="ServerMessageHandler-backto-TCPServerAdapter"
+                  style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/>
+            <polygon fill="none" points="1830,649.76,1824,667.76,1836,667.76,1830,649.76"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link TCPServerAdapter to Observer-->
+        <g id="link_TCPServerAdapter_Observer">
+            <path codeLine="78" d="M1946.2395,904.1639 C2012.4195,935.8039 2081.1,968.66 2138.95,996.32 " fill="none"
+                  id="TCPServerAdapter-backto-Observer"
+                  style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/>
+            <polygon fill="none" points="1930,896.4,1943.6515,909.5771,1948.8275,898.7508,1930,896.4"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link TCPServerAdapter to TCPConnectionHandler-->
+        <g id="link_TCPServerAdapter_TCPConnectionHandler">
+            <path codeLine="79"
+                  d="M1973.9166,900.2672 C1999.4566,908.6872 2014.72,913.18 2040,920.02 C2152.51,950.47 2182.79,949.02 2297,972.32 C2334.66,980 2375.26,988.29 2413.3,996.06 "
+                  fill="none" id="TCPServerAdapter-backto-TCPConnectionHandler"
+                  style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818"
+                     points="1962.52,896.51,1966.9659,902.1875,1973.9166,900.2672,1969.4707,894.5897,1962.52,896.51"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link ClientToServerActions to RMIClientToServerActions-->
+        <g id="link_ClientActions_RMIClientActions">
+            <path d="M970.9782,158.1759 C956.1382,234.1259 912.46,457.5 892.3,560.64 " fill="none"
+                  id="ClientActions-backto-RMIClientActions" style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="none" points="974.43,140.51,965.0896,157.0253,976.8669,159.3265,974.43,140.51"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link ServerMessageHandler to RMIServerSender-->
+        <g id="link_ServerMessageHandler_RMIServerAdapter">
+            <path d="M1776.6378,661.8656 C1741.0378,694.2656 1699.23,725.93 1642,746.83 C1432.72,823.27 1359.79,735.86 1142,782.83 C1136.06,784.11 1130.04,785.56 1124,787.13 "
+                  fill="none" id="ServerMessageHandler-backto-RMIServerAdapter"
+                  style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/>
+            <polygon fill="none" points="1789.95,649.75,1772.5993,657.4282,1780.6764,666.3029,1789.95,649.75"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link ClientToServerActions to RMIServerSender-->
+        <g id="link_ClientActions_RMIServerAdapter">
+            <path d="M969.8482,158.0352 C958.1682,213.6152 939.9,339.07 997,435.57 C1022.62,478.87 1068.61,451.56 1093,495.57 C1120.07,544.4 1117.12,696.47 1093,746.83 C1086.73,759.91 1077.82,771.82 1067.62,782.5 "
+                  fill="none" id="ClientActions-backto-RMIServerAdapter"
+                  style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/>
+            <polygon fill="none" points="973.55,140.42,963.9765,156.8013,975.7199,159.2692,973.55,140.42"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link RMIServerSender to RMIServerReceiver-->
+        <g id="link_RMIServerAdapter_RMIServerConnectionHandler">
+            <path codeLine="100" d="M946.1989,924.3 C938.5989,949.53 933.58,966.19 926.91,988.34 " fill="none"
+                  id="RMIServerAdapter-backto-RMIServerConnectionHandler" style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818"
+                     points="949.66,912.81,944.0994,917.4013,946.1989,924.3,951.7594,919.7087,949.66,912.81"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link RMIClientToServerActions to RMIServerReceiver-->
+        <g id="link_RMIClientActions_RMIServerConnectionHandler">
+            <path d="M840.4856,673.4148 C802.0056,735.5748 757.89,831.26 797,920.02 C808.92,947.07 831.35,970.29 853.47,988.18 "
+                  fill="none" id="RMIClientActions-backto-RMIServerConnectionHandler"
+                  style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/>
+            <polygon fill="none" points="849.96,658.11,835.384,670.2566,845.5872,676.5729,849.96,658.11"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link ClientToServerActions to ServerNetworkControllerMapper-->
+        <g id="link_ClientActions_NetworkCommandMapper">
+            <path d="M1058.1005,130.2556 C1142.3305,144.7156 1280.33,170.79 1410,208.3 C1450.01,219.88 1492.29,234.17 1532.18,248.65 "
+                  fill="none" id="ClientActions-backto-NetworkCommandMapper"
+                  style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/>
+            <polygon fill="none" points="1040.36,127.21,1057.0853,136.1691,1059.1157,124.3421,1040.36,127.21"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link ServerNetworkControllerMapper to ServerMessageHandler-->
+        <g id="link_NetworkCommandMapper_ServerMessageHandler">
+            <path codeLine="116" d="M1747.9404,406.406 C1770.2904,461.366 1795.67,523.78 1813.85,568.48 " fill="none"
+                  id="NetworkCommandMapper-backto-ServerMessageHandler" style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818"
+                     points="1743.42,395.29,1741.9749,402.3548,1747.9404,406.406,1749.3856,399.3412,1743.42,395.29"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link ServerActions to ClientNetworkControllerMapper-->
+        <g id="link_ServerActions_ClientCommandMapper">
+            <path d="M2569.3903,157.9507 C2559.8503,194.6407 2545.87,248.39 2535.17,289.52 " fill="none"
+                  id="ServerActions-backto-ClientCommandMapper"
+                  style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/>
+            <polygon fill="none" points="2573.92,140.53,2563.5834,156.4408,2575.1972,159.4606,2573.92,140.53"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link ServerActions to RMIClientAsAServer-->
+        <g id="link_ServerActions_RMIClientAsAServer">
+            <path d="M2628.125,150.854 C2680.455,187.494 2767.12,248.19 2825.89,289.35 " fill="none"
+                  id="ServerActions-backto-RMIClientAsAServer"
+                  style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/>
+            <polygon fill="none" points="2613.38,140.53,2624.6836,155.769,2631.5663,145.939,2613.38,140.53"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link Client to RMIClientAsAServer-->
+        <g id="link_Client_RMIClientAsAServer">
+            <path codeLine="135" d="M2784.3861,151.2179 C2803.1161,187.9079 2833.98,248.39 2854.97,289.52 " fill="none"
+                  id="Client-backto-RMIClientAsAServer" style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818"
+                     points="2778.93,140.53,2778.0954,147.6926,2784.3861,151.2179,2785.2207,144.0552,2778.93,140.53"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link ClientNetworkControllerMapper to ClientMessageHandler-->
+        <g id="link_ClientCommandMapper_ClientMessageHandler">
+            <path codeLine="136" d="M2527,366.55 C2527,418.92 2527,511.54 2527,568.69 " fill="none"
+                  id="ClientCommandMapper-backto-ClientMessageHandler" style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818" points="2527,354.55,2523,360.55,2527,366.55,2531,360.55,2527,354.55"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link ClientMessageHandler to RMIConnectionHandler-->
+        <g id="link_ClientMessageHandler_RMIConnectionHandler">
+            <path d="M2459.6968,660.5423 C2404.8768,701.5523 2333.58,754.88 2274.98,798.71 " fill="none"
+                  id="ClientMessageHandler-backto-RMIConnectionHandler"
+                  style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/>
+            <polygon fill="none" points="2474.11,649.76,2456.1027,655.7379,2463.2909,665.3467,2474.11,649.76"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link ClientMessageHandler to TCPClientAdapter-->
+        <g id="link_ClientMessageHandler_TCPClientAdapter">
+            <path d="M2537.1774,667.4827 C2544.9274,711.1227 2554.19,763.2 2561.95,806.88 " fill="none"
+                  id="ClientMessageHandler-backto-TCPClientAdapter"
+                  style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/>
+            <polygon fill="none" points="2534.03,649.76,2531.2698,668.5318,2543.0849,666.4336,2534.03,649.76"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link TCPClientAdapter to Observer-->
+        <g id="link_TCPClientAdapter_Observer">
+            <path codeLine="152" d="M2472.5237,896.1059 C2406.4637,928.6559 2330.25,966.2 2269.09,996.34 " fill="none"
+                  id="TCPClientAdapter-backto-Observer"
+                  style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/>
+            <polygon fill="none" points="2488.67,888.15,2469.8717,890.7237,2475.1756,901.488,2488.67,888.15"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link TCPClientAdapter to TCPConnectionHandler-->
+        <g id="link_TCPClientAdapter_TCPConnectionHandler">
+            <path codeLine="153" d="M2569,899.93 C2569,924.57 2569,944.71 2569,971.98 " fill="none"
+                  id="TCPClientAdapter-backto-TCPConnectionHandler" style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818" points="2569,887.93,2565,893.93,2569,899.93,2573,893.93,2569,887.93"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--SRC=[hLZRRjiu47ttLn3UbtWR-mVM212eQTgYIOCwk- -KDBRLIA90qdQ3hFzzXw9klCbsjWQIsEAPuSoPgrFHv8LkW3o2F33-Gjuc15zLyxG08THV_LIzib82NzC4o4DxTkmEQImafuaaIKw582lWU-0jBYkg70eefUX5EqdrcclyRI8pLjwLkuA8mGC3-c43SeY-cdN7lJNQYEOkZLxjuaWz1K7WbuGojOsqBFgxIgc4Vp8u630Jz15oa71F2nW1tODK2342kUESSVzvaE8epv3Hyob-okchGN4rU610_rX9dfKRia6h7_77UwYbdUCFpZKOh-6pGRngV7kN9adf2oEUkZjj3EQc0ZngX3Yb8c8vupReU_mJqCGzH9Id2ciyiD4HOppDIimH1Uq_sJZbLQkmVJ-IiqPKFJbhHltDdsa6o8H47AZEs15GdzOZeAyiAqz0eYrZ0WQKZs1NRMnwriDWH2OrasDES7fGa4-S5PyooC_5_W31TZo1Zv2yd2bop_Bq17nro6IoLGAhB0sufdD1_-wRxVTOzK8QvtQuw_JQiop5PYar2lXL-uQmviqi8CIXO7iuLqvRfNFqENgAM5b2NS-VQPdcA3PeG5wBvxUSqzTlcP3BzggRxYunUPT3bphIAY_JXlghfZ4KOZDhoFUo3tpvV3DmHYigcSpMhrVFZZWU08cPbAmWREtboo3NJwWWSejpc6PbmxlSKacszR4-GpcIT8A6oYzIAHX48eQ4xWGE2gK2nLbZFg6DziCMIdNA8G6iFe47XPMWI5pjsyJO5APwS4sHdubdMJ36MkkScScUk1YZkR5ZvX5ASkmmFNb6P-tUrl78OIrLD7pscDHrfjU48urTRaDAujUQ-gJfouEOw71flIB0cL54pHgJqagQ1NG6PNL9UVCca11Esjgf_xy2qeynnw_bluj5LqPXs9_pkRzG_56qvSrwscBGDCt81eAaC893rjYqYSIPgkg0rGC7ynqZjSymxAeXqOLTJZGNhAR4qeKQT4AebZuMzxuaVZnyqHD0hqJsT6-VlZcBRptTsyXbrRNALL8nBgyNYuLL7Z-R-Uo54sl5yyWdtQPmdWPYg3ZQ-Ou-NvJlrwDapCUtqFdO1Zit5GkvYqtFBsr4RW_or8NZlqhuxk58sblqZKvU9x5-Gv-TDmtbcMdLlcmmuZuPsZrjlbr6h2ZGtWTQLMfK36oU6XPFFNqERVXCnHOtnAKlKsu6BK-4XF7YfPEnfxIXa4_V0uva38FaB5Vy5yP7dq1DUymPJHCgP81xiN5gQkPHfcD8qtIGSDvvqRjnWLwzI_r6rKVhioyTwb8O7Sj6w_UfS1ow-mN9Jgejfga4LkestGLANAEtQ3picsrgZz_r7JrgAEYcZwiHNhHcl53-Be9Lv9ABLzCy7qu9lJQKWFi4ZezcungE5KD7DqeypRLRmdGLJStgwKUEyOqZl5Au7SBymbc4V3orZRcvqFG7hN-aFGp_sUDj3tElRu4ro6T3tpN5hRxD7Kx-XZeid3g65_HLqn9jG3iKB7CyIBU0V2nC0jbmOaxegQO9zBRxlonF0gIEZQep4t9kqkyCw_SCxC3GFkcIMayrQ-uASwuxxrlPBop8e_FjqZ3Rlv5xeS6jV2XbT6TFUZfE3VRpy4BjCQzjoBlwVxE1hktfblhtyJy0]-->
+    </g>
+</svg>

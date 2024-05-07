@@ -1,8 +1,10 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.MainController;
-import it.polimi.ingsw.network.Utils;
+import it.polimi.ingsw.network.server.RMI.RMIServerReceiver;
 import it.polimi.ingsw.network.server.TCP.TCPServerAdapter;
+import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
+import it.polimi.ingsw.tui.utils.Utils;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
@@ -30,7 +32,7 @@ public class Server {
          * INSTANTIATE MAIN CONTROLLER and NETWORK COMMAND MAPPER
          * ***************************************/
         MainController mainController = new MainController();
-        NetworkCommandMapper networkCommandMapper = new NetworkCommandMapper(mainController);
+        ServerNetworkControllerMapper serverNetworkControllerMapper = new ServerNetworkControllerMapper(mainController);
 
         /* ***************************************
          * CLI ARGUMENTS PARSING
@@ -54,11 +56,11 @@ public class Server {
         /* ***************************************
          * START RMI SERVER
          * ***************************************/
-        RMIServerStart(networkCommandMapper, RMIPortNumber, serverIp);
+        RMIServerStart(serverNetworkControllerMapper, RMIPortNumber, serverIp);
         /* ***************************************
          * START TCP SERVER
          * ***************************************/
-        TCPServerStart(networkCommandMapper, TCPPortNumber);
+        TCPServerStart(serverNetworkControllerMapper, TCPPortNumber);
     }
 
     private static CommandLine parseCommandLineArgs(String[] args) {
@@ -88,15 +90,15 @@ public class Server {
         return null;
     }
 
-    private static void RMIServerStart(NetworkCommandMapper networkCommandMapper, Integer RMIPortNumber, String serverIp) {
+    private static void RMIServerStart(ServerNetworkControllerMapper serverNetworkControllerMapper, Integer RMIPortNumber, String serverIp) {
         try {
             //TODO Conti fixit
             System.setProperty("java.rmi.server.hostname", serverIp);
 
-            RMIServerConnectionHandler rmiServerConnectionHandler = new RMIServerConnectionHandler(networkCommandMapper);
-            RMIClientActions stub = (RMIClientActions) UnicastRemoteObject.exportObject(rmiServerConnectionHandler, RMIPortNumber);
+            RMIServerReceiver rmiServerReceiver = new RMIServerReceiver(serverNetworkControllerMapper);
+            RMIClientToServerActions stub = (RMIClientToServerActions) UnicastRemoteObject.exportObject(rmiServerReceiver, RMIPortNumber);
             Registry registry = LocateRegistry.createRegistry(RMIPortNumber);
-            registry.bind("ClientActions", stub);
+            registry.bind("ClientToServerActions", stub);
             System.err.println(Utils.ANSI_YELLOW + "Codex Naturalis RMI Server ready on port: " + RMIPortNumber + Utils.ANSI_RESET);
 
         } catch (RemoteException | AlreadyBoundException e) {
@@ -104,11 +106,11 @@ public class Server {
         }
     }
 
-    private static void TCPServerStart(NetworkCommandMapper networkCommandMapper, Integer TCPPortNumber) {
+    private static void TCPServerStart(ServerNetworkControllerMapper serverNetworkControllerMapper, Integer TCPPortNumber) {
         try (ServerSocket serverSocket = new ServerSocket(TCPPortNumber)) {
             System.out.println(Utils.ANSI_BLUE + "Codex Naturalis TCP Server ready on port: " + TCPPortNumber + Utils.ANSI_RESET);
             while (true) {
-                TCPServerAdapter messageHandler = new TCPServerAdapter(serverSocket.accept(), networkCommandMapper);
+                TCPServerAdapter messageHandler = new TCPServerAdapter(serverSocket.accept(), serverNetworkControllerMapper);
             }
         } catch (IOException e) {
             System.err.println("Could not listen on port " + TCPPortNumber);

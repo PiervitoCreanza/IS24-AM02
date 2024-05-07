@@ -1,8 +1,10 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.controller.gameController.GameController;
+import it.polimi.ingsw.controller.gameController.GameControllerMiddleware;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.PlayerColorEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
