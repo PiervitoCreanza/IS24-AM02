@@ -65,7 +65,7 @@ public class GameController implements PlayerActions {
      * @param card       the card to be placed.
      */
     public void placeCard(String playerName, Coordinate coordinate, GameCard card) {
-        game.getPlayer(playerName).setGameCard(coordinate, card);
+        game.getPlayer(playerName).placeGameCard(coordinate, card);
     }
 
     /**

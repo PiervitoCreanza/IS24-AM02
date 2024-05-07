@@ -198,11 +198,11 @@ public class Player implements VirtualViewable<PlayerView> {
      * @param coordinate The coordinate where the game card is to be set.
      * @param gameCard   The game card to be set.
      */
-    public void setGameCard(Coordinate coordinate, GameCard gameCard) {
+    public void placeGameCard(Coordinate coordinate, GameCard gameCard) {
         if (!playerHand.containsCard(gameCard) && !playerBoard.getStarterCard().equals(gameCard)) {
             throw new IllegalArgumentException("Player does not have the card in hand");
         }
-        playerBoard.setGameCard(coordinate, gameCard);
+        playerBoard.placeGameCard(coordinate, gameCard);
         playerHand.removeCard(gameCard);
     }
 

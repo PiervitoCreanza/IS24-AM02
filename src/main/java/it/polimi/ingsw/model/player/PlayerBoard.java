@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model.player;
 
-import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.card.GameItemEnum;
-import it.polimi.ingsw.model.utils.PointCornerPositionPair;
 import it.polimi.ingsw.model.card.corner.CornerPosition;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.model.utils.PointCornerPositionPair;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 import it.polimi.ingsw.network.virtualView.PlayerBoardView;
 import it.polimi.ingsw.network.virtualView.VirtualViewable;
@@ -147,7 +147,7 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
      * @throws IllegalArgumentException This is thrown if the position is not compatible with adjacent cards.
      * @throws IllegalArgumentException This is thrown if there are not enough resources.
      */
-    public int setGameCard(Coordinate coordinate, GameCard gameCard) {
+    public int placeGameCard(Coordinate coordinate, GameCard gameCard) {
         validatePlacement(coordinate, gameCard);
         updateGameItems(gameCard, coordinate);
         playerBoard.put(coordinate, gameCard);
