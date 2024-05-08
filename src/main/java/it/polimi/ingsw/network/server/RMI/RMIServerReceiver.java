@@ -5,6 +5,12 @@ import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
+import it.polimi.ingsw.network.client.message.ClientToServerMessage;
+import it.polimi.ingsw.network.client.message.gameController.*;
+import it.polimi.ingsw.network.client.message.mainController.CreateGameClientToServerMessage;
+import it.polimi.ingsw.network.client.message.mainController.DeleteGameClientToServerMessage;
+import it.polimi.ingsw.network.client.message.mainController.GetGamesClientToServerMessage;
+import it.polimi.ingsw.network.client.message.mainController.JoinGameClientToServerMessage;
 import it.polimi.ingsw.network.server.ServerMessageHandler;
 import it.polimi.ingsw.network.server.ServerNetworkControllerMapper;
 import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
@@ -38,6 +44,8 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
             serverNetworkControllerMapper.getGames(tempAdapter);
             tempAdapter.closeConnection();
         }).start();
+        // Debug
+        printDebug(new GetGamesClientToServerMessage());
     }
 
     /* All the methods that can be called from a ClientAsAClient on Server */
@@ -54,6 +62,8 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
         new Thread(() -> {
             serverNetworkControllerMapper.createGame(instanceRMIServerAdapter(stub), gameName, playerName, nPlayers);
         }).start();
+        // Debug
+        printDebug(new CreateGameClientToServerMessage(gameName, playerName, nPlayers));
     }
 
     /**
@@ -66,6 +76,8 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
         new Thread(() -> {
             serverNetworkControllerMapper.deleteGame(instanceRMIServerAdapter(stub), gameName, playerName);
         }).start();
+        // Debug
+        printDebug(new DeleteGameClientToServerMessage(gameName, playerName));
     }
 
     /**
@@ -79,6 +91,8 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
         new Thread(() -> {
             serverNetworkControllerMapper.joinGame(instanceRMIServerAdapter(stub), gameName, playerName);
         }).start();
+        // Debug
+        printDebug(new JoinGameClientToServerMessage(gameName, playerName));
     }
 
     /**
@@ -93,6 +107,8 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
         new Thread(() -> {
             serverNetworkControllerMapper.choosePlayerColor(gameName, playerName, playerColor);
         }).start();
+        // Debug
+        printDebug(new ChoosePlayerColorClientToServerMessage(gameName, playerName, playerColor));
     }
 
     /**
@@ -107,6 +123,8 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
         new Thread(() -> {
             serverNetworkControllerMapper.setPlayerObjective(gameName, playerName, card);
         }).start();
+        // Debug
+        printDebug(new SetPlayerObjectiveClientToServerMessage(gameName, playerName, card));
     }
 
     /**
@@ -122,6 +140,8 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
         new Thread(() -> {
             serverNetworkControllerMapper.placeCard(gameName, playerName, coordinate, card);
         }).start();
+        // Debug
+        printDebug(new PlaceCardClientToServerMessage(gameName, playerName, coordinate, card));
     }
 
     /**
@@ -136,6 +156,8 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
         new Thread(() -> {
             serverNetworkControllerMapper.drawCardFromField(gameName, playerName, card);
         }).start();
+        // Debug
+        printDebug(new DrawCardFromFieldClientToServerMessage(gameName, playerName, card));
     }
 
     /**
@@ -149,6 +171,8 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
         new Thread(() -> {
             serverNetworkControllerMapper.drawCardFromResourceDeck(gameName, playerName);
         }).start();
+        // Debug
+        printDebug(new DrawCardFromResourceDeckClientToServerMessage(gameName, playerName));
     }
 
     /**
@@ -162,6 +186,8 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
         new Thread(() -> {
             serverNetworkControllerMapper.drawCardFromGoldDeck(gameName, playerName);
         }).start();
+        // Debug
+        printDebug(new DrawCardFromGoldDeckClientToServerMessage(gameName, playerName));
     }
 
     /**
@@ -176,11 +202,17 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
         new Thread(() -> {
             serverNetworkControllerMapper.switchCardSide(gameName, playerName, card);
         }).start();
+        // Debug
+        printDebug(new SwitchCardSideClientToServerMessage(gameName, playerName, card));
     }
 
     private RMIServerSender instanceRMIServerAdapter(RMIServerToClientActions stub) {
         RMIServerSender rmiServerSender = new RMIServerSender(stub);
         rmiServerSender.addObserver(this);
         return rmiServerSender;
+    }
+
+    private void printDebug(ClientToServerMessage message) {
+        System.out.println("RMI message received: " + message.getPlayerAction() + " from: " + message.getPlayerName() + " in game: " + message.getGameName());
     }
 }

@@ -90,7 +90,7 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
                 try {
                     send("heartbeat");
                 } catch (IOException e) {
-                    System.out.println("Client disconnected - detected when pinging");
+                    System.out.println("TCP disconnected - detected when pinging");
                     closeConnection();
                     cancel();
                 }
@@ -113,10 +113,10 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
                     receivedMessages.offer(receivedMessage);
                 }
             } catch (SocketTimeoutException e) {
-                System.out.println("Client disconnected - detected by timeout");
+                System.out.println("TCP disconnected - detected by timeout");
                 closeConnection();
             } catch (IOException e) {
-                System.out.println("Error reading from socket");
+                System.out.println("TCP disconnected - detected while reading from socket");
                 closeConnection();
             }
         }
@@ -137,6 +137,8 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
             // Discard the heartbeat messages.
             if (!"heartbeat".equals(inputLine)) {
                 allJSON.append(inputLine);
+            } else {
+                //System.out.println("TCP Ping received");
             }
 
             // If the JSON string is complete, break the loop.
