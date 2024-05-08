@@ -147,7 +147,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
 
         if (game.isPlayerDisconnected(playerName)) {
             // If the player was disconnected we update his connection status.
-            game.getPlayer(playerName).setConnected(true);
+            setPlayerConnectionStatus(playerName, true);
         } else {
             // Else we add the player to the game
             gameController.joinGame(playerName);

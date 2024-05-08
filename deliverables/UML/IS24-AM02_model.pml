@@ -208,7 +208,7 @@ package "Model"{
         +Coordinate getGameCardPosition(GameCard)
         +ArrayList<GameCard> getGameCards()
         +Integer getGameItemAmount(GameItem)
-        +int PlaceGameCard(Coordinate, GameCard)
+        +int placeGameCard(Coordinate, GameCard)
     }
 
     PlayerBoard "1..N" *-- "1" GameCard
