@@ -2,8 +2,10 @@ package it.polimi.ingsw.controller.gameController;
 
 import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GlobalBoard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
@@ -12,6 +14,11 @@ import it.polimi.ingsw.network.virtualView.VirtualViewable;
 /**
  * This class represents the middleware between the GameController and the PlayerActions interface.
  * It implements the PlayerActions interface and defines the actions flow that a player can perform in the game.
+ * <p>
+ * All the actions are synchronized to avoid concurrency problems. In fact the setPlayerConnectionStatus method
+ * is called when a player disconnects, and it can be called in any moment of the game. We need to be sure that
+ * the game status is consistent with the player actions.
+ * </p>
  */
 public class GameControllerMiddleware implements PlayerActions, VirtualViewable<GameControllerView> {
     /**
@@ -67,21 +74,21 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
     }
 
     /**
-     * Sets the current game status.
-     *
-     * @param gameStatus the game status to be set.
-     */
-    public void setGameStatus(GameStatusEnum gameStatus) {
-        this.gameStatus = gameStatus;
-    }
-
-    /**
      * Gets the current game status.
      *
      * @return the current game status.
      */
-    public GameStatusEnum getGameStatus() {
+    public synchronized GameStatusEnum getGameStatus() {
         return gameStatus;
+    }
+
+    /**
+     * Sets the current game status.
+     *
+     * @param gameStatus the game status to be set.
+     */
+    public synchronized void setGameStatus(GameStatusEnum gameStatus) {
+        this.gameStatus = gameStatus;
     }
 
     /**
@@ -105,7 +112,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
             isLastRound = true;
         }
         // Check if the game has finished
-        if (isLastRound && game.isLastPlayer()) {
+        if (isLastRound && game.isLastPlayerAmongConnected()) {
             if (remainingRoundsToEndGame == 0) {
                 game.calculateWinners();
                 gameStatus = GameStatusEnum.GAME_OVER;
@@ -129,7 +136,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * @return the current game instance.
      */
     @Override
-    public Game getGame() {
+    public synchronized Game getGame() {
         return game;
     }
 
@@ -139,7 +146,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * @param playerName the name of the player who is joining the game.
      */
     @Override
-    public void joinGame(String playerName) {
+    public synchronized void joinGame(String playerName) {
         // If the game is not in the WAIT_FOR_PLAYERS status or the player is already connected, an exception is thrown
         if (gameStatus != GameStatusEnum.WAIT_FOR_PLAYERS && !game.isPlayerDisconnected(playerName)) {
             throw new IllegalStateException("Cannot join game in current game status");
@@ -167,7 +174,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * @param card       the card to be placed.
      */
     @Override
-    public void placeCard(String playerName, Coordinate coordinate, GameCard card) {
+    public synchronized void placeCard(String playerName, Coordinate coordinate, GameCard card) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.PLACE_CARD && gameStatus != GameStatusEnum.INIT_PLACE_STARTER_CARD) {
             throw new IllegalStateException("Cannot place card in current game status");
@@ -196,7 +203,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * @param playerName  the name of the player who is choosing the color.
      * @param playerColor the color to be chosen.
      */
-    public void choosePlayerColor(String playerName, PlayerColorEnum playerColor) {
+    public synchronized void choosePlayerColor(String playerName, PlayerColorEnum playerColor) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.INIT_CHOOSE_PLAYER_COLOR) {
             throw new IllegalStateException("Cannot choose player color in current game status");
@@ -214,7 +221,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * @param card       the card to be drawn.
      */
     @Override
-    public void drawCardFromField(String playerName, GameCard card) {
+    public synchronized void drawCardFromField(String playerName, GameCard card) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.DRAW_CARD) {
             throw new IllegalStateException("Cannot draw card in current game status");
@@ -229,7 +236,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * @param playerName the name of the player who is drawing the card.
      */
     @Override
-    public void drawCardFromResourceDeck(String playerName) {
+    public synchronized void drawCardFromResourceDeck(String playerName) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.DRAW_CARD) {
             throw new IllegalStateException("Cannot draw card in current game status");
@@ -245,7 +252,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * @param playerName the name of the player who is drawing the card.
      */
     @Override
-    public void drawCardFromGoldDeck(String playerName) {
+    public synchronized void drawCardFromGoldDeck(String playerName) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.DRAW_CARD) {
             throw new IllegalStateException("Cannot draw card in current game status");
@@ -263,7 +270,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      */
 
     @Override
-    public void switchCardSide(String playerName, GameCard card) {
+    public synchronized void switchCardSide(String playerName, GameCard card) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.PLACE_CARD && gameStatus != GameStatusEnum.INIT_PLACE_STARTER_CARD && gameStatus != GameStatusEnum.DRAW_CARD) {
             throw new IllegalStateException("Cannot switch card side in current game status");
@@ -278,21 +285,21 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * @param card       the objective card to be set for the player.
      */
     @Override
-    public void setPlayerObjective(String playerName, ObjectiveCard card) {
+    public synchronized void setPlayerObjective(String playerName, ObjectiveCard card) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.INIT_CHOOSE_OBJECTIVE_CARD) {
             throw new IllegalStateException("Cannot set player objective in current game status");
         }
         gameController.setPlayerObjective(playerName, card);
 
-        game.setNextPlayer();
-
         // If the last player has chosen his objective card, the game status is set to PLACE_CARD
-        if (game.getCurrentPlayerIndex() == 0) {
+        if (game.isLastPlayerAmongConnected()) {
             gameStatus = GameStatusEnum.PLACE_CARD;
         } else {
             gameStatus = GameStatusEnum.INIT_PLACE_STARTER_CARD;
         }
+
+        game.setNextPlayer();
     }
 
     /**
@@ -301,8 +308,42 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * @param playerName  the name of the player whose connection status is to be set.
      * @param isConnected the connection status to be set.
      */
-    public void setPlayerConnectionStatus(String playerName, boolean isConnected) {
+    public synchronized void setPlayerConnectionStatus(String playerName, boolean isConnected) {
         gameController.setPlayerConnectionStatus(playerName, isConnected);
+        Player currentPlayer = game.getCurrentPlayer();
+        // If the player gets disconnected during his turn
+        if (currentPlayer.getPlayerName().equals(playerName) && !isConnected) {
+            switch (gameStatus) {
+                // These cases don't have breaks because starting from the current status
+                // we want to execute all the initialization steps until the last one.
+                case INIT_PLACE_STARTER_CARD:
+                    placeCard(playerName, new Coordinate(0, 0), currentPlayer.getPlayerBoard().getStarterCard());
+                case INIT_CHOOSE_PLAYER_COLOR:
+                    choosePlayerColor(playerName, game.getAvailablePlayerColors().getFirst());
+                case INIT_CHOOSE_OBJECTIVE_CARD:
+                    setPlayerObjective(playerName, currentPlayer.getChoosableObjectives().getFirst());
+                    // End of initialization steps, break the switch.
+                    break;
+                case PLACE_CARD:
+                    // End the player turn without placing or drawing a card, effectively skipping the player turn.
+                    handleDrawFinish();
+                    break;
+                case DRAW_CARD:
+                    // Draw a random card from the first non-empty deck.
+                    GlobalBoard globalBoard = game.getGlobalBoard();
+                    if (!globalBoard.isResourceDeckEmpty()) {
+                        drawCardFromResourceDeck(playerName);
+                    } else if (!globalBoard.isGoldDeckEmpty()) {
+                        drawCardFromGoldDeck(playerName);
+                    } else if (!globalBoard.getFieldResourceCards().isEmpty()) {
+                        drawCardFromField(playerName, globalBoard.getFieldResourceCards().getFirst());
+                    } else {
+                        drawCardFromField(playerName, globalBoard.getFieldGoldCards().getFirst());
+                    }
+                    break;
+            }
+        }
+
     }
 
     /**

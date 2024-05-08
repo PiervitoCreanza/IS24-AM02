@@ -254,16 +254,19 @@ class GameTest {
 
     @Test
     @DisplayName("isLastPlayer returns true when the provided player is the last player in the game")
-    void isLastPlayerShouldReturnTrueWhenLastPlayer() {
+    void isLastPlayerShouldReturnTrueWhenLastConnectedPlayer() {
         testGame.addPlayer("Player2");
         testGame.setNextPlayer();
-        assertTrue(testGame.isLastPlayer());
+        assertTrue(testGame.isLastPlayerAmongConnected());
     }
 
     @Test
     @DisplayName("isLastPlayer returns false when the provided player is not the last player in the game")
-    void isLastPlayerShouldReturnFalseWhenNotLastPlayer() {
-        assertFalse(testGame.isLastPlayer());
+    void isLastPlayerShouldReturnFalseWhenNotLastConnectedPlayer() {
+        testGame.addPlayer("Player2");
+        assertFalse(testGame.isLastPlayerAmongConnected());
+        testGame.setNextPlayer();
+        assertTrue(testGame.isLastPlayerAmongConnected());
     }
 
     @Test
@@ -294,5 +297,42 @@ class GameTest {
             assertEquals(oldObjectiveDeck, testGame3.getGlobalBoard().getObjectiveDeck().getCards().size());
             assertEquals(oldStarterDeck, testGame3.getGlobalBoard().getStarterDeck().getCards().size());
         }
+    }
+
+    @Test
+    @DisplayName("getAvailablePlayerColors method should return the correct colors")
+    void getAvailablePlayerColors() {
+        Game testGame = new Game("TestGame", 4, "Player1");
+
+        List<PlayerColorEnum> availableColors = testGame.getAvailablePlayerColors();
+        assertEquals(4, availableColors.size());
+        assertTrue(availableColors.contains(PlayerColorEnum.RED));
+        assertTrue(availableColors.contains(PlayerColorEnum.GREEN));
+        assertTrue(availableColors.contains(PlayerColorEnum.BLUE));
+        assertTrue(availableColors.contains(PlayerColorEnum.YELLOW));
+
+        testGame.choosePlayerColor("Player1", PlayerColorEnum.RED);
+        availableColors = testGame.getAvailablePlayerColors();
+        assertEquals(3, availableColors.size());
+        assertFalse(availableColors.contains(PlayerColorEnum.RED));
+
+        testGame.addPlayer("Player2");
+        testGame.choosePlayerColor("Player2", PlayerColorEnum.GREEN);
+        availableColors = testGame.getAvailablePlayerColors();
+        assertEquals(2, availableColors.size());
+        assertFalse(availableColors.contains(PlayerColorEnum.RED));
+        assertFalse(availableColors.contains(PlayerColorEnum.GREEN));
+
+        testGame.addPlayer("Player3");
+        testGame.choosePlayerColor("Player3", PlayerColorEnum.BLUE);
+        availableColors = testGame.getAvailablePlayerColors();
+        assertEquals(1, availableColors.size());
+        assertFalse(availableColors.contains(PlayerColorEnum.RED));
+        assertFalse(availableColors.contains(PlayerColorEnum.GREEN));
+        assertFalse(availableColors.contains(PlayerColorEnum.BLUE));
+
+        testGame.addPlayer("Player4");
+        testGame.choosePlayerColor("Player4", PlayerColorEnum.YELLOW);
+        assertEquals(0, testGame.getAvailablePlayerColors().size());
     }
 }
