@@ -28,9 +28,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
 
     @Override
     public void notify(ServerMessageHandler handler) {
-        new Thread(() -> {
-            serverNetworkControllerMapper.handleDisconnection(handler);
-        }).start();
+        new Thread(() -> serverNetworkControllerMapper.handleDisconnection(handler)).start();
     }
 
     /**
@@ -39,9 +37,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
      */
     @Override
     public void getGames(RMIServerToClientActions stub) throws RemoteException {
-        new Thread(() -> {
-            serverNetworkControllerMapper.getGames(istanceRMIServerAdapter(stub));
-        }).start();
+        new Thread(() -> serverNetworkControllerMapper.getGames(instanceRMIServerAdapter(stub))).start();
         // Debug
         printDebug(new GetGamesClientToServerMessage());
     }
@@ -57,9 +53,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
      */
     @Override
     public void createGame(RMIServerToClientActions stub, String gameName, String playerName, int nPlayers) throws RemoteException {
-        new Thread(() -> {
-            serverNetworkControllerMapper.createGame(instanceRMIServerAdapter(stub), gameName, playerName, nPlayers);
-        }).start();
+        new Thread(() -> serverNetworkControllerMapper.createGame(instanceRMIServerAdapter(stub), gameName, playerName, nPlayers)).start();
         // Debug
         printDebug(new CreateGameClientToServerMessage(gameName, playerName, nPlayers));
     }
@@ -71,9 +65,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
      */
     @Override
     public void deleteGame(RMIServerToClientActions stub, String gameName, String playerName) throws RemoteException {
-        new Thread(() -> {
-            serverNetworkControllerMapper.deleteGame(instanceRMIServerAdapter(stub), gameName, playerName);
-        }).start();
+        new Thread(() -> serverNetworkControllerMapper.deleteGame(instanceRMIServerAdapter(stub), gameName, playerName)).start();
         // Debug
         printDebug(new DeleteGameClientToServerMessage(gameName, playerName));
     }
@@ -86,9 +78,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
      */
     @Override
     public void joinGame(RMIServerToClientActions stub, String gameName, String playerName) throws RemoteException {
-        new Thread(() -> {
-            serverNetworkControllerMapper.joinGame(instanceRMIServerAdapter(stub), gameName, playerName);
-        }).start();
+        new Thread(() -> serverNetworkControllerMapper.joinGame(instanceRMIServerAdapter(stub), gameName, playerName)).start();
         // Debug
         printDebug(new JoinGameClientToServerMessage(gameName, playerName));
     }
@@ -102,9 +92,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
      */
     @Override
     public void choosePlayerColor(String gameName, String playerName, PlayerColorEnum playerColor) throws RemoteException {
-        new Thread(() -> {
-            serverNetworkControllerMapper.choosePlayerColor(gameName, playerName, playerColor);
-        }).start();
+        new Thread(() -> serverNetworkControllerMapper.choosePlayerColor(gameName, playerName, playerColor)).start();
         // Debug
         printDebug(new ChoosePlayerColorClientToServerMessage(gameName, playerName, playerColor));
     }
@@ -118,9 +106,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
      */
     @Override
     public void setPlayerObjective(String gameName, String playerName, ObjectiveCard card) throws RemoteException {
-        new Thread(() -> {
-            serverNetworkControllerMapper.setPlayerObjective(gameName, playerName, card);
-        }).start();
+        new Thread(() -> serverNetworkControllerMapper.setPlayerObjective(gameName, playerName, card)).start();
         // Debug
         printDebug(new SetPlayerObjectiveClientToServerMessage(gameName, playerName, card));
     }
@@ -135,9 +121,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
      */
     @Override
     public void placeCard(String gameName, String playerName, Coordinate coordinate, GameCard card) throws RemoteException {
-        new Thread(() -> {
-            serverNetworkControllerMapper.placeCard(gameName, playerName, coordinate, card);
-        }).start();
+        new Thread(() -> serverNetworkControllerMapper.placeCard(gameName, playerName, coordinate, card)).start();
         // Debug
         printDebug(new PlaceCardClientToServerMessage(gameName, playerName, coordinate, card));
     }
@@ -151,9 +135,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
      */
     @Override
     public void drawCardFromField(String gameName, String playerName, GameCard card) throws RemoteException {
-        new Thread(() -> {
-            serverNetworkControllerMapper.drawCardFromField(gameName, playerName, card);
-        }).start();
+        new Thread(() -> serverNetworkControllerMapper.drawCardFromField(gameName, playerName, card)).start();
         // Debug
         printDebug(new DrawCardFromFieldClientToServerMessage(gameName, playerName, card));
     }
@@ -166,9 +148,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
      */
     @Override
     public void drawCardFromResourceDeck(String gameName, String playerName) throws RemoteException {
-        new Thread(() -> {
-            serverNetworkControllerMapper.drawCardFromResourceDeck(gameName, playerName);
-        }).start();
+        new Thread(() -> serverNetworkControllerMapper.drawCardFromResourceDeck(gameName, playerName)).start();
         // Debug
         printDebug(new DrawCardFromResourceDeckClientToServerMessage(gameName, playerName));
     }
@@ -181,9 +161,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
      */
     @Override
     public void drawCardFromGoldDeck(String gameName, String playerName) throws RemoteException {
-        new Thread(() -> {
-            serverNetworkControllerMapper.drawCardFromGoldDeck(gameName, playerName);
-        }).start();
+        new Thread(() -> serverNetworkControllerMapper.drawCardFromGoldDeck(gameName, playerName)).start();
         // Debug
         printDebug(new DrawCardFromGoldDeckClientToServerMessage(gameName, playerName));
     }
@@ -197,9 +175,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
      */
     @Override
     public void switchCardSide(String gameName, String playerName, GameCard card) throws RemoteException {
-        new Thread(() -> {
-            serverNetworkControllerMapper.switchCardSide(gameName, playerName, card);
-        }).start();
+        new Thread(() -> serverNetworkControllerMapper.switchCardSide(gameName, playerName, card)).start();
         // Debug
         printDebug(new SwitchCardSideClientToServerMessage(gameName, playerName, card));
     }

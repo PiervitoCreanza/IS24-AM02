@@ -17,7 +17,6 @@ import it.polimi.ingsw.utils.Observer;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * The TCPServerAdapter class is responsible for handling TCP server operations.
@@ -45,7 +44,7 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
      */
     private String playerName;
 
-    private final AtomicBoolean isConnectionSaved = new AtomicBoolean(false);
+    private boolean isConnectionSaved = false;
 
     private final Gson gson = new GsonBuilder()
             .enableComplexMapKeySerialization()
@@ -76,7 +75,8 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
     public void notify(String message) {
         // Handle client disconnection
         if ("CONNECTION_CLOSED".equals(message)) {
-            if (this.isConnectionSaved.getAndSet(false)) {
+            if (this.isConnectionSaved) {
+                this.isConnectionSaved = false;
                 this.serverNetworkControllerMapper.handleDisconnection(this);
             }
             return;
@@ -182,6 +182,6 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
 
     @Override
     public void connectionSaved(boolean hasBeenSaved) {
-        this.isConnectionSaved.set(hasBeenSaved);
+        this.isConnectionSaved = hasBeenSaved;
     }
 }
