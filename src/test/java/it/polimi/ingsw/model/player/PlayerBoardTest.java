@@ -4,7 +4,8 @@ import it.polimi.ingsw.model.card.CardColorEnum;
 import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.model.card.corner.Corner;
 import it.polimi.ingsw.model.card.corner.CornerPosition;
-import it.polimi.ingsw.model.card.gameCard.*;
+import it.polimi.ingsw.model.card.gameCard.BackGameCard;
+import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.gameCard.front.FrontGameCard;
 import it.polimi.ingsw.model.card.gameCard.front.goldCard.FrontPositionalGoldGameCard;
 import it.polimi.ingsw.model.utils.Coordinate;
@@ -32,7 +33,7 @@ public class PlayerBoardTest {
      * Helper methods
      */
     private void setStarterCard() {
-        playerBoard.setGameCard(new Coordinate(0, 0), starterCard);
+        playerBoard.placeGameCard(new Coordinate(0, 0), starterCard);
     }
 
     private GameCard createCardWithCornerItem(GameItemEnum gameItem) {
@@ -108,7 +109,7 @@ public class PlayerBoardTest {
     @DisplayName("Get game cards returns list of cards when cards present")
     public void getGameCardsReturnsListOfCardsWhenCardsPresent() {
         Coordinate coordinate = new Coordinate(0, 0);
-        playerBoard.setGameCard(coordinate, starterCard);
+        playerBoard.placeGameCard(coordinate, starterCard);
         assertTrue(playerBoard.getGameCards().contains(starterCard));
     }
 
@@ -119,57 +120,57 @@ public class PlayerBoardTest {
     }
 
     /**
-     * SetGameCard tests
+     * PlaceGameCard tests
      */
     @Test
-    @DisplayName("SetGameCard places the starter card")
-    public void setGameCardTest1() {
+    @DisplayName("PlaceGameCard places the starter card")
+    public void placeGameCardTest1() {
         setStarterCard();
         assertEquals(playerBoard.getGameCard(new Coordinate(0, 0)).get(), starterCard);
     }
 
     @Test
-    @DisplayName("SetGameCard throws exception Position already occupied")
-    public void setGameCardTest2() {
+    @DisplayName("PlaceGameCard throws exception Position already occupied")
+    public void placeGameCardTest2() {
         setStarterCard();
         Exception exception = assertThrows(IllegalArgumentException.class, this::setStarterCard);
         assertEquals("Position already occupied", exception.getMessage());
     }
 
     @Test
-    @DisplayName("SetGameCard throws exception Position not adjacent to any other card")
-    public void setGameCardTest3() {
+    @DisplayName("PlaceGameCard throws exception Position not adjacent to any other card")
+    public void placeGameCardTest3() {
         Coordinate coordinate = new Coordinate(1, 1);
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> playerBoard.setGameCard(coordinate, resourceCard));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> playerBoard.placeGameCard(coordinate, resourceCard));
         assertEquals("Position not adjacent to any other card", exception.getMessage());
     }
 
     @Test
-    @DisplayName("SetGameCard throws exception Position not compatible with adjacent cards")
-    public void setGameCardTest4() {
+    @DisplayName("PlaceGameCard throws exception Position not compatible with adjacent cards")
+    public void placeGameCardTest4() {
         // Create a card with no corners
         starterCard = createCardWithoutCorner();
         // Place the starter card to avoid the exception in the previous test
         setStarterCard();
 
         Coordinate coordinate = new Coordinate(1, 1);
-        assertIllegalArgument("Position not compatible with adjacent cards", () -> playerBoard.setGameCard(coordinate, resourceCard));
+        assertIllegalArgument("Position not compatible with adjacent cards", () -> playerBoard.placeGameCard(coordinate, resourceCard));
     }
 
     @Test
-    @DisplayName("SetGameCard throws exception when not enough resources")
-    public void setGameCardTest5() {
+    @DisplayName("PlaceGameCard throws exception when not enough resources")
+    public void placeGameCardTest5() {
         GameItemStore gameItemStore = new GameItemStore();
         gameItemStore.set(GameItemEnum.INSECT, 2);
         when(gameCard.getNeededItemStore()).thenReturn(gameItemStore);
         Coordinate coordinate = new Coordinate(0, 0);
 
-        assertIllegalArgument("Not enough resources", () -> playerBoard.setGameCard(coordinate, gameCard));
+        assertIllegalArgument("Not enough resources", () -> playerBoard.placeGameCard(coordinate, gameCard));
     }
 
     @Test
-    @DisplayName("SetGameCard works correctly")
-    public void setGameCardCorrectlyPlacesCardWhenPointFreeAdjacentCardPresentAndMatching() {
+    @DisplayName("PlaceGameCard works correctly")
+    public void placeGameCardCorrectlyPlacesCardWhenPointFreeAdjacentCardPresentAndMatching() {
         setStarterCard();
         // Check that the starter card is placed correctly
         assertEquals(4, playerBoard.getGameItemAmount(GameItemEnum.PLANT));
@@ -182,7 +183,7 @@ public class PlayerBoardTest {
 
         // Place a new card
         Coordinate coordinate = new Coordinate(1, 1);
-        int points = playerBoard.setGameCard(coordinate, positionalGoldCard);
+        int points = playerBoard.placeGameCard(coordinate, positionalGoldCard);
 
         // Check that the new card is placed correctly
         assertEquals(positionalGoldCard, playerBoard.getGameCard(coordinate).get());

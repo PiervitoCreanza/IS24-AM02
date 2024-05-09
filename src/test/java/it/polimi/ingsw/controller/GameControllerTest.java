@@ -41,7 +41,7 @@ class GameControllerTest {
     @Test
     @DisplayName("Should place card on player's board when placeCard is called")
     void shouldPlaceCardWhenPlaceCardIsCalled() {
-        GameCard card = parser.getResourceDeck().draw();
+        GameCard card = gameController.getGame().getCurrentPlayer().getPlayerBoard().getStarterCard();
         Coordinate coordinate = new Coordinate(0, 0);
         gameController.placeCard("player1", coordinate, card);
         assertEquals(card, game.getPlayer("player1").getPlayerBoard().getGameCard(coordinate).get());

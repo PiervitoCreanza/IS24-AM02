@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.data.Parser;
-import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -86,17 +86,17 @@ public class PlayerTest {
     }
 
     @Test
-    @DisplayName("SetGameCard successfully places the card and removes it from the hand")
-    public void setGameCardSuccessfullyPlacesCardAndRemovesFromHand() {
+    @DisplayName("PlaceGameCard successfully places the card and removes it from the hand")
+    public void placeGameCardSuccessfullyPlacesCardAndRemovesFromHand() {
         Parser parser = new Parser();
         GameCard card = parser.getStarterDeck().draw();
         player.getPlayerHand().addCard(card);
         assertEquals(card, player.getPlayerHand().getCards().getFirst());
-        player.setGameCard(new Coordinate(0, 0), card);
+        player.placeGameCard(new Coordinate(0, 0), card);
         assertEquals(card, player.getPlayerBoard().getGameCard(new Coordinate(0, 0)).get());
         assertFalse(player.getPlayerHand().getCards().contains(card));
 
-        String message = assertThrows(IllegalArgumentException.class, () -> player.setGameCard(new Coordinate(0, 0), card)).getMessage();
+        String message = assertThrows(IllegalArgumentException.class, () -> player.placeGameCard(new Coordinate(0, 0), card)).getMessage();
         assertEquals("Player does not have the card in hand", message);
     }
 

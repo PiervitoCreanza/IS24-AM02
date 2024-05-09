@@ -148,6 +148,20 @@ public class Game implements VirtualViewable<GameView> {
     }
 
     /**
+     * Check if a player is disconnected.
+     *
+     * @param playerName The name of the player to check.
+     * @return true if the player is connected, false otherwise.
+     */
+    public boolean isPlayerDisconnected(String playerName) {
+        try {
+            return !getPlayer(playerName).isConnected();
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    /**
      * Returns the global board of the game.
      *
      * @return The GlobalBoard object that represents the global board of the game.
@@ -186,21 +200,30 @@ public class Game implements VirtualViewable<GameView> {
     }
 
     /**
-     * Returns the index of the current player in the list of players.
+     * Returns the index of the current player in the list of connected players.
      *
      * @return The index of the current player.
      */
-    public int getCurrentPlayerIndex() {
-        return players.indexOf(currentPlayer);
+    public int getCurrentPlayerIndexAmongConnected() {
+        return getConnectedPlayers().indexOf(currentPlayer);
     }
 
     /**
-     * Checks if the provided player is the last player in the game.
+     * Checks if the current player is the last player in the game among the connected users.
      *
      * @return true if the provided player is the last player in the game, false otherwise.
      */
-    public boolean isLastPlayer() {
-        return getCurrentPlayerIndex() == maxAllowedPlayers - 1;
+    public boolean isLastPlayerAmongConnected() {
+        return getCurrentPlayerIndexAmongConnected() == getConnectedPlayers().size() - 1;
+    }
+
+    /**
+     * Returns players that are connected.
+     *
+     * @return ArrayList of Player objects that represents the players that are connected.
+     */
+    public ArrayList<Player> getConnectedPlayers() {
+        return players.stream().filter(Player::isConnected).collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -208,7 +231,8 @@ public class Game implements VirtualViewable<GameView> {
      * This method updates the currentPlayer variable to the next player in the list of players.
      */
     public void setNextPlayer() {
-        currentPlayer = players.get((players.indexOf(currentPlayer) + 1) % maxAllowedPlayers);
+        ArrayList<Player> connectedPlayers = getConnectedPlayers();
+        currentPlayer = connectedPlayers.get((connectedPlayers.indexOf(currentPlayer) + 1) % connectedPlayers.size());
     }
 
     /**
@@ -283,6 +307,18 @@ public class Game implements VirtualViewable<GameView> {
      */
     public ArrayList<Player> getWinners() {
         return winners;
+    }
+
+    /**
+     * Returns the available player colors.
+     *
+     * @return ArrayList of PlayerColorEnum that represents the available player colors.
+     */
+    public ArrayList<PlayerColorEnum> getAvailablePlayerColors() {
+        HashSet<PlayerColorEnum> unavailableColors = players.stream().map(Player::getPlayerColor).collect(Collectors.toCollection(HashSet::new));
+        // Add NONE to the unavailable colors to avoid choosing it
+        unavailableColors.add(PlayerColorEnum.NONE);
+        return PlayerColorEnum.stream().filter(color -> !unavailableColors.contains(color)).collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**

@@ -266,7 +266,10 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
 
             gameConnectionMapper.remove(gameName);
             System.out.println("[Server] Game " + gameName + " deleted.");
+            return;
         }
+        // If the game was not deleted we update the view for the remaining players.
+        broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
     }
 
     private void closeConnections(String gameName) {
