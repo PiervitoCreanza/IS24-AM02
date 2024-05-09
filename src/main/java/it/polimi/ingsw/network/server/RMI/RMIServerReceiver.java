@@ -40,9 +40,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
     @Override
     public void getGames(RMIServerToClientActions stub) throws RemoteException {
         new Thread(() -> {
-            RMIServerSender tempAdapter = new RMIServerSender(stub);
-            serverNetworkControllerMapper.getGames(tempAdapter);
-            tempAdapter.closeConnection();
+            serverNetworkControllerMapper.getGames(istanceRMIServerAdapter(stub));
         }).start();
         // Debug
         printDebug(new GetGamesClientToServerMessage());
