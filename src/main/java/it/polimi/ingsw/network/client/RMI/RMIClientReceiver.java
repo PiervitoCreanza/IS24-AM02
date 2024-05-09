@@ -8,6 +8,8 @@ import it.polimi.ingsw.network.virtualView.GameControllerView;
 
 import java.rmi.RemoteException;
 import java.util.HashSet;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * The RMIClientReceiver class is responsible for receiving messages from the server.
@@ -18,6 +20,8 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      * The client command mapper.
      */
     private final ClientNetworkControllerMapper clientNetworkControllerMapper;
+
+    private Timer heartbeatTimer;
 
     /**
      * Class constructor.
@@ -92,6 +96,22 @@ public class RMIClientReceiver implements RMIServerToClientActions {
 
     @Override
     public void heartbeat() throws RemoteException {
+        new Thread(() -> {
+            // If the timer is already running, cancel it and start a new one
+            if (heartbeatTimer != null) {
+                heartbeatTimer.cancel();
+            }
+            // Instance a new timer
+            heartbeatTimer = new Timer();
+            // Schedule a new timer task. If the client does not receive a heartbeat message within 5 seconds, it will print an error.
+            heartbeatTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    System.out.println("RMI Server Unreachable - detected when pinging");
+                }
+            }, 5000);
+        }).start();
+
         if (Client.DEBUG) {
             System.out.println("Ping received");
         }
