@@ -17,7 +17,7 @@ public class DrawArea implements Drawable {
     /**
      * The drawable area. It is a map that associates coordinates with single characters.
      */
-    protected HashMap<Coordinate, SingleCharacter> drawArea = new HashMap<>();
+    protected HashMap<Coordinate, MagicChar> drawArea = new HashMap<>();
 
     /**
      * Constructor that initializes the drawable area with a string.
@@ -63,7 +63,7 @@ public class DrawArea implements Drawable {
             for (int j = 0; j < lines[i].length(); j++) {
                 char c = lines[i].charAt(j);
                 if (c != ' ')
-                    drawArea.put(new Coordinate(x + j, y + i), new SingleCharacter(lines[i].charAt(j)));
+                    drawArea.put(new Coordinate(x + j, y + i), new MagicChar(lines[i].charAt(j)));
             }
         }
     }
@@ -82,7 +82,7 @@ public class DrawArea implements Drawable {
             for (int j = 0; j < lines[i].length(); j++) {
                 char c = lines[i].charAt(j);
                 if (c != ' ')
-                    drawArea.put(new Coordinate(x + j, y + i), new SingleCharacter(lines[i].charAt(j), color));
+                    drawArea.put(new Coordinate(x + j, y + i), new MagicChar(lines[i].charAt(j), color));
             }
         }
     }
@@ -119,7 +119,7 @@ public class DrawArea implements Drawable {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i <= getHeight(); i++) {
             for (int j = 0; j <= getWidth(); j++) {
-                SingleCharacter c = drawArea.get(new Coordinate(j, i));
+                MagicChar c = drawArea.get(new Coordinate(j, i));
                 sb.append(c != null ? c.toString() : ' ');
             }
             sb.append("\n");
@@ -128,16 +128,16 @@ public class DrawArea implements Drawable {
     }
 
     /**
-     * Returns the SingleCharacter at the specified coordinates.
-     * The SingleCharacter is a utility class that represents a character with a color.
+     * Returns the MagicChar at the specified coordinates.
+     * The MagicChar is a utility class that represents a character with a color.
      *
      * @param x The x-coordinate of the character to return.
      * @param y The y-coordinate of the character to return.
-     * @return The SingleCharacter at the specified coordinates.
+     * @return The MagicChar at the specified coordinates.
      */
-    public SingleCharacter getAt(int x, int y) {
-        SingleCharacter c = drawArea.get(new Coordinate(x, y));
-        return c != null ? c : new SingleCharacter(' ');
+    public MagicChar getAt(int x, int y) {
+        MagicChar c = drawArea.get(new Coordinate(x, y));
+        return c != null ? c : new MagicChar(' ');
     }
 
     /**
@@ -148,7 +148,7 @@ public class DrawArea implements Drawable {
      * @return The char at the specified coordinates.
      */
     public char getCharAt(int x, int y) {
-        SingleCharacter c = drawArea.get(new Coordinate(x, y));
+        MagicChar c = drawArea.get(new Coordinate(x, y));
         return c != null ? c.getCharacter() : ' ';
     }
 
