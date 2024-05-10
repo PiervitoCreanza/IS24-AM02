@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.model.card.objectiveCard.ItemObjectiveCard;
 import it.polimi.ingsw.tui.draw.DrawArea;
 import it.polimi.ingsw.tui.draw.Drawable;
+import it.polimi.ingsw.tui.draw.cards.objectiveCard.itemGroup.ItemTriangleComponent;
 
 /*
                 ┌───────────────┐
@@ -16,29 +17,17 @@ import it.polimi.ingsw.tui.draw.Drawable;
 public class ItemObjectiveCardComponent implements Drawable {
     private final DrawArea drawArea;
 
-    public ItemObjectiveCardComponent(ItemObjectiveCard objectiveCard) {
-        drawArea = new DrawArea(
-                """
-                        ┌───────────────┐
-                        │  ┌───┐        │
-                        │  │   │        │
-                        │  └───┘        │
-                        │               │
-                        └───────────────┘
-                        """
-        );
+    public ItemObjectiveCardComponent(ItemObjectiveCard objectiveCard, DrawArea drawArea) {
+        this.drawArea = drawArea;
+        // There is only one item in the multiplier
+        GameItemEnum item = objectiveCard.getMultiplier().getNonEmptyKeys().getFirst();
 
-        drawArea.setColor(objectiveCard.getMultiplier().getNonEmptyKeys().getFirst().getColor());
-        drawArea.drawAt(5, 2, objectiveCard.getPointsWon());
-        for (int i = 0; i < objectiveCard.getMultiplier().getNonEmptyKeys().size(); i++) {
-            GameItemEnum item = objectiveCard.getMultiplier().getNonEmptyKeys().get(i);
-            for (int j = 0; j < objectiveCard.getMultiplier().get(item); j++) {
-                drawArea.drawAt(12, 1 + i + j, item.getSymbol(), item.getColor());
-            }
+        int x = 15, y = 2;
+        this.drawArea.drawAt(x, y, new ItemTriangleComponent(item).getDrawArea());
+        this.drawArea.drawAt(x - 3, y + 2, "-------");
+        this.drawArea.setColor(item.getColor());
 
-        }
-
-
+        this.drawArea.drawAt(6, 3, objectiveCard.getPointsWon());
     }
 
     public DrawArea getDrawArea() {
