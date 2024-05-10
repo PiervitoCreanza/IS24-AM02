@@ -1,8 +1,9 @@
-package it.polimi.ingsw.tui.draw;
+package it.polimi.ingsw.tui.draw.cards.objectiveCard;
 
 import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.model.card.objectiveCard.ItemObjectiveCard;
-import it.polimi.ingsw.tui.utils.ColorsEnum;
+import it.polimi.ingsw.tui.draw.DrawArea;
+import it.polimi.ingsw.tui.draw.Drawable;
 
 /*
                 ┌───────────────┐
@@ -26,8 +27,9 @@ public class ItemObjectiveCardComponent implements Drawable {
                         └───────────────┘
                         """
         );
-        drawArea.setColor(ColorsEnum.CYAN);
-        drawArea.drawAt(5, 2, objectiveCard.getPointsWon(), ColorsEnum.RED);
+
+        drawArea.setColor(objectiveCard.getMultiplier().getNonEmptyKeys().getFirst().getColor());
+        drawArea.drawAt(5, 2, objectiveCard.getPointsWon());
         for (int i = 0; i < objectiveCard.getMultiplier().getNonEmptyKeys().size(); i++) {
             GameItemEnum item = objectiveCard.getMultiplier().getNonEmptyKeys().get(i);
             for (int j = 0; j < objectiveCard.getMultiplier().get(item); j++) {

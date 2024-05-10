@@ -2,6 +2,7 @@ package it.polimi.ingsw.tui.draw;
 
 import it.polimi.ingsw.data.Parser;
 import it.polimi.ingsw.model.card.objectiveCard.ItemObjectiveCard;
+import it.polimi.ingsw.tui.draw.cards.objectiveCard.ItemObjectiveCardComponent;
 import org.junit.jupiter.api.Test;
 
 class ItemObjectiveCardComponentTest {

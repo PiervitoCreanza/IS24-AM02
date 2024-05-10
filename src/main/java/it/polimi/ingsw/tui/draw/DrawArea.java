@@ -17,7 +17,7 @@ public class DrawArea implements Drawable {
     /**
      * The drawable area. It is a map that associates coordinates with single characters.
      */
-    protected HashMap<Coordinate, MagicChar> drawArea = new HashMap<>();
+    private HashMap<Coordinate, MagicChar> drawArea = new HashMap<>();
 
     /**
      * Constructor that initializes the drawable area with a string.
@@ -45,7 +45,7 @@ public class DrawArea implements Drawable {
      * @param y        The y-coordinate at which to draw the drawable area.
      * @param drawArea The drawable area to draw.
      */
-    protected void drawAt(int x, int y, DrawArea drawArea) {
+    public void drawAt(int x, int y, DrawArea drawArea) {
         drawArea.getCoords().stream().filter(c -> drawArea.getCharAt(c.x, c.y) != ' ')
                 .forEach(c -> this.drawArea.put(new Coordinate(x + c.x, y + c.y), drawArea.getAt(c.x, c.y)));
     }
@@ -57,7 +57,7 @@ public class DrawArea implements Drawable {
      * @param y      The y-coordinate at which to draw the string.
      * @param string The string to draw.
      */
-    protected void drawAt(int x, int y, String string) {
+    public void drawAt(int x, int y, String string) {
         String[] lines = string.split("\n");
         for (int i = 0; i < lines.length; i++) {
             for (int j = 0; j < lines[i].length(); j++) {
@@ -76,7 +76,7 @@ public class DrawArea implements Drawable {
      * @param string The string to draw.
      * @param color  The color to use when drawing the string.
      */
-    protected void drawAt(int x, int y, String string, ColorsEnum color) {
+    public void drawAt(int x, int y, String string, ColorsEnum color) {
         String[] lines = string.split("\n");
         for (int i = 0; i < lines.length; i++) {
             for (int j = 0; j < lines[i].length(); j++) {
@@ -94,7 +94,7 @@ public class DrawArea implements Drawable {
      * @param y      The y-coordinate at which to draw the integer.
      * @param string The integer to draw.
      */
-    protected void drawAt(int x, int y, int string) {
+    public void drawAt(int x, int y, int string) {
         drawAt(x, y, String.valueOf(string));
     }
 
@@ -106,7 +106,7 @@ public class DrawArea implements Drawable {
      * @param string The integer to draw.
      * @param color  The color to use when drawing the integer.
      */
-    protected void drawAt(int x, int y, int string, ColorsEnum color) {
+    public void drawAt(int x, int y, int string, ColorsEnum color) {
         drawAt(x, y, String.valueOf(string), color);
     }
 
@@ -162,7 +162,7 @@ public class DrawArea implements Drawable {
     }
 
     /**
-     * Converts a positive y-coordinate system to a negative one.
+     * Converts a positive y-coordinate system to a negative one. And shifts the x-coordinates to the right to put it in the 1st quadrant.
      * This is useful when drawing on a terminal, where the origin is in the top-left corner.
      *
      * @param pair The pairs whose y-coordinates to convert.
@@ -171,7 +171,13 @@ public class DrawArea implements Drawable {
      */
     public <U> ArrayList<Pair<Coordinate, U>> convertCoordinates(ArrayList<Pair<Coordinate, U>> pair) {
         int maxY = (int) pair.stream().mapToDouble(p -> p.x().getY()).max().orElse(0);
-        pair.forEach(p -> p.key().y = maxY - p.key().y);
+        int minX = (int) pair.stream().mapToDouble(p -> p.x().getX()).min().orElse(0);
+        pair.forEach(p -> {
+            if (minX < 0) {
+                p.key().x += Math.abs(minX);
+            }
+            p.key().y = maxY - p.key().y;
+        });
         return pair;
     }
 
