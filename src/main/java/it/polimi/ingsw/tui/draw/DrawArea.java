@@ -87,6 +87,10 @@ public class DrawArea implements Drawable {
         pair.forEach(p -> p.key().y = maxY - p.key().y);
         return pair;
     }
+    
+    public void setColor(ColorsEnum color) {
+        getCoords().forEach(c -> drawArea.get(c).setColor(color));
+    }
 
     @Override
     public int getHeight() {
