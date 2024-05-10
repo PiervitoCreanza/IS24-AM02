@@ -33,16 +33,34 @@ public enum CardColorEnum {
      */
     NONE(ColorsEnum.RESET);
 
+    /**
+     * The color of the card.
+     */
     private final ColorsEnum color;
 
+    /**
+     * Creates a new CardColorEnum with the given color.
+     *
+     * @param color the color of the card
+     */
     CardColorEnum(ColorsEnum color) {
         this.color = color;
     }
 
+    /**
+     * Returns the color code of the card.
+     *
+     * @return the color code of the card
+     */
     public String getCode() {
         return color.getCode();
     }
 
+    /**
+     * Returns the color of the card.
+     *
+     * @return the color of the card
+     */
     public ColorsEnum getColor() {
         return color;
     }

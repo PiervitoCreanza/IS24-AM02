@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.card.CardColorEnum;
 import it.polimi.ingsw.model.card.objectiveCard.PositionalData;
 import it.polimi.ingsw.model.card.objectiveCard.PositionalObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
-import it.polimi.ingsw.tui.utils.Colors;
 import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.utils.Pair;
 
@@ -18,11 +17,10 @@ import java.util.ArrayList;
                 │               │
                 └───────────────┘
  */
-public class PositionalObjectiveCardComponent implements Drawable {
-    private static final Colors colors = new Colors();
+public class ObjectiveCardComponent implements Drawable {
     private final DrawArea drawArea;
 
-    public PositionalObjectiveCardComponent(PositionalObjectiveCard objectiveCard) {
+    public ObjectiveCardComponent(PositionalObjectiveCard objectiveCard) {
         drawArea = new DrawArea(
                 """
                         ┌───────────────┐

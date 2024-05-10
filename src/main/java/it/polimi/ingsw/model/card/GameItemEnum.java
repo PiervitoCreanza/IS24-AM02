@@ -41,18 +41,41 @@ public enum GameItemEnum {
      */
     NONE(" ", ColorsEnum.RESET);
 
+    /**
+     * The symbol that represents the game item.
+     */
     private final String symbol;
+
+    /**
+     * The color of the game item.
+     */
     private final ColorsEnum color;
 
+    /**
+     * Constructor that initializes the GameItemEnum with a symbol and a color.
+     *
+     * @param symbol The symbol that represents the game item.
+     * @param color  The color of the game item.
+     */
     GameItemEnum(String symbol, ColorsEnum color) {
         this.symbol = symbol;
         this.color = color;
     }
 
+    /**
+     * Returns the symbol of the game item.
+     *
+     * @return The symbol of the game item.
+     */
     public String getSymbol() {
         return symbol;
     }
 
+    /**
+     * Returns the color of the game item.
+     *
+     * @return The color of the game item.
+     */
     public ColorsEnum getColor() {
         return color;
     }

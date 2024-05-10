@@ -18,6 +18,13 @@ class DrawAreaTest {
                 """, drawArea.toString());
     }
 
+    void overlapTest() {
+        DrawArea drawArea = new DrawArea("""
+                Ciao
+                """);
+
+    }
+
     @Test
     void getAtTest() {
         DrawArea drawArea = new DrawArea("""

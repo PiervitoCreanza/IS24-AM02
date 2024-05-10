@@ -2,7 +2,6 @@ package it.polimi.ingsw.tui.draw;
 
 import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.model.card.objectiveCard.ItemObjectiveCard;
-import it.polimi.ingsw.tui.utils.Colors;
 import it.polimi.ingsw.tui.utils.ColorsEnum;
 
 /*
@@ -14,7 +13,6 @@ import it.polimi.ingsw.tui.utils.ColorsEnum;
                 └───────────────┘
  */
 public class ItemObjectiveCardComponent implements Drawable {
-    private static final Colors colors = new Colors();
     private final DrawArea drawArea;
 
     public ItemObjectiveCardComponent(ItemObjectiveCard objectiveCard) {
