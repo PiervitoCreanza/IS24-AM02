@@ -34,6 +34,16 @@ public class PositionalObjectiveCard extends ObjectiveCard {
     }
 
     /**
+     * Returns true if the objective card is a positional objective card, false otherwise.
+     *
+     * @return true if the objective card is a positional objective card, false otherwise.
+     */
+    @Override
+    public boolean isPositionalObjectiveCard() {
+        return true;
+    }
+
+    /**
      * Returns the positional data required by the objective card.
      *
      * @return The positional data required by the objective card.

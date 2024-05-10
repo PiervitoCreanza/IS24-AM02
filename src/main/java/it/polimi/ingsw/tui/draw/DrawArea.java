@@ -20,6 +20,13 @@ public class DrawArea implements Drawable {
     private HashMap<Coordinate, MagicChar> drawArea = new HashMap<>();
 
     /**
+     * Default constructor that initializes the drawable area with an empty string.
+     */
+    public DrawArea() {
+        drawArea = new HashMap<>();
+    }
+
+    /**
      * Constructor that initializes the drawable area with a string.
      *
      * @param drawArea The string to initialize the drawable area with.
@@ -208,5 +215,15 @@ public class DrawArea implements Drawable {
     @Override
     public int getWidth() {
         return (int) drawArea.keySet().stream().mapToDouble(Coordinate::getX).max().orElse(0);
+    }
+
+    /**
+     * Returns the draw area of the drawable object.
+     *
+     * @return the draw area of the drawable object.
+     */
+    @Override
+    public DrawArea getDrawArea() {
+        return this;
     }
 }

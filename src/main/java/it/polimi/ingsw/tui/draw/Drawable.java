@@ -27,4 +27,11 @@ public interface Drawable {
      */
     @Override
     String toString();
+
+    /**
+     * Returns the draw area of the drawable object.
+     *
+     * @return the draw area of the drawable object.
+     */
+    DrawArea getDrawArea();
 }
