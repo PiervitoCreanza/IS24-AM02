@@ -35,6 +35,15 @@ abstract public class ObjectiveCard implements Serializable {
     }
 
     /**
+     * Returns the number of points the player can win by fulfilling the objective of this card.
+     *
+     * @return The number of points the player can win by fulfilling the objective of this card.
+     */
+    public int getPointsWon() {
+        return pointsWon;
+    }
+
+    /**
      * Returns the unique identifier of this objective card.
      *
      * @return The unique identifier of this objective card.

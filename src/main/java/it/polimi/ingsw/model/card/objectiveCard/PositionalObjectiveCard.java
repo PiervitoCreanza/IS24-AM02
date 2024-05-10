@@ -1,12 +1,11 @@
 package it.polimi.ingsw.model.card.objectiveCard;
 
 import it.polimi.ingsw.model.card.CardColorEnum;
-import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.player.PlayerBoard;
+import it.polimi.ingsw.model.utils.Coordinate;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -32,6 +31,15 @@ public class PositionalObjectiveCard extends ObjectiveCard {
         super(cardId, pointsWon);
         Objects.requireNonNull(positionalData, "positionalData must be not null");
         this.positionalData = positionalData;
+    }
+
+    /**
+     * Returns the positional data required by the objective card.
+     *
+     * @return The positional data required by the objective card.
+     */
+    public ArrayList<PositionalData> getPositionalData() {
+        return positionalData;
     }
 
     /**
