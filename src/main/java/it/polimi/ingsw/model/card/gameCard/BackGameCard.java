@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.card.gameCard;
 
-import it.polimi.ingsw.model.utils.store.GameItemStore;
 import it.polimi.ingsw.model.card.corner.Corner;
+import it.polimi.ingsw.model.utils.store.GameItemStore;
 
 import java.util.Objects;
 
@@ -44,6 +44,16 @@ public class BackGameCard extends SideGameCard {
                 gameItemStore.increment(key, resources.get(key))
         );
         return gameItemStore;
+    }
+
+    /**
+     * Returns the resources on the back side of the card.
+     *
+     * @return the resources on the back side of the card
+     */
+    @Override
+    public GameItemStore getBackItemStore() {
+        return resources;
     }
 
     /**

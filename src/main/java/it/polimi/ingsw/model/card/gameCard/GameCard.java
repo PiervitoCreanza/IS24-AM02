@@ -126,14 +126,32 @@ public class GameCard implements Serializable {
     }
 
     /**
+     * Gets the back game item store of the current side of the card.
+     *
+     * @return The back game item store of the current side.
+     */
+    public GameItemStore getBackItemStore() {
+        return currentSideGameCard.getBackItemStore();
+    }
+
+    /**
+     * Returns the points of the current side of the game card.
+     *
+     * @return The points of the current side of the game card.
+     */
+    public int getPoints() {
+        return currentSideGameCard.getPoints();
+    }
+
+    /**
      * Calculates and returns the points for the card based on its position and the player's board.
      *
      * @param cardPosition The position of the card on the player's board.
      * @param playerBoard  The player's board.
      * @return The calculated points for the card.
      */
-    public int getPoints(Coordinate cardPosition, PlayerBoard playerBoard) {
-        return currentSideGameCard.getPoints(cardPosition, playerBoard);
+    public int calculatePoints(Coordinate cardPosition, PlayerBoard playerBoard) {
+        return currentSideGameCard.calculatePoints(cardPosition, playerBoard);
     }
 
     /**
@@ -143,6 +161,24 @@ public class GameCard implements Serializable {
      */
     public GameItemStore getNeededItemStore() {
         return currentSideGameCard.getNeededItemStore();
+    }
+
+    /**
+     * Gets the multiplier for the current side of the card.
+     *
+     * @return The multiplier for the current side.
+     */
+    public GameItemEnum getMultiplier() {
+        return currentSideGameCard.getMultiplier();
+    }
+
+    /**
+     * Checks if the current side of the card is gold positional.
+     *
+     * @return true if the current side of the card is gold positional, false otherwise.
+     */
+    public boolean isGoldPositional() {
+        return currentSideGameCard.isGoldPositional();
     }
 
     /**

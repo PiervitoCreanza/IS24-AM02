@@ -197,6 +197,12 @@ public class DrawArea implements Drawable {
         getCoords().forEach(c -> drawArea.get(c).setColor(color));
     }
 
+
+    public void drawCenteredX(int startingX, int endingX, int y, DrawArea drawArea) {
+        int diff = (endingX - startingX - drawArea.getWidth()) / 2;
+        drawAt(startingX + diff, y, drawArea);
+    }
+
     /**
      * Returns the height of the drawable area.
      *

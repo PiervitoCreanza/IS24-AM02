@@ -151,7 +151,7 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
         validatePlacement(coordinate, gameCard);
         updateGameItems(gameCard, coordinate);
         playerBoard.put(coordinate, gameCard);
-        return gameCard.getPoints(coordinate, this);
+        return gameCard.calculatePoints(coordinate, this);
     }
 
     private void validatePlacement(Coordinate coordinate, GameCard gameCard) {
