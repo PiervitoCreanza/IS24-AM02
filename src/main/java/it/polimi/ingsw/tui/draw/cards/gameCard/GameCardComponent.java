@@ -3,6 +3,7 @@ package it.polimi.ingsw.tui.draw.cards.gameCard;
 import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.model.card.corner.CornerPosition;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 import it.polimi.ingsw.tui.draw.DrawArea;
 import it.polimi.ingsw.tui.draw.Drawable;
@@ -33,6 +34,15 @@ public class GameCardComponent implements Drawable {
         drawArea.drawCenteredX(6, 17, 5, neededItems(gameCard.getNeededItemStore()));
         drawArea.drawAt(9, 2, itemStore(gameCard.getBackItemStore()));
 
+    }
+
+    public GameCardComponent(GameCard gameCard, Coordinate coordinate) {
+        GameCardComponent gameCardComponent = new GameCardComponent(gameCard);
+        drawArea = gameCardComponent.getDrawArea();
+        DrawArea coordinateDrawArea = new DrawArea("[");
+        coordinateDrawArea.drawAt(1, 0, (int) coordinate.getX() + ",");
+        coordinateDrawArea.drawAt(coordinateDrawArea.getWidth() + 1, 0, (int) coordinate.getY() + "]");
+        drawArea.drawCenteredX(8, 15, 0, coordinateDrawArea);
     }
 
     private DrawArea itemStore(GameItemStore itemStore) {

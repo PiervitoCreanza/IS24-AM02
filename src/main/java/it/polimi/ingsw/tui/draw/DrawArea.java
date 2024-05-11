@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.utils.Pair;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -186,6 +187,18 @@ public class DrawArea implements Drawable {
             p.key().y = maxY - p.key().y;
         });
         return pair;
+    }
+
+    public <U> HashMap<Coordinate, U> convertCoordinates(HashMap<Coordinate, U> map) {
+        int maxY = (int) map.keySet().stream().mapToDouble(Point::getY).max().orElse(0);
+        int minX = (int) map.keySet().stream().mapToDouble(Point::getX).min().orElse(0);
+        map.keySet().forEach(p -> {
+            if (minX < 0) {
+                p.x += Math.abs(minX);
+            }
+            p.y = maxY - p.y;
+        });
+        return map;
     }
 
     /**
