@@ -25,7 +25,7 @@ public enum CardColorEnum {
     /**
      * Represents a card of color purple.
      */
-    PURPLE(ColorsEnum.RED),
+    PURPLE(ColorsEnum.PURPLE),
 
     /**
      * Represents a card of color neutral.
