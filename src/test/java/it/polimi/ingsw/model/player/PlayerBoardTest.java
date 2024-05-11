@@ -204,6 +204,6 @@ public class PlayerBoardTest {
         assertEquals(0, playerBoard.getGameItemAmount(GameItemEnum.MANUSCRIPT));
 
         // Check that the points are calculated correctly
-        assertEquals(positionalGoldCard.getPoints(coordinate, playerBoard), points);
+        assertEquals(positionalGoldCard.calculatePoints(coordinate, playerBoard), points);
     }
 }

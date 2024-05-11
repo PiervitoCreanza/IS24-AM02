@@ -2,6 +2,10 @@ package it.polimi.ingsw.model.card.gameCard;
 
 import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.model.card.corner.Corner;
+import it.polimi.ingsw.model.card.gameCard.front.FrontGameCard;
+import it.polimi.ingsw.model.card.gameCard.front.goldCard.FrontGoldGameCard;
+import it.polimi.ingsw.model.card.gameCard.front.goldCard.FrontItemGoldGameCard;
+import it.polimi.ingsw.model.card.gameCard.front.goldCard.FrontPositionalGoldGameCard;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -82,5 +86,17 @@ public class BackGameCardTest {
         BackGameCard backGameCard2 = new BackGameCard(corner, corner, corner, corner, gameItemStore2);
 
         assertNotEquals(backGameCard1, backGameCard2);
+    }
+
+    @Test
+    @DisplayName("getBackItemStore() should return the resources on the back side of the card only if it is a BackGameCard")
+    void shouldReturnResourcesOnlyIfBackGameCard() {
+        GameItemStore gameItemStore = new GameItemStore();
+        gameItemStore.set(GameItemEnum.FUNGI, 3);
+        assertEquals(gameItemStore, new BackGameCard(null, null, null, null, gameItemStore).getBackItemStore());
+        assertNotEquals(gameItemStore, new FrontGameCard(null, null, null, null, 0).getBackItemStore());
+        assertNotEquals(gameItemStore, new FrontItemGoldGameCard(null, null, null, null, 0, gameItemStore, null).getBackItemStore());
+        assertNotEquals(gameItemStore, new FrontGoldGameCard(null, null, null, null, 0, gameItemStore).getBackItemStore());
+        assertNotEquals(gameItemStore, new FrontPositionalGoldGameCard(null, null, null, null, 0, gameItemStore).getBackItemStore());
     }
 }
