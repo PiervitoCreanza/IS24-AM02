@@ -16,11 +16,6 @@ public enum GameStatusEnum {
     INIT_PLACE_STARTER_CARD,
 
     /**
-     * The game is in the phase where players are drawing their initial hand of cards.
-     */
-    INIT_DRAW_CARD,
-
-    /**
      * The game is in the phase where the player is choosing his player color.
      */
     INIT_CHOOSE_PLAYER_COLOR,

@@ -28,6 +28,7 @@ public class GameCardComponentTest {
             c.switchSide();
             gameCardComponent = new GameCardComponent(c);
             drawArea.drawAt(gameCardComponent.getWidth() + 5, 0, gameCardComponent.getDrawArea());
+            System.out.println(c.getCardId());
             System.out.print(drawArea);
             String divider = "-".repeat(drawArea.getWidth());
             System.out.println(divider);
@@ -39,6 +40,7 @@ public class GameCardComponentTest {
             c.switchSide();
             gameCardComponent = new GameCardComponent(c);
             drawArea.drawAt(gameCardComponent.getWidth() + 5, 0, gameCardComponent.getDrawArea());
+            System.out.println(c.getCardId());
             System.out.print(drawArea);
             String divider = "-".repeat(drawArea.getWidth());
             System.out.println(divider);
@@ -50,6 +52,7 @@ public class GameCardComponentTest {
             c.switchSide();
             gameCardComponent = new GameCardComponent(c);
             drawArea.drawAt(gameCardComponent.getWidth() + 5, 0, gameCardComponent.getDrawArea());
+            System.out.println(c.getCardId());
             System.out.print(drawArea);
             String divider = "-".repeat(drawArea.getWidth());
             System.out.println(divider);
