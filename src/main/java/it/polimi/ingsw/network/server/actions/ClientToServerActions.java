@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.network.client.message.ClientToServerMessage;
 import it.polimi.ingsw.network.server.ServerMessageHandler;
 
 /**
@@ -107,4 +108,7 @@ public interface ClientToServerActions {
      * @param card       the card whose side is to be switched.
      */
     void switchCardSide(String gameName, String playerName, GameCard card);
+
+
+    void chatMessageSender(ClientToServerMessage message);
 }

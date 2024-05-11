@@ -66,6 +66,7 @@ public class RMIServerSender implements ServerMessageHandler, Observable<ServerM
                 case DELETE_GAME -> stub.receiveGameDeleted(message.getSuccessDeleteMessage());
                 case GET_GAMES -> stub.receiveGameList(message.getGames());
                 case ERROR_MSG -> stub.receiveErrorMessage(message.getErrorMessage());
+                case CHAT_MSG -> stub.receiveChatMessage(message);
                 default -> System.err.print("Invalid action\n");
             }
         } catch (RemoteException e) {
@@ -120,7 +121,7 @@ public class RMIServerSender implements ServerMessageHandler, Observable<ServerM
     @Override
     public void connectionSaved(boolean hasBeenSaved) {
         this.isConnectionSaved.set(hasBeenSaved);
-        this.heartbeat();
+        this.heartbeat(); //Comment here if you want to disable the heartbeat
     }
 
     /**

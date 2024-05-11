@@ -5,11 +5,13 @@ import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.actions.ServerToClientActions;
+import it.polimi.ingsw.network.client.message.chatMessageClientToServerMessage;
 import it.polimi.ingsw.network.client.message.gameController.*;
 import it.polimi.ingsw.network.client.message.mainController.CreateGameClientToServerMessage;
 import it.polimi.ingsw.network.client.message.mainController.DeleteGameClientToServerMessage;
 import it.polimi.ingsw.network.client.message.mainController.GetGamesClientToServerMessage;
 import it.polimi.ingsw.network.client.message.mainController.JoinGameClientToServerMessage;
+import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 
@@ -74,6 +76,10 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
         messageHandler.sendMessage(new SetPlayerObjectiveClientToServerMessage(gameName, playerName, card));
     }
 
+    void sendChatMessage(chatMessageClientToServerMessage message) {
+        messageHandler.sendMessage(message);
+    }
+
     /* ***************************************
      * METHODS INVOKED BY THE SERVER ON THE CLIENT
      * ***************************************/
@@ -108,6 +114,15 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
 
     }
 
+
+    /**
+     * @param message
+     */
+    public void receiveChatMessage(ServerToClientMessage message) {
+        //TODO: JavaFx / TUI event trigger?
+        System.out.println("Received chat message: " + message.chatPrint());
+    }
+
     public void setMessageHandler(ClientMessageHandler messageHandler) {
         this.messageHandler = messageHandler;
     }
@@ -115,4 +130,6 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
     public GameControllerView getView() {
         return view;
     }
+
+
 }

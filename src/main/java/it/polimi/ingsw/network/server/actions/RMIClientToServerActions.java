@@ -5,10 +5,13 @@ import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
+import it.polimi.ingsw.network.client.message.ClientToServerMessage;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+
+//TODO: DOC
 public interface RMIClientToServerActions extends Remote {
     /**
      * Retrieves the list of available games.
@@ -106,4 +109,7 @@ public interface RMIClientToServerActions extends Remote {
      * @param card       the objective card to be set for the player.
      */
     void setPlayerObjective(String gameName, String playerName, ObjectiveCard card) throws RemoteException;
+
+    //TODO: This method is responsible to send a chatMessageClientToServerMessage to the server, convert it to a chatMessageServerToClientMessage and send it to ALL the clients excluding the sender
+    void chatMessageSender(ClientToServerMessage message) throws RemoteException;
 }

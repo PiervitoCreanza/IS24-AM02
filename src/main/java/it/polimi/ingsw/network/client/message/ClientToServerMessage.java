@@ -21,7 +21,7 @@ public abstract class ClientToServerMessage {
 
     protected final String gameName;
 
-    protected final String playerName;
+    protected final String playerName; //sender of the message
 
     /**
      * Constructor for ClientToServerMessage.
@@ -83,6 +83,14 @@ public abstract class ClientToServerMessage {
     }
 
     public GameCard getGameCard() {
+        return null;
+    }
+
+    public String getMessage() {
+        return null;
+    }
+
+    public String getReceiver() {
         return null;
     }
 }

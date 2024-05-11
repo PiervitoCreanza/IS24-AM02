@@ -84,29 +84,29 @@ package Network {
             It also sends the messages to the clients
         end note
 
-        interface RMIClientActions extends ClientActions {
+        interface RMIClientToServerActions extends ClientToServerActions {
             +getGames(String ip, Int port,...)
             +joinGame(String ip, Int port, String gameName,...)
             +createGame(String ip, Int port, String gameName, ...)
         }
 
-        class RMIServerAdapter implements ServerMessageHandler, ClientActions {
+        class RMIServerSender implements ServerMessageHandler {
             -String playerName
             -String gameName
-            -ClientActions stub
+            -ClientToServerActions stub
             +sendMessage(ServerMessage message)
             +closeConnection()
 
         }
-        RMIServerAdapter *-- RMIServerConnectionHandler
+        RMIServerSender *-- RMIServerReceiver
 
-        class RMIServerConnectionHandler implements RMIClientActions {
+        class RMIServerReceiver implements RMIClientToServerActions {
             +void sendMessage(ServerMessage message)
             -connectToClient(String ip, Int port)
         }
 
 
-      class "NetworkCommandMapper" implements "ClientActions" {
+      class "ServerNetworkCommandMapper" implements "ClientToServerActions" {
                   -HashSet<ServerMessageHandler> connections
                   -HashMap<String gameName, ServerMessageHandler> connectionMap
                   -MainController mainController
@@ -114,8 +114,8 @@ package Network {
                   +void addConnection(ServerMessageHandler connection, String gameName)
                   +void removeConnection(ServerMessageHandler connection, String gameName)
               }
-              NetworkCommandMapper *-- ServerMessageHandler
-        note left of NetworkCommandMapper
+              ServerNetworkCommandMapper *-- ServerMessageHandler
+        note left of ServerNetworkCommandMapper
                 Executes actions on the controllers, retrieves the view
                 and sends it performing .sendMessage(ServerMessage)
                 on all the clients that need to receive the message
@@ -136,7 +136,7 @@ package Network {
             Client *-- RMIClientAsAServer
             ClientCommandMapper *-- ClientMessageHandler
 
-            interface RMIClientActions {
+            interface RMIClientToServerActions {
                 +connect(String ip, Int port);
             }
 

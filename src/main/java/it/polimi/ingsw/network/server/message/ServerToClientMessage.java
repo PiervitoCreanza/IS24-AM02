@@ -9,7 +9,6 @@ import java.util.HashSet;
 public abstract class ServerToClientMessage implements Serializable {
     public ServerActionEnum serverAction;
 
-
     public ServerToClientMessage(ServerActionEnum serverAction) {
         this.serverAction = serverAction;
     }
@@ -42,6 +41,14 @@ public abstract class ServerToClientMessage implements Serializable {
     }
 
     public String getSuccessDeleteMessage() {
+        return null;
+    }
+
+    public chatMessageServerToClientMessage getChatMessage() {
+        return null;
+    }
+
+    public String chatPrint() {
         return null;
     }
 }

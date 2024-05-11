@@ -142,6 +142,7 @@ public class Game implements VirtualViewable<GameView> {
     public Player getPlayer(String playerName) {
         Objects.requireNonNull(playerName, "The player name can't be NULL");
         Optional<Player> chosenPlayer = players.stream().filter(player -> player.getPlayerName().equals(playerName)).findFirst();
+        //TODO:handle this exception PROPERLY
         if (chosenPlayer.isEmpty())
             throw new IllegalArgumentException("Player with name \"" + playerName + "\" doesn't exists");
         return chosenPlayer.get();

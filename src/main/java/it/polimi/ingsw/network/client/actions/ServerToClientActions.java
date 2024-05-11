@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client.actions;
 
+import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 
@@ -39,4 +40,8 @@ public interface ServerToClientActions extends Remote {
      * @param errorMessage The error message received from the client.
      */
     void receiveErrorMessage(String errorMessage) throws RemoteException;
+
+
+    //TODO: metti tutti i campi del chatMessage che servono
+    void receiveChatMessage(ServerToClientMessage message) throws RemoteException;
 }

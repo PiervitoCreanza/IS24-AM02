@@ -27,6 +27,7 @@ public class Server {
      *
      * @param args the input arguments. If a single argument is provided, it is used as the port number for the server.
      */
+    public static long HEARTBEAT_TIMEOUT = 2500; //Static Instance of the timeout for the heartbeat
     public static void main(String[] args) throws RemoteException {
         /* ***************************************
          * INSTANTIATE MAIN CONTROLLER and NETWORK COMMAND MAPPER
@@ -41,6 +42,10 @@ public class Server {
         int TCPPortNumber = Integer.parseInt(cmd.getOptionValue("TCP_P", "12345")); // default is 12345
         int RMIPortNumber = Integer.parseInt(cmd.getOptionValue("RMI_P", "1099"));
         String serverIp;
+        if (cmd.hasOption("debug")) {
+            System.out.println(Utils.ANSI_PURPLE + "Start the Server in DEBUG mode. This sets the timeout to 10 minutes and prints all log messages" + Utils.ANSI_RESET);
+            HEARTBEAT_TIMEOUT = 600000; //if debug, set the timeout to 10 minutes
+        }
         if (cmd.hasOption("lan")) {
             try {
                 Socket socket = new Socket();
@@ -69,6 +74,7 @@ public class Server {
         options.addOption("RMI_P", true, "RMI ServerApp Port number (default is 1099).");
         options.addOption("IP", true, "RMI ServerApp server external IP (default is localhost).");
         options.addOption("lan", "Start the server with his lan ip address.");
+        options.addOption("debug", "Start the Server in DEBUG mode. This sets the timeout to 10 minutes and prints all log messages");
 
         CommandLineParser parser = new DefaultParser();
 

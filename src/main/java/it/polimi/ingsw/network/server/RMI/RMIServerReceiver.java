@@ -189,4 +189,17 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
     private void printDebug(ClientToServerMessage message) {
         System.out.println("RMI message received: " + message.getPlayerAction() + " from: " + message.getPlayerName() + " in game: " + message.getGameName());
     }
+
+    /**
+     * @param message
+     * @throws RemoteException
+     */
+    @Override
+    public void chatMessageSender(ClientToServerMessage message) throws RemoteException {
+        new Thread(() -> {
+            serverNetworkControllerMapper.chatMessageSender(message);
+        }).start();
+    }
+
+
 }

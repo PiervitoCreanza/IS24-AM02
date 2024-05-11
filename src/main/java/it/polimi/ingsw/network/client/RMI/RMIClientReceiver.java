@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.client.RMI;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
+import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 
@@ -11,8 +12,13 @@ import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
+//TODO: DOC
 /**
  * The RMIClientReceiver class is responsible for receiving messages from the server.
+ * Each method is made asyncronous to avoid blocking the server, by calling a new thread.
+ * When the thread is launched, the original call is returned, so both client and Server can go on with their work.
+ * The call is then completed asynchronously.
  */
 public class RMIClientReceiver implements RMIServerToClientActions {
 
@@ -86,6 +92,19 @@ public class RMIClientReceiver implements RMIServerToClientActions {
         System.out.println("RMI received message: " + errorMessage);
     }
 
+    /**
+     * @param message
+     * @throws RemoteException
+     */
+    public void receiveChatMessage(ServerToClientMessage message) throws RemoteException {
+        new Thread(() -> {
+            clientNetworkControllerMapper.receiveChatMessage(message);
+        }).start();
+        // Debug
+        System.out.println("RMI received message: " + message.toString());
+
+    }
+
     @Override
     public void heartbeat() throws RemoteException {
         new Thread(() -> {
@@ -108,6 +127,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
             System.out.println("Ping received");
         }
     }
+
 }
 
 
