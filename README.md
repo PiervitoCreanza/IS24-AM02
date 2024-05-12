@@ -19,14 +19,14 @@ to accommodate two main development approaches for flexibility.
 |-------------------|-------------------------|
 | Basic rules       | :white_check_mark:      |
 | Complete rules    | :white_check_mark:      |
-| Socket connection | :construction:          |
-| RMI connection    | :construction:          |
+| Socket connection | :white_check_mark:      |
+| RMI connection    | :white_check_mark:      |
 | CLI               | :construction:          |
 | GUI               | :ballot_box_with_check: |
 | Multiple games    | :white_check_mark:      |
 | Persistence       | :x:                     |
 | Resilience        | :ballot_box_with_check: |
-| Chat              | :construction:          |
+| Chat              | :white_check_mark:      |
 
 **Legend**
 | Symbol | Functionality status |
