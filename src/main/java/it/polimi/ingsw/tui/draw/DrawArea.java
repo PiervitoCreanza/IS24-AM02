@@ -21,6 +21,16 @@ public class DrawArea implements Drawable {
     private HashMap<Coordinate, MagicChar> drawArea = new HashMap<>();
 
     /**
+     * The width of the drawable area.
+     */
+    private int width = 0;
+
+    /**
+     * The height of the drawable area.
+     */
+    private int height = 0;
+
+    /**
      * Default constructor that initializes the drawable area with an empty string.
      */
     public DrawArea() {
@@ -44,36 +54,48 @@ public class DrawArea implements Drawable {
      */
     public DrawArea(DrawArea other) {
         this.drawArea = new HashMap<>(other.drawArea);
+        this.width = other.getWidth();
+        this.height = other.getHeight();
+    }
+
+    /**
+     * Updates the width and height of the drawable area based on the given coordinate.
+     * The width and height are updated only if the x or y coordinate of the given point
+     * is greater than the current width or height respectively.
+     * The width and height are 1-indexed, hence 1 is added to the coordinate value.
+     *
+     * @param c The coordinate based on which the width and height are to be updated.
+     */
+    private void updateWidthHeight(Coordinate c) {
+        // If the x-coordinate of the point is greater than the current width,
+        // update the width to be one more than the x-coordinate.
+        if (c.x >= width) width = c.x + 1;
+
+        // If the y-coordinate of the point is greater than the current height,
+        // update the height to be one more than the y-coordinate.
+        if (c.y >= height) height = c.y + 1;
     }
 
     /**
      * Draws the specified drawable area at the specified coordinates.
      *
-     * @param x        The x-coordinate at which to draw the drawable area.
-     * @param y        The y-coordinate at which to draw the drawable area.
-     * @param drawArea The drawable area to draw.
+     * @param x             The x-coordinate at which to draw the drawable area.
+     * @param y             The y-coordinate at which to draw the drawable area.
+     * @param otherDrawArea The drawable area to draw.
      */
-    public void drawAt(int x, int y, DrawArea drawArea) {
-        drawArea.getCoords().stream().filter(c -> drawArea.getCharAt(c.x, c.y) != ' ')
-                .forEach(c -> this.drawArea.put(new Coordinate(x + c.x, y + c.y), drawArea.getAt(c.x, c.y)));
-    }
+    public void drawAt(int x, int y, DrawArea otherDrawArea) {
+        otherDrawArea.getCoords().stream()
+                .filter(c -> otherDrawArea.getCharAt(c.x, c.y) != ' ')
+                .forEach(c -> {
+                    // Create a new coordinate with the x and y coordinates of the new character to put.
+                    Coordinate newCharCoordinate = new Coordinate(x + c.x, y + c.y);
 
-    /**
-     * Draws the specified string at the specified coordinates.
-     *
-     * @param x      The x-coordinate at which to draw the string.
-     * @param y      The y-coordinate at which to draw the string.
-     * @param string The string to draw.
-     */
-    public void drawAt(int x, int y, String string) {
-        String[] lines = string.split("\n");
-        for (int i = 0; i < lines.length; i++) {
-            for (int j = 0; j < lines[i].length(); j++) {
-                char c = lines[i].charAt(j);
-                if (c != ' ')
-                    drawArea.put(new Coordinate(x + j, y + i), new MagicChar(lines[i].charAt(j)));
-            }
-        }
+                    // Put the new character in the drawable area.
+                    this.drawArea.put(newCharCoordinate, otherDrawArea.getAt(c.x, c.y));
+
+                    // Update width and height of the draw area.
+                    updateWidthHeight(newCharCoordinate);
+                });
     }
 
     /**
@@ -88,11 +110,30 @@ public class DrawArea implements Drawable {
         String[] lines = string.split("\n");
         for (int i = 0; i < lines.length; i++) {
             for (int j = 0; j < lines[i].length(); j++) {
-                char c = lines[i].charAt(j);
-                if (c != ' ')
-                    drawArea.put(new Coordinate(x + j, y + i), new MagicChar(lines[i].charAt(j), color));
+                char charToAdd = lines[i].charAt(j);
+                if (charToAdd != ' ') {
+                    // Create a new coordinate with the x and y coordinates of the new character to put.
+                    Coordinate newCharCoordinate = new Coordinate(x + j, y + i);
+
+                    // Put the new character in the drawable area.
+                    drawArea.put(newCharCoordinate, new MagicChar(charToAdd, color));
+
+                    // Update width and height of the draw area.
+                    updateWidthHeight(newCharCoordinate);
+                }
             }
         }
+    }
+
+    /**
+     * Draws the specified string at the specified coordinates.
+     *
+     * @param x      The x-coordinate at which to draw the string.
+     * @param y      The y-coordinate at which to draw the string.
+     * @param string The string to draw.
+     */
+    public void drawAt(int x, int y, String string) {
+        drawAt(x, y, string, null);
     }
 
     /**
@@ -189,6 +230,14 @@ public class DrawArea implements Drawable {
         return pair;
     }
 
+    /**
+     * Converts a positive y-coordinate system to a negative one. And shifts the x-coordinates to the right to put it in the 1st quadrant.
+     * This is useful when drawing on a terminal, where the origin is in the top-left corner.
+     *
+     * @param map The map whose y-coordinates to convert.
+     * @param <U> The type of the values in the map.
+     * @return The map with their y-coordinates converted.
+     */
     public <U> HashMap<Coordinate, U> convertCoordinates(HashMap<Coordinate, U> map) {
         int maxY = (int) map.keySet().stream().mapToDouble(Point::getY).max().orElse(0);
         int minX = (int) map.keySet().stream().mapToDouble(Point::getX).min().orElse(0);
@@ -210,7 +259,14 @@ public class DrawArea implements Drawable {
         getCoords().forEach(c -> drawArea.get(c).setColor(color));
     }
 
-
+    /**
+     * Draws the specified drawable area centered on the x-axis between the specified starting and ending x-coordinates.
+     *
+     * @param startingX The starting x-coordinate.
+     * @param endingX   The ending x-coordinate.
+     * @param y         The y-coordinate at which to draw the drawable area.
+     * @param drawArea  The drawable area to draw.
+     */
     public void drawCenteredX(int startingX, int endingX, int y, DrawArea drawArea) {
         int diff = (endingX - startingX - drawArea.getWidth()) / 2;
         drawAt(startingX + diff, y, drawArea);
@@ -223,7 +279,7 @@ public class DrawArea implements Drawable {
      */
     @Override
     public int getHeight() {
-        return (int) drawArea.keySet().stream().mapToDouble(Coordinate::getY).max().orElse(0);
+        return height;
     }
 
     /**
@@ -233,7 +289,7 @@ public class DrawArea implements Drawable {
      */
     @Override
     public int getWidth() {
-        return (int) drawArea.keySet().stream().mapToDouble(Coordinate::getX).max().orElse(0);
+        return width;
     }
 
     /**
