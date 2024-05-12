@@ -49,10 +49,10 @@ public class Server {
          * ***************************************/
         CommandLine cmd = parseCommandLineArgs(args);
         TCPPortNumber = Integer.parseInt(cmd.getOptionValue("TCP_P", "12345")); // default is 12345
-        RMIPortNumber = Integer.parseInt(cmd.getOptionValue("RMI_P", "1100"));
+        RMIPortNumber = Integer.parseInt(cmd.getOptionValue("RMI_P", "1099")); // default is 1099
         String serverIp;
         if (cmd.hasOption("debug")) {
-            System.out.println(ANSI_PURPLE + "Start the Server in DEBUG mode. This sets the timeout to 10 minutes and prints all log messages" + Utils.ANSI_RESET);
+            System.out.println(ANSI_PURPLE + "Start the Server in DEBUG mode." + Utils.ANSI_RESET);
             HEARTBEAT_TIMEOUT = 600000; //if debug, set the timeout to 10 minutes
             IS_DEBUG = true;
         }
@@ -84,7 +84,7 @@ public class Server {
         options.addOption("RMI_P", true, "RMI ServerApp Port number (default is 1099).");
         options.addOption("IP", true, "RMI ServerApp server external IP (default is localhost).");
         options.addOption("lan", "Start the server with his lan ip address.");
-        options.addOption("debug", "Start the Server in DEBUG mode. This sets the timeout to 10 minutes and prints all log messages");
+        options.addOption("debug", "Start the Server in DEBUG mode.");
 
         CommandLineParser parser = new DefaultParser();
 

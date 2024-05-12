@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Objects;
  * It contains a player action, which is an enum representing the type of action the player has taken.
  * This class is meant to be extended by other classes that represent specific types of client messages.
  */
-public abstract class ClientToServerMessage {
+public abstract class ClientToServerMessage implements Serializable {
     /**
      * The action taken by the player.
      * This is an enum value representing the type of action the player has taken.
@@ -22,6 +23,8 @@ public abstract class ClientToServerMessage {
     protected final String gameName;
 
     protected final String playerName; //sender of the message
+    private static final long serialVersionUID = 1L; //MANDATORY BECAUSE OF CtoS -> StoC conversion
+
 
     /**
      * Constructor for ClientToServerMessage.
