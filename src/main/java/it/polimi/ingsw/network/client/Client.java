@@ -35,6 +35,7 @@ public class Client {
     private static int serverPortNumber;
     private static String clientIpAddress;
     private static int clientPortNumber;
+    public static boolean DEBUG;
 
     public static void main(String[] args) {
         CommandLine cmd = parseCommandLineArgs(args);
@@ -44,6 +45,7 @@ public class Client {
         lan = cmd.hasOption("lan");
         serverIpAddress = cmd.getOptionValue("ip_s", "localhost"); // default is localhost
         serverPortNumber = Integer.parseInt(cmd.getOptionValue("p_s", (connectionType.equals("TCP") ? "12345" : "1099")));
+        DEBUG = cmd.hasOption("debug");
         if (lan) {
             try {
                 Socket socket = new Socket();
@@ -60,7 +62,8 @@ public class Client {
         clientPortNumber = Integer.parseInt(cmd.getOptionValue("p_c", Integer.toString(serverPortNumber + 1)));
 
         System.out.println(Utils.ANSI_PURPLE + "Client IP: " + clientIpAddress + Utils.ANSI_RESET);
-
+        if (DEBUG)
+            System.out.println(Utils.ANSI_PURPLE + "Debug mode enabled" + Utils.ANSI_RESET);
         switch (connectionType.toLowerCase()) {
             case "tcp" -> {
                 System.out.println(Utils.ANSI_BLUE + "Started a TCP connection with IP: " + serverIpAddress + " on port: " + serverPortNumber + Utils.ANSI_RESET);
@@ -87,6 +90,7 @@ public class Client {
         options.addOption("ip_c", true, "Client IP address (default is localhost).");
         options.addOption("p_c", true, "Client port number (default is the same as the server port number).");
         options.addOption("lan", "Start the client with his lan ip address.");
+        options.addOption("debug", "Prints debug messages.");
 
         CommandLineParser parser = new DefaultParser();
 

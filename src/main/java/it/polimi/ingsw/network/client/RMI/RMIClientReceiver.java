@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client.RMI;
 
+import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
@@ -91,7 +92,9 @@ public class RMIClientReceiver implements RMIServerToClientActions {
 
     @Override
     public void heartbeat() throws RemoteException {
-        System.out.println("Ping received");
+        if (Client.DEBUG) {
+            System.out.println("Ping received");
+        }
     }
 }
 
