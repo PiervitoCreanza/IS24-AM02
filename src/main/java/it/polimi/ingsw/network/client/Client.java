@@ -57,7 +57,7 @@ public class Client {
         } else {
             clientIpAddress = cmd.getOptionValue("ip_c", "localhost");
         }
-        clientPortNumber = Integer.parseInt(cmd.getOptionValue("p_c", Integer.toString(serverPortNumber)));
+        clientPortNumber = Integer.parseInt(cmd.getOptionValue("p_c", Integer.toString(serverPortNumber + 1)));
 
         System.out.println(Utils.ANSI_PURPLE + "Client IP: " + clientIpAddress + Utils.ANSI_RESET);
 
@@ -202,7 +202,6 @@ public class Client {
                     case "5" -> {
                         //TODO: gather arguments on updated VirtualView
                         GameCard starterCard = CLIENT_NETWORK_CONTROLLER_MAPPER.getView().gameView().playerViews().stream().filter(playerView -> playerView.playerName().equals(finalPlayerName)).findFirst().get().starterCard();
-                        ;
                         String choice = "0";
                         boolean side = false;
                         while (!choice.equals("2")) {
