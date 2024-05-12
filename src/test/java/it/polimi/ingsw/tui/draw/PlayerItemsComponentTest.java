@@ -23,17 +23,19 @@ public class PlayerItemsComponentTest {
         int x = 1;
         int y = 1;
         for (GameCard c : parser.getResourceDeck().getCards()) {
-            if (!cardIds.contains(c.getCardId()))
+            if (!cardIds.contains(c.getCardId())) {
                 playerBoard.placeGameCard(new Coordinate(x++, y++), c);
+            }
+
         }
-        playerBoard.placeGameCard(new Coordinate(-1, -1), parser.getResourceDeck().getCards().getFirst());
+        playerBoard.placeGameCard(new Coordinate(-1, -1), parser.getGoldDeck().draw());
         HashMap<Coordinate, GameCard> testMap = playerBoard.getVirtualView().playerBoard();
         HashMap<Integer, Coordinate> unconvertedCoordinates = new HashMap<>();
-        testMap.forEach((k, v) -> unconvertedCoordinates.put(v.getCardId(), new Coordinate((int) k.getX(), (int) k.getY())));
+        testMap.forEach((k, v) -> unconvertedCoordinates.put(v.getCardId(), new Coordinate(k.x, k.y)));
         testMap = drawArea.convertCoordinates(testMap);
         testMap.forEach((k, v) -> {
             GameCardComponent gameCardComponent = new GameCardComponent(v, unconvertedCoordinates.get(v.getCardId()));
-            drawArea.drawAt((int) (k.getX() * (gameCardComponent.getWidth() - 4)), (int) (k.getY() * (gameCardComponent.getHeight() - 2)), gameCardComponent.getDrawArea());
+            drawArea.drawAt(k.x * (gameCardComponent.getWidth() - 5), k.y * (gameCardComponent.getHeight() - 3), gameCardComponent.getDrawArea());
         });
         System.out.println(drawArea);
         System.out.println(new PlayerItemsComponent(playerBoard.getVirtualView().gameItemStore()));

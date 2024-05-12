@@ -41,7 +41,7 @@ public class GameCardComponent implements Drawable {
         drawArea = gameCardComponent.getDrawArea();
         DrawArea coordinateDrawArea = new DrawArea("[");
         coordinateDrawArea.drawAt(1, 0, (int) coordinate.getX() + ",");
-        coordinateDrawArea.drawAt(coordinateDrawArea.getWidth() + 1, 0, (int) coordinate.getY() + "]");
+        coordinateDrawArea.drawAt(coordinateDrawArea.getWidth(), 0, (int) coordinate.getY() + "]");
         drawArea.drawCenteredX(8, 15, 0, coordinateDrawArea);
     }
 

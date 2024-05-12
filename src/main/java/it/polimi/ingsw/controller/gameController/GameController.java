@@ -107,10 +107,19 @@ public class GameController implements PlayerActions {
      */
     public void switchCardSide(String playerName, GameCard card) {
         Optional<GameCard> cardToSwitch = game.getPlayer(playerName).getPlayerHand().getCards().stream().filter(c -> c.equals(card)).findFirst();
-        if (cardToSwitch.isEmpty()) {
-            throw new IllegalArgumentException("Card cannot be switched. Not present in player's hand");
+
+        if (cardToSwitch.isPresent()) {
+            cardToSwitch.get().switchSide();
+            return;
         }
-        cardToSwitch.get().switchSide();
+
+        GameCard starterCard = game.getPlayer(playerName).getPlayerBoard().getStarterCard();
+        if (starterCard.getCardId() == card.getCardId()) {
+            starterCard.switchSide();
+            return;
+        }
+
+        throw new IllegalArgumentException("Card cannot be switched. Not present in player's hand");
     }
 
     /**

@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.utils.Pair;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -219,8 +218,8 @@ public class DrawArea implements Drawable {
      * @return The pairs with their y-coordinates converted.
      */
     public <U> ArrayList<Pair<Coordinate, U>> convertCoordinates(ArrayList<Pair<Coordinate, U>> pair) {
-        int maxY = (int) pair.stream().mapToDouble(p -> p.x().getY()).max().orElse(0);
-        int minX = (int) pair.stream().mapToDouble(p -> p.x().getX()).min().orElse(0);
+        int maxY = pair.stream().mapToInt(p -> p.x().y).max().orElse(0);
+        int minX = pair.stream().mapToInt(p -> p.x().x).min().orElse(0);
         pair.forEach(p -> {
             if (minX < 0) {
                 p.key().x += Math.abs(minX);
@@ -239,8 +238,8 @@ public class DrawArea implements Drawable {
      * @return The map with their y-coordinates converted.
      */
     public <U> HashMap<Coordinate, U> convertCoordinates(HashMap<Coordinate, U> map) {
-        int maxY = (int) map.keySet().stream().mapToDouble(Point::getY).max().orElse(0);
-        int minX = (int) map.keySet().stream().mapToDouble(Point::getX).min().orElse(0);
+        int maxY = map.keySet().stream().mapToInt(p -> p.y).max().orElse(0);
+        int minX = map.keySet().stream().mapToInt(p -> p.x).min().orElse(0);
         map.keySet().forEach(p -> {
             if (minX < 0) {
                 p.x += Math.abs(minX);
