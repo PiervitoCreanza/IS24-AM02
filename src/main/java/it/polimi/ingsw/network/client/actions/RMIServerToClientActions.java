@@ -13,5 +13,12 @@ import java.rmi.RemoteException;
  */
 public interface RMIServerToClientActions extends Remote, ServerToClientActions {
 
+    /**
+     * Sends a heartbeat signal to the server.
+     * This method is used to indicate that the client is still active.
+     * It throws a RemoteException if the RMI connection encounters an error.
+     *
+     * @throws RemoteException If an error occurs during the RMI connection.
+     */
     void heartbeat() throws RemoteException;
 }

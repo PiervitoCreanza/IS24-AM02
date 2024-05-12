@@ -10,43 +10,46 @@ import it.polimi.ingsw.network.client.message.ClientToServerMessage;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-
-//TODO: DOC
+/**
+ * This interface defines the actions that a client can perform on the server via RMI.
+ * It includes methods for game management such as creating, joining, and leaving games,
+ * as well as gameplay actions like placing and drawing cards.
+ */
 public interface RMIClientToServerActions extends Remote {
+
     /**
      * Retrieves the list of available games.
      * This method is used when a client wants to see all the games that are currently available to join.
+     * @param stub the stub used to call methods on the client's remote object
      */
     void getGames(RMIServerToClientActions stub) throws RemoteException;
 
     /**
      * Creates a new game with the given game name and number of players.
      *
+     * @param stub       the stub used to call methods on the client's remote object.
      * @param gameName   the name of the game.
      * @param playerName the name of the player.
      * @param nPlayers   the number of players in the game.
      */
     void createGame(RMIServerToClientActions stub, String gameName, String playerName, int nPlayers) throws RemoteException;
-    //TODO: the adapter here will save the stub into the map in which we'll have both TCP and RMI connection mapping
-    //TODO: the adapter will uniform to a ServerMessageHandler the RMI connections' stubs
-
 
     /**
      * Leaves the game.
-     *
+     * @param stub the stub used to call methods on the client's remote object.
      * @param gameName the name of the game.
+     * @param playerName the name of the player who is leaving the game.
      */
     void deleteGame(RMIServerToClientActions stub, String gameName, String playerName) throws RemoteException;
 
     /**
      * Joins the game with the given player name.
      *
+     * @param stub       the stub used to call methods on the client's remote object.
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is joining the game.
      */
     void joinGame(RMIServerToClientActions stub, String gameName, String playerName) throws RemoteException;
-    //TODO: the adapter here will save the stub into the map in which we'll have both TCP and RMI connection mapping
-    //TODO: the adapter will uniform to a ServerMessageHandler the RMI connections' stubs
 
     /**
      * Chooses the color for a player.
@@ -110,6 +113,11 @@ public interface RMIClientToServerActions extends Remote {
      */
     void setPlayerObjective(String gameName, String playerName, ObjectiveCard card) throws RemoteException;
 
-    //TODO: This method is responsible to send a chatMessageClientToServerMessage to the server, convert it to a chatMessageServerToClientMessage and send it to ALL the clients excluding the sender
+    /**
+     * Sends a chat message from the client to the server.
+     * The server will convert it to a chatMessageServerToClientMessage and send it to all clients excluding the sender.
+     *
+     * @param message the chat message to be sent.
+     */
     void chatMessageSender(ClientToServerMessage message) throws RemoteException;
 }

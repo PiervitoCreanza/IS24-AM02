@@ -77,6 +77,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      *
      * @param messageHandler the ServerMessageHandler that will handle the response
      * @param gameName       the name of the game to be created
+     * @param playerName     the name of the player creating the game
      * @param nPlayers       the number of players in the game
      */
 
@@ -123,6 +124,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      *
      * @param messageHandler the ServerMessageHandler that will handle the response
      * @param gameName       the name of the game.
+     * @param playerName     the name of the player who is leaving the game.
      */
     public void deleteGame(ServerMessageHandler messageHandler, String gameName, String playerName) {
         try {
@@ -288,7 +290,6 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      */
     @Override
     public void chatMessageSender(ClientToServerMessage message) {
-        //TODO: logica che inoltra a tutti i player della partita a cui appartiene il messaggio, ANCHE a che a chi ha inviato il messaggio
         //Extract the gameName from the message
         String gameName = message.getGameName();
 

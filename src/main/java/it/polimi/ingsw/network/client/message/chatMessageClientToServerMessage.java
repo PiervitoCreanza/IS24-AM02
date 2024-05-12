@@ -13,10 +13,27 @@ import static it.polimi.ingsw.tui.utils.Utils.ANSI_RESET;
  * It extends the ClientToServerMessage class and adds additional fields related to the chat functionality.
  */
 public class chatMessageClientToServerMessage extends ClientToServerMessage {
-    private final String message;  // The content of the chat message
-    private final long timestamp;  // Timestamp in Unix seconds when the message was created
-    private boolean isDirectMessage;  // Flag to indicate if the message is a direct message
-    private final String receiver;  // The receiver of the message if it's a direct message
+    /**
+     * The content of the chat message.
+     * This is a final variable, meaning it cannot be changed once it has been set.
+     */
+    private final String message;
+
+    /**
+     * Timestamp in Unix seconds when the message was created.
+     * This is a final variable, meaning it cannot be changed once it has been set.
+     */
+    private final long timestamp;
+    /**
+     * The receiver of the message if it's a direct message.
+     * This is a final variable, meaning it cannot be changed once it has been set.
+     */
+    private final String receiver;
+    /**
+     * Flag to indicate if the message is a direct message.
+     * This variable can be changed during the lifetime of the object.
+     */
+    private final boolean isDirectMessage;
 
     /**
      * Constructor for chatMessageClientToServerMessage.

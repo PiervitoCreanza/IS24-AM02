@@ -14,12 +14,27 @@ import static it.polimi.ingsw.tui.utils.Utils.ANSI_RESET;
  * It extends the ServerToClientMessage class and adds additional fields related to the chat functionality.
  */
 public class chatMessageServerToClientMessage extends ServerToClientMessage {
-    private final String message;  // The content of the chat message
-    private final long timestamp;  // Timestamp in Unix seconds when the message was created
-    private boolean isDirectMessage;  // Flag to indicate if the message is a direct message
-    private final String receiver;  // The receiver of the message if it's a direct message
+    /**
+     * The content of the chat message.
+     */
+    private final String message;
 
-    private final String sender; // The name of the player who sent the message, introduced here because by default standard server messages don't have a player name
+    /**
+     * Timestamp in Unix seconds when the message was created.
+     */
+    private final long timestamp;
+    /**
+     * The receiver of the message if it's a direct message.
+     */
+    private final String receiver;
+    /**
+     * The name of the player who sent the message, introduced here because by default standard server messages don't have a player name.
+     */
+    private final String sender;
+    /**
+     * Flag to indicate if the message is a direct message.
+     */
+    private final boolean isDirectMessage;
 
     /**
      * Constructor for chatMessageServerToClientMessage.
@@ -88,12 +103,14 @@ public class chatMessageServerToClientMessage extends ServerToClientMessage {
         return this.sender + ": " + message + " (" + getFormattedTimestamp() + ")";
     }
 
-
-    // Method to return a formatted timestamp (only hour, minutes, seconds)
+    /**
+     * Returns a formatted timestamp (only hour, minutes, seconds).
+     *
+     * @return A string representation of the timestamp.
+     */
     public String getFormattedTimestamp() {
         LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         return dateTime.format(formatter);
     }
-
 }

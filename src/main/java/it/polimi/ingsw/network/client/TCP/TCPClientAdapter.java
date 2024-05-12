@@ -36,11 +36,16 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
      */
     private final TCPConnectionHandler serverConnectionHandler;
 
+    /**
+     * Gson instance for JSON serialization and deserialization.
+     * It is configured with custom type adapters for ServerToClientMessage, SideGameCard, and ObjectiveCard classes.
+     * This is a final variable, meaning it cannot be changed once it has been set.
+     */
     private final Gson gson = new GsonBuilder()
-            .registerTypeAdapter(ServerToClientMessage.class, new ServerToClientMessageAdapter())
-            .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter())
-            .registerTypeAdapter(ObjectiveCard.class, new ObjectiveCardAdapter())
-            .create();
+            .registerTypeAdapter(ServerToClientMessage.class, new ServerToClientMessageAdapter()) // Registering a type adapter for ServerToClientMessage class
+            .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter()) // Registering a type adapter for SideGameCard class
+            .registerTypeAdapter(ObjectiveCard.class, new ObjectiveCardAdapter()) // Registering a type adapter for ObjectiveCard class
+            .create(); // Creating the Gson instance
 
     /**
      * Constructs a new TCPClientAdapter object with the specified socket and ClientNetworkControllerMapper.

@@ -32,11 +32,36 @@ public class Server {
      *
      * @param args the input arguments. If a single argument is provided, it is used as the port number for the server.
      */
-    public static long HEARTBEAT_TIMEOUT = 2500; //Static Instance of the timeout for the heartbeat
-    public static boolean IS_DEBUG = false; //Static Instance of the timeout for the heartbeat
+    /**
+     * The timeout for the heartbeat in milliseconds.
+     * This is the interval at which the server checks if the client is still connected.
+     */
+    public static long HEARTBEAT_TIMEOUT = 2500;
 
+    /**
+     * A flag indicating whether the server is running in debug mode.
+     * If true, the server will output additional debug information.
+     */
+    public static boolean IS_DEBUG = false;
+
+    /**
+     * The port number used by the TCP server.
+     */
     private static int TCPPortNumber;
+
+    /**
+     * The port number used by the RMI server.
+     */
     private static int RMIPortNumber;
+
+    /**
+     * The RMIServerReceiver class is responsible for receiving client actions and notifying the server message handler.
+     * It implements the RMIClientToServerActions interface, which defines the methods for handling client actions.
+     * It also implements the Observer interface, which allows it to be notified when a change occurs in the ServerMessageHandler.
+     *
+     * @param args the command line arguments. These can be used to specify the port numbers for the TCP and RMI servers, the server IP, and whether to start the server in debug mode.
+     * @throws RemoteException if an error occurs during the remote method call
+     */
     public static void main(String[] args) throws RemoteException {
         /* ***************************************
          * INSTANTIATE MAIN CONTROLLER and NETWORK COMMAND MAPPER
@@ -78,6 +103,12 @@ public class Server {
         TCPServerStart(serverNetworkControllerMapper, TCPPortNumber);
     }
 
+    /**
+     * Parses the command line arguments and returns a CommandLine object.
+     *
+     * @param args the command line arguments.
+     * @return a CommandLine object that can be used to query the command line arguments.
+     */
     private static CommandLine parseCommandLineArgs(String[] args) {
         Options options = new Options();
         options.addOption("TCP_P", true, "TCP ServerApp Port number (default is 12345).");
@@ -105,6 +136,13 @@ public class Server {
         return null;
     }
 
+    /**
+     * Starts the RMI server.
+     *
+     * @param serverNetworkControllerMapper the server network controller mapper.
+     * @param RMIPortNumber                 the RMI port number.
+     * @param serverIp                      the server IP.
+     */
     private static void RMIServerStart(ServerNetworkControllerMapper serverNetworkControllerMapper, Integer RMIPortNumber, String serverIp) {
         try {
             //TODO Conti fixit
@@ -125,6 +163,12 @@ public class Server {
         }
     }
 
+    /**
+     * Starts the TCP server.
+     *
+     * @param serverNetworkControllerMapper the server network controller mapper.
+     * @param TCPPortNumber                 the TCP port number.
+     */
     private static void TCPServerStart(ServerNetworkControllerMapper serverNetworkControllerMapper, Integer TCPPortNumber) {
         try (ServerSocket serverSocket = new ServerSocket(TCPPortNumber)) {
             System.out.println(Utils.ANSI_BLUE + "Codex Naturalis TCP Server ready on port: " + TCPPortNumber + Utils.ANSI_RESET);
@@ -137,6 +181,12 @@ public class Server {
         }
     }
 
+    /**
+     * Inspects the RMI registry and prints all the methods available.
+     *
+     * @param registry the RMI registry.
+     * @throws RemoteException if a remote communication error occurs.
+     */
     private static void inspectRegistry(Registry registry) throws RemoteException {
         // Get the list of names bound in the registry
         String[] boundNames = registry.list();

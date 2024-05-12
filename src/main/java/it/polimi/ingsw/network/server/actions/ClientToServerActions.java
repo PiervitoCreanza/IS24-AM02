@@ -44,6 +44,7 @@ public interface ClientToServerActions {
      *
      * @param messageHandler the message handler to handle the response.
      * @param gameName       the name of the game.
+     * @param playerName     the name of the player who is leaving the game.
      */
     void deleteGame(ServerMessageHandler messageHandler, String gameName, String playerName);
 
@@ -110,5 +111,11 @@ public interface ClientToServerActions {
     void switchCardSide(String gameName, String playerName, GameCard card);
 
 
+    /**
+     * Sends a chat message from the client to the server.
+     * The server will convert it to a chatMessageServerToClientMessage and send it to all clients excluding the sender.
+     *
+     * @param message the chat message to be sent.
+     */
     void chatMessageSender(ClientToServerMessage message);
 }

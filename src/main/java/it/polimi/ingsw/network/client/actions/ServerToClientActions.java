@@ -17,13 +17,15 @@ public interface ServerToClientActions extends Remote {
 
     /**
      * This method is called when the server receives a request for the list of games.
-     * TODO: add parameters as needed.
+     *
+     * @param games The list of games to be sent to the client.
      */
     void receiveGameList(HashSet<GameRecord> games) throws RemoteException;
 
     /**
      * This method is called when the server receives a notification that a game has been deleted.
-     * TODO: add parameters as needed.
+     *
+     * @param message The message received from the client.
      */
     void receiveGameDeleted(String message) throws RemoteException;
 
@@ -42,6 +44,12 @@ public interface ServerToClientActions extends Remote {
     void receiveErrorMessage(String errorMessage) throws RemoteException;
 
 
-    //TODO: metti tutti i campi del chatMessage che servono
+    /**
+     * This method is called when the server receives a chat message.
+     * It is responsible for handling the received chat message from the client.
+     *
+     * @param message The chat message received from the client.
+     * @throws RemoteException If an error occurs during the RMI connection.
+     */
     void receiveChatMessage(ServerToClientMessage message) throws RemoteException;
 }

@@ -46,6 +46,14 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
 
     private boolean isConnectionSaved = false;
 
+    /**
+     * Gson instance used for JSON serialization and deserialization.
+     * It is configured to:
+     * - Enable complex map key serialization.
+     * - Register a custom type adapter for SideGameCard objects.
+     * - Register a custom type adapter for ObjectiveCard objects.
+     * - Register a custom type adapter for ClientToServerMessage objects.
+     */
     private final Gson gson = new GsonBuilder()
             .enableComplexMapKeySerialization()
             .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter())
