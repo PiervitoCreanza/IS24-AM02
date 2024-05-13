@@ -13,6 +13,25 @@ import java.util.Objects;
 public record GameControllerView(GameView gameView, GameStatusEnum gameStatus,
                                  boolean isLastRound) implements Serializable {
 
+    /**
+     * Returns the view of the current player.
+     *
+     * @return the view of the current player.
+     */
+    public PlayerView getCurrentPlayerView() {
+        return gameView.getViewByPlayer(gameView.currentPlayer());
+    }
+
+    /**
+     * Returns the view of the player with the given name.
+     *
+     * @param player the name of the player.
+     * @return the view of the player with the given name.
+     */
+    public PlayerView getPlayerViewByName(String player) {
+        return gameView.getViewByPlayer(player);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

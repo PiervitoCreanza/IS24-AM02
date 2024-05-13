@@ -12,6 +12,16 @@ import java.util.Objects;
 public record GameView(String currentPlayer, GlobalBoardView globalBoardView,
                        List<PlayerView> playerViews) implements Serializable {
 
+    /**
+     * Returns the view of the player with the given name.
+     *
+     * @param player the name of the player.
+     * @return the view of the player with the given name.
+     */
+    public PlayerView getViewByPlayer(String player) {
+        return playerViews.stream().filter(p -> p.playerName().equals(player)).findFirst().get();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

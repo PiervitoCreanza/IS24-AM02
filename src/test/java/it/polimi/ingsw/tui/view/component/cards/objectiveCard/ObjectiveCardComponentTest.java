@@ -13,6 +13,9 @@ class ObjectiveCardComponentTest {
     @Test
     void getDrawArea() {
         ArrayList<PositionalObjectiveCard> objectiveCards = new Parser().getObjectiveDeck().getCards().stream().filter(ObjectiveCard::isPositionalObjectiveCard).map(c -> (PositionalObjectiveCard) c).collect(Collectors.toCollection(ArrayList::new));
-        objectiveCards.forEach(objectiveCard -> System.out.println(new ObjectiveCardComponent(objectiveCard)));
+        objectiveCards.forEach(objectiveCard -> {
+            System.out.println(objectiveCard.getCardId());
+            System.out.println(new ObjectiveCardComponent(objectiveCard));
+        });
     }
 }

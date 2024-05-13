@@ -18,6 +18,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.HashSet;
 
 import static it.polimi.ingsw.tui.utils.Utils.ANSI_BLUE;
@@ -42,22 +44,24 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      */
     private GameControllerView view;
 
+    private final PropertyChangeSupport support;
+
 
     /**
      * Default constructor for the ClientNetworkControllerMapper class.
      * This constructor does not initialize any fields.
      */
     public ClientNetworkControllerMapper() {
+        support = new PropertyChangeSupport(this);
     }
 
     /* ***************************************
      * METHODS INVOKED BY THE CLIENT ON THE SERVER
      * ***************************************/
-
     /**
      * Sends a request to the server to get the list of available games.
      */
-    void getGames() {
+    public void getGames() {
         messageHandler.sendMessage(new GetGamesClientToServerMessage());
     }
 
@@ -68,7 +72,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      * @param playerName The name of the player creating the game.
      * @param nPlayers   The number of players in the game.
      */
-    void createGame(String gameName, String playerName, int nPlayers) {
+    public void createGame(String gameName, String playerName, int nPlayers) {
         messageHandler.sendMessage(new CreateGameClientToServerMessage(gameName, playerName, nPlayers));
     }
 
@@ -78,7 +82,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      * @param gameName   The name of the game to be deleted.
      * @param playerName The name of the player deleting the game.
      */
-    void deleteGame(String gameName, String playerName) {
+    public void deleteGame(String gameName, String playerName) {
         messageHandler.sendMessage(new DeleteGameClientToServerMessage(gameName, playerName));
     }
 
@@ -88,7 +92,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      * @param gameName   The name of the game to join.
      * @param playerName The name of the player joining the game.
      */
-    void joinGame(String gameName, String playerName) {
+    public void joinGame(String gameName, String playerName) {
         messageHandler.sendMessage(new JoinGameClientToServerMessage(gameName, playerName));
     }
 
@@ -99,7 +103,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      * @param playerName  The name of the player choosing the color.
      * @param playerColor The chosen color.
      */
-    void choosePlayerColor(String gameName, String playerName, PlayerColorEnum playerColor) {
+    public void choosePlayerColor(String gameName, String playerName, PlayerColorEnum playerColor) {
         messageHandler.sendMessage(new ChoosePlayerColorClientToServerMessage(gameName, playerName, playerColor));
     }
 
@@ -111,7 +115,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      * @param coordinate The coordinate where the card is placed.
      * @param card       The card to be placed.
      */
-    void placeCard(String gameName, String playerName, Coordinate coordinate, GameCard card) {
+    public void placeCard(String gameName, String playerName, Coordinate coordinate, GameCard card) {
         messageHandler.sendMessage(new PlaceCardClientToServerMessage(gameName, playerName, coordinate, card));
     }
 
@@ -122,7 +126,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      * @param playerName The name of the player drawing the card.
      * @param card       The card to be drawn.
      */
-    void drawCardFromField(String gameName, String playerName, GameCard card) {
+    public void drawCardFromField(String gameName, String playerName, GameCard card) {
         messageHandler.sendMessage(new DrawCardFromFieldClientToServerMessage(gameName, playerName, card));
     }
 
@@ -191,6 +195,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
 @Override
     public void receiveGameList(HashSet<GameRecord> games) {
         System.out.println("Received games: " + games);
+        notify("GET_GAMES", games);
         //TODO: JavaFx event trigger
     }
 
@@ -219,9 +224,12 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
 @Override
     public void receiveUpdatedView(GameControllerView updatedView) {
         this.view = updatedView;
-        System.out.println("Received updated view: " + updatedView);
-        System.out.println("Current player: " + updatedView.gameView().currentPlayer());
-        System.out.println("Current game status: " + updatedView.gameStatus());
+        notify("UPDATE_VIEW", updatedView);
+        //PlayerBoardComponent playerBoardComponent = new PlayerBoardComponent(updatedView.gameView().getViewByPlayer(updatedView.gameView().currentPlayer()).playerBoardView().playerBoard());
+        //System.out.println(playerBoardComponent);
+//        System.out.println("Received updated view: " + updatedView);
+//        System.out.println("Current player: " + updatedView.gameView().currentPlayer());
+//        System.out.println("Current game status: " + updatedView.gameStatus());
         //TODO: JavaFx event trigger
     }
 
@@ -237,7 +245,6 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
         System.out.println("Received error message: " + errorMessage);
     }
 
-
     /**
      * Receives a chat message from the server.
      * This method is called when the server sends a chat message to the client.
@@ -251,7 +258,6 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
     public void receiveChatMessage(String playerName, String message, String receiver, long timestamp, boolean isDirect) {
         //TODO: JavaFx / TUI event trigger?
         System.out.println("Received chat message: " + chatPrint(playerName, message, receiver, timestamp, isDirect));
-    }
 
     /**
      * Sets the message handler for the client.
@@ -302,5 +308,32 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
         LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         return dateTime.format(formatter);
+    }
+
+    /**
+     * Adds a PropertyChangeListener to the ClientNetworkCommandMapper.
+     *
+     * @param listener the PropertyChangeListener to be added.
+     */
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
+    }
+
+    /**
+     * Removes a PropertyChangeListener from the ClientNetworkCommandMapper.
+     *
+     * @param listener the PropertyChangeListener to be removed.
+     */
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        support.removePropertyChangeListener(listener);
+    }
+
+    /**
+     * Notifies of a message.
+     *
+     * @param message the message to be sent.
+     */
+    private void notify(String propertyName, Object message) {
+        support.firePropertyChange(propertyName, null, message);
     }
 }
