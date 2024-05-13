@@ -158,12 +158,12 @@ public class DrawArea implements Drawable {
         drawAt(x, y, String.valueOf(string), color);
     }
 
-    public void drawNewLine(String string, ColorsEnum color) {
-        drawAt(0, height, string, color);
+    public void drawNewLine(String string, ColorsEnum color, int spacing) {
+        drawAt(0, this.height + spacing, string, color);
     }
 
-    public void drawNewLine(String string) {
-        drawNewLine(string, null);
+    public void drawNewLine(String string, int spacing) {
+        drawNewLine(string, null, spacing);
     }
 
     /**
@@ -275,8 +275,41 @@ public class DrawArea implements Drawable {
      * @param drawArea  The drawable area to draw.
      */
     public void drawCenteredX(int startingX, int endingX, int y, DrawArea drawArea) {
-        int diff = (endingX - startingX - drawArea.getWidth()) / 2;
+        int diff = (endingX - startingX - drawArea.width) / 2;
         drawAt(startingX + diff, y, drawArea);
+    }
+
+    /**
+     * Draws the specified drawable area centered on the y-axis between the specified starting and ending y-coordinates.
+     *
+     * @param startingY The starting y-coordinate.
+     * @param endingY   The ending y-coordinate.
+     * @param x         The x-coordinate at which to draw the drawable area.
+     * @param drawArea  The drawable area to draw.
+     */
+    public void drawCenteredY(int startingY, int endingY, int x, DrawArea drawArea) {
+        int diff = (endingY - startingY - drawArea.height) / 2;
+        drawAt(x, startingY + diff, drawArea);
+    }
+
+    /**
+     * Draws the specified drawable area centered on the x-axis of the drawable area.
+     *
+     * @param y        The y-coordinate at which to draw the drawable area.
+     * @param drawArea The drawable area to draw.
+     */
+    public void drawCenteredX(int y, DrawArea drawArea) {
+        drawAt(this.width / 2 - drawArea.width / 2, y, drawArea);
+    }
+
+    /**
+     * Draws the specified drawable area centered on the y-axis of the drawable area.
+     *
+     * @param x        The x-coordinate at which to draw the drawable area.
+     * @param drawArea The drawable area to draw.
+     */
+    public void drawCenteredY(int x, DrawArea drawArea) {
+        drawAt(x, this.height / 2 - drawArea.height / 2, drawArea);
     }
 
     /**

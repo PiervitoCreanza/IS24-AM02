@@ -10,12 +10,28 @@ import it.polimi.ingsw.tui.view.drawer.Drawable;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents a player's inventory component in the game.
+ * It implements the Drawable interface, meaning it can be drawn on the screen.
+ */
 public class PlayerInventoryComponent implements Drawable {
+
+    /**
+     * The draw area of the player's inventory component.
+     */
     private final DrawArea drawArea;
 
-    public PlayerInventoryComponent(ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand) {
+    /**
+     * Constructor for the PlayerInventoryComponent class.
+     * It initializes the drawArea and populates it with global objectives, player objectives, and player hand.
+     *
+     * @param globalObjectives A list of ObjectiveCard objects representing the global objectives.
+     * @param playerObjective  An ObjectiveCard object representing the player's objective.
+     * @param hand             A list of GameCard objects representing the player's hand.
+     * @param spacing          The spacing between the global objectives.
+     */
+    public PlayerInventoryComponent(ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, int spacing) {
         drawArea = new DrawArea();
-        int spacing = 5;
         drawArea.drawAt(2, 0, "Global Objectives:");
         drawArea.drawAt(2, 1, new GlobalObjectivesComponent(globalObjectives, spacing).getDrawArea());
 
@@ -28,29 +44,48 @@ public class PlayerInventoryComponent implements Drawable {
             return;
         }
         int height = drawArea.getHeight();
-        drawArea.drawAt(2, height + 4, "Your Hand:");
-        drawArea.drawAt(2, height + 5, new PlayerHandComponent(hand).getDrawArea());
-        String divider = "═".repeat(drawArea.getWidth() - 1);
-        drawArea.drawAt(2, height + 2, divider);
-        drawArea.drawAt(2, drawArea.getHeight() + 2, divider);
-
+        drawArea.drawNewLine("═".repeat(drawArea.getWidth() + 1), 1);
+        drawArea.drawAt(2, height + 3, "Your Hand:");
+        drawArea.drawAt(2, height + 4, new PlayerHandComponent(hand, spacing).getDrawArea());
+        drawArea.drawNewLine("═".repeat(drawArea.getWidth() + 1), 1);
     }
 
+
+    /**
+     * Returns the height of the drawable object.
+     *
+     * @return the height of the drawable object.
+     */
     @Override
     public int getHeight() {
         return drawArea.getHeight();
     }
 
+    /**
+     * Returns the width of the drawable object.
+     *
+     * @return the width of the drawable object.
+     */
     @Override
     public int getWidth() {
         return drawArea.getWidth();
     }
 
+    /**
+     * Returns the string representation of the drawable object.
+     *
+     * @return the string representation of the drawable object.
+     */
     @Override
     public String toString() {
         return drawArea.toString();
     }
 
+    /**
+     * Returns the draw area of the drawable object.
+     *
+     * @return the draw area of the drawable object.
+     */
     @Override
     public DrawArea getDrawArea() {
         return drawArea;

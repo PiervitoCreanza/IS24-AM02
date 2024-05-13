@@ -7,9 +7,24 @@ import it.polimi.ingsw.tui.view.drawer.Drawable;
 
 import java.util.Optional;
 
+/**
+ * This class represents the bottom right corner of a game card.
+ * It implements the Drawable interface, meaning it can be drawn on a DrawArea.
+ */
 public class BottomRightCorner implements Drawable {
+
+    /**
+     * The draw area of the bottom right corner.
+     */
     private final DrawArea drawArea;
 
+    /**
+     * Constructor for a BottomRightCorner.
+     * It initializes the drawArea based on the provided corner and color.
+     *
+     * @param bottomRightCorner The optional corner to be drawn.
+     * @param color             The color to be used for drawing.
+     */
     public BottomRightCorner(Optional<Corner> bottomRightCorner, ColorsEnum color) {
         if (bottomRightCorner.isEmpty()) {
             drawArea = new DrawArea("""
@@ -31,17 +46,33 @@ public class BottomRightCorner implements Drawable {
         }
     }
 
-    public DrawArea getDrawArea() {
-        return drawArea;
-    }
-
+    /**
+     * Returns the height of the drawable object.
+     *
+     * @return the height of the drawable object.
+     */
     @Override
     public int getHeight() {
         return drawArea.getHeight();
     }
 
+    /**
+     * Returns the width of the drawable object.
+     *
+     * @return the width of the drawable object.
+     */
     @Override
     public int getWidth() {
         return drawArea.getWidth();
+    }
+
+    /**
+     * Returns the draw area of the drawable object.
+     *
+     * @return the draw area of the drawable object.
+     */
+    @Override
+    public DrawArea getDrawArea() {
+        return drawArea;
     }
 }
