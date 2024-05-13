@@ -1,7 +1,9 @@
-package it.polimi.ingsw.tui.draw;
+package it.polimi.ingsw.tui.view.component;
 
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.tui.utils.ColorsEnum;
+import it.polimi.ingsw.tui.view.drawer.DrawArea;
+import it.polimi.ingsw.tui.view.drawer.Drawable;
 
 public class GameInfoComponent implements Drawable {
     private final DrawArea drawArea;

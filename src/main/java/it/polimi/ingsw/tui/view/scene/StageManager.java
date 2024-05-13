@@ -1,4 +1,4 @@
-package it.polimi.ingsw.tui.Scene;
+package it.polimi.ingsw.tui.view.scene;
 
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;

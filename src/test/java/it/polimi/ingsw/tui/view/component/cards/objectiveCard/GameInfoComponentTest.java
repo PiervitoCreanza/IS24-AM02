@@ -1,6 +1,7 @@
-package it.polimi.ingsw.tui.draw;
+package it.polimi.ingsw.tui.view.component.cards.objectiveCard;
 
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
+import it.polimi.ingsw.tui.view.component.GameInfoComponent;
 import org.junit.jupiter.api.Test;
 
 class GameInfoComponentTest {

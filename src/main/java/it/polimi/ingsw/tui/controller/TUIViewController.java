@@ -3,8 +3,8 @@ package it.polimi.ingsw.tui.controller;
 import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
-import it.polimi.ingsw.tui.Scene.StageManager;
 import it.polimi.ingsw.tui.commandLine.ClientStatusEnum;
+import it.polimi.ingsw.tui.view.scene.StageManager;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
