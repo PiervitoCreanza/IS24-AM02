@@ -21,6 +21,9 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      */
     private final ClientNetworkControllerMapper clientNetworkControllerMapper;
 
+    /**
+     * The heartbeat timer.
+     */
     private Timer heartbeatTimer;
 
     /**
@@ -107,6 +110,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
             heartbeatTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
+                    //TODO: Raise exception
                     System.out.println("RMI Server Unreachable - detected when pinging");
                 }
             }, 5000);

@@ -63,6 +63,7 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
     @Override
     public void notify(String message) {
         if ("CONNECTION_CLOSED".equals(message)) {
+            // TODO: Raise exception
             System.out.println("Connection with server lost.");
             return;
         }
