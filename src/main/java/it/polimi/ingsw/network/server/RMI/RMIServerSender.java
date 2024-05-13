@@ -23,6 +23,10 @@ public class RMIServerSender implements ServerMessageHandler, Observable<ServerM
 
     private String gameName;
 
+    // This variable is used to check if the connection has been saved by the ServerNetworkControllerMapper.
+    // The heartbeat will start only after the connection has been saved.
+    // If an error occurs during the heartbeat, or while sending a message, this parameter will be set to false.
+    // The closeConnection method will be called only one time and will notify the observers.
     private final AtomicBoolean isConnectionSaved = new AtomicBoolean(false);
 
     public RMIServerSender(RMIServerToClientActions stub) {

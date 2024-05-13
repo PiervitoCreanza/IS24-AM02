@@ -44,26 +44,20 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      */
     @Override
     public void receiveGameList(HashSet<GameRecord> games) throws RemoteException {
-        new Thread(() -> {
-            //Instance new RMIAdapter(stub)
-            clientNetworkControllerMapper.receiveGameList(games);
-        }).start();
+        new Thread(() -> clientNetworkControllerMapper.receiveGameList(games)).start();
         // Debug
         System.out.println("RMI received message: " + games);
     }
 
     /**
      * This method is called when the server receives a notification that a game has been deleted.
-     * TODO: add parameters as needed.
+     *
      *
      * @param message
      */
     @Override
     public void receiveGameDeleted(String message) throws RemoteException {
-        new Thread(() -> {
-            //Instance new RMIAdapter(stub)
-            clientNetworkControllerMapper.receiveGameDeleted(message);
-        }).start();
+        new Thread(() -> clientNetworkControllerMapper.receiveGameDeleted(message)).start();
         // Debug
         System.out.println("RMI received message: " + message);
     }
@@ -75,10 +69,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      */
     @Override
     public void receiveUpdatedView(GameControllerView updatedView) throws RemoteException {
-        new Thread(() -> {
-            //Instance new RMIAdapter(stub)
-            clientNetworkControllerMapper.receiveUpdatedView(updatedView);
-        }).start();
+        new Thread(() -> clientNetworkControllerMapper.receiveUpdatedView(updatedView)).start();
         // Debug
         System.out.println("RMI received message: " + updatedView);
     }
@@ -90,9 +81,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      */
     @Override
     public void receiveErrorMessage(String errorMessage) throws RemoteException {
-        new Thread(() -> {
-            clientNetworkControllerMapper.receiveErrorMessage(errorMessage);
-        }).start();
+        new Thread(() -> clientNetworkControllerMapper.receiveErrorMessage(errorMessage)).start();
         // Debug
         System.out.println("RMI received message: " + errorMessage);
     }
@@ -110,8 +99,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
             heartbeatTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    //TODO: Raise exception
-                    System.out.println("RMI Server Unreachable - detected when pinging");
+                    throw new RuntimeException("RMI Server Unreachable - detected when pinging");
                 }
             }, 5000);
         }).start();
