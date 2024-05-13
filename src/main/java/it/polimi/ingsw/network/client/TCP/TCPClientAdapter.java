@@ -73,7 +73,6 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
             return;
         }
         ServerToClientMessage receivedMessage = this.gson.fromJson(message, ServerToClientMessage.class);
-        //TODO: parsed message here is not mapped correctly by JSON, need to fix it
         ServerActionEnum serverAction = receivedMessage.getServerAction();
         switch (serverAction) {
             case UPDATE_VIEW -> clientNetworkControllerMapper.receiveUpdatedView(receivedMessage.getView());
@@ -81,7 +80,7 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
                     clientNetworkControllerMapper.receiveGameDeleted(receivedMessage.getSuccessDeleteMessage());
             case GET_GAMES -> clientNetworkControllerMapper.receiveGameList(receivedMessage.getGames());
             case ERROR_MSG -> clientNetworkControllerMapper.receiveErrorMessage(receivedMessage.getErrorMessage());
-            case CHAT_MSG -> clientNetworkControllerMapper.receiveChatMessage(receivedMessage);
+            case RECEIVE_CHAT_MSG -> clientNetworkControllerMapper.receiveChatMessage(receivedMessage);
             default -> System.out.print("Invalid action");
         }
         // Debug

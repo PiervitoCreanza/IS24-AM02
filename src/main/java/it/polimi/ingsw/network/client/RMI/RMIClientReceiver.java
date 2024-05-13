@@ -14,6 +14,7 @@ import java.util.TimerTask;
 
 
 //TODO: DOC
+
 /**
  * The RMIClientReceiver class is responsible for receiving messages from the server.
  * Each method is made asyncronous to avoid blocking the server, by calling a new thread.
@@ -92,9 +93,15 @@ public class RMIClientReceiver implements RMIServerToClientActions {
         System.out.println("RMI received message: " + errorMessage);
     }
 
+
     /**
-     * @param message
-     * @throws RemoteException
+     * Receives a chat message from the server and processes it asynchronously.
+     * This method is called when the server sends a chat message to the client.
+     * It creates a new thread to handle the received message, allowing the client to continue its operations without waiting for the message processing to complete.
+     * After processing the message, it prints a debug message to the console.
+     *
+     * @param message The chat message received from the server.
+     * @throws RemoteException If an error occurs during the RMI connection.
      */
     public void receiveChatMessage(ServerToClientMessage message) throws RemoteException {
         new Thread(() -> {
@@ -102,7 +109,6 @@ public class RMIClientReceiver implements RMIServerToClientActions {
         }).start();
         // Debug
         System.out.println("RMI received message: " + message.toString());
-
     }
 
     @Override

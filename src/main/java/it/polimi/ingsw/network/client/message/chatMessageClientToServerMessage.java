@@ -45,7 +45,7 @@ public class chatMessageClientToServerMessage extends ClientToServerMessage {
      * @param receiver The receiver of the message. If this is null, the message is not a direct message.
      */
     public chatMessageClientToServerMessage(String gameName, String sender, String message, String receiver) {
-        super(PlayerActionEnum.CHAT_MSG, gameName, sender);
+        super(PlayerActionEnum.SEND_CHAT_MSG, gameName, sender);
         this.message = message;
         this.timestamp = Instant.now().getEpochSecond(); // Set the timestamp when the message is created
         this.isDirectMessage = !receiver.isEmpty();

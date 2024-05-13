@@ -38,7 +38,7 @@ public class ServerToClientMessageAdapter implements JsonDeserializer<ServerToCl
             case "DELETE_GAME" -> serverMessageTypeClass = DeleteGameServerToClientMessage.class;
             case "GET_GAMES" -> serverMessageTypeClass = GetGamesServerToClientMessage.class;
             case "ERROR_MSG" -> serverMessageTypeClass = ErrorServerToClientMessage.class;
-            case "CHAT_MSG" -> serverMessageTypeClass = chatMessageServerToClientMessage.class;
+            case "RECEIVE_CHAT_MSG" -> serverMessageTypeClass = chatMessageServerToClientMessage.class;
             default -> throw new JsonParseException("playerAction property is missing or wrong");
         }
         // We deserialize the "serverMessageType" with the class type found above and return it

@@ -28,5 +28,5 @@ public enum ServerActionEnum {
     /**
      * Represents an action to send a chat message to the client.
      */
-    CHAT_MSG
+    RECEIVE_CHAT_MSG
 }

@@ -117,5 +117,5 @@ public interface ClientToServerActions {
      *
      * @param message the chat message to be sent.
      */
-    void chatMessageSender(ClientToServerMessage message);
+    void sendChatMessage(ClientToServerMessage message);
 }

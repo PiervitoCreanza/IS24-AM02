@@ -62,5 +62,5 @@ public enum PlayerActionEnum {
     /**
      * Represents a request to send a message.
      */
-    CHAT_MSG
+    SEND_CHAT_MSG
 }

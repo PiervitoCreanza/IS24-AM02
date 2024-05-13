@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-import static it.polimi.ingsw.network.server.message.ServerActionEnum.CHAT_MSG;
+import static it.polimi.ingsw.network.server.message.ServerActionEnum.RECEIVE_CHAT_MSG;
 import static it.polimi.ingsw.tui.utils.Utils.ANSI_BLUE;
 import static it.polimi.ingsw.tui.utils.Utils.ANSI_RESET;
 
@@ -45,7 +45,7 @@ public class chatMessageServerToClientMessage extends ServerToClientMessage {
      * @param receiver The receiver of the message. If this is null, the message is not a direct message.
      */
     public chatMessageServerToClientMessage(String sender, String message, String receiver) {
-        super(CHAT_MSG);
+        super(RECEIVE_CHAT_MSG);
         this.sender = sender;
         this.message = message;
         this.timestamp = Instant.now().getEpochSecond(); // Set the timestamp when the message is created

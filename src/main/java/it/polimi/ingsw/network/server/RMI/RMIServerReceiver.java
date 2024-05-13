@@ -226,7 +226,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
     @Override
     public void chatMessageSender(ClientToServerMessage message) throws RemoteException {
         new Thread(() -> {
-            serverNetworkControllerMapper.chatMessageSender(message);
+            serverNetworkControllerMapper.sendChatMessage(message);
         }).start();
     }
 

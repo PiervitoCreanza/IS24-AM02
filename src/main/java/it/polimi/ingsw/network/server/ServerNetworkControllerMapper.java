@@ -289,7 +289,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      * @param message
      */
     @Override
-    public void chatMessageSender(ClientToServerMessage message) {
+    public void sendChatMessage(ClientToServerMessage message) {
         //Extract the gameName from the message
         String gameName = message.getGameName();
 
