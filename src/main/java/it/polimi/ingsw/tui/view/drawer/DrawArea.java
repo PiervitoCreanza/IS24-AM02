@@ -158,6 +158,14 @@ public class DrawArea implements Drawable {
         drawAt(x, y, String.valueOf(string), color);
     }
 
+    public void drawNewLine(String string, ColorsEnum color) {
+        drawAt(0, height, string, color);
+    }
+
+    public void drawNewLine(String string) {
+        drawNewLine(string, null);
+    }
+
     /**
      * Returns a string representation of the drawable area.
      *
