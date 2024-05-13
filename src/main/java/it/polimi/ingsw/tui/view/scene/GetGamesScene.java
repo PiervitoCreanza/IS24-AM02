@@ -1,9 +1,9 @@
-package it.polimi.ingsw.tui.Scene;
+package it.polimi.ingsw.tui.view.scene;
 
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
-import it.polimi.ingsw.tui.draw.DrawArea;
-import it.polimi.ingsw.tui.draw.GameInfoComponent;
 import it.polimi.ingsw.tui.utils.ColorsEnum;
+import it.polimi.ingsw.tui.view.component.GameInfoComponent;
+import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 import java.util.HashSet;
 
@@ -11,7 +11,7 @@ public class GetGamesScene {
     private final DrawArea drawArea;
 
     public GetGamesScene(HashSet<GameRecord> games) {
-        drawArea = new DrawArea("""
+        this.drawArea = new DrawArea("""
                 -- Games list --
                 """);
 

@@ -1,6 +1,7 @@
-package it.polimi.ingsw.tui.Scene;
+package it.polimi.ingsw.tui.view.scene;
 
-import it.polimi.ingsw.tui.draw.DrawArea;
+
+import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 public class MainMenuScene {
     private final DrawArea drawArea;

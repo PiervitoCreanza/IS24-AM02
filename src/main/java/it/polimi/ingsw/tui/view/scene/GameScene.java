@@ -1,10 +1,10 @@
-package it.polimi.ingsw.tui.Scene;
+package it.polimi.ingsw.tui.view.scene;
 
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.network.virtualView.GameView;
-import it.polimi.ingsw.tui.draw.DrawArea;
-import it.polimi.ingsw.tui.draw.PlayerBoardComponent;
-import it.polimi.ingsw.tui.draw.PlayerInventoryComponent;
+import it.polimi.ingsw.tui.view.component.playerBoard.PlayerBoardComponent;
+import it.polimi.ingsw.tui.view.component.playerInventory.PlayerInventoryComponent;
+import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 public class GameScene {
     private final DrawArea drawArea;

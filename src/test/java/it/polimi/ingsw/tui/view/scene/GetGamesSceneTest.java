@@ -1,7 +1,6 @@
 package it.polimi.ingsw.tui.view.scene;
 
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
-import it.polimi.ingsw.tui.Scene.GetGamesScene;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
