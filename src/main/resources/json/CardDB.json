@@ -5332,14 +5332,14 @@
           {
             "coordinate": {
               "x": 0,
-              "y": 2
+              "y": -2
             },
             "cardColorEnum": "GREEN"
           },
           {
             "coordinate": {
               "x": -1,
-              "y": 3
+              "y": -3
             },
             "cardColorEnum": "PURPLE"
           }
@@ -5359,14 +5359,14 @@
           {
             "coordinate": {
               "x": -1,
-              "y": 1
+              "y": -1
             },
             "cardColorEnum": "BLUE"
           },
           {
             "coordinate": {
               "x": -1,
-              "y": 3
+              "y": -3
             },
             "cardColorEnum": "BLUE"
           }
