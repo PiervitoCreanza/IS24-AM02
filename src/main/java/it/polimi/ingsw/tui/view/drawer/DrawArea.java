@@ -197,6 +197,17 @@ public class DrawArea implements Drawable {
     }
 
     /**
+     * Clears the line at the specified y-coordinate.
+     *
+     * @param y The y-coordinate of the line to clear.
+     */
+    public void clearLine(int y) {
+        for (int i = 0; i < width; i++) {
+            drawArea.remove(new Coordinate(i, y));
+        }
+    }
+
+    /**
      * Returns a string representation of the drawable area.
      *
      * @return A string representation of the drawable area.
@@ -396,4 +407,5 @@ public class DrawArea implements Drawable {
     public void println() {
         System.out.println(this);
     }
+
 }

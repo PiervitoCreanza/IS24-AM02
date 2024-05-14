@@ -115,6 +115,9 @@ public class TUIViewController implements PropertyChangeListener {
      */
     public void selectScene(ScenesEnum scene) {
         switch (scene) {
+            case MAIN_MENU -> {
+                stageManager.showMainMenuScene();
+            }
             case CREATE_GAME -> {
                 stageManager.showCreateGameScene();
             }

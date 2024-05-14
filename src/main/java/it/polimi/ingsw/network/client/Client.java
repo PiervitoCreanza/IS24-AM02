@@ -126,11 +126,6 @@ public class Client {
     }
 
     private static void startTui() {
-        // Init the cliParser and add the tuiController as a listener
-        CLIParser cliParser = new CLIParser(clientNetworkControllerMapper, tuiController);
-        cliParser.addPropertyChangeListener(tuiController);
-        cliParser.start();
-
         // Add the tuiController as a listener to the clientNetworkControllerMapper
         clientNetworkControllerMapper.addPropertyChangeListener(tuiController);
 

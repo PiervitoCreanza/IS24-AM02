@@ -27,22 +27,16 @@ public class MainMenuScene implements Diplayable {
      * Displays the game scene on the console.
      */
     @Override
-    public void display() {
-        System.out.println(drawArea);
-    }
-
-    private void test() throws IOException {
-        drawArea.println();
+    public void display() throws IOException {
+        this.drawArea.println();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("reading");
         String input = reader.readLine();
-        System.out.println("ok");
         switch (input) {
             case "l", "L" -> {
-                controller.getGames();
+                this.controller.getGames();
             }
             case "c", "C" -> {
-                controller.selectScene(ScenesEnum.CREATE_GAME);
+                this.controller.selectScene(ScenesEnum.CREATE_GAME);
             }
             case "q", "Q" -> {
                 System.out.println("Exiting...");
