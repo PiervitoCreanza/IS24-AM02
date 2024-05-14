@@ -44,6 +44,8 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
      */
     private String playerName;
 
+    private boolean isConnectionSaved = false;
+
     private final Gson gson = new GsonBuilder()
             .enableComplexMapKeySerialization()
             .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter())
@@ -73,7 +75,10 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
     public void notify(String message) {
         // Handle client disconnection
         if ("CONNECTION_CLOSED".equals(message)) {
-            serverNetworkControllerMapper.handleDisconnection(this);
+            if (this.isConnectionSaved) {
+                this.isConnectionSaved = false;
+                this.serverNetworkControllerMapper.handleDisconnection(this);
+            }
             return;
         }
 
@@ -173,5 +178,10 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
     @Override
     public void setGameName(String gameName) {
         this.gameName = gameName;
+    }
+
+    @Override
+    public void connectionSaved(boolean hasBeenSaved) {
+        this.isConnectionSaved = hasBeenSaved;
     }
 }

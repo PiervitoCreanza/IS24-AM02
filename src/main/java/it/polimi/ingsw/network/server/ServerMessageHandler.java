@@ -44,6 +44,8 @@ public interface ServerMessageHandler extends MessageHandler<ServerToClientMessa
      */
     void setGameName(String gameName);
 
+    void connectionSaved(boolean hasBeenSaved);
+
     /**
      * Closes the connection to the client.
      */

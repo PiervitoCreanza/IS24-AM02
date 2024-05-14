@@ -14,19 +14,42 @@ import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RMIServerSender implements ServerMessageHandler, Observable<ServerMessageHandler> {
+
     private final RMIServerToClientActions stub;
+
+    private final HashSet<Observer<ServerMessageHandler>> observers = new HashSet<>();
 
     private String playerName;
 
     private String gameName;
 
-    private final HashSet<Observer<ServerMessageHandler>> observers = new HashSet<>();
-
-    private final AtomicBoolean isConnected = new AtomicBoolean(false);
+    // This variable is used to check if the connection has been saved by the ServerNetworkControllerMapper.
+    // The heartbeat will start only after the connection has been saved.
+    // If an error occurs during the heartbeat, or while sending a message, this parameter will be set to false.
+    // The closeConnection method will be called only one time and will notify the observers.
+    private final AtomicBoolean isConnectionSaved = new AtomicBoolean(false);
 
     public RMIServerSender(RMIServerToClientActions stub) {
         this.stub = stub;
-        heartbeat();
+    }
+
+    private void heartbeat() {
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (!isConnectionSaved.get()) {
+                    cancel();
+                    return;
+                }
+                try {
+                    stub.heartbeat();
+                } catch (RemoteException e) {
+                    System.out.println("RMI Client: " + playerName + " disconnected. Detected when pinging.");
+                    closeConnection();
+                    cancel();
+                }
+            }
+        }, 0, 2500);
     }
 
     /**
@@ -46,12 +69,12 @@ public class RMIServerSender implements ServerMessageHandler, Observable<ServerM
                 default -> System.err.print("Invalid action\n");
             }
         } catch (RemoteException e) {
-            if (isConnected.get())
-                closeConnection();
+            System.out.println("RMI Client: " + playerName + " disconnected. Detected when sending message");
+            closeConnection();
         }
 
         // Debug
-        System.out.println("RMI message sent: " + message);
+        System.out.println("RMI message sent: " + message.getServerAction());
     }
 
     /**
@@ -84,26 +107,6 @@ public class RMIServerSender implements ServerMessageHandler, Observable<ServerM
         return this.gameName;
     }
 
-    public void heartbeat() {
-        this.isConnected.set(true);
-        new Timer().scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                if (!isConnected.get()) {
-                    cancel();
-                    return;
-                }
-                try {
-                    stub.heartbeat();
-                } catch (RemoteException e) {
-                    System.out.println("RMI Client disconnected - detected when pinging");
-                    closeConnection();
-                    cancel();
-                }
-            }
-        }, 0, 2500);
-    }
-
     /**
      * Sets the name of the game associated with the connection.
      *
@@ -114,14 +117,21 @@ public class RMIServerSender implements ServerMessageHandler, Observable<ServerM
         this.gameName = gameName;
     }
 
+    @Override
+    public void connectionSaved(boolean hasBeenSaved) {
+        this.isConnectionSaved.set(hasBeenSaved);
+        this.heartbeat();
+    }
+
     /**
      * Closes the connection to the client.
      */
     @Override
     public void closeConnection() {
-        this.isConnected.set(false);
-        synchronized (observers) {
-            observers.forEach(observer -> observer.notify(this));
+        if (isConnectionSaved.getAndSet(false)) {
+            synchronized (observers) {
+                observers.forEach(observer -> observer.notify(this));
+            }
         }
     }
 

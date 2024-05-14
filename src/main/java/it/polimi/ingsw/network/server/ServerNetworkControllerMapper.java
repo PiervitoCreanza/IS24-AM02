@@ -83,6 +83,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
             mainController.createGame(gameName, playerName, nPlayers);
             messageHandler.setGameName(gameName);
             messageHandler.setPlayerName(playerName);
+            messageHandler.connectionSaved(true);
 
             gameConnectionMapper.put(gameName, new HashMap<>());
             gameConnectionMapper.get(gameName).put(playerName, messageHandler);
@@ -106,6 +107,8 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
 
             messageHandler.setGameName(gameName);
             messageHandler.setPlayerName(playerName);
+            messageHandler.connectionSaved(true);
+
             gameConnectionMapper.get(gameName).put(playerName, messageHandler);
             broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
         } catch (Exception e) {
