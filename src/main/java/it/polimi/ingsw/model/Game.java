@@ -242,6 +242,10 @@ public class Game implements VirtualViewable<GameView> {
             return nextPlayer;
         }
 
+        // If the getConnectedPlayers() is empty we stop the recursion to avoid infinite loops.
+        if (getConnectedPlayers().isEmpty())
+            return null;
+
         return getFirstConnectedPlayerAfter(nextPlayer);
     }
 

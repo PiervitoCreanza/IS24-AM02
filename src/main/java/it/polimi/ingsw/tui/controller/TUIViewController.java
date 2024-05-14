@@ -245,25 +245,25 @@ public class TUIViewController implements PropertyChangeListener {
                     return;
                 }
 
-                if (isClientTurn()) {
-                    switch (gameStatus) {
-                        case INIT_PLACE_STARTER_CARD -> {
-                            status = ClientStatusEnum.PLACE_STARTER_CARD;
-                        }
-                        case INIT_CHOOSE_PLAYER_COLOR -> {
-                            status = ClientStatusEnum.CHOOSE_PLAYER_COLOR;
-                        }
-                        case INIT_CHOOSE_OBJECTIVE_CARD -> {
-                            status = ClientStatusEnum.CHOOSE_OBJECTIVE_CARD;
-                        }
-                        case PLACE_CARD -> {
-                            status = ClientStatusEnum.PLACE_CARD;
-                        }
-                        case DRAW_CARD -> {
-                            status = ClientStatusEnum.DRAW_CARD;
-                        }
-                    }
-                }
+//                if (isClientTurn()) {
+//                    switch (gameStatus) {
+//                        case INIT_PLACE_STARTER_CARD -> {
+//                            status = ClientStatusEnum.PLACE_STARTER_CARD;
+//                        }
+//                        case INIT_CHOOSE_PLAYER_COLOR -> {
+//                            status = ClientStatusEnum.CHOOSE_PLAYER_COLOR;
+//                        }
+//                        case INIT_CHOOSE_OBJECTIVE_CARD -> {
+//                            status = ClientStatusEnum.CHOOSE_OBJECTIVE_CARD;
+//                        }
+//                        case PLACE_CARD -> {
+//                            status = ClientStatusEnum.PLACE_CARD;
+//                        }
+//                        case DRAW_CARD -> {
+//                            status = ClientStatusEnum.DRAW_CARD;
+//                        }
+//                    }
+//                }
 
                 stageManager.showGameScene(updatedView, playerName);
                 break;
