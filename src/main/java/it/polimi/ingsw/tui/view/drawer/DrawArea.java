@@ -173,8 +173,8 @@ public class DrawArea implements Drawable {
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i <= getHeight(); i++) {
-            for (int j = 0; j <= getWidth(); j++) {
+        for (int i = 0; i < getHeight(); i++) {
+            for (int j = 0; j < getWidth(); j++) {
                 MagicChar c = drawArea.get(new Coordinate(j, i));
                 sb.append(c != null ? c.toString() : ' ');
             }
