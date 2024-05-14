@@ -44,6 +44,9 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
      */
     private String playerName;
 
+    /**
+     * Indicates whether the connection has been saved.
+     */
     private boolean isConnectionSaved = false;
 
     /**
