@@ -7,7 +7,7 @@ import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 import java.util.HashSet;
 
-public class GetGamesScene {
+public class GetGamesScene implements Diplayable {
     private final DrawArea drawArea;
 
     public GetGamesScene(HashSet<GameRecord> games) {
@@ -29,8 +29,11 @@ public class GetGamesScene {
 
     }
 
+    /**
+     * Displays the game scene on the console.
+     */
     @Override
-    public String toString() {
-        return drawArea.toString();
+    public void display() {
+        System.out.println(drawArea);
     }
 }

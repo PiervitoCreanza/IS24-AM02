@@ -4,7 +4,7 @@ import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
-public class WaitForPlayersScene {
+public class WaitForPlayersScene implements Diplayable {
     DrawArea drawArea;
 
     public WaitForPlayersScene(GameControllerView gameControllerView) {
@@ -19,8 +19,11 @@ public class WaitForPlayersScene {
 
     }
 
+    /**
+     * This method is used to display the object.
+     */
     @Override
-    public String toString() {
-        return "Waiting for players to join...";
+    public void display() {
+        System.out.println(drawArea);
     }
 }

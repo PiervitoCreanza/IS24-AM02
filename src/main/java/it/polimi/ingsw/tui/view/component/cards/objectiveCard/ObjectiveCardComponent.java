@@ -21,6 +21,10 @@ public class ObjectiveCardComponent implements Drawable {
                         └─────────────────────┘
                         """
         );
+        if (objectiveCard == null) {
+            drawArea = new DrawArea();
+            return;
+        }
         if (objectiveCard.isPositionalObjectiveCard()) {
             this.drawArea = new PositionalObjectiveCardComponent((PositionalObjectiveCard) objectiveCard, drawArea).getDrawArea();
         } else {

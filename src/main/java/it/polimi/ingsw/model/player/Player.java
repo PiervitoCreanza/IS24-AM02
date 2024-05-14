@@ -213,6 +213,6 @@ public class Player implements VirtualViewable<PlayerView> {
      */
     @Override
     public PlayerView getVirtualView() {
-        return new PlayerView(playerName, playerPos, objectiveCard, choosableObjectives, isConnected, playerBoard.getStarterCard(), playerHand.getVirtualView(), playerBoard.getVirtualView());
+        return new PlayerView(playerName, playerColor, playerPos, objectiveCard, choosableObjectives, isConnected, playerBoard.getStarterCard(), playerHand.getVirtualView(), playerBoard.getVirtualView());
     }
 }
