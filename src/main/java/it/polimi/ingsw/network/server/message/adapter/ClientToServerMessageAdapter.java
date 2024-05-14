@@ -47,7 +47,7 @@ public class ClientToServerMessageAdapter implements JsonDeserializer<ClientToSe
                     clientMessageTypeClass = DrawCardFromResourceDeckClientToServerMessage.class;
             case "DRAW_CARD_FROM_GOLD_DECK" -> clientMessageTypeClass = DrawCardFromGoldDeckClientToServerMessage.class;
             case "SWITCH_CARD_SIDE" -> clientMessageTypeClass = SwitchCardSideClientToServerMessage.class;
-            case "CHAT_MSG" -> clientMessageTypeClass = chatMessageClientToServerMessage.class;
+            case "SEND_CHAT_MSG" -> clientMessageTypeClass = chatMessageClientToServerMessage.class;
             default -> throw new JsonParseException("playerAction property is missing or wrong");
         }
         // We deserialize the "sideContent" with the class type found above and return it
