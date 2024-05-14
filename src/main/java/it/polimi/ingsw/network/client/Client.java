@@ -99,7 +99,6 @@ public class Client {
             System.out.println(Utils.ANSI_PURPLE + "Debug mode enabled" + Utils.ANSI_RESET);
         switch (connectionType.toLowerCase()) {
             case "tcp" -> {
-                System.out.println(Utils.ANSI_BLUE + "Started a TCP connection with IP: " + serverIpAddress + " on port: " + serverPortNumber + Utils.ANSI_RESET);
                 startTCPClient();
             }
             case "rmi" -> {
@@ -177,7 +176,7 @@ public class Client {
         try {
             Socket serverSocket = new Socket(serverIpAddress, serverPortNumber);
             if (serverSocket.isConnected()) {
-                System.out.println("Starting client with connection to server at " + serverIpAddress + " on port " + serverPortNumber);
+                System.out.println(Utils.ANSI_BLUE + "Started a TCP connection with IP: " + serverIpAddress + " on port: " + serverPortNumber + Utils.ANSI_RESET);
             } else {
                 System.err.println("Failed to connect to the server.");
                 System.exit(1);

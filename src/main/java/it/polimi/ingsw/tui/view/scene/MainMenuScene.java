@@ -2,6 +2,7 @@ package it.polimi.ingsw.tui.view.scene;
 
 
 import it.polimi.ingsw.tui.controller.TUIViewController;
+import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 import java.io.BufferedReader;
@@ -15,12 +16,12 @@ public class MainMenuScene implements Diplayable {
 
     public MainMenuScene(TUIViewController controller) {
         this.controller = controller;
-        this.drawArea = new DrawArea("""
-                -- Main Menu --
+        this.drawArea = new TitleComponent("Main Menu").getDrawArea();
+        this.drawArea.drawNewLine("""
                 Press <l> to list available games.
                 Press <c> to create a new game.
                 Press <q> to quit.
-                """);
+                """, 0);
     }
 
     /**

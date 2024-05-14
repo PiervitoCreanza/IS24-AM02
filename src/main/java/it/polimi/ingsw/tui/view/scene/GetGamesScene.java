@@ -29,7 +29,7 @@ public class GetGamesScene implements Diplayable {
                 Press <l> to refresh the list.
                 Press <j> to join a game.
                 Press <c> to create a new game.
-                Press <q> to quit.
+                Press <q> to quit the menu.
                 """, ColorsEnum.YELLOW);
         this.controller = controller;
     }
@@ -53,8 +53,7 @@ public class GetGamesScene implements Diplayable {
                 controller.selectScene(ScenesEnum.CREATE_GAME);
             }
             case "q", "Q" -> {
-                System.out.println("Exiting...");
-                System.exit(0);
+                controller.selectScene(ScenesEnum.MAIN_MENU);
             }
             default -> System.out.println("Invalid input");
         }

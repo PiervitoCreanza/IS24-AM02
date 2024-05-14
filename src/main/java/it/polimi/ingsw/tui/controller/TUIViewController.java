@@ -143,6 +143,8 @@ public class TUIViewController implements PropertyChangeListener {
      * @param nPlayers the number of players in the game.
      */
     public void createGame(String gameName, String playerName, int nPlayers) {
+        this.playerName = playerName;
+        this.gameName = gameName;
         networkController.createGame(gameName, playerName, nPlayers);
     }
 
@@ -163,7 +165,9 @@ public class TUIViewController implements PropertyChangeListener {
             System.out.println("Invalid game ID");
             return;
         }
-        networkController.joinGame(gamesList.get(gameID).gameName(), playerName);
+        this.gameName = gamesList.get(gameID).gameName();
+        this.playerName = playerName;
+        networkController.joinGame(gameName, playerName);
     }
 
     /**
@@ -269,26 +273,7 @@ public class TUIViewController implements PropertyChangeListener {
                     return;
                 }
 
-//                if (isClientTurn()) {
-//                    switch (gameStatus) {
-//                        case INIT_PLACE_STARTER_CARD -> {
-//                            status = ClientStatusEnum.PLACE_STARTER_CARD;
-//                        }
-//                        case INIT_CHOOSE_PLAYER_COLOR -> {
-//                            status = ClientStatusEnum.CHOOSE_PLAYER_COLOR;
-//                        }
-//                        case INIT_CHOOSE_OBJECTIVE_CARD -> {
-//                            status = ClientStatusEnum.CHOOSE_OBJECTIVE_CARD;
-//                        }
-//                        case PLACE_CARD -> {
-//                            status = ClientStatusEnum.PLACE_CARD;
-//                        }
-//                        case DRAW_CARD -> {
-//                            status = ClientStatusEnum.DRAW_CARD;
-//                        }
-//                    }
-//                }
-
+                System.out.println(gameStatus);
                 stageManager.showGameScene(updatedView, playerName);
                 break;
 
