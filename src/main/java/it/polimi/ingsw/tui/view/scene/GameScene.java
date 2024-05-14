@@ -32,7 +32,8 @@ public class GameScene implements Diplayable {
         drawArea.drawAt(0, drawArea.getHeight(), new PlayerInventoryComponent(
                 gameView.globalBoardView().globalObjectives(),
                 clientView.objectiveCard(),
-                clientView.playerHandView().hand()).getDrawArea()
+                clientView.playerHandView().hand(), 5)
+                .getDrawArea()
         );
 
         // Draw the current player's name.
