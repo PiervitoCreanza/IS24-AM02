@@ -30,35 +30,86 @@ public class CLIParser extends Thread {
     }
 
     public void run() {
-        printTUIMenu();
-//        try {
-//            startCLI();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+        // TODO: We need to visualize the main menu
+        // controller.showMainMenuScene();
+        try {
+            startCLI();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void createGame() throws IOException {
         String numPlayers = "";
         System.out.println("Enter game name to create: ");
         String gameName = reader.readLine();
-        System.out.println("Enter number of players: ");
+        System.out.println("Enter number of players (2-4): ");
         numPlayers = reader.readLine();
+        while (!numPlayers.matches("\\d+")) {
+            System.out.println("Invalid input. Insert a number:");
+            numPlayers = reader.readLine();
+        }
         System.out.println("Enter player name: ");
         String playerName = reader.readLine();
+        // TODO: Want to set form here or with createGame function in controller?
         controller.setPlayerName(playerName);
         controller.setGameName(gameName);
-        clientNetworkControllerMapper.createGame(gameName, playerName, Integer.parseInt(numPlayers));
+        controller.createGame(gameName, playerName, Integer.parseInt(numPlayers));
     }
 
     public void joinGame() throws IOException {
-        System.out.println("Enter game name to join: ");
-        String gameName = reader.readLine();
+        System.out.println("Enter gameID: ");
+        String gameID = reader.readLine();
+        while (!gameID.matches("\\d+")) {
+            System.out.println("Invalid input. Please enter a number: ");
+            gameID = reader.readLine();
+        }
         System.out.println("Enter player name: ");
         String playerName = reader.readLine();
         controller.setPlayerName(playerName);
-        controller.setGameName(gameName);
-        clientNetworkControllerMapper.joinGame(gameName, playerName);
+        controller.setGameName(gameID);
+        controller.joinGame(gameID, playerName);
+    }
+
+    private void initChoosePlayerColor(String input) {
+        switch (input) {
+            case "r", "R" -> {
+                controller.choosePlayerColor(PlayerColorEnum.RED);
+            }
+            case "b", "B" -> {
+                controller.choosePlayerColor(PlayerColorEnum.BLUE);
+            }
+            case "g", "G" -> {
+                controller.choosePlayerColor(PlayerColorEnum.GREEN);
+            }
+            case "y", "Y" -> {
+                controller.choosePlayerColor(PlayerColorEnum.YELLOW);
+            }
+            default -> System.out.println("This is not a valid color.");
+        }
+    }
+
+    private void placeCard() throws IOException {
+        System.out.println("Choose a card to place: ");
+        String choiceCard = reader.readLine();
+        while (!choiceCard.matches("\\d+")) {
+            System.out.println("Invalid input. Please enter a number: ");
+            choiceCard = reader.readLine();
+        }
+        System.out.println("Enter x coordinate: ");
+        String x = reader.readLine();
+        while (!x.matches("\\d+")) {
+            System.out.println("Invalid input. Please enter a number: ");
+            x = reader.readLine();
+        }
+        System.out.println("Enter y coordinate: ");
+        String y = reader.readLine();
+        while (!y.matches("\\d+")) {
+            System.out.println("Invalid input. Please enter a number: ");
+            y = reader.readLine();
+        }
+        //
+        controller.placeCard(Integer.parseInt(choiceCard) - 1, new Coordinate(Integer.parseInt(x), Integer.parseInt(y)));
     }
 
     private void startCLI() throws IOException {
@@ -72,23 +123,34 @@ public class CLIParser extends Thread {
                 case GET_GAMES -> {
                     parseGetGames(input);
                 }
+                case INIT_PLACE_STARTER_CARD -> {
+                    parseInitPlaceStarterCard(input);
+                }
+                case INIT_CHOOSE_PLAYER_COLOR -> {
+                    initChoosePlayerColor(input);
+                }
+                case INIT_CHOOSE_OBJECTIVE_CARD -> {
+                    parseInitChooseObjectiveCard(input);
+                }
+                case PLACE_CARD -> {
+                    parsePlaceCard(input);
+                }
+                case DRAW_CARD -> {
+                    parseDrawCard(input);
+                }
             }
-
         }
     }
 
     private void parseMainMenu(String input) throws IOException {
         switch (input) {
-            case "l" -> {
-                clientNetworkControllerMapper.getGames();
+            case "l", "L" -> {
+                controller.getGames();
             }
-            case "c" -> {
+            case "c", "C" -> {
                 createGame();
             }
-            case "j" -> {
-                joinGame();
-            }
-            case "q" -> {
+            case "q", "Q" -> {
                 System.out.println("Exiting...");
                 System.exit(0);
             }
@@ -98,22 +160,75 @@ public class CLIParser extends Thread {
 
     private void parseGetGames(String input) throws IOException {
         switch (input) {
-            case "r" -> {
+            case "r", "R" -> {
                 clientNetworkControllerMapper.getGames();
             }
-            case "c" -> {
-                createGame();
-            }
-            case "j" -> {
+            case "j", "J" -> {
                 joinGame();
             }
-            case "q" -> {
+            case "c", "C" -> {
+                createGame();
+            }
+            case "q", "Q" -> {
                 System.out.println("Exiting...");
                 System.exit(0);
             }
             default -> System.out.println("Invalid input");
         }
     }
+
+    private void parseInitPlaceStarterCard(String input) {
+        switch (input) {
+            case "s", "S" -> {
+                //switchSide(); or controller.switchCardSide();
+                // Can't do here, We need a variable to keep track of the side until the client is in INIT_PLACE_STARTER_CARD
+            }
+            case "p", "P" -> {
+                controller.placeStarterCard();
+            }
+        }
+    }
+
+    private void parseInitChooseObjectiveCard(String input) {
+        switch (input) {
+            case "1" -> {
+                controller.setPlayerObjective(0);
+            }
+            case "2" -> {
+                controller.setPlayerObjective(1);
+            }
+            default -> System.out.println("Invalid input");
+        }
+    }
+
+    private void parsePlaceCard(String input) {
+        switch (input) {
+            case "s", "S" -> {
+                //switchSide(); or controller.switchCardSide();
+                // Can't do here, We need a variable to keep track of the side until the client is in PLACE_CARD
+            }
+            case "p", "P" -> {
+                placeCard();
+            }
+            default -> System.out.println("Invalid input");
+        }
+    }
+
+    private void parseDrawCard(String input) {
+        switch (input) {
+            case "f", "F" -> {
+                controller.drawCardFromField();
+            }
+            case "r", "R" -> {
+                controller.drawCardFromResourceDeck();
+            }
+            case "g", "G" -> {
+                controller.drawCardFromGoldDeck();
+            }
+            default -> System.out.println("Invalid input");
+        }
+    }
+
 
     /**
      * Adds a PropertyChangeListener.
@@ -124,6 +239,7 @@ public class CLIParser extends Thread {
         support.addPropertyChangeListener(listener);
     }
 
+
     /**
      * Removes a PropertyChangeListener f.
      *
@@ -132,6 +248,7 @@ public class CLIParser extends Thread {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         support.removePropertyChangeListener(listener);
     }
+
 
     /**
      * Notifies of a message.
