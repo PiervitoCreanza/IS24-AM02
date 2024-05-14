@@ -92,14 +92,9 @@ public class GameCardComponent implements Drawable {
                 drawArea.drawAt(4, 1, itemsArray.getLast().getSymbol(), itemsArray.getLast().getColor());
             }
             case 3 -> {
-                // TODO: Ask if a triangle is better or not
                 drawArea.drawAt(2, 0, itemsArray.getFirst().getSymbol(), itemsArray.getFirst().getColor());
                 drawArea.drawAt(2, 1, itemsArray.get(1).getSymbol(), itemsArray.get(1).getColor());
                 drawArea.drawAt(2, 2, itemsArray.getLast().getSymbol(), itemsArray.getLast().getColor());
-                /*drawArea.drawAt(2, 0, itemsArray.getFirst().getSymbol(), itemsArray.getFirst().getColor());
-                drawArea.drawAt(0, 1, itemsArray.get(1).getSymbol(), itemsArray.get(1).getColor());
-                drawArea.drawAt(4, 1, itemsArray.getLast().getSymbol(), itemsArray.getLast().getColor());*/
-
             }
         }
         return drawArea;
@@ -127,8 +122,8 @@ public class GameCardComponent implements Drawable {
     /**
      * Creates a DrawArea for the points component.
      *
-     * @param points The points to be drawn.
-     * @param multiplier The multiplier for the points.
+     * @param points       The points to be drawn.
+     * @param multiplier   The multiplier for the points.
      * @param isPositional Whether the points are positional.
      * @return The DrawArea with the points component drawn on it.
      */
