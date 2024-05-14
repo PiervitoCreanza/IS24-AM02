@@ -30,10 +30,13 @@ public class CLIParser extends Thread {
     }
 
     public void run() {
-        try {
-            startCLI();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        while (true) {
+            try {
+                String input = reader.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 

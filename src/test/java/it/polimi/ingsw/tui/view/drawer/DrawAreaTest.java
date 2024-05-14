@@ -14,8 +14,7 @@ class DrawAreaTest {
                 """);
         assertEquals("""
                 This
-                test
-                """, drawArea.toString());
+                test""", drawArea.toString());
     }
 
     void overlapTest() {

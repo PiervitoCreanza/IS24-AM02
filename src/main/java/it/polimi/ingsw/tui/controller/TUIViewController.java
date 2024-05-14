@@ -8,6 +8,7 @@ import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.tui.commandLine.ClientStatusEnum;
+import it.polimi.ingsw.tui.view.scene.ScenesEnum;
 import it.polimi.ingsw.tui.view.scene.StageManager;
 
 import java.beans.PropertyChangeEvent;
@@ -23,7 +24,7 @@ public class TUIViewController implements PropertyChangeListener {
     /**
      * Instance of StageManager to manage different scenes in the game.
      */
-    private final StageManager stageManager = new StageManager();
+    private final StageManager stageManager;
 
     /**
      * Instance of ClientNetworkControllerMapper to manage network requests.
@@ -56,6 +57,11 @@ public class TUIViewController implements PropertyChangeListener {
     private ArrayList<GameRecord> gamesList;
 
     /**
+     * Cli parser.
+     */
+    //private final CLIParser cliParser = new CLIParser();
+
+    /**
      * List of players' cards.
      */
     private GameControllerView gameControllerView;
@@ -65,6 +71,7 @@ public class TUIViewController implements PropertyChangeListener {
      */
     public TUIViewController(ClientNetworkControllerMapper networkController) {
         this.networkController = networkController;
+        this.stageManager = new StageManager(this);
     }
 
     /**
@@ -72,6 +79,7 @@ public class TUIViewController implements PropertyChangeListener {
      */
     public void start() {
         stageManager.showMainMenuScene();
+
     }
 
     /**
@@ -101,6 +109,20 @@ public class TUIViewController implements PropertyChangeListener {
         return status;
     }
 
+    /**
+     * Method used by a Scene to request a scene change.
+     * scene The scene to be selected.
+     */
+    public void selectScene(ScenesEnum scene) {
+        switch (scene) {
+            case CREATE_GAME -> {
+                stageManager.showCreateGameScene();
+            }
+            case JOIN_GAME -> {
+                stageManager.showJoinGameScene();
+            }
+        }
+    }
 
     /**
      * Method to get the list of games.
@@ -118,7 +140,6 @@ public class TUIViewController implements PropertyChangeListener {
      * @param nPlayers the number of players in the game.
      */
     public void createGame(String gameName, String playerName, int nPlayers) {
-        this.gameName = gameName;
         networkController.createGame(gameName, playerName, nPlayers);
     }
 

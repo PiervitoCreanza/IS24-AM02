@@ -2,6 +2,7 @@ package it.polimi.ingsw.tui.view.scene;
 
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
+import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.utils.Utils;
 
 import java.util.ArrayList;
@@ -10,6 +11,12 @@ import java.util.ArrayList;
  * This class manages the different scenes in the game.
  */
 public class StageManager {
+
+    TUIViewController controller;
+
+    public StageManager(TUIViewController controller) {
+        this.controller = controller;
+    }
 
     /**
      * Clears the console screen based on the operating system.
@@ -38,7 +45,12 @@ public class StageManager {
      */
     public void showGetGamesScene(ArrayList<GameRecord> games) {
         clearScreen();
-        new GetGamesScene(games).display();
+        try {
+            new GetGamesScene(games, this.controller).display();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -67,6 +79,36 @@ public class StageManager {
      */
     public void showMainMenuScene() {
         clearScreen();
-        new MainMenuScene().display();
+        try {
+            new MainMenuScene(this.controller).display();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Displays the scene for joining a game.
+     */
+    public void showJoinGameScene() {
+        clearScreen();
+        try {
+            new JoinGameScene(this.controller).display();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Displays the scene for creating a game.
+     */
+    public void showCreateGameScene() {
+        clearScreen();
+        try {
+            new CreateGameScene(this.controller).display();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

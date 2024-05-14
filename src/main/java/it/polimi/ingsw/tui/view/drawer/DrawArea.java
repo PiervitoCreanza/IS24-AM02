@@ -37,6 +37,15 @@ public class DrawArea implements Drawable {
     }
 
     /**
+     * Constructor that initializes the drawable area with a drawable object.
+     *
+     * @param drawable The drawable object to initialize the drawable area with.
+     */
+    public DrawArea(Drawable drawable) {
+        this(drawable.getDrawArea());
+    }
+
+    /**
      * Constructor that initializes the drawable area with a string.
      *
      * @param drawArea The string to initialize the drawable area with.
@@ -95,6 +104,17 @@ public class DrawArea implements Drawable {
                     // Update width and height of the draw area.
                     updateWidthHeight(newCharCoordinate);
                 });
+    }
+
+    /**
+     * Draws the specified drawable area at the specified coordinates with the specified color.
+     *
+     * @param x        The x-coordinate at which to draw the drawable area.
+     * @param y        The y-coordinate at which to draw the drawable area.
+     * @param drawable The drawable component to draw.
+     */
+    public void drawAt(int x, int y, Drawable drawable) {
+        drawAt(x, y, drawable.getDrawArea());
     }
 
     /**
@@ -158,6 +178,16 @@ public class DrawArea implements Drawable {
         drawAt(x, y, String.valueOf(string), color);
     }
 
+    /**
+     * Redraws the drawable that was put at the bottom of the drawArea. IMPORTANT:
+     * This method only works if the drawable was put at x=0 and its height did not change.
+     *
+     * @param drawable The drawable area to redraw.
+     */
+    public void redrawArea(Drawable drawable) {
+        drawAt(0, height - drawable.getHeight(), drawable);
+    }
+
     public void drawNewLine(String string, ColorsEnum color, int spacing) {
         drawAt(0, this.height + spacing, string, color);
     }
@@ -178,7 +208,8 @@ public class DrawArea implements Drawable {
                 MagicChar c = drawArea.get(new Coordinate(j, i));
                 sb.append(c != null ? c.toString() : ' ');
             }
-            sb.append("\n");
+            if (i != getHeight() - 1)
+                sb.append("\n");
         }
         return sb.toString();
     }
@@ -303,6 +334,16 @@ public class DrawArea implements Drawable {
     }
 
     /**
+     * Draws the specified string centered on the x-axis of the drawable area.
+     *
+     * @param y      The y-coordinate at which to draw the string.
+     * @param string The string to draw.
+     */
+    public void drawCenteredX(int y, String string) {
+        drawCenteredX(y, new DrawArea(string));
+    }
+
+    /**
      * Draws the specified drawable area centered on the y-axis of the drawable area.
      *
      * @param x        The x-coordinate at which to draw the drawable area.
@@ -340,5 +381,19 @@ public class DrawArea implements Drawable {
     @Override
     public DrawArea getDrawArea() {
         return this;
+    }
+
+    /**
+     * Prints the drawable area.
+     */
+    public void print() {
+        System.out.print(this);
+    }
+
+    /**
+     * Prints the drawable area followed by a newline character.
+     */
+    public void println() {
+        System.out.println(this);
     }
 }
