@@ -210,6 +210,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
 @Override
     public void receiveGameDeleted(String message) {
         System.out.println(message);
+        notify("GAME_DELETED", message);
         //TODO: JavaFx event trigger
     }
 
@@ -243,6 +244,8 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
 @Override
     public void receiveErrorMessage(String errorMessage) {
         System.out.println("Received error message: " + errorMessage);
+        notify("ERROR", errorMessage);
+
     }
 
     /**
