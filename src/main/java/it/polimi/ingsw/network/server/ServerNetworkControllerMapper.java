@@ -6,11 +6,10 @@ import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
-import it.polimi.ingsw.network.client.message.ClientToServerMessage;
 import it.polimi.ingsw.network.server.actions.ClientToServerActions;
+import it.polimi.ingsw.network.server.message.ChatServerToClientMessage;
 import it.polimi.ingsw.network.server.message.ErrorServerToClientMessage;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
-import it.polimi.ingsw.network.server.message.chatMessageServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.DeleteGameServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.GetGamesServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.UpdateViewServerToClientMessage;
@@ -286,22 +285,24 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
     }
 
     /**
-     * @param message
+     * @param gameName  the name of the game.
+     * @param playerName the name of the player who is sending the chat message.
+     * @param message   the chat message to be sent.
+     * @param receiver the receiver of the message. If this is null, the message is not a direct message.
+     * @param timestamp the timestamp of the message.
      */
     @Override
-    public void sendChatMessage(ClientToServerMessage message) {
-        //Extract the gameName from the message
-        String gameName = message.getGameName();
-
-        chatMessageServerToClientMessage convertedMessage = new chatMessageServerToClientMessage(message.getPlayerName(), message.getMessage(), message.getReceiver());
+    public void sendChatMessage(String gameName, String playerName, String message, String receiver, long timestamp) {
+// The message is converted to a ChatServerToClientMessage and sent to all clients excluding the sender.
+        ChatServerToClientMessage convertedMessage = new ChatServerToClientMessage(playerName, message, receiver, timestamp);
 
         if (convertedMessage.isDirectMessage()) {
             //It is sent only to the receiver and the sender.
-            ServerMessageHandler receiverHandler = gameConnectionMapper.get(gameName).get(message.getReceiver());
+            ServerMessageHandler receiverHandler = gameConnectionMapper.get(gameName).get(receiver);
             if (receiverHandler != null) {
                 receiverHandler.sendMessage(convertedMessage);
             } else {
-                gameConnectionMapper.get(gameName).get(message.getPlayerName()).sendMessage(new ErrorServerToClientMessage("The player you are trying to send a message to is not in the game."));
+                gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage("The player you are trying to send a message to is not in the game."));
             }
         } else {
             //It is broadcasted to any player of the game (even the sender) to avoid code redundancy client-side.

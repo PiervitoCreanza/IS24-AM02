@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
-import it.polimi.ingsw.network.client.message.ClientToServerMessage;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -115,9 +114,13 @@ public interface RMIClientToServerActions extends Remote {
 
     /**
      * Sends a chat message from the client to the server.
-     * The server will convert it to a chatMessageServerToClientMessage and send it to all clients excluding the sender.
+     * The server will convert it to a ChatServerToClientMessage and send it to all clients excluding the sender.
      *
-     * @param message the chat message to be sent.
+     * @param gameName  the name of the game.
+     * @param playerName the name of the player who is sending the chat message.
+     * @param message    the chat message to be sent.
+     * @param receiver  the receiver of the message. If this is null, the message is not a direct message.
+     * @param timestamp the timestamp of the message.
      */
-    void chatMessageSender(ClientToServerMessage message) throws RemoteException;
+    void chatMessageSender(String gameName, String playerName, String message, String receiver, long timestamp) throws RemoteException;
 }

@@ -99,16 +99,44 @@ public abstract class ServerToClientMessage implements Serializable {
      *
      * @return null in this implementation.
      */
-    public chatMessageServerToClientMessage getChatMessage() {
+    public String getPlayerName() {
         return null;
     }
 
     /**
-     * Method to print a chat message.
+     * Method to get a chat message.
      *
      * @return null in this implementation.
      */
-    public String chatPrint() {
+    public String getChatMessage() {
         return null;
     }
+
+    /**
+     * Method to get the message's receiver.
+     *
+     * @return null in this implementation.
+     */
+    public String getReceiver() {
+        return null;
+    }
+
+    /**
+     * Method to get a chat message's timestamp.
+     *
+     * @return null in this implementation.
+     */
+    public long getTimestamp() {
+        return 0;
+    }
+
+    /**
+     * Method to understand if a message is a private message or not.
+     *
+     * @return false in this implementation.
+     */
+    public boolean isDirectMessage() {
+        return false;
+    }
+
 }

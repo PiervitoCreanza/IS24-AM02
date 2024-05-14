@@ -1,19 +1,12 @@
 package it.polimi.ingsw.network.server.message;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-
 import static it.polimi.ingsw.network.server.message.ServerActionEnum.RECEIVE_CHAT_MSG;
-import static it.polimi.ingsw.tui.utils.Utils.ANSI_BLUE;
-import static it.polimi.ingsw.tui.utils.Utils.ANSI_RESET;
 
 /**
  * This class represents a chat message that a server sends to a client.
  * It extends the ServerToClientMessage class and adds additional fields related to the chat functionality.
  */
-public class chatMessageServerToClientMessage extends ServerToClientMessage {
+public class ChatServerToClientMessage extends ServerToClientMessage {
     /**
      * The content of the chat message.
      */
@@ -37,18 +30,19 @@ public class chatMessageServerToClientMessage extends ServerToClientMessage {
     private final boolean isDirectMessage;
 
     /**
-     * Constructor for chatMessageServerToClientMessage.
+     * Constructor for ChatServerToClientMessage.
      * Initializes the chat message with the specified values.
      *
-     * @param sender   The sender of the message.
-     * @param message  The content of the message.
-     * @param receiver The receiver of the message. If this is null, the message is not a direct message.
+     * @param sender    The sender of the message.
+     * @param message   The content of the message.
+     * @param receiver  The receiver of the message. If this is null, the message is not a direct message.
+     * @param timestamp The timestamp when the message was created.
      */
-    public chatMessageServerToClientMessage(String sender, String message, String receiver) {
+    public ChatServerToClientMessage(String sender, String message, String receiver, long timestamp) {
         super(RECEIVE_CHAT_MSG);
         this.sender = sender;
         this.message = message;
-        this.timestamp = Instant.now().getEpochSecond(); // Set the timestamp when the message is created
+        this.timestamp = timestamp; // Set the timestamp when the message is created
         this.isDirectMessage = !receiver.isEmpty();
         this.receiver = receiver;
     }
@@ -58,7 +52,8 @@ public class chatMessageServerToClientMessage extends ServerToClientMessage {
      *
      * @return The content of the chat message.
      */
-    public String getMessage() {
+    @Override
+    public String getChatMessage() {
         return message;
     }
 
@@ -67,6 +62,7 @@ public class chatMessageServerToClientMessage extends ServerToClientMessage {
      *
      * @return The timestamp when the chat message was created.
      */
+    @Override
     public long getTimestamp() {
         return timestamp;
     }
@@ -76,6 +72,7 @@ public class chatMessageServerToClientMessage extends ServerToClientMessage {
      *
      * @return True if the chat message is a direct message, false otherwise.
      */
+    @Override
     public boolean isDirectMessage() {
         return isDirectMessage;
     }
@@ -85,32 +82,18 @@ public class chatMessageServerToClientMessage extends ServerToClientMessage {
      *
      * @return The receiver of the chat message if it's a direct message, null otherwise.
      */
+    @Override
     public String getReceiver() {
         return receiver;
     }
 
     /**
-     * Returns a string representation of the chat message.
+     * Returns the name of the player who sent the message.
      *
-     * @return A string representation of the chat message.
+     * @return The name of the player who sent the message.
      */
     @Override
-    public String chatPrint() {
-        // If it's a direct message, print it in blue with the appropriate fields
-        if (isDirectMessage)
-            return ANSI_BLUE + this.sender + "(to " + receiver + "): " + message + " (" + getFormattedTimestamp() + ")" + ANSI_RESET;
-        // If it's not a direct message, print it as a normal message
-        return this.sender + ": " + message + " (" + getFormattedTimestamp() + ")";
-    }
-
-    /**
-     * Returns a formatted timestamp (only hour, minutes, seconds).
-     *
-     * @return A string representation of the timestamp.
-     */
-    public String getFormattedTimestamp() {
-        LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        return dateTime.format(formatter);
+    public String getPlayerName() {
+        return sender;
     }
 }

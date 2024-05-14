@@ -8,7 +8,7 @@ import it.polimi.ingsw.network.client.RMI.RMIClientReceiver;
 import it.polimi.ingsw.network.client.RMI.RMIClientSender;
 import it.polimi.ingsw.network.client.TCP.TCPClientAdapter;
 import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
-import it.polimi.ingsw.network.client.message.chatMessageClientToServerMessage;
+import it.polimi.ingsw.network.client.message.ChatClientToServerMessage;
 import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
 import it.polimi.ingsw.tui.utils.Utils;
 import org.apache.commons.cli.*;
@@ -367,7 +367,7 @@ public class Client {
                     case "13" -> {
                         System.out.println("Enter message: ");
                         String actualMessage = reader.readLine();
-                        chatMessageClientToServerMessage message = new chatMessageClientToServerMessage(gameName, playerName, actualMessage, "");
+                        ChatClientToServerMessage message = new ChatClientToServerMessage(gameName, playerName, actualMessage, "");
                         CLIENT_NETWORK_CONTROLLER_MAPPER.sendChatMessage(message);
                     }
                     case "14" -> {
@@ -375,7 +375,7 @@ public class Client {
                         String recipient = reader.readLine();
                         System.out.println("Enter message: ");
                         String actualMessage = reader.readLine();
-                        chatMessageClientToServerMessage message = new chatMessageClientToServerMessage(gameName, playerName, actualMessage, recipient);
+                        ChatClientToServerMessage message = new ChatClientToServerMessage(gameName, playerName, actualMessage, recipient);
                         CLIENT_NETWORK_CONTROLLER_MAPPER.sendChatMessage(message);
                     }
                     case "15" -> {

@@ -5,8 +5,6 @@ import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -14,16 +12,7 @@ import java.util.Objects;
  * It contains a player action, which is an enum representing the type of action the player has taken.
  * This class is meant to be extended by other classes that represent specific types of client messages.
  */
-public abstract class ClientToServerMessage implements Serializable {
-    /**
-     * The serialVersionUID is a universal version identifier for a Serializable class.
-     * Deserialization uses this number to ensure that a loaded class corresponds exactly to a serialized object.
-     * If no match is found, then an InvalidClassException is thrown.
-     * It is static and final, meaning it's a constant throughout the application and cannot be changed.
-     * Mandatory because the message is converted to a ServerToClientMessage on Server side, if sent via RMI.
-     */
-    @Serial
-    private static final long serialVersionUID = 1L; //MANDATORY BECAUSE OF CtoS -> StoC conversion
+public abstract class ClientToServerMessage {
     /**
      * The name of the game.
      * It is final, meaning it cannot be changed once it has been set.
@@ -166,5 +155,15 @@ public abstract class ClientToServerMessage implements Serializable {
      */
     public String getReceiver() {
         return null;
+    }
+
+    /**
+     * Returns the timestamp of the message.
+     * This method is not implemented and always returns 0.
+     *
+     * @return The timestamp of the message, always 0.
+     */
+    public long getTimestamp() {
+        return 0;
     }
 }

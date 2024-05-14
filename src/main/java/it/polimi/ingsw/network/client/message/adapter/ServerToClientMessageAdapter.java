@@ -1,9 +1,9 @@
 package it.polimi.ingsw.network.client.message.adapter;
 
 import com.google.gson.*;
+import it.polimi.ingsw.network.server.message.ChatServerToClientMessage;
 import it.polimi.ingsw.network.server.message.ErrorServerToClientMessage;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
-import it.polimi.ingsw.network.server.message.chatMessageServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.DeleteGameServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.GetGamesServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.UpdateViewServerToClientMessage;
@@ -38,7 +38,7 @@ public class ServerToClientMessageAdapter implements JsonDeserializer<ServerToCl
             case "DELETE_GAME" -> serverMessageTypeClass = DeleteGameServerToClientMessage.class;
             case "GET_GAMES" -> serverMessageTypeClass = GetGamesServerToClientMessage.class;
             case "ERROR_MSG" -> serverMessageTypeClass = ErrorServerToClientMessage.class;
-            case "RECEIVE_CHAT_MSG" -> serverMessageTypeClass = chatMessageServerToClientMessage.class;
+            case "RECEIVE_CHAT_MSG" -> serverMessageTypeClass = ChatServerToClientMessage.class;
             default -> throw new JsonParseException("playerAction property is missing or wrong");
         }
         // We deserialize the "serverMessageType" with the class type found above and return it

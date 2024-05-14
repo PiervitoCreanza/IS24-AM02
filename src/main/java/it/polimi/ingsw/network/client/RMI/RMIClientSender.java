@@ -66,7 +66,8 @@ public class RMIClientSender implements ClientMessageHandler {
                         serverStub.drawCardFromGoldDeck(message.getGameName(), message.getPlayerName());
                 case SWITCH_CARD_SIDE ->
                         serverStub.switchCardSide(message.getGameName(), message.getPlayerName(), message.getGameCard());
-                case SEND_CHAT_MSG -> serverStub.chatMessageSender(message);
+                case SEND_CHAT_MSG ->
+                        serverStub.chatMessageSender(message.getGameName(), message.getPlayerName(), message.getMessage(), message.getReceiver(), message.getTimestamp());
             }
         } catch (RemoteException e) {
             e.printStackTrace();

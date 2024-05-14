@@ -5,17 +5,23 @@ import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.actions.ServerToClientActions;
-import it.polimi.ingsw.network.client.message.chatMessageClientToServerMessage;
+import it.polimi.ingsw.network.client.message.ChatClientToServerMessage;
 import it.polimi.ingsw.network.client.message.gameController.*;
 import it.polimi.ingsw.network.client.message.mainController.CreateGameClientToServerMessage;
 import it.polimi.ingsw.network.client.message.mainController.DeleteGameClientToServerMessage;
 import it.polimi.ingsw.network.client.message.mainController.GetGamesClientToServerMessage;
 import it.polimi.ingsw.network.client.message.mainController.JoinGameClientToServerMessage;
-import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+
+import static it.polimi.ingsw.tui.utils.Utils.ANSI_BLUE;
+import static it.polimi.ingsw.tui.utils.Utils.ANSI_RESET;
 
 /**
  * The ClientNetworkControllerMapper class implements the ServerToClientActions interface.
@@ -167,7 +173,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      *
      * @param message The chat message to be sent.
      */
-    void sendChatMessage(chatMessageClientToServerMessage message) {
+    void sendChatMessage(ChatClientToServerMessage message) {
         messageHandler.sendMessage(message);
     }
 
@@ -175,39 +181,42 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      * METHODS INVOKED BY THE SERVER ON THE CLIENT
      * ***************************************/
 
-    @Override
+
 /**
  * Receives a list of games from the server.
  * This method is called when the server sends a list of games to the client.
  *
  * @param games The list of games received from the server.
  */
+@Override
     public void receiveGameList(HashSet<GameRecord> games) {
         System.out.println("Received games: " + games);
         //TODO: JavaFx event trigger
     }
 
 
-    @Override
+
 /**
  * Receives a message from the server that a game has been deleted.
  * This method is called when the server sends a message to the client that a game has been deleted.
  *
  * @param message The message received from the server.
  */
+@Override
     public void receiveGameDeleted(String message) {
         System.out.println(message);
         //TODO: JavaFx event trigger
     }
 
 
-    @Override
+
 /**
  * Receives an updated view of the game from the server.
  * This method is called when the server sends an updated view of the game to the client.
  *
  * @param updatedView The updated view of the game received from the server.
  */
+@Override
     public void receiveUpdatedView(GameControllerView updatedView) {
         this.view = updatedView;
         System.out.println("Received updated view: " + updatedView);
@@ -216,13 +225,14 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
         //TODO: JavaFx event trigger
     }
 
-    @Override
+
 /**
  * Receives an error message from the server.
  * This method is called when the server sends an error message to the client.
  *
  * @param errorMessage The error message received from the server.
  */
+@Override
     public void receiveErrorMessage(String errorMessage) {
         System.out.println("Received error message: " + errorMessage);
     }
@@ -232,11 +242,15 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      * Receives a chat message from the server.
      * This method is called when the server sends a chat message to the client.
      *
-     * @param message The chat message received from the server.
+     * @param playerName The chat message received from the server.
+     * @param message    The chat message received from the server.
+     * @param receiver   The receiver of the message if it's a direct message.
+     * @param timestamp  The timestamp when the message was created.
+     * @param isDirect   Flag to indicate if the message is a direct message.
      */
-    public void receiveChatMessage(ServerToClientMessage message) {
+    public void receiveChatMessage(String playerName, String message, String receiver, long timestamp, boolean isDirect) {
         //TODO: JavaFx / TUI event trigger?
-        System.out.println("Received chat message: " + message.chatPrint());
+        System.out.println("Received chat message: " + chatPrint(playerName, message, receiver, timestamp, isDirect));
     }
 
     /**
@@ -260,4 +274,33 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
     }
 
 
+    /**
+     * Prints a chat message with the appropriate colors.
+     *
+     * @param sender          The sender of the message.
+     * @param message         The content of the message.
+     * @param receiver        The receiver of the message if it's a direct message.
+     * @param timestamp       The timestamp when the message was created.
+     * @param isDirectMessage Flag to indicate if the message is a direct message.
+     * @return A string representation of the chat message.
+     */
+    private String chatPrint(String sender, String message, String receiver, long timestamp, boolean isDirectMessage) {
+        // If it's a direct message, print it in blue with the appropriate fields
+        if (isDirectMessage)
+            return ANSI_BLUE + sender + "(to " + receiver + "): " + message + " (" + getFormattedTimestamp(timestamp) + ")" + ANSI_RESET;
+        // If it's not a direct message, print it as a normal message
+        return sender + ": " + message + " (" + getFormattedTimestamp(timestamp) + ")";
+    }
+
+    /**
+     * Converts a Unix timestamp into a formatted string.
+     *
+     * @param timestamp The Unix timestamp to convert.
+     * @return The formatted string representation of the timestamp.
+     */
+    public String getFormattedTimestamp(long timestamp) {
+        LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        return dateTime.format(formatter);
+    }
 }

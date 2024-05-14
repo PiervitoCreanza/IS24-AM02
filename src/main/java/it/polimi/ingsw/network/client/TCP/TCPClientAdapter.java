@@ -80,7 +80,8 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
                     clientNetworkControllerMapper.receiveGameDeleted(receivedMessage.getSuccessDeleteMessage());
             case GET_GAMES -> clientNetworkControllerMapper.receiveGameList(receivedMessage.getGames());
             case ERROR_MSG -> clientNetworkControllerMapper.receiveErrorMessage(receivedMessage.getErrorMessage());
-            case RECEIVE_CHAT_MSG -> clientNetworkControllerMapper.receiveChatMessage(receivedMessage);
+            case RECEIVE_CHAT_MSG ->
+                    clientNetworkControllerMapper.receiveChatMessage(receivedMessage.getPlayerName(), receivedMessage.getChatMessage(), receivedMessage.getReceiver(), receivedMessage.getTimestamp(), receivedMessage.isDirectMessage());
             default -> System.out.print("Invalid action");
         }
         // Debug

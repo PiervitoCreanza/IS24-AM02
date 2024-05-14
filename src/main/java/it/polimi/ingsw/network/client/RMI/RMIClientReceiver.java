@@ -3,7 +3,6 @@ package it.polimi.ingsw.network.client.RMI;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
-import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 
@@ -60,7 +59,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      * This method is called when the server receives a notification that a game has been deleted.
      *
      *
-     * @param message
+     * @param message The message received from the server.
      */
     @Override
     public void receiveGameDeleted(String message) throws RemoteException {
@@ -100,15 +99,19 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      * It creates a new thread to handle the received message, allowing the client to continue its operations without waiting for the message processing to complete.
      * After processing the message, it prints a debug message to the console.
      *
-     * @param message The chat message received from the server.
+     * @param playerName The chat message received from the server.
+     * @param message    The chat message received from the server.
+     * @param receiver  The receiver of the message if it's a direct message.
+     * @param timestamp The timestamp of the message.
+     * @param isDirect Flag to indicate if the message is a direct message.
      * @throws RemoteException If an error occurs during the RMI connection.
      */
-    public void receiveChatMessage(ServerToClientMessage message) throws RemoteException {
+    public void receiveChatMessage(String playerName, String message, String receiver, long timestamp, boolean isDirect) throws RemoteException {
         new Thread(() -> {
-            clientNetworkControllerMapper.receiveChatMessage(message);
+            clientNetworkControllerMapper.receiveChatMessage(playerName, message, receiver, timestamp, isDirect);
         }).start();
         // Debug
-        System.out.println("RMI received message: " + message.toString());
+        System.out.println("RMI received message: " + playerName);
     }
 
     @Override
