@@ -1,8 +1,8 @@
 package it.polimi.ingsw.tui.Scene;
 
 import it.polimi.ingsw.network.virtualView.GameControllerView;
-import it.polimi.ingsw.tui.draw.DrawArea;
 import it.polimi.ingsw.tui.utils.ColorsEnum;
+import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 public class WaitForPlayersScene {
     DrawArea drawArea;

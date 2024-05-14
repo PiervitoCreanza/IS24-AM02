@@ -1,9 +1,9 @@
 package it.polimi.ingsw.tui.Scene;
 
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
-import it.polimi.ingsw.tui.draw.DrawArea;
-import it.polimi.ingsw.tui.draw.GameInfoComponent;
 import it.polimi.ingsw.tui.utils.ColorsEnum;
+import it.polimi.ingsw.tui.view.component.GameInfoComponent;
+import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 import java.util.HashSet;
 

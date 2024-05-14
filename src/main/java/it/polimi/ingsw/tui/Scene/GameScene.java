@@ -2,9 +2,9 @@ package it.polimi.ingsw.tui.Scene;
 
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.network.virtualView.GameView;
-import it.polimi.ingsw.tui.draw.DrawArea;
-import it.polimi.ingsw.tui.draw.PlayerBoardComponent;
-import it.polimi.ingsw.tui.draw.PlayerInventoryComponent;
+import it.polimi.ingsw.tui.view.component.playerBoard.PlayerBoardComponent;
+import it.polimi.ingsw.tui.view.component.playerInventory.PlayerInventoryComponent;
+import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 public class GameScene {
     private final DrawArea drawArea;
@@ -16,7 +16,7 @@ public class GameScene {
         // Draw the current player board
         drawArea.drawAt(0, 0, new PlayerBoardComponent(gameControllerView.getCurrentPlayerView().playerBoardView().playerBoard()).getDrawArea());
         // Draw the player inventory
-        drawArea.drawAt(0, drawArea.getHeight(), new PlayerInventoryComponent(gameView.globalBoardView().globalObjectives(), gameControllerView.getPlayerViewByName(clientPlayerName).objectiveCard(), gameControllerView.getPlayerViewByName(clientPlayerName).playerHandView().hand()).getDrawArea());
+        drawArea.drawAt(0, drawArea.getHeight(), new PlayerInventoryComponent(gameView.globalBoardView().globalObjectives(), gameControllerView.getPlayerViewByName(clientPlayerName).objectiveCard(), gameControllerView.getPlayerViewByName(clientPlayerName).playerHandView().hand(), 5).getDrawArea());
         if (currentPlayer.equals(clientPlayerName)) {
             drawArea.drawAt(0, drawArea.getHeight(), "It's your turn!");
         } else {
