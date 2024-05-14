@@ -15,6 +15,8 @@ import it.polimi.ingsw.network.server.message.successMessage.GetGamesServerToCli
 import it.polimi.ingsw.network.server.message.successMessage.UpdateViewServerToClientMessage;
 
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * The ServerNetworkControllerMapper class is responsible for mapping network commands to actions in the game.
@@ -265,6 +267,10 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
         mainController.getGameController(gameName).setPlayerConnectionStatus(messageHandler.getPlayerName(), false);
 
         System.out.println("[Server] Player " + messageHandler.getPlayerName() + " disconnected from game " + gameName + ". Remaining players: " + gameConnectionMapper.get(gameName).size());
+
+        if (gameConnectionMapper.get(gameName).size() == 1) {
+            startLastPlayerTimeout(gameName);
+        }
         // If the game is now empty we delete it.
         if (gameConnectionMapper.get(gameName).isEmpty()) {
             // Delete the game
@@ -276,6 +282,20 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
         }
         // If the game was not deleted we update the view for the remaining players.
         broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+    }
+
+    private void startLastPlayerTimeout(String gameName) {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // If after 30 seconds there is still only one player in the game we close the connections and delete the game.
+                HashMap<String, ServerMessageHandler> gameConnections = gameConnectionMapper.get(gameName);
+                if (gameConnections != null && gameConnections.size() == 1) {
+                    closeConnections(gameName);
+                }
+            }
+        }, 30000); // Delay in milliseconds
     }
 
     private void closeConnections(String gameName) {

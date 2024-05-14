@@ -106,6 +106,12 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * Handles the turn finish.
      */
     private void handleDrawFinish() {
+        // If there is only one player connected, the game is paused
+        if (game.getConnectedPlayers().size() == 1) {
+            gameStatus = GameStatusEnum.GAME_PAUSED;
+            return;
+        }
+
         // If the game is not in the last round and the current player is the first to finish,
         // the game status is set to LAST_ROUND
         if (!isLastRound && game.isLastRound()) {
@@ -310,6 +316,12 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      */
     public synchronized void setPlayerConnectionStatus(String playerName, boolean isConnected) {
         gameController.setPlayerConnectionStatus(playerName, isConnected);
+
+        // If the game is paused and a player reconnects, the game restarts
+        if (gameStatus == GameStatusEnum.GAME_PAUSED && isConnected) {
+            handleDrawFinish();
+        }
+
         Player currentPlayer = game.getCurrentPlayer();
         // If the player gets disconnected during his turn
         if (currentPlayer.getPlayerName().equals(playerName) && !isConnected) {

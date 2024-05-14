@@ -226,13 +226,33 @@ public class Game implements VirtualViewable<GameView> {
         return players.stream().filter(Player::isConnected).collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /*
+    Ex. getPlayers = [p1,p2,p3,p4]
+    connectedPlayers = [p2]
+    currentPlayer = p3
+    1. getFirstConnectedPlayerAfter(p3) return getFirstConnectedPlayerAfter(p4)
+    2. getFirstConnectedPlayerAfter(p4) return getFirstConnectedPlayerAfter(p1)
+    3. getFirstConnectedPlayerAfter(p1) return p2
+     */
+    private Player getFirstConnectedPlayerAfter(Player player) {
+        int playerIndex = getPlayers().indexOf(player);
+        Player nextPlayer = getPlayers().get((playerIndex + 1) % getPlayers().size());
+
+        if (getConnectedPlayers().contains(nextPlayer)) {
+            return nextPlayer;
+        }
+
+        return getFirstConnectedPlayerAfter(nextPlayer);
+    }
+
     /**
      * Sets the next player in the game.
      * This method updates the currentPlayer variable to the next player in the list of players.
      */
     public void setNextPlayer() {
-        ArrayList<Player> connectedPlayers = getConnectedPlayers();
-        currentPlayer = connectedPlayers.get((connectedPlayers.indexOf(currentPlayer) + 1) % connectedPlayers.size());
+        // getFirstConnectedPlayerAfter is a recursive function that finds the first connected player
+        // after the current player. If the current player is the last connected player, it will return the same player.
+        currentPlayer = getFirstConnectedPlayerAfter(currentPlayer);
     }
 
     /**
