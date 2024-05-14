@@ -16,9 +16,19 @@ public enum ColorsEnum {
     BLACK("\u001B[30m"),
 
     /**
+     * The bright black escape code.
+     */
+    BRIGHT_BLACK("\u001B[90m"),
+
+    /**
      * The red escape code.
      */
     RED("\u001B[31m"),
+
+    /**
+     * The bright red escape code.
+     */
+    BRIGHT_RED("\u001B[91m"),
 
     /**
      * The green escape code.
@@ -26,9 +36,19 @@ public enum ColorsEnum {
     GREEN("\u001B[32m"),
 
     /**
+     * The bright green escape code.
+     */
+    BRIGHT_GREEN("\u001B[92m"),
+
+    /**
      * The yellow escape code.
      */
     YELLOW("\u001B[33m"),
+
+    /**
+     * The bright yellow escape code.
+     */
+    BRIGHT_YELLOW("\u001B[93m"),
 
     /**
      * The blue escape code.
@@ -36,9 +56,19 @@ public enum ColorsEnum {
     BLUE("\u001B[34m"),
 
     /**
+     * The bright blue escape code.
+     */
+    BRIGHT_BLUE("\u001B[94m"),
+
+    /**
      * The purple escape code.
      */
     PURPLE("\u001B[35m"),
+
+    /**
+     * The bright purple escape code.
+     */
+    BRIGHT_PURPLE("\u001B[95m"),
 
     /**
      * The cyan escape code.
@@ -46,9 +76,19 @@ public enum ColorsEnum {
     CYAN("\u001B[36m"),
 
     /**
+     * The brightcyan escape code.
+     */
+    BRIGHT_CYAN("\u001B[96m"),
+
+    /**
      * The white escape code.
      */
-    WHITE("\u001B[37m");  // White color
+    WHITE("\u001B[37m"),  // White color
+
+    /**
+     * The bright white escape code.
+     */
+    BRIGHT_WHITE("\u001B[97m");
 
     /**
      * The escape code of the color.

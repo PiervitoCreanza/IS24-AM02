@@ -18,7 +18,6 @@ public class MainMenuScene implements Diplayable {
         this.drawArea = new DrawArea("""
                 -- Main Menu --
                 Press <l> to list available games.
-                Press <j> to join a game.
                 Press <c> to create a new game.
                 Press <q> to quit.
                 """);
