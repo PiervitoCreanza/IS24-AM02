@@ -6,7 +6,6 @@ import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -41,8 +40,8 @@ public class MainController {
      *
      * @return ArrayList of GameRecord objects.
      */
-    public HashSet<GameRecord> getGameRecords() {
-        return gameControllerMiddlewares.stream().map(GameControllerMiddleware::getGame).map(Game::getGameRecord).collect(Collectors.toCollection(HashSet::new));
+    public ArrayList<GameRecord> getGameRecords() {
+        return gameControllerMiddlewares.stream().map(GameControllerMiddleware::getGame).map(Game::getGameRecord).collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**

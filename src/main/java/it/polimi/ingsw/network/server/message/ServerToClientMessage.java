@@ -4,7 +4,7 @@ import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
 
 public abstract class ServerToClientMessage implements Serializable {
     public ServerActionEnum serverAction;
@@ -29,7 +29,7 @@ public abstract class ServerToClientMessage implements Serializable {
         return null;
     }
 
-    public HashSet<GameRecord> getGames() {
+    public ArrayList<GameRecord> getGames() {
         return null;
     }
 

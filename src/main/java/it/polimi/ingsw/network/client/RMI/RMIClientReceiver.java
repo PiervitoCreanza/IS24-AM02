@@ -7,7 +7,7 @@ import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 
 import java.rmi.RemoteException;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -43,7 +43,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      * @param games The list of games received from the server.
      */
     @Override
-    public void receiveGameList(HashSet<GameRecord> games) throws RemoteException {
+    public void receiveGameList(ArrayList<GameRecord> games) throws RemoteException {
         new Thread(() -> clientNetworkControllerMapper.receiveGameList(games)).start();
         // Debug
         System.out.println("RMI received message: " + games);
@@ -51,7 +51,6 @@ public class RMIClientReceiver implements RMIServerToClientActions {
 
     /**
      * This method is called when the server receives a notification that a game has been deleted.
-     *
      *
      * @param message
      */

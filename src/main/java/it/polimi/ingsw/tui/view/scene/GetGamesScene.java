@@ -5,12 +5,12 @@ import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.view.component.GameInfoComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 
 public class GetGamesScene implements Diplayable {
     private final DrawArea drawArea;
 
-    public GetGamesScene(HashSet<GameRecord> games) {
+    public GetGamesScene(ArrayList<GameRecord> games) {
         this.drawArea = new DrawArea("""
                 -- Games list --
                 """);

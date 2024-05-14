@@ -1,6 +1,9 @@
 package it.polimi.ingsw.tui.controller;
 
 import it.polimi.ingsw.controller.GameStatusEnum;
+import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.player.PlayerColorEnum;
+import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
@@ -9,7 +12,7 @@ import it.polimi.ingsw.tui.view.scene.StageManager;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.HashSet;
+import java.util.ArrayList;
 
 /**
  * The TUIViewController class is the controller for the text user interface.
@@ -25,7 +28,7 @@ public class TUIViewController implements PropertyChangeListener {
     /**
      * Instance of ClientNetworkControllerMapper to manage network requests.
      */
-    private final ClientNetworkControllerMapper networkController = new ClientNetworkControllerMapper();
+    private final ClientNetworkControllerMapper networkController;
 
     /**
      * Name of the player.
@@ -48,10 +51,20 @@ public class TUIViewController implements PropertyChangeListener {
     private GameStatusEnum gameStatus = null;
 
     /**
+     * List of games.
+     */
+    private ArrayList<GameRecord> gamesList;
+
+    /**
+     * List of players' cards.
+     */
+    private GameControllerView gameControllerView;
+
+    /**
      * Constructor for TUIViewController.
      */
-    public TUIViewController() {
-
+    public TUIViewController(ClientNetworkControllerMapper networkController) {
+        this.networkController = networkController;
     }
 
     /**
@@ -121,24 +134,43 @@ public class TUIViewController implements PropertyChangeListener {
      * Method to join a game.
      * It delegates the request to the network controller.
      */
-    public void joinGame() {
-        networkController.joinGame(gameName, playerName);
+    public void joinGame(int gameID, String playerName) {
+        if (gameID < 0 || gameID >= gamesList.size()) {
+            System.out.println("Invalid game ID");
+            return;
+        }
+        networkController.joinGame(gamesList.get(gameID).gameName(), playerName);
     }
 
     /**
      * Method to choose a player color.
      * It delegates the request to the network controller.
      */
-    public void choosePlayerColor() {
-        networkController.choosePlayerColor(gameName, playerName, null);
+    public void choosePlayerColor(PlayerColorEnum playerColor) {
+        networkController.choosePlayerColor(gameName, playerName, playerColor);
+    }
+
+    /**
+     * Method to place a starter card.
+     * It delegates the request to the network controller.
+     */
+    public void placeStarterCard() {
+        networkController.placeCard(gameName, playerName, new Coordinate(0, 0), gameControllerView.getCurrentPlayerView().starterCard());
     }
 
     /**
      * Method to place a card.
      * It delegates the request to the network controller.
      */
-    public void placeCard() {
-        networkController.placeCard(gameName, playerName, null, null);
+    public void placeCard(int cardInt, Coordinate coordinate) {
+        if (cardInt < 0 || cardInt >= 3) {
+            System.out.println("Invalid card ID");
+            return;
+        }
+        GameCard choosenCard = gameControllerView.getCurrentPlayerView().playerHandView().hand().get(cardInt);
+
+
+        networkController.placeCard(gameName, playerName, coordinate, choosenCard);
     }
 
     /**
@@ -177,17 +209,24 @@ public class TUIViewController implements PropertyChangeListener {
      * Method to set a player's objective.
      * It delegates the request to the network controller.
      */
-    public void setPlayerObjective() {
-        networkController.setPlayerObjective(gameName, playerName, null);
+    public void setPlayerObjective(int objectiveInt) {
+        if (objectiveInt < 0 || objectiveInt >= 2) {
+            System.out.println("Invalid objective ID");
+            return;
+        }
+        networkController.setPlayerObjective(gameName, playerName, gameControllerView.getCurrentPlayerView().choosableObjectives().get(objectiveInt));
     }
 
+    private boolean isClientTurn() {
+        return gameControllerView.getCurrentPlayerView().playerName().equals(playerName);
+    }
 
     public void propertyChange(PropertyChangeEvent evt) {
         String changedProperty = evt.getPropertyName();
         switch (changedProperty) {
             case "GET_GAMES":
-                HashSet<GameRecord> games = (HashSet<GameRecord>) evt.getNewValue();
-                stageManager.showGetGamesScene(games);
+                gamesList = (ArrayList<GameRecord>) evt.getNewValue();
+                stageManager.showGetGamesScene(gamesList);
                 status = ClientStatusEnum.GET_GAMES;
                 break;
 
@@ -200,9 +239,30 @@ public class TUIViewController implements PropertyChangeListener {
                 GameControllerView updatedView = (GameControllerView) evt.getNewValue();
                 gameStatus = updatedView.gameStatus();
 
+                gameControllerView = updatedView;
                 if (gameStatus == GameStatusEnum.WAIT_FOR_PLAYERS) {
                     stageManager.showWaitForPlayersScene(updatedView);
                     return;
+                }
+
+                if (isClientTurn()) {
+                    switch (gameStatus) {
+                        case INIT_PLACE_STARTER_CARD -> {
+                            status = ClientStatusEnum.PLACE_STARTER_CARD;
+                        }
+                        case INIT_CHOOSE_PLAYER_COLOR -> {
+                            status = ClientStatusEnum.CHOOSE_PLAYER_COLOR;
+                        }
+                        case INIT_CHOOSE_OBJECTIVE_CARD -> {
+                            status = ClientStatusEnum.CHOOSE_OBJECTIVE_CARD;
+                        }
+                        case PLACE_CARD -> {
+                            status = ClientStatusEnum.PLACE_CARD;
+                        }
+                        case DRAW_CARD -> {
+                            status = ClientStatusEnum.DRAW_CARD;
+                        }
+                    }
                 }
 
                 stageManager.showGameScene(updatedView, playerName);

@@ -5,7 +5,7 @@ import it.polimi.ingsw.network.virtualView.GameControllerView;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.HashSet;
+import java.util.ArrayList;
 
 
 /**
@@ -18,7 +18,7 @@ public interface ServerToClientActions extends Remote {
      * This method is called when the server receives a request for the list of games.
      * TODO: add parameters as needed.
      */
-    void receiveGameList(HashSet<GameRecord> games) throws RemoteException;
+    void receiveGameList(ArrayList<GameRecord> games) throws RemoteException;
 
     /**
      * This method is called when the server receives a notification that a game has been deleted.

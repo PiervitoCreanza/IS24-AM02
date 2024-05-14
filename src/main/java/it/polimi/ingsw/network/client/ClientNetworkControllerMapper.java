@@ -15,7 +15,7 @@ import it.polimi.ingsw.network.virtualView.GameControllerView;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.HashSet;
+import java.util.ArrayList;
 
 
 public class ClientNetworkControllerMapper implements ServerToClientActions {
@@ -84,7 +84,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      * ***************************************/
 
     @Override
-    public void receiveGameList(HashSet<GameRecord> games) {
+    public void receiveGameList(ArrayList<GameRecord> games) {
         System.out.println("Received games: " + games);
         notify("GET_GAMES", games);
         //TODO: JavaFx event trigger
