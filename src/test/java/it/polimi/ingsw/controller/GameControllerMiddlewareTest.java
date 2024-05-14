@@ -295,5 +295,33 @@ class GameControllerMiddlewareTest {
         assertEquals(GameStatusEnum.PLACE_CARD, gameControllerMiddleware.getGameStatus());
         assertEquals(player2, game.getCurrentPlayer());
         assertEquals(3, player1.getPlayerHand().getCards().size());
+
+        // Player 2 gets also disconnected and the game is paused as there is only one player left
+        gameControllerMiddleware.setPlayerConnectionStatus("player2", false);
+        assertEquals(GameStatusEnum.GAME_PAUSED, gameControllerMiddleware.getGameStatus());
+        assertEquals(player2, game.getCurrentPlayer());
+
+        // Player 1 reconnects and the game restart
+        gameControllerMiddleware.setPlayerConnectionStatus("player1", true);
+        assertEquals(player3, game.getCurrentPlayer());
+
+        // Player 3 gets disconnected and the game is paused as there is only one player left
+        gameControllerMiddleware.setPlayerConnectionStatus("player3", false);
+        assertEquals(GameStatusEnum.GAME_PAUSED, gameControllerMiddleware.getGameStatus());
+        assertEquals(player3, game.getCurrentPlayer());
+
+        // Player2 reconnects and the game restart
+        gameControllerMiddleware.setPlayerConnectionStatus("player2", true);
+        assertEquals(player1, game.getCurrentPlayer());
+
+        // Player 3 reconnects
+        gameControllerMiddleware.setPlayerConnectionStatus("player3", true);
+        assertEquals(player1, game.getCurrentPlayer());
+
+        // Player 1 gets disconnected during his PLACE_CARD phase
+        gameControllerMiddleware.setPlayerConnectionStatus("player1", false);
+        assertEquals(GameStatusEnum.PLACE_CARD, gameControllerMiddleware.getGameStatus());
+        assertEquals(player2, game.getCurrentPlayer());
+
     }
 }

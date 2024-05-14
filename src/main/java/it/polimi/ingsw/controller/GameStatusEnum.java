@@ -37,5 +37,10 @@ public enum GameStatusEnum {
     /**
      * The game has ended.
      */
-    GAME_OVER
+    GAME_OVER,
+
+    /**
+     * The game is paused.
+     */
+    GAME_PAUSED
 }
