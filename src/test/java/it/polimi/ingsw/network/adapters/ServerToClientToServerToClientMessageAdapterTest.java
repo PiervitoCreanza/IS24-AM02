@@ -21,7 +21,7 @@ import it.polimi.ingsw.network.virtualView.GameControllerView;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -59,7 +59,7 @@ public class ServerToClientToServerToClientMessageAdapterTest {
     @Test
     @DisplayName("Test if serialization and deserialization of GetGamesServerToClientMessage works")
     public void serializeAndDeserializeGetGamesServerMessage() {
-        HashSet<GameRecord> gameRecords = new HashSet<>();
+        ArrayList<GameRecord> gameRecords = new ArrayList<>();
         gameRecords.add(new GameRecord("gameName", 2, 2));
         gameRecords.add(new GameRecord("gameName2", 1, 2));
         gameRecords.add(new GameRecord("gameName3", 0, 2));

@@ -4,7 +4,7 @@ import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.tui.utils.Utils;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 
 /**
  * This class manages the different scenes in the game.
@@ -36,7 +36,7 @@ public class StageManager {
      *
      * @param games The set of game records to be displayed.
      */
-    public void showGetGamesScene(HashSet<GameRecord> games) {
+    public void showGetGamesScene(ArrayList<GameRecord> games) {
         clearScreen();
         new GetGamesScene(games).display();
     }

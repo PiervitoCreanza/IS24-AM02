@@ -3,7 +3,8 @@ package it.polimi.ingsw.network.server.message;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 
-import java.util.HashSet;
+import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Abstract class representing a message from the server to the client.
@@ -60,7 +61,7 @@ public abstract class ServerToClientMessage {
      *
      * @return null in this implementation.
      */
-    public HashSet<GameRecord> getGames() {
+    public ArrayList<GameRecord> getGames() {
         return null;
     }
 

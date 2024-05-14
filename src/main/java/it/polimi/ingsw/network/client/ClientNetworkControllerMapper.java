@@ -20,7 +20,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.HashSet;
+import java.util.ArrayList;
 
 import static it.polimi.ingsw.tui.utils.Utils.ANSI_BLUE;
 import static it.polimi.ingsw.tui.utils.Utils.ANSI_RESET;
@@ -193,7 +193,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
  * @param games The list of games received from the server.
  */
 @Override
-    public void receiveGameList(HashSet<GameRecord> games) {
+    public void receiveGameList(ArrayList<GameRecord> games) {
         System.out.println("Received games: " + games);
         notify("GET_GAMES", games);
         //TODO: JavaFx event trigger

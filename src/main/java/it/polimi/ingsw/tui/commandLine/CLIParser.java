@@ -30,12 +30,10 @@ public class CLIParser extends Thread {
     }
 
     public void run() {
-        // TODO: We need to visualize the main menu
-        // controller.showMainMenuScene();
         try {
             startCLI();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -68,7 +66,7 @@ public class CLIParser extends Thread {
         String playerName = reader.readLine();
         controller.setPlayerName(playerName);
         controller.setGameName(gameID);
-        controller.joinGame(gameID, playerName);
+        controller.joinGame(Integer.parseInt(gameID), playerName);
     }
 
     private void initChoosePlayerColor(String input) {
@@ -91,10 +89,10 @@ public class CLIParser extends Thread {
 
     private void placeCard() throws IOException {
         System.out.println("Choose a card to place: ");
-        String choiceCard = reader.readLine();
-        while (!choiceCard.matches("\\d+")) {
+        String choosenCard = reader.readLine();
+        while (!choosenCard.matches("\\d+")) {
             System.out.println("Invalid input. Please enter a number: ");
-            choiceCard = reader.readLine();
+            choosenCard = reader.readLine();
         }
         System.out.println("Enter x coordinate: ");
         String x = reader.readLine();
@@ -109,7 +107,7 @@ public class CLIParser extends Thread {
             y = reader.readLine();
         }
         //
-        controller.placeCard(Integer.parseInt(choiceCard) - 1, new Coordinate(Integer.parseInt(x), Integer.parseInt(y)));
+        controller.placeCard(Integer.parseInt(choosenCard) - 1, new Coordinate(Integer.parseInt(x), Integer.parseInt(y)));
     }
 
     private void startCLI() throws IOException {
@@ -201,7 +199,7 @@ public class CLIParser extends Thread {
         }
     }
 
-    private void parsePlaceCard(String input) {
+    private void parsePlaceCard(String input) throws IOException {
         switch (input) {
             case "s", "S" -> {
                 //switchSide(); or controller.switchCardSide();

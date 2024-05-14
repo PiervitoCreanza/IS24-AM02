@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.model.card.gameCard.GameCard;
-import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.RMI.RMIClientReceiver;
 import it.polimi.ingsw.network.client.RMI.RMIClientSender;
 import it.polimi.ingsw.network.client.TCP.TCPClientAdapter;
@@ -12,15 +10,18 @@ import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.utils.Utils;
 import org.apache.commons.cli.*;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * The Client class is responsible for setting up the client's connection to the server.
@@ -34,8 +35,8 @@ public class Client {
      * The ClientNetworkControllerMapper object used to map network commands to actions in the game.
      * This is a static final instance which means it's a constant throughout the application.
      */
-    private static final ClientNetworkControllerMapper CLIENT_NETWORK_CONTROLLER_MAPPER = new ClientNetworkControllerMapper();
-    private static final TUIViewController tuiController = new TUIViewController();
+    private static final ClientNetworkControllerMapper clientNetworkControllerMapper = new ClientNetworkControllerMapper();
+    private static TUIViewController tuiController;
 
     /**
      * A flag indicating whether the client is in debug mode.
@@ -72,26 +73,25 @@ public class Client {
      */
     public static void main(String[] args) {
         CommandLine cmd = parseCommandLineArgs(args);
-        boolean lan;
         // get values from options
         String connectionType = cmd.getOptionValue("c");
-        lan = cmd.hasOption("lan");
         serverIpAddress = cmd.getOptionValue("ip_s", "localhost"); // default is localhost
         serverPortNumber = Integer.parseInt(cmd.getOptionValue("p_s", (connectionType.equals("TCP") ? "12345" : "1099")));
         DEBUG = cmd.hasOption("debug");
-        if (lan) {
+        if (cmd.hasOption("lan")) {
             try {
                 Socket socket = new Socket();
                 socket.connect(new InetSocketAddress("google.com", 80));
                 clientIpAddress = socket.getLocalAddress().getHostAddress();
                 socket.close();
-
-            } catch (Exception e) {
+            } catch (IOException e) {
+                // TODO: Maybe we should alert the user that we couldn't get the lan ip address.
                 clientIpAddress = "localhost";
             }
         } else {
-            clientIpAddress = cmd.getOptionValue("ip_c", "localhost");
+            clientIpAddress = getPublicIp();
         }
+
         clientPortNumber = Integer.parseInt(cmd.getOptionValue("p_c", Integer.toString(serverPortNumber + 1)));
 
         System.out.println(Utils.ANSI_PURPLE + "Client IP: " + clientIpAddress + Utils.ANSI_RESET);
@@ -108,15 +108,34 @@ public class Client {
                 startRMIClient();
             }
         }
+        startTui();
+    }
 
+    private static String getPublicIp() {
+        try (HttpClient client = HttpClient.newHttpClient()) {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://checkip.amazonaws.com"))
+                    .build();
 
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response.body().trim();
+        } catch (IOException | InterruptedException e) {
+            // TODO: Show error to the user
+            throw new RuntimeException(e);
+        }
     }
 
     private static void startTui() {
-        CLIParser cliParser = new CLIParser(CLIENT_NETWORK_CONTROLLER_MAPPER, tuiController);
+        // Init the cliParser and add the tuiController as a listener
+        CLIParser cliParser = new CLIParser(clientNetworkControllerMapper, tuiController);
         cliParser.addPropertyChangeListener(tuiController);
         cliParser.start();
-        CLIENT_NETWORK_CONTROLLER_MAPPER.addPropertyChangeListener(tuiController);
+
+        // Add the tuiController as a listener to the clientNetworkControllerMapper
+        clientNetworkControllerMapper.addPropertyChangeListener(tuiController);
+
+        // Start the TUIController
+        tuiController.start();
     }
 
     private static CommandLine parseCommandLineArgs(String[] args) {
@@ -156,19 +175,22 @@ public class Client {
             System.err.println("Parsing failed. Reason: " + e.getMessage());
             System.exit(1);
         }
-
-
         return null;
     }
 
     private static void startTCPClient() {
         try {
             Socket serverSocket = new Socket(serverIpAddress, serverPortNumber);
-            // Print configuration
-            System.err.println("Starting client  with connection to server at " + serverIpAddress + " on port " + serverPortNumber);
-            TCPClientAdapter clientAdapter = new TCPClientAdapter(serverSocket, CLIENT_NETWORK_CONTROLLER_MAPPER);
-            CLIENT_NETWORK_CONTROLLER_MAPPER.setMessageHandler(clientAdapter);
-            startTui();
+            if (serverSocket.isConnected()) {
+                System.out.println("Starting client with connection to server at " + serverIpAddress + " on port " + serverPortNumber);
+            } else {
+                System.err.println("Failed to connect to the server.");
+                System.exit(1);
+            }
+            TCPClientAdapter clientAdapter = new TCPClientAdapter(serverSocket, clientNetworkControllerMapper);
+
+            clientNetworkControllerMapper.setMessageHandler(clientAdapter);
+            tuiController = new TUIViewController(clientNetworkControllerMapper);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -179,85 +201,18 @@ public class Client {
         try {
             System.setProperty("java.rmi.server.hostname", clientIpAddress);
 
-            RMIClientReceiver rmiClientReceiver = new RMIClientReceiver(CLIENT_NETWORK_CONTROLLER_MAPPER);
+            RMIClientReceiver rmiClientReceiver = new RMIClientReceiver(clientNetworkControllerMapper);
             RMIServerToClientActions clientStub = (RMIServerToClientActions) UnicastRemoteObject.exportObject(rmiClientReceiver, clientPortNumber);
             //Client as a client, getting the registry
             Registry registry = LocateRegistry.getRegistry(serverIpAddress, serverPortNumber);
             // Looking up the registry for the remote object
             RMIClientToServerActions serverStub = (RMIClientToServerActions) registry.lookup("ClientToServerActions");
             RMIClientSender rmiClientSender = new RMIClientSender(serverStub, clientStub);
-            CLIENT_NETWORK_CONTROLLER_MAPPER.setMessageHandler(rmiClientSender); //Adding stub to the mapper
-            startTui();
+            clientNetworkControllerMapper.setMessageHandler(rmiClientSender); //Adding stub to the mapper
+            tuiController = new TUIViewController(clientNetworkControllerMapper);
         } catch (RemoteException | NotBoundException e) {
             throw new RuntimeException(e);
         }
-    }
-
-
-    private static ArrayList<GameCard> printHand(String finalPlayerName) {
-        int index = 0;
-        ArrayList<GameCard> hand = CLIENT_NETWORK_CONTROLLER_MAPPER.getView().gameView().playerViews().stream().filter(playerView -> playerView.playerName().equals(finalPlayerName)).findFirst().get().playerHandView().hand();
-        System.out.println("Here is your hand:");
-        for (GameCard gameCard : hand) {
-            System.out.println(index + 1 + ")" + gameCard);
-            index++;
-        }
-        return hand;
-    }
-
-    /**
-     * Prints the game board as a matrix in the console.
-     * The game board is represented as a HashMap where the keys are coordinates and the values are game cards.
-     * An 'x' is printed for each coordinate that contains a game card, and a space is printed for each coordinate that does not contain a game card.
-     *
-     * @param map the game board represented as a HashMap where the keys are coordinates and the values are game cards.
-     */
-    public static void printBoardAsMatrix(HashMap<Coordinate, GameCard> map) {
-        double maxX = 0;
-        double maxY = 0;
-
-        // Determine the size of the matrix
-        for (Coordinate coordinate : map.keySet()) {
-            if (coordinate.getX() > maxX) {
-                maxX = coordinate.getX();
-            }
-            if (coordinate.getY() > maxY) {
-                maxY = coordinate.getY();
-            }
-        }
-
-        // Print the matrix
-        for (int y = 0; y <= maxY; y++) {
-            for (int x = 0; x <= maxX; x++) {
-                Coordinate currentCoordinate = new Coordinate(x, y);
-                if (map.containsKey(currentCoordinate)) {
-                    System.out.print("x ");
-                } else {
-                    System.out.print("  ");
-                }
-            }
-            System.out.println();
-        }
-    }
-
-    private static void clearConsole() {
-        String os = System.getProperty("os.name").toLowerCase();
-
-        try {
-            if (os.contains("win")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else if (os.contains("nix") || os.contains("nux") || os.contains("mac")) {
-                System.out.print(Utils.ANSI_CLEAR_UNIX);
-            } else {
-                // Fallback to printing new lines if OS detection failed
-                for (int i = 0; i < 100; i++) {
-                    System.out.println();
-                }
-            }
-        } catch (Exception e) {
-            // Handle any exceptions
-        }
-
     }
 }
 
