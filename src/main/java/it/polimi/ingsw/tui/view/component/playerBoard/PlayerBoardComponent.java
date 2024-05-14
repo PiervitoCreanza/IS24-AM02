@@ -8,11 +8,22 @@ import it.polimi.ingsw.tui.view.drawer.Drawable;
 
 import java.util.HashMap;
 
+/**
+ * This class represents a player's board in the game.
+ * It implements the Drawable interface, meaning it can be drawn on the screen.
+ */
 public class PlayerBoardComponent implements Drawable {
-    DrawArea drawArea;
+    /**
+     * The draw area of the player's board.
+     */
+    private final DrawArea drawArea = new DrawArea();
 
+    /**
+     * Constructs a new PlayerBoardComponent.
+     *
+     * @param playerBoard The player's board represented as a map from coordinates to game cards.
+     */
     public PlayerBoardComponent(HashMap<Coordinate, GameCard> playerBoard) {
-        drawArea = new DrawArea();
         int correctionX = 5;
         int correctionY = 3;
         HashMap<Integer, Coordinate> realCoordinates = new HashMap<>();
@@ -47,15 +58,20 @@ public class PlayerBoardComponent implements Drawable {
     }
 
     /**
-     * Returns the draw area of the drawable object.
+     * Returns the draw area of the drawable object as a string.
      *
-     * @return the draw area of the drawable object.
+     * @return the draw area of the drawable object as a string.
      */
     @Override
     public String toString() {
         return drawArea.toString();
     }
 
+    /**
+     * Returns the draw area of the drawable object.
+     *
+     * @return the draw area of the drawable object.
+     */
     @Override
     public DrawArea getDrawArea() {
         return drawArea;

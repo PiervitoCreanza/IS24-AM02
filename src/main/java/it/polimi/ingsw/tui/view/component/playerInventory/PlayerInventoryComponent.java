@@ -18,9 +18,15 @@ public class PlayerInventoryComponent implements Drawable {
         int spacing = 5;
         drawArea.drawAt(2, 0, "Global Objectives:");
         drawArea.drawAt(2, 1, new GlobalObjectivesComponent(globalObjectives, spacing).getDrawArea());
-        int width = drawArea.getWidth();
-        drawArea.drawAt(width + spacing, 0, "Your Objective:");
-        drawArea.drawAt(width + spacing, 1, new ObjectiveCardComponent(playerObjective).getDrawArea());
+
+        if (playerObjective != null) {
+            int width = drawArea.getWidth();
+            drawArea.drawAt(width + spacing, 0, "Your Objective:");
+            drawArea.drawAt(width + spacing, 1, new ObjectiveCardComponent(playerObjective).getDrawArea());
+        }
+        if (hand.size() < 3) {
+            return;
+        }
         int height = drawArea.getHeight();
         drawArea.drawAt(2, height + 4, "Your Hand:");
         drawArea.drawAt(2, height + 5, new PlayerHandComponent(hand).getDrawArea());

@@ -3,7 +3,7 @@ package it.polimi.ingsw.tui.view.scene;
 
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
-public class MainMenuScene {
+public class MainMenuScene implements Diplayable {
     private final DrawArea drawArea;
 
     public MainMenuScene() {
@@ -16,8 +16,11 @@ public class MainMenuScene {
                 """);
     }
 
+    /**
+     * Displays the game scene on the console.
+     */
     @Override
-    public String toString() {
-        return drawArea.toString();
+    public void display() {
+        System.out.println(drawArea);
     }
 }
