@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.server.message.adapter;
 
 import com.google.gson.*;
+import it.polimi.ingsw.network.client.message.ChatClientToServerMessage;
 import it.polimi.ingsw.network.client.message.ClientToServerMessage;
 import it.polimi.ingsw.network.client.message.gameController.*;
 import it.polimi.ingsw.network.client.message.mainController.CreateGameClientToServerMessage;
@@ -46,6 +47,7 @@ public class ClientToServerMessageAdapter implements JsonDeserializer<ClientToSe
                     clientMessageTypeClass = DrawCardFromResourceDeckClientToServerMessage.class;
             case "DRAW_CARD_FROM_GOLD_DECK" -> clientMessageTypeClass = DrawCardFromGoldDeckClientToServerMessage.class;
             case "SWITCH_CARD_SIDE" -> clientMessageTypeClass = SwitchCardSideClientToServerMessage.class;
+            case "SEND_CHAT_MSG" -> clientMessageTypeClass = ChatClientToServerMessage.class;
             default -> throw new JsonParseException("playerAction property is missing or wrong");
         }
         // We deserialize the "sideContent" with the class type found above and return it

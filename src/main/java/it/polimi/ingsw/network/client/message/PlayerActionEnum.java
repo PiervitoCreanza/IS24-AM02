@@ -58,5 +58,9 @@ public enum PlayerActionEnum {
     /**
      * Represents a request to switch the side of a card.
      */
-    SWITCH_CARD_SIDE
+    SWITCH_CARD_SIDE,
+    /**
+     * Represents a request to send a message.
+     */
+    SEND_CHAT_MSG
 }

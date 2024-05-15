@@ -18,14 +18,33 @@ import it.polimi.ingsw.utils.Observer;
 
 import java.rmi.RemoteException;
 
+/**
+ * The RMIServerReceiver class is responsible for receiving client actions and notifying the server message handler.
+ * It implements the RMIClientToServerActions interface, which defines the methods for handling client actions.
+ * It also implements the Observer interface, which allows it to be notified when a change occurs in the ServerMessageHandler.
+ */
 public class RMIServerReceiver implements RMIClientToServerActions, Observer<ServerMessageHandler> {
 
+    /**
+     * The ServerNetworkControllerMapper object used to map network commands to actions in the game.
+     */
     private final ServerNetworkControllerMapper serverNetworkControllerMapper;
 
+    /**
+     * Constructs a new RMIServerReceiver object with the specified ServerNetworkControllerMapper.
+     *
+     * @param serverNetworkControllerMapper the ServerNetworkControllerMapper to be used by the RMIServerReceiver
+     */
     public RMIServerReceiver(ServerNetworkControllerMapper serverNetworkControllerMapper) {
         this.serverNetworkControllerMapper = serverNetworkControllerMapper;
     }
 
+    /**
+     * Notifies the ServerNetworkControllerMapper when a client disconnects.
+     * This method is called when the ServerMessageHandler detects a disconnection.
+     *
+     * @param handler the ServerMessageHandler that detected the disconnection
+     */
     @Override
     public void notify(ServerMessageHandler handler) {
         new Thread(() -> serverNetworkControllerMapper.handleDisconnection(handler)).start();
@@ -111,6 +130,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
         printDebug(new SetPlayerObjectiveClientToServerMessage(gameName, playerName, card));
     }
 
+
     /**
      * Places a card on the game field.
      *
@@ -180,6 +200,13 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
         printDebug(new SwitchCardSideClientToServerMessage(gameName, playerName, card));
     }
 
+    /**
+     * This method creates an instance of RMIServerSender and adds the current object as an observer.
+     * It is used to create a new connection to a client.
+     *
+     * @param stub the stub used to call methods on the client's remote object
+     * @return an instance of RMIServerSender
+     */
     private RMIServerSender instanceRMIServerAdapter(RMIServerToClientActions stub) {
         RMIServerSender rmiServerSender = new RMIServerSender(stub);
         rmiServerSender.addObserver(this);
@@ -189,4 +216,24 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
     private void printDebug(ClientToServerMessage message) {
         System.out.println("RMI message received: " + message.getPlayerAction() + " from: " + message.getPlayerName() + " in game: " + message.getGameName());
     }
+
+    /**
+     * This method is used to send a chat message from the client to the server.
+     * The server will convert it to a ChatServerToClientMessage and send it to all clients excluding the sender.
+     *
+     * @param gameName  the name of the game
+     * @param playerName the name of the player who sent the chat message
+     * @param message    the chat message to be sent
+     * @param receiver  the receiver of the message if it's a direct message
+     * @param timestamp the timestamp of the message
+     * @throws RemoteException if an error occurs during the remote method call
+     */
+    @Override
+    public void chatMessageSender(String gameName, String playerName, String message, String receiver, long timestamp) throws RemoteException {
+        new Thread(() -> {
+            serverNetworkControllerMapper.sendChatMessage(gameName, playerName, message, receiver, timestamp);
+        }).start();
+    }
+
+
 }

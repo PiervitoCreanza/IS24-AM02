@@ -12,10 +12,25 @@ import java.rmi.RemoteException;
  * The RMIClientSender class is responsible for sending messages to the server.
  */
 public class RMIClientSender implements ClientMessageHandler {
+    /**
+     * The RMIClientToServerActions instance that represents the server stub.
+     * This stub is used to perform actions on the server.
+     */
     private final RMIClientToServerActions serverStub;
 
+    /**
+     * The RMIServerToClientActions instance that represents the client stub.
+     * This stub is used to perform actions on the client.
+     */
     private final RMIServerToClientActions thisClientStub;
 
+    /**
+     * Constructor for the RMIClientSender class.
+     * Initializes the server and client stubs.
+     *
+     * @param serverStub     The RMIClientToServerActions instance that represents the server stub.
+     * @param thisClientStub The RMIServerToClientActions instance that represents the client stub.
+     */
     public RMIClientSender(RMIClientToServerActions serverStub, RMIServerToClientActions thisClientStub) {
         this.serverStub = serverStub;
         this.thisClientStub = thisClientStub;
@@ -30,7 +45,6 @@ public class RMIClientSender implements ClientMessageHandler {
         PlayerActionEnum playerAction = message.getPlayerAction();
         try {
             switch (playerAction) {
-                //TODO: will have to save the IP address of the server on the ClientAsAServer, maybe we could get it from the stub/registry?
                 case GET_GAMES -> serverStub.getGames(thisClientStub);
                 case CREATE_GAME ->
                         serverStub.createGame(this.thisClientStub, message.getGameName(), message.getPlayerName(), message.getNPlayers());
@@ -52,9 +66,10 @@ public class RMIClientSender implements ClientMessageHandler {
                         serverStub.drawCardFromGoldDeck(message.getGameName(), message.getPlayerName());
                 case SWITCH_CARD_SIDE ->
                         serverStub.switchCardSide(message.getGameName(), message.getPlayerName(), message.getGameCard());
+                case SEND_CHAT_MSG ->
+                        serverStub.chatMessageSender(message.getGameName(), message.getPlayerName(), message.getMessage(), message.getReceiver(), message.getTimestamp());
             }
         } catch (RemoteException e) {
-            // TODO: Handle exception properly.
             e.printStackTrace();
         }
     }

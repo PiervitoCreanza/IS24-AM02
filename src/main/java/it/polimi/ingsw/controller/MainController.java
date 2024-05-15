@@ -108,7 +108,7 @@ public class MainController {
     }
 
     /**
-     * Checks if the player can delete the game
+     * Checks if the player can delete the game.
      *
      * @param gameName   The name of the game to be deleted.
      * @param playerName The name of the player deleting the game.

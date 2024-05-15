@@ -44,6 +44,12 @@ public interface ServerMessageHandler extends MessageHandler<ServerToClientMessa
      */
     void setGameName(String gameName);
 
+    /**
+     * This method is used to indicate whether the connection has been saved or not.
+     * It is called when the status of the connection's persistence changes.
+     *
+     * @param hasBeenSaved A boolean indicating whether the connection has been saved.
+     */
     void connectionSaved(boolean hasBeenSaved);
 
     /**

@@ -8,6 +8,7 @@ import it.polimi.ingsw.network.client.RMI.RMIClientReceiver;
 import it.polimi.ingsw.network.client.RMI.RMIClientSender;
 import it.polimi.ingsw.network.client.TCP.TCPClientAdapter;
 import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
+import it.polimi.ingsw.network.client.message.ChatClientToServerMessage;
 import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
 import it.polimi.ingsw.tui.utils.Utils;
 import org.apache.commons.cli.*;
@@ -27,16 +28,52 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The Client class is responsible for setting up the client's connection to the server.
+ * It handles command line arguments and sets up the client's IP and port number.
+ * It also provides methods for starting TCP and RMI clients, parsing command line arguments, and printing the game board as a matrix in the console.
+ * This class is part of the network client package.
+ */
 public class Client {
 
+    /**
+     * The ClientNetworkControllerMapper object used to map network commands to actions in the game.
+     * This is a static final instance which means it's a constant throughout the application.
+     */
     private static final ClientNetworkControllerMapper CLIENT_NETWORK_CONTROLLER_MAPPER = new ClientNetworkControllerMapper();
-
-    private static String serverIpAddress;
-    private static int serverPortNumber;
-    private static String clientIpAddress;
-    private static int clientPortNumber;
+    /**
+     * A flag indicating whether the client is in debug mode.
+     * This is a static variable, meaning it's shared among all instances of this class.
+     */
     public static boolean DEBUG;
+    /**
+     * The IP address of the server that the client will connect to.
+     * This is a static variable, meaning it's shared among all instances of this class.
+     */
+    private static String serverIpAddress;
+    /**
+     * The port number of the server that the client will connect to.
+     * This is a static variable, meaning it's shared among all instances of this class.
+     */
+    private static int serverPortNumber;
+    /**
+     * The IP address of the client.
+     * This is a static variable, meaning it's shared among all instances of this class.
+     */
+    private static String clientIpAddress;
+    /**
+     * The port number of the client.
+     * This is a static variable, meaning it's shared among all instances of this class.
+     */
+    private static int clientPortNumber;
 
+    /**
+     * The main method of the Client class.
+     * It is the entry point of the application and is responsible for setting up the client's connection to the server.
+     * It also handles command line arguments and sets up the client's IP and port number.
+     *
+     * @param args the command line arguments. These can be used to specify the connection type (TCP or RMI), the server and client IP addresses and port numbers, and whether to start the client in debug mode.
+     */
     public static void main(String[] args) {
         CommandLine cmd = parseCommandLineArgs(args);
         boolean lan;
@@ -90,7 +127,7 @@ public class Client {
         options.addOption("ip_c", true, "Client IP address (default is localhost).");
         options.addOption("p_c", true, "Client port number (default is the same as the server port number).");
         options.addOption("lan", "Start the client with his lan ip address.");
-        options.addOption("debug", "Prints debug messages.");
+        options.addOption("debug", "Start the client in debug mode.");
 
         CommandLineParser parser = new DefaultParser();
 
@@ -154,7 +191,7 @@ public class Client {
         String playerName = "";
 
         try {
-            while (!Objects.equals(input, "13")) {
+            while (!Objects.equals(input, "15")) {
                 if (gameName.isEmpty()) {
                     System.out.print("1) Get games\n");
                     System.out.print("2) Create game\n");
@@ -170,7 +207,9 @@ public class Client {
                     System.out.print("10) Draw card from resource deck\n");
                     System.out.print("11) Draw card from gold deck\n");
                     System.out.print("12) Show map\n");
-                    System.out.print("13) Exit\n");
+                    System.out.print("13) Send public message\n");
+                    System.out.print("14) Send direct message\n");
+                    System.out.print("15) Exit\n");
                 }
                 input = reader.readLine();
 
@@ -326,6 +365,20 @@ public class Client {
                         printBoardAsMatrix(map);
                     }
                     case "13" -> {
+                        System.out.println("Enter message: ");
+                        String actualMessage = reader.readLine();
+                        ChatClientToServerMessage message = new ChatClientToServerMessage(gameName, playerName, actualMessage, "");
+                        CLIENT_NETWORK_CONTROLLER_MAPPER.sendChatMessage(message);
+                    }
+                    case "14" -> {
+                        System.out.println("Enter recipient: ");
+                        String recipient = reader.readLine();
+                        System.out.println("Enter message: ");
+                        String actualMessage = reader.readLine();
+                        ChatClientToServerMessage message = new ChatClientToServerMessage(gameName, playerName, actualMessage, recipient);
+                        CLIENT_NETWORK_CONTROLLER_MAPPER.sendChatMessage(message);
+                    }
+                    case "15" -> {
                         System.out.println("Exiting...");
                     }
                     default -> System.out.println("Invalid input");
@@ -347,6 +400,13 @@ public class Client {
         return hand;
     }
 
+    /**
+     * Prints the game board as a matrix in the console.
+     * The game board is represented as a HashMap where the keys are coordinates and the values are game cards.
+     * An 'x' is printed for each coordinate that contains a game card, and a space is printed for each coordinate that does not contain a game card.
+     *
+     * @param map the game board represented as a HashMap where the keys are coordinates and the values are game cards.
+     */
     public static void printBoardAsMatrix(HashMap<Coordinate, GameCard> map) {
         double maxX = 0;
         double maxY = 0;

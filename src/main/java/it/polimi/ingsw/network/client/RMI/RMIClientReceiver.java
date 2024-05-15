@@ -11,8 +11,14 @@ import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
+//TODO: DOC
+
 /**
  * The RMIClientReceiver class is responsible for receiving messages from the server.
+ * Each method is made asyncronous to avoid blocking the server, by calling a new thread.
+ * When the thread is launched, the original call is returned, so both client and Server can go on with their work.
+ * The call is then completed asynchronously.
  */
 public class RMIClientReceiver implements RMIServerToClientActions {
 
@@ -53,7 +59,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      * This method is called when the server receives a notification that a game has been deleted.
      *
      *
-     * @param message
+     * @param message The message received from the server.
      */
     @Override
     public void receiveGameDeleted(String message) throws RemoteException {
@@ -86,6 +92,28 @@ public class RMIClientReceiver implements RMIServerToClientActions {
         System.out.println("RMI received message: " + errorMessage);
     }
 
+
+    /**
+     * Receives a chat message from the server and processes it asynchronously.
+     * This method is called when the server sends a chat message to the client.
+     * It creates a new thread to handle the received message, allowing the client to continue its operations without waiting for the message processing to complete.
+     * After processing the message, it prints a debug message to the console.
+     *
+     * @param playerName The chat message received from the server.
+     * @param message    The chat message received from the server.
+     * @param receiver  The receiver of the message if it's a direct message.
+     * @param timestamp The timestamp of the message.
+     * @param isDirect Flag to indicate if the message is a direct message.
+     * @throws RemoteException If an error occurs during the RMI connection.
+     */
+    public void receiveChatMessage(String playerName, String message, String receiver, long timestamp, boolean isDirect) throws RemoteException {
+        new Thread(() -> {
+            clientNetworkControllerMapper.receiveChatMessage(playerName, message, receiver, timestamp, isDirect);
+        }).start();
+        // Debug
+        System.out.println("RMI received message: " + playerName);
+    }
+
     @Override
     public void heartbeat() throws RemoteException {
         new Thread(() -> {
@@ -108,6 +136,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
             System.out.println("Ping received");
         }
     }
+
 }
 
 

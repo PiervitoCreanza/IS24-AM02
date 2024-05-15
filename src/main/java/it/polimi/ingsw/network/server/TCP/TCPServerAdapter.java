@@ -44,8 +44,19 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
      */
     private String playerName;
 
+    /**
+     * Indicates whether the connection has been saved.
+     */
     private boolean isConnectionSaved = false;
 
+    /**
+     * Gson instance used for JSON serialization and deserialization.
+     * It is configured to:
+     * - Enable complex map key serialization.
+     * - Register a custom type adapter for SideGameCard objects.
+     * - Register a custom type adapter for ObjectiveCard objects.
+     * - Register a custom type adapter for ClientToServerMessage objects.
+     */
     private final Gson gson = new GsonBuilder()
             .enableComplexMapKeySerialization()
             .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter())
@@ -107,6 +118,8 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
                     serverNetworkControllerMapper.drawCardFromGoldDeck(receivedMessage.getGameName(), receivedMessage.getPlayerName());
             case SWITCH_CARD_SIDE ->
                     serverNetworkControllerMapper.switchCardSide(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
+            case SEND_CHAT_MSG ->
+                    serverNetworkControllerMapper.sendChatMessage(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getMessage(), receivedMessage.getReceiver(), receivedMessage.getTimestamp());
             default -> System.err.print("Invalid action");
         }
         // Debug

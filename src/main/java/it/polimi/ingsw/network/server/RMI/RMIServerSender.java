@@ -13,26 +13,55 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * The RMIServerSender class is responsible for sending messages to the client over RMI.
+ * It implements the ServerMessageHandler interface, which defines the methods for handling server messages.
+ * It also implements the Observable interface, which allows it to notify observers when a change occurs.
+ */
 public class RMIServerSender implements ServerMessageHandler, Observable<ServerMessageHandler> {
-
+    /**
+     * The stub used to call methods on the client's remote object.
+     */
     private final RMIServerToClientActions stub;
 
+    /**
+     * The observers that are notified when a change occurs.
+     */
     private final HashSet<Observer<ServerMessageHandler>> observers = new HashSet<>();
 
+    /**
+     * The name of the player associated with the connection.
+     */
     private String playerName;
 
+    /**
+     * The name of the game associated with the connection.
+     */
     private String gameName;
 
     // This variable is used to check if the connection has been saved by the ServerNetworkControllerMapper.
     // The heartbeat will start only after the connection has been saved.
     // If an error occurs during the heartbeat, or while sending a message, this parameter will be set to false.
     // The closeConnection method will be called only one time and will notify the observers.
+    /**
+     * A flag indicating whether the client is connected.
+     */
     private final AtomicBoolean isConnectionSaved = new AtomicBoolean(false);
 
+    /**
+     * Constructs a new RMIServerSender object with the specified stub.
+     *
+     * @param stub the stub used to call methods on the client's remote object
+     */
     public RMIServerSender(RMIServerToClientActions stub) {
         this.stub = stub;
     }
 
+    /**
+     * This method is used to check if the client is still connected.
+     * It sends a heartbeat message to the client every 2.5 seconds.
+     * If the client does not respond, it is considered disconnected.
+     */
     private void heartbeat() {
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -66,6 +95,8 @@ public class RMIServerSender implements ServerMessageHandler, Observable<ServerM
                 case DELETE_GAME -> stub.receiveGameDeleted(message.getSuccessDeleteMessage());
                 case GET_GAMES -> stub.receiveGameList(message.getGames());
                 case ERROR_MSG -> stub.receiveErrorMessage(message.getErrorMessage());
+                case RECEIVE_CHAT_MSG ->
+                        stub.receiveChatMessage(message.getPlayerName(), message.getChatMessage(), message.getReceiver(), message.getTimestamp(), message.isDirectMessage());
                 default -> System.err.print("Invalid action\n");
             }
         } catch (RemoteException e) {
@@ -120,11 +151,12 @@ public class RMIServerSender implements ServerMessageHandler, Observable<ServerM
     @Override
     public void connectionSaved(boolean hasBeenSaved) {
         this.isConnectionSaved.set(hasBeenSaved);
-        this.heartbeat();
+        this.heartbeat(); //Comment here if you want to disable the heartbeat
     }
 
     /**
      * Closes the connection to the client.
+     * This method is called when the client is disconnected or when an error occurs.
      */
     @Override
     public void closeConnection() {
@@ -135,6 +167,11 @@ public class RMIServerSender implements ServerMessageHandler, Observable<ServerM
         }
     }
 
+    /**
+     * Adds an observer to the set of observers.
+     *
+     * @param observer the observer to be added
+     */
     @Override
     public void addObserver(Observer<ServerMessageHandler> observer) {
         synchronized (observers) {
@@ -142,6 +179,11 @@ public class RMIServerSender implements ServerMessageHandler, Observable<ServerM
         }
     }
 
+    /**
+     * Removes an observer from the set of observers.
+     *
+     * @param observer the observer to be removed
+     */
     @Override
     public void removeObserver(Observer<ServerMessageHandler> observer) {
         synchronized (observers) {
