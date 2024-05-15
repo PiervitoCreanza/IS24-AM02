@@ -51,7 +51,7 @@ public class StageManager {
     public void showGetGamesScene(ArrayList<GameRecord> games) {
         clearScreen();
         try {
-            new GetGamesScene(games, this.controller).display();
+            new GetGamesScene(this.controller, games).display();
         } catch (Exception e) {
             e.printStackTrace();
         }

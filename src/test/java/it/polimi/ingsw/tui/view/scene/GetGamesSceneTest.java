@@ -11,8 +11,7 @@ class GetGamesSceneTest {
         ArrayList<GameRecord> games = new ArrayList<>();
         games.add(new GameRecord("Game1", 3, 4));
         games.add(new GameRecord("VeryUltra LimitlessLongGameName", 1, 2));
-        GetGamesScene getGamesScene = new GetGamesScene(games, null);
-        System.out.println(getGamesScene);
+        GetGamesScene getGamesScene = new GetGamesScene(null, games);
+        getGamesScene.getDrawArea().println();
     }
-
 }

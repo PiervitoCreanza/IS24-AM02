@@ -11,11 +11,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+/**
+ * This class represents the scene for getting games.
+ * It implements the Displayable interface, meaning it can be displayed in the UI.
+ */
 public class GetGamesScene implements Diplayable {
     private final DrawArea drawArea;
     private final TUIViewController controller;
 
-    public GetGamesScene(ArrayList<GameRecord> games, TUIViewController controller) {
+    /**
+     * Constructs a new GetGamesScene.
+     *
+     * @param controller the controller for this scene
+     * @param games      the list of games to be displayed
+     */
+    public GetGamesScene(TUIViewController controller, ArrayList<GameRecord> games) {
         this.drawArea = new DrawArea("""
                 -- Games list --
                 """);
@@ -36,6 +46,7 @@ public class GetGamesScene implements Diplayable {
 
     /**
      * Displays the game scene on the console.
+     * It reads the user input and performs the corresponding action.
      */
     @Override
     public void display() throws IOException {
@@ -43,19 +54,20 @@ public class GetGamesScene implements Diplayable {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String input = reader.readLine();
         switch (input) {
-            case "l", "L" -> {
-                controller.getGames();
-            }
-            case "j", "J" -> {
-                controller.selectScene(ScenesEnum.JOIN_GAME);
-            }
-            case "c", "C" -> {
-                controller.selectScene(ScenesEnum.CREATE_GAME);
-            }
-            case "q", "Q" -> {
-                controller.selectScene(ScenesEnum.MAIN_MENU);
-            }
+            case "l", "L" -> controller.getGames();
+            case "j", "J" -> controller.selectScene(ScenesEnum.JOIN_GAME);
+            case "c", "C" -> controller.selectScene(ScenesEnum.CREATE_GAME);
+            case "q", "Q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
             default -> System.out.println("Invalid input");
         }
+    }
+
+    /**
+     * Returns the draw area of the get games scene.
+     *
+     * @return the draw area of the get games scene
+     */
+    public DrawArea getDrawArea() {
+        return drawArea;
     }
 }

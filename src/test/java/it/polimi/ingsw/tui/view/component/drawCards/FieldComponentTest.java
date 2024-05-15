@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-public class FieldComponetTest {
+public class FieldComponentTest {
 
     private final ArrayList<GameCard> fieldResourceCards = new ArrayList<>();
     private final ArrayList<GameCard> fieldGoldCards = new ArrayList<>();
