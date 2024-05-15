@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.server.actions;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
-import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
@@ -65,9 +64,9 @@ public interface RMIClientToServerActions extends Remote {
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is placing the card.
      * @param coordinate the coordinate where the card should be placed.
-     * @param card       the card to be placed.
+     * @param cardId     the card to be placed.
      */
-    void placeCard(String gameName, String playerName, Coordinate coordinate, GameCard card) throws RemoteException;
+    void placeCard(String gameName, String playerName, Coordinate coordinate, int cardId, boolean isFlipped) throws RemoteException;
 
     /**
      * Draws a card from the game field.
@@ -99,18 +98,18 @@ public interface RMIClientToServerActions extends Remote {
      *
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is switching the card side.
-     * @param card       the card whose side is to be switched.
+     * @param cardId     the card whose side is to be switched.
      */
-    void switchCardSide(String gameName, String playerName, GameCard card) throws RemoteException;
+    void switchCardSide(String gameName, String playerName, int cardId) throws RemoteException;
 
     /**
      * Sets the objective for a player.
      *
      * @param gameName   the name of the game.
      * @param playerName the name of the player whose objective is to be set.
-     * @param card       the objective card to be set for the player.
+     * @param cardId     the objective card to be set for the player.
      */
-    void setPlayerObjective(String gameName, String playerName, ObjectiveCard card) throws RemoteException;
+    void setPlayerObjective(String gameName, String playerName, int cardId) throws RemoteException;
 
     /**
      * Sends a chat message from the client to the server.

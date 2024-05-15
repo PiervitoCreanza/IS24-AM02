@@ -96,7 +96,7 @@ public class ClientToServerToClientToServerToClientMessageAdapterTest {
         GameItemStore multiplier = new GameItemStore();
         multiplier.set(GameItemEnum.INKWELL, 2);
         ObjectiveCard objectiveCard1 = new ItemObjectiveCard(1, 2, multiplier);
-        ClientToServerMessage setPlayerObjectiveClientToServerMessage1 = new SetPlayerObjectiveClientToServerMessage("Game1", "Player1", objectiveCard1);
+        ClientToServerMessage setPlayerObjectiveClientToServerMessage1 = new SetPlayerObjectiveClientToServerMessage("Game1", "Player1", objectiveCard1.getCardId());
         // Serialize
         String jsonSetPlayerObjectiveClientMessage1 = this.gson.toJson(setPlayerObjectiveClientToServerMessage1);
         // Deserialize
@@ -106,7 +106,7 @@ public class ClientToServerToClientToServerToClientMessageAdapterTest {
         positionalDataArrayList.add(new PositionalData(new Coordinate(1, 2), CardColorEnum.BLUE));
         positionalDataArrayList.add(new PositionalData(new Coordinate(1, 3), CardColorEnum.BLUE));
         ObjectiveCard objectiveCard2 = new PositionalObjectiveCard(1, 2, positionalDataArrayList);
-        ClientToServerMessage setPlayerObjectiveClientToServerMessage2 = new SetPlayerObjectiveClientToServerMessage("Game2", "Player2", objectiveCard2);
+        ClientToServerMessage setPlayerObjectiveClientToServerMessage2 = new SetPlayerObjectiveClientToServerMessage("Game2", "Player2", objectiveCard2.getCardId());
         // Serialize
         String jsonSetPlayerObjectiveClientMessage2 = this.gson.toJson(setPlayerObjectiveClientToServerMessage2);
         // Deserialize
@@ -120,7 +120,7 @@ public class ClientToServerToClientToServerToClientMessageAdapterTest {
         gameItemStore.set(GameItemEnum.ANIMAL, 1);
         GameCard resourceGameCard = new GameCard(1, new FrontGameCard(new Corner(GameItemEnum.FUNGI), new Corner(GameItemEnum.PLANT), new Corner(GameItemEnum.ANIMAL), new Corner(GameItemEnum.INSECT), 1), new BackGameCard(new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), gameItemStore), CardColorEnum.RED);
 
-        ClientToServerMessage placeCardClientToServerMessage = new PlaceCardClientToServerMessage("Game1", "Player1", new Coordinate(1, 1), resourceGameCard);
+        ClientToServerMessage placeCardClientToServerMessage = new PlaceCardClientToServerMessage("Game1", "Player1", new Coordinate(1, 1), resourceGameCard.getCardId(), false);
         // Serialize
         String jsonPlaceCardClientMessage = this.gson.toJson(placeCardClientToServerMessage);
         // Deserialize
@@ -168,7 +168,7 @@ public class ClientToServerToClientToServerToClientMessageAdapterTest {
         gameItemStore.set(GameItemEnum.ANIMAL, 1);
         GameCard resourceGameCard = new GameCard(1, new FrontGameCard(new Corner(GameItemEnum.FUNGI), new Corner(GameItemEnum.PLANT), new Corner(GameItemEnum.ANIMAL), new Corner(GameItemEnum.INSECT), 1), new BackGameCard(new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), gameItemStore), CardColorEnum.RED);
 
-        ClientToServerMessage switchCardSideClientToServerMessage = new SwitchCardSideClientToServerMessage("Game1", "Player1", resourceGameCard);
+        ClientToServerMessage switchCardSideClientToServerMessage = new SwitchCardSideClientToServerMessage("Game1", "Player1", resourceGameCard.getCardId());
         // Serialize
         String jsonSwitchCardSideClientMessage = this.gson.toJson(switchCardSideClientToServerMessage);
         // Deserialize

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.client.message.gameController;
 
-import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.network.client.message.ClientToServerMessage;
 import it.polimi.ingsw.network.client.message.PlayerActionEnum;
 
@@ -14,7 +13,7 @@ public class SwitchCardSideClientToServerMessage extends ClientToServerMessage {
     /**
      * The game card to be switched.
      */
-    private final GameCard gameCard;
+    private final int gameCardId;
 
     /**
      * Constructor for SwitchCardSideClientToServerMessage.
@@ -22,11 +21,11 @@ public class SwitchCardSideClientToServerMessage extends ClientToServerMessage {
      *
      * @param gameName   The name of the game. This cannot be null.
      * @param playerName The name of the player who is switching the card side. This cannot be null.
-     * @param gameCard   The game card to be switched. This cannot be null.
+     * @param gameCardId The game card to be switched. This cannot be null.
      */
-    public SwitchCardSideClientToServerMessage(String gameName, String playerName, GameCard gameCard) {
+    public SwitchCardSideClientToServerMessage(String gameName, String playerName, int gameCardId) {
         super(PlayerActionEnum.SWITCH_CARD_SIDE, gameName, playerName);
-        this.gameCard = gameCard;
+        this.gameCardId = gameCardId;
     }
 
     /**
@@ -35,8 +34,8 @@ public class SwitchCardSideClientToServerMessage extends ClientToServerMessage {
      * @return The game card to be switched.
      */
     @Override
-    public GameCard getGameCard() {
-        return gameCard;
+    public int getGameCardId() {
+        return gameCardId;
     }
 
     /**
@@ -51,6 +50,6 @@ public class SwitchCardSideClientToServerMessage extends ClientToServerMessage {
         if (this == o) return true;
         if (!(o instanceof SwitchCardSideClientToServerMessage that)) return false;
         if (!super.equals(o)) return false;
-        return Objects.equals(this.gameCard, that.gameCard);
+        return Objects.equals(this.gameCardId, that.gameCardId);
     }
 }

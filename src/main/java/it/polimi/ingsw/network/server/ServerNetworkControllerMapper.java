@@ -2,8 +2,8 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.controller.MainController;
+import it.polimi.ingsw.controller.gameController.GameControllerMiddleware;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
-import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.server.actions.ClientToServerActions;
@@ -159,11 +159,11 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      *
      * @param gameName   the name of the game.
      * @param playerName the name of the player whose objective is to be set.
-     * @param card       the objective card to be set for the player.
+     * @param cardId     the objective card to be set for the player.
      */
-    public void setPlayerObjective(String gameName, String playerName, ObjectiveCard card) {
+    public void setPlayerObjective(String gameName, String playerName, int cardId) {
         try {
-            mainController.getGameController(gameName).setPlayerObjective(playerName, card);
+            mainController.getGameController(gameName).setPlayerObjective(playerName, cardId);
             broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
         } catch (Exception e) {
             gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
@@ -176,11 +176,16 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is placing the card.
      * @param coordinate the coordinate where the card should be placed.
-     * @param card       the card to be placed.
+     * @param cardId     the card to be placed.
      */
-    public void placeCard(String gameName, String playerName, Coordinate coordinate, GameCard card) {
+    public void placeCard(String gameName, String playerName, Coordinate coordinate, int cardId, boolean isFlipped) {
         try {
-            mainController.getGameController(gameName).placeCard(playerName, coordinate, card);
+            GameControllerMiddleware gameController = mainController.getGameController(gameName);
+            if (isFlipped) {
+                gameController.switchCardSide(playerName, cardId);
+            }
+            gameController.placeCard(playerName, coordinate, cardId);
+
             broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
 
             // If the game is over we close the connections and delete the game.
@@ -243,11 +248,11 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      *
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is switching the card side.
-     * @param card       the card whose side is to be switched.
+     * @param cardId     the card whose side is to be switched.
      */
-    public void switchCardSide(String gameName, String playerName, GameCard card) {
+    public void switchCardSide(String gameName, String playerName, int cardId) {
         try {
-            mainController.getGameController(gameName).switchCardSide(playerName, card);
+            mainController.getGameController(gameName).switchCardSide(playerName, cardId);
             broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
         } catch (Exception e) {
             gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));

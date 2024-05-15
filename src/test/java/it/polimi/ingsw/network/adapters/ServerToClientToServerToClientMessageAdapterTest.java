@@ -46,7 +46,7 @@ public class ServerToClientToServerToClientMessageAdapterTest {
         GameControllerMiddleware gameControllerMiddleware = mainController.getGameController("gameName");
         GameControllerView gameControllerView = mainController.getVirtualView("gameName");
         GameCard gameCard = mainController.getVirtualView("gameName").gameView().playerViews().stream().filter(playerView -> playerView.playerName().equals("playerName")).findFirst().get().starterCard();
-        gameControllerMiddleware.placeCard("playerName", new Coordinate(0, 0), gameCard);
+        gameControllerMiddleware.placeCard("playerName", new Coordinate(0, 0), gameCard.getCardId());
         gameControllerView = mainController.getVirtualView("gameName");
 
         ServerToClientMessage updateViewServerToClientMessage = new UpdateViewServerToClientMessage(gameControllerView);

@@ -84,14 +84,14 @@ class GameControllerMiddlewareTest {
     @DisplayName("Test if an error is thrown when the game status is neither PLACE_CARD nor INIT_PLACE_STARTER_CARD")
     void placeCard() {
         gameControllerMiddleware.setGameStatus(GameStatusEnum.WAIT_FOR_PLAYERS);
-        assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.placeCard("player0", null, null));
+        assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.placeCard("player0", null, -1));
     }
 
     @Test
     @DisplayName("Test if a card can be placed when gameStatus is PLACE_CARD")
     void placeCard1() {
         gameControllerMiddleware.setGameStatus(GameStatusEnum.PLACE_CARD);
-        gameControllerMiddleware.placeCard("player0", null, null);
+        gameControllerMiddleware.placeCard("player0", null, -1);
         assertEquals(GameStatusEnum.DRAW_CARD, gameControllerMiddleware.getGameStatus());
     }
 
@@ -116,7 +116,7 @@ class GameControllerMiddlewareTest {
     @DisplayName("Test if the game status changes to INIT_CHOOSE_PLAYER_COLOR after placing the starter card\"")
     void drawCardFromDeck() {
         gameControllerMiddleware.setGameStatus(GameStatusEnum.INIT_PLACE_STARTER_CARD);
-        gameControllerMiddleware.placeCard("player0", null, null);
+        gameControllerMiddleware.placeCard("player0", null, -1);
         assertEquals(GameStatusEnum.INIT_CHOOSE_PLAYER_COLOR, gameControllerMiddleware.getGameStatus());
     }
 
@@ -127,22 +127,22 @@ class GameControllerMiddlewareTest {
         when(player.getPlayerName()).thenReturn("player0");
         when(game.getCurrentPlayer()).thenReturn(player);
         gameControllerMiddleware.setGameStatus(GameStatusEnum.PLACE_CARD);
-        gameControllerMiddleware.switchCardSide("player0", null);
+        gameControllerMiddleware.switchCardSide("player0", -1);
         gameControllerMiddleware.setGameStatus(GameStatusEnum.DRAW_CARD);
-        gameControllerMiddleware.switchCardSide("player0", null);
+        gameControllerMiddleware.switchCardSide("player0", -1);
         gameControllerMiddleware.setGameStatus(GameStatusEnum.INIT_PLACE_STARTER_CARD);
-        gameControllerMiddleware.switchCardSide("player0", null);
+        gameControllerMiddleware.switchCardSide("player0", -1);
         gameControllerMiddleware.setGameStatus(GameStatusEnum.WAIT_FOR_PLAYERS);
-        assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.switchCardSide("player0", null));
+        assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.switchCardSide("player0", -1));
     }
 
     @Test
     @DisplayName("Test if a player's objective can be set only when game status is INIT_CHOOSE_OBJECTIVE_CARD")
     void setPlayerObjective() {
         gameControllerMiddleware.setGameStatus(GameStatusEnum.INIT_CHOOSE_OBJECTIVE_CARD);
-        gameControllerMiddleware.setPlayerObjective("player0", null);
+        gameControllerMiddleware.setPlayerObjective("player0", -1);
         gameControllerMiddleware.setGameStatus(GameStatusEnum.DRAW_CARD);
-        assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.setPlayerObjective("player0", null));
+        assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.setPlayerObjective("player0", -1));
     }
 
     @Test
@@ -150,7 +150,7 @@ class GameControllerMiddlewareTest {
     void handleDrawFinish() {
         when(game.isLastPlayerAmongConnected()).thenReturn(true);
         gameControllerMiddleware.setGameStatus(GameStatusEnum.INIT_CHOOSE_OBJECTIVE_CARD);
-        gameControllerMiddleware.setPlayerObjective("player0", null);
+        gameControllerMiddleware.setPlayerObjective("player0", -1);
         assertEquals(GameStatusEnum.PLACE_CARD, gameControllerMiddleware.getGameStatus());
     }
 
@@ -172,51 +172,51 @@ class GameControllerMiddlewareTest {
         assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.drawCardFromResourceDeck("player0"));
 
         // Player 0 can switch the starter card side
-        gameControllerMiddleware.switchCardSide("player0", null);
+        gameControllerMiddleware.switchCardSide("player0", -1);
 
         // Player 0 places his starter card
-        gameControllerMiddleware.placeCard("player0", null, null);
+        gameControllerMiddleware.placeCard("player0", null, -1);
         // Player 1 can't place his starter card yet
-        assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.placeCard("player1", null, null));
+        assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.placeCard("player1", null, -1));
 
         // Player 0 chooses his color
         gameControllerMiddleware.choosePlayerColor("player0", PlayerColorEnum.BLUE);
 
         // Player 0 places his starter card
-        gameControllerMiddleware.setPlayerObjective("player0", null);
+        gameControllerMiddleware.setPlayerObjective("player0", -1);
 
         // Player 0 can't place cards anymore
-        assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.placeCard("player0", null, null));
+        assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.placeCard("player0", null, -1));
 
         // Player 0 can't choose his objective card anymore
-        assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.setPlayerObjective("player0", null));
+        assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.setPlayerObjective("player0", -1));
 
         assertEquals(GameStatusEnum.INIT_PLACE_STARTER_CARD, gameControllerMiddleware.getGameStatus());
         // -- Player 1 can't draw cards yet
         assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.drawCardFromGoldDeck("player1"));
 
         // Player 1 places his starter card
-        gameControllerMiddleware.placeCard("player1", null, null);
+        gameControllerMiddleware.placeCard("player1", null, -1);
         // Player 0 can't place his starter card
-        assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.placeCard("player0", null, null));
+        assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.placeCard("player0", null, -1));
 
         // Player 1 chooses his color
         gameControllerMiddleware.choosePlayerColor("player1", PlayerColorEnum.RED);
 
         // Player 1 chooses his objective card
-        gameControllerMiddleware.setPlayerObjective("player1", null);
+        gameControllerMiddleware.setPlayerObjective("player1", -1);
 
         // Init phase is over
         assertEquals(GameStatusEnum.PLACE_CARD, gameControllerMiddleware.getGameStatus());
 
         // Player 0 plays his first real turn
-        gameControllerMiddleware.placeCard("player0", null, null);
+        gameControllerMiddleware.placeCard("player0", null, -1);
         assertEquals(GameStatusEnum.DRAW_CARD, gameControllerMiddleware.getGameStatus());
         // Player 1 can draw a card
         gameControllerMiddleware.drawCardFromField("player0", null);
 
         // Player 2 places a card
-        gameControllerMiddleware.placeCard("player1", null, null);
+        gameControllerMiddleware.placeCard("player1", null, -1);
         assertEquals(GameStatusEnum.DRAW_CARD, gameControllerMiddleware.getGameStatus());
 
         // We mock the game to be in the last round
@@ -225,11 +225,11 @@ class GameControllerMiddlewareTest {
         gameControllerMiddleware.drawCardFromField("player1", null);
         // It is the last round phase. We have to play
         // Player 0 can place a card
-        gameControllerMiddleware.placeCard("player0", null, null);
+        gameControllerMiddleware.placeCard("player0", null, -1);
         // Player 0 can draw a card
         gameControllerMiddleware.drawCardFromField("player0", null);
         // Player 1 can place a card
-        gameControllerMiddleware.placeCard("player1", null, null);
+        gameControllerMiddleware.placeCard("player1", null, -1);
         // Player 1 can place a card
         gameControllerMiddleware.drawCardFromField("player1", null);
         // Game is over
@@ -258,16 +258,16 @@ class GameControllerMiddlewareTest {
         assertTrue(player1.getChoosableObjectives().contains(player1.getObjectiveCard()));
 
         Player player2 = gameControllerMiddleware.getGame().getPlayer("player2");
-        gameControllerMiddleware.placeCard("player2", new Coordinate(0, 0), player2.getPlayerBoard().getStarterCard());
+        gameControllerMiddleware.placeCard("player2", new Coordinate(0, 0), player2.getPlayerBoard().getStarterCard().getCardId());
         gameControllerMiddleware.choosePlayerColor("player2", game.getAvailablePlayerColors().getFirst());
-        gameControllerMiddleware.setPlayerObjective("player2", player2.getChoosableObjectives().getFirst());
+        gameControllerMiddleware.setPlayerObjective("player2", player2.getChoosableObjectives().getFirst().getCardId());
 
         Player player3 = gameControllerMiddleware.getGame().getPlayer("player3");
         assertEquals(GameStatusEnum.INIT_PLACE_STARTER_CARD, gameControllerMiddleware.getGameStatus());
         assertEquals(player3, game.getCurrentPlayer());
-        gameControllerMiddleware.placeCard("player3", new Coordinate(0, 0), player3.getPlayerBoard().getStarterCard());
+        gameControllerMiddleware.placeCard("player3", new Coordinate(0, 0), player3.getPlayerBoard().getStarterCard().getCardId());
         gameControllerMiddleware.choosePlayerColor("player3", game.getAvailablePlayerColors().getFirst());
-        gameControllerMiddleware.setPlayerObjective("player3", player3.getChoosableObjectives().getFirst());
+        gameControllerMiddleware.setPlayerObjective("player3", player3.getChoosableObjectives().getFirst().getCardId());
 
         assertEquals(GameStatusEnum.PLACE_CARD, gameControllerMiddleware.getGameStatus());
         assertEquals(player2, game.getCurrentPlayer());
@@ -288,7 +288,7 @@ class GameControllerMiddlewareTest {
         game.setNextPlayer();
         game.setNextPlayer();
         assertEquals(player1, game.getCurrentPlayer());
-        gameControllerMiddleware.placeCard("player1", new Coordinate(1, 1), player1.getPlayerHand().getCards().getFirst());
+        gameControllerMiddleware.placeCard("player1", new Coordinate(1, 1), player1.getPlayerHand().getCards().getFirst().getCardId());
 
         // Player gets disconnected during his DRAW_CARD phase
         gameControllerMiddleware.setPlayerConnectionStatus("player1", false);

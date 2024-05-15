@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
-import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.actions.ServerToClientActions;
@@ -113,10 +112,10 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      * @param gameName   The name of the game.
      * @param playerName The name of the player placing the card.
      * @param coordinate The coordinate where the card is placed.
-     * @param card       The card to be placed.
+     * @param cardId       The card to be placed.
      */
-    public void placeCard(String gameName, String playerName, Coordinate coordinate, GameCard card) {
-        messageHandler.sendMessage(new PlaceCardClientToServerMessage(gameName, playerName, coordinate, card));
+    public void placeCard(String gameName, String playerName, Coordinate coordinate, int cardId, boolean isFlipped) {
+        messageHandler.sendMessage(new PlaceCardClientToServerMessage(gameName, playerName, coordinate, cardId, isFlipped));
     }
 
     /**
@@ -155,21 +154,20 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      *
      * @param gameName   The name of the game.
      * @param playerName The name of the player switching the card side.
-     * @param card       The card to switch side.
+     * @param cardId       The card to switch side.
      */
-    void switchCardSide(String gameName, String playerName, GameCard card) {
-        messageHandler.sendMessage(new SwitchCardSideClientToServerMessage(gameName, playerName, card));
+    public void switchCardSide(String gameName, String playerName, int cardId) {
+        messageHandler.sendMessage(new SwitchCardSideClientToServerMessage(gameName, playerName, cardId));
     }
-
     /**
      * Sends a request to the server for the player to set an objective card.
      *
      * @param gameName   The name of the game.
      * @param playerName The name of the player setting the objective card.
-     * @param card       The objective card to be set.
+     * @param cardId       The objective card to be set.
      */
-    void setPlayerObjective(String gameName, String playerName, ObjectiveCard card) {
-        messageHandler.sendMessage(new SetPlayerObjectiveClientToServerMessage(gameName, playerName, card));
+    public void setPlayerObjective(String gameName, String playerName, int cardId) {
+        messageHandler.sendMessage(new SetPlayerObjectiveClientToServerMessage(gameName, playerName, cardId));
     }
 
     /**

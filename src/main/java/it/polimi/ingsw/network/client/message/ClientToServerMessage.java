@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.client.message;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
-import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 
@@ -109,12 +108,12 @@ public abstract class ClientToServerMessage {
 
     /**
      * Returns the objective card of the player.
-     * This method is not implemented and always returns null.
+     * This method is not implemented and always returns -1.
      *
-     * @return The objective card of the player, always null.
+     * @return The objective card of the player, always -1.
      */
-    public ObjectiveCard getObjectiveCard() {
-        return null;
+    public int getObjectiveCardId() {
+        return -1;
     }
 
     /**
@@ -135,6 +134,14 @@ public abstract class ClientToServerMessage {
      */
     public GameCard getGameCard() {
         return null;
+    }
+
+    public int getGameCardId() {
+        return -1;
+    }
+
+    public boolean isFlipped() {
+        return false;
     }
 
     /**

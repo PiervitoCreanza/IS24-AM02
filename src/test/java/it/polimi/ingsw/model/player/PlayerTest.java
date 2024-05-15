@@ -20,7 +20,7 @@ public class PlayerTest {
 
     @BeforeEach
     public void setup() {
-        objectiveCard = mock(ObjectiveCard.class);
+        objectiveCard = new Parser().getObjectiveDeck().getFirst();
         GameCard starterCard = mock(GameCard.class);
         ObjectiveCard card = mock(ObjectiveCard.class);
         ArrayList<ObjectiveCard> choosableObjectives = new ArrayList<>();
@@ -81,7 +81,7 @@ public class PlayerTest {
     @Test
     @DisplayName("Get objective card returns non-null after setting")
     public void getObjectiveCardReturnsNonNullAfterSetting() {
-        player.setPlayerObjective(objectiveCard);
+        player.setPlayerObjective(objectiveCard.getCardId());
         assertEquals(objectiveCard, player.getObjectiveCard());
     }
 
@@ -92,12 +92,12 @@ public class PlayerTest {
         GameCard card = parser.getStarterDeck().draw();
         player.getPlayerHand().addCard(card);
         assertEquals(card, player.getPlayerHand().getCards().getFirst());
-        player.placeGameCard(new Coordinate(0, 0), card);
+        player.placeGameCard(new Coordinate(0, 0), card.getCardId());
         assertEquals(card, player.getPlayerBoard().getGameCard(new Coordinate(0, 0)).get());
         assertFalse(player.getPlayerHand().getCards().contains(card));
 
-        String message = assertThrows(IllegalArgumentException.class, () -> player.placeGameCard(new Coordinate(0, 0), card)).getMessage();
-        assertEquals("Player does not have the card in hand", message);
+        String message = assertThrows(IllegalArgumentException.class, () -> player.placeGameCard(new Coordinate(0, 0), card.getCardId())).getMessage();
+        assertEquals("Player does not have the card in hand or it is not the starter card", message);
     }
 
 }

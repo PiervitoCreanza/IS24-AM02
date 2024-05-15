@@ -1,7 +1,6 @@
 package it.polimi.ingsw.tui.controller;
 
 import it.polimi.ingsw.controller.GameStatusEnum;
-import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
@@ -185,26 +184,21 @@ public class TUIViewController implements PropertyChangeListener {
      * Method to place a starter card.
      * It delegates the request to the network controller.
      */
-    public void placeStarterCard(boolean isFlipped) {
-        if (isFlipped) {
-            networkController.switchCardSide(gameName, playerName, gameControllerView.getCurrentPlayerView().starterCard());
-        }
-        networkController.placeCard(gameName, playerName, new Coordinate(0, 0), gameControllerView.getCurrentPlayerView().starterCard());
+    public void placeStarterCard(int starterCardId, boolean isFlipped) {
+//        if (isFlipped) {
+//            networkController.switchCardSide(gameName, playerName, gameControllerView.getCurrentPlayerView().starterCard());
+//        }
+        networkController.placeCard(gameName, playerName, new Coordinate(0, 0), starterCardId, isFlipped);
     }
 
     /**
      * Method to place a card.
      * It delegates the request to the network controller.
      */
-    public void placeCard(int cardInt, Coordinate coordinate) {
-        if (cardInt < 0 || cardInt >= 3) {
-            System.out.println("Invalid card ID");
-            return;
-        }
-        GameCard choosenCard = gameControllerView.getCurrentPlayerView().playerHandView().hand().get(cardInt);
+    public void placeCard(int choosenCardId, Coordinate coordinate, boolean isFlipped) {
 
 
-        networkController.placeCard(gameName, playerName, coordinate, choosenCard);
+        networkController.placeCard(gameName, playerName, coordinate, choosenCardId, isFlipped);
     }
 
     /**
@@ -235,20 +229,16 @@ public class TUIViewController implements PropertyChangeListener {
      * Method to switch the side of a card.
      * It delegates the request to the network controller.
      */
-    public void switchCardSide(GameCard gameCard) {
-        networkController.switchCardSide(gameName, playerName, gameCard);
+    public void switchCardSide(int gameCardId) {
+        networkController.switchCardSide(gameName, playerName, gameCardId);
     }
 
     /**
      * Method to set a player's objective.
      * It delegates the request to the network controller.
      */
-    public void setPlayerObjective(int objectiveInt) {
-        if (objectiveInt < 0 || objectiveInt >= 2) {
-            System.out.println("Invalid objective ID");
-            return;
-        }
-        networkController.setPlayerObjective(gameName, playerName, gameControllerView.getCurrentPlayerView().choosableObjectives().get(objectiveInt));
+    public void setPlayerObjective(int objectiveCardId) {
+        networkController.setPlayerObjective(gameName, playerName, objectiveCardId);
     }
 
     private boolean isClientTurn() {

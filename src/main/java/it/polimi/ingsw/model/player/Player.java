@@ -125,15 +125,15 @@ public class Player implements VirtualViewable<PlayerView> {
     /**
      * This method is used to set the ObjectiveCard of the player.
      *
-     * @param objectiveCard This is the ObjectiveCard to be set.
+     * @param objectiveCardId This is the ObjectiveCard to be set.
      */
-    public void setPlayerObjective(ObjectiveCard objectiveCard) {
-
-        if (!choosableObjectives.contains(objectiveCard)) {
+    public void setPlayerObjective(int objectiveCardId) {
+        ObjectiveCard choosenObjective = choosableObjectives.stream().filter(o -> o.getCardId() == objectiveCardId).findFirst().orElse(null);
+        if (choosenObjective == null) {
             throw new IllegalArgumentException("Objective card must be one of the drawn objectives");
         }
 
-        this.objectiveCard = Objects.requireNonNull(objectiveCard, "Objective card cannot be null");
+        this.objectiveCard = choosenObjective;
     }
 
     /**
@@ -196,14 +196,18 @@ public class Player implements VirtualViewable<PlayerView> {
      * This method is used to set the game card on the player board.
      *
      * @param coordinate The coordinate where the game card is to be set.
-     * @param gameCard   The game card to be set.
+     * @param gameCardId The game card to be set.
      */
-    public void placeGameCard(Coordinate coordinate, GameCard gameCard) {
-        if (!playerHand.containsCard(gameCard) && !playerBoard.getStarterCard().equals(gameCard)) {
-            throw new IllegalArgumentException("Player does not have the card in hand");
+    public void placeGameCard(Coordinate coordinate, int gameCardId) {
+        GameCard cardToPlace = playerHand.getById(gameCardId);
+        if (cardToPlace == null) {
+            if (playerBoard.getStarterCard().getCardId() != gameCardId) {
+                throw new IllegalArgumentException("Player does not have the card in hand or it is not the starter card");
+            }
+            cardToPlace = playerBoard.getStarterCard();
         }
-        playerBoard.placeGameCard(coordinate, gameCard);
-        playerHand.removeCard(gameCard);
+        playerBoard.placeGameCard(coordinate, cardToPlace);
+        playerHand.removeCard(cardToPlace);
     }
 
     /**

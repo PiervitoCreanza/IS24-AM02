@@ -43,7 +43,7 @@ class GameControllerTest {
     void shouldPlaceCardWhenPlaceCardIsCalled() {
         GameCard card = gameController.getGame().getCurrentPlayer().getPlayerBoard().getStarterCard();
         Coordinate coordinate = new Coordinate(0, 0);
-        gameController.placeCard("player1", coordinate, card);
+        gameController.placeCard("player1", coordinate, card.getCardId());
         assertEquals(card, game.getPlayer("player1").getPlayerBoard().getGameCard(coordinate).get());
     }
 
@@ -77,7 +77,7 @@ class GameControllerTest {
     @DisplayName("Should set player's objective when setPlayerObjective is called")
     void shouldSetPlayerObjectiveWhenSetPlayerObjectiveIsCalled() {
         ObjectiveCard card = game.getPlayer("player1").getChoosableObjectives().getFirst();
-        gameController.setPlayerObjective("player1", card);
+        gameController.setPlayerObjective("player1", card.getCardId());
         assertEquals(card, game.getPlayer("player1").getObjectiveCard());
     }
 
@@ -85,8 +85,8 @@ class GameControllerTest {
     @DisplayName("Should throw exception when card is not in player hand")
     void switchCardSideShouldThrowExceptionWhenCardIsNotInHand() {
         // Draw a card from the resource deck (The player has no cards in hand)
-        GameCard mockCard = Mockito.mock(GameCard.class);
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> gameController.switchCardSide("player1", mockCard));
+        int fakeCardId = -1;
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> gameController.switchCardSide("player1", fakeCardId));
         assertEquals("Card cannot be switched. Not present in player's hand", exception.getMessage());
 
     }
@@ -98,9 +98,9 @@ class GameControllerTest {
         gameController.drawCardFromResourceDeck("player1");
         GameCard card = game.getPlayer("player1").getPlayerHand().getCards().getFirst();
         SideGameCard side = card.getCurrentSide();
-        gameController.switchCardSide("player1", card);
+        gameController.switchCardSide("player1", card.getCardId());
         assertNotEquals(side, card.getCurrentSide());
-        gameController.switchCardSide("player1", card);
+        gameController.switchCardSide("player1", card.getCardId());
         assertEquals(side, card.getCurrentSide());
     }
 

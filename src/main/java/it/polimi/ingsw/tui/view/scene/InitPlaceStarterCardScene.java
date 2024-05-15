@@ -13,8 +13,10 @@ import java.io.InputStreamReader;
 public class InitPlaceStarterCardScene implements Diplayable, UserInputScene {
     private final DrawArea drawArea;
     private final TUIViewController controller;
+    private final GameCard starterCard;
 
     public InitPlaceStarterCardScene(TUIViewController controller, GameCard starterCard) {
+        this.starterCard = starterCard;
         this.drawArea = new TitleComponent("Place Starter Card").getDrawArea();
         DrawArea StarterCardArea = new DrawArea();
         GameCardComponent gameCardComponent = new GameCardComponent(starterCard);
@@ -42,6 +44,6 @@ public class InitPlaceStarterCardScene implements Diplayable, UserInputScene {
             controller.selectScene(ScenesEnum.MAIN_MENU);
             return;
         }
-        controller.placeStarterCard(Integer.parseInt(side) == 2);
+        controller.placeStarterCard(starterCard.getCardId(), Integer.parseInt(side) == 2);
     }
 }

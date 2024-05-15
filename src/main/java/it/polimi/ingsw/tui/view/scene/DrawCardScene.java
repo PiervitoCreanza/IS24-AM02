@@ -19,7 +19,7 @@ public class DrawCardScene implements Diplayable, UserInputScene {
     public DrawCardScene(TUIViewController controller, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand) {
         this.controller = controller;
         this.drawArea = new TitleComponent("Draw Card").getDrawArea();
-        drawArea.drawAt(0, 0, new PlayerInventoryComponent(globalObjectives, playerObjective, hand, 0));
+        drawArea.drawAt(0, this.drawArea.getHeight(), new PlayerInventoryComponent(globalObjectives, playerObjective, hand, 0));
         // TODO: Implement Interface
     }
 
@@ -29,7 +29,9 @@ public class DrawCardScene implements Diplayable, UserInputScene {
     @Override
     public void display() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print(drawArea);
+        drawArea.println();
+        // TODO: Implement
+        controller.drawCardFromResourceDeck();
 
     }
 }

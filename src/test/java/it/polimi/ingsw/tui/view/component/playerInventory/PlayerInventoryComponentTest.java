@@ -29,8 +29,8 @@ public class PlayerInventoryComponentTest {
         player1 = game.getPlayer("Player1");
         GameControllerMiddleware gameController = mainController.getGameController("TestGame");
         gameController.setGameStatus(GameStatusEnum.INIT_PLACE_STARTER_CARD);
-        gameController.placeCard("Player1", new Coordinate(0, 0), player1.getPlayerBoard().getStarterCard());
-        player1.setPlayerObjective(player1.getVirtualView().choosableObjectives().getFirst());
+        gameController.placeCard("Player1", new Coordinate(0, 0), player1.getPlayerBoard().getStarterCard().getCardId());
+        player1.setPlayerObjective(player1.getVirtualView().choosableObjectives().getFirst().getCardId());
     }
 
     @Test

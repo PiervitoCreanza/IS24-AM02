@@ -14,8 +14,10 @@ import java.util.ArrayList;
 public class InitSetObjectiveCardScene implements Diplayable, UserInputScene {
     private final DrawArea drawArea;
     private final TUIViewController controller;
+    private final ArrayList<ObjectiveCard> objectiveCards;
 
     public InitSetObjectiveCardScene(TUIViewController controller, ArrayList<ObjectiveCard> objectiveCards) {
+        this.objectiveCards = objectiveCards;
         this.drawArea = new TitleComponent("Choose your objective card: ").getDrawArea();
 
         DrawArea objectiveArea = new DrawArea();
@@ -47,6 +49,6 @@ public class InitSetObjectiveCardScene implements Diplayable, UserInputScene {
             return;
         }
         int chosenObjectiveInt = Integer.parseInt(chosenObjective) - 1;
-        controller.setPlayerObjective(chosenObjectiveInt);
+        controller.setPlayerObjective(objectiveCards.get(chosenObjectiveInt).getCardId());
     }
 }

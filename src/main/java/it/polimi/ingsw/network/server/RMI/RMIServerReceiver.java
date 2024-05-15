@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.server.RMI;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
-import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
@@ -121,13 +120,13 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
      *
      * @param gameName   the name of the game.
      * @param playerName the name of the player whose objective is to be set.
-     * @param card       the objective card to be set for the player.
+     * @param cardId     the objective card to be set for the player.
      */
     @Override
-    public void setPlayerObjective(String gameName, String playerName, ObjectiveCard card) throws RemoteException {
-        new Thread(() -> serverNetworkControllerMapper.setPlayerObjective(gameName, playerName, card)).start();
+    public void setPlayerObjective(String gameName, String playerName, int cardId) throws RemoteException {
+        new Thread(() -> serverNetworkControllerMapper.setPlayerObjective(gameName, playerName, cardId)).start();
         // Debug
-        printDebug(new SetPlayerObjectiveClientToServerMessage(gameName, playerName, card));
+        printDebug(new SetPlayerObjectiveClientToServerMessage(gameName, playerName, cardId));
     }
 
 
@@ -137,13 +136,13 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is placing the card.
      * @param coordinate the coordinate where the card should be placed.
-     * @param card       the card to be placed.
+     * @param cardId     the card to be placed.
      */
     @Override
-    public void placeCard(String gameName, String playerName, Coordinate coordinate, GameCard card) throws RemoteException {
-        new Thread(() -> serverNetworkControllerMapper.placeCard(gameName, playerName, coordinate, card)).start();
+    public void placeCard(String gameName, String playerName, Coordinate coordinate, int cardId, boolean isFlipped) throws RemoteException {
+        new Thread(() -> serverNetworkControllerMapper.placeCard(gameName, playerName, coordinate, cardId, isFlipped)).start();
         // Debug
-        printDebug(new PlaceCardClientToServerMessage(gameName, playerName, coordinate, card));
+        printDebug(new PlaceCardClientToServerMessage(gameName, playerName, coordinate, cardId, isFlipped));
     }
 
     /**
@@ -191,13 +190,13 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
      *
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is switching the card side.
-     * @param card       the card whose side is to be switched.
+     * @param cardId     the card whose side is to be switched.
      */
     @Override
-    public void switchCardSide(String gameName, String playerName, GameCard card) throws RemoteException {
-        new Thread(() -> serverNetworkControllerMapper.switchCardSide(gameName, playerName, card)).start();
+    public void switchCardSide(String gameName, String playerName, int cardId) throws RemoteException {
+        new Thread(() -> serverNetworkControllerMapper.switchCardSide(gameName, playerName, cardId)).start();
         // Debug
-        printDebug(new SwitchCardSideClientToServerMessage(gameName, playerName, card));
+        printDebug(new SwitchCardSideClientToServerMessage(gameName, playerName, cardId));
     }
 
     /**

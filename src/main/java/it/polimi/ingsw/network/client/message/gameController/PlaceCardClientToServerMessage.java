@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.client.message.gameController;
 
-import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.message.ClientToServerMessage;
 import it.polimi.ingsw.network.client.message.PlayerActionEnum;
@@ -20,7 +19,12 @@ public class PlaceCardClientToServerMessage extends ClientToServerMessage {
     /**
      * The game card to be placed.
      */
-    private final GameCard gameCard;
+    private final int gameCardId;
+
+    /**
+     * Weather the card is flipped or not
+     */
+    private final boolean isFlipped;
 
     /**
      * Constructor for PlaceCardClientToServerMessage.
@@ -29,12 +33,13 @@ public class PlaceCardClientToServerMessage extends ClientToServerMessage {
      * @param gameName   The name of the game. This cannot be null.
      * @param playerName The name of the player who is placing the card. This cannot be null.
      * @param coordinate The coordinate where the card is to be placed. This cannot be null.
-     * @param gameCard   The game card to be placed. This cannot be null.
+     * @param gameCardId The game card to be placed. This cannot be null.
      */
-    public PlaceCardClientToServerMessage(String gameName, String playerName, Coordinate coordinate, GameCard gameCard) {
+    public PlaceCardClientToServerMessage(String gameName, String playerName, Coordinate coordinate, int gameCardId, boolean isFlipped) {
         super(PlayerActionEnum.PLACE_CARD, gameName, playerName);
         this.coordinate = coordinate;
-        this.gameCard = gameCard;
+        this.gameCardId = gameCardId;
+        this.isFlipped = isFlipped;
     }
 
     /**
@@ -53,8 +58,18 @@ public class PlaceCardClientToServerMessage extends ClientToServerMessage {
      * @return The game card to be placed.
      */
     @Override
-    public GameCard getGameCard() {
-        return gameCard;
+    public int getGameCardId() {
+        return gameCardId;
+    }
+
+    /**
+     * Returns the flipped status of the card.
+     *
+     * @return The flipped status of the card.
+     */
+    @Override
+    public boolean isFlipped() {
+        return isFlipped;
     }
 
     /**
@@ -69,6 +84,6 @@ public class PlaceCardClientToServerMessage extends ClientToServerMessage {
         if (this == o) return true;
         if (!(o instanceof PlaceCardClientToServerMessage that)) return false;
         if (!super.equals(o)) return false;
-        return Objects.equals(this.coordinate, that.coordinate) && Objects.equals(this.gameCard, that.gameCard);
+        return Objects.equals(this.coordinate, that.coordinate) && Objects.equals(this.gameCardId, that.gameCardId);
     }
 }

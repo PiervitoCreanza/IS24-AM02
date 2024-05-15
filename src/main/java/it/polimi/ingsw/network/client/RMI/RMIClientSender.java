@@ -55,9 +55,9 @@ public class RMIClientSender implements ClientMessageHandler {
                 case CHOOSE_PLAYER_COLOR ->
                         serverStub.choosePlayerColor(message.getGameName(), message.getPlayerName(), message.getPlayerColor());
                 case SET_PLAYER_OBJECTIVE ->
-                        serverStub.setPlayerObjective(message.getGameName(), message.getPlayerName(), message.getObjectiveCard());
+                        serverStub.setPlayerObjective(message.getGameName(), message.getPlayerName(), message.getObjectiveCardId());
                 case PLACE_CARD ->
-                        serverStub.placeCard(message.getGameName(), message.getPlayerName(), message.getCoordinate(), message.getGameCard());
+                        serverStub.placeCard(message.getGameName(), message.getPlayerName(), message.getCoordinate(), message.getGameCardId(), message.isFlipped());
                 case DRAW_CARD_FROM_FIELD ->
                         serverStub.drawCardFromField(message.getGameName(), message.getPlayerName(), message.getGameCard());
                 case DRAW_CARD_FROM_RESOURCE_DECK ->
@@ -65,7 +65,7 @@ public class RMIClientSender implements ClientMessageHandler {
                 case DRAW_CARD_FROM_GOLD_DECK ->
                         serverStub.drawCardFromGoldDeck(message.getGameName(), message.getPlayerName());
                 case SWITCH_CARD_SIDE ->
-                        serverStub.switchCardSide(message.getGameName(), message.getPlayerName(), message.getGameCard());
+                        serverStub.switchCardSide(message.getGameName(), message.getPlayerName(), message.getGameCardId());
                 case SEND_CHAT_MSG ->
                         serverStub.chatMessageSender(message.getGameName(), message.getPlayerName(), message.getMessage(), message.getReceiver(), message.getTimestamp());
             }
