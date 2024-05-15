@@ -3,14 +3,12 @@ package it.polimi.ingsw.network.server.message;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 
-import java.io.Serializable;
 import java.util.HashSet;
 
 /**
  * Abstract class representing a message from the server to the client.
- * This class is serializable to allow it to be sent over a network.
  */
-public abstract class ServerToClientMessage implements Serializable {
+public abstract class ServerToClientMessage {
     /**
      * The action that the server wants the client to perform.
      * This is represented as an enum value of ServerActionEnum.
