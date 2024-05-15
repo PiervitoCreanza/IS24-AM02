@@ -40,7 +40,13 @@ public class InitSetObjectiveCardScene implements Diplayable, UserInputScene {
     public void display() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         drawArea.println();
-        int objectiveChoose = Integer.parseInt(UserInputScene.getAndValidateInput("Choose your Objective card [1/2]:", input -> input.matches("[1-2]"), reader)) - 1;
-        controller.setPlayerObjective(objectiveChoose);
+        String chosenObjective = UserInputScene.getAndValidateInput("Choose your Objective card [1/2]:", input -> input.matches("[1-2]"), reader);
+        // Back to main menu if user quits
+        if (chosenObjective == null) {
+            controller.selectScene(ScenesEnum.MAIN_MENU);
+            return;
+        }
+        int chosenObjectiveInt = Integer.parseInt(chosenObjective) - 1;
+        controller.setPlayerObjective(chosenObjectiveInt);
     }
 }

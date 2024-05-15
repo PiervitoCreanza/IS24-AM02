@@ -57,11 +57,6 @@ public class TUIViewController implements PropertyChangeListener {
     private ArrayList<GameRecord> gamesList;
 
     /**
-     * Cli parser.
-     */
-    //private final CLIParser cliParser = new CLIParser();
-
-    /**
      * List of players' cards.
      */
     private GameControllerView gameControllerView;
@@ -190,8 +185,8 @@ public class TUIViewController implements PropertyChangeListener {
      * Method to place a starter card.
      * It delegates the request to the network controller.
      */
-    public void placeStarterCard(int side) {
-        if (side == 2) {
+    public void placeStarterCard(boolean isFlipped) {
+        if (isFlipped) {
             networkController.switchCardSide(gameName, playerName, gameControllerView.getCurrentPlayerView().starterCard());
         }
         networkController.placeCard(gameName, playerName, new Coordinate(0, 0), gameControllerView.getCurrentPlayerView().starterCard());
@@ -284,8 +279,25 @@ public class TUIViewController implements PropertyChangeListener {
                     return;
                 }
 
-                System.out.println(gameStatus);
-                stageManager.showGameScene(updatedView, playerName);
+                if (playerName.equals(updatedView.getCurrentPlayerView().playerName())) {
+                    switch (gameStatus) {
+                        case INIT_PLACE_STARTER_CARD:
+                            stageManager.showInitPlaceStarterCardScene(updatedView.getCurrentPlayerView().starterCard());
+                            break;
+                        case INIT_CHOOSE_PLAYER_COLOR:
+                            stageManager.showInitChoosePlayerColorScene(updatedView.gameView().availablePlayerColors());
+                            break;
+                        case INIT_CHOOSE_OBJECTIVE_CARD:
+                            stageManager.showInitSetObjectiveCardScene(updatedView.getCurrentPlayerView().choosableObjectives());
+                            break;
+                        case DRAW_CARD:
+                            stageManager.showDrawCardScene(updatedView.gameView().globalBoardView().globalObjectives(), updatedView.getCurrentPlayerView().objectiveCard(), updatedView.getCurrentPlayerView().playerHandView().hand());
+                            break;
+                        case PLACE_CARD:
+                            stageManager.showPlaceCardScene(updatedView.getCurrentPlayerView().playerBoardView().playerBoard(), updatedView.gameView().globalBoardView().globalObjectives(), updatedView.getCurrentPlayerView().objectiveCard(), updatedView.getCurrentPlayerView().playerHandView().hand());
+                            break;
+                    }
+                }
                 break;
 
             case "ERROR":

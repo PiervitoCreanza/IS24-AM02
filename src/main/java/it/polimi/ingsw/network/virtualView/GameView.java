@@ -10,7 +10,8 @@ import java.util.Objects;
  * This class holds a string representing the current player, a GlobalBoardView object, and a list of PlayerView objects.
  */
 public record GameView(String currentPlayer, GlobalBoardView globalBoardView,
-                       List<PlayerView> playerViews) implements Serializable {
+                       List<PlayerView> playerViews,
+                       java.util.ArrayList<it.polimi.ingsw.model.player.PlayerColorEnum> availablePlayerColors) implements Serializable {
 
     /**
      * Returns the view of the player with the given name.

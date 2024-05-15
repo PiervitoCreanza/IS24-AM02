@@ -1,11 +1,16 @@
 package it.polimi.ingsw.tui.view.scene;
 
+import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.player.PlayerColorEnum;
+import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class manages the different scenes in the game.
@@ -109,6 +114,53 @@ public class StageManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    /**
+     * Displays the scene for selecting the starter card.
+     */
+    public void showInitPlaceStarterCardScene(GameCard starterCard) {
+        clearScreen();
+        try {
+            new InitPlaceStarterCardScene(this.controller, starterCard).display();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showInitChoosePlayerColorScene(ArrayList<PlayerColorEnum> availableColors) {
+        clearScreen();
+        try {
+            new InitChoosePlayerColorScene(this.controller, availableColors).display();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showInitSetObjectiveCardScene(ArrayList<ObjectiveCard> objectiveCards) {
+        clearScreen();
+        try {
+            new InitSetObjectiveCardScene(this.controller, objectiveCards).display();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showDrawCardScene(ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand) {
+        clearScreen();
+        try {
+            new DrawCardScene(this.controller, globalObjectives, playerObjective, hand).display();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showPlaceCardScene(HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand) {
+        clearScreen();
+        try {
+            new PlaceCardScene(this.controller, playerBoard, globalObjectives, playerObjective, hand).display();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -35,8 +35,13 @@ public class InitPlaceStarterCardScene implements Diplayable, UserInputScene {
     @Override
     public void display() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print(drawArea);
-        int side = Integer.parseInt(UserInputScene.getAndValidateInput("Choose the side of the Starter Card [1/2]:", input -> input.matches("[1-2]"), reader));
-        controller.placeStarterCard(side);
+        drawArea.println();
+        String side = UserInputScene.getAndValidateInput("Choose the side of the Starter Card [1/2]:", input -> input.matches("[1-2]"), reader);
+        // Back to main menu if user quits
+        if (side == null) {
+            controller.selectScene(ScenesEnum.MAIN_MENU);
+            return;
+        }
+        controller.placeStarterCard(Integer.parseInt(side) == 2);
     }
 }

@@ -375,7 +375,7 @@ public class Game implements VirtualViewable<GameView> {
      */
     @Override
     public GameView getVirtualView() {
-        return new GameView(currentPlayer.getPlayerName(), globalBoard.getVirtualView(), players.stream().map(Player::getVirtualView).collect(Collectors.toList()));
+        return new GameView(currentPlayer.getPlayerName(), globalBoard.getVirtualView(), players.stream().map(Player::getVirtualView).collect(Collectors.toList()), getAvailablePlayerColors());
     }
 
     /**
