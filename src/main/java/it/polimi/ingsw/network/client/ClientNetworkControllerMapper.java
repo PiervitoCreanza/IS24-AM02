@@ -298,7 +298,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      * @param timestamp The Unix timestamp to convert.
      * @return The formatted string representation of the timestamp.
      */
-    public String getFormattedTimestamp(long timestamp) {
+    private String getFormattedTimestamp(long timestamp) {
         LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         return dateTime.format(formatter);
