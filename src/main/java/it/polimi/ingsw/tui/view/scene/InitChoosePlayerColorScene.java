@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class InitChoosePlayerColorScene implements Diplayable, UserInputScene {
+public class InitChoosePlayerColorScene implements Displayable, UserInputScene {
     private final DrawArea drawArea;
     private final TUIViewController controller;
 

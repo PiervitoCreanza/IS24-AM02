@@ -9,7 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class MainMenuScene implements Diplayable {
+public class MainMenuScene implements Displayable {
     private final DrawArea drawArea;
 
     private final TUIViewController controller;
@@ -33,12 +33,8 @@ public class MainMenuScene implements Diplayable {
         this.drawArea.println();
         String input = reader.readLine();
         switch (input) {
-            case "l", "L" -> {
-                this.controller.getGames();
-            }
-            case "c", "C" -> {
-                this.controller.selectScene(ScenesEnum.CREATE_GAME);
-            }
+            case "l", "L" -> this.controller.getGames();
+            case "c", "C" -> this.controller.selectScene(ScenesEnum.CREATE_GAME);
             case "q", "Q" -> {
                 System.out.println("Exiting...");
                 System.exit(0);

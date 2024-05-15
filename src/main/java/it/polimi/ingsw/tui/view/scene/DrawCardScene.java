@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class DrawCardScene implements Diplayable, UserInputScene {
+public class DrawCardScene implements Displayable, UserInputScene {
     private final DrawArea drawArea;
     private final TUIViewController controller;
 

@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * This class represents the scene for getting games.
  * It implements the Displayable interface, meaning it can be displayed in the UI.
  */
-public class GetGamesScene implements Diplayable {
+public class GetGamesScene implements Displayable {
     private final DrawArea drawArea;
     private final TUIViewController controller;
 

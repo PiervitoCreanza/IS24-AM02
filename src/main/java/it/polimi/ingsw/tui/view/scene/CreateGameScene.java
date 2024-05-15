@@ -8,7 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class CreateGameScene implements Diplayable, UserInputScene {
+public class CreateGameScene implements Displayable, UserInputScene {
     private final DrawArea drawArea;
     private final TUIViewController controller;
 

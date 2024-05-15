@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PlaceCardScene implements Diplayable, UserInputScene {
+public class PlaceCardScene implements Displayable, UserInputScene {
     private final DrawArea drawArea;
     private final TUIViewController controller;
     private final ArrayList<GameCard> hand;

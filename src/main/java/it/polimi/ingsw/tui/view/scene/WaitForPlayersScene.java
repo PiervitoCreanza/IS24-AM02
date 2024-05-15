@@ -4,7 +4,7 @@ import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
-public class WaitForPlayersScene implements Diplayable {
+public class WaitForPlayersScene implements Displayable {
     DrawArea drawArea;
 
     public WaitForPlayersScene(GameControllerView gameControllerView) {

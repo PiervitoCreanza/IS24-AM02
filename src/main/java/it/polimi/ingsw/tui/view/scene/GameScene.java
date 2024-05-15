@@ -9,9 +9,9 @@ import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 /**
  * This class represents the game scene in the terminal user interface.
- * It implements the Diplayable interface, meaning it can be displayed on the screen.
+ * It implements the Displayable interface, meaning it can be displayed on the screen.
  */
-public class GameScene implements Diplayable {
+public class GameScene implements Displayable {
     private final DrawArea drawArea = new DrawArea();
 
     /**

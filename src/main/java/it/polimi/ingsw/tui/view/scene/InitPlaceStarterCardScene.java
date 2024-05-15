@@ -10,7 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class InitPlaceStarterCardScene implements Diplayable, UserInputScene {
+public class InitPlaceStarterCardScene implements Displayable, UserInputScene {
     private final DrawArea drawArea;
     private final TUIViewController controller;
     private final GameCard starterCard;
