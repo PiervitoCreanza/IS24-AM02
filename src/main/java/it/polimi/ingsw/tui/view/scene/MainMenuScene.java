@@ -29,8 +29,8 @@ public class MainMenuScene implements Diplayable {
      */
     @Override
     public void display() throws IOException {
-        this.drawArea.println();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        this.drawArea.println();
         String input = reader.readLine();
         switch (input) {
             case "l", "L" -> {

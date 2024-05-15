@@ -174,15 +174,26 @@ public class TUIViewController implements PropertyChangeListener {
      * Method to choose a player color.
      * It delegates the request to the network controller.
      */
-    public void choosePlayerColor(PlayerColorEnum playerColor) {
-        networkController.choosePlayerColor(gameName, playerName, playerColor);
+    public void choosePlayerColor(String playerColor) {
+        PlayerColorEnum playerColorEnum = null;
+        switch (playerColor) {
+            case "RED", "red" -> playerColorEnum = PlayerColorEnum.RED;
+            case "BLUE", "blue" -> playerColorEnum = PlayerColorEnum.BLUE;
+            case "GREEN", "green" -> playerColorEnum = PlayerColorEnum.GREEN;
+            case "YELLOW", "yellow" -> playerColorEnum = PlayerColorEnum.YELLOW;
+            default -> System.out.println("Invalid color");
+        }
+        networkController.choosePlayerColor(gameName, playerName, playerColorEnum);
     }
 
     /**
      * Method to place a starter card.
      * It delegates the request to the network controller.
      */
-    public void placeStarterCard() {
+    public void placeStarterCard(int side) {
+        if (side == 2) {
+            networkController.switchCardSide(gameName, playerName, gameControllerView.getCurrentPlayerView().starterCard());
+        }
         networkController.placeCard(gameName, playerName, new Coordinate(0, 0), gameControllerView.getCurrentPlayerView().starterCard());
     }
 
@@ -229,8 +240,8 @@ public class TUIViewController implements PropertyChangeListener {
      * Method to switch the side of a card.
      * It delegates the request to the network controller.
      */
-    public void switchCardSide() {
-        networkController.switchCardSide(gameName, playerName, null);
+    public void switchCardSide(GameCard gameCard) {
+        networkController.switchCardSide(gameName, playerName, gameCard);
     }
 
     /**
