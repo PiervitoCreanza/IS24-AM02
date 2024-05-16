@@ -21,7 +21,6 @@ public class DrawCardComponent implements Drawable {
 
         temp.drawAt(0, 0, fieldComponent);
         temp.drawAt(fieldComponent.getWidth() + spacing, 0, decksComponent);
-        drawArea.drawAt(0, 0, "═".repeat(temp.getWidth()));
         drawArea.drawAt(0, 1, temp);
     }
 

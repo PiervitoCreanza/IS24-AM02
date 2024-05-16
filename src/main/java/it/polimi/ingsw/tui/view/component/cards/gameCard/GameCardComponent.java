@@ -72,7 +72,7 @@ public class GameCardComponent implements Drawable {
 
     /**
      * Constructor for a GameCardComponent.
-     * It initializes the drawArea and draws the game card a number to call itself.
+     * Draws the game card and its number.
      *
      * @param gameCard The game card to be drawn.
      * @param number   The number of the game card.
@@ -96,6 +96,25 @@ public class GameCardComponent implements Drawable {
         drawArea.drawAt(6, 1, pointsComponent(gameCard.getPoints(), gameCard.getMultiplier(), gameCard.isGoldPositional()));
         drawArea.drawCenteredX(5, neededItemsComponent(gameCard.getNeededItemStore()));
         drawArea.drawAt(9, 2, itemStoreComponent(gameCard.getBackItemStore()));
+        drawArea.drawCenteredX(drawArea.getHeight(), String.valueOf(number));
+    }
+
+    /**
+     * Constructor for a GameCardComponent.
+     * Draws the missing game card and its number.
+     *
+     * @param number
+     */
+    public GameCardComponent(int number) {
+        drawArea = new DrawArea("""
+                ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐
+                |                     |
+                |                     |
+                |                     |
+                |                     |
+                |                     |
+                └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
+                """);
         drawArea.drawCenteredX(drawArea.getHeight(), String.valueOf(number));
     }
 

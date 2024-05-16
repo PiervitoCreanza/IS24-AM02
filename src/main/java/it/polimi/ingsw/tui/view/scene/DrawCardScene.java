@@ -34,11 +34,6 @@ public class DrawCardScene implements Displayable, UserInputScene {
     private final TUIViewController controller;
 
     /**
-     * The global board view.
-     */
-    private GlobalBoardView globalBoardView;
-
-    /**
      * The resource cards on the field.
      */
     private final ArrayList<GameCard> fieldResourceCards;
@@ -61,15 +56,16 @@ public class DrawCardScene implements Displayable, UserInputScene {
     public DrawCardScene(TUIViewController controller, HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, GlobalBoardView globalBoardView) {
         this.controller = controller;
         this.drawArea = new DrawArea();
-        this.globalBoardView = globalBoardView;
         this.fieldResourceCards = globalBoardView.fieldResourceCards();
         this.fieldGoldCards = globalBoardView.fieldGoldCards();
+
         DrawArea playerBoardArea = new PlayerBoardComponent(playerBoard).getDrawArea();
         DrawArea playerInventoryArea = new PlayerInventoryComponent(globalObjectives, playerObjective, hand, 1).getDrawArea();
         DrawArea drawCardArea = new DrawCardComponent(globalBoardView.resourceFirstCard(), globalBoardView.goldFirstCard(), globalBoardView.fieldResourceCards(), globalBoardView.fieldGoldCards(), 5).getDrawArea();
+
         int widthMax = Math.max(playerBoardArea.getWidth(), playerInventoryArea.getWidth());
-        //TODO: Bug here, fix it
-        this.drawArea.drawAt(0, 0, new TitleComponent("Draw Card", widthMax).getDrawArea());
+
+        this.drawArea.drawAt(0, 0, new TitleComponent("Draw a Card", widthMax).getDrawArea());
         this.drawArea.drawCenteredX(drawArea.getHeight(), playerBoardArea);
         this.drawArea.drawCenteredX(drawArea.getHeight(), playerInventoryArea);
         this.drawArea.drawCenteredX(drawArea.getHeight(), drawCardArea);
@@ -86,10 +82,14 @@ public class DrawCardScene implements Displayable, UserInputScene {
     public void display() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         drawArea.println();
-        switch (reader.readLine()) {
+        String choose = UserInputScene.getAndValidateInput(input -> input.matches("[dDcC]"), reader);
+        if (choose == null) {
+            controller.selectScene(ScenesEnum.MAIN_MENU);
+            return;
+        }
+        switch (choose) {
             case "d", "D" -> drawCard();
             case "c", "C" -> controller.selectScene(ScenesEnum.CHAT);
-            default -> System.out.println("Invalid input");
         }
     }
 
@@ -112,5 +112,14 @@ public class DrawCardScene implements Displayable, UserInputScene {
             case "5" -> controller.drawCardFromResourceDeck();
             case "6" -> controller.drawCardFromGoldDeck();
         }
+    }
+
+    /**
+     * This method is used to get the draw area.
+     *
+     * @return the draw area
+     */
+    public DrawArea getDrawArea() {
+        return drawArea;
     }
 }

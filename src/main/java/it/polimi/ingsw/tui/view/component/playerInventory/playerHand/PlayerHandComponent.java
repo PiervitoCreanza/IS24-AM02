@@ -19,6 +19,11 @@ public class PlayerHandComponent implements Drawable {
     private final DrawArea drawArea;
 
     /**
+     * The count of the player's hand.
+     */
+    private int count = 1;
+
+    /**
      * Constructor for the PlayerHandComponent class.
      * It initializes the drawArea and populates it with game cards.
      *
@@ -26,12 +31,14 @@ public class PlayerHandComponent implements Drawable {
      */
     public PlayerHandComponent(ArrayList<GameCard> hand, int spacing) {
         drawArea = new DrawArea();
-        if (hand.size() < 3)
-            return;
 
-        drawArea.drawAt(0, 0, new GameCardComponent(hand.getFirst(), 1).getDrawArea());
-        drawArea.drawAt(drawArea.getWidth() + spacing, 0, new GameCardComponent(hand.get(1), 2).getDrawArea());
-        drawArea.drawAt(drawArea.getWidth() + spacing, 0, new GameCardComponent(hand.get(2), 3).getDrawArea());
+        int nCards = hand.size();
+        int hole = 3 - nCards;
+
+        hand.forEach(card -> drawArea.drawAt((drawArea.getWidth() == 0) ? 0 : drawArea.getWidth() + spacing, 0, new GameCardComponent(card, count++).getDrawArea()));
+        for (int i = 0; i < hole; i++) {
+            drawArea.drawAt((drawArea.getWidth() == 0) ? 0 : drawArea.getWidth() + spacing, 0, new GameCardComponent(count++).getDrawArea());
+        }
     }
 
     /**
