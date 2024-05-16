@@ -280,26 +280,6 @@ public class DrawArea implements Drawable {
     }
 
     /**
-     * Converts a positive y-coordinate system to a negative one. And shifts the x-coordinates to the right to put it in the 1st quadrant.
-     * This is useful when drawing on a terminal, where the origin is in the top-left corner.
-     *
-     * @param map The map whose y-coordinates to convert.
-     * @param <U> The type of the values in the map.
-     * @return The map with their y-coordinates converted.
-     */
-    public <U> HashMap<Coordinate, U> convertCoordinates(HashMap<Coordinate, U> map) {
-        int maxY = map.keySet().stream().mapToInt(p -> p.y).max().orElse(0);
-        int minX = map.keySet().stream().mapToInt(p -> p.x).min().orElse(0);
-        map.keySet().forEach(p -> {
-            if (minX < 0) {
-                p.x += Math.abs(minX);
-            }
-            p.y = maxY - p.y;
-        });
-        return map;
-    }
-
-    /**
      * Sets the color of all characters in the drawable area to the specified color.
      *
      * @param color The color to set.

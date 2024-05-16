@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.tui.view.component.cards.gameCard.GameCardComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 import it.polimi.ingsw.tui.view.drawer.Drawable;
+import it.polimi.ingsw.tui.view.drawer.TranslationMap;
 
 import java.util.HashMap;
 
@@ -29,14 +30,12 @@ public class PlayerBoardComponent implements Drawable {
         drawArea = new DrawArea();
         int correctionX = 5;
         int correctionY = 3;
-        HashMap<Integer, Coordinate> realCoordinates = new HashMap<>();
-        // We save the real coordinates of the card before converting them
-        playerBoard.forEach((k, v) -> realCoordinates.put(v.getCardId(), new Coordinate(k.x, k.y)));
-        // We convert the coordinates of the cards
-        playerBoard = drawArea.convertCoordinates(playerBoard);
-        playerBoard.forEach((coord, card) -> {
-            GameCardComponent gameCardComponent = new GameCardComponent(card, realCoordinates.get(card.getCardId()));
-            drawArea.drawAt(coord.x * (gameCardComponent.getWidth() - correctionX), coord.y * (gameCardComponent.getHeight() - correctionY), gameCardComponent.getDrawArea());
+
+        TranslationMap<GameCard> playerBoardTranslationMap = new TranslationMap<>(playerBoard);
+
+        playerBoardTranslationMap.keySet().forEach((traslatedCoord) -> {
+            GameCardComponent gameCardComponent = new GameCardComponent(playerBoardTranslationMap.get(traslatedCoord), playerBoardTranslationMap.getOriginalCoord(traslatedCoord));
+            drawArea.drawAt(traslatedCoord.x * (gameCardComponent.getWidth() - correctionX), traslatedCoord.y * (gameCardComponent.getHeight() - correctionY), gameCardComponent.getDrawArea());
         });
     }
 

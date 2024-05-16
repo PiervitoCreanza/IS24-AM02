@@ -13,12 +13,12 @@ import it.polimi.ingsw.network.client.message.mainController.JoinGameClientToSer
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 import static it.polimi.ingsw.tui.utils.Utils.ANSI_BLUE;
@@ -57,6 +57,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
     /* ***************************************
      * METHODS INVOKED BY THE CLIENT ON THE SERVER
      * ***************************************/
+
     /**
      * Sends a request to the server to get the list of available games.
      */
@@ -112,7 +113,8 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      * @param gameName   The name of the game.
      * @param playerName The name of the player placing the card.
      * @param coordinate The coordinate where the card is placed.
-     * @param cardId       The card to be placed.
+     * @param cardId     The card to be placed.
+     * @param isFlipped  Flag to indicate if the card is flipped.
      */
     public void placeCard(String gameName, String playerName, Coordinate coordinate, int cardId, boolean isFlipped) {
         messageHandler.sendMessage(new PlaceCardClientToServerMessage(gameName, playerName, coordinate, cardId, isFlipped));
@@ -135,7 +137,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      * @param gameName   The name of the game.
      * @param playerName The name of the player drawing the card.
      */
-    void drawCardFromResourceDeck(String gameName, String playerName) {
+    public void drawCardFromResourceDeck(String gameName, String playerName) {
         messageHandler.sendMessage(new DrawCardFromResourceDeckClientToServerMessage(gameName, playerName));
     }
 
@@ -145,7 +147,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      * @param gameName   The name of the game.
      * @param playerName The name of the player drawing the card.
      */
-    void drawCardFromGoldDeck(String gameName, String playerName) {
+    public void drawCardFromGoldDeck(String gameName, String playerName) {
         messageHandler.sendMessage(new DrawCardFromGoldDeckClientToServerMessage(gameName, playerName));
     }
 
@@ -154,17 +156,18 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      *
      * @param gameName   The name of the game.
      * @param playerName The name of the player switching the card side.
-     * @param cardId       The card to switch side.
+     * @param cardId     The card to switch side.
      */
     public void switchCardSide(String gameName, String playerName, int cardId) {
         messageHandler.sendMessage(new SwitchCardSideClientToServerMessage(gameName, playerName, cardId));
     }
+
     /**
      * Sends a request to the server for the player to set an objective card.
      *
      * @param gameName   The name of the game.
      * @param playerName The name of the player setting the objective card.
-     * @param cardId       The objective card to be set.
+     * @param cardId     The objective card to be set.
      */
     public void setPlayerObjective(String gameName, String playerName, int cardId) {
         messageHandler.sendMessage(new SetPlayerObjectiveClientToServerMessage(gameName, playerName, cardId));
@@ -175,7 +178,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      *
      * @param message The chat message to be sent.
      */
-    void sendChatMessage(ChatClientToServerMessage message) {
+    public void sendChatMessage(ChatClientToServerMessage message) {
         messageHandler.sendMessage(message);
     }
 
@@ -184,13 +187,13 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      * ***************************************/
 
 
-/**
- * Receives a list of games from the server.
- * This method is called when the server sends a list of games to the client.
- *
- * @param games The list of games received from the server.
- */
-@Override
+    /**
+     * Receives a list of games from the server.
+     * This method is called when the server sends a list of games to the client.
+     *
+     * @param games The list of games received from the server.
+     */
+    @Override
     public void receiveGameList(ArrayList<GameRecord> games) {
         System.out.println("Received games: " + games);
         notify("GET_GAMES", games);
@@ -198,14 +201,13 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
     }
 
 
-
-/**
- * Receives a message from the server that a game has been deleted.
- * This method is called when the server sends a message to the client that a game has been deleted.
- *
- * @param message The message received from the server.
- */
-@Override
+    /**
+     * Receives a message from the server that a game has been deleted.
+     * This method is called when the server sends a message to the client that a game has been deleted.
+     *
+     * @param message The message received from the server.
+     */
+    @Override
     public void receiveGameDeleted(String message) {
         System.out.println(message);
         notify("GAME_DELETED", message);
@@ -213,14 +215,13 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
     }
 
 
-
-/**
- * Receives an updated view of the game from the server.
- * This method is called when the server sends an updated view of the game to the client.
- *
- * @param updatedView The updated view of the game received from the server.
- */
-@Override
+    /**
+     * Receives an updated view of the game from the server.
+     * This method is called when the server sends an updated view of the game to the client.
+     *
+     * @param updatedView The updated view of the game received from the server.
+     */
+    @Override
     public void receiveUpdatedView(GameControllerView updatedView) {
         this.view = updatedView;
         notify("UPDATE_VIEW", updatedView);
@@ -233,13 +234,13 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
     }
 
 
-/**
- * Receives an error message from the server.
- * This method is called when the server sends an error message to the client.
- *
- * @param errorMessage The error message received from the server.
- */
-@Override
+    /**
+     * Receives an error message from the server.
+     * This method is called when the server sends an error message to the client.
+     *
+     * @param errorMessage The error message received from the server.
+     */
+    @Override
     public void receiveErrorMessage(String errorMessage) {
         System.out.println("Received error message: " + errorMessage);
         notify("ERROR", errorMessage);
@@ -259,6 +260,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
     public void receiveChatMessage(String playerName, String message, String receiver, long timestamp, boolean isDirect) {
         //TODO: JavaFx / TUI event trigger?
         System.out.println("Received chat message: " + chatPrint(playerName, message, receiver, timestamp, isDirect));
+    }
 
     /**
      * Sets the message handler for the client.

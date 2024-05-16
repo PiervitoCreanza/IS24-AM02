@@ -102,14 +102,29 @@ public class PlaceCardScene implements Displayable, UserInputScene {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         this.drawArea.println();
         // TODO: Implement
-        String input = reader.readLine();
-        switch (input) {
-            case "s", "S" -> switchCard();
-            case "p", "P" -> placeCard();
-            case "sb", "SB" -> switchBoard();
-            case "c", "C" -> controller.selectScene(ScenesEnum.CHAT);
-            default -> System.out.println("Invalid input");
-        }
+
+        do {
+            String input = reader.readLine();
+            switch (input) {
+                case "s", "S" -> {
+                    switchCard();
+                    return;
+                }
+                case "p", "P" -> {
+                    placeCard();
+                    return;
+                }
+                case "sb", "SB" -> {
+                    switchBoard();
+                    return;
+                }
+                case "c", "C" -> {
+                    controller.selectScene(ScenesEnum.CHAT);
+                    return;
+                }
+                default -> System.out.println("Invalid input");
+            }
+        } while (true);
     }
 
     /**
