@@ -5,10 +5,6 @@ import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 public class MainMenuScene implements Displayable {
     private final DrawArea drawArea;
 
@@ -28,10 +24,11 @@ public class MainMenuScene implements Displayable {
      * Displays the game scene on the console.
      */
     @Override
-    public void display() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    public void display() {
         this.drawArea.println();
-        String input = reader.readLine();
+    }
+
+    public void handleUserInput(String input) {
         switch (input) {
             case "l", "L" -> this.controller.getGames();
             case "c", "C" -> this.controller.selectScene(ScenesEnum.CREATE_GAME);
@@ -42,4 +39,6 @@ public class MainMenuScene implements Displayable {
             default -> System.out.println("Invalid input");
         }
     }
+
+
 }

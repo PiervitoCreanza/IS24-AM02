@@ -14,6 +14,8 @@ import it.polimi.ingsw.network.server.ServerNetworkControllerMapper;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.network.server.message.adapter.ClientToServerMessageAdapter;
 import it.polimi.ingsw.utils.Observer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -50,6 +52,11 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
     private boolean isConnectionSaved = false;
 
     /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(TCPServerAdapter.class);
+
+    /**
      * Gson instance used for JSON serialization and deserialization.
      * It is configured to:
      * - Enable complex map key serialization.
@@ -84,6 +91,8 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
      */
     @Override
     public void notify(String message) {
+
+        logger.debug("Received TCP message: {}", message);
         // Handle client disconnection
         if ("CONNECTION_CLOSED".equals(message)) {
             if (this.isConnectionSaved) {
@@ -120,10 +129,8 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
                     serverNetworkControllerMapper.switchCardSide(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCardId());
             case SEND_CHAT_MSG ->
                     serverNetworkControllerMapper.sendChatMessage(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getMessage(), receivedMessage.getReceiver(), receivedMessage.getTimestamp());
-            default -> System.err.print("Invalid action");
+            default -> logger.error("Invalid action");
         }
-        // Debug
-        System.out.println("TCP received message: " + message);
     }
 
     /**
@@ -133,16 +140,14 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
      */
     @Override
     public void sendMessage(ServerToClientMessage message) {
+
         String serializedMessage = this.gson.toJson(message);
+        logger.debug("Sending message: STATUS: {}, message: {}", message.getServerAction(), serializedMessage);
         try {
             this.clientConnectionHandler.send(serializedMessage);
         } catch (IOException e) {
-            System.out.println("Error sending message: ");
-            return;
+            logger.error("Error sending message: {}", e.getMessage());
         }
-
-        // Debug
-        System.out.println("TCP message sent: " + serializedMessage);
     }
 
     /**
@@ -151,8 +156,7 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
     @Override
     public void closeConnection() {
         this.clientConnectionHandler.closeConnection();
-        // Debug
-        System.out.println("Connection closed.");
+        logger.debug("Connection closed.");
     }
 
     /**

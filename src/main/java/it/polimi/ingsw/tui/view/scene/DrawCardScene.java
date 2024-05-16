@@ -11,9 +11,6 @@ import it.polimi.ingsw.tui.view.component.playerBoard.PlayerBoardComponent;
 import it.polimi.ingsw.tui.view.component.playerInventory.PlayerInventoryComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -21,7 +18,7 @@ import java.util.HashMap;
  * The DrawCardScene class represents the scene where the player can draw a card.
  * It implements the Displayable and UserInputScene interfaces.
  */
-public class DrawCardScene implements Displayable, UserInputScene {
+public class DrawCardScene implements Displayable {
 
     /**
      * The draw area of the scene.
@@ -42,6 +39,10 @@ public class DrawCardScene implements Displayable, UserInputScene {
      * The gold cards on the field.
      */
     private final ArrayList<GameCard> fieldGoldCards;
+
+    private final UserInputHandler handler;
+
+    private int status = 0;
 
     /**
      * Constructs a new DrawCardScene.
@@ -73,44 +74,46 @@ public class DrawCardScene implements Displayable, UserInputScene {
                 Press <d> to draw a card.
                 Press <c> to see the Chat.
                 """, 0);
+
+        handler = new UserInputHandler("Choose the card to draw:", input -> input.matches("[1-6]"));
     }
 
     /**
      * This method is used to display the object.
      */
     @Override
-    public void display() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    public void display() {
         drawArea.println();
-        String choose = UserInputScene.getAndValidateInput(input -> input.matches("[dDcC]"), reader);
-        if (choose == null) {
-            controller.selectScene(ScenesEnum.MAIN_MENU);
-            return;
-        }
-        switch (choose) {
-            case "d", "D" -> drawCard();
-            case "c", "C" -> controller.selectScene(ScenesEnum.CHAT);
-        }
     }
 
-    /**
-     * This method is used to draw a card.
-     */
-    private void drawCard() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        new TitleComponent("Drawing a Card").getDrawArea().println();
-        String cardToDraw = UserInputScene.getAndValidateInput("Choose the card to draw:", input -> input.matches("[1-6]"), reader);
-        if (cardToDraw == null) {
+    public void handleUserInput(String input) {
+        if (input.equals("q")) {
             controller.selectScene(ScenesEnum.MAIN_MENU);
             return;
         }
-        switch (cardToDraw) {
-            case "1" -> controller.drawCardFromField(fieldResourceCards.getFirst());
-            case "2" -> controller.drawCardFromField(fieldResourceCards.get(1));
-            case "3" -> controller.drawCardFromField(fieldGoldCards.getFirst());
-            case "4" -> controller.drawCardFromField(fieldGoldCards.get(1));
-            case "5" -> controller.drawCardFromResourceDeck();
-            case "6" -> controller.drawCardFromGoldDeck();
+        if (status == 0) {
+            switch (input) {
+                case "d", "D" -> {
+                    new TitleComponent("Drawing a Card").getDrawArea().println();
+                    status = 1;
+                }
+                case "c", "C" -> controller.selectScene(ScenesEnum.CHAT);
+            }
+        }
+
+        if (status == 1) {
+            if (handler.validate(input)) {
+                switch (handler.getInput()) {
+                    case "1" -> controller.drawCardFromField(fieldResourceCards.getFirst());
+                    case "2" -> controller.drawCardFromField(fieldResourceCards.get(1));
+                    case "3" -> controller.drawCardFromField(fieldGoldCards.getFirst());
+                    case "4" -> controller.drawCardFromField(fieldGoldCards.get(1));
+                    case "5" -> controller.drawCardFromResourceDeck();
+                    case "6" -> controller.drawCardFromGoldDeck();
+                }
+            } else {
+                handler.print();
+            }
         }
     }
 

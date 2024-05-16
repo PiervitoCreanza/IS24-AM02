@@ -4,6 +4,8 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.utils.Observer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.net.Socket;
@@ -50,6 +52,11 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
     private final LinkedBlockingQueue<String> receivedMessages = new LinkedBlockingQueue<>();
 
     /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(TCPConnectionHandler.class);
+
+    /**
      * Constructor for the TCPConnectionHandler class.
      *
      * @param socket The socket connected to the client.
@@ -67,6 +74,7 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
             // Set the timeout to 5 seconds. If no message is received in this time, the socket will throw a SocketTimeoutException.
             // This is useful to detect when the client disconnects.
             this.socket.setSoTimeout(5000);
+            logger.debug("TCP connection established with {}:{}", socket.getInetAddress(), socket.getPort());
 
             // Start the thread that executes received messages
             notifyReceivedMessages();
@@ -90,7 +98,7 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
                 try {
                     send("heartbeat");
                 } catch (IOException e) {
-                    System.out.println("TCP disconnected - detected when pinging");
+                    logger.warn("TCP disconnected - detected when pinging");
                     closeConnection();
                     cancel();
                 }
@@ -113,10 +121,10 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
                     receivedMessages.offer(receivedMessage);
                 }
             } catch (SocketTimeoutException e) {
-                System.out.println("TCP disconnected - detected by timeout");
+                logger.warn("TCP disconnected - detected by timeout");
                 closeConnection();
             } catch (IOException e) {
-                System.out.println("TCP disconnected - detected while reading from socket");
+                logger.warn("TCP disconnected - detected while reading from socket");
                 closeConnection();
             }
         }
@@ -137,8 +145,6 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
             // Discard the heartbeat messages.
             if (!"heartbeat".equals(inputLine)) {
                 allJSON.append(inputLine);
-            } else {
-                //System.out.println("TCP Ping received");
             }
 
             // If the JSON string is complete, break the loop.

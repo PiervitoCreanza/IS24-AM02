@@ -24,6 +24,9 @@ public class WaitForPlayersScene implements Displayable {
      */
     @Override
     public void display() {
-        System.out.println(drawArea);
+        drawArea.println();
+    }
+
+    public void handleUserInput(String input) {
     }
 }

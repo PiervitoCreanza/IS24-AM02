@@ -195,7 +195,6 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      */
     @Override
     public void receiveGameList(ArrayList<GameRecord> games) {
-        System.out.println("Received games: " + games);
         notify("GET_GAMES", games);
         //TODO: JavaFx event trigger
     }
@@ -209,7 +208,6 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      */
     @Override
     public void receiveGameDeleted(String message) {
-        System.out.println(message);
         notify("GAME_DELETED", message);
         //TODO: JavaFx event trigger
     }
@@ -242,7 +240,6 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      */
     @Override
     public void receiveErrorMessage(String errorMessage) {
-        System.out.println("Received error message: " + errorMessage);
         notify("ERROR", errorMessage);
 
     }
@@ -259,7 +256,6 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      */
     public void receiveChatMessage(String playerName, String message, String receiver, long timestamp, boolean isDirect) {
         //TODO: JavaFx / TUI event trigger?
-        System.out.println("Received chat message: " + chatPrint(playerName, message, receiver, timestamp, isDirect));
     }
 
     /**

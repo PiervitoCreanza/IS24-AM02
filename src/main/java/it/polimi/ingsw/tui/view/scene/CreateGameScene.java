@@ -4,15 +4,13 @@ import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 /**
  * The CreateGameScene class represents the scene where the player can create a new game.
  * It implements the Displayable and UserInputScene interfaces.
  */
-public class CreateGameScene implements Displayable, UserInputScene {
+public class CreateGameScene implements Displayable {
     /**
      * The DrawArea object where the scene will be drawn.
      */
@@ -21,6 +19,9 @@ public class CreateGameScene implements Displayable, UserInputScene {
      * The controller that manages the user interface and the game logic.
      */
     private final TUIViewController controller;
+
+    private final ArrayList<UserInputHandler> handlers = new ArrayList<>();
+    private int status;
 
     /**
      * Constructs a new CreateGameScene.
@@ -39,26 +40,26 @@ public class CreateGameScene implements Displayable, UserInputScene {
      * If the user enters invalid input or quits, it returns to the main menu.
      */
     @Override
-    public void display() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println(drawArea);
-        String gameName = UserInputScene.getAndValidateInput("Choose the name of the game:", input -> !input.isEmpty(), reader);
-        if (gameName == null) {
-            controller.selectScene(ScenesEnum.MAIN_MENU);
-            return;
-        }
+    public void display() {
+        drawArea.println();
+        handlers.add(new UserInputHandler("Choose the name of the game:", input -> !input.isEmpty()));
+        handlers.add(new UserInputHandler("Choose the number of players [2-4]:", input -> input.matches("[2-4]")));
+        handlers.add(new UserInputHandler("Enter your nickname:", input -> !input.isEmpty()));
+        handlers.get(status).print();
+    }
 
-        String numberOfPlayers = UserInputScene.getAndValidateInput("Choose the number of players [2-4]:", input -> input.matches("[2-4]"), reader);
-        if (numberOfPlayers == null) {
+    public void handleUserInput(String input) {
+        if (input.equals("q")) {
             controller.selectScene(ScenesEnum.MAIN_MENU);
             return;
         }
-
-        String playerName = UserInputScene.getAndValidateInput("Enter your nickname:", input -> !input.isEmpty(), reader);
-        if (playerName == null) {
-            controller.selectScene(ScenesEnum.MAIN_MENU);
-            return;
+        if (handlers.get(status).validate(input)) {
+            status++;
+            if (status >= handlers.size()) {
+                controller.createGame(handlers.get(0).getInput(), handlers.get(2).getInput(), Integer.parseInt(handlers.get(1).getInput()));
+                return;
+            }
+            handlers.get(status).print();
         }
-        controller.createGame(gameName, playerName, Integer.parseInt(numberOfPlayers));
     }
 }

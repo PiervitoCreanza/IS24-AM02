@@ -13,9 +13,6 @@ import it.polimi.ingsw.tui.view.component.playerInventory.PlayerInventoryCompone
 import it.polimi.ingsw.tui.view.component.playerItems.PlayerItemsComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +21,7 @@ import java.util.List;
  * The PlaceCardScene class represents the scene where the player can place a card on the game board.
  * It implements the Displayable and UserInputScene interfaces.
  */
-public class PlaceCardScene implements Displayable, UserInputScene {
+public class PlaceCardScene implements Displayable {
 
     /**
      * The draw area of the place card scene.
@@ -71,6 +68,14 @@ public class PlaceCardScene implements Displayable, UserInputScene {
      */
     private final String playerUsername;
 
+    private final ArrayList<UserInputHandler> handlers = new ArrayList<>();
+    private int status = 0;
+    private final UserInputHandler chooseCardHandler = new UserInputHandler("Choose the card to switch:", input -> input.matches("[1-3]"));
+
+    private final UserInputHandler chooseCardToPlaceHandler = new UserInputHandler("Choose the card to place:", input -> input.matches("[1-3]"));
+
+    private final UserInputHandler chooseCoordinatesHandler = new UserInputHandler("Choose the coordinates to place the card (x,y) or <q> to quit:", input -> input.matches("-?\\d{1,2},-?\\d{1,2}"));
+
     /**
      * Constructs a new PlaceCardScene.
      *
@@ -91,6 +96,7 @@ public class PlaceCardScene implements Displayable, UserInputScene {
         this.playerViews = playerViews;
         this.playerUsername = playerUsername;
 
+
         draw();
     }
 
@@ -98,85 +104,101 @@ public class PlaceCardScene implements Displayable, UserInputScene {
      * Displays the scene to the user.
      */
     @Override
-    public void display() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    public void display() {
         this.drawArea.println();
-        // TODO: Implement
 
-        do {
-            String input = reader.readLine();
+    }
+
+    public void handleSwitchCard(String input) {
+        if (input.equals("q")) {
+            // Go back to action chooser
+            status = 0;
+            return;
+        }
+        if (chooseCardHandler.validate(input)) {
+            int cardToSwitchIndex = Integer.parseInt(chooseCardHandler.getInput()) - 1;
+            hand.get(cardToSwitchIndex).switchSide();
+            handFlipped.set(cardToSwitchIndex, !handFlipped.get(cardToSwitchIndex));
+            // Go back to action chooser
+            status = 0;
+            draw();
+            display();
+        } else {
+            chooseCardHandler.print();
+        }
+    }
+
+    public void handleChooseCardToPlace(String input) {
+        if (input.equals("q")) {
+            // Go back to action chooser
+            status = 0;
+            return;
+        }
+        if (chooseCardToPlaceHandler.validate(input)) {
+            status = 3;
+        } else {
+            chooseCardToPlaceHandler.print();
+        }
+    }
+
+    public void handleChooseCoordinates(String input) {
+        if (input.equals("q")) {
+            // Go back to action chooser
+            status = 0;
+            return;
+        }
+        if (chooseCoordinatesHandler.validate(input)) {
+            int choosenCardId = this.hand.get(Integer.parseInt(chooseCardToPlaceHandler.getInput()) - 1).getCardId();
+            status = 0;
+            controller.placeCard(choosenCardId, new Coordinate(Integer.parseInt(chooseCoordinatesHandler.getInput().split(",")[0]), Integer.parseInt(chooseCoordinatesHandler.getInput().split(",")[1])), handFlipped.get(Integer.parseInt(chooseCardToPlaceHandler.getInput()) - 1));
+        } else {
+            chooseCoordinatesHandler.print();
+        }
+    }
+
+    public void handleUserInput(String input) {
+
+        if (status == 0) {
             switch (input) {
                 case "s", "S" -> {
-                    switchCard();
+                    status = 1;
+                    new TitleComponent("Switching Card").getDrawArea().println();
+                    chooseCardHandler.print();
                     return;
                 }
                 case "p", "P" -> {
-                    placeCard();
+                    status = 2;
+                    new TitleComponent("Placing Card").getDrawArea().println();
+                    chooseCardToPlaceHandler.print();
                     return;
                 }
                 case "sb", "SB" -> {
-                    switchBoard();
                     return;
                 }
                 case "c", "C" -> {
                     controller.selectScene(ScenesEnum.CHAT);
                     return;
                 }
+                case "q", "Q" -> {
+                    controller.selectScene(ScenesEnum.MAIN_MENU);
+                    return;
+                }
                 default -> System.out.println("Invalid input");
             }
-        } while (true);
+        }
+
+        if (status == 1) {
+            handleSwitchCard(input);
+        }
+        if (status == 2) {
+            handleChooseCardToPlace(input);
+        }
+        if (status == 3) {
+            handleChooseCoordinates(input);
+        }
+
     }
 
-    /**
-     * Switches the board.
-     */
-    private void switchBoard() {
-        // TODO: Implement
-    }
-
-    /**
-     * Switches the card.
-     */
-    private void switchCard() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        new TitleComponent("Switching Card").getDrawArea().println();
-        String cardToSwitch = UserInputScene.getAndValidateInput("Choose the card to switch:", input -> input.matches("[1-3]"), reader);
-        if (cardToSwitch == null) {
-            controller.selectScene(ScenesEnum.MAIN_MENU);
-            return;
-        }
-        hand.get(Integer.parseInt(cardToSwitch) - 1).switchSide();
-        handFlipped.set(Integer.parseInt(cardToSwitch) - 1, !handFlipped.get(Integer.parseInt(cardToSwitch) - 1));
-        draw();
-        display();
-    }
-
-    /**
-     * Places a card on the game board.
-     */
-    private void placeCard() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        new TitleComponent("Placing Card").getDrawArea().println();
-        String cardToPlace = UserInputScene.getAndValidateInput("Choose the card to place:", input -> input.matches("[1-3]"), reader);
-        // Back to main menu if user quits
-        if (cardToPlace == null) {
-            controller.selectScene(ScenesEnum.MAIN_MENU);
-            return;
-        }
-        String coordinates = UserInputScene.getAndValidateInput("Choose the coordinates to place the card (x,y) or <q> to quit:", input -> input.matches("-?\\d{1,2},-?\\d{1,2}|q|Q"), reader);
-        // Back to main menu if user quits
-        if (coordinates == null) {
-            controller.selectScene(ScenesEnum.MAIN_MENU);
-            return;
-        }
-        if (coordinates.equals("q") || coordinates.equals("Q")) {
-            draw();
-            display();
-            //TODO: Testing this
-        }
-        int choosenCardId = this.hand.get(Integer.parseInt(cardToPlace) - 1).getCardId();
-        controller.placeCard(choosenCardId, new Coordinate(Integer.parseInt(coordinates.split(",")[0]), Integer.parseInt(coordinates.split(",")[1])), handFlipped.get(Integer.parseInt(cardToPlace) - 1));
-    }
 
     /**
      * Returns the draw area of the place card scene.

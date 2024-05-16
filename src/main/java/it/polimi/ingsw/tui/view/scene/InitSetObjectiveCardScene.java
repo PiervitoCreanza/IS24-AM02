@@ -6,15 +6,13 @@ import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.component.cards.objectiveCard.ObjectiveCardComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class InitSetObjectiveCardScene implements Displayable, UserInputScene {
+public class InitSetObjectiveCardScene implements Displayable {
     private final DrawArea drawArea;
     private final TUIViewController controller;
     private final ArrayList<ObjectiveCard> objectiveCards;
+    private UserInputHandler handler;
 
     public InitSetObjectiveCardScene(TUIViewController controller, ArrayList<ObjectiveCard> objectiveCards) {
         this.objectiveCards = objectiveCards;
@@ -39,16 +37,21 @@ public class InitSetObjectiveCardScene implements Displayable, UserInputScene {
     }
 
     @Override
-    public void display() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    public void display() {
         drawArea.println();
-        String chosenObjective = UserInputScene.getAndValidateInput("Choose your Objective card [1/2]:", input -> input.matches("[1-2]"), reader);
-        // Back to main menu if user quits
-        if (chosenObjective == null) {
+        handler = new UserInputHandler("Choose your Objective card [1/2]:", input -> input.matches("[1-2]"));
+        handler.print();
+    }
+
+    public void handleUserInput(String input) {
+        if (input.equals("q")) {
             controller.selectScene(ScenesEnum.MAIN_MENU);
             return;
         }
-        int chosenObjectiveInt = Integer.parseInt(chosenObjective) - 1;
-        controller.setPlayerObjective(objectiveCards.get(chosenObjectiveInt).getCardId());
+        if (handler.validate(input)) {
+            controller.setPlayerObjective(objectiveCards.get(Integer.parseInt(handler.getInput()) - 1).getCardId());
+            return;
+        }
+        handler.print();
     }
 }

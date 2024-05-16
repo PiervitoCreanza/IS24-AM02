@@ -13,8 +13,9 @@ import it.polimi.ingsw.network.client.message.ClientToServerMessage;
 import it.polimi.ingsw.network.client.message.adapter.ServerToClientMessageAdapter;
 import it.polimi.ingsw.network.server.message.ServerActionEnum;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
-import it.polimi.ingsw.tui.utils.Utils;
 import it.polimi.ingsw.utils.Observer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -35,6 +36,11 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
      * The TCPConnectionHandler object is used to handle TCP client connections.
      */
     private final TCPConnectionHandler serverConnectionHandler;
+
+    /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(TCPClientAdapter.class);
 
     /**
      * Gson instance for JSON serialization and deserialization.
@@ -67,9 +73,10 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
      */
     @Override
     public void notify(String message) {
+        logger.debug("Received message: " + message);
         if ("CONNECTION_CLOSED".equals(message)) {
             // TODO: Raise exception
-            System.out.println("Connection with server lost.");
+            logger.info("Connection with server lost.");
             return;
         }
         ServerToClientMessage receivedMessage = this.gson.fromJson(message, ServerToClientMessage.class);
@@ -82,10 +89,8 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
             case ERROR_MSG -> clientNetworkControllerMapper.receiveErrorMessage(receivedMessage.getErrorMessage());
             case RECEIVE_CHAT_MSG ->
                     clientNetworkControllerMapper.receiveChatMessage(receivedMessage.getPlayerName(), receivedMessage.getChatMessage(), receivedMessage.getReceiver(), receivedMessage.getTimestamp(), receivedMessage.isDirectMessage());
-            default -> System.out.print("Invalid action");
+            default -> logger.error("Invalid action");
         }
-        // Debug
-        System.out.println(Utils.ANSI_CYAN + "TCP received message: " + message + Utils.ANSI_RESET);
     }
 
     /**
@@ -99,10 +104,10 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
         try {
             this.serverConnectionHandler.send(serializedMessage);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            logger.error("Error sending message: {}", e.getMessage());
         }
         // Debug
-        System.out.println("Sending message: " + serializedMessage);
+        logger.debug("Message sent: " + serializedMessage);
     }
 
     /**
@@ -112,7 +117,7 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
     public void closeConnection() {
         this.serverConnectionHandler.closeConnection();
         // Debug
-        System.out.println("Close the connection.");
+        logger.info("Close the connection.");
     }
 
 

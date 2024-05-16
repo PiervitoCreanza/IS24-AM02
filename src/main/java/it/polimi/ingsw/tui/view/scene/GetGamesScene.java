@@ -7,9 +7,6 @@ import it.polimi.ingsw.tui.view.component.GameInfoComponent;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
@@ -47,17 +44,8 @@ public class GetGamesScene implements Displayable {
      * It reads the user input and performs the corresponding action.
      */
     @Override
-    public void display() throws IOException {
-        System.out.println(drawArea);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String input = reader.readLine();
-        switch (input) {
-            case "l", "L" -> controller.getGames();
-            case "j", "J" -> controller.selectScene(ScenesEnum.JOIN_GAME);
-            case "c", "C" -> controller.selectScene(ScenesEnum.CREATE_GAME);
-            case "q", "Q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
-            default -> System.out.println("Invalid input");
-        }
+    public void display() {
+        drawArea.println();
     }
 
     /**
@@ -67,5 +55,15 @@ public class GetGamesScene implements Displayable {
      */
     public DrawArea getDrawArea() {
         return drawArea;
+    }
+
+    public void handleUserInput(String input) {
+        switch (input) {
+            case "l", "L" -> controller.getGames();
+            case "j", "J" -> controller.selectScene(ScenesEnum.JOIN_GAME);
+            case "c", "C" -> controller.selectScene(ScenesEnum.CREATE_GAME);
+            case "q", "Q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
+            default -> System.out.println("Invalid input");
+        }
     }
 }

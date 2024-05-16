@@ -6,17 +6,16 @@ import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
  * This class represents the scene where the player chooses their color.
  */
-public class InitChoosePlayerColorScene implements Displayable, UserInputScene {
+public class InitChoosePlayerColorScene implements Displayable {
     private final DrawArea drawArea;
     private final TUIViewController controller;
+
+    private UserInputHandler handler;
 
     /**
      * Constructor for the InitChoosePlayerColorScene class.
@@ -63,23 +62,30 @@ public class InitChoosePlayerColorScene implements Displayable, UserInputScene {
      * This method is used to display the object.
      */
     @Override
-    public void display() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    public void display() {
         drawArea.println();
 
-        String color = UserInputScene.getAndValidateInput("Choose your color:", input -> input.matches("RED|BLUE|GREEN|YELLOW|red|blue|green|yellow|r|b|g|y"), reader);
-        // Back to main menu if user quits
-        if (color == null) {
+        handler = new UserInputHandler("Choose your color:", input -> input.matches("RED|BLUE|GREEN|YELLOW|red|blue|green|yellow|r|b|g|y"));
+        handler.print();
+    }
+
+    public void handleUserInput(String input) {
+        if (input.equals("q")) {
             controller.selectScene(ScenesEnum.MAIN_MENU);
             return;
         }
-        PlayerColorEnum chooseColor = null;
-        switch (color) {
-            case "RED", "red", "r" -> chooseColor = PlayerColorEnum.RED;
-            case "BLUE", "blue", "b" -> chooseColor = PlayerColorEnum.BLUE;
-            case "GREEN", "green", "g" -> chooseColor = PlayerColorEnum.GREEN;
-            case "YELLOW", "yellow", "y" -> chooseColor = PlayerColorEnum.YELLOW;
+
+        if (handler.validate(input)) {
+            PlayerColorEnum chosenColor = null;
+            switch (input) {
+                case "RED", "red", "r" -> chosenColor = PlayerColorEnum.RED;
+                case "BLUE", "blue", "b" -> chosenColor = PlayerColorEnum.BLUE;
+                case "GREEN", "green", "g" -> chosenColor = PlayerColorEnum.GREEN;
+                case "YELLOW", "yellow", "y" -> chosenColor = PlayerColorEnum.YELLOW;
+            }
+            controller.choosePlayerColor(chosenColor);
+            return;
         }
-        controller.choosePlayerColor(chooseColor);
+        handler.print();
     }
 }

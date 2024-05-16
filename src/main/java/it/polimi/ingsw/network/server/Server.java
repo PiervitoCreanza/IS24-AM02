@@ -6,6 +6,8 @@ import it.polimi.ingsw.network.server.TCP.TCPServerAdapter;
 import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
 import it.polimi.ingsw.tui.utils.Utils;
 import org.apache.commons.cli.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -28,11 +30,6 @@ import static it.polimi.ingsw.tui.utils.Utils.ANSI_RESET;
  */
 public class Server {
     /**
-     * The entry point of the application.
-     *
-     * @param args the input arguments. If a single argument is provided, it is used as the port number for the server.
-     */
-    /**
      * The timeout for the heartbeat in milliseconds.
      * This is the interval at which the server checks if the client is still connected.
      */
@@ -53,6 +50,11 @@ public class Server {
      * The port number used by the RMI server.
      */
     private static int RMIPortNumber;
+
+    /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(Server.class);
 
     /**
      * The RMIServerReceiver class is responsible for receiving client actions and notifying the server message handler.
@@ -77,7 +79,7 @@ public class Server {
         RMIPortNumber = Integer.parseInt(cmd.getOptionValue("RMI_P", "1099")); // default is 1099
         String serverIp;
         if (cmd.hasOption("debug")) {
-            System.out.println(ANSI_PURPLE + "Start the Server in DEBUG mode." + Utils.ANSI_RESET);
+            logger.info(ANSI_PURPLE + "Start the Server in DEBUG mode." + Utils.ANSI_RESET);
             HEARTBEAT_TIMEOUT = 600000; //if debug, set the timeout to 10 minutes
             IS_DEBUG = true;
         }
@@ -92,7 +94,7 @@ public class Server {
             }
         } else serverIp = cmd.getOptionValue("IP", "localhost");
 
-        System.out.println(ANSI_PURPLE + "ServerApp IP: " + serverIp + Utils.ANSI_RESET);
+        logger.info("ServerApp IP: {}", serverIp);
         /* ***************************************
          * START RMI SERVER
          * ***************************************/
@@ -152,7 +154,7 @@ public class Server {
             RMIClientToServerActions stub = (RMIClientToServerActions) UnicastRemoteObject.exportObject(rmiServerReceiver, RMIPortNumber);
             Registry registry = LocateRegistry.createRegistry(RMIPortNumber);
             registry.bind("ClientToServerActions", stub);
-            System.err.println(Utils.ANSI_YELLOW + "Codex Naturalis RMI Server ready on port: " + RMIPortNumber + Utils.ANSI_RESET);
+            logger.info("Codex Naturalis RMI Server ready on port: {}", RMIPortNumber);
 
             if (IS_DEBUG) {
                 inspectRegistry(registry); //Prints all the methods available in the RMI registry
@@ -171,7 +173,7 @@ public class Server {
      */
     private static void TCPServerStart(ServerNetworkControllerMapper serverNetworkControllerMapper, Integer TCPPortNumber) {
         try (ServerSocket serverSocket = new ServerSocket(TCPPortNumber)) {
-            System.out.println(Utils.ANSI_BLUE + "Codex Naturalis TCP Server ready on port: " + TCPPortNumber + Utils.ANSI_RESET);
+            logger.info("Codex Naturalis TCP Server ready on port: {}", TCPPortNumber);
             while (true) {
                 TCPServerAdapter messageHandler = new TCPServerAdapter(serverSocket.accept(), serverNetworkControllerMapper);
             }
@@ -191,23 +193,22 @@ public class Server {
         // Get the list of names bound in the registry
         String[] boundNames = registry.list();
 
-        System.out.println(ANSI_PURPLE + "Inspecting services available in the RMI registry:" + ANSI_RESET);
+        logger.info(ANSI_PURPLE + "Inspecting services available in the RMI registry:" + ANSI_RESET);
         for (String name : boundNames) {
             try {
                 Remote remoteObject = registry.lookup(name);
                 Class<?> objClass = remoteObject.getClass();
 
-                System.out.println("Methods available for: " + name);
+                logger.info("Methods available for: {}", name);
                 Method[] methods = objClass.getMethods(); // Retrieves all public methods
 
                 for (Method method : methods) {
-                    System.out.println(method.toString());
+                    logger.info(method.toString());
                 }
             } catch (Exception e) {
-                System.out.println("Failed to inspect methods for: " + name);
+                logger.info("Failed to inspect methods for: {}", name);
                 e.printStackTrace();
             }
-            System.out.println();
         }
     }
 }

@@ -14,6 +14,8 @@ import it.polimi.ingsw.tui.utils.Utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * This class manages the different scenes in the game.
@@ -21,6 +23,7 @@ import java.util.List;
 public class StageManager {
 
     TUIViewController controller;
+    ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public StageManager(TUIViewController controller) {
         this.controller = controller;
@@ -46,124 +49,83 @@ public class StageManager {
         }
     }
 
-    /**
-     * Displays the scene for getting games.
-     *
-     * @param games The set of game records to be displayed.
-     */
-    public void showGetGamesScene(ArrayList<GameRecord> games) {
+    public GetGamesScene showGetGamesScene(ArrayList<GameRecord> games) {
         clearScreen();
+        GetGamesScene scene = new GetGamesScene(this.controller, games);
+        scene.display();
+        return scene;
+    }
+
+    public WaitForPlayersScene showWaitForPlayersScene(GameControllerView gameControllerView) {
+        clearScreen();
+        WaitForPlayersScene scene = new WaitForPlayersScene(gameControllerView);
+        scene.display();
+        return scene;
+    }
+
+    public MainMenuScene showMainMenuScene() {
+        clearScreen();
+        MainMenuScene scene = null;
         try {
-            new GetGamesScene(this.controller, games).display();
+            scene = new MainMenuScene(this.controller);
+            scene.display();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        return scene;
     }
 
-    /**
-     * Displays the game scene.
-     *
-     * @param gameControllerView The view of the game controller.
-     * @param clientPlayerName   The name of the client player.
-     */
-    public void showGameScene(GameControllerView gameControllerView, String clientPlayerName) {
+    public JoinGameScene showJoinGameScene() {
         clearScreen();
-        new GameScene(gameControllerView, clientPlayerName).display();
-    }
-
-    /**
-     * Displays the scene for waiting for players.
-     *
-     * @param gameControllerView The view of the game controller.
-     */
-    public void showWaitForPlayersScene(GameControllerView gameControllerView) {
-        clearScreen();
-        new WaitForPlayersScene(gameControllerView).display();
-    }
-
-    /**
-     * Displays the main menu scene.
-     */
-    public void showMainMenuScene() {
-        clearScreen();
+        JoinGameScene scene = null;
         try {
-            new MainMenuScene(this.controller).display();
+            scene = new JoinGameScene(this.controller);
+            scene.display();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        return scene;
     }
 
-    /**
-     * Displays the scene for joining a game.
-     */
-    public void showJoinGameScene() {
+    public CreateGameScene showCreateGameScene() {
         clearScreen();
-        try {
-            new JoinGameScene(this.controller).display();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        CreateGameScene scene = new CreateGameScene(this.controller);
+        scene.display();
+        return scene;
     }
 
-    /**
-     * Displays the scene for creating a game.
-     */
-    public void showCreateGameScene() {
+    public InitPlaceStarterCardScene showInitPlaceStarterCardScene(GameCard starterCard) {
         clearScreen();
-        try {
-            new CreateGameScene(this.controller).display();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        InitPlaceStarterCardScene scene = new InitPlaceStarterCardScene(this.controller, starterCard);
+        scene.display();
+        return scene;
     }
 
-    /**
-     * Displays the scene for selecting the starter card.
-     */
-    public void showInitPlaceStarterCardScene(GameCard starterCard) {
+    public InitChoosePlayerColorScene showInitChoosePlayerColorScene(ArrayList<PlayerColorEnum> availableColors) {
         clearScreen();
-        try {
-            new InitPlaceStarterCardScene(this.controller, starterCard).display();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        InitChoosePlayerColorScene scene = new InitChoosePlayerColorScene(this.controller, availableColors);
+        scene.display();
+        return scene;
     }
 
-    public void showInitChoosePlayerColorScene(ArrayList<PlayerColorEnum> availableColors) {
+    public InitSetObjectiveCardScene showInitSetObjectiveCardScene(ArrayList<ObjectiveCard> objectiveCards) {
         clearScreen();
-        try {
-            new InitChoosePlayerColorScene(this.controller, availableColors).display();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        InitSetObjectiveCardScene scene = new InitSetObjectiveCardScene(this.controller, objectiveCards);
+        scene.display();
+        return scene;
     }
 
-    public void showInitSetObjectiveCardScene(ArrayList<ObjectiveCard> objectiveCards) {
+    public DrawCardScene showDrawCardScene(HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, GlobalBoardView globalBoardView) {
         clearScreen();
-        try {
-            new InitSetObjectiveCardScene(this.controller, objectiveCards).display();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        DrawCardScene scene = new DrawCardScene(this.controller, playerBoard, globalObjectives, playerObjective, hand, globalBoardView);
+        scene.display();
+        return scene;
     }
 
-    public void showDrawCardScene(HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, GlobalBoardView globalBoardView) {
+    public PlaceCardScene showPlaceCardScene(HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, List<PlayerView> playerViews) {
         clearScreen();
-        try {
-            new DrawCardScene(this.controller, playerBoard, globalObjectives, playerObjective, hand, globalBoardView).display();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void showPlaceCardScene(HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, List<PlayerView> playerViews) {
-        clearScreen();
-        try {
-            new PlaceCardScene(this.controller, playerBoard, globalObjectives, playerObjective, hand, playerViews, controller.getPlayerName()).display();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        PlaceCardScene scene = new PlaceCardScene(this.controller, playerBoard, globalObjectives, playerObjective, hand, playerViews, controller.getPlayerName());
+        scene.display();
+        return scene;
     }
 }

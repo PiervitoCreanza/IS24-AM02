@@ -7,9 +7,13 @@ import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
+import it.polimi.ingsw.tui.commandLine.CLIReader;
 import it.polimi.ingsw.tui.commandLine.ClientStatusEnum;
+import it.polimi.ingsw.tui.view.scene.Displayable;
 import it.polimi.ingsw.tui.view.scene.ScenesEnum;
 import it.polimi.ingsw.tui.view.scene.StageManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -30,6 +34,10 @@ public class TUIViewController implements PropertyChangeListener {
      * Instance of ClientNetworkControllerMapper to manage network requests.
      */
     private final ClientNetworkControllerMapper networkController;
+    /**
+     * The logger.
+     */
+    private final static Logger logger = LogManager.getLogger(TUIViewController.class);
 
     /**
      * Name of the player.
@@ -51,6 +59,10 @@ public class TUIViewController implements PropertyChangeListener {
      */
     private GameStatusEnum gameStatus = null;
 
+    private final CLIReader cliReader;
+
+    private Displayable currentScene;
+
     /**
      * List of games.
      */
@@ -69,13 +81,15 @@ public class TUIViewController implements PropertyChangeListener {
     public TUIViewController(ClientNetworkControllerMapper networkController) {
         this.networkController = networkController;
         this.stageManager = new StageManager(this);
+        this.cliReader = new CLIReader(this);
+        cliReader.start();
     }
 
     /**
      * Method to start the game.
      */
     public void start() {
-        stageManager.showMainMenuScene();
+        this.currentScene = stageManager.showMainMenuScene();
 
     }
 
@@ -106,20 +120,24 @@ public class TUIViewController implements PropertyChangeListener {
         return status;
     }
 
+    public void handleUserInput(String input) {
+        this.currentScene.handleUserInput(input);
+    }
+
     /**
-     * Method used by a Scene to request a scene change.
+     * Method used by a UserInputScene to request a scene change.
      * scene The scene to be selected.
      */
     public void selectScene(ScenesEnum scene) {
         switch (scene) {
             case MAIN_MENU -> {
-                stageManager.showMainMenuScene();
+                this.currentScene = stageManager.showMainMenuScene();
             }
             case CREATE_GAME -> {
-                stageManager.showCreateGameScene();
+                this.currentScene = stageManager.showCreateGameScene();
             }
             case JOIN_GAME -> {
-                stageManager.showJoinGameScene();
+                this.currentScene = stageManager.showJoinGameScene();
             }
         }
     }
@@ -171,7 +189,7 @@ public class TUIViewController implements PropertyChangeListener {
      */
     public void joinGame(int gameID, String playerName) {
         if (gameID < 0 || gameID >= gamesList.size()) {
-            System.out.println("Invalid game ID");
+            this.currentScene = stageManager.showGetGamesScene(gamesList);
             return;
         }
         this.gameName = gamesList.get(gameID).gameName();
@@ -267,7 +285,7 @@ public class TUIViewController implements PropertyChangeListener {
         switch (changedProperty) {
             case "GET_GAMES":
                 gamesList = (ArrayList<GameRecord>) evt.getNewValue();
-                stageManager.showGetGamesScene(gamesList);
+                this.currentScene = stageManager.showGetGamesScene(gamesList);
                 status = ClientStatusEnum.GET_GAMES;
                 break;
 
@@ -282,26 +300,26 @@ public class TUIViewController implements PropertyChangeListener {
 
                 gameControllerView = updatedView;
                 if (gameStatus == GameStatusEnum.WAIT_FOR_PLAYERS) {
-                    stageManager.showWaitForPlayersScene(updatedView);
+                    this.currentScene = stageManager.showWaitForPlayersScene(updatedView);
                     return;
                 }
 
                 if (playerName.equals(updatedView.getCurrentPlayerView().playerName())) {
                     switch (gameStatus) {
                         case INIT_PLACE_STARTER_CARD:
-                            stageManager.showInitPlaceStarterCardScene(updatedView.getCurrentPlayerView().starterCard());
+                            this.currentScene = stageManager.showInitPlaceStarterCardScene(updatedView.getCurrentPlayerView().starterCard());
                             break;
                         case INIT_CHOOSE_PLAYER_COLOR:
-                            stageManager.showInitChoosePlayerColorScene(updatedView.gameView().availablePlayerColors());
+                            this.currentScene = stageManager.showInitChoosePlayerColorScene(updatedView.gameView().availablePlayerColors());
                             break;
                         case INIT_CHOOSE_OBJECTIVE_CARD:
-                            stageManager.showInitSetObjectiveCardScene(updatedView.getCurrentPlayerView().choosableObjectives());
+                            this.currentScene = stageManager.showInitSetObjectiveCardScene(updatedView.getCurrentPlayerView().choosableObjectives());
                             break;
                         case DRAW_CARD:
-                            stageManager.showDrawCardScene(updatedView.getCurrentPlayerView().playerBoardView().playerBoard(), updatedView.gameView().globalBoardView().globalObjectives(), updatedView.getCurrentPlayerView().objectiveCard(), updatedView.getCurrentPlayerView().playerHandView().hand(), updatedView.gameView().globalBoardView());
+                            this.currentScene = stageManager.showDrawCardScene(updatedView.getCurrentPlayerView().playerBoardView().playerBoard(), updatedView.gameView().globalBoardView().globalObjectives(), updatedView.getCurrentPlayerView().objectiveCard(), updatedView.getCurrentPlayerView().playerHandView().hand(), updatedView.gameView().globalBoardView());
                             break;
                         case PLACE_CARD:
-                            stageManager.showPlaceCardScene(updatedView.getCurrentPlayerView().playerBoardView().playerBoard(), updatedView.gameView().globalBoardView().globalObjectives(), updatedView.getCurrentPlayerView().objectiveCard(), updatedView.getCurrentPlayerView().playerHandView().hand(), updatedView.gameView().playerViews());
+                            this.currentScene = stageManager.showPlaceCardScene(updatedView.getCurrentPlayerView().playerBoardView().playerBoard(), updatedView.gameView().globalBoardView().globalObjectives(), updatedView.getCurrentPlayerView().objectiveCard(), updatedView.getCurrentPlayerView().playerHandView().hand(), updatedView.gameView().playerViews());
                             break;
                     }
                 }
@@ -310,6 +328,7 @@ public class TUIViewController implements PropertyChangeListener {
             case "ERROR":
                 String errorMessage = (String) evt.getNewValue();
                 System.out.println("Error: " + errorMessage);
+                this.currentScene.display();
                 break;
 
 

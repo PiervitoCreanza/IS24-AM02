@@ -51,4 +51,7 @@ public class GameScene implements Displayable {
     public void display() {
         System.out.println(drawArea);
     }
+
+    public void handleUserInput(String input) {
+    }
 }

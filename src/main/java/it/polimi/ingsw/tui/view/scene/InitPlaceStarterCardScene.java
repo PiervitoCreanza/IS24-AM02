@@ -6,14 +6,12 @@ import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.component.cards.gameCard.GameCardComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
-public class InitPlaceStarterCardScene implements Displayable, UserInputScene {
+public class InitPlaceStarterCardScene implements Displayable {
     private final DrawArea drawArea;
     private final TUIViewController controller;
     private final GameCard starterCard;
+
+    private UserInputHandler handler;
 
     public InitPlaceStarterCardScene(TUIViewController controller, GameCard starterCard) {
         this.starterCard = starterCard;
@@ -35,15 +33,21 @@ public class InitPlaceStarterCardScene implements Displayable, UserInputScene {
      * This method is used to display the object.
      */
     @Override
-    public void display() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    public void display() {
         drawArea.println();
-        String side = UserInputScene.getAndValidateInput("Choose the side of the Starter Card [1/2]:", input -> input.matches("[1-2]"), reader);
-        // Back to main menu if user quits
-        if (side == null) {
+        handler = new UserInputHandler("Choose the side of the Starter Card [1/2]:", input -> input.matches("[1-2]"));
+        handler.print();
+    }
+
+    public void handleUserInput(String input) {
+        if (input.equals("q")) {
             controller.selectScene(ScenesEnum.MAIN_MENU);
             return;
         }
-        controller.placeStarterCard(starterCard.getCardId(), Integer.parseInt(side) == 2);
+        if (handler.validate(input)) {
+            controller.placeStarterCard(starterCard.getCardId(), Integer.parseInt(handler.getInput()) == 2);
+            return;
+        }
+        handler.print();
     }
 }
