@@ -13,7 +13,20 @@ import java.util.ArrayList;
  */
 public class FieldComponent implements Drawable {
 
+    /**
+     * The draw area of the field component.
+     */
     private final DrawArea drawArea;
+
+    /**
+     * The count of the cards in the field.
+     */
+    private int count = 1;
+
+    /**
+     * The spacing between cards.
+     */
+    private final int spacing;
 
     /**
      * Constructs a new FieldComponent.
@@ -24,12 +37,13 @@ public class FieldComponent implements Drawable {
      */
     public FieldComponent(ArrayList<GameCard> fieldResourceCards, ArrayList<GameCard> fieldGoldCards, int spacing) {
         drawArea = new DrawArea();
+        this.spacing = spacing;
         drawArea.drawAt(2, 0, "Resources card:");
         drawArea.drawAt(2, 1, twoCardsComponent(fieldResourceCards));
 
-        int width = drawArea.getWidth();
-        drawArea.drawAt(width + spacing, 0, "Gold card:");
-        drawArea.drawAt(width + spacing, 1, twoCardsComponent(fieldGoldCards));
+        int height = drawArea.getHeight();
+        drawArea.drawAt(2, height, "Gold card:");
+        drawArea.drawAt(2, height + 1, twoCardsComponent(fieldGoldCards));
     }
 
     /**
@@ -40,7 +54,7 @@ public class FieldComponent implements Drawable {
      */
     private DrawArea twoCardsComponent(ArrayList<GameCard> cards) {
         DrawArea cardsArea = new DrawArea();
-        cards.forEach(card -> cardsArea.drawAt(0, cardsArea.getHeight(), new GameCardComponent(card).getDrawArea()));
+        cards.forEach(card -> cardsArea.drawAt((cardsArea.getWidth() == 0) ? 0 : cardsArea.getWidth() + spacing, 0, new GameCardComponent(card, count++).getDrawArea()));
         return cardsArea;
     }
 

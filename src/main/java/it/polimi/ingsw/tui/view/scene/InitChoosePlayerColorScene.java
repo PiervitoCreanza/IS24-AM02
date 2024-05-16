@@ -11,10 +11,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+/**
+ * This class represents the scene where the player chooses their color.
+ */
 public class InitChoosePlayerColorScene implements Displayable, UserInputScene {
     private final DrawArea drawArea;
     private final TUIViewController controller;
 
+    /**
+     * Constructor for the InitChoosePlayerColorScene class.
+     * It initializes the drawArea and populates it with the available colors.
+     *
+     * @param controller The controller of the game.
+     */
     public InitChoosePlayerColorScene(TUIViewController controller) {
         this.drawArea = new TitleComponent("Choose your color").getDrawArea();
         DrawArea colorArea = new DrawArea();
@@ -27,6 +36,14 @@ public class InitChoosePlayerColorScene implements Displayable, UserInputScene {
     }
 
     // If controller can pass an array of possible colors, then the following constructor can be used.
+
+    /**
+     * Constructor for the InitChoosePlayerColorScene class.
+     * It initializes the drawArea and populates it with the available colors.
+     *
+     * @param controller      The controller of the game.
+     * @param availableColors The available colors for the player to choose from.
+     */
     public InitChoosePlayerColorScene(TUIViewController controller, ArrayList<PlayerColorEnum> availableColors) {
         this.drawArea = new TitleComponent("Choose your color").getDrawArea();
         DrawArea colorArea = new DrawArea();
@@ -50,13 +67,19 @@ public class InitChoosePlayerColorScene implements Displayable, UserInputScene {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         drawArea.println();
 
-        String color = UserInputScene.getAndValidateInput("Choose your color:", input -> input.matches("RED|BLUE|GREEN|YELLOW|red|blue|green|yellow"), reader);
+        String color = UserInputScene.getAndValidateInput("Choose your color:", input -> input.matches("RED|BLUE|GREEN|YELLOW|red|blue|green|yellow|r|b|g|y"), reader);
         // Back to main menu if user quits
         if (color == null) {
             controller.selectScene(ScenesEnum.MAIN_MENU);
             return;
         }
-        controller.choosePlayerColor(color);
+        PlayerColorEnum chooseColor = null;
+        switch (color) {
+            case "RED", "red", "r" -> chooseColor = PlayerColorEnum.RED;
+            case "BLUE", "blue", "b" -> chooseColor = PlayerColorEnum.BLUE;
+            case "GREEN", "green", "g" -> chooseColor = PlayerColorEnum.GREEN;
+            case "YELLOW", "yellow", "y" -> chooseColor = PlayerColorEnum.YELLOW;
+        }
+        controller.choosePlayerColor(chooseColor);
     }
-
 }

@@ -364,6 +364,12 @@ public class DrawArea implements Drawable {
         drawAt(x, this.height / 2 - drawArea.height / 2, drawArea);
     }
 
+    public void drawColumn(int x, int y, int height, String string) {
+        for (int i = 0; i < height; i++) {
+            drawAt(x, y + i, string);
+        }
+    }
+
     /**
      * Returns the height of the drawable area.
      *

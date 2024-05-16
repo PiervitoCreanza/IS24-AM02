@@ -71,6 +71,35 @@ public class GameCardComponent implements Drawable {
     }
 
     /**
+     * Constructor for a GameCardComponent.
+     * It initializes the drawArea and draws the game card a number to call itself.
+     *
+     * @param gameCard The game card to be drawn.
+     * @param number   The number of the game card.
+     */
+    public GameCardComponent(GameCard gameCard, int number) {
+        ColorsEnum color = gameCard.getCardColor().getColor();
+        drawArea = new DrawArea("""
+                     ─────────────
+                                  
+                                  
+                │                     │ 
+                              
+                                
+                     ─────────────
+                """);
+        drawArea.setColor(color);
+        drawArea.drawAt(0, 0, new TopLeftCorner(gameCard.getCorner(CornerPosition.TOP_LEFT), color).getDrawArea());
+        drawArea.drawAt(18, 0, new TopRightCorner(gameCard.getCorner(CornerPosition.TOP_RIGHT), color).getDrawArea());
+        drawArea.drawAt(0, 4, new BottomLeftCorner(gameCard.getCorner(CornerPosition.BOTTOM_LEFT), color).getDrawArea());
+        drawArea.drawAt(18, 4, new BottomRightCorner(gameCard.getCorner(CornerPosition.BOTTOM_RIGHT), color).getDrawArea());
+        drawArea.drawAt(6, 1, pointsComponent(gameCard.getPoints(), gameCard.getMultiplier(), gameCard.isGoldPositional()));
+        drawArea.drawCenteredX(5, neededItemsComponent(gameCard.getNeededItemStore()));
+        drawArea.drawAt(9, 2, itemStoreComponent(gameCard.getBackItemStore()));
+        drawArea.drawCenteredX(drawArea.getHeight(), String.valueOf(number));
+    }
+
+    /**
      * Creates a DrawArea for the items in the item store.
      *
      * @param itemStore The item store containing the items.

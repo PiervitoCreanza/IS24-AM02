@@ -4,6 +4,7 @@ import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.view.component.GameInfoComponent;
+import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 import java.io.BufferedReader;
@@ -26,10 +27,7 @@ public class GetGamesScene implements Displayable {
      * @param games      the list of games to be displayed
      */
     public GetGamesScene(TUIViewController controller, ArrayList<GameRecord> games) {
-        this.drawArea = new DrawArea("""
-                -- Games list --
-                """);
-
+        this.drawArea = new TitleComponent("Game List").getDrawArea();
         int i = 0;
         for (GameRecord game : games) {
             drawArea.drawAt(0, drawArea.getHeight(), new GameInfoComponent(game, i++).getDrawArea());

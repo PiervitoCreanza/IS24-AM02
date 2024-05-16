@@ -6,11 +6,14 @@ import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
+import it.polimi.ingsw.network.virtualView.GlobalBoardView;
+import it.polimi.ingsw.network.virtualView.PlayerView;
 import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * This class manages the different scenes in the game.
@@ -146,19 +149,19 @@ public class StageManager {
         }
     }
 
-    public void showDrawCardScene(ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand) {
+    public void showDrawCardScene(HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, GlobalBoardView globalBoardView) {
         clearScreen();
         try {
-            new DrawCardScene(this.controller, globalObjectives, playerObjective, hand).display();
+            new DrawCardScene(this.controller, playerBoard, globalObjectives, playerObjective, hand, globalBoardView).display();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void showPlaceCardScene(HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand) {
+    public void showPlaceCardScene(HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, List<PlayerView> playerViews) {
         clearScreen();
         try {
-            new PlaceCardScene(this.controller, playerBoard, globalObjectives, playerObjective, hand).display();
+            new PlaceCardScene(this.controller, playerBoard, globalObjectives, playerObjective, hand, playerViews, controller.getPlayerName()).display();
         } catch (Exception e) {
             e.printStackTrace();
         }

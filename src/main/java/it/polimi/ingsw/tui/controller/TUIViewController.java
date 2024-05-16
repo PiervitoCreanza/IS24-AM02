@@ -1,6 +1,7 @@
 package it.polimi.ingsw.tui.controller;
 
 import it.polimi.ingsw.controller.GameStatusEnum;
+import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
@@ -62,6 +63,8 @@ public class TUIViewController implements PropertyChangeListener {
 
     /**
      * Constructor for TUIViewController.
+     *
+     * @param networkController the network controller.
      */
     public TUIViewController(ClientNetworkControllerMapper networkController) {
         this.networkController = networkController;
@@ -130,6 +133,15 @@ public class TUIViewController implements PropertyChangeListener {
     }
 
     /**
+     * Method to get the player name.
+     *
+     * @return the player name.
+     */
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    /**
      * Method to create a new game.
      * It delegates the request to the network controller.
      *
@@ -153,6 +165,9 @@ public class TUIViewController implements PropertyChangeListener {
     /**
      * Method to join a game.
      * It delegates the request to the network controller.
+     *
+     * @param gameID     the game ID to be joined.
+     * @param playerName the player name.
      */
     public void joinGame(int gameID, String playerName) {
         if (gameID < 0 || gameID >= gamesList.size()) {
@@ -167,46 +182,44 @@ public class TUIViewController implements PropertyChangeListener {
     /**
      * Method to choose a player color.
      * It delegates the request to the network controller.
+     *
+     * @param playerColor the player color to be chosen.
      */
-    public void choosePlayerColor(String playerColor) {
-        PlayerColorEnum playerColorEnum = null;
-        switch (playerColor) {
-            case "RED", "red" -> playerColorEnum = PlayerColorEnum.RED;
-            case "BLUE", "blue" -> playerColorEnum = PlayerColorEnum.BLUE;
-            case "GREEN", "green" -> playerColorEnum = PlayerColorEnum.GREEN;
-            case "YELLOW", "yellow" -> playerColorEnum = PlayerColorEnum.YELLOW;
-            default -> System.out.println("Invalid color");
-        }
-        networkController.choosePlayerColor(gameName, playerName, playerColorEnum);
+    public void choosePlayerColor(PlayerColorEnum playerColor) {
+        networkController.choosePlayerColor(gameName, playerName, playerColor);
     }
 
     /**
      * Method to place a starter card.
      * It delegates the request to the network controller.
+     *
+     * @param starterCardId the starter card to be placed.
+     * @param isFlipped     the side of the card.
      */
     public void placeStarterCard(int starterCardId, boolean isFlipped) {
-//        if (isFlipped) {
-//            networkController.switchCardSide(gameName, playerName, gameControllerView.getCurrentPlayerView().starterCard());
-//        }
         networkController.placeCard(gameName, playerName, new Coordinate(0, 0), starterCardId, isFlipped);
     }
 
     /**
      * Method to place a card.
      * It delegates the request to the network controller.
+     *
+     * @param choosenCardId the card to be placed.
+     * @param coordinate    the coordinate where the card is placed.
+     * @param isFlipped     the side of the card.
      */
     public void placeCard(int choosenCardId, Coordinate coordinate, boolean isFlipped) {
-
-
         networkController.placeCard(gameName, playerName, coordinate, choosenCardId, isFlipped);
     }
 
     /**
      * Method to draw a card from the field.
      * It delegates the request to the network controller.
+     *
+     * @param gameCard the card to be drawn.
      */
-    public void drawCardFromField() {
-        networkController.drawCardFromField(gameName, playerName, null);
+    public void drawCardFromField(GameCard gameCard) {
+        networkController.drawCardFromField(gameName, playerName, gameCard);
     }
 
     /**
@@ -228,6 +241,8 @@ public class TUIViewController implements PropertyChangeListener {
     /**
      * Method to switch the side of a card.
      * It delegates the request to the network controller.
+     *
+     * @param gameCardId the card to be switched.
      */
     public void switchCardSide(int gameCardId) {
         networkController.switchCardSide(gameName, playerName, gameCardId);
@@ -236,6 +251,8 @@ public class TUIViewController implements PropertyChangeListener {
     /**
      * Method to set a player's objective.
      * It delegates the request to the network controller.
+     *
+     * @param objectiveCardId the objective card to be set.
      */
     public void setPlayerObjective(int objectiveCardId) {
         networkController.setPlayerObjective(gameName, playerName, objectiveCardId);
@@ -281,10 +298,10 @@ public class TUIViewController implements PropertyChangeListener {
                             stageManager.showInitSetObjectiveCardScene(updatedView.getCurrentPlayerView().choosableObjectives());
                             break;
                         case DRAW_CARD:
-                            stageManager.showDrawCardScene(updatedView.gameView().globalBoardView().globalObjectives(), updatedView.getCurrentPlayerView().objectiveCard(), updatedView.getCurrentPlayerView().playerHandView().hand());
+                            stageManager.showDrawCardScene(updatedView.getCurrentPlayerView().playerBoardView().playerBoard(), updatedView.gameView().globalBoardView().globalObjectives(), updatedView.getCurrentPlayerView().objectiveCard(), updatedView.getCurrentPlayerView().playerHandView().hand(), updatedView.gameView().globalBoardView());
                             break;
                         case PLACE_CARD:
-                            stageManager.showPlaceCardScene(updatedView.getCurrentPlayerView().playerBoardView().playerBoard(), updatedView.gameView().globalBoardView().globalObjectives(), updatedView.getCurrentPlayerView().objectiveCard(), updatedView.getCurrentPlayerView().playerHandView().hand());
+                            stageManager.showPlaceCardScene(updatedView.getCurrentPlayerView().playerBoardView().playerBoard(), updatedView.gameView().globalBoardView().globalObjectives(), updatedView.getCurrentPlayerView().objectiveCard(), updatedView.getCurrentPlayerView().playerHandView().hand(), updatedView.gameView().playerViews());
                             break;
                     }
                 }

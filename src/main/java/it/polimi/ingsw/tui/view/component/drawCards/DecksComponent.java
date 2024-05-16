@@ -27,10 +27,10 @@ public class DecksComponent implements Drawable {
     public DecksComponent(GameCard firstResourceCard, GameCard firstGoldCard, int spacing) {
         drawArea = new DrawArea();
         drawArea.drawAt(2, 0, "Resource Deck:");
-        drawArea.drawAt(2, 1, deckComponent(firstResourceCard));
+        drawArea.drawAt(2, 1, deckComponent(firstResourceCard, 5));
         int width = drawArea.getWidth();
         drawArea.drawAt(width + spacing, 0, "Gold Deck:");
-        drawArea.drawAt(width + spacing, 1, deckComponent(firstGoldCard));
+        drawArea.drawAt(width + spacing, 1, deckComponent(firstGoldCard, 6));
     }
 
     /**
@@ -39,7 +39,7 @@ public class DecksComponent implements Drawable {
      * @param card The card to be drawn in the deck.
      * @return The DrawArea representing the deck.
      */
-    private DrawArea deckComponent(GameCard card) {
+    private DrawArea deckComponent(GameCard card, int number) {
         DrawArea deck = new DrawArea("""
                                 
                 ┌                       
@@ -53,6 +53,7 @@ public class DecksComponent implements Drawable {
         card.switchSide();
         deck.setColor(ColorsEnum.BRIGHT_BLACK);
         deck.drawAt(1, 0, new GameCardComponent(card).getDrawArea());
+        deck.drawCenteredX(deck.getHeight(), String.valueOf(number));
         return deck;
     }
 

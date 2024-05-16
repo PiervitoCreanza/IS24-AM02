@@ -32,22 +32,30 @@ public class PlayerInventoryComponent implements Drawable {
      */
     public PlayerInventoryComponent(ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, int spacing) {
         drawArea = new DrawArea();
-        drawArea.drawAt(2, 0, "Global Objectives:");
-        drawArea.drawAt(2, 1, new GlobalObjectivesComponent(globalObjectives, spacing).getDrawArea());
 
+        DrawArea handArea = new DrawArea();
+        if (hand.size() == 3) {
+            handArea.drawAt(2, 0, "Your Hand:");
+            handArea.drawAt(2, 1, new PlayerHandComponent(hand, spacing).getDrawArea());
+        }
+
+        DrawArea ObjectivesArea = new DrawArea();
+        ObjectivesArea.drawAt(0, 0, "Global Objectives:");
+        ObjectivesArea.drawAt(0, 1, new GlobalObjectivesComponent(globalObjectives, spacing).getDrawArea());
         if (playerObjective != null) {
-            int width = drawArea.getWidth();
-            drawArea.drawAt(width + spacing, 0, "Your Objective:");
-            drawArea.drawAt(width + spacing, 1, new ObjectiveCardComponent(playerObjective).getDrawArea());
+            int width = ObjectivesArea.getWidth();
+            ObjectivesArea.drawAt(width + spacing, 0, "Your Objective:");
+            ObjectivesArea.drawAt(width + spacing, 1, new ObjectiveCardComponent(playerObjective).getDrawArea());
         }
-        if (hand.size() < 3) {
-            return;
-        }
-        int height = drawArea.getHeight();
-        drawArea.drawNewLine("═".repeat(drawArea.getWidth() + 1), 1);
-        drawArea.drawAt(2, height + 3, "Your Hand:");
-        drawArea.drawAt(2, height + 4, new PlayerHandComponent(hand, spacing).getDrawArea());
-        drawArea.drawNewLine("═".repeat(drawArea.getWidth() + 1), 1);
+
+        drawArea.drawAt(0, 1, handArea);
+        int width = drawArea.getWidth();
+        drawArea.drawColumn(width + spacing, 1, drawArea.getHeight(), "║");
+        drawArea.drawAt(drawArea.getWidth() + spacing, 1, ObjectivesArea);
+        drawArea.drawAt(0, 0, "═".repeat(drawArea.getWidth() + 1));
+        drawArea.drawNewLine("═".repeat(drawArea.getWidth() + 1), -1);
+        drawArea.drawAt(width + spacing, 0, "╦");
+        drawArea.drawAt(width + spacing, drawArea.getHeight() - 1, "╩");
     }
 
 

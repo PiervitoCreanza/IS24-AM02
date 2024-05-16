@@ -29,9 +29,9 @@ public class PlayerHandComponent implements Drawable {
         if (hand.size() < 3)
             return;
 
-        drawArea.drawAt(0, 0, new GameCardComponent(hand.getFirst()).getDrawArea());
-        drawArea.drawAt(drawArea.getWidth() + spacing, 0, new GameCardComponent(hand.get(1)).getDrawArea());
-        drawArea.drawAt(drawArea.getWidth() + spacing, 0, new GameCardComponent(hand.get(2)).getDrawArea());
+        drawArea.drawAt(0, 0, new GameCardComponent(hand.getFirst(), 1).getDrawArea());
+        drawArea.drawAt(drawArea.getWidth() + spacing, 0, new GameCardComponent(hand.get(1), 2).getDrawArea());
+        drawArea.drawAt(drawArea.getWidth() + spacing, 0, new GameCardComponent(hand.get(2), 3).getDrawArea());
     }
 
     /**
