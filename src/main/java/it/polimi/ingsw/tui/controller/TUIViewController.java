@@ -291,6 +291,41 @@ public class TUIViewController implements PropertyChangeListener {
         return gameControllerView.getCurrentPlayerView().playerName().equals(playerName);
     }
 
+    private boolean isPlayerBoardChanged(GameControllerView oldView, GameControllerView updatedView) {
+        if (oldView == null) {
+            return true;
+        }
+        // If the player has changed
+        if (!updatedView.getCurrentPlayerView().playerName().equals(oldView.getCurrentPlayerView().playerName())) {
+            return true;
+        }
+        // If the player board has changed
+        if (!updatedView.getCurrentPlayerView().playerBoardView().playerBoard().equals(oldView.getCurrentPlayerView().playerBoardView().playerBoard())) {
+            return true;
+        }
+        logger.debug("Player board did not change");
+        return false;
+    }
+
+    private boolean isPlayerViewChanged(GameControllerView oldView, GameControllerView updatedView) {
+        if (oldView == null) {
+            return true;
+        }
+
+        // If the status has changed
+        if (!updatedView.gameStatus().equals(oldView.gameStatus())) {
+            return true;
+        }
+
+        // If the current player view has changed
+        if (!updatedView.getCurrentPlayerView().equals(oldView.getCurrentPlayerView())) {
+            return true;
+        }
+
+        logger.debug("Player view did not change");
+        return false;
+    }
+
     public void propertyChange(PropertyChangeEvent evt) {
         String changedProperty = evt.getPropertyName();
         switch (changedProperty) {
@@ -307,6 +342,7 @@ public class TUIViewController implements PropertyChangeListener {
 
             case "UPDATE_VIEW":
                 GameControllerView updatedView = (GameControllerView) evt.getNewValue();
+                GameControllerView oldView = (GameControllerView) evt.getOldValue();
                 gameStatus = updatedView.gameStatus();
 
                 gameControllerView = updatedView;
@@ -315,7 +351,13 @@ public class TUIViewController implements PropertyChangeListener {
                     return;
                 }
 
-                if (playerName.equals(updatedView.getCurrentPlayerView().playerName())) {
+                if (gameStatus == GameStatusEnum.GAME_PAUSED) {
+                    this.currentScene = stageManager.showGamePausedScene();
+                    return;
+                }
+
+                // If the client is the current player and the view has changed. Prevent re-rendering the scene if the view has not changed.
+                if (isClientTurn() && isPlayerViewChanged(oldView, updatedView)) {
                     switch (gameStatus) {
                         case INIT_PLACE_STARTER_CARD:
                             this.currentScene = stageManager.showInitPlaceStarterCardScene(updatedView.getCurrentPlayerView().starterCard());
@@ -333,6 +375,10 @@ public class TUIViewController implements PropertyChangeListener {
                             this.currentScene = stageManager.showPlaceCardScene(updatedView.getCurrentPlayerView().playerBoardView().playerBoard(), updatedView.gameView().globalBoardView().globalObjectives(), updatedView.getCurrentPlayerView().objectiveCard(), updatedView.getCurrentPlayerView().playerHandView().hand(), updatedView.gameView().playerViews());
                             break;
                     }
+                }
+
+                if (!isClientTurn() && isPlayerBoardChanged(oldView, updatedView)) {
+                    this.currentScene = stageManager.showOtherPlayerTurnScene(updatedView.getCurrentPlayerView().playerName(), updatedView.getCurrentPlayerView().color(), updatedView.getCurrentPlayerView().playerBoardView().playerBoard());
                 }
                 break;
 
