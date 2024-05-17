@@ -34,6 +34,7 @@ public class TUIViewController implements PropertyChangeListener {
      * Instance of ClientNetworkControllerMapper to manage network requests.
      */
     private final ClientNetworkControllerMapper networkController;
+
     /**
      * The logger.
      */
@@ -59,8 +60,14 @@ public class TUIViewController implements PropertyChangeListener {
      */
     private GameStatusEnum gameStatus = null;
 
+    /**
+     * A CLIReader used from the client to call handleUserInput from the scene.
+     */
     private final CLIReader cliReader;
 
+    /**
+     * Current scene displayed.
+     */
     private Displayable currentScene;
 
     /**
@@ -90,7 +97,6 @@ public class TUIViewController implements PropertyChangeListener {
      */
     public void start() {
         this.currentScene = stageManager.showMainMenuScene();
-
     }
 
     /**
@@ -120,6 +126,11 @@ public class TUIViewController implements PropertyChangeListener {
         return status;
     }
 
+    /**
+     * Method to handle user input of the current scene.
+     *
+     * @return the game status.
+     */
     public void handleUserInput(String input) {
         this.currentScene.handleUserInput(input);
     }

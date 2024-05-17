@@ -206,7 +206,7 @@ public class Player implements VirtualViewable<PlayerView> {
             }
             cardToPlace = playerBoard.getStarterCard();
         }
-        playerBoard.placeGameCard(coordinate, cardToPlace);
+        playerPos += playerBoard.placeGameCard(coordinate, cardToPlace);
         playerHand.removeCard(cardToPlace);
     }
 

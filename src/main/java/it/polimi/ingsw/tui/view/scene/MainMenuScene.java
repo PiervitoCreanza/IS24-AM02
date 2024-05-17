@@ -44,11 +44,6 @@ public class MainMenuScene implements Displayable {
 
     /**
      * This method is used to handle user input.
-     * It performs different actions based on the input:
-     * - "l" or "L": lists available games
-     * - "c" or "C": creates a new game
-     * - "q" or "Q": quits the game
-     * Any other input is considered invalid.
      *
      * @param input the user's input
      */

@@ -4,7 +4,6 @@ import it.polimi.ingsw.network.client.RMI.RMIClientReceiver;
 import it.polimi.ingsw.network.client.RMI.RMIClientSender;
 import it.polimi.ingsw.network.client.TCP.TCPClientAdapter;
 import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
-import it.polimi.ingsw.network.client.message.ChatClientToServerMessage;
 import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
 import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.utils.Utils;
@@ -36,6 +35,10 @@ public class Client {
      * This is a static final instance which means it's a constant throughout the application.
      */
     private static final ClientNetworkControllerMapper clientNetworkControllerMapper = new ClientNetworkControllerMapper();
+
+    /**
+     * The TUIViewController object used to control the text user interface.
+     */
     private static TUIViewController tuiController;
 
     /**
@@ -173,20 +176,24 @@ public class Client {
     }
 
     private static void startTCPClient() {
-        try {
-            Socket serverSocket = new Socket(serverIpAddress, serverPortNumber);
-            if (serverSocket.isConnected()) {
-                System.out.println(Utils.ANSI_BLUE + "Started a TCP connection with IP: " + serverIpAddress + " on port: " + serverPortNumber + Utils.ANSI_RESET);
-            } else {
-                System.err.println("Failed to connect to the server.");
-                System.exit(1);
-            }
-            TCPClientAdapter clientAdapter = new TCPClientAdapter(serverSocket, clientNetworkControllerMapper);
+        boolean connected = false;
+        while (!connected) {
+            try {
+                Socket serverSocket = new Socket(serverIpAddress, serverPortNumber);
+                connected = true;
+                if (serverSocket.isConnected()) {
+                    System.out.println(Utils.ANSI_BLUE + "Started a TCP connection with IP: " + serverIpAddress + " on port: " + serverPortNumber + Utils.ANSI_RESET);
+                } else {
+                    System.err.println("Failed to connect to the server.");
+                    System.exit(1);
+                }
+                TCPClientAdapter clientAdapter = new TCPClientAdapter(serverSocket, clientNetworkControllerMapper);
 
-            clientNetworkControllerMapper.setMessageHandler(clientAdapter);
-            tuiController = new TUIViewController(clientNetworkControllerMapper);
-        } catch (Exception e) {
-            e.printStackTrace();
+                clientNetworkControllerMapper.setMessageHandler(clientAdapter);
+                tuiController = new TUIViewController(clientNetworkControllerMapper);
+            } catch (Exception e) {
+                connected = false;
+            }
         }
     }
 
