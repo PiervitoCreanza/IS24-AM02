@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 /**
  * The JoinGameScene class represents the scene where a player can join a game.
- * It implements the Displayable interface.
+ * It implements the Scene interface.
  */
-public class JoinGameScene implements Displayable {
+public class JoinGameScene implements Scene {
     /**
      * The DrawArea object where the scene will be drawn.
      */

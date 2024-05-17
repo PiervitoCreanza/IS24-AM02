@@ -16,9 +16,9 @@ import java.util.HashMap;
 
 /**
  * The DrawCardScene class represents the scene where the player can draw a card.
- * It implements the Displayable and UserInputScene interfaces.
+ * It implements the Scene and UserInputScene interfaces.
  */
-public class DrawCardScene implements Displayable {
+public class DrawCardScene implements Scene {
 
     /**
      * The draw area of the scene.

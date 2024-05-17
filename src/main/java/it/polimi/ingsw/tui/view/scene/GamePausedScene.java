@@ -6,7 +6,7 @@ import it.polimi.ingsw.tui.view.drawer.DrawArea;
 /**
  * The DrawArea object where the scene will be drawn.
  */
-public class GamePausedScene implements Displayable {
+public class GamePausedScene implements Scene {
     /**
      * The DrawArea object where the scene will be drawn.
      */

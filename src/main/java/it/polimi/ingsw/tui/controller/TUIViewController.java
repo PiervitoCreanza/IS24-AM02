@@ -9,7 +9,7 @@ import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.tui.commandLine.CLIReader;
 import it.polimi.ingsw.tui.commandLine.ClientStatusEnum;
-import it.polimi.ingsw.tui.view.scene.Displayable;
+import it.polimi.ingsw.tui.view.scene.Scene;
 import it.polimi.ingsw.tui.view.scene.ScenesEnum;
 import it.polimi.ingsw.tui.view.scene.StageManager;
 import org.apache.logging.log4j.LogManager;
@@ -68,7 +68,7 @@ public class TUIViewController implements PropertyChangeListener {
     /**
      * Current scene displayed.
      */
-    private Displayable currentScene;
+    private Scene currentScene;
 
     /**
      * List of games.

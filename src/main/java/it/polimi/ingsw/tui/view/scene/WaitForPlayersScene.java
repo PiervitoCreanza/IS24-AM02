@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * This class represents the scene displayed while waiting for players to join the game.
  * It displays a list of players who have already joined, each with a unique color.
  */
-public class WaitForPlayersScene implements Displayable {
+public class WaitForPlayersScene implements Scene {
     /**
      * The DrawArea object where the scene will be drawn.
      */

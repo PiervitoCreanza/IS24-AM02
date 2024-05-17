@@ -19,9 +19,9 @@ import java.util.List;
 
 /**
  * The PlaceCardScene class represents the scene where the player can place a card on the game board.
- * It implements the Displayable and UserInputScene interfaces.
+ * It implements the Scene and UserInputScene interfaces.
  */
-public class PlaceCardScene implements Displayable {
+public class PlaceCardScene implements Scene {
 
     /**
      * The draw area of the place card scene.

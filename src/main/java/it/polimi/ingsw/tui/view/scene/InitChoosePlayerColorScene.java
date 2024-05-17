@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 /**
  * The InitChoosePlayerColorScene class represents the scene where the player chooses their color.
- * It implements the Displayable interface.
+ * It implements the Scene interface.
  */
-public class InitChoosePlayerColorScene implements Displayable {
+public class InitChoosePlayerColorScene implements Scene {
     /**
      * The DrawArea object where the scene will be drawn.
      */

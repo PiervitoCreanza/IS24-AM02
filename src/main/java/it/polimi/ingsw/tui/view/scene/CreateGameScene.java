@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 /**
  * The CreateGameScene class represents the scene where the player can create a new game.
- * It implements the Displayable and UserInputScene interfaces.
+ * It implements the Scene and UserInputScene interfaces.
  */
-public class CreateGameScene implements Displayable {
+public class CreateGameScene implements Scene {
     /**
      * The DrawArea object where the scene will be drawn.
      */

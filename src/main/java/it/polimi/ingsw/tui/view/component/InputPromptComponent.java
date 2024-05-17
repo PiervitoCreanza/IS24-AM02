@@ -10,7 +10,9 @@ import it.polimi.ingsw.tui.view.drawer.Drawable;
  */
 public class InputPromptComponent implements Drawable {
 
-    // The area where the input prompt is drawn
+    /**
+     * The draw area of the input prompt component.
+     */
     private final DrawArea drawArea;
 
     /**

@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 /**
  * The InitSetObjectiveCardScene class represents the scene where the player sets their objective card.
- * It implements the Displayable interface.
+ * It implements the Scene interface.
  */
-public class InitSetObjectiveCardScene implements Displayable {
+public class InitSetObjectiveCardScene implements Scene {
 
     /**
      * The DrawArea object where the scene will be drawn.

@@ -8,9 +8,9 @@ import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 /**
  * The InitPlaceStarterCardScene class represents the scene where the player places their starter card.
- * It implements the Displayable interface.
+ * It implements the Scene interface.
  */
-public class InitPlaceStarterCardScene implements Displayable {
+public class InitPlaceStarterCardScene implements Scene {
     /**
      * The DrawArea object where the scene will be drawn.
      */

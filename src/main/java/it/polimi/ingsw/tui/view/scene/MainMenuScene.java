@@ -6,9 +6,9 @@ import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 /**
  * The MainMenuScene class represents the main menu scene of the game.
- * It implements the Displayable interface.
+ * It implements the Scene interface.
  */
-public class MainMenuScene implements Displayable {
+public class MainMenuScene implements Scene {
     /**
      * The DrawArea object where the scene will be drawn.
      */

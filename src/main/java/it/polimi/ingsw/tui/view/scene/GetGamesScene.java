@@ -11,9 +11,9 @@ import java.util.ArrayList;
 
 /**
  * This class represents the scene for getting games.
- * It implements the Displayable interface, meaning it can be displayed in the UI.
+ * It implements the Scene interface, meaning it can be displayed in the UI.
  */
-public class GetGamesScene implements Displayable {
+public class GetGamesScene implements Scene {
 
     /**
      * The DrawArea object where the scene will be drawn.

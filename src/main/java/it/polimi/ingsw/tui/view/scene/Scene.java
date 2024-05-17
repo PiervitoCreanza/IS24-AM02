@@ -1,10 +1,9 @@
 package it.polimi.ingsw.tui.view.scene;
 
 /**
- * This is an interface for objects that can be displayed.
- * It contains a single method, display, which is used to display the object.
+ * This is an interface for Scenes that can be displayed.
  */
-public interface Displayable {
+public interface Scene {
     /**
      * This method is used to display the object.
      */
