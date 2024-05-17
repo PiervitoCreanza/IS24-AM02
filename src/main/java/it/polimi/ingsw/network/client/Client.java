@@ -8,10 +8,13 @@ import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
 import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.utils.Utils;
 import org.apache.commons.cli.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -31,41 +34,15 @@ import java.rmi.server.UnicastRemoteObject;
 public class Client {
 
     /**
-     * The ClientNetworkControllerMapper object used to map network commands to actions in the game.
-     * This is a static final instance which means it's a constant throughout the application.
-     */
-    private static final ClientNetworkControllerMapper clientNetworkControllerMapper = new ClientNetworkControllerMapper();
-
-    /**
-     * The TUIViewController object used to control the text user interface.
-     */
-    private static TUIViewController tuiController;
-
-    /**
      * A flag indicating whether the client is in debug mode.
      * This is a static variable, meaning it's shared among all instances of this class.
      */
     public static boolean DEBUG;
+
     /**
-     * The IP address of the server that the client will connect to.
-     * This is a static variable, meaning it's shared among all instances of this class.
+     * The logger.
      */
-    private static String serverIpAddress;
-    /**
-     * The port number of the server that the client will connect to.
-     * This is a static variable, meaning it's shared among all instances of this class.
-     */
-    private static int serverPortNumber;
-    /**
-     * The IP address of the client.
-     * This is a static variable, meaning it's shared among all instances of this class.
-     */
-    private static String clientIpAddress;
-    /**
-     * The port number of the client.
-     * This is a static variable, meaning it's shared among all instances of this class.
-     */
-    private static int clientPortNumber;
+    private static final Logger logger = LogManager.getLogger(Client.class);
 
     /**
      * The main method of the Client class.
@@ -76,44 +53,51 @@ public class Client {
      */
     public static void main(String[] args) {
         CommandLine cmd = parseCommandLineArgs(args);
-        // get values from options
-        String connectionType = cmd.getOptionValue("c");
-        serverIpAddress = cmd.getOptionValue("ip_s", "localhost"); // default is localhost
-        serverPortNumber = Integer.parseInt(cmd.getOptionValue("p_s", (connectionType.equals("TCP") ? "12345" : "1099")));
+
+        String clientIp = getClientIp(cmd);
+        String serverIp = cmd.getOptionValue("s", "localhost"); // default is localhost
+        int serverPort = cmd.hasOption("rmi") ? 1099 : 12345;
+        int clientPort = Integer.parseInt(cmd.getOptionValue("cp", Integer.toString(serverPort + 1)));
+
         DEBUG = cmd.hasOption("debug");
+
+        System.out.println(Utils.ANSI_PURPLE + "Client IP: " + clientIp + Utils.ANSI_RESET);
+
+        if (DEBUG)
+            System.out.println(Utils.ANSI_PURPLE + "Debug mode enabled" + Utils.ANSI_RESET);
+
+        // Connect with the server
+        ClientNetworkControllerMapper networkControllerMapper;
+        if (cmd.hasOption("rmi")) {
+            logger.info("Starting RMI connection with server. IP: {} on port: {}", serverIp, serverPort);
+            logger.info("Listening for RMI connections. IP: {} on port: {}", clientIp, clientPort);
+            networkControllerMapper = startRMIClient(serverIp, serverPort, clientIp, clientPort);
+        } else {
+            logger.info("Starting TCP connection with server. IP: {} on port: {}", serverIp, serverPort);
+            networkControllerMapper = startTCPClient(serverIp, serverPort);
+        }
+        startTui(networkControllerMapper);
+    }
+
+    private static String getClientIp(CommandLine cmd) {
+        if (cmd.hasOption("localhost")) {
+            return "localhost";
+        }
+
+        // Get local ip address
         if (cmd.hasOption("lan")) {
             try {
                 Socket socket = new Socket();
                 socket.connect(new InetSocketAddress("google.com", 80));
-                clientIpAddress = socket.getLocalAddress().getHostAddress();
+                String clientIp = socket.getLocalAddress().getHostAddress();
                 socket.close();
+                return clientIp;
             } catch (IOException e) {
-                // TODO: Maybe we should alert the user that we couldn't get the lan ip address.
-                clientIpAddress = "localhost";
-            }
-        } else {
-            clientIpAddress = getPublicIp();
-        }
-
-        clientPortNumber = Integer.parseInt(cmd.getOptionValue("p_c", Integer.toString(serverPortNumber + 1)));
-
-        System.out.println(Utils.ANSI_PURPLE + "Client IP: " + clientIpAddress + Utils.ANSI_RESET);
-        if (DEBUG)
-            System.out.println(Utils.ANSI_PURPLE + "Debug mode enabled" + Utils.ANSI_RESET);
-        switch (connectionType.toLowerCase()) {
-            case "tcp" -> {
-                startTCPClient();
-            }
-            case "rmi" -> {
-                System.out.println(Utils.ANSI_YELLOW + "Started an RMI connection with IP: " + serverIpAddress + " on port: " + serverPortNumber + Utils.ANSI_RESET);
-                System.out.println(Utils.ANSI_YELLOW + "Waiting RMI request on IP: " + clientIpAddress + " on port: " + clientPortNumber + Utils.ANSI_RESET);
-                startRMIClient();
+                throw new RuntimeException("Unable to retrieve your ip address. Please check your connection.");
             }
         }
-        startTui();
-    }
 
-    private static String getPublicIp() {
+        // Get public ip address
         try (HttpClient client = HttpClient.newHttpClient()) {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://checkip.amazonaws.com"))
@@ -122,14 +106,14 @@ public class Client {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             return response.body().trim();
         } catch (IOException | InterruptedException e) {
-            // TODO: Show error to the user
-            throw new RuntimeException(e);
+            throw new RuntimeException("Unable to retrieve your ip address. Please check your connection.");
         }
     }
 
-    private static void startTui() {
+    private static void startTui(ClientNetworkControllerMapper networkControllerMapper) {
+        TUIViewController tuiController = new TUIViewController(networkControllerMapper);
         // Add the tuiController as a listener to the clientNetworkControllerMapper
-        clientNetworkControllerMapper.addPropertyChangeListener(tuiController);
+        networkControllerMapper.addPropertyChangeListener(tuiController);
 
         // Start the TUIController
         tuiController.start();
@@ -138,82 +122,94 @@ public class Client {
     private static CommandLine parseCommandLineArgs(String[] args) {
         // create Options object
         Options options = new Options();
-
+        HelpFormatter formatter = new HelpFormatter();
         // add options
-        options.addOption("c", true, "Connection type (TCP or RMI). This is mandatory.");
-        options.addOption("ip_s", true, "IP address (default is localhost).");
-        options.addOption("p_s", true, "Port number (default is 12345 for TCP and 1099 for RMI).");
-        options.addOption("ip_c", true, "Client IP address (default is localhost).");
-        options.addOption("p_c", true, "Client port number (default is the same as the server port number).");
-        options.addOption("lan", "Start the client with his lan ip address.");
+        options.addOption(Option.builder("rmi").longOpt("rmi_mode").desc("Start the client using a RMI connection.").build());
+        options.addOption("s", "server_ip", true, "Server IP address.");
+        options.addOption("sp", "server_port", true, "Server port number (default is 12345 for TCP and 1099 for RMI).");
+        options.addOption("cp", true, "Client port number (default is the same as the server port number).");
+        options.addOption("lan", "lan", false, "Start the client in LAN mode.");
+        options.addOption("l", "localhost", false, "Start the client in localhost mode");
         options.addOption("debug", "Start the client in debug mode.");
+        options.addOption("h", "help", false, "Print this message.");
 
-        CommandLineParser parser = new DefaultParser();
-
+        CommandLine cmd = null;
         try {
             // parse the command line arguments
-            CommandLine cmd = parser.parse(options, args);
-
-            // check mandatory options
-            if (!cmd.hasOption("c")) {
-                System.err.println("Please specify the connection type (TCP or RMI) using the -c option.");
-                System.exit(1);
-            }
-
-            // check if the value of -c is either "TCP" or "RMI"
-            String connectionType = cmd.getOptionValue("c").toLowerCase();
-            if (!connectionType.equals("tcp") && !connectionType.equals("rmi")) {
-                System.err.println("Invalid value for -c. Please specify either TCP or RMI.");
-                System.exit(1);
-            }
-
-            return cmd;
+            cmd = new DefaultParser().parse(options, args);
         } catch (ParseException e) {
             System.err.println("Parsing failed. Reason: " + e.getMessage());
+            formatter.printHelp("Client", options);
             System.exit(1);
         }
-        return null;
+
+        if (cmd.hasOption("h")) {
+            formatter.printHelp("Client", options);
+            System.exit(0);
+        }
+
+        // check user args
+        if (cmd.hasOption("lan") && cmd.hasOption("localhost")) {
+            System.err.println("Please specify either LAN or localhost mode, not both.");
+            formatter.printHelp("Client", options);
+            System.exit(1);
+        }
+
+        // If the connection is not on localhost a server ip is required.
+        if (!cmd.hasOption("s") && !cmd.hasOption("localhost")) {
+            System.err.println("Please specify the server ip");
+            formatter.printHelp("Client", options);
+            System.exit(1);
+        }
+
+        return cmd;
     }
 
-    private static void startTCPClient() {
-        boolean connected = false;
-        while (!connected) {
-            try {
-                Socket serverSocket = new Socket(serverIpAddress, serverPortNumber);
-                connected = true;
-                if (serverSocket.isConnected()) {
-                    System.out.println(Utils.ANSI_BLUE + "Started a TCP connection with IP: " + serverIpAddress + " on port: " + serverPortNumber + Utils.ANSI_RESET);
-                } else {
-                    System.err.println("Failed to connect to the server.");
-                    System.exit(1);
-                }
-                TCPClientAdapter clientAdapter = new TCPClientAdapter(serverSocket, clientNetworkControllerMapper);
-
-                clientNetworkControllerMapper.setMessageHandler(clientAdapter);
-                tuiController = new TUIViewController(clientNetworkControllerMapper);
-            } catch (Exception e) {
-                connected = false;
-            }
+    private static ClientNetworkControllerMapper startTCPClient(String serverIp, int serverPort) {
+        try {
+            Socket serverSocket = new Socket();
+            serverSocket.connect(new InetSocketAddress(serverIp, serverPort), 5000);
+            // Create the mapper
+            ClientNetworkControllerMapper networkControllerMapper = new ClientNetworkControllerMapper();
+            // Pass the mapper to the TCPAdapter in order to be notified when messages arrive.
+            TCPClientAdapter clientAdapter = new TCPClientAdapter(serverSocket, networkControllerMapper);
+            // Pass the TCPAdapter to the mapper in order to send messages
+            networkControllerMapper.setMessageHandler(clientAdapter);
+            return networkControllerMapper;
+        } catch (SocketTimeoutException e) {
+            logger.fatal("Connection timeout when connecting with the server.");
+            throw new RuntimeException("Connection timeout when connecting with the server.");
+        } catch (IOException e) {
+            logger.fatal("Error when connecting with the server.");
+            throw new RuntimeException("Error when connecting with the server.");
         }
     }
 
-    private static void startRMIClient() {
+    private static ClientNetworkControllerMapper startRMIClient(String serverIp, int serverPort, String clientIp, int clientPort) {
         // Getting the registry
-        try {
-            System.setProperty("java.rmi.server.hostname", clientIpAddress);
 
-            RMIClientReceiver rmiClientReceiver = new RMIClientReceiver(clientNetworkControllerMapper);
-            RMIServerToClientActions clientStub = (RMIServerToClientActions) UnicastRemoteObject.exportObject(rmiClientReceiver, clientPortNumber);
+
+        try {
+            System.setProperty("java.rmi.server.hostname", clientIp);
+            ClientNetworkControllerMapper networkControllerMapper = new ClientNetworkControllerMapper();
+            RMIClientReceiver rmiClientReceiver = new RMIClientReceiver(networkControllerMapper);
+            RMIServerToClientActions clientStub = (RMIServerToClientActions) UnicastRemoteObject.exportObject(rmiClientReceiver, clientPort);
             //Client as a client, getting the registry
-            Registry registry = LocateRegistry.getRegistry(serverIpAddress, serverPortNumber);
+            Registry registry = LocateRegistry.getRegistry(serverIp, serverPort);
             // Looking up the registry for the remote object
             RMIClientToServerActions serverStub = (RMIClientToServerActions) registry.lookup("ClientToServerActions");
             RMIClientSender rmiClientSender = new RMIClientSender(serverStub, clientStub);
-            clientNetworkControllerMapper.setMessageHandler(rmiClientSender); //Adding stub to the mapper
-            tuiController = new TUIViewController(clientNetworkControllerMapper);
+
+
+            // Path the sender to the mapper
+            networkControllerMapper.setMessageHandler(rmiClientSender);
+            return networkControllerMapper;
+
         } catch (RemoteException | NotBoundException e) {
-            throw new RuntimeException(e);
+            logger.fatal("Error establishing RMI connection with the server");
+            throw new RuntimeException("Error establishing RMI connection with the server");
         }
+
     }
 }
 
