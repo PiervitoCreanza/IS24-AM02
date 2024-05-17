@@ -24,6 +24,7 @@ public class GetGamesScene implements Displayable {
      * The controller that manages the user interface and the game logic.
      */
     private final TUIViewController controller;
+    private final ArrayList<GameRecord> games;
 
     /**
      * Constructs a new GetGamesScene.
@@ -32,6 +33,7 @@ public class GetGamesScene implements Displayable {
      * @param games      the list of games to be displayed
      */
     public GetGamesScene(TUIViewController controller, ArrayList<GameRecord> games) {
+        this.games = games;
         this.drawArea = new TitleComponent("Game List").getDrawArea();
         int i = 0;
         for (GameRecord game : games) {
@@ -73,7 +75,13 @@ public class GetGamesScene implements Displayable {
     public void handleUserInput(String input) {
         switch (input) {
             case "l", "L" -> controller.getGames();
-            case "j", "J" -> controller.selectScene(ScenesEnum.JOIN_GAME);
+            case "j", "J" -> {
+                if (games.isEmpty()) {
+                    System.out.println("No games available");
+                    return;
+                }
+                controller.selectScene(ScenesEnum.JOIN_GAME);
+            }
             case "c", "C" -> controller.selectScene(ScenesEnum.CREATE_GAME);
             case "q", "Q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
             default -> System.out.println("Invalid input");
