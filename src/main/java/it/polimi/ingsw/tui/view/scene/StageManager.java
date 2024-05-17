@@ -66,25 +66,15 @@ public class StageManager {
 
     public MainMenuScene showMainMenuScene() {
         clearScreen();
-        MainMenuScene scene = null;
-        try {
-            scene = new MainMenuScene(this.controller);
-            scene.display();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        MainMenuScene scene = new MainMenuScene(this.controller);
+        scene.display();
         return scene;
     }
 
     public JoinGameScene showJoinGameScene() {
         clearScreen();
-        JoinGameScene scene = null;
-        try {
-            scene = new JoinGameScene(this.controller);
-            scene.display();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        JoinGameScene scene = new JoinGameScene(this.controller);
+        scene.display();
         return scene;
     }
 
@@ -126,6 +116,20 @@ public class StageManager {
     public PlaceCardScene showPlaceCardScene(HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, List<PlayerView> playerViews) {
         clearScreen();
         PlaceCardScene scene = new PlaceCardScene(this.controller, playerBoard, globalObjectives, playerObjective, hand, playerViews, controller.getPlayerName());
+        scene.display();
+        return scene;
+    }
+
+    public OtherPlayerTurnScene showOtherPlayerTurnScene(String playerName, PlayerColorEnum playerColor, HashMap<Coordinate, GameCard> playerBoard) {
+        clearScreen();
+        OtherPlayerTurnScene scene = new OtherPlayerTurnScene(playerName, playerColor, playerBoard);
+        scene.display();
+        return scene;
+    }
+
+    public GamePausedScene showGamePausedScene() {
+        clearScreen();
+        GamePausedScene scene = new GamePausedScene();
         scene.display();
         return scene;
     }
