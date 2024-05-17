@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 /**
  * This class manages the different scenes in the game.
@@ -58,7 +59,7 @@ public class StageManager {
 
     public WaitForPlayersScene showWaitForPlayersScene(GameControllerView gameControllerView) {
         clearScreen();
-        WaitForPlayersScene scene = new WaitForPlayersScene(gameControllerView);
+        WaitForPlayersScene scene = new WaitForPlayersScene(gameControllerView.gameView().playerViews().stream().map(PlayerView::playerName).collect(Collectors.toCollection(ArrayList::new)), 4);
         scene.display();
         return scene;
     }
