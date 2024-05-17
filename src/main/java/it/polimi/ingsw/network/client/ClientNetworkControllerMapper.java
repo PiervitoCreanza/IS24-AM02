@@ -221,8 +221,8 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      */
     @Override
     public void receiveUpdatedView(GameControllerView updatedView) {
+        notify("UPDATE_VIEW", this.view, updatedView);
         this.view = updatedView;
-        notify("UPDATE_VIEW", updatedView);
         //PlayerBoardComponent playerBoardComponent = new PlayerBoardComponent(updatedView.gameView().getViewByPlayer(updatedView.gameView().currentPlayer()).playerBoardView().playerBoard());
         //System.out.println(playerBoardComponent);
 //        System.out.println("Received updated view: " + updatedView);
@@ -334,5 +334,16 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      */
     private void notify(String propertyName, Object message) {
         support.firePropertyChange(propertyName, null, message);
+    }
+
+    /**
+     * Notifies of a message.
+     *
+     * @param propertyName the name of the property.
+     * @param oldMessage   the old message.
+     * @param message      the message to be sent.
+     */
+    private void notify(String propertyName, Object oldMessage, Object message) {
+        support.firePropertyChange(propertyName, oldMessage, message);
     }
 }
