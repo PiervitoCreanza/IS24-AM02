@@ -43,6 +43,9 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      */
     private GameControllerView view;
 
+    /**
+     * The property change support.
+     */
     private final PropertyChangeSupport support;
 
 
@@ -196,7 +199,6 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
     @Override
     public void receiveGameList(ArrayList<GameRecord> games) {
         notify("GET_GAMES", games);
-        //TODO: JavaFx event trigger
     }
 
 
@@ -209,7 +211,6 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
     @Override
     public void receiveGameDeleted(String message) {
         notify("GAME_DELETED", message);
-        //TODO: JavaFx event trigger
     }
 
 
@@ -223,12 +224,6 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
     public void receiveUpdatedView(GameControllerView updatedView) {
         notify("UPDATE_VIEW", this.view, updatedView);
         this.view = updatedView;
-        //PlayerBoardComponent playerBoardComponent = new PlayerBoardComponent(updatedView.gameView().getViewByPlayer(updatedView.gameView().currentPlayer()).playerBoardView().playerBoard());
-        //System.out.println(playerBoardComponent);
-//        System.out.println("Received updated view: " + updatedView);
-//        System.out.println("Current player: " + updatedView.gameView().currentPlayer());
-//        System.out.println("Current game status: " + updatedView.gameStatus());
-        //TODO: JavaFx event trigger
     }
 
 
@@ -330,7 +325,8 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
     /**
      * Notifies of a message.
      *
-     * @param message the message to be sent.
+     * @param propertyName the name of the property.
+     * @param message      the message to be sent.
      */
     private void notify(String propertyName, Object message) {
         support.firePropertyChange(propertyName, null, message);

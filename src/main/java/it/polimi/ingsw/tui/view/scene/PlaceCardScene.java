@@ -8,9 +8,9 @@ import it.polimi.ingsw.network.virtualView.PlayerView;
 import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.component.leaderBoard.LeaderBoardComponent;
-import it.polimi.ingsw.tui.view.component.playerBoard.PlayerBoardComponent;
-import it.polimi.ingsw.tui.view.component.playerInventory.PlayerInventoryComponent;
-import it.polimi.ingsw.tui.view.component.playerItems.PlayerItemsComponent;
+import it.polimi.ingsw.tui.view.component.player.playerBoard.PlayerBoardComponent;
+import it.polimi.ingsw.tui.view.component.player.playerInventory.PlayerInventoryComponent;
+import it.polimi.ingsw.tui.view.component.player.playerItems.PlayerItemsComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 import java.util.ArrayList;
@@ -67,7 +67,7 @@ public class PlaceCardScene implements Displayable {
      * The username of the player.
      */
     private final String playerUsername;
-    
+
     /**
      * The status of the scene.
      */

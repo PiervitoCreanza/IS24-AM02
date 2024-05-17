@@ -1,42 +1,44 @@
-package it.polimi.ingsw.tui.view.component.playerBoard;
+package it.polimi.ingsw.tui.view.component.player.playerInventory.playerHand;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
-import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.tui.view.component.cards.gameCard.GameCardComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 import it.polimi.ingsw.tui.view.drawer.Drawable;
-import it.polimi.ingsw.tui.view.drawer.TranslationMap;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
- * This class represents a player's board component in the game.
+ * This class represents a player's hand component in the game.
  * It implements the Drawable interface, meaning it can be drawn on the screen.
  */
-public class PlayerBoardComponent implements Drawable {
+public class PlayerHandComponent implements Drawable {
 
     /**
-     * The draw area of the player's board component.
+     * The draw area of the player's hand component.
      */
     private final DrawArea drawArea;
 
     /**
-     * Constructor for the PlayerBoardComponent class.
+     * The count of the player's hand.
+     */
+    private int count = 1;
+
+    /**
+     * Constructor for the PlayerHandComponent class.
      * It initializes the drawArea and populates it with game cards.
      *
-     * @param playerBoard A HashMap of Coordinate and GameCard objects representing the player's board.
+     * @param hand A list of GameCard objects representing the player's hand.
      */
-    public PlayerBoardComponent(HashMap<Coordinate, GameCard> playerBoard) {
+    public PlayerHandComponent(ArrayList<GameCard> hand, int spacing) {
         drawArea = new DrawArea();
-        int correctionX = 5;
-        int correctionY = 3;
 
-        TranslationMap<GameCard> playerBoardTranslationMap = new TranslationMap<>(playerBoard);
+        int nCards = hand.size();
+        int hole = 3 - nCards;
 
-        playerBoardTranslationMap.keySet().forEach((traslatedCoord) -> {
-            GameCardComponent gameCardComponent = new GameCardComponent(playerBoardTranslationMap.get(traslatedCoord), playerBoardTranslationMap.getOriginalCoord(traslatedCoord));
-            drawArea.drawAt(traslatedCoord.x * (gameCardComponent.getWidth() - correctionX), traslatedCoord.y * (gameCardComponent.getHeight() - correctionY), gameCardComponent.getDrawArea());
-        });
+        hand.forEach(card -> drawArea.drawAt((drawArea.getWidth() == 0) ? 0 : drawArea.getWidth() + spacing, 0, new GameCardComponent(card, count++).getDrawArea()));
+        for (int i = 0; i < hole; i++) {
+            drawArea.drawAt((drawArea.getWidth() == 0) ? 0 : drawArea.getWidth() + spacing, 0, new GameCardComponent(count++).getDrawArea());
+        }
     }
 
     /**

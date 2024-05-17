@@ -1,10 +1,10 @@
-package it.polimi.ingsw.tui.view.component.playerInventory;
+package it.polimi.ingsw.tui.view.component.player.playerInventory;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.tui.view.component.cards.objectiveCard.ObjectiveCardComponent;
-import it.polimi.ingsw.tui.view.component.playerBoard.GlobalObjectivesComponent;
-import it.polimi.ingsw.tui.view.component.playerInventory.playerHand.PlayerHandComponent;
+import it.polimi.ingsw.tui.view.component.player.playerBoard.GlobalObjectivesComponent;
+import it.polimi.ingsw.tui.view.component.player.playerInventory.playerHand.PlayerHandComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 import it.polimi.ingsw.tui.view.drawer.Drawable;
 

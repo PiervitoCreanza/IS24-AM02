@@ -1,4 +1,4 @@
-package it.polimi.ingsw.tui.view.component.drawCards;
+package it.polimi.ingsw.tui.view.component.decks;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
@@ -6,17 +6,24 @@ import it.polimi.ingsw.tui.view.drawer.Drawable;
 
 import java.util.ArrayList;
 
-public class DrawCardComponent implements Drawable {
+/**
+ * This class draws the drawing-area of the game. It includes:
+ * - The resource card deck
+ * - The gold card deck
+ * - The field resource cards
+ * - The field gold cards
+ */
+public class DrawingAreaComponent implements Drawable {
 
     /**
      * The draw area of the decks component.
      */
     DrawArea drawArea;
 
-    public DrawCardComponent(GameCard firstResourceCard, GameCard firstGoldCard, ArrayList<GameCard> fieldResourceCards, ArrayList<GameCard> fieldGoldCards, int spacing) {
+    public DrawingAreaComponent(GameCard firstResourceCard, GameCard firstGoldCard, ArrayList<GameCard> fieldResourceCards, ArrayList<GameCard> fieldGoldCards, int spacing) {
         drawArea = new DrawArea();
         DrawArea temp = new DrawArea();
-        DrawArea fieldComponent = new FieldComponent(fieldResourceCards, fieldGoldCards, spacing).getDrawArea();
+        DrawArea fieldComponent = new FieldCardsComponent(fieldResourceCards, fieldGoldCards, spacing).getDrawArea();
         DrawArea decksComponent = new DecksComponent(firstResourceCard, firstGoldCard, spacing).getDrawArea();
 
         temp.drawAt(0, 0, fieldComponent);

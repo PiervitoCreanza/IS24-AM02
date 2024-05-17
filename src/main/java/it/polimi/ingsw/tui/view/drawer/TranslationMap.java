@@ -15,19 +15,23 @@ import java.util.Set;
  */
 public class TranslationMap<T> {
     /**
-     * The original map
+     * The original map. This map contains the original coordinates and their associated values.
      */
     private final HashMap<Coordinate, T> originalMap;
 
     /**
-     * The translation map
+     * The translation map. This map contains the translated coordinates and their associated original coordinates.
+     * The coordinates are translated from a positive y-coordinate system to a negative one, and shifted to the right to put them in the 1st quadrant.
      */
     private final HashMap<Coordinate, Coordinate> translationMap;
 
     /**
      * Constructs a new TranslationMap with the given original map.
+     * The constructor translates the coordinates of the original map and stores them in the translation map.
+     * The y-coordinates are inverted to convert from a positive y-coordinate system to a negative one.
+     * The x-coordinates are shifted to the right to put them in the 1st quadrant.
      *
-     * @param originalMap the original map
+     * @param originalMap the original map with the original coordinates and their associated values
      */
     public TranslationMap(HashMap<Coordinate, T> originalMap) {
         this.originalMap = originalMap;

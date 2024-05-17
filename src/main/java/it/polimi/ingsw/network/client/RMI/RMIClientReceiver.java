@@ -34,6 +34,9 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      */
     private Timer heartbeatTimer;
 
+    /**
+     * The logger.
+     */
     private static final Logger logger = LogManager.getLogger(RMIClientReceiver.class);
 
     /**

@@ -22,7 +22,7 @@ public class PlaceCardClientToServerMessage extends ClientToServerMessage {
     private final int gameCardId;
 
     /**
-     * Weather the card is flipped or not
+     * Whether the card is flipped or not.
      */
     private final boolean isFlipped;
 
@@ -34,6 +34,7 @@ public class PlaceCardClientToServerMessage extends ClientToServerMessage {
      * @param playerName The name of the player who is placing the card. This cannot be null.
      * @param coordinate The coordinate where the card is to be placed. This cannot be null.
      * @param gameCardId The game card to be placed. This cannot be null.
+     * @param isFlipped  Whether the card is flipped or not.
      */
     public PlaceCardClientToServerMessage(String gameName, String playerName, Coordinate coordinate, int gameCardId, boolean isFlipped) {
         super(PlayerActionEnum.PLACE_CARD, gameName, playerName);

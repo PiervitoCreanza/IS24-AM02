@@ -1,4 +1,4 @@
-package it.polimi.ingsw.tui.view.component.playerItems;
+package it.polimi.ingsw.tui.view.component.player.playerItems;
 
 import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.model.utils.store.GameItemStore;

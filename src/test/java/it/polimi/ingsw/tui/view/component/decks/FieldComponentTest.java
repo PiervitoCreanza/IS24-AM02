@@ -1,4 +1,4 @@
-package it.polimi.ingsw.tui.view.component.drawCards;
+package it.polimi.ingsw.tui.view.component.decks;
 
 import it.polimi.ingsw.data.Parser;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
@@ -25,6 +25,6 @@ public class FieldComponentTest {
     @Test
     @DisplayName("Test if field component of the player inventory is drawn correctly")
     void getPlayerInventoryDrawArea() {
-        System.out.println(new FieldComponent(fieldResourceCards, fieldGoldCards, 5));
+        System.out.println(new FieldCardsComponent(fieldResourceCards, fieldGoldCards, 5));
     }
 }

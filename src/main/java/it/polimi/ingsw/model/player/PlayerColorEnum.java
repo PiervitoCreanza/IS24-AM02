@@ -30,8 +30,16 @@ public enum PlayerColorEnum {
      */
     NONE(null);
 
+    /**
+     * The ColorsEnum of the card.
+     */
     private final ColorsEnum color;
 
+    /**
+     * Constructor for PlayerColorEnum.
+     *
+     * @param color the ColorsEnum of the card
+     */
     PlayerColorEnum(ColorsEnum color) {
         this.color = color;
     }

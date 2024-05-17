@@ -20,7 +20,14 @@ public class CreateGameScene implements Displayable {
      */
     private final TUIViewController controller;
 
+    /**
+     * The list of handlers for the user input. Each handler corresponds to a different input field.
+     */
     private final ArrayList<UserInputHandler> handlers = new ArrayList<>();
+
+    /**
+     * The status of the scene.
+     */
     private int status;
 
     /**

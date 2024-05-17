@@ -178,20 +178,28 @@ public class DrawArea implements Drawable {
         drawAt(x, y, String.valueOf(string), color);
     }
 
-    /**
-     * Redraws the drawable that was put at the bottom of the drawArea. IMPORTANT:
-     * This method only works if the drawable was put at x=0 and its height did not change.
-     *
-     * @param drawable The drawable area to redraw.
-     */
-    public void redrawArea(Drawable drawable) {
-        drawAt(0, height - drawable.getHeight(), drawable);
-    }
 
+    /**
+     * Draws a new line with the specified string, color, and spacing.
+     * The new line is drawn at the current height of the drawable area plus the specified spacing.
+     * The specified string is drawn with the specified color.
+     *
+     * @param string  The string to draw.
+     * @param color   The color to use when drawing the string.
+     * @param spacing The number of lines to skip before drawing the new line.
+     */
     public void drawNewLine(String string, ColorsEnum color, int spacing) {
         drawAt(0, this.height + spacing, string, color);
     }
 
+    /**
+     * Draws a new line with the specified string and spacing.
+     * The new line is drawn at the current height of the drawable area plus the specified spacing.
+     * The specified string is drawn with the default color.
+     *
+     * @param string  The string to draw.
+     * @param spacing The number of lines to skip before drawing the new line.
+     */
     public void drawNewLine(String string, int spacing) {
         drawNewLine(string, null, spacing);
     }
@@ -340,10 +348,25 @@ public class DrawArea implements Drawable {
      * @param x        The x-coordinate at which to draw the drawable area.
      * @param drawArea The drawable area to draw.
      */
+    /**
+     * Draws the specified drawable area centered on the y-axis of the drawable area.
+     *
+     * @param x        The x-coordinate at which to draw the drawable area.
+     * @param drawArea The drawable area to draw.
+     */
     public void drawCenteredY(int x, DrawArea drawArea) {
         drawAt(x, this.height / 2 - drawArea.height / 2, drawArea);
     }
 
+    /**
+     * Draws a column of the specified string at the specified coordinates.
+     * The column is as high as the specified height.
+     *
+     * @param x      The x-coordinate at which to start drawing the column.
+     * @param y      The y-coordinate at which to start drawing the column.
+     * @param height The height of the column.
+     * @param string The string to draw in each cell of the column.
+     */
     public void drawColumn(int x, int y, int height, String string) {
         for (int i = 0; i < height; i++) {
             drawAt(x, y + i, string);

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.tui.view.component.drawCards;
+package it.polimi.ingsw.tui.view.component.decks;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.tui.utils.ColorsEnum;

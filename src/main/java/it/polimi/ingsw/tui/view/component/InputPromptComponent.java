@@ -4,28 +4,29 @@ import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 import it.polimi.ingsw.tui.view.drawer.Drawable;
 
-public class InputRequestComponent implements Drawable {
+/**
+ * This class represents an input prompt component in the user interface.
+ * It implements the Drawable interface, meaning it can be drawn to the console.
+ */
+public class InputPromptComponent implements Drawable {
 
+    // The area where the input prompt is drawn
     private final DrawArea drawArea;
 
-    public InputRequestComponent(String question) {
+    /**
+     * Constructs a new InputPromptComponent.
+     * It initializes the draw area and draws the question at the specified coordinates with the specified color.
+     *
+     * @param question The question to be displayed in the input prompt.
+     */
+    public InputPromptComponent(String question) {
         drawArea = new DrawArea();
         drawArea.drawAt(6, 0, question, ColorsEnum.CYAN);
     }
 
-    public InputRequestComponent showError(String error) {
-        DrawArea errorArea = new DrawArea();
-        errorArea.drawCenteredX(0, error);
-        errorArea.setColor(ColorsEnum.RED);
-        drawArea.drawAt(0, 0, errorArea);
-        return this;
-    }
-
-    public InputRequestComponent hideError() {
-        drawArea.clearLine(0);
-        return this;
-    }
-
+    /**
+     * Prints the input prompt to the console.
+     */
     public void print() {
         drawArea.print();
     }

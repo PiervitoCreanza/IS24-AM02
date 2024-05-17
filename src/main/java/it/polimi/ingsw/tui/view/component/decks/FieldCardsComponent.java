@@ -1,4 +1,4 @@
-package it.polimi.ingsw.tui.view.component.drawCards;
+package it.polimi.ingsw.tui.view.component.decks;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.tui.view.component.cards.gameCard.GameCardComponent;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * This class represents the field component of the player's inventory.
  * It implements the Drawable interface, meaning it can be drawn in the UI.
  */
-public class FieldComponent implements Drawable {
+public class FieldCardsComponent implements Drawable {
 
     /**
      * The draw area of the field component.
@@ -29,13 +29,13 @@ public class FieldComponent implements Drawable {
     private final int spacing;
 
     /**
-     * Constructs a new FieldComponent.
+     * Constructs a new FieldCardsComponent.
      *
      * @param fieldResourceCards the resource cards in the field
      * @param fieldGoldCards     the gold cards in the field
      * @param spacing            the spacing between the resource cards and gold cards
      */
-    public FieldComponent(ArrayList<GameCard> fieldResourceCards, ArrayList<GameCard> fieldGoldCards, int spacing) {
+    public FieldCardsComponent(ArrayList<GameCard> fieldResourceCards, ArrayList<GameCard> fieldGoldCards, int spacing) {
         drawArea = new DrawArea();
         this.spacing = spacing;
         drawArea.drawAt(2, 0, "Resources card:");

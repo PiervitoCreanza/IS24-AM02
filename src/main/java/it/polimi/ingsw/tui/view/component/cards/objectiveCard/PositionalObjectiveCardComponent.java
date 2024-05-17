@@ -11,21 +11,25 @@ import it.polimi.ingsw.tui.view.drawer.Drawable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-/*
-                ┌───────────────┐
-                │  ┌───┐        │
-                │  │ 2 │  ■     │
-                │  └───┘  ■  ■  │
-                │               │
-                └───────────────┘
+/**
+ * This class represents a component of the Positional Objective Card in the user interface.
+ * It implements the Drawable interface, meaning it can be drawn to the console.
+ * The class is responsible for managing and displaying the Positional Objective Card.
  */
 public class PositionalObjectiveCardComponent implements Drawable {
+    // The area where the Positional Objective Card is drawn
     private final DrawArea drawArea;
 
+    /**
+     * Constructs a new PositionalObjectiveCardComponent.
+     * It initializes the draw area and draws the Positional Objective Card at the specified coordinates.
+     *
+     * @param objectiveCard The Positional Objective Card to be displayed.
+     * @param drawArea      The area where the Positional Objective Card is drawn.
+     */
     public PositionalObjectiveCardComponent(PositionalObjectiveCard objectiveCard, DrawArea drawArea) {
         this.drawArea = drawArea;
         ArrayList<PositionalData> pd = objectiveCard.getPositionalData();
-
 
         ArrayList<Pair<Coordinate, CardColorEnum>> pair = new ArrayList<>();
         for (PositionalData p : pd) {
@@ -55,20 +59,40 @@ public class PositionalObjectiveCardComponent implements Drawable {
         this.drawArea.drawAt(6, 3, objectiveCard.getPointsWon());
     }
 
+    /**
+     * Returns the draw area of the Positional Objective Card.
+     *
+     * @return the draw area of the Positional Objective Card.
+     */
     public DrawArea getDrawArea() {
         return drawArea;
     }
 
+    /**
+     * Returns a string representation of the Positional Objective Card.
+     *
+     * @return a string representation of the Positional Objective Card.
+     */
     @Override
     public String toString() {
         return drawArea.toString();
     }
 
+    /**
+     * Returns the height of the Positional Objective Card.
+     *
+     * @return the height of the Positional Objective Card.
+     */
     @Override
     public int getHeight() {
         return drawArea.getHeight();
     }
 
+    /**
+     * Returns the width of the Positional Objective Card.
+     *
+     * @return the width of the Positional Objective Card.
+     */
     @Override
     public int getWidth() {
         return drawArea.getWidth();

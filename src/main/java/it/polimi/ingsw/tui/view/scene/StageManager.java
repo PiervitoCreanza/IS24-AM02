@@ -14,18 +14,25 @@ import it.polimi.ingsw.tui.utils.Utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 /**
  * This class manages the different scenes in the game.
+ * It is responsible for displaying the appropriate scene based on a call from the TUIViewController.
+ * It uses an instance of TUIViewController to let the scene interact with the game logic, such as setting the next one.
  */
 public class StageManager {
 
-    TUIViewController controller;
-    ExecutorService executor = Executors.newSingleThreadExecutor();
+    /**
+     * The controller that manages the user interface and the game logic.
+     */
+    private final TUIViewController controller;
 
+    /**
+     * Class constructor.
+     *
+     * @param controller The controller that manages the user interface and the game logic.
+     */
     public StageManager(TUIViewController controller) {
         this.controller = controller;
     }
@@ -50,6 +57,12 @@ public class StageManager {
         }
     }
 
+    /**
+     * Shows the GetGamesScene.
+     *
+     * @param games The list of games to be displayed.
+     * @return The GetGamesScene scene.
+     */
     public GetGamesScene showGetGamesScene(ArrayList<GameRecord> games) {
         clearScreen();
         GetGamesScene scene = new GetGamesScene(this.controller, games);
@@ -57,6 +70,12 @@ public class StageManager {
         return scene;
     }
 
+    /**
+     * Shows the WaitForPlayersScene.
+     *
+     * @param gameControllerView The game controller view.
+     * @return The WaitForPlayersScene scene.
+     */
     public WaitForPlayersScene showWaitForPlayersScene(GameControllerView gameControllerView) {
         clearScreen();
         WaitForPlayersScene scene = new WaitForPlayersScene(gameControllerView.gameView().playerViews().stream().map(PlayerView::playerName).collect(Collectors.toCollection(ArrayList::new)), 4);
@@ -64,6 +83,11 @@ public class StageManager {
         return scene;
     }
 
+    /**
+     * Shows the MainMenuScene.
+     *
+     * @return The MainMenuScene scene.
+     */
     public MainMenuScene showMainMenuScene() {
         clearScreen();
         MainMenuScene scene = new MainMenuScene(this.controller);
@@ -71,6 +95,11 @@ public class StageManager {
         return scene;
     }
 
+    /**
+     * Shows the JoinGameScene.
+     *
+     * @return The JoinGameScene scene.
+     */
     public JoinGameScene showJoinGameScene() {
         clearScreen();
         JoinGameScene scene = new JoinGameScene(this.controller);
@@ -78,6 +107,11 @@ public class StageManager {
         return scene;
     }
 
+    /**
+     * Shows the CreateGameScene.
+     *
+     * @return The CreateGameScene scene.
+     */
     public CreateGameScene showCreateGameScene() {
         clearScreen();
         CreateGameScene scene = new CreateGameScene(this.controller);
@@ -85,6 +119,12 @@ public class StageManager {
         return scene;
     }
 
+    /**
+     * Shows the InitPlaceStarterCardScene.
+     *
+     * @param starterCard The starter card to be placed.
+     * @return The InitPlaceStarterCardScene scene.
+     */
     public InitPlaceStarterCardScene showInitPlaceStarterCardScene(GameCard starterCard) {
         clearScreen();
         InitPlaceStarterCardScene scene = new InitPlaceStarterCardScene(this.controller, starterCard);
@@ -92,6 +132,12 @@ public class StageManager {
         return scene;
     }
 
+    /**
+     * Shows the InitChoosePlayerColorScene.
+     *
+     * @param availableColors The list of available colors.
+     * @return The InitChoosePlayerColorScene scene.
+     */
     public InitChoosePlayerColorScene showInitChoosePlayerColorScene(ArrayList<PlayerColorEnum> availableColors) {
         clearScreen();
         InitChoosePlayerColorScene scene = new InitChoosePlayerColorScene(this.controller, availableColors);
@@ -99,6 +145,12 @@ public class StageManager {
         return scene;
     }
 
+    /**
+     * Shows the InitSetObjectiveCardScene.
+     *
+     * @param objectiveCards The list of objective cards.
+     * @return The InitSetObjectiveCardScene scene.
+     */
     public InitSetObjectiveCardScene showInitSetObjectiveCardScene(ArrayList<ObjectiveCard> objectiveCards) {
         clearScreen();
         InitSetObjectiveCardScene scene = new InitSetObjectiveCardScene(this.controller, objectiveCards);
@@ -106,6 +158,16 @@ public class StageManager {
         return scene;
     }
 
+    /**
+     * Shows the DrawCardScene.
+     *
+     * @param playerBoard      The player board.
+     * @param globalObjectives The global objectives.
+     * @param playerObjective  The player objective.
+     * @param hand             The player hand.
+     * @param globalBoardView  The global board view.
+     * @return The DrawCardScene scene.
+     */
     public DrawCardScene showDrawCardScene(HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, GlobalBoardView globalBoardView) {
         clearScreen();
         DrawCardScene scene = new DrawCardScene(this.controller, playerBoard, globalObjectives, playerObjective, hand, globalBoardView);
@@ -113,6 +175,16 @@ public class StageManager {
         return scene;
     }
 
+    /**
+     * Shows the PlaceCardScene.
+     *
+     * @param playerBoard      The player board.
+     * @param globalObjectives The global objectives.
+     * @param playerObjective  The player objective.
+     * @param hand             The player hand.
+     * @param playerViews      The player views.
+     * @return The PlaceCardScene scene.
+     */
     public PlaceCardScene showPlaceCardScene(HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, List<PlayerView> playerViews) {
         clearScreen();
         PlaceCardScene scene = new PlaceCardScene(this.controller, playerBoard, globalObjectives, playerObjective, hand, playerViews, controller.getPlayerName());
@@ -120,6 +192,14 @@ public class StageManager {
         return scene;
     }
 
+    /**
+     * Shows the OtherPlayerTurnScene.
+     *
+     * @param playerName  The player name.
+     * @param playerColor The player color.
+     * @param playerBoard The player board.
+     * @return The OtherPlayerTurnScene scene.
+     */
     public OtherPlayerTurnScene showOtherPlayerTurnScene(String playerName, PlayerColorEnum playerColor, HashMap<Coordinate, GameCard> playerBoard) {
         clearScreen();
         OtherPlayerTurnScene scene = new OtherPlayerTurnScene(playerName, playerColor, playerBoard);
@@ -127,6 +207,11 @@ public class StageManager {
         return scene;
     }
 
+    /**
+     * Shows the GamePausedScene.
+     *
+     * @return The GamePausedScene scene.
+     */
     public GamePausedScene showGamePausedScene() {
         clearScreen();
         GamePausedScene scene = new GamePausedScene();

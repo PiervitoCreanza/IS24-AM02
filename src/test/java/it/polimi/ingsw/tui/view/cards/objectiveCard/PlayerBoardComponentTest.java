@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.utils.Coordinate;
-import it.polimi.ingsw.tui.view.component.playerBoard.PlayerBoardComponent;
+import it.polimi.ingsw.tui.view.component.player.playerBoard.PlayerBoardComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -177,6 +177,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      * @param playerName the name of the player who is placing the card.
      * @param coordinate the coordinate where the card should be placed.
      * @param cardId     the card to be placed.
+     * @param isFlipped  whether the card is flipped or not.
      */
     public void placeCard(String gameName, String playerName, Coordinate coordinate, int cardId, boolean isFlipped) {
         try {
@@ -310,11 +311,11 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
     }
 
     /**
-     * @param gameName  the name of the game.
+     * @param gameName   the name of the game.
      * @param playerName the name of the player who is sending the chat message.
-     * @param message   the chat message to be sent.
-     * @param receiver the receiver of the message. If this is null, the message is not a direct message.
-     * @param timestamp the timestamp of the message.
+     * @param message    the chat message to be sent.
+     * @param receiver   the receiver of the message. If this is null, the message is not a direct message.
+     * @param timestamp  the timestamp of the message.
      */
     @Override
     public void sendChatMessage(String gameName, String playerName, String message, String receiver, long timestamp) {

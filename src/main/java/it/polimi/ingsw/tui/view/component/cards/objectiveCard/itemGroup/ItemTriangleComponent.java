@@ -4,7 +4,15 @@ import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 import it.polimi.ingsw.tui.view.drawer.Drawable;
 
+/**
+ * This class represents an item triangle component in the game.
+ * It is used to represent the triangle of items in the objective cards.
+ * It implements the Drawable interface, meaning it can be drawn on the screen.
+ */
 public class ItemTriangleComponent implements Drawable {
+    /**
+     * The draw area of the item triangle component.
+     */
     private final DrawArea drawArea;
 
     /**

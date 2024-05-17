@@ -1,4 +1,4 @@
-package it.polimi.ingsw.tui.view.component.playerBoard;
+package it.polimi.ingsw.tui.view.component.player.playerBoard;
 
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.tui.view.component.cards.objectiveCard.ObjectiveCardComponent;

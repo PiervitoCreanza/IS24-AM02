@@ -10,6 +10,11 @@ public interface Displayable {
      */
     void display();
 
+    /**
+     * This method is used to handle user input in a Scene.
+     *
+     * @param input The user input.
+     */
     void handleUserInput(String input);
 
 }

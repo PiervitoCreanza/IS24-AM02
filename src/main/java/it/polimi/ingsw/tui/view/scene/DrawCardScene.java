@@ -6,9 +6,9 @@ import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.virtualView.GlobalBoardView;
 import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
-import it.polimi.ingsw.tui.view.component.drawCards.DrawCardComponent;
-import it.polimi.ingsw.tui.view.component.playerBoard.PlayerBoardComponent;
-import it.polimi.ingsw.tui.view.component.playerInventory.PlayerInventoryComponent;
+import it.polimi.ingsw.tui.view.component.decks.DrawingAreaComponent;
+import it.polimi.ingsw.tui.view.component.player.playerBoard.PlayerBoardComponent;
+import it.polimi.ingsw.tui.view.component.player.playerInventory.PlayerInventoryComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ public class DrawCardScene implements Displayable {
 
         DrawArea playerBoardArea = new PlayerBoardComponent(playerBoard).getDrawArea();
         DrawArea playerInventoryArea = new PlayerInventoryComponent(globalObjectives, playerObjective, hand, 1).getDrawArea();
-        DrawArea drawCardArea = new DrawCardComponent(globalBoardView.resourceFirstCard(), globalBoardView.goldFirstCard(), globalBoardView.fieldResourceCards(), globalBoardView.fieldGoldCards(), 5).getDrawArea();
+        DrawArea drawCardArea = new DrawingAreaComponent(globalBoardView.resourceFirstCard(), globalBoardView.goldFirstCard(), globalBoardView.fieldResourceCards(), globalBoardView.fieldGoldCards(), 5).getDrawArea();
 
         int widthMax = Math.max(playerBoardArea.getWidth(), playerInventoryArea.getWidth());
 
@@ -92,6 +92,11 @@ public class DrawCardScene implements Displayable {
         drawArea.println();
     }
 
+    /**
+     * This method is used to handle user input in a Scene.
+     *
+     * @param input The user input.
+     */
     public void handleUserInput(String input) {
         if (input.equals("q")) {
             controller.selectScene(ScenesEnum.MAIN_MENU);

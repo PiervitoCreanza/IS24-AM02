@@ -24,6 +24,10 @@ public class GetGamesScene implements Displayable {
      * The controller that manages the user interface and the game logic.
      */
     private final TUIViewController controller;
+
+    /**
+     * The list of games to be displayed.
+     */
     private final ArrayList<GameRecord> games;
 
     /**

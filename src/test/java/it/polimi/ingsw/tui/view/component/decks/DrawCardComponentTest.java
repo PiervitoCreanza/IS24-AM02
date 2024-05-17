@@ -1,4 +1,4 @@
-package it.polimi.ingsw.tui.view.component.drawCards;
+package it.polimi.ingsw.tui.view.component.decks;
 
 import it.polimi.ingsw.data.Parser;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
@@ -29,6 +29,6 @@ public class DrawCardComponentTest {
     @Test
     @DisplayName("Test if every component of the decks is drawn correctly")
     void getDecksDrawArea() {
-        System.out.println(new DrawCardComponent(firstResourceCard, firstGoldCard, fieldResourceCards, fieldGoldCards, 5));
+        System.out.println(new DrawingAreaComponent(firstResourceCard, firstGoldCard, fieldResourceCards, fieldGoldCards, 5));
     }
 }
