@@ -316,7 +316,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
         gameController.setPlayerConnectionStatus(playerName, isConnected);
 
         // If there is only one player connected, the game is paused
-        if (game.getConnectedPlayers().size() == 1) {
+        if (game.getConnectedPlayers().size() == 1 && gameStatus != GameStatusEnum.GAME_OVER && gameStatus != GameStatusEnum.WAIT_FOR_PLAYERS) {
             savedGameStatus = gameStatus;
             gameStatus = GameStatusEnum.GAME_PAUSED;
         }
