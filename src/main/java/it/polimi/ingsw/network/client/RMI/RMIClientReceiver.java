@@ -5,6 +5,8 @@ import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -32,6 +34,8 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      */
     private Timer heartbeatTimer;
 
+    private static final Logger logger = LogManager.getLogger(RMIClientReceiver.class);
+
     /**
      * Class constructor.
      *
@@ -52,12 +56,11 @@ public class RMIClientReceiver implements RMIServerToClientActions {
     public void receiveGameList(ArrayList<GameRecord> games) throws RemoteException {
         new Thread(() -> clientNetworkControllerMapper.receiveGameList(games)).start();
         // Debug
-        System.out.println("RMI received message: " + games);
+        logger.debug("RMI received message: {}", games);
     }
 
     /**
      * This method is called when the server receives a notification that a game has been deleted.
-     *
      *
      * @param message The message received from the server.
      */
@@ -65,7 +68,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
     public void receiveGameDeleted(String message) throws RemoteException {
         new Thread(() -> clientNetworkControllerMapper.receiveGameDeleted(message)).start();
         // Debug
-        System.out.println("RMI received message: " + message);
+        logger.debug("RMI received message: {}", message);
     }
 
     /**
@@ -77,7 +80,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
     public void receiveUpdatedView(GameControllerView updatedView) throws RemoteException {
         new Thread(() -> clientNetworkControllerMapper.receiveUpdatedView(updatedView)).start();
         // Debug
-        System.out.println("RMI received message: " + updatedView);
+        logger.debug("RMI received message: " + updatedView);
     }
 
     /**
@@ -89,7 +92,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
     public void receiveErrorMessage(String errorMessage) throws RemoteException {
         new Thread(() -> clientNetworkControllerMapper.receiveErrorMessage(errorMessage)).start();
         // Debug
-        System.out.println("RMI received message: " + errorMessage);
+        logger.debug("RMI received message: {}", errorMessage);
     }
 
 
@@ -101,9 +104,9 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      *
      * @param playerName The chat message received from the server.
      * @param message    The chat message received from the server.
-     * @param receiver  The receiver of the message if it's a direct message.
-     * @param timestamp The timestamp of the message.
-     * @param isDirect Flag to indicate if the message is a direct message.
+     * @param receiver   The receiver of the message if it's a direct message.
+     * @param timestamp  The timestamp of the message.
+     * @param isDirect   Flag to indicate if the message is a direct message.
      * @throws RemoteException If an error occurs during the RMI connection.
      */
     public void receiveChatMessage(String playerName, String message, String receiver, long timestamp, boolean isDirect) throws RemoteException {
@@ -111,7 +114,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
             clientNetworkControllerMapper.receiveChatMessage(playerName, message, receiver, timestamp, isDirect);
         }).start();
         // Debug
-        System.out.println("RMI received message: " + playerName);
+        logger.debug("RMI received message: {}", playerName);
     }
 
     @Override
@@ -127,13 +130,14 @@ public class RMIClientReceiver implements RMIServerToClientActions {
             heartbeatTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
+                    logger.error("RMI Server Unreachable - detected when pinging");
                     throw new RuntimeException("RMI Server Unreachable - detected when pinging");
                 }
             }, 5000);
         }).start();
 
         if (Client.DEBUG) {
-            System.out.println("Ping received");
+            logger.debug("Ping received");
         }
     }
 }

@@ -6,6 +6,8 @@ import it.polimi.ingsw.network.server.message.ServerActionEnum;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.utils.Observable;
 import it.polimi.ingsw.utils.Observer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.rmi.RemoteException;
 import java.util.HashSet;
@@ -38,6 +40,11 @@ public class RMIServerSender implements ServerMessageHandler, Observable<ServerM
      * The name of the game associated with the connection.
      */
     private String gameName;
+
+    /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(RMIServerSender.class);
 
     // This variable is used to check if the connection has been saved by the ServerNetworkControllerMapper.
     // The heartbeat will start only after the connection has been saved.
@@ -73,7 +80,7 @@ public class RMIServerSender implements ServerMessageHandler, Observable<ServerM
                 try {
                     stub.heartbeat();
                 } catch (RemoteException e) {
-                    System.out.println("RMI Client: " + playerName + " disconnected. Detected when pinging.");
+                    logger.warn("RMI Client: {} disconnected. Detected when pinging.", playerName);
                     closeConnection();
                     cancel();
                 }
@@ -100,12 +107,13 @@ public class RMIServerSender implements ServerMessageHandler, Observable<ServerM
                 default -> System.err.print("Invalid action\n");
             }
         } catch (RemoteException e) {
-            System.out.println("RMI Client: " + playerName + " disconnected. Detected when sending message");
+            logger.warn("RMI Client: {} disconnected. Detected when sending message", playerName);
             closeConnection();
+            return;
         }
 
         // Debug
-        System.out.println("RMI message sent: " + message.getServerAction());
+        logger.debug("RMI message sent: {}", message.getServerAction());
     }
 
     /**
