@@ -8,12 +8,39 @@ import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 import java.util.ArrayList;
 
+/**
+ * The InitSetObjectiveCardScene class represents the scene where the player sets their objective card.
+ * It implements the Displayable interface.
+ */
 public class InitSetObjectiveCardScene implements Displayable {
+
+    /**
+     * The DrawArea object where the scene will be drawn.
+     */
     private final DrawArea drawArea;
+
+    /**
+     * The controller that manages the user interface and the game logic.
+     */
     private final TUIViewController controller;
+
+    /**
+     * The list of objective cards that the player can choose from.
+     */
     private final ArrayList<ObjectiveCard> objectiveCards;
+
+    /**
+     * The UserInputHandler object that handles the user input.
+     */
     private UserInputHandler handler;
 
+    /**
+     * Constructs a new InitSetObjectiveCardScene.
+     * It initializes the drawArea and populates it with the available objective cards.
+     *
+     * @param controller     the controller for this scene
+     * @param objectiveCards the list of objective cards that the player can choose from
+     */
     public InitSetObjectiveCardScene(TUIViewController controller, ArrayList<ObjectiveCard> objectiveCards) {
         this.objectiveCards = objectiveCards;
         this.drawArea = new TitleComponent("Choose your objective card: ").getDrawArea();
@@ -36,6 +63,9 @@ public class InitSetObjectiveCardScene implements Displayable {
         this.controller = controller;
     }
 
+    /**
+     * This method is used to display the scene to the user.
+     */
     @Override
     public void display() {
         drawArea.println();
@@ -43,6 +73,11 @@ public class InitSetObjectiveCardScene implements Displayable {
         handler.print();
     }
 
+    /**
+     * This method is used to handle user input.
+     *
+     * @param input the user's input
+     */
     public void handleUserInput(String input) {
         if (input.equals("q")) {
             controller.selectScene(ScenesEnum.MAIN_MENU);

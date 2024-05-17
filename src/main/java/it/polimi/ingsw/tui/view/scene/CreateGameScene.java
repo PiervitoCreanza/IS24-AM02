@@ -48,6 +48,11 @@ public class CreateGameScene implements Displayable {
         handlers.get(status).print();
     }
 
+    /**
+     * Handles the user input.
+     *
+     * @param input the user input
+     */
     public void handleUserInput(String input) {
         if (input.equals("q")) {
             controller.selectScene(ScenesEnum.MAIN_MENU);

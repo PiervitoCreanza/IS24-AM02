@@ -40,8 +40,14 @@ public class DrawCardScene implements Displayable {
      */
     private final ArrayList<GameCard> fieldGoldCards;
 
+    /**
+     * The handler for the user input.
+     */
     private final UserInputHandler handler;
 
+    /**
+     * The status of the scene.
+     */
     private int status = 0;
 
     /**

@@ -67,13 +67,25 @@ public class PlaceCardScene implements Displayable {
      * The username of the player.
      */
     private final String playerUsername;
-
-    private final ArrayList<UserInputHandler> handlers = new ArrayList<>();
+    
+    /**
+     * The status of the scene.
+     */
     private int status = 0;
+
+    /**
+     * The user input handler for choosing a card to switch.
+     */
     private final UserInputHandler chooseCardHandler = new UserInputHandler("Choose the card to switch:", input -> input.matches("[1-3]"));
 
+    /**
+     * The user input handler for choosing a card to place.
+     */
     private final UserInputHandler chooseCardToPlaceHandler = new UserInputHandler("Choose the card to place:", input -> input.matches("[1-3]"));
 
+    /**
+     * The user input handler for choosing the coordinates to place the card.
+     */
     private final UserInputHandler chooseCoordinatesHandler = new UserInputHandler("Choose the coordinates to place the card (x,y) or <q> to quit:", input -> input.matches("-?\\d{1,2},-?\\d{1,2}"));
 
     /**
@@ -96,7 +108,6 @@ public class PlaceCardScene implements Displayable {
         this.playerViews = playerViews;
         this.playerUsername = playerUsername;
 
-
         draw();
     }
 
@@ -106,9 +117,13 @@ public class PlaceCardScene implements Displayable {
     @Override
     public void display() {
         this.drawArea.println();
-
     }
 
+    /**
+     * Handles the user input for switching a card.
+     *
+     * @param input the user input
+     */
     public void handleSwitchCard(String input) {
         if (input.equals("q")) {
             // Go back to action chooser
@@ -128,6 +143,11 @@ public class PlaceCardScene implements Displayable {
         }
     }
 
+    /**
+     * Handles the user input for choosing a card to place.
+     *
+     * @param input the user input
+     */
     public void handleChooseCardToPlace(String input) {
         if (input.equals("q")) {
             // Go back to action chooser
@@ -141,6 +161,11 @@ public class PlaceCardScene implements Displayable {
         }
     }
 
+    /**
+     * Handles the user input for choosing the coordinates to place the card.
+     *
+     * @param input the user input
+     */
     public void handleChooseCoordinates(String input) {
         if (input.equals("q")) {
             // Go back to action chooser
@@ -156,6 +181,11 @@ public class PlaceCardScene implements Displayable {
         }
     }
 
+    /**
+     * Handles the user input.
+     *
+     * @param input the user input
+     */
     public void handleUserInput(String input) {
 
         if (status == 0) {
@@ -198,7 +228,6 @@ public class PlaceCardScene implements Displayable {
         }
 
     }
-
 
     /**
      * Returns the draw area of the place card scene.

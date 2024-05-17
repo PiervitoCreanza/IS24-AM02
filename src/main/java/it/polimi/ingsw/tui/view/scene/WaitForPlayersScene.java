@@ -6,8 +6,6 @@ import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
 
 public class WaitForPlayersScene implements Displayable {
     DrawArea drawArea;
@@ -15,15 +13,12 @@ public class WaitForPlayersScene implements Displayable {
     public WaitForPlayersScene(ArrayList<String> playersName, int spacing) {
         drawArea = new DrawArea();
 
-        ColorsEnum[] colors = ColorsEnum.values();
-        ColorsEnum[] colorsToRemove = {ColorsEnum.BLACK, ColorsEnum.WHITE, ColorsEnum.RESET, ColorsEnum.BRIGHT_BLACK, ColorsEnum.BRIGHT_WHITE};
-        colors = Arrays.stream(colors).filter(color -> !Arrays.asList(colorsToRemove).contains(color)).toArray(ColorsEnum[]::new);
-        Random random = new Random();
-
+        ColorsEnum[] colors = {ColorsEnum.RED, ColorsEnum.GREEN, ColorsEnum.YELLOW, ColorsEnum.BLUE, ColorsEnum.CYAN, ColorsEnum.BRIGHT_RED, ColorsEnum.BRIGHT_GREEN, ColorsEnum.BRIGHT_YELLOW, ColorsEnum.BRIGHT_BLUE, ColorsEnum.BRIGHT_CYAN};
+        int colorIndex = 0;
         DrawArea playersDrawArea = new DrawArea();
         for (String playerName : playersName) {
-            int colorIndex = random.nextInt(colors.length);
             playersDrawArea.drawAt((playersDrawArea.getWidth() == 0) ? 2 : playersDrawArea.getWidth() + spacing, 0, String.valueOf(new PlayerComponent(playerName)), colors[colorIndex]);
+            colorIndex++;
         }
         DrawArea titleDrawArea = new TitleComponent("Waiting for players", playersDrawArea.getWidth()).getDrawArea();
         drawArea.drawAt(0, 0, titleDrawArea);

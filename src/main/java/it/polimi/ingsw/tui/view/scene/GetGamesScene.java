@@ -14,7 +14,15 @@ import java.util.ArrayList;
  * It implements the Displayable interface, meaning it can be displayed in the UI.
  */
 public class GetGamesScene implements Displayable {
+
+    /**
+     * The DrawArea object where the scene will be drawn.
+     */
     private final DrawArea drawArea;
+
+    /**
+     * The controller that manages the user interface and the game logic.
+     */
     private final TUIViewController controller;
 
     /**
@@ -57,6 +65,11 @@ public class GetGamesScene implements Displayable {
         return drawArea;
     }
 
+    /**
+     * Handles the user input.
+     *
+     * @param input the user input
+     */
     public void handleUserInput(String input) {
         switch (input) {
             case "l", "L" -> controller.getGames();

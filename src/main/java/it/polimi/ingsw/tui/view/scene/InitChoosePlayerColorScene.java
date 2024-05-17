@@ -9,19 +9,30 @@ import it.polimi.ingsw.tui.view.drawer.DrawArea;
 import java.util.ArrayList;
 
 /**
- * This class represents the scene where the player chooses their color.
+ * The InitChoosePlayerColorScene class represents the scene where the player chooses their color.
+ * It implements the Displayable interface.
  */
 public class InitChoosePlayerColorScene implements Displayable {
+    /**
+     * The DrawArea object where the scene will be drawn.
+     */
     private final DrawArea drawArea;
+
+    /**
+     * The controller that manages the user interface and the game logic.
+     */
     private final TUIViewController controller;
 
+    /**
+     * The handler for user input.
+     */
     private UserInputHandler handler;
 
     /**
-     * Constructor for the InitChoosePlayerColorScene class.
+     * Constructs a new InitChoosePlayerColorScene.
      * It initializes the drawArea and populates it with the available colors.
      *
-     * @param controller The controller of the game.
+     * @param controller the controller for this scene
      */
     public InitChoosePlayerColorScene(TUIViewController controller) {
         this.drawArea = new TitleComponent("Choose your color").getDrawArea();
@@ -34,14 +45,12 @@ public class InitChoosePlayerColorScene implements Displayable {
         this.controller = controller;
     }
 
-    // If controller can pass an array of possible colors, then the following constructor can be used.
-
     /**
-     * Constructor for the InitChoosePlayerColorScene class.
+     * Constructs a new InitChoosePlayerColorScene.
      * It initializes the drawArea and populates it with the available colors.
      *
-     * @param controller      The controller of the game.
-     * @param availableColors The available colors for the player to choose from.
+     * @param controller      the controller for this scene
+     * @param availableColors the available colors for the player to choose from
      */
     public InitChoosePlayerColorScene(TUIViewController controller, ArrayList<PlayerColorEnum> availableColors) {
         this.drawArea = new TitleComponent("Choose your color").getDrawArea();
@@ -59,16 +68,20 @@ public class InitChoosePlayerColorScene implements Displayable {
     }
 
     /**
-     * This method is used to display the object.
+     * This method is used to display the scene to the user.
      */
     @Override
     public void display() {
         drawArea.println();
-
-        handler = new UserInputHandler("Choose your color:", input -> input.matches("RED|BLUE|GREEN|YELLOW|red|blue|green|yellow|r|b|g|y"));
+        handler = new UserInputHandler("Choose your color:", input -> input.toLowerCase().matches("red|blue|green|yellow|r|b|g|y"));
         handler.print();
     }
 
+    /**
+     * This method is used to handle user input.
+     *
+     * @param input the user's input
+     */
     public void handleUserInput(String input) {
         if (input.equals("q")) {
             controller.selectScene(ScenesEnum.MAIN_MENU);
@@ -77,11 +90,11 @@ public class InitChoosePlayerColorScene implements Displayable {
 
         if (handler.validate(input)) {
             PlayerColorEnum chosenColor = null;
-            switch (input) {
-                case "RED", "red", "r" -> chosenColor = PlayerColorEnum.RED;
-                case "BLUE", "blue", "b" -> chosenColor = PlayerColorEnum.BLUE;
-                case "GREEN", "green", "g" -> chosenColor = PlayerColorEnum.GREEN;
-                case "YELLOW", "yellow", "y" -> chosenColor = PlayerColorEnum.YELLOW;
+            switch (input.toLowerCase()) {
+                case "red", "r" -> chosenColor = PlayerColorEnum.RED;
+                case "blue", "b" -> chosenColor = PlayerColorEnum.BLUE;
+                case "green", "g" -> chosenColor = PlayerColorEnum.GREEN;
+                case "yellow", "y" -> chosenColor = PlayerColorEnum.YELLOW;
             }
             controller.choosePlayerColor(chosenColor);
             return;
