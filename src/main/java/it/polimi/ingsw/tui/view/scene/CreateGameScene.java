@@ -64,7 +64,8 @@ public class CreateGameScene implements Displayable {
                 controller.createGame(handlers.get(0).getInput(), handlers.get(2).getInput(), Integer.parseInt(handlers.get(1).getInput()));
                 return;
             }
-            handlers.get(status).print();
+
         }
+        handlers.get(status).print();
     }
 }
