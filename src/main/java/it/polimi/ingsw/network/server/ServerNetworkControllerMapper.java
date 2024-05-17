@@ -13,6 +13,8 @@ import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.DeleteGameServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.GetGamesServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.UpdateViewServerToClientMessage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Timer;
@@ -28,6 +30,8 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      * The MainController object is used to control the main aspects of the game.
      */
     private final MainController mainController;
+
+    private static final Logger logger = LogManager.getLogger(ServerNetworkControllerMapper.class);
 
 
     /**
@@ -272,7 +276,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
         gameConnectionMapper.get(gameName).remove(messageHandler.getPlayerName());
         mainController.getGameController(gameName).setPlayerConnectionStatus(messageHandler.getPlayerName(), false);
 
-        System.out.println("[Server] Player " + messageHandler.getPlayerName() + " disconnected from game " + gameName + ". Remaining players: " + gameConnectionMapper.get(gameName).size());
+        logger.debug("Player {} disconnected from game {}. Remaining players: {}", messageHandler.getPlayerName(), gameName, gameConnectionMapper.get(gameName).size());
 
         if (gameConnectionMapper.get(gameName).size() == 1) {
             startLastPlayerTimeout(gameName);
@@ -283,7 +287,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
             mainController.deleteGame(gameName);
 
             gameConnectionMapper.remove(gameName);
-            System.out.println("[Server] Game " + gameName + " deleted.");
+            logger.debug("Game {} deleted.", gameName);
             return;
         }
         // If the game was not deleted we update the view for the remaining players.

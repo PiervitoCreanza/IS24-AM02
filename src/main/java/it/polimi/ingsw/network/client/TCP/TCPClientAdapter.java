@@ -13,10 +13,11 @@ import it.polimi.ingsw.network.client.message.ClientToServerMessage;
 import it.polimi.ingsw.network.client.message.adapter.ServerToClientMessageAdapter;
 import it.polimi.ingsw.network.server.message.ServerActionEnum;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
-import it.polimi.ingsw.utils.Observer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -26,7 +27,7 @@ import java.net.Socket;
  * It implements the TCPObserver and ClientMessageHandler interfaces.
  * It is UNIQUE to every RMI player.
  */
-public class TCPClientAdapter implements Observer<String>, ClientMessageHandler {
+public class TCPClientAdapter implements PropertyChangeListener, ClientMessageHandler {
     /**
      * The ServerNetworkControllerMapper object is used to map network commands to actions in the game.
      */
@@ -62,23 +63,35 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
     public TCPClientAdapter(Socket socket, ClientNetworkControllerMapper clientNetworkControllerMapper) {
         this.clientNetworkControllerMapper = clientNetworkControllerMapper;
         this.serverConnectionHandler = new TCPConnectionHandler(socket);
-        this.serverConnectionHandler.addObserver(this);
+        this.serverConnectionHandler.addPropertyChangeListener(this);
         this.serverConnectionHandler.start();
     }
 
+
     /**
-     * Notifies the TCPClientAdapter of a message.
+     * Handles property change events.
+     * This method is called when a bound property is changed.
+     * The method handles the following property changes:
+     * - "CONNECTION_CLOSED": Logs a warning that the connection with the server has been lost.
+     * - "MESSAGE_RECEIVED": Calls the receiveMessage method with the new value of the property.
+     * Any other property change is considered invalid and an error is logged.
      *
-     * @param message the message to be notified
+     * @param evt A PropertyChangeEvent object describing the event source and the property that has changed.
      */
-    @Override
-    public void notify(String message) {
-        logger.debug("Received message: " + message);
-        if ("CONNECTION_CLOSED".equals(message)) {
-            // TODO: Raise exception
-            logger.info("Connection with server lost.");
-            return;
+    public void propertyChange(PropertyChangeEvent evt) {
+        String changedProperty = evt.getPropertyName();
+        switch (changedProperty) {
+            case "CONNECTION_CLOSED" -> {
+                // TODO: Notify player
+                logger.warn("Connection with server lost.");
+            }
+            case "MESSAGE_RECEIVED" -> this.receiveMessage((String) evt.getNewValue());
+            default -> logger.error("Invalid property change.");
         }
+    }
+
+    private void receiveMessage(String message) {
+        logger.debug("Received message: {}", message);
         ServerToClientMessage receivedMessage = this.gson.fromJson(message, ServerToClientMessage.class);
         ServerActionEnum serverAction = receivedMessage.getServerAction();
         switch (serverAction) {

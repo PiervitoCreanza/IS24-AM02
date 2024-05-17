@@ -13,10 +13,11 @@ import it.polimi.ingsw.network.server.ServerMessageHandler;
 import it.polimi.ingsw.network.server.ServerNetworkControllerMapper;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.network.server.message.adapter.ClientToServerMessageAdapter;
-import it.polimi.ingsw.utils.Observer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -25,7 +26,7 @@ import java.net.Socket;
  * It masks the TCPConnectionHandler in order to make RMI and TCP server operations interchangeable.
  * It implements the Observer and MessageHandler interfaces.
  */
-public class TCPServerAdapter implements Observer<String>, ServerMessageHandler {
+public class TCPServerAdapter implements ServerMessageHandler, PropertyChangeListener {
     /**
      * The ServerNetworkControllerMapper object is used to map network commands to actions in the game.
      */
@@ -80,28 +81,33 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
     public TCPServerAdapter(Socket socket, ServerNetworkControllerMapper serverNetworkControllerMapper) {
         this.serverNetworkControllerMapper = serverNetworkControllerMapper;
         this.clientConnectionHandler = new TCPConnectionHandler(socket);
-        this.clientConnectionHandler.addObserver(this);
+        this.clientConnectionHandler.addPropertyChangeListener(this);
         this.clientConnectionHandler.start();
     }
 
     /**
      * Notifies the TCPServerAdapter of a message.
      *
-     * @param message the message to be notified
+     * @param evt the message to be notified
      */
-    @Override
-    public void notify(String message) {
+    public void propertyChange(PropertyChangeEvent evt) {
+        String changedProperty = evt.getPropertyName();
 
-        logger.debug("Received TCP message: {}", message);
-        // Handle client disconnection
-        if ("CONNECTION_CLOSED".equals(message)) {
-            if (this.isConnectionSaved) {
-                this.isConnectionSaved = false;
-                this.serverNetworkControllerMapper.handleDisconnection(this);
+        switch (changedProperty) {
+            case "CONNECTION_CLOSED" -> {
+                if (this.isConnectionSaved) {
+                    this.isConnectionSaved = false;
+                    this.serverNetworkControllerMapper.handleDisconnection(this);
+                }
+                logger.warn("Connection with client lost.");
             }
-            return;
+            case "MESSAGE_RECEIVED" -> this.receiveMessage((String) evt.getNewValue());
+            default -> logger.error("Invalid property change.");
         }
+    }
 
+    private void receiveMessage(String message) {
+        logger.debug("Received TCP message: {}", message);
         ClientToServerMessage receivedMessage = this.gson.fromJson(message, ClientToServerMessage.class);
         PlayerActionEnum playerAction = receivedMessage.getPlayerAction();
         // Thanks to polymorphism, the correct method is called based on the playerAction (ClientToServerMessage have all the methods of subclasses, so when we get the right message the methods was overridden)

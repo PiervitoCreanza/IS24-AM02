@@ -13,8 +13,11 @@ import it.polimi.ingsw.network.client.message.mainController.JoinGameClientToSer
 import it.polimi.ingsw.network.server.ServerMessageHandler;
 import it.polimi.ingsw.network.server.ServerNetworkControllerMapper;
 import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
-import it.polimi.ingsw.utils.Observer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.rmi.RemoteException;
 
 /**
@@ -22,12 +25,14 @@ import java.rmi.RemoteException;
  * It implements the RMIClientToServerActions interface, which defines the methods for handling client actions.
  * It also implements the Observer interface, which allows it to be notified when a change occurs in the ServerMessageHandler.
  */
-public class RMIServerReceiver implements RMIClientToServerActions, Observer<ServerMessageHandler> {
+public class RMIServerReceiver implements RMIClientToServerActions, PropertyChangeListener {
 
     /**
      * The ServerNetworkControllerMapper object used to map network commands to actions in the game.
      */
     private final ServerNetworkControllerMapper serverNetworkControllerMapper;
+
+    private static final Logger logger = LogManager.getLogger(RMIServerReceiver.class);
 
     /**
      * Constructs a new RMIServerReceiver object with the specified ServerNetworkControllerMapper.
@@ -42,11 +47,16 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
      * Notifies the ServerNetworkControllerMapper when a client disconnects.
      * This method is called when the ServerMessageHandler detects a disconnection.
      *
-     * @param handler the ServerMessageHandler that detected the disconnection
+     * @param evt the ServerMessageHandler that detected the disconnection
      */
-    @Override
-    public void notify(ServerMessageHandler handler) {
-        new Thread(() -> serverNetworkControllerMapper.handleDisconnection(handler)).start();
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("CONNECTION_CLOSED")) {
+            logger.warn("Connection lost");
+            new Thread(() -> serverNetworkControllerMapper.handleDisconnection((ServerMessageHandler) evt.getNewValue())).start();
+        } else {
+            logger.error("Unknown property name: {}", evt.getPropertyName());
+        }
+
     }
 
     /**
@@ -208,7 +218,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
      */
     private RMIServerSender instanceRMIServerAdapter(RMIServerToClientActions stub) {
         RMIServerSender rmiServerSender = new RMIServerSender(stub);
-        rmiServerSender.addObserver(this);
+        rmiServerSender.addPropertyChangeListener(this);
         return rmiServerSender;
     }
 
@@ -220,11 +230,11 @@ public class RMIServerReceiver implements RMIClientToServerActions, Observer<Ser
      * This method is used to send a chat message from the client to the server.
      * The server will convert it to a ChatServerToClientMessage and send it to all clients excluding the sender.
      *
-     * @param gameName  the name of the game
+     * @param gameName   the name of the game
      * @param playerName the name of the player who sent the chat message
      * @param message    the chat message to be sent
-     * @param receiver  the receiver of the message if it's a direct message
-     * @param timestamp the timestamp of the message
+     * @param receiver   the receiver of the message if it's a direct message
+     * @param timestamp  the timestamp of the message
      * @throws RemoteException if an error occurs during the remote method call
      */
     @Override
