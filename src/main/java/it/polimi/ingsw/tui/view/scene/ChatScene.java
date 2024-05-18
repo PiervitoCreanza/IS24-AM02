@@ -75,16 +75,16 @@ public class ChatScene implements Scene {
                 default -> System.out.println("Invalid input");
             }
         }
-
+        if (currentStatus == ChatStatus.SEND_MESSAGE) {
+            handleMessage(input);
+        }
         if (currentStatus == ChatStatus.DIRECT) {
             handleReceiver(input);
         }
         if (currentStatus == ChatStatus.GLOBAL) {
             handleGlobalMessage();
         }
-        if (currentStatus == ChatStatus.SEND_MESSAGE) {
-            handleMessage(input);
-        }
+
     }
 
 
