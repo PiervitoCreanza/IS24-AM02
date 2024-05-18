@@ -41,7 +41,7 @@ public class ChatScene implements Scene {
                 .forEach(message -> chatArea.drawNewLine(message, 0));
         DrawArea titleArea = new TitleComponent("ChatScene", (chatArea.getWidth() <= 55) ? 55 : chatArea.getWidth()).getDrawArea();
         this.drawArea.drawAt(0, 0, titleArea);
-        this.drawArea.drawAt(0, 1, chatArea);
+        this.drawArea.drawAt(0, drawArea.getHeight(), chatArea);
         this.drawArea.drawNewLine("""
                 Press <d> to send direct message.
                 Press <g> to send global message.
@@ -87,6 +87,7 @@ public class ChatScene implements Scene {
         }
     }
 
+
     private void handleMessage(String input) {
         if (input.equals("q")) {
             // Go back to action chooser
@@ -99,13 +100,14 @@ public class ChatScene implements Scene {
         } else {
             receiverHandler.print();
         }
-
     }
+
 
     private void handleGlobalMessage() {
         currentStatus = ChatStatus.SEND_MESSAGE;
         receiverHandler.validate("");
     }
+
 
     private void handleReceiver(String input) {
         if (input.equals("q")) {
