@@ -31,6 +31,7 @@ public class OtherPlayerTurnScene implements Scene {
         this.drawArea.drawAt(this.drawArea.getWidth() + 1, 0, playerName, playerColor.getColor());
         this.drawArea.drawAt(this.drawArea.getWidth(), 0, "'s turn!");
         this.drawArea.drawAt(this.drawArea.getWidth(), this.drawArea.getHeight() + 1, new PlayerBoardComponent(playerBoard));
+        this.drawArea.drawNewLine("Press <c> to chat.", 0);
     }
 
     /**

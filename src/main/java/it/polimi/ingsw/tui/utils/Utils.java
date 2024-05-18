@@ -43,4 +43,24 @@ public class Utils {
      * ANSI escape code to clear the console screen on Unix-based systems.
      */
     public static final String ANSI_CLEAR_UNIX = "\033[H\033[2J";
+
+    /**
+     * Clears the console screen based on the operating system.
+     */
+    public static void clearScreen() {
+        String os = System.getProperty("os.name").toLowerCase();
+        try {
+            if (os.contains("win")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else if (os.contains("nix") || os.contains("nux") || os.contains("mac")) {
+                System.out.print(Utils.ANSI_CLEAR_UNIX);
+            } else {
+                // Fallback to printing new lines if OS detection failed
+                for (int i = 0; i < 100; i++) {
+                    System.out.println();
+                }
+            }
+        } catch (Exception ignored) {
+        }
+    }
 }

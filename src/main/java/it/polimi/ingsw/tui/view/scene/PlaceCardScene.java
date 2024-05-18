@@ -202,11 +202,8 @@ public class PlaceCardScene implements Scene {
                     chooseCardToPlaceHandler.print();
                     return;
                 }
-                case "sb", "SB" -> {
-                    return;
-                }
                 case "c", "C" -> {
-                    controller.selectScene(ScenesEnum.CHAT);
+                    controller.showChat();
                     return;
                 }
                 case "q", "Q" -> {

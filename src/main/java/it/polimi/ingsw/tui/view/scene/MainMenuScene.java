@@ -48,10 +48,10 @@ public class MainMenuScene implements Scene {
      * @param input the user's input
      */
     public void handleUserInput(String input) {
-        switch (input) {
-            case "l", "L" -> this.controller.getGames();
-            case "c", "C" -> this.controller.selectScene(ScenesEnum.CREATE_GAME);
-            case "q", "Q" -> {
+        switch (input.toLowerCase()) {
+            case "l" -> this.controller.getGames();
+            case "c" -> this.controller.selectScene(ScenesEnum.CREATE_GAME);
+            case "q" -> {
                 System.out.println("Exiting...");
                 System.exit(0);
             }

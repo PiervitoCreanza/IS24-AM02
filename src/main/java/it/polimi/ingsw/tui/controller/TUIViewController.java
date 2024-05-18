@@ -5,13 +5,16 @@ import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
+import it.polimi.ingsw.network.client.message.ChatClientToServerMessage;
+import it.polimi.ingsw.network.server.message.ChatServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.tui.commandLine.CLIReader;
 import it.polimi.ingsw.tui.commandLine.ClientStatusEnum;
+import it.polimi.ingsw.tui.utils.Utils;
 import it.polimi.ingsw.tui.view.scene.Scene;
+import it.polimi.ingsw.tui.view.scene.SceneBuilder;
 import it.polimi.ingsw.tui.view.scene.ScenesEnum;
-import it.polimi.ingsw.tui.view.scene.StageManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,9 +29,9 @@ import java.util.ArrayList;
 public class TUIViewController implements PropertyChangeListener {
 
     /**
-     * Instance of StageManager to manage different scenes in the game.
+     * Instance of SceneBuilder to manage different scenes in the game.
      */
-    private final StageManager stageManager;
+    private final SceneBuilder sceneBuilder;
 
     /**
      * Instance of ClientNetworkControllerMapper to manage network requests.
@@ -80,6 +83,13 @@ public class TUIViewController implements PropertyChangeListener {
      */
     private GameControllerView gameControllerView;
 
+    private Scene previousScene;
+
+    private final ArrayList<ChatServerToClientMessage> messages = new ArrayList<>();
+
+    private boolean isInChat = false;
+
+
     /**
      * Constructor for TUIViewController.
      *
@@ -87,7 +97,7 @@ public class TUIViewController implements PropertyChangeListener {
      */
     public TUIViewController(ClientNetworkControllerMapper networkController) {
         this.networkController = networkController;
-        this.stageManager = new StageManager(this);
+        this.sceneBuilder = new SceneBuilder(this);
         this.cliReader = new CLIReader(this);
         cliReader.start();
     }
@@ -96,7 +106,25 @@ public class TUIViewController implements PropertyChangeListener {
      * Method to start the game.
      */
     public void start() {
-        this.currentScene = stageManager.showMainMenuScene();
+        this.currentScene = sceneBuilder.instanceMainMenuScene();
+        showCurrentScene();
+    }
+
+    private void showCurrentScene() {
+        if (!isInChat) {
+            Utils.clearScreen();
+            this.currentScene.display();
+        }
+    }
+
+    public void showChat() {
+        Scene chat = sceneBuilder.instanceChatScene(playerName, messages);
+        Utils.clearScreen();
+        chat.display();
+    }
+
+    public void quitChat() {
+
     }
 
     /**
@@ -117,13 +145,17 @@ public class TUIViewController implements PropertyChangeListener {
         this.gameName = gameName;
     }
 
+    public void setPreviousScene(Scene scene) {
+        this.previousScene = scene;
+    }
+
     /**
      * Method to get the client status.
      *
      * @return the client status.
      */
-    public ClientStatusEnum getClientStatus() {
-        return status;
+    public Scene getCurrentScene() {
+        return currentScene;
     }
 
     /**
@@ -141,16 +173,11 @@ public class TUIViewController implements PropertyChangeListener {
      */
     public void selectScene(ScenesEnum scene) {
         switch (scene) {
-            case MAIN_MENU -> {
-                this.currentScene = stageManager.showMainMenuScene();
-            }
-            case CREATE_GAME -> {
-                this.currentScene = stageManager.showCreateGameScene();
-            }
-            case JOIN_GAME -> {
-                this.currentScene = stageManager.showJoinGameScene();
-            }
+            case MAIN_MENU -> this.currentScene = sceneBuilder.instanceMainMenuScene();
+            case CREATE_GAME -> this.currentScene = sceneBuilder.instanceCreateGameScene();
+            case JOIN_GAME -> this.currentScene = sceneBuilder.instanceJoinGameScene();
         }
+        showCurrentScene();
     }
 
     /**
@@ -200,7 +227,7 @@ public class TUIViewController implements PropertyChangeListener {
      */
     public void joinGame(int gameID, String playerName) {
         if (gameID < 0 || gameID >= gamesList.size()) {
-            this.currentScene = stageManager.showGetGamesScene(gamesList);
+            this.currentScene = sceneBuilder.instanceGetGamesScene(gamesList);
             return;
         }
         this.gameName = gamesList.get(gameID).gameName();
@@ -287,6 +314,10 @@ public class TUIViewController implements PropertyChangeListener {
         networkController.setPlayerObjective(gameName, playerName, objectiveCardId);
     }
 
+    public void sendMessage(String message, String receiver) {
+        networkController.sendChatMessage(new ChatClientToServerMessage(gameName, playerName, message, receiver));
+    }
+
     private boolean isClientTurn() {
         return gameControllerView.getCurrentPlayerView().playerName().equals(playerName);
     }
@@ -331,8 +362,7 @@ public class TUIViewController implements PropertyChangeListener {
         switch (changedProperty) {
             case "GET_GAMES":
                 gamesList = (ArrayList<GameRecord>) evt.getNewValue();
-                this.currentScene = stageManager.showGetGamesScene(gamesList);
-                status = ClientStatusEnum.GET_GAMES;
+                this.currentScene = sceneBuilder.instanceGetGamesScene(gamesList);
                 break;
 
             case "GAME_DELETED":
@@ -347,48 +377,51 @@ public class TUIViewController implements PropertyChangeListener {
 
                 gameControllerView = updatedView;
                 if (gameStatus == GameStatusEnum.WAIT_FOR_PLAYERS) {
-                    this.currentScene = stageManager.showWaitForPlayersScene(updatedView);
-                    return;
+                    this.currentScene = sceneBuilder.instanceWaitForPlayersScene(updatedView);
+                    break;
                 }
 
                 if (gameStatus == GameStatusEnum.GAME_PAUSED) {
-                    this.currentScene = stageManager.showGamePausedScene();
-                    return;
+                    this.currentScene = sceneBuilder.instanceGamePausedScene();
+                    break;
                 }
 
                 // If the client is the current player and the view has changed. Prevent re-rendering the scene if the view has not changed.
                 if (isClientTurn() && isPlayerViewChanged(oldView, updatedView)) {
                     switch (gameStatus) {
                         case INIT_PLACE_STARTER_CARD:
-                            this.currentScene = stageManager.showInitPlaceStarterCardScene(updatedView.getCurrentPlayerView().starterCard());
+                            this.currentScene = sceneBuilder.instanceInitPlaceStarterCardScene(updatedView.getCurrentPlayerView().starterCard());
                             break;
                         case INIT_CHOOSE_PLAYER_COLOR:
-                            this.currentScene = stageManager.showInitChoosePlayerColorScene(updatedView.gameView().availablePlayerColors());
+                            this.currentScene = sceneBuilder.instanceInitChoosePlayerColorScene(updatedView.gameView().availablePlayerColors());
                             break;
                         case INIT_CHOOSE_OBJECTIVE_CARD:
-                            this.currentScene = stageManager.showInitSetObjectiveCardScene(updatedView.getCurrentPlayerView().choosableObjectives());
+                            this.currentScene = sceneBuilder.instanceInitSetObjectiveCardScene(updatedView.getCurrentPlayerView().choosableObjectives());
                             break;
                         case DRAW_CARD:
-                            this.currentScene = stageManager.showDrawCardScene(updatedView.getCurrentPlayerView().playerBoardView().playerBoard(), updatedView.gameView().globalBoardView().globalObjectives(), updatedView.getCurrentPlayerView().objectiveCard(), updatedView.getCurrentPlayerView().playerHandView().hand(), updatedView.gameView().globalBoardView());
+                            this.currentScene = sceneBuilder.instanceDrawCardScene(updatedView.getCurrentPlayerView().playerBoardView().playerBoard(), updatedView.gameView().globalBoardView().globalObjectives(), updatedView.getCurrentPlayerView().objectiveCard(), updatedView.getCurrentPlayerView().playerHandView().hand(), updatedView.gameView().globalBoardView());
                             break;
                         case PLACE_CARD:
-                            this.currentScene = stageManager.showPlaceCardScene(updatedView.getCurrentPlayerView().playerBoardView().playerBoard(), updatedView.gameView().globalBoardView().globalObjectives(), updatedView.getCurrentPlayerView().objectiveCard(), updatedView.getCurrentPlayerView().playerHandView().hand(), updatedView.gameView().playerViews());
+                            this.currentScene = sceneBuilder.instancePlaceCardScene(updatedView.getCurrentPlayerView().playerBoardView().playerBoard(), updatedView.gameView().globalBoardView().globalObjectives(), updatedView.getCurrentPlayerView().objectiveCard(), updatedView.getCurrentPlayerView().playerHandView().hand(), updatedView.gameView().playerViews());
                             break;
                     }
                 }
 
                 if (!isClientTurn() && isPlayerBoardChanged(oldView, updatedView)) {
-                    this.currentScene = stageManager.showOtherPlayerTurnScene(updatedView.getCurrentPlayerView().playerName(), updatedView.getCurrentPlayerView().color(), updatedView.getCurrentPlayerView().playerBoardView().playerBoard());
+                    this.currentScene = sceneBuilder.instanceOtherPlayerTurnScene(updatedView.getCurrentPlayerView().playerName(), updatedView.getCurrentPlayerView().color(), updatedView.getCurrentPlayerView().playerBoardView().playerBoard());
                 }
+                break;
+
+            case "CHAT_MESSAGE":
+                messages.add((ChatServerToClientMessage) evt.getNewValue());
                 break;
 
             case "ERROR":
                 String errorMessage = (String) evt.getNewValue();
                 System.out.println("Error: " + errorMessage);
-                this.currentScene.display();
+                //this.currentScene.display();
                 break;
-
-
         }
+        showCurrentScene();
     }
 }

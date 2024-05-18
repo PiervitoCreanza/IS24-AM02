@@ -329,10 +329,12 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
         if (convertedMessage.isDirectMessage()) {
             //It is sent only to the receiver and the sender.
             ServerMessageHandler receiverHandler = gameConnectionMapper.get(gameName).get(receiver);
+            ServerMessageHandler senderHandler = gameConnectionMapper.get(gameName).get(playerName);
             if (receiverHandler != null) {
                 receiverHandler.sendMessage(convertedMessage);
+                senderHandler.sendMessage(convertedMessage);
             } else {
-                gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage("The player you are trying to send a message to is not in the game."));
+                senderHandler.sendMessage(new ErrorServerToClientMessage("The player you are trying to send a message to is not in the game."));
             }
         } else {
             //It is broadcasted to any player of the game (even the sender) to avoid code redundancy client-side.

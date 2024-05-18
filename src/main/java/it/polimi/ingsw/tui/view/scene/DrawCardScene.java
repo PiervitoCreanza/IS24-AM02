@@ -108,7 +108,7 @@ public class DrawCardScene implements Scene {
                     new TitleComponent("Drawing a Card").getDrawArea().println();
                     status = 1;
                 }
-                case "c", "C" -> controller.selectScene(ScenesEnum.CHAT);
+                case "c", "C" -> controller.showChat();
             }
         }
 

@@ -10,19 +10,13 @@ import it.polimi.ingsw.network.client.message.mainController.CreateGameClientToS
 import it.polimi.ingsw.network.client.message.mainController.DeleteGameClientToServerMessage;
 import it.polimi.ingsw.network.client.message.mainController.GetGamesClientToServerMessage;
 import it.polimi.ingsw.network.client.message.mainController.JoinGameClientToServerMessage;
+import it.polimi.ingsw.network.server.message.ChatServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
-import static it.polimi.ingsw.tui.utils.Utils.ANSI_BLUE;
-import static it.polimi.ingsw.tui.utils.Utils.ANSI_RESET;
 
 /**
  * The ClientNetworkControllerMapper class implements the ServerToClientActions interface.
@@ -250,6 +244,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      * @param isDirect   Flag to indicate if the message is a direct message.
      */
     public void receiveChatMessage(String playerName, String message, String receiver, long timestamp, boolean isDirect) {
+        notify("CHAT_MESSAGE", new ChatServerToClientMessage(playerName, message, receiver, timestamp));
         //TODO: JavaFx / TUI event trigger?
     }
 
@@ -271,37 +266,6 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      */
     public GameControllerView getView() {
         return view;
-    }
-
-
-    /**
-     * Prints a chat message with the appropriate colors.
-     *
-     * @param sender          The sender of the message.
-     * @param message         The content of the message.
-     * @param receiver        The receiver of the message if it's a direct message.
-     * @param timestamp       The timestamp when the message was created.
-     * @param isDirectMessage Flag to indicate if the message is a direct message.
-     * @return A string representation of the chat message.
-     */
-    private String chatPrint(String sender, String message, String receiver, long timestamp, boolean isDirectMessage) {
-        // If it's a direct message, print it in blue with the appropriate fields
-        if (isDirectMessage)
-            return ANSI_BLUE + sender + "(to " + receiver + "): " + message + " (" + getFormattedTimestamp(timestamp) + ")" + ANSI_RESET;
-        // If it's not a direct message, print it as a normal message
-        return sender + ": " + message + " (" + getFormattedTimestamp(timestamp) + ")";
-    }
-
-    /**
-     * Converts a Unix timestamp into a formatted string.
-     *
-     * @param timestamp The Unix timestamp to convert.
-     * @return The formatted string representation of the timestamp.
-     */
-    private String getFormattedTimestamp(long timestamp) {
-        LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        return dateTime.format(formatter);
     }
 
     /**
