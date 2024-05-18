@@ -124,8 +124,8 @@ public class SceneBuilder {
      * @param globalBoardView  The global board view.
      * @return The DrawCardScene scene.
      */
-    public DrawCardScene instanceDrawCardScene(HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, GlobalBoardView globalBoardView) {
-        return new DrawCardScene(this.controller, playerBoard, globalObjectives, playerObjective, hand, globalBoardView);
+    public DrawCardScene instanceDrawCardScene(HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, GlobalBoardView globalBoardView, boolean isLastRound) {
+        return new DrawCardScene(this.controller, playerBoard, globalObjectives, playerObjective, hand, globalBoardView, );
     }
 
     /**
@@ -138,8 +138,8 @@ public class SceneBuilder {
      * @param playerViews      The player views.
      * @return The PlaceCardScene scene.
      */
-    public PlaceCardScene instancePlaceCardScene(HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, List<PlayerView> playerViews) {
-        return new PlaceCardScene(this.controller, playerBoard, globalObjectives, playerObjective, hand, playerViews, controller.getPlayerName());
+    public PlaceCardScene instancePlaceCardScene(HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, List<PlayerView> playerViews, boolean isLastRound) {
+        return new PlaceCardScene(this.controller, playerBoard, globalObjectives, playerObjective, hand, playerViews, controller.getPlayerName(), isLastRound);
     }
 
     /**

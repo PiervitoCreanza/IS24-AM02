@@ -97,6 +97,10 @@ public class Client {
             }
         }
 
+        if (cmd.hasOption("c")) {
+            return cmd.getOptionValue("c");
+        }
+
         // Get public ip address
         try (HttpClient client = HttpClient.newHttpClient()) {
             HttpRequest request = HttpRequest.newBuilder()
@@ -126,6 +130,7 @@ public class Client {
         // add options
         options.addOption(Option.builder("rmi").longOpt("rmi_mode").desc("Start the client using a RMI connection.").build());
         options.addOption("s", "server_ip", true, "Server IP address.");
+        options.addOption("c", "client_ip", true, "Client IP address.");
         options.addOption("sp", "server_port", true, "Server port number (default is 12345 for TCP and 1099 for RMI).");
         options.addOption("cp", true, "Client port number (default is the same as the server port number).");
         options.addOption("lan", "lan", false, "Start the client in LAN mode.");

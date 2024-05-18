@@ -153,7 +153,6 @@ public class TUIViewController implements PropertyChangeListener {
 
     /**
      * Method to handle user input of the current scene.
-     *
      */
     public void handleUserInput(String input) {
         if (isInChat) {
@@ -395,10 +394,10 @@ public class TUIViewController implements PropertyChangeListener {
                             this.currentScene = sceneBuilder.instanceInitSetObjectiveCardScene(updatedView.getCurrentPlayerView().choosableObjectives());
                             break;
                         case DRAW_CARD:
-                            this.currentScene = sceneBuilder.instanceDrawCardScene(updatedView.getCurrentPlayerView().playerBoardView().playerBoard(), updatedView.gameView().globalBoardView().globalObjectives(), updatedView.getCurrentPlayerView().objectiveCard(), updatedView.getCurrentPlayerView().playerHandView().hand(), updatedView.gameView().globalBoardView());
+                            this.currentScene = sceneBuilder.instanceDrawCardScene(updatedView.getCurrentPlayerView().playerBoardView().playerBoard(), updatedView.gameView().globalBoardView().globalObjectives(), updatedView.getCurrentPlayerView().objectiveCard(), updatedView.getCurrentPlayerView().playerHandView().hand(), updatedView.gameView().globalBoardView(), updatedView.isLastRound());
                             break;
                         case PLACE_CARD:
-                            this.currentScene = sceneBuilder.instancePlaceCardScene(updatedView.getCurrentPlayerView().playerBoardView().playerBoard(), updatedView.gameView().globalBoardView().globalObjectives(), updatedView.getCurrentPlayerView().objectiveCard(), updatedView.getCurrentPlayerView().playerHandView().hand(), updatedView.gameView().playerViews());
+                            this.currentScene = sceneBuilder.instancePlaceCardScene(updatedView.getCurrentPlayerView().playerBoardView().playerBoard(), updatedView.gameView().globalBoardView().globalObjectives(), updatedView.getCurrentPlayerView().objectiveCard(), updatedView.getCurrentPlayerView().playerHandView().hand(), updatedView.gameView().playerViews(), updatedView.isLastRound());
                             break;
                     }
                 }
@@ -417,9 +416,9 @@ public class TUIViewController implements PropertyChangeListener {
             case "ERROR":
                 String errorMessage = (String) evt.getNewValue();
                 System.out.println("Error: " + errorMessage);
-                //this.currentScene.display();
                 break;
         }
-        showCurrentScene();
+        if (!changedProperty.equals("CHAT_MESSAGE") && !changedProperty.equals("ERROR"))
+            showCurrentScene();
     }
 }

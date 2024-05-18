@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.virtualView.GlobalBoardView;
 import it.polimi.ingsw.tui.controller.TUIViewController;
+import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.component.decks.DrawingAreaComponent;
 import it.polimi.ingsw.tui.view.component.player.playerBoard.PlayerBoardComponent;
@@ -60,7 +61,7 @@ public class DrawCardScene implements Scene {
      * @param hand             the player's hand of cards
      * @param globalBoardView  the global board view
      */
-    public DrawCardScene(TUIViewController controller, HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, GlobalBoardView globalBoardView) {
+    public DrawCardScene(TUIViewController controller, HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, GlobalBoardView globalBoardView, boolean isLastRound) {
         this.controller = controller;
         this.drawArea = new DrawArea();
         this.fieldResourceCards = globalBoardView.fieldResourceCards();
@@ -76,6 +77,12 @@ public class DrawCardScene implements Scene {
         this.drawArea.drawCenteredX(drawArea.getHeight(), playerBoardArea);
         this.drawArea.drawCenteredX(drawArea.getHeight(), playerInventoryArea);
         this.drawArea.drawCenteredX(drawArea.getHeight(), drawCardArea);
+        if (isLastRound) {
+            this.drawArea.drawNewLine("""
+                    This is the last round of the game.
+                    You can place the last card on the board.
+                    """, ColorsEnum.BRIGHT_RED, 0);
+        }
         this.drawArea.drawNewLine("""
                 Press <d> to draw a card.
                 Press <c> to see the Chat.
