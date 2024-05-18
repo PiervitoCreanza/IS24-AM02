@@ -4,8 +4,6 @@ import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
-import java.util.ArrayList;
-
 /**
  * The JoinGameScene class represents the scene where a player can join a game.
  * It implements the Scene interface.
@@ -21,15 +19,9 @@ public class JoinGameScene implements Scene {
      */
     private final TUIViewController controller;
 
-    /**
-     * The list of handlers for user input.
-     */
-    private final ArrayList<UserInputHandler> handlers = new ArrayList<>();
-
-    /**
-     * The current status of the scene.
-     */
-    private int status = 0;
+    private final UserInputHandler gameIdHandler;
+    private final UserInputHandler nicknameHandler;
+    private JoinStatus currentStatus;
 
     /**
      * Constructs a new JoinGameScene.
@@ -37,7 +29,10 @@ public class JoinGameScene implements Scene {
      * @param controller the controller for this scene
      */
     public JoinGameScene(TUIViewController controller) {
+        this.gameIdHandler = new UserInputHandler("Enter game ID:", input -> input.matches("\\d+"));
+        this.nicknameHandler = new UserInputHandler("Enter your nickname:", input -> !input.isEmpty());
         this.drawArea = new TitleComponent("Join Game").getDrawArea();
+        this.currentStatus = JoinStatus.GAME_ID;
         this.controller = controller;
     }
 
@@ -47,9 +42,7 @@ public class JoinGameScene implements Scene {
     @Override
     public void display() {
         drawArea.println();
-        handlers.add(new UserInputHandler("Enter game ID:", input -> input.matches("\\d+")));
-        handlers.add(new UserInputHandler("Enter your nickname:", input -> !input.isEmpty()));
-        handlers.get(status).print();
+        gameIdHandler.print();
     }
 
     /**
@@ -59,17 +52,48 @@ public class JoinGameScene implements Scene {
      * @param input the user's input
      */
     public void handleUserInput(String input) {
+        if (currentStatus == JoinStatus.GAME_ID) {
+            handleGameId(input);
+            return;
+        }
+        if (currentStatus == JoinStatus.NICKNAME) {
+            handleNickname(input);
+        }
+    }
+
+    private void handleGameId(String input) {
         if (input.equals("q")) {
+            // Go back to action chooser
             controller.selectScene(ScenesEnum.MAIN_MENU);
             return;
         }
-        if (handlers.get(status).validate(input)) {
-            status++;
-            if (status >= handlers.size()) {
-                controller.joinGame(Integer.parseInt(handlers.get(0).getInput()), handlers.get(1).getInput());
-                return;
-            }
-            handlers.get(status).print();
+        if (gameIdHandler.validate(input)) {
+            currentStatus = JoinStatus.NICKNAME;
+            nicknameHandler.print();
+        } else {
+            gameIdHandler.print();
         }
+    }
+
+    private void handleNickname(String input) {
+        if (input.equals("q")) {
+            // Go back to action chooser
+            controller.selectScene(ScenesEnum.MAIN_MENU);
+            return;
+        }
+        if (nicknameHandler.validate(input)) {
+            controller.joinGame(Integer.parseInt(gameIdHandler.getInput()), nicknameHandler.getInput());
+            currentStatus = JoinStatus.GAME_ID;
+        } else {
+            nicknameHandler.print();
+        }
+    }
+
+    /**
+     * The current status of the scene.
+     */
+    private enum JoinStatus {
+        GAME_ID,
+        NICKNAME
     }
 }

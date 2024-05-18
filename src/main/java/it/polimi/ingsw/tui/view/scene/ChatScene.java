@@ -22,15 +22,6 @@ public class ChatScene implements Scene {
     private final UserInputHandler messageHandler = new UserInputHandler("Enter message: ", input -> !input.isEmpty());
     private final String playerName;
 
-    private enum ChatStatus {
-        HANDLE_INPUT,
-        DIRECT,
-        GLOBAL,
-        SEND_MESSAGE
-    }
-
-    private ChatStatus currentStatus = ChatStatus.HANDLE_INPUT;
-
     public ChatScene(TUIViewController controller, String playerName, ArrayList<ChatServerToClientMessage> messages) {
         this.controller = controller;
         this.playerName = playerName;
@@ -46,19 +37,16 @@ public class ChatScene implements Scene {
                 Press <d> to send direct message.
                 Press <g> to send global message.
                 Press <q> to quit.
-                """, 0);
+                """, 1);
     }
 
-    @Override
-    public void display() {
-        this.drawArea.println();
-    }
+    private ChatStatus currentStatus = ChatStatus.HANDLE_INPUT;
 
     public void handleUserInput(String input) {
         if (currentStatus == ChatStatus.HANDLE_INPUT) {
             switch (input.toLowerCase()) {
                 case "d" -> {
-                    currentStatus = ChatStatus.DIRECT;
+                    currentStatus = ChatStatus.DIRECT_RECEIVER;
                     receiverHandler.print();
                     return;
                 }
@@ -75,51 +63,69 @@ public class ChatScene implements Scene {
                 default -> System.out.println("Invalid input");
             }
         }
-        if (currentStatus == ChatStatus.SEND_MESSAGE) {
-            handleMessage(input);
+        if (currentStatus == ChatStatus.DIRECT_MESSAGE) {
+            handleDirectMessage(input);
         }
-        if (currentStatus == ChatStatus.DIRECT) {
-            handleReceiver(input);
+        if (currentStatus == ChatStatus.DIRECT_RECEIVER) {
+            handleDirectReceiver(input);
         }
         if (currentStatus == ChatStatus.GLOBAL) {
-            handleGlobalMessage();
+            handleGlobalMessage(input);
         }
-
     }
 
+    @Override
+    public void display() {
+        this.drawArea.println();
+    }
 
-    private void handleMessage(String input) {
+    private void handleGlobalMessage(String input) {
         if (input.equals("q")) {
             // Go back to action chooser
+            controller.showChat();
+            return;
+        }
+        if (messageHandler.validate(input)) {
+            controller.sendMessage(messageHandler.getInput(), "");
             currentStatus = ChatStatus.HANDLE_INPUT;
+        } else {
+            messageHandler.print();
+        }
+    }
+
+    private void handleDirectReceiver(String input) {
+        if (input.equals("q")) {
+            // Go back to action chooser
+            controller.showChat();
+            return;
+        }
+        if (receiverHandler.validate(input)) {
+            currentStatus = ChatStatus.DIRECT_MESSAGE;
+            messageHandler.print();
+        } else {
+            receiverHandler.print();
+        }
+    }
+
+    private void handleDirectMessage(String input) {
+        if (input.equals("q")) {
+            // Go back to action chooser
+            controller.showChat();
             return;
         }
         if (messageHandler.validate(input)) {
             controller.sendMessage(messageHandler.getInput(), receiverHandler.getInput());
             currentStatus = ChatStatus.HANDLE_INPUT;
         } else {
-            receiverHandler.print();
+            messageHandler.print();
         }
     }
 
-
-    private void handleGlobalMessage() {
-        currentStatus = ChatStatus.SEND_MESSAGE;
-        receiverHandler.validate("");
-    }
-
-
-    private void handleReceiver(String input) {
-        if (input.equals("q")) {
-            // Go back to action chooser
-            currentStatus = ChatStatus.HANDLE_INPUT;
-            return;
-        }
-        if (receiverHandler.validate(input)) {
-            currentStatus = ChatStatus.SEND_MESSAGE;
-        } else {
-            receiverHandler.print();
-        }
+    private enum ChatStatus {
+        HANDLE_INPUT,
+        DIRECT_RECEIVER,
+        DIRECT_MESSAGE,
+        GLOBAL
     }
 
     /**
