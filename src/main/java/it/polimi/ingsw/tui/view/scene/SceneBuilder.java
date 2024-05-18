@@ -125,7 +125,7 @@ public class SceneBuilder {
      * @return The DrawCardScene scene.
      */
     public DrawCardScene instanceDrawCardScene(HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, GlobalBoardView globalBoardView, boolean isLastRound) {
-        return new DrawCardScene(this.controller, playerBoard, globalObjectives, playerObjective, hand, globalBoardView, );
+        return new DrawCardScene(this.controller, playerBoard, globalObjectives, playerObjective, hand, globalBoardView, isLastRound);
     }
 
     /**
