@@ -2,7 +2,6 @@ package it.polimi.ingsw.tui.view.scene;
 
 import it.polimi.ingsw.network.server.message.ChatServerToClientMessage;
 import it.polimi.ingsw.tui.controller.TUIViewController;
-import it.polimi.ingsw.tui.view.component.InputPromptComponent;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
@@ -17,12 +16,11 @@ import static it.polimi.ingsw.tui.utils.Utils.ANSI_BLUE;
 import static it.polimi.ingsw.tui.utils.Utils.ANSI_RESET;
 
 public class ChatScene implements Scene {
-    private DrawArea drawArea;
+    private final DrawArea drawArea;
     private final TUIViewController controller;
     private final UserInputHandler receiverHandler = new UserInputHandler("Enter receiver: ", Objects::nonNull);
     private final UserInputHandler messageHandler = new UserInputHandler("Enter message: ", input -> !input.isEmpty());
     private final String playerName;
-    private final ArrayList<ChatServerToClientMessage> messages;
 
     private enum ChatStatus {
         HANDLE_INPUT,
@@ -36,8 +34,19 @@ public class ChatScene implements Scene {
     public ChatScene(TUIViewController controller, String playerName, ArrayList<ChatServerToClientMessage> messages) {
         this.controller = controller;
         this.playerName = playerName;
-        this.messages = messages;
-        draw();
+        this.drawArea = new DrawArea();
+        DrawArea chatArea = new DrawArea();
+        messages.stream()
+                .map(message -> chatPrint(message.getPlayerName(), message.getChatMessage(), message.getTimestamp(), message.isDirectMessage()))
+                .forEach(message -> chatArea.drawNewLine(message, 0));
+        DrawArea titleArea = new TitleComponent("ChatScene", (chatArea.getWidth() <= 55) ? 55 : chatArea.getWidth()).getDrawArea();
+        this.drawArea.drawAt(0, 0, titleArea);
+        this.drawArea.drawAt(0, 1, chatArea);
+        this.drawArea.drawNewLine("""
+                Press <d> to send direct message.
+                Press <g> to send global message.
+                Press <q> to quit.
+                """, 0);
     }
 
     @Override
@@ -47,21 +56,19 @@ public class ChatScene implements Scene {
 
     public void handleUserInput(String input) {
         if (currentStatus == ChatStatus.HANDLE_INPUT) {
-            switch (input) {
-                case "sd" -> {
+            switch (input.toLowerCase()) {
+                case "d" -> {
                     currentStatus = ChatStatus.DIRECT;
-                    new InputPromptComponent("Direct message").print();
                     receiverHandler.print();
                     return;
                 }
-                case "sg" -> {
+                case "g" -> {
                     currentStatus = ChatStatus.GLOBAL;
-                    System.out.println("Global Message");
                     messageHandler.print();
                     return;
                 }
                 case "q" -> {
-
+                    controller.closeChat();
                     // We need to go back to the previous scene (PlaceCardScene or DrawCardScene)
                     return;
                 }
@@ -89,8 +96,6 @@ public class ChatScene implements Scene {
         if (messageHandler.validate(input)) {
             controller.sendMessage(messageHandler.getInput(), receiverHandler.getInput());
             currentStatus = ChatStatus.HANDLE_INPUT;
-            draw();
-            display();
         } else {
             receiverHandler.print();
         }
@@ -129,12 +134,11 @@ public class ChatScene implements Scene {
      *
      * @param sender          The sender of the message.
      * @param message         The content of the message.
-     * @param receiver        The receiver of the message if it's a direct message.
      * @param timestamp       The timestamp when the message was created.
      * @param isDirectMessage Flag to indicate if the message is a direct message.
      * @return A string representation of the chat message.
      */
-    private String chatPrint(String sender, String message, String receiver, long timestamp, boolean isDirectMessage) {
+    private String chatPrint(String sender, String message, long timestamp, boolean isDirectMessage) {
         // If it's a direct message, print it in blue with the appropriate fields
         if (isDirectMessage)
             return getFormattedTimestamp(timestamp) + " " + ANSI_BLUE + (sender.equals(this.playerName) ? "You" : sender) + ": " + message + ANSI_RESET;
@@ -152,21 +156,5 @@ public class ChatScene implements Scene {
         LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         return dateTime.format(formatter);
-    }
-
-    public void draw() {
-        this.drawArea = new DrawArea();
-        DrawArea chatArea = new DrawArea();
-        messages.stream()
-                .map(message -> chatPrint(message.getPlayerName(), message.getChatMessage(), message.getReceiver(), message.getTimestamp(), message.isDirectMessage()))
-                .forEach(message -> chatArea.drawNewLine(message, 2));
-        DrawArea titleArea = new TitleComponent("ChatScene", (chatArea.getWidth() <= 55) ? 55 : chatArea.getWidth()).getDrawArea();
-        this.drawArea.drawAt(0, 0, titleArea);
-        this.drawArea.drawAt(0, 1, chatArea);
-        this.drawArea.drawNewLine("""
-                Press <sd> to send direct message.
-                Press <sg> to send global message.
-                Press <q> to quit.
-                """, 0);
     }
 }

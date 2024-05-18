@@ -239,12 +239,11 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      *
      * @param playerName The chat message received from the server.
      * @param message    The chat message received from the server.
-     * @param receiver   The receiver of the message if it's a direct message.
      * @param timestamp  The timestamp when the message was created.
      * @param isDirect   Flag to indicate if the message is a direct message.
      */
-    public void receiveChatMessage(String playerName, String message, String receiver, long timestamp, boolean isDirect) {
-        notify("CHAT_MESSAGE", new ChatServerToClientMessage(playerName, message, receiver, timestamp));
+    public void receiveChatMessage(String playerName, String message, long timestamp, boolean isDirect) {
+        notify("CHAT_MESSAGE", new ChatServerToClientMessage(playerName, message, timestamp, isDirect));
         //TODO: JavaFx / TUI event trigger?
     }
 

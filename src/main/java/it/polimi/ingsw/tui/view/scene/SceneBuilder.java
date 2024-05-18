@@ -151,7 +151,7 @@ public class SceneBuilder {
      * @return The OtherPlayerTurnScene scene.
      */
     public OtherPlayerTurnScene instanceOtherPlayerTurnScene(String playerName, PlayerColorEnum playerColor, HashMap<Coordinate, GameCard> playerBoard) {
-        return new OtherPlayerTurnScene(playerName, playerColor, playerBoard);
+        return new OtherPlayerTurnScene(this.controller, playerName, playerColor, playerBoard);
     }
 
     /**

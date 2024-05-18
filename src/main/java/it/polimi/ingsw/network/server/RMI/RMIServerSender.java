@@ -103,7 +103,7 @@ public class RMIServerSender implements ServerMessageHandler {
                 case GET_GAMES -> stub.receiveGameList(message.getGames());
                 case ERROR_MSG -> stub.receiveErrorMessage(message.getErrorMessage());
                 case RECEIVE_CHAT_MSG ->
-                        stub.receiveChatMessage(message.getPlayerName(), message.getChatMessage(), message.getReceiver(), message.getTimestamp(), message.isDirectMessage());
+                        stub.receiveChatMessage(message.getPlayerName(), message.getChatMessage(), message.getTimestamp(), message.isDirectMessage());
                 default -> System.err.print("Invalid action\n");
             }
         } catch (RemoteException e) {

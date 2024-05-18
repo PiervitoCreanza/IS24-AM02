@@ -189,24 +189,24 @@ public class PlaceCardScene implements Scene {
     public void handleUserInput(String input) {
 
         if (status == 0) {
-            switch (input) {
-                case "s", "S" -> {
+            switch (input.toLowerCase()) {
+                case "s" -> {
                     status = 1;
                     new TitleComponent("Switching Card").getDrawArea().println();
                     chooseCardHandler.print();
                     return;
                 }
-                case "p", "P" -> {
+                case "p" -> {
                     status = 2;
                     new TitleComponent("Placing Card").getDrawArea().println();
                     chooseCardToPlaceHandler.print();
                     return;
                 }
-                case "c", "C" -> {
+                case "c" -> {
                     controller.showChat();
                     return;
                 }
-                case "q", "Q" -> {
+                case "q" -> {
                     controller.selectScene(ScenesEnum.MAIN_MENU);
                     return;
                 }

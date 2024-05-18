@@ -101,7 +101,7 @@ public class TCPClientAdapter implements PropertyChangeListener, ClientMessageHa
             case GET_GAMES -> clientNetworkControllerMapper.receiveGameList(receivedMessage.getGames());
             case ERROR_MSG -> clientNetworkControllerMapper.receiveErrorMessage(receivedMessage.getErrorMessage());
             case RECEIVE_CHAT_MSG ->
-                    clientNetworkControllerMapper.receiveChatMessage(receivedMessage.getPlayerName(), receivedMessage.getChatMessage(), receivedMessage.getReceiver(), receivedMessage.getTimestamp(), receivedMessage.isDirectMessage());
+                    clientNetworkControllerMapper.receiveChatMessage(receivedMessage.getPlayerName(), receivedMessage.getChatMessage(), receivedMessage.getTimestamp(), receivedMessage.isDirectMessage());
             default -> logger.error("Invalid action");
         }
     }

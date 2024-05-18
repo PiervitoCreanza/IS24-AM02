@@ -3,7 +3,6 @@ package it.polimi.ingsw.network.server.message;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -108,15 +107,6 @@ public abstract class ServerToClientMessage {
      * @return null in this implementation.
      */
     public String getChatMessage() {
-        return null;
-    }
-
-    /**
-     * Method to get the message's receiver.
-     *
-     * @return null in this implementation.
-     */
-    public String getReceiver() {
         return null;
     }
 

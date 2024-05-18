@@ -107,14 +107,13 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      *
      * @param playerName The chat message received from the server.
      * @param message    The chat message received from the server.
-     * @param receiver   The receiver of the message if it's a direct message.
      * @param timestamp  The timestamp of the message.
      * @param isDirect   Flag to indicate if the message is a direct message.
      * @throws RemoteException If an error occurs during the RMI connection.
      */
-    public void receiveChatMessage(String playerName, String message, String receiver, long timestamp, boolean isDirect) throws RemoteException {
+    public void receiveChatMessage(String playerName, String message, long timestamp, boolean isDirect) throws RemoteException {
         new Thread(() -> {
-            clientNetworkControllerMapper.receiveChatMessage(playerName, message, receiver, timestamp, isDirect);
+            clientNetworkControllerMapper.receiveChatMessage(playerName, message, timestamp, isDirect);
         }).start();
         // Debug
         logger.debug("RMI received message: {}", playerName);

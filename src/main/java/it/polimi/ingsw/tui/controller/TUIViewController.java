@@ -10,7 +10,6 @@ import it.polimi.ingsw.network.server.message.ChatServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.tui.commandLine.CLIReader;
-import it.polimi.ingsw.tui.commandLine.ClientStatusEnum;
 import it.polimi.ingsw.tui.utils.Utils;
 import it.polimi.ingsw.tui.view.scene.Scene;
 import it.polimi.ingsw.tui.view.scene.SceneBuilder;
@@ -54,11 +53,6 @@ public class TUIViewController implements PropertyChangeListener {
     private String gameName;
 
     /**
-     * Status of the client, initially set to MAIN_MENU.
-     */
-    private ClientStatusEnum status = ClientStatusEnum.MAIN_MENU;
-
-    /**
      * Status of the game, initially set to null.
      */
     private GameStatusEnum gameStatus = null;
@@ -73,6 +67,8 @@ public class TUIViewController implements PropertyChangeListener {
      */
     private Scene currentScene;
 
+    private Scene chatScene;
+
     /**
      * List of games.
      */
@@ -82,8 +78,6 @@ public class TUIViewController implements PropertyChangeListener {
      * List of players' cards.
      */
     private GameControllerView gameControllerView;
-
-    private Scene previousScene;
 
     private final ArrayList<ChatServerToClientMessage> messages = new ArrayList<>();
 
@@ -118,13 +112,15 @@ public class TUIViewController implements PropertyChangeListener {
     }
 
     public void showChat() {
-        Scene chat = sceneBuilder.instanceChatScene(playerName, messages);
+        isInChat = true;
+        chatScene = sceneBuilder.instanceChatScene(playerName, messages);
         Utils.clearScreen();
-        chat.display();
+        chatScene.display();
     }
 
-    public void quitChat() {
-
+    public void closeChat() {
+        isInChat = false;
+        showCurrentScene();
     }
 
     /**
@@ -145,9 +141,6 @@ public class TUIViewController implements PropertyChangeListener {
         this.gameName = gameName;
     }
 
-    public void setPreviousScene(Scene scene) {
-        this.previousScene = scene;
-    }
 
     /**
      * Method to get the client status.
@@ -161,9 +154,12 @@ public class TUIViewController implements PropertyChangeListener {
     /**
      * Method to handle user input of the current scene.
      *
-     * @return the game status.
      */
     public void handleUserInput(String input) {
+        if (isInChat) {
+            chatScene.handleUserInput(input);
+            return;
+        }
         this.currentScene.handleUserInput(input);
     }
 
@@ -414,6 +410,8 @@ public class TUIViewController implements PropertyChangeListener {
 
             case "CHAT_MESSAGE":
                 messages.add((ChatServerToClientMessage) evt.getNewValue());
+                if (isInChat)
+                    showChat();
                 break;
 
             case "ERROR":

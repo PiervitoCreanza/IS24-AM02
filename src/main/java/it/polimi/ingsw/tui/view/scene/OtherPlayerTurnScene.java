@@ -3,6 +3,7 @@ package it.polimi.ingsw.tui.view.scene;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.view.component.player.playerBoard.PlayerBoardComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
@@ -18,6 +19,8 @@ public class OtherPlayerTurnScene implements Scene {
      */
     private final DrawArea drawArea;
 
+    private final TUIViewController controller;
+
     /**
      * Constructs a new OtherPlayerTurnScene.
      *
@@ -25,7 +28,8 @@ public class OtherPlayerTurnScene implements Scene {
      * @param playerColor the color of the player whose turn it is
      * @param playerBoard the board of the player whose turn it is
      */
-    public OtherPlayerTurnScene(String playerName, PlayerColorEnum playerColor, HashMap<Coordinate, GameCard> playerBoard) {
+    public OtherPlayerTurnScene(TUIViewController controller, String playerName, PlayerColorEnum playerColor, HashMap<Coordinate, GameCard> playerBoard) {
+        this.controller = controller;
         this.drawArea = new DrawArea();
         this.drawArea.drawAt(0, 0, "It's");
         this.drawArea.drawAt(this.drawArea.getWidth() + 1, 0, playerName, playerColor.getColor());
@@ -47,6 +51,11 @@ public class OtherPlayerTurnScene implements Scene {
      */
     @Override
     public void handleUserInput(String input) {
-
+        if (input.equalsIgnoreCase("c")) {
+            controller.showChat();
+        }
+        if (input.equalsIgnoreCase("q")) {
+            controller.selectScene(ScenesEnum.MAIN_MENU);
+        }
     }
 }

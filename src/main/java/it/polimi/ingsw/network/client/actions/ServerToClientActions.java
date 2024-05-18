@@ -49,10 +49,9 @@ public interface ServerToClientActions extends Remote {
      *
      * @param playerName The chat message received from the client.
      * @param message    The chat message received from the client.
-     * @param receiver  The receiver of the message if it's a direct message.
      * @param timestamp The timestamp of the message.
      * @param isDirect  Flag to indicate if the message is a direct message.
      * @throws RemoteException If an error occurs during the RMI connection.
      */
-    void receiveChatMessage(String playerName, String message, String receiver, long timestamp, boolean isDirect) throws RemoteException;
+    void receiveChatMessage(String playerName, String message, long timestamp, boolean isDirect) throws RemoteException;
 }

@@ -103,12 +103,12 @@ public class DrawCardScene implements Scene {
             return;
         }
         if (status == 0) {
-            switch (input) {
-                case "d", "D" -> {
+            switch (input.toLowerCase()) {
+                case "d" -> {
                     new TitleComponent("Drawing a Card").getDrawArea().println();
                     status = 1;
                 }
-                case "c", "C" -> controller.showChat();
+                case "c" -> controller.showChat();
             }
         }
 
