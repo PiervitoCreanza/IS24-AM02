@@ -378,6 +378,9 @@ public class Game implements VirtualViewable<GameView> {
         return maxAllowedPlayers;
     }
 
+    public void setCurrentPlayer(String playerName) {
+        this.currentPlayer = players.stream().filter(player -> player.getPlayerName().equals(playerName)).findFirst().get();
+    }
     /**
      * Returns the virtual view of the game.
      *
