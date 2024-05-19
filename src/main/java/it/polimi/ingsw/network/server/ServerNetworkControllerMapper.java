@@ -117,6 +117,10 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
         return true;
     }
 
+    public HashMap<String, HashMap<String, ServerMessageHandler>> getGameConnectionMapper() {
+        return gameConnectionMapper;
+    }
+
     /**
      * Gets the list of available games.
      *

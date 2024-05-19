@@ -135,6 +135,10 @@ public class Player implements VirtualViewable<PlayerView> {
         this.objectiveCard = choosenObjective;
     }
 
+    public void forceSetPlayerObjective(ObjectiveCard objectiveCard) {
+        this.objectiveCard = objectiveCard;
+    }
+
     /**
      * This method is used to retrieve the connection status of the player.
      *
