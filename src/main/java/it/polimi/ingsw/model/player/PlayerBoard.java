@@ -21,12 +21,12 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
     /**
      * A map from points to game cards, representing the layout of the game cards on the board.
      */
-    private final HashMap<Coordinate, GameCard> playerBoard;
+    private HashMap<Coordinate, GameCard> playerBoard;
 
     /**
      * The items the player has collected.
      */
-    private final GameItemStore gameItems;
+    private GameItemStore gameItems;
 
     /**
      * The starter card for this player board.
@@ -271,6 +271,14 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
             });
         });
         return availablePositions;
+    }
+
+    public void setPlayerBoard(HashMap<Coordinate, GameCard> playerBoard) {
+        this.playerBoard = playerBoard;
+    }
+
+    public void setGameItems(GameItemStore gameItemStore) {
+        this.gameItems = gameItemStore;
     }
 
     /**
