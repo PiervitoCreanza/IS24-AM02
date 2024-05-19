@@ -2,6 +2,7 @@ package it.polimi.ingsw.tui.view.scene;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.server.message.ChatServerToClientMessage;
@@ -171,5 +172,9 @@ public class SceneBuilder {
      */
     public GamePausedScene instanceGamePausedScene() {
         return new GamePausedScene();
+    }
+
+    public Scene instanceFinalScene(GameControllerView updatedView) {
+        return new FinalScene(this.controller, updatedView.gameView().winners().stream().map(Player::getPlayerName).collect(Collectors.toCollection(ArrayList::new)), updatedView.gameView().playerViews().stream().map(PlayerView::playerName).collect(Collectors.toCollection(ArrayList::new)), 2);
     }
 }

@@ -51,7 +51,7 @@ public class DrawCardSceneTest {
         ArrayList<GameCard> hand = player1.getVirtualView().playerHandView().hand();
         GlobalBoardView globalBoardView = game.getVirtualView().globalBoardView();
 
-        DrawCardScene drawCardScene = new DrawCardScene(null, playerBoardView, globalObjectives, playerObjective, hand, globalBoardView);
+        DrawCardScene drawCardScene = new DrawCardScene(null, playerBoardView, globalObjectives, playerObjective, hand, globalBoardView, false);
         drawCardScene.getDrawArea().println();
     }
 }

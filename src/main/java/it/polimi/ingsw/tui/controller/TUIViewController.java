@@ -381,6 +381,11 @@ public class TUIViewController implements PropertyChangeListener {
                     break;
                 }
 
+                if (gameStatus == GameStatusEnum.GAME_OVER) {
+                    this.currentScene = sceneBuilder.instanceFinalScene(updatedView);
+                    break;
+                }
+
                 // If the client is the current player and the view has changed. Prevent re-rendering the scene if the view has not changed.
                 if (isClientTurn() && isPlayerViewChanged(oldView, updatedView)) {
                     switch (gameStatus) {

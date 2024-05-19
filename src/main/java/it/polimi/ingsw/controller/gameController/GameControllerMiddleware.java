@@ -120,7 +120,6 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
             if (remainingRoundsToEndGame == 0) {
                 game.calculateWinners();
                 gameStatus = GameStatusEnum.GAME_OVER;
-
                 // Return to prevent the next player from being set
                 return;
             } else {

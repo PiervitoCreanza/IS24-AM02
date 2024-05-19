@@ -251,7 +251,7 @@ public class PlaceCardScene implements Scene {
         DrawArea playerItemsArea = new PlayerItemsComponent(playerBoardView.gameItemStore(), 1).getDrawArea();
         DrawArea leaderItemsArea = new DrawArea();
         leaderItemsArea.drawAt(0, 0, leaderBoardArea);
-        leaderItemsArea.drawAt(leaderBoardArea.getWidth(), 0, playerItemsArea);
+        leaderItemsArea.drawAt(leaderBoardArea.getWidth() + 1, 0, playerItemsArea);
         DrawArea leaderInventoryArea = new DrawArea();
         leaderInventoryArea.drawAt(0, leaderItemsArea.getHeight(), playerInventoryArea);
         leaderInventoryArea.drawCenteredX(0, leaderItemsArea);

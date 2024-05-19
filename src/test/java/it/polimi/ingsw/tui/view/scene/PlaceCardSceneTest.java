@@ -51,7 +51,7 @@ public class PlaceCardSceneTest {
         ArrayList<GameCard> hand = player1.getVirtualView().playerHandView().hand();
         List<PlayerView> playerViews = game.getVirtualView().playerViews();
 
-        PlaceCardScene placeCardScene = new PlaceCardScene(null, playerBoardView, globalObjectives, playerObjective, hand, playerViews, "Player1");
+        PlaceCardScene placeCardScene = new PlaceCardScene(null, playerBoardView, globalObjectives, playerObjective, hand, playerViews, "Player1", false);
         placeCardScene.getDrawArea().println();
     }
 }
