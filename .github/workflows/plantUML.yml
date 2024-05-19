@@ -4,7 +4,7 @@ on:
     paths:
       - '**.pml'
     branches-ignore:
-      - master
+      - main
 jobs:
   generate_plantuml:
     runs-on: ubuntu-latest
