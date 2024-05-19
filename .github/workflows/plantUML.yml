@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - '**.pml'
+    branches-ignore:
+      - master
 jobs:
   generate_plantuml:
     runs-on: ubuntu-latest
