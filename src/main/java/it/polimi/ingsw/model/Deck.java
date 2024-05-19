@@ -73,6 +73,9 @@ public class Deck<T> {
         return null;
     }
 
+    public void removeCard(T card) {
+        deck.remove(card);
+    }
     /**
      * Adds a new card to the deck.
      * This method first checks if the new card is null, throwing a NullPointerException if it is.
