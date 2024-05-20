@@ -30,6 +30,23 @@ public class PlayerComponent implements Drawable {
 
     }
 
+    public PlayerComponent(String playerName, int point) {
+        drawArea = new DrawArea("""
+                ┌──────────────────────────────┐
+                │                              │
+                │                              │
+                │                              │
+                │                              │
+                └──────────────────────────────┘
+                """);
+        if (playerName.length() > 26) {
+            playerName = playerName.substring(0, 23) + "...";
+        }
+        drawArea.drawCenteredX(2, playerName);
+        drawArea.drawCenteredX(3, String.valueOf(point));
+
+    }
+
     /**
      * Returns the height of the drawable object.
      *

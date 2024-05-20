@@ -175,6 +175,6 @@ public class SceneBuilder {
     }
 
     public Scene instanceFinalScene(GameControllerView updatedView) {
-        return new FinalScene(this.controller, updatedView.gameView().winners().stream().map(Player::getPlayerName).collect(Collectors.toCollection(ArrayList::new)), updatedView.gameView().playerViews().stream().map(PlayerView::playerName).collect(Collectors.toCollection(ArrayList::new)), 2);
+        return new WinnerScene(this.controller, updatedView.gameView().winners().stream().map(Player::getPlayerName).collect(Collectors.toCollection(ArrayList::new)), updatedView.gameView().playerViews(), 2);
     }
 }

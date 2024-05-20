@@ -1,14 +1,17 @@
 package it.polimi.ingsw.tui.view.scene;
 
+import it.polimi.ingsw.model.player.PlayerColorEnum;
+import it.polimi.ingsw.network.virtualView.PlayerView;
 import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.view.component.PlayerComponent;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-public class FinalScene implements Scene {
+public class WinnerScene implements Scene {
     /**
      * The DrawArea object where the scene will be drawn.
      */
@@ -24,23 +27,26 @@ public class FinalScene implements Scene {
      *
      * @param controller the controller for this scene
      */
-    public FinalScene(TUIViewController controller, ArrayList<String> winners, ArrayList<String> players, int spacing) {
+    public WinnerScene(TUIViewController controller, List<String> winners, List<PlayerView> players, int spacing) {
         this.controller = controller;
         this.drawArea = new DrawArea();
         DrawArea titleDrawArea = new DrawArea();
         DrawArea winnersDrawArea = new DrawArea();
         DrawArea losersDrawArea = new DrawArea();
 
-        ColorsEnum[] colors = {ColorsEnum.RED, ColorsEnum.GREEN, ColorsEnum.YELLOW, ColorsEnum.BLUE, ColorsEnum.CYAN, ColorsEnum.BRIGHT_RED, ColorsEnum.BRIGHT_GREEN, ColorsEnum.BRIGHT_YELLOW, ColorsEnum.BRIGHT_BLUE, ColorsEnum.BRIGHT_CYAN};
-        int colorIndex = 0;
+        HashMap<PlayerColorEnum, ColorsEnum> colors = new HashMap<>();
+        colors.put(PlayerColorEnum.RED, ColorsEnum.BRIGHT_RED);
+        colors.put(PlayerColorEnum.BLUE, ColorsEnum.BRIGHT_BLUE);
+        colors.put(PlayerColorEnum.GREEN, ColorsEnum.BRIGHT_GREEN);
+        colors.put(PlayerColorEnum.YELLOW, ColorsEnum.BRIGHT_YELLOW);
 
-        for (String playerName : players) {
-            if (winners.contains(playerName)) {
-                winnersDrawArea.drawAt((winnersDrawArea.getWidth() == 0) ? 0 : winnersDrawArea.getWidth() + spacing, 0, String.valueOf(new PlayerComponent(playerName)), colors[colorIndex]);
+
+        for (PlayerView player : players) {
+            if (winners.contains(player.playerName())) {
+                winnersDrawArea.drawAt((winnersDrawArea.getWidth() == 0) ? 0 : winnersDrawArea.getWidth() + spacing, 0, String.valueOf(new PlayerComponent(player.playerName(), player.playerPos())), colors.get(player.color()));
             } else {
-                losersDrawArea.drawAt((losersDrawArea.getWidth() == 0) ? 0 : losersDrawArea.getWidth() + spacing, 0, String.valueOf(new PlayerComponent(playerName)), colors[colorIndex]);
+                losersDrawArea.drawAt((losersDrawArea.getWidth() == 0) ? 0 : losersDrawArea.getWidth() + spacing, 0, String.valueOf(new PlayerComponent(player.playerName(), player.playerPos())), colors.get(player.color()));
             }
-            colorIndex++;
         }
 
         int widthMax = Math.max(winnersDrawArea.getWidth(), losersDrawArea.getWidth());
@@ -49,7 +55,8 @@ public class FinalScene implements Scene {
         this.drawArea.drawAt(0, 0, titleDrawArea);
         this.drawArea.drawAt(0, drawArea.getHeight(), (winners.size() == 1) ? "The winner is:" : "The winners are:", ColorsEnum.BRIGHT_GREEN);
         this.drawArea.drawCenteredX(drawArea.getHeight(), winnersDrawArea);
-        this.drawArea.drawCenteredX(drawArea.getHeight() + 2, losersDrawArea);
+        this.drawArea.drawAt(0, drawArea.getHeight() + 1, (players.size() - winners.size() == 1) ? "Other player:" : "Other players:");
+        this.drawArea.drawCenteredX(drawArea.getHeight(), losersDrawArea);
         this.drawArea.drawNewLine("""
                 Press <q> to quit.
                 """, 1);
