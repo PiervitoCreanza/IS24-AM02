@@ -137,4 +137,12 @@ public interface RMIClientToServerActions extends Remote {
      * @throws RemoteException if the remote operation fails.
      */
     void chatMessageSender(String gameName, String playerName, String message, String receiver, long timestamp) throws RemoteException;
+
+    /**
+     * Sends a heartbeat message to the server.
+     * This method is used to check if the connection is still alive.
+     *
+     * @throws RemoteException if the remote operation fails.
+     */
+    void heartbeat() throws RemoteException;
 }

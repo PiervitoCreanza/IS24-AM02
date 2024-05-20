@@ -7,6 +7,8 @@ import it.polimi.ingsw.network.client.message.PlayerActionEnum;
 import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
 
 import java.rmi.RemoteException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * The RMIClientSender class is responsible for sending messages to the server.
@@ -34,6 +36,7 @@ public class RMIClientSender implements ClientMessageHandler {
     public RMIClientSender(RMIClientToServerActions serverStub, RMIServerToClientActions thisClientStub) {
         this.serverStub = serverStub;
         this.thisClientStub = thisClientStub;
+        heartbeat();
     }
 
     /**
@@ -70,7 +73,7 @@ public class RMIClientSender implements ClientMessageHandler {
                         serverStub.chatMessageSender(message.getGameName(), message.getPlayerName(), message.getMessage(), message.getReceiver(), message.getTimestamp());
             }
         } catch (RemoteException e) {
-            e.printStackTrace();
+            closeConnection();
         }
     }
 
@@ -79,6 +82,23 @@ public class RMIClientSender implements ClientMessageHandler {
      */
     @Override
     public void closeConnection() {
+        System.out.println("Error");
+    }
 
+    /**
+     * Sends a heartbeat message to the server.
+     * This method is used to check if the connection is still alive.
+     */
+    private void heartbeat() {
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                try {
+                    serverStub.heartbeat();
+                } catch (RemoteException e) {
+                    closeConnection();
+                    cancel();
+                }
+            }
+        }, 0, 2500);
     }
 }

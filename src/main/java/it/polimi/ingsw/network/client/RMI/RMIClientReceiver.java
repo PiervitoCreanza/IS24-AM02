@@ -112,9 +112,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      * @throws RemoteException If an error occurs during the RMI connection.
      */
     public void receiveChatMessage(String playerName, String message, long timestamp, boolean isDirect) throws RemoteException {
-        new Thread(() -> {
-            clientNetworkControllerMapper.receiveChatMessage(playerName, message, timestamp, isDirect);
-        }).start();
+        new Thread(() -> clientNetworkControllerMapper.receiveChatMessage(playerName, message, timestamp, isDirect)).start();
         // Debug
         logger.debug("RMI received message: {}", playerName);
     }
@@ -135,7 +133,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
                     logger.error("RMI Server Unreachable - detected when pinging");
                     throw new RuntimeException("RMI Server Unreachable - detected when pinging");
                 }
-            }, 5000);
+            }, 2500);
         }).start();
 
         if (Client.DEBUG) {

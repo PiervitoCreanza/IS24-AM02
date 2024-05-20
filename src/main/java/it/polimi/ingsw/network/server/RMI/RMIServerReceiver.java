@@ -239,10 +239,16 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
      */
     @Override
     public void chatMessageSender(String gameName, String playerName, String message, String receiver, long timestamp) throws RemoteException {
-        new Thread(() -> {
-            serverNetworkControllerMapper.sendChatMessage(gameName, playerName, message, receiver, timestamp);
-        }).start();
+        new Thread(() -> serverNetworkControllerMapper.sendChatMessage(gameName, playerName, message, receiver, timestamp)).start();
     }
 
-
+    /**
+     * Sends a heartbeat message to the server.
+     * This method is used to check if the connection is still alive.
+     *
+     * @throws RemoteException if the remote operation fails.
+     */
+    @Override
+    public void heartbeat() throws RemoteException {
+    }
 }
