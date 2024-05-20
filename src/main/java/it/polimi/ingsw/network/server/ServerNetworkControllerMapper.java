@@ -193,10 +193,6 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
 
             broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
 
-            // If the game is over we close the connections and delete the game.
-            if (mainController.getGameController(gameName).getGameStatus().equals(GameStatusEnum.GAME_OVER)) {
-                closeConnections(gameName);
-            }
         } catch (Exception e) {
             gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
         }
@@ -213,6 +209,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
         try {
             mainController.getGameController(gameName).drawCardFromField(playerName, card);
             broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+            checkGameOver(gameName);
         } catch (Exception e) {
             gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
         }
@@ -228,6 +225,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
         try {
             mainController.getGameController(gameName).drawCardFromResourceDeck(playerName);
             broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+            checkGameOver(gameName);
         } catch (Exception e) {
             gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
         }
@@ -243,6 +241,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
         try {
             mainController.getGameController(gameName).drawCardFromGoldDeck(playerName);
             broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+            checkGameOver(gameName);
         } catch (Exception e) {
             gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
         }
@@ -270,7 +269,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      *
      * @param messageHandler the ServerMessageHandler that has been disconnected
      */
-    public void handleDisconnection(ServerMessageHandler messageHandler) {
+    public synchronized void handleDisconnection(ServerMessageHandler messageHandler) {
         String gameName = messageHandler.getGameName();
 
         gameConnectionMapper.get(gameName).remove(messageHandler.getPlayerName());
@@ -311,6 +310,13 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
     private void closeConnections(String gameName) {
         for (ServerMessageHandler messageHandler : gameConnectionMapper.get(gameName).values()) {
             messageHandler.closeConnection();
+        }
+    }
+
+    private void checkGameOver(String gameName) {
+        // If the game is over we close the connections and delete the game.
+        if (mainController.getGameController(gameName).getGameStatus().equals(GameStatusEnum.GAME_OVER)) {
+            closeConnections(gameName);
         }
     }
 

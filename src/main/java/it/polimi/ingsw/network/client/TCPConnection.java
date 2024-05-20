@@ -62,6 +62,7 @@ public class TCPConnection implements Connection, PropertyChangeListener {
             logger.fatal("Could not connect to the server. Exiting...");
             quit();
         }
+        logger.info("TCP connection established");
         listeners.firePropertyChange("CONNECTION_ESTABLISHED", null, null);
     }
 

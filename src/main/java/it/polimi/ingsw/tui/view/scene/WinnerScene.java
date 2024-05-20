@@ -78,6 +78,7 @@ public class WinnerScene implements Scene {
     public void handleUserInput(String input) {
         if (input.equalsIgnoreCase("q")) {
             controller.selectScene(ScenesEnum.MAIN_MENU);
+            controller.setIsGameOver(false);
         } else {
             System.out.println("Invalid input");
         }

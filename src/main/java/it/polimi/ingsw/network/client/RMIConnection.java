@@ -54,6 +54,8 @@ public class RMIConnection implements Connection, PropertyChangeListener {
                 // Looking up the registry for the remote object
                 RMIClientToServerActions serverStub = (RMIClientToServerActions) registry.lookup("ClientToServerActions");
                 RMIClientSender rmiClientSender = new RMIClientSender(serverStub, clientStub);
+                // Add the listener to the sender and receiver
+                rmiClientReceiver.addPropertyChangeListener(rmiClientSender);
                 rmiClientSender.addPropertyChangeListener(this);
                 // Path the sender to the mapper
                 networkControllerMapper.setMessageHandler(rmiClientSender);
@@ -80,6 +82,7 @@ public class RMIConnection implements Connection, PropertyChangeListener {
             logger.fatal("Could not connect to the server. Exiting...");
             quit();
         }
+        logger.info("RMI connection established");
         listeners.firePropertyChange("CONNECTION_ESTABLISHED", null, null);
     }
 
@@ -90,7 +93,7 @@ public class RMIConnection implements Connection, PropertyChangeListener {
 
     /**
      * This method gets called when a bound property is changed.
-     *
+     * Is Synchronized because it can be notified by the heartbeat from the sender and the receiver
      * @param evt A PropertyChangeEvent object describing the event source
      *            and the property that has changed.
      */

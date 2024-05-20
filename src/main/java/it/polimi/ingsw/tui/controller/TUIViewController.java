@@ -83,6 +83,8 @@ public class TUIViewController implements PropertyChangeListener {
 
     private boolean isInChat = false;
 
+    private boolean isGameOver = false;
+
 
     /**
      * Constructor for TUIViewController.
@@ -344,6 +346,10 @@ public class TUIViewController implements PropertyChangeListener {
         return false;
     }
 
+    public void setIsGameOver(boolean isGameOver) {
+        this.isGameOver = isGameOver;
+    }
+
     public void propertyChange(PropertyChangeEvent evt) {
         String changedProperty = evt.getPropertyName();
         switch (changedProperty) {
@@ -378,7 +384,8 @@ public class TUIViewController implements PropertyChangeListener {
                 }
 
                 if (gameStatus == GameStatusEnum.GAME_OVER) {
-                    this.currentScene = sceneBuilder.instanceFinalScene(updatedView);
+                    isGameOver = true;
+                    this.currentScene = sceneBuilder.instanceWinnerScene(updatedView);
                     break;
                 }
 
@@ -423,7 +430,7 @@ public class TUIViewController implements PropertyChangeListener {
                 System.err.println("Error: " + errorMessage);
                 break;
         }
-        if (!changedProperty.equals("CHAT_MESSAGE") && !changedProperty.equals("ERROR"))
+        if (!changedProperty.equals("CHAT_MESSAGE") && !changedProperty.equals("ERROR") && !isGameOver)
             showCurrentScene();
     }
 }

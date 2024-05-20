@@ -173,7 +173,7 @@ public class SceneBuilder {
         return new GamePausedScene();
     }
 
-    public Scene instanceFinalScene(GameControllerView updatedView) {
+    public Scene instanceWinnerScene(GameControllerView updatedView) {
         return new WinnerScene(this.controller, updatedView.gameView().winners(), updatedView.gameView().playerViews(), 2);
     }
 }
