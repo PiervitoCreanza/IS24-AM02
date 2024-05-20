@@ -338,7 +338,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
                 senderHandler.sendMessage(new ErrorServerToClientMessage("The player you are trying to send a message to is not in the game."));
             }
         } else {
-            //It is broadcasted to any player of the game (even the sender) to avoid code redundancy client-side.
+            //It is broadcast to any player of the game (even the sender) to avoid code redundancy client-side.
             broadcastMessage(gameName, convertedMessage);
         }
 

@@ -75,6 +75,7 @@ public class Game implements VirtualViewable<GameView> {
         this.globalBoard = new GlobalBoard();
         this.players.add(instanceNewPlayer(playerName));
         this.currentPlayer = players.getFirst();
+        this.winners = new ArrayList<>();
     }
 
     /**
@@ -375,7 +376,7 @@ public class Game implements VirtualViewable<GameView> {
      */
     @Override
     public GameView getVirtualView() {
-        return new GameView(currentPlayer.getPlayerName(), globalBoard.getVirtualView(), players.stream().map(Player::getVirtualView).collect(Collectors.toList()), winners, getAvailablePlayerColors());
+        return new GameView(currentPlayer.getPlayerName(), globalBoard.getVirtualView(), players.stream().map(Player::getVirtualView).collect(Collectors.toList()), winners.stream().map(Player::getPlayerName).collect(Collectors.toCollection(ArrayList::new)), getAvailablePlayerColors());
     }
 
     /**
