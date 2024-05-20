@@ -5,6 +5,8 @@ import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
 import it.polimi.ingsw.network.client.message.ClientToServerMessage;
 import it.polimi.ingsw.network.client.message.PlayerActionEnum;
 import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.rmi.RemoteException;
 import java.util.Timer;
@@ -25,6 +27,11 @@ public class RMIClientSender implements ClientMessageHandler {
      * This stub is used to perform actions on the client.
      */
     private final RMIServerToClientActions thisClientStub;
+
+    /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(RMIClientSender.class);
 
     /**
      * Constructor for the RMIClientSender class.
@@ -82,7 +89,7 @@ public class RMIClientSender implements ClientMessageHandler {
      */
     @Override
     public void closeConnection() {
-        System.out.println("Error");
+        logger.error("RMI Server Unreachable - detected when pinging.");
     }
 
     /**

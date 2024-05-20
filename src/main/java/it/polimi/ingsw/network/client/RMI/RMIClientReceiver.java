@@ -10,8 +10,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 //TODO: DOC
@@ -28,11 +26,6 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      * The client command mapper.
      */
     private final ClientNetworkControllerMapper clientNetworkControllerMapper;
-
-    /**
-     * The heartbeat timer.
-     */
-    private Timer heartbeatTimer;
 
     /**
      * The logger.
@@ -119,23 +112,6 @@ public class RMIClientReceiver implements RMIServerToClientActions {
 
     @Override
     public void heartbeat() throws RemoteException {
-        new Thread(() -> {
-            // If the timer is already running, cancel it and start a new one
-            if (heartbeatTimer != null) {
-                heartbeatTimer.cancel();
-            }
-            // Instance a new timer
-            heartbeatTimer = new Timer();
-            // Schedule a new timer task. If the client does not receive a heartbeat message within 5 seconds, it will print an error.
-            heartbeatTimer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    logger.error("RMI Server Unreachable - detected when pinging");
-                    throw new RuntimeException("RMI Server Unreachable - detected when pinging");
-                }
-            }, 2500);
-        }).start();
-
         if (Client.DEBUG) {
             logger.debug("Ping received");
         }
