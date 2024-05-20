@@ -8,18 +8,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+
 public class App extends Application {
-
-    private static Scene scene;
-
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-    }
-
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
-    }
+    public static int DEFAULT_WIDTH = 1280;
+    public static int DEFAULT_HEIGTH = 720;
 
     public static void main(String[] args) {
         launch();
@@ -27,7 +19,9 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("fxml"), 640, 480);
+        Parent root = FXMLLoader.load(getClass().getResource("fxml1.fxml"));
+        Scene scene = new Scene(root, DEFAULT_WIDTH, DEFAULT_HEIGTH);
+        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
