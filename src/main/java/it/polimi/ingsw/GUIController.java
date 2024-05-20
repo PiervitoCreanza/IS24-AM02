@@ -14,6 +14,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import static it.polimi.ingsw.App.DEFAULT_HEIGTH;
+import static it.polimi.ingsw.App.DEFAULT_WIDTH;
+
 
 public class GUIController {
 
@@ -93,7 +96,7 @@ public class GUIController {
     public void switchToGamesView(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("fxml2.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        Scene scene = new Scene(root, DEFAULT_WIDTH, DEFAULT_HEIGTH);
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
@@ -102,7 +105,7 @@ public class GUIController {
     public void switchToHomeView(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("fxml1.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        Scene scene = new Scene(root, DEFAULT_WIDTH, DEFAULT_HEIGTH);
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
