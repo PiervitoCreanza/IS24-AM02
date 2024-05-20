@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -44,6 +45,8 @@ public class GUIController {
 
     private Parent root;
 
+    @FXML
+    private ListView<String> gameListView;
     @FXML
     public void initialize() {
         System.out.println("Initializing GUIController");
@@ -93,6 +96,10 @@ public class GUIController {
         System.out.println("List refreshed");
     }
 
+    public void enterGame() {
+        System.out.println("Game entered");
+    }
+
     public void switchToGamesView(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("fxml2.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -100,6 +107,14 @@ public class GUIController {
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
+
+        // This part needs to be modified to ensure gameListView is not null
+        ListView<String> gameListView = (ListView<String>) scene.lookup("#gameListView"); // Use scene lookup
+        if (gameListView != null) {
+            gameListView.getItems().addAll("Game 1", "Game 2", "Game 3", "Game 4", "Game 5");
+        } else {
+            System.out.println("gameListView is null");
+        }
     }
 
     public void switchToHomeView(ActionEvent event) throws IOException {

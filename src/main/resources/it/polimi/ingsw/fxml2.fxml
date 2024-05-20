@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- TODO: any way to use it in the fitWidth etc...? -->
+<!-- Enhanced layout with Game List integration -->
 
-<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-           minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0"
+<?import javafx.scene.layout.*?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rootPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
+           minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0"
            xmlns="http://javafx.com/javafx/21" fx:controller="it.polimi.ingsw.GUIController">
     <ImageView fx:id="backgroundImage" fitHeight="1080.0" fitWidth="1920.0" pickOnBounds="true">
         <image>
             <Image url="@images/homeScreen/bg.png"/>
         </image>
     </ImageView>
-    <VBox alignment="CENTER" spacing="20.0">
-        <children>
-            <Button mnemonicParsing="false" onAction="#switchToHomeView" prefHeight="280.0" prefWidth="502.0"
-                    text="Button">
-                <font>
-                    <Font size="95.0"/>
-                </font>
-            </Button>
-        </children>
+    <VBox alignment="CENTER" layoutX="460" layoutY="90" maxHeight="900" maxWidth="1000" spacing="20.0">
+        <HBox alignment="CENTER" prefHeight="695.0" prefWidth="1920.0">
+            <!-- Game List Integration -->
+            <VBox maxWidth="350" spacing="10" styleClass="menu-vbox">
+                <ListView fx:id="gameListView" minHeight="700.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0"
+                          styleClass="game-list" VBox.vgrow="ALWAYS">
+                    <!-- List items will be populated by the controller -->
+                </ListView>
+                <HBox alignment="CENTER" spacing="10">
+                    <Button onAction="#refreshList" styleClass="menu-button" text="Refresh"/>
+                    <Button onAction="#enterGame" styleClass="menu-button" text="Enter Game"/>
+                    <Button onAction="#createGame" styleClass="menu-button" text="Create Game"/>
+                    <Button onAction="#switchToHomeView" styleClass="menu-button" text="Back"/>
+                    <padding>
+                        <Insets top="30.0"/>
+                    </padding>
+                </HBox>
+            </VBox>
+        </HBox>
     </VBox>
 </StackPane>
