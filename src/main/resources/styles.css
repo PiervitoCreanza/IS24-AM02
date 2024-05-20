@@ -1,0 +1,36 @@
+.root {
+    -fx-background-color: #ffffff;
+}
+
+.button {
+    -fx-text-fill: #000000;
+    -fx-padding: 15 25;
+    -fx-background-radius: 100;
+    -fx-background-color: linear-gradient(to bottom, #C8C6D7, #C8C6D7 50%, #C8C6D7 50%, #C8C6D7);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 19, 0.0, 2, 31);
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+}
+
+#quitButton {
+    -fx-text-fill: #fff;
+    -fx-padding: 15 25;
+    -fx-background-radius: 100;
+    -fx-background-color: linear-gradient(to bottom, #4A4063, #4A4063 50%, #4A4063 50%, #4A4063);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 19, 0.0, 2, 31);
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+}
+
+
+.button:disabled {
+    -fx-opacity: 0.4; /* Common way to show disabled state in JavaFX */
+}
+
+.button:focused {
+    -fx-effect: dropshadow(three-pass-box, rgba(88, 45, 103, 0.2), 15, 0.6, 0, 15) dropshadow(three-pass-box, rgba(181, 50, 211, 0.3), 4, 0, 0, 4);
+}
