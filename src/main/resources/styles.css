@@ -34,3 +34,30 @@
 .button:focused {
     -fx-effect: dropshadow(three-pass-box, rgba(88, 45, 103, 0.2), 15, 0.6, 0, 15) dropshadow(three-pass-box, rgba(181, 50, 211, 0.3), 4, 0, 0, 4);
 }
+
+.game-list {
+    -fx-background-color: #C8C6D7;
+    -fx-border-color: #6A0DAD;
+    -fx-border-width: 2;
+    -fx-border-radius: 10; /* Rounded corners for the border */
+    -fx-padding: 10; /* Padding inside the list to space the items a bit from the border */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 10); /* Subtle shadow effect for depth */
+}
+
+.list-cell {
+    -fx-padding: 10 20;
+    -fx-font-size: 16px;
+    -fx-font-family: 'Arial';
+    -fx-text-fill: #333333;
+    -fx-background-color: transparent;
+}
+
+.list-cell:filled:selected, .list-cell:filled:selected:hover {
+    -fx-background-color: #6A0DAD;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+}
+
+.list-cell:hover {
+    -fx-background-color: #E6E6FA; /* Light purple background on hover */
+}
