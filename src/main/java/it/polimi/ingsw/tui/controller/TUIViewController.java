@@ -420,7 +420,11 @@ public class TUIViewController implements PropertyChangeListener {
 
             case "ERROR":
                 String errorMessage = (String) evt.getNewValue();
-                System.out.println("Error: " + errorMessage);
+                if (isInChat)
+                    showChat();
+                else
+                    showCurrentScene();
+                System.err.println("Error: " + errorMessage);
                 break;
         }
         if (!changedProperty.equals("CHAT_MESSAGE") && !changedProperty.equals("ERROR"))

@@ -32,23 +32,6 @@ public class InitChoosePlayerColorScene implements Scene {
      * Constructs a new InitChoosePlayerColorScene.
      * It initializes the drawArea and populates it with the available colors.
      *
-     * @param controller the controller for this scene
-     */
-    public InitChoosePlayerColorScene(TUIViewController controller) {
-        this.drawArea = new TitleComponent("Choose your color").getDrawArea();
-        DrawArea colorArea = new DrawArea();
-        colorArea.drawAt(0, 0, "■", ColorsEnum.RED);
-        colorArea.drawAt(4, 0, "■", ColorsEnum.BLUE);
-        colorArea.drawAt(8, 0, "■", ColorsEnum.GREEN);
-        colorArea.drawAt(12, 0, "■", ColorsEnum.YELLOW);
-        drawArea.drawCenteredX(drawArea.getHeight(), colorArea);
-        this.controller = controller;
-    }
-
-    /**
-     * Constructs a new InitChoosePlayerColorScene.
-     * It initializes the drawArea and populates it with the available colors.
-     *
      * @param controller      the controller for this scene
      * @param availableColors the available colors for the player to choose from
      */
@@ -57,10 +40,10 @@ public class InitChoosePlayerColorScene implements Scene {
         DrawArea colorArea = new DrawArea();
         for (int i = 0; i < availableColors.size(); i++) {
             switch (availableColors.get(i)) {
-                case RED -> colorArea.drawAt(0, i, "■", ColorsEnum.RED);
-                case BLUE -> colorArea.drawAt(0, i, "■", ColorsEnum.BLUE);
-                case GREEN -> colorArea.drawAt(0, i, "■", ColorsEnum.GREEN);
-                case YELLOW -> colorArea.drawAt(0, i, "■", ColorsEnum.YELLOW);
+                case RED -> colorArea.drawAt(0, i, "■ - Red <r>", ColorsEnum.RED);
+                case BLUE -> colorArea.drawAt(0, i, "■ - Blue <b>", ColorsEnum.BLUE);
+                case GREEN -> colorArea.drawAt(0, i, "■ - Green <g>", ColorsEnum.GREEN);
+                case YELLOW -> colorArea.drawAt(0, i, "■ - Yellow <y>", ColorsEnum.YELLOW);
             }
         }
         drawArea.drawCenteredX(this.drawArea.getHeight(), colorArea);
@@ -100,5 +83,9 @@ public class InitChoosePlayerColorScene implements Scene {
             return;
         }
         handler.print();
+    }
+
+    public DrawArea getDrawArea() {
+        return drawArea;
     }
 }

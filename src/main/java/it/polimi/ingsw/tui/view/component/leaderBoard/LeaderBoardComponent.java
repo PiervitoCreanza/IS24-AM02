@@ -37,7 +37,8 @@ public class LeaderBoardComponent implements Drawable {
                 """);
         int x = 4;
         int y = 2;
-        for (PlayerView playerView : playerViews) {
+        List<PlayerView> sortedPlayerViews = playerViews.stream().sorted((p1, p2) -> Integer.compare(p2.playerPos(), p1.playerPos())).toList();
+        for (PlayerView playerView : sortedPlayerViews) {
             DrawArea singlePlayerDrawArea = new DrawArea();
             String playerName = playerView.playerName();
             if (playerName.equals(clientPlayerName))
@@ -45,12 +46,11 @@ public class LeaderBoardComponent implements Drawable {
             if (playerName.length() > 13)
                 playerName = playerName.substring(0, 10) + "...";
             singlePlayerDrawArea.drawAt(0, 0, playerName);
+            singlePlayerDrawArea.setColor(playerView.color().getColor());
             singlePlayerDrawArea.drawAt(15, 0, "=");
             singlePlayerDrawArea.drawCenteredX(17, 20, 0, new DrawArea(String.valueOf(playerView.playerPos())));
-            if (playerName.equals("You"))
-                singlePlayerDrawArea.setColor(ColorsEnum.BLUE);
             if (!playerView.isConnected())
-                singlePlayerDrawArea.setColor(ColorsEnum.RED);
+                singlePlayerDrawArea.setColor(ColorsEnum.BRIGHT_BLACK);
             drawArea.drawAt(x, y++, singlePlayerDrawArea);
         }
     }
