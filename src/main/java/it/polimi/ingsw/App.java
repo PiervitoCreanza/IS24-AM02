@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 
+//TODO: REBASE
 public class App extends Application {
     public static int DEFAULT_WIDTH = 1280;
     public static int DEFAULT_HEIGTH = 720;
