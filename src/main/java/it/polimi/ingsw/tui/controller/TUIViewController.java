@@ -96,14 +96,6 @@ public class TUIViewController implements PropertyChangeListener {
         cliReader.start();
     }
 
-    /**
-     * Method to start the game.
-     */
-    public void start() {
-        this.currentScene = sceneBuilder.instanceMainMenuScene();
-        showCurrentScene();
-    }
-
     private void showCurrentScene() {
         if (!isInChat) {
             Utils.clearScreen();
@@ -355,6 +347,10 @@ public class TUIViewController implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         String changedProperty = evt.getPropertyName();
         switch (changedProperty) {
+            case "CONNECTION_ESTABLISHED":
+                this.currentScene = sceneBuilder.instanceMainMenuScene();
+                break;
+
             case "GET_GAMES":
                 gamesList = (ArrayList<GameRecord>) evt.getNewValue();
                 this.currentScene = sceneBuilder.instanceGetGamesScene(gamesList);

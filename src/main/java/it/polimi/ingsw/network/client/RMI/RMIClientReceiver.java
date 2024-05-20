@@ -36,9 +36,8 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      * Class constructor.
      *
      * @param clientNetworkControllerMapper The client command mapper.
-     * @throws RemoteException if the remote operation fails.
      */
-    public RMIClientReceiver(ClientNetworkControllerMapper clientNetworkControllerMapper) throws RemoteException {
+    public RMIClientReceiver(ClientNetworkControllerMapper clientNetworkControllerMapper) {
         this.clientNetworkControllerMapper = clientNetworkControllerMapper;
     }
 
@@ -104,6 +103,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      * @param isDirect   Flag to indicate if the message is a direct message.
      * @throws RemoteException If an error occurs during the RMI connection.
      */
+    @Override
     public void receiveChatMessage(String playerName, String message, long timestamp, boolean isDirect) throws RemoteException {
         new Thread(() -> clientNetworkControllerMapper.receiveChatMessage(playerName, message, timestamp, isDirect)).start();
         // Debug

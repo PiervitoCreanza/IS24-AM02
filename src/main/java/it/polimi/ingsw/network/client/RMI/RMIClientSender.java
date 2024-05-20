@@ -8,6 +8,8 @@ import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.rmi.RemoteException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -29,6 +31,11 @@ public class RMIClientSender implements ClientMessageHandler {
     private final RMIServerToClientActions thisClientStub;
 
     /**
+     * Listeners that will be notified when a message is received.
+     */
+    private final PropertyChangeSupport listeners;
+
+    /**
      * The logger.
      */
     private static final Logger logger = LogManager.getLogger(RMIClientSender.class);
@@ -43,6 +50,7 @@ public class RMIClientSender implements ClientMessageHandler {
     public RMIClientSender(RMIClientToServerActions serverStub, RMIServerToClientActions thisClientStub) {
         this.serverStub = serverStub;
         this.thisClientStub = thisClientStub;
+        this.listeners = new PropertyChangeSupport(this);
         heartbeat();
     }
 
@@ -90,6 +98,7 @@ public class RMIClientSender implements ClientMessageHandler {
     @Override
     public void closeConnection() {
         logger.error("RMI Server Unreachable - detected when pinging.");
+        listeners.firePropertyChange("CONNECTION_CLOSED", null, null);
     }
 
     /**
@@ -107,5 +116,25 @@ public class RMIClientSender implements ClientMessageHandler {
                 }
             }
         }, 0, 2500);
+    }
+
+    /**
+     * Adds a PropertyChangeListener to the listeners list.
+     * The listener will be notified of property changes.
+     *
+     * @param listener The PropertyChangeListener to be added.
+     */
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.listeners.addPropertyChangeListener(listener);
+    }
+
+    /**
+     * Removes a PropertyChangeListener from the listeners list.
+     * The listener will no longer be notified of property changes.
+     *
+     * @param listener The PropertyChangeListener to be removed.
+     */
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.listeners.removePropertyChangeListener(listener);
     }
 }

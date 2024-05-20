@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -37,6 +38,11 @@ public class TCPClientAdapter implements PropertyChangeListener, ClientMessageHa
      * The TCPConnectionHandler object is used to handle TCP client connections.
      */
     private final TCPConnectionHandler serverConnectionHandler;
+
+    /**
+     * The property change support.
+     */
+    private final PropertyChangeSupport listeners;
 
     /**
      * The logger.
@@ -65,6 +71,7 @@ public class TCPClientAdapter implements PropertyChangeListener, ClientMessageHa
         this.serverConnectionHandler = new TCPConnectionHandler(socket);
         this.serverConnectionHandler.addPropertyChangeListener(this);
         this.serverConnectionHandler.start();
+        listeners = new PropertyChangeSupport(this);
     }
 
 
@@ -82,8 +89,8 @@ public class TCPClientAdapter implements PropertyChangeListener, ClientMessageHa
         String changedProperty = evt.getPropertyName();
         switch (changedProperty) {
             case "CONNECTION_CLOSED" -> {
-                // TODO: Notify player
                 logger.warn("Connection with server lost.");
+                listeners.firePropertyChange("CONNECTION_CLOSED", null, null);
             }
             case "MESSAGE_RECEIVED" -> this.receiveMessage((String) evt.getNewValue());
             default -> logger.error("Invalid property change.");
@@ -133,5 +140,13 @@ public class TCPClientAdapter implements PropertyChangeListener, ClientMessageHa
         logger.info("Close the connection.");
     }
 
+    /**
+     * Adds a PropertyChangeListener to the ClientNetworkCommandMapper.
+     *
+     * @param listener the PropertyChangeListener to be added.
+     */
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        listeners.addPropertyChangeListener(listener);
+    }
 
 }
