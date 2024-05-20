@@ -7,6 +7,8 @@ import it.polimi.ingsw.network.virtualView.PlayerBoardView;
 import it.polimi.ingsw.network.virtualView.PlayerView;
 import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.utils.ColorsEnum;
+import it.polimi.ingsw.tui.utils.Utils;
+import it.polimi.ingsw.tui.view.component.InputPromptComponent;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.component.leaderBoard.LeaderBoardComponent;
 import it.polimi.ingsw.tui.view.component.player.playerBoard.PlayerBoardComponent;
@@ -73,7 +75,7 @@ public class PlaceCardScene implements Scene {
     /**
      * The status of the scene.
      */
-    private int status = 0;
+    private PlaceCardStatus currentStatus = PlaceCardStatus.HANDLE_INPUT;
 
     /**
      * The user input handler for choosing a card to switch.
@@ -88,7 +90,17 @@ public class PlaceCardScene implements Scene {
     /**
      * The user input handler for choosing the coordinates to place the card.
      */
-    private final UserInputHandler chooseCoordinatesHandler = new UserInputHandler("Choose the coordinates to place the card (x,y) or <q> to quit:", input -> input.matches("-?\\d{1,2},-?\\d{1,2}"));
+    private final UserInputHandler chooseBoardCardHandler = new UserInputHandler("Select a card on the board (e.g. 1,1):", input -> input.matches("-?\\d{1,2},-?\\d{1,2}"));
+
+    private final UserInputHandler chooseBoardCornerHandler = new UserInputHandler(">", input -> input.toLowerCase().matches("topleft|topright|bottomleft|bottomright|top left|top right|bottom left|bottom right|tl|tr|bl|br"));
+
+    private enum PlaceCardStatus {
+        HANDLE_INPUT,
+        SWITCH_CARD,
+        CHOOSE_HAND_CARD,
+        CHOOSE_BOARD_CARD,
+        CHOOSE_BOARD_CORNER,
+    }
 
     /**
      * Constructs a new PlaceCardScene.
@@ -122,84 +134,22 @@ public class PlaceCardScene implements Scene {
     }
 
     /**
-     * Handles the user input for switching a card.
-     *
-     * @param input the user input
-     */
-    public void handleSwitchCard(String input) {
-        if (input.equals("q")) {
-            // Go back to action chooser
-            status = 0;
-            return;
-        }
-        if (chooseCardHandler.validate(input)) {
-            int cardToSwitchIndex = Integer.parseInt(chooseCardHandler.getInput()) - 1;
-            hand.get(cardToSwitchIndex).switchSide();
-            handFlipped.set(cardToSwitchIndex, !handFlipped.get(cardToSwitchIndex));
-            // Go back to action chooser
-            status = 0;
-            draw();
-            display();
-        } else {
-            chooseCardHandler.print();
-        }
-    }
-
-    /**
-     * Handles the user input for choosing a card to place.
-     *
-     * @param input the user input
-     */
-    public void handleChooseCardToPlace(String input) {
-        if (input.equals("q")) {
-            // Go back to action chooser
-            status = 0;
-            return;
-        }
-        if (chooseCardToPlaceHandler.validate(input)) {
-            status = 3;
-        } else {
-            chooseCardToPlaceHandler.print();
-        }
-    }
-
-    /**
-     * Handles the user input for choosing the coordinates to place the card.
-     *
-     * @param input the user input
-     */
-    public void handleChooseCoordinates(String input) {
-        if (input.equals("q")) {
-            // Go back to action chooser
-            status = 0;
-            return;
-        }
-        if (chooseCoordinatesHandler.validate(input)) {
-            int choosenCardId = this.hand.get(Integer.parseInt(chooseCardToPlaceHandler.getInput()) - 1).getCardId();
-            status = 0;
-            controller.placeCard(choosenCardId, new Coordinate(Integer.parseInt(chooseCoordinatesHandler.getInput().split(",")[0]), Integer.parseInt(chooseCoordinatesHandler.getInput().split(",")[1])), handFlipped.get(Integer.parseInt(chooseCardToPlaceHandler.getInput()) - 1));
-        } else {
-            chooseCoordinatesHandler.print();
-        }
-    }
-
-    /**
      * Handles the user input.
      *
      * @param input the user input
      */
     public void handleUserInput(String input) {
 
-        if (status == 0) {
+        if (currentStatus == PlaceCardStatus.HANDLE_INPUT) {
             switch (input.toLowerCase()) {
                 case "s" -> {
-                    status = 1;
+                    currentStatus = PlaceCardStatus.SWITCH_CARD;
                     new TitleComponent("Switching Card").getDrawArea().println();
                     chooseCardHandler.print();
                     return;
                 }
                 case "p" -> {
-                    status = 2;
+                    currentStatus = PlaceCardStatus.CHOOSE_HAND_CARD;
                     new TitleComponent("Placing Card").getDrawArea().println();
                     chooseCardToPlaceHandler.print();
                     return;
@@ -216,16 +166,124 @@ public class PlaceCardScene implements Scene {
             }
         }
 
-        if (status == 1) {
+        if (currentStatus == PlaceCardStatus.SWITCH_CARD) {
             handleSwitchCard(input);
         }
-        if (status == 2) {
+        if (currentStatus == PlaceCardStatus.CHOOSE_HAND_CARD) {
             handleChooseCardToPlace(input);
         }
-        if (status == 3) {
-            handleChooseCoordinates(input);
+        if (currentStatus == PlaceCardStatus.CHOOSE_BOARD_CARD) {
+            handleChooseBoardCard(input);
+        }
+        if (currentStatus == PlaceCardStatus.CHOOSE_BOARD_CORNER) {
+            handleChooseBoardCorner(input);
         }
 
+    }
+
+    /**
+     * Handles the user input for switching a card.
+     *
+     * @param input the user input
+     */
+    public void handleSwitchCard(String input) {
+        if (input.equals("q")) {
+            Utils.clearScreen();
+            display();
+            // Go back to action chooser
+            currentStatus = PlaceCardStatus.HANDLE_INPUT;
+            return;
+        }
+        if (chooseCardHandler.validate(input)) {
+            int cardToSwitchIndex = Integer.parseInt(chooseCardHandler.getInput()) - 1;
+            hand.get(cardToSwitchIndex).switchSide();
+            handFlipped.set(cardToSwitchIndex, !handFlipped.get(cardToSwitchIndex));
+            // Go back to action chooser
+            currentStatus = PlaceCardStatus.HANDLE_INPUT;
+            draw();
+            display();
+        } else {
+            chooseCardHandler.print();
+        }
+    }
+
+    /**
+     * Handles the user input for choosing a card to place.
+     *
+     * @param input the user input
+     */
+    public void handleChooseCardToPlace(String input) {
+        if (input.equals("q")) {
+            Utils.clearScreen();
+            display();
+            // Go back to action chooser
+            currentStatus = PlaceCardStatus.HANDLE_INPUT;
+            return;
+        }
+        if (chooseCardToPlaceHandler.validate(input)) {
+            currentStatus = PlaceCardStatus.CHOOSE_BOARD_CARD;
+        } else {
+            chooseCardToPlaceHandler.print();
+        }
+    }
+
+    /**
+     * Handles the user input for choosing the coordinates to place the card.
+     *
+     * @param input the user input
+     */
+    public void handleChooseBoardCard(String input) {
+        if (input.equals("q")) {
+            Utils.clearScreen();
+            display();
+            // Go back to action chooser
+            currentStatus = PlaceCardStatus.HANDLE_INPUT;
+            return;
+        }
+        if (chooseBoardCardHandler.validate(input)) {
+            currentStatus = PlaceCardStatus.CHOOSE_BOARD_CORNER;
+        } else {
+            chooseBoardCardHandler.print();
+        }
+    }
+
+    public void handleChooseBoardCorner(String input) {
+        if (input.equals("q")) {
+            Utils.clearScreen();
+            display();
+            // Go back to action chooser
+            currentStatus = PlaceCardStatus.HANDLE_INPUT;
+            return;
+        }
+        if (chooseBoardCornerHandler.validate(input)) {
+            int chooseCardId = this.hand.get(Integer.parseInt(chooseCardToPlaceHandler.getInput()) - 1).getCardId();
+            Coordinate coordinate = getCoordinate();
+            currentStatus = PlaceCardStatus.HANDLE_INPUT;
+            controller.placeCard(chooseCardId, coordinate, handFlipped.get(Integer.parseInt(chooseCardToPlaceHandler.getInput()) - 1));
+        } else {
+            InputPromptComponent inputArea = new InputPromptComponent("""
+                    Select the corner:
+                    <tl> Top left
+                    <tr> Top right
+                    <bl> Bottom left
+                    <br> Bottom right
+                    """);
+            inputArea.println();
+            chooseBoardCornerHandler.print();
+        }
+    }
+
+    private Coordinate getCoordinate() {
+        Coordinate coordinate = new Coordinate(Integer.parseInt(chooseBoardCardHandler.getInput().split(",")[0]), Integer.parseInt(chooseBoardCardHandler.getInput().split(",")[1]));
+        switch (chooseBoardCornerHandler.getInput().toLowerCase()) {
+            case "topleft", "top left", "tl" -> coordinate.setLocation(coordinate.getX() - 1, coordinate.getY() + 1);
+            case "topright", "top right", "tr" -> coordinate.setLocation(coordinate.getX() + 1, coordinate.getY() + 1);
+            case "bottomleft", "bottom left", "bl" ->
+                    coordinate.setLocation(coordinate.getX() - 1, coordinate.getY() - 1);
+            case "bottomright", "bottom right", "br" ->
+                    coordinate.setLocation(coordinate.getX() + 1, coordinate.getY() - 1);
+        }
+        return coordinate;
     }
 
     /**

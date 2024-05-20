@@ -16,11 +16,25 @@ import static it.polimi.ingsw.tui.utils.Utils.ANSI_BLUE;
 import static it.polimi.ingsw.tui.utils.Utils.ANSI_RESET;
 
 public class ChatScene implements Scene {
+
     private final DrawArea drawArea;
+
     private final TUIViewController controller;
+
     private final UserInputHandler receiverHandler = new UserInputHandler("Enter receiver: ", Objects::nonNull);
+
     private final UserInputHandler messageHandler = new UserInputHandler("Enter message: ", input -> !input.isEmpty());
+
     private final String playerName;
+
+    private enum ChatStatus {
+        HANDLE_INPUT,
+        DIRECT_RECEIVER,
+        DIRECT_MESSAGE,
+        GLOBAL
+    }
+
+    private ChatStatus currentStatus = ChatStatus.HANDLE_INPUT;
 
     public ChatScene(TUIViewController controller, String playerName, ArrayList<ChatServerToClientMessage> messages) {
         this.controller = controller;
@@ -39,8 +53,6 @@ public class ChatScene implements Scene {
                 Press <q> to quit.
                 """, 1);
     }
-
-    private ChatStatus currentStatus = ChatStatus.HANDLE_INPUT;
 
     public void handleUserInput(String input) {
         if (currentStatus == ChatStatus.HANDLE_INPUT) {
@@ -119,13 +131,6 @@ public class ChatScene implements Scene {
         } else {
             messageHandler.print();
         }
-    }
-
-    private enum ChatStatus {
-        HANDLE_INPUT,
-        DIRECT_RECEIVER,
-        DIRECT_MESSAGE,
-        GLOBAL
     }
 
     /**

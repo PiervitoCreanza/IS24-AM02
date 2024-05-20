@@ -33,6 +33,10 @@ public class InputPromptComponent implements Drawable {
         drawArea.print();
     }
 
+    public void println() {
+        drawArea.println();
+    }
+
 
     /**
      * Returns the height of the drawable object.
