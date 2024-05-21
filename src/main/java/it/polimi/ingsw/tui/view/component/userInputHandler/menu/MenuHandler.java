@@ -36,6 +36,9 @@ public class MenuHandler {
         for (MenuItem item : items) {
             System.out.println("Press <" + item.getOpt() + "> to " + item.getLabel());
         }
+
+        // If the print has been called, the selected item must be reset.
+        selectedMenuItem = null;
     }
 
     public DrawArea getDrawArea() {

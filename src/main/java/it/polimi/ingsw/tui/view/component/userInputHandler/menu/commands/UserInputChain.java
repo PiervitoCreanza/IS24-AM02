@@ -42,6 +42,8 @@ public class UserInputChain implements MenuCommand {
         // If the current handler is the last one, notify the listener
         if (currentHandlerIndex >= handlers.length) {
             support.firePropertyChange("input", null, getInputs());
+            // Clear the current handler index
+            currentHandlerIndex = 0;
             return;
         }
 
