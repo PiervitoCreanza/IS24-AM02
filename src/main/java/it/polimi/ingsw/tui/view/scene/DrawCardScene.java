@@ -89,7 +89,8 @@ public class DrawCardScene implements Scene, PropertyChangeListener {
 
         this.menuHandler = new MenuHandler(this,
                 new MenuItem("d", "draw a card", new UserInputHandler("Choose the card to draw:", input -> input.matches("[1-6]"))),
-                new MenuItem("c", "show chat", new EmptyCommand())
+                new MenuItem("c", "show chat", new EmptyCommand()),
+                new MenuItem("q", "quit", new EmptyCommand())
         );
     }
 

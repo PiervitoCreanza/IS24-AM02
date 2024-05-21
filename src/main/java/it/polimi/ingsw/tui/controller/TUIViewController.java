@@ -70,6 +70,8 @@ public class TUIViewController implements PropertyChangeListener, ViewController
 
     private Scene chatScene;
 
+    private Scene winnerScene;
+
     /**
      * List of games.
      */
@@ -152,6 +154,10 @@ public class TUIViewController implements PropertyChangeListener, ViewController
     public void handleUserInput(String input) {
         if (isInChat) {
             chatScene.handleUserInput(input);
+            return;
+        }
+        if (isGameOver) {
+            winnerScene.handleUserInput(input);
             return;
         }
         this.currentScene.handleUserInput(input);
@@ -394,7 +400,8 @@ public class TUIViewController implements PropertyChangeListener, ViewController
                 }
 
                 if (gameStatus == GameStatusEnum.GAME_OVER) {
-                    this.currentScene = sceneBuilder.instanceWinnerScene(updatedView);
+                    this.winnerScene = sceneBuilder.instanceWinnerScene(updatedView);
+                    this.currentScene = winnerScene;
                     break;
                 }
 
