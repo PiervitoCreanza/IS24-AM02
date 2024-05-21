@@ -55,7 +55,7 @@ public class SceneBuilder {
      * @return The WaitForPlayersScene scene.
      */
     public WaitForPlayersScene instanceWaitForPlayersScene(GameControllerView gameControllerView) {
-        return new WaitForPlayersScene(gameControllerView.gameView().playerViews().stream().map(PlayerView::playerName).collect(Collectors.toCollection(ArrayList::new)), 4);
+        return new WaitForPlayersScene(this.controller, gameControllerView.gameView().playerViews().stream().map(PlayerView::playerName).collect(Collectors.toCollection(ArrayList::new)), 4);
     }
 
     /**
@@ -171,7 +171,7 @@ public class SceneBuilder {
      * @return The GamePausedScene scene.
      */
     public GamePausedScene instanceGamePausedScene() {
-        return new GamePausedScene();
+        return new GamePausedScene(this.controller);
     }
 
     public Scene instanceWinnerScene(GameControllerView updatedView) {

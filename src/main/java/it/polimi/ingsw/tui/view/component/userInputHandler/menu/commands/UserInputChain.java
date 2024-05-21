@@ -50,6 +50,7 @@ public class UserInputChain implements MenuCommand {
     }
 
     public void print() {
+        this.currentHandlerIndex = 0;
         getCurrentHandler().print();
     }
 
