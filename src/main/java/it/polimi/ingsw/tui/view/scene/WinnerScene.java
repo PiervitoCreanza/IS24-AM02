@@ -88,12 +88,8 @@ public class WinnerScene implements Scene, PropertyChangeListener {
      * @param input the user's input
      */
     public void handleUserInput(String input) {
-        if (input.equalsIgnoreCase("q")) {
-            controller.selectScene(ScenesEnum.MAIN_MENU);
-            controller.setIsGameOver(false);
-        } else {
-            System.out.println("Invalid input");
-        }
+        menuHandler.handleInput(input);
+        controller.setIsGameOver(false);
     }
 
     public DrawArea getDrawArea() {
@@ -109,9 +105,10 @@ public class WinnerScene implements Scene, PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String changedProperty = evt.getPropertyName();
-        switch (changedProperty) {
-            case "q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
-            default -> logger.error("Invalid property change event");
+        if (changedProperty.equals("q")) {
+            controller.selectScene(ScenesEnum.MAIN_MENU);
+        } else {
+            logger.error("Invalid property change event");
         }
     }
 }
