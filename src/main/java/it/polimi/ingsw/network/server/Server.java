@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.MainController;
 import it.polimi.ingsw.network.server.RMI.RMIServerReceiver;
 import it.polimi.ingsw.network.server.TCP.TCPServerAdapter;
 import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
+import it.polimi.ingsw.network.server.persistence.Persistence;
 import it.polimi.ingsw.network.utils.HostIpAddressResolver;
 import it.polimi.ingsw.network.utils.RMITimeoutSetter;
 import it.polimi.ingsw.view.tui.utils.Utils;
@@ -57,7 +58,7 @@ public class Server {
          * ***************************************/
         MainController mainController = new MainController();
         ServerNetworkControllerMapper serverNetworkControllerMapper = new ServerNetworkControllerMapper(mainController);
-
+        new Persistence(mainController, serverNetworkControllerMapper).load("almostEnded");
         /* ***************************************
          * CLI ARGUMENTS PARSING
          * ***************************************/
