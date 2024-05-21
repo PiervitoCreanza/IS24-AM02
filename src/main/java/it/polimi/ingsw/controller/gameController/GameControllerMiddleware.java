@@ -383,6 +383,6 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      */
     @Override
     public GameControllerView getVirtualView() {
-        return new GameControllerView(game.getVirtualView(), gameStatus, isLastRound);
+        return new GameControllerView(game.getVirtualView(), gameStatus, isLastRound, remainingRoundsToEndGame);
     }
 }

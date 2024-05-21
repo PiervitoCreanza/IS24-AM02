@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.tui.controller.TUIViewController;
+import it.polimi.ingsw.tui.view.component.EndPhaseComponent;
 import it.polimi.ingsw.tui.view.component.player.playerBoard.PlayerBoardComponent;
 import it.polimi.ingsw.tui.view.component.userInputHandler.menu.MenuHandler;
 import it.polimi.ingsw.tui.view.component.userInputHandler.menu.MenuItem;
@@ -38,12 +39,17 @@ public class OtherPlayerTurnScene implements Scene, PropertyChangeListener {
      * @param playerColor the color of the player whose turn it is
      * @param playerBoard the board of the player whose turn it is
      */
-    public OtherPlayerTurnScene(TUIViewController controller, String playerName, PlayerColorEnum playerColor, HashMap<Coordinate, GameCard> playerBoard) {
+    public OtherPlayerTurnScene(TUIViewController controller, String playerName, PlayerColorEnum playerColor, HashMap<Coordinate, GameCard> playerBoard, boolean isLastRound, int remainingRoundsToEndGame) {
         this.controller = controller;
         this.drawArea = new DrawArea();
-        this.drawArea.drawAt(0, 0, "It's");
-        this.drawArea.drawAt(this.drawArea.getWidth() + 1, 0, playerName, playerColor.getColor());
-        this.drawArea.drawAt(this.drawArea.getWidth(), 0, "'s turn!");
+        if (isLastRound) {
+            DrawArea endPhaseArea = new EndPhaseComponent(playerName, playerColor, true, remainingRoundsToEndGame).getDrawArea();
+            this.drawArea.drawAt(0, 0, endPhaseArea);
+        } else {
+            this.drawArea.drawAt(0, 0, "It's");
+            this.drawArea.drawAt(this.drawArea.getWidth() + 1, 0, playerName, playerColor.getColor());
+            this.drawArea.drawAt(this.drawArea.getWidth(), 0, "'s turn!");
+        }
         this.drawArea.drawAt(this.drawArea.getWidth(), this.drawArea.getHeight() + 1, new PlayerBoardComponent(playerBoard));
         this.menuHandler = new MenuHandler(this,
                 new MenuItem("c", "chat", new EmptyCommand()),
@@ -61,7 +67,7 @@ public class OtherPlayerTurnScene implements Scene, PropertyChangeListener {
     }
 
     /**
-     * @param input
+     * @param input the input string
      */
     @Override
     public void handleUserInput(String input) {

@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.virtualView.GlobalBoardView;
 import it.polimi.ingsw.tui.controller.TUIViewController;
-import it.polimi.ingsw.tui.utils.ColorsEnum;
+import it.polimi.ingsw.tui.view.component.EndPhaseComponent;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.component.decks.DrawingAreaComponent;
 import it.polimi.ingsw.tui.view.component.player.playerBoard.PlayerBoardComponent;
@@ -59,11 +59,6 @@ public class DrawCardScene implements Scene, PropertyChangeListener {
     private final MenuHandler menuHandler;
 
     /**
-     * The status of the scene.
-     */
-    private final int status = 0;
-
-    /**
      * Constructs a new DrawCardScene.
      *
      * @param controller       the controller for this scene
@@ -73,7 +68,7 @@ public class DrawCardScene implements Scene, PropertyChangeListener {
      * @param hand             the player's hand of cards
      * @param globalBoardView  the global board view
      */
-    public DrawCardScene(TUIViewController controller, HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, GlobalBoardView globalBoardView, boolean isLastRound) {
+    public DrawCardScene(TUIViewController controller, HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, GlobalBoardView globalBoardView, boolean isLastRound, int remainingRoundsToEndGame) {
         this.controller = controller;
         this.drawArea = new DrawArea();
         this.fieldResourceCards = globalBoardView.fieldResourceCards();
@@ -82,6 +77,7 @@ public class DrawCardScene implements Scene, PropertyChangeListener {
         DrawArea playerBoardArea = new PlayerBoardComponent(playerBoard).getDrawArea();
         DrawArea playerInventoryArea = new PlayerInventoryComponent(globalObjectives, playerObjective, hand, 1).getDrawArea();
         DrawArea drawCardArea = new DrawingAreaComponent(globalBoardView.resourceFirstCard(), globalBoardView.goldFirstCard(), globalBoardView.fieldResourceCards(), globalBoardView.fieldGoldCards(), 5).getDrawArea();
+        DrawArea endPhaseArea = new EndPhaseComponent(isLastRound, remainingRoundsToEndGame).getDrawArea();
 
         int widthMax = Math.max(playerBoardArea.getWidth(), playerInventoryArea.getWidth());
 
@@ -89,12 +85,8 @@ public class DrawCardScene implements Scene, PropertyChangeListener {
         this.drawArea.drawCenteredX(drawArea.getHeight(), playerBoardArea);
         this.drawArea.drawCenteredX(drawArea.getHeight(), playerInventoryArea);
         this.drawArea.drawCenteredX(drawArea.getHeight(), drawCardArea);
-        if (isLastRound) {
-            this.drawArea.drawNewLine("""
-                    This is the last round of the game.
-                    You can place the last card on the board.
-                    """, ColorsEnum.BRIGHT_RED, 0);
-        }
+        this.drawArea.drawAt(0, drawArea.getHeight(), endPhaseArea);
+
         this.menuHandler = new MenuHandler(this,
                 new MenuItem("d", "draw a card", new UserInputHandler("Choose the card to draw:", input -> input.matches("[1-6]"))),
                 new MenuItem("c", "show chat", new EmptyCommand())
@@ -150,9 +142,7 @@ public class DrawCardScene implements Scene, PropertyChangeListener {
                     case "6" -> controller.drawCardFromGoldDeck();
                 }
             }
-            case "c" -> {
-                controller.showChat();
-            }
+            case "c" -> controller.showChat();
             case "q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
             default -> Logger.error("Invalid property change event");
         }

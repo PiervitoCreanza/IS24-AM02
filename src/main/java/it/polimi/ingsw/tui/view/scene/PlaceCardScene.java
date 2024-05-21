@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.virtualView.PlayerBoardView;
 import it.polimi.ingsw.network.virtualView.PlayerView;
 import it.polimi.ingsw.tui.controller.TUIViewController;
-import it.polimi.ingsw.tui.utils.ColorsEnum;
+import it.polimi.ingsw.tui.view.component.EndPhaseComponent;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.component.leaderBoard.LeaderBoardComponent;
 import it.polimi.ingsw.tui.view.component.player.playerBoard.PlayerBoardComponent;
@@ -83,6 +83,8 @@ public class PlaceCardScene implements Scene, PropertyChangeListener {
 
     private final MenuHandler menuHandler;
 
+    private final int remainingRoundsToEndGame;
+
     /**
      * Constructs a new PlaceCardScene.
      *
@@ -94,7 +96,7 @@ public class PlaceCardScene implements Scene, PropertyChangeListener {
      * @param playerViews      the views of the players
      * @param playerUsername   the username of the player
      */
-    public PlaceCardScene(TUIViewController controller, HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, List<PlayerView> playerViews, String playerUsername, boolean isLastRound) {
+    public PlaceCardScene(TUIViewController controller, HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, List<PlayerView> playerViews, String playerUsername, boolean isLastRound, int remainingRoundsToEndGame) {
         this.controller = controller;
         this.playerBoard = playerBoard;
         this.globalObjectives = globalObjectives;
@@ -103,6 +105,7 @@ public class PlaceCardScene implements Scene, PropertyChangeListener {
         this.playerViews = playerViews;
         this.playerUsername = playerUsername;
         this.isLastRound = isLastRound;
+        this.remainingRoundsToEndGame = remainingRoundsToEndGame;
         this.menuHandler = new MenuHandler(this,
                 new MenuItem("s", "switch card",
                         new UserInputHandler("Choose the card to switch:", input -> input.matches("[1-3]")
@@ -163,12 +166,8 @@ public class PlaceCardScene implements Scene, PropertyChangeListener {
                 Coordinate coordinate = translateTextToCoordinates(inputs.get(1), inputs.get(2));
                 controller.placeCard(choosenCardId, coordinate, handFlipped.get(choosenCardIndex));
             }
-            case "c" -> {
-                controller.showChat();
-            }
-            case "q" -> {
-                controller.selectScene(ScenesEnum.MAIN_MENU);
-            }
+            case "c" -> controller.showChat();
+            case "q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
         }
     }
 
@@ -212,15 +211,12 @@ public class PlaceCardScene implements Scene, PropertyChangeListener {
         leaderInventoryArea.drawCenteredX(0, leaderItemsArea);
         widthMax = Math.max(playerBoardArea.getWidth(), playerInventoryArea.getWidth());
         DrawArea titleArea = new TitleComponent("Place Card", widthMax).getDrawArea();
+        DrawArea endPhaseArea = new EndPhaseComponent(isLastRound, remainingRoundsToEndGame).getDrawArea();
 
         this.drawArea.drawAt(0, 0, titleArea);
         this.drawArea.drawCenteredX(drawArea.getHeight(), playerBoardArea);
         this.drawArea.drawCenteredX(drawArea.getHeight(), leaderInventoryArea);
-        if (isLastRound) {
-            this.drawArea.drawNewLine("""
-                    This is the last round of the game.
-                    You can place the last card on the board.
-                    """, ColorsEnum.BRIGHT_RED, 0);
-        }
+        this.drawArea.drawAt(0, drawArea.getHeight(), endPhaseArea);
+
     }
 }

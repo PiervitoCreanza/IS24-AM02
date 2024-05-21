@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.virtualView;
 
+import it.polimi.ingsw.model.player.PlayerColorEnum;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.Objects;
  */
 public record GameView(String currentPlayer, GlobalBoardView globalBoardView,
                        List<PlayerView> playerViews, ArrayList<String> winners,
-                       java.util.ArrayList<it.polimi.ingsw.model.player.PlayerColorEnum> availablePlayerColors) implements Serializable {
+                       ArrayList<PlayerColorEnum> availablePlayerColors) implements Serializable {
 
     /**
      * Returns the view of the player with the given name.

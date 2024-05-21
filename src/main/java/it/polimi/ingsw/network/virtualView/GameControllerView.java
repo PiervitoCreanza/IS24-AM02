@@ -11,7 +11,7 @@ import java.util.Objects;
  * This class holds a GameView object and a GameStatusEnum object.
  */
 public record GameControllerView(GameView gameView, GameStatusEnum gameStatus,
-                                 boolean isLastRound) implements Serializable {
+                                 boolean isLastRound, int remainingRoundsToEndGame) implements Serializable {
 
     /**
      * Returns the view of the current player.
