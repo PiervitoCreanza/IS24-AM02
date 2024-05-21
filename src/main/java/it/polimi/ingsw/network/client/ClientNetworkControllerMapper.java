@@ -204,6 +204,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      */
     @Override
     public void receiveGameDeleted(String message) {
+        messageHandler.closeConnection();
         notify("GAME_DELETED", message);
     }
 

@@ -134,7 +134,6 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
     public void deleteGame(ServerMessageHandler messageHandler, String gameName, String playerName) {
         try {
             mainController.isGameDeletable(gameName, playerName);
-            broadcastMessage(gameName, new DeleteGameServerToClientMessage());
             // We close the connections. This will trigger the handleDisconnection method and so the game deletion.
             closeConnections(gameName);
         } catch (Exception e) {
@@ -309,6 +308,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
 
     private void closeConnections(String gameName) {
         for (ServerMessageHandler messageHandler : gameConnectionMapper.get(gameName).values()) {
+            messageHandler.sendMessage(new DeleteGameServerToClientMessage());
             messageHandler.closeConnection();
         }
     }

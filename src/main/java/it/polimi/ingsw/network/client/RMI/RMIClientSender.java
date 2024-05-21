@@ -8,18 +8,16 @@ import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.rmi.RemoteException;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * The RMIClientSender class is responsible for sending messages to the server.
  */
-public class RMIClientSender implements ClientMessageHandler, PropertyChangeListener {
+public class RMIClientSender implements ClientMessageHandler {
     /**
      * The RMIClientToServerActions instance that represents the server stub.
      * This stub is used to perform actions on the server.
@@ -36,8 +34,6 @@ public class RMIClientSender implements ClientMessageHandler, PropertyChangeList
      * Listeners that will be notified when a message is received.
      */
     private final PropertyChangeSupport listeners;
-
-    private final AtomicBoolean connectionClosed = new AtomicBoolean(false);
 
     /**
      * The logger.
@@ -101,10 +97,8 @@ public class RMIClientSender implements ClientMessageHandler, PropertyChangeList
      */
     @Override
     public void closeConnection() {
-        if (!connectionClosed.getAndSet(true)) {
-            logger.error("RMI Server Unreachable - detected when pinging.");
-            listeners.firePropertyChange("CONNECTION_CLOSED", null, null);
-        }
+        logger.error("RMI Server Unreachable - detected when pinging.");
+        listeners.firePropertyChange("CONNECTION_CLOSED", null, null);
     }
 
     /**
@@ -142,21 +136,5 @@ public class RMIClientSender implements ClientMessageHandler, PropertyChangeList
      */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         this.listeners.removePropertyChangeListener(listener);
-    }
-
-    /**
-     * This method gets called when a bound property is changed.
-     *
-     * @param evt A PropertyChangeEvent object describing the event source
-     *            and the property that has changed.
-     */
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        String changedProperty = evt.getPropertyName();
-        if (changedProperty.equals("CONNECTION_CLOSED")) {
-            closeConnection();
-        } else {
-            logger.warn("Unknown property change event: {}", changedProperty);
-        }
     }
 }
