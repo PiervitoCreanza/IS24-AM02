@@ -23,7 +23,7 @@ public class InputPromptComponent implements Drawable {
      */
     public InputPromptComponent(String question) {
         drawArea = new DrawArea();
-        drawArea.drawAt(6, 0, question, ColorsEnum.CYAN);
+        drawArea.drawAt(0, 0, question, ColorsEnum.CYAN);
     }
 
     /**

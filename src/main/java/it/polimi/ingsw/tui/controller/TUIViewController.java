@@ -316,6 +316,10 @@ public class TUIViewController implements PropertyChangeListener, ViewController
         if (oldView == null) {
             return true;
         }
+        // If the status has changed
+        if (!updatedView.gameStatus().equals(oldView.gameStatus())) {
+            return true;
+        }
         // If the player has changed
         if (!updatedView.getCurrentPlayerView().playerName().equals(oldView.getCurrentPlayerView().playerName())) {
             return true;
