@@ -204,8 +204,6 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      */
     @Override
     public void receiveGameDeleted(String message) {
-        messageHandler.closeConnection();
-        notify("GAME_DELETED", message);
     }
 
 
@@ -305,5 +303,9 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      */
     private void notify(String propertyName, Object oldMessage, Object message) {
         support.firePropertyChange(propertyName, oldMessage, message);
+    }
+
+    public void closeConnection() {
+        messageHandler.closeConnection();
     }
 }

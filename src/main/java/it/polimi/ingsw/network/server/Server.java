@@ -94,10 +94,11 @@ public class Server {
         Options options = new Options();
         options.addOption("tp", "tcp_port", true, "TCP ServerApp Port number (default is 12345).");
         options.addOption("rp", "rmi_port", true, "RMI ServerApp Port number (default is 1099).");
+        //TODO
         options.addOption("ip", true, "RMI ServerApp server external IP (default is localhost).");
+        options.addOption("l", "localhost", false, "Start the server with his localhost ip address");
         options.addOption("lan", "Start the server with his lan ip address.");
         options.addOption("debug", "Start the Server in DEBUG mode.");
-
         CommandLineParser parser = new DefaultParser();
 
         try {
@@ -124,7 +125,6 @@ public class Server {
      */
     private static void RMIServerStart(ServerNetworkControllerMapper serverNetworkControllerMapper, Integer RMIPortNumber, String serverIp) {
         try {
-            //TODO Conti fixit
             System.setProperty("java.rmi.server.hostname", serverIp);
 
             RMIServerReceiver rmiServerReceiver = new RMIServerReceiver(serverNetworkControllerMapper);

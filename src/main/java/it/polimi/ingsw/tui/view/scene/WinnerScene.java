@@ -80,6 +80,7 @@ public class WinnerScene implements Scene, PropertyChangeListener {
     public void display() {
         this.drawArea.println();
         menuHandler.print();
+        controller.setIsGameOver(true);
     }
 
     /**
@@ -89,7 +90,6 @@ public class WinnerScene implements Scene, PropertyChangeListener {
      */
     public void handleUserInput(String input) {
         menuHandler.handleInput(input);
-        controller.setIsGameOver(false);
     }
 
     public DrawArea getDrawArea() {
@@ -106,7 +106,8 @@ public class WinnerScene implements Scene, PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         String changedProperty = evt.getPropertyName();
         if (changedProperty.equals("q")) {
-            controller.selectScene(ScenesEnum.MAIN_MENU);
+            controller.setIsGameOver(false);
+            controller.closeConnection();
         } else {
             logger.error("Invalid property change event");
         }

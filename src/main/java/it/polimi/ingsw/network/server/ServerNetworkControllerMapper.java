@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.controller.MainController;
 import it.polimi.ingsw.controller.gameController.GameControllerMiddleware;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
@@ -134,6 +133,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
     public void deleteGame(ServerMessageHandler messageHandler, String gameName, String playerName) {
         try {
             mainController.isGameDeletable(gameName, playerName);
+            broadcastMessage(gameName, new DeleteGameServerToClientMessage());
             // We close the connections. This will trigger the handleDisconnection method and so the game deletion.
             closeConnections(gameName);
         } catch (Exception e) {
@@ -208,7 +208,6 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
         try {
             mainController.getGameController(gameName).drawCardFromField(playerName, card);
             broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
-            checkGameOver(gameName);
         } catch (Exception e) {
             gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
         }
@@ -224,7 +223,6 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
         try {
             mainController.getGameController(gameName).drawCardFromResourceDeck(playerName);
             broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
-            checkGameOver(gameName);
         } catch (Exception e) {
             gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
         }
@@ -240,7 +238,6 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
         try {
             mainController.getGameController(gameName).drawCardFromGoldDeck(playerName);
             broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
-            checkGameOver(gameName);
         } catch (Exception e) {
             gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
         }
@@ -308,15 +305,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
 
     private void closeConnections(String gameName) {
         for (ServerMessageHandler messageHandler : gameConnectionMapper.get(gameName).values()) {
-            messageHandler.sendMessage(new DeleteGameServerToClientMessage());
             messageHandler.closeConnection();
-        }
-    }
-
-    private void checkGameOver(String gameName) {
-        // If the game is over we close the connections and delete the game.
-        if (mainController.getGameController(gameName).getGameStatus().equals(GameStatusEnum.GAME_OVER)) {
-            closeConnections(gameName);
         }
     }
 

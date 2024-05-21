@@ -351,6 +351,10 @@ public class TUIViewController implements PropertyChangeListener, ViewController
         this.isGameOver = isGameOver;
     }
 
+    public void closeConnection() {
+        networkController.closeConnection();
+    }
+
     public void propertyChange(PropertyChangeEvent evt) {
         String changedProperty = evt.getPropertyName();
         switch (changedProperty) {
@@ -361,11 +365,6 @@ public class TUIViewController implements PropertyChangeListener, ViewController
             case "GET_GAMES":
                 gamesList = (ArrayList<GameRecord>) evt.getNewValue();
                 this.currentScene = sceneBuilder.instanceGetGamesScene(gamesList);
-                break;
-
-            case "GAME_DELETED":
-                String message = (String) evt.getNewValue();
-                System.out.println("Game deleted: " + message);
                 break;
 
             case "UPDATE_VIEW":
@@ -385,7 +384,6 @@ public class TUIViewController implements PropertyChangeListener, ViewController
                 }
 
                 if (gameStatus == GameStatusEnum.GAME_OVER) {
-                    isGameOver = true;
                     this.currentScene = sceneBuilder.instanceWinnerScene(updatedView);
                     break;
                 }
