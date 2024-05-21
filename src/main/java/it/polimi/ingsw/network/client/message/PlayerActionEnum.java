@@ -62,5 +62,9 @@ public enum PlayerActionEnum {
     /**
      * Represents a request to send a message.
      */
-    SEND_CHAT_MSG
+    SEND_CHAT_MSG,
+    /**
+     * Represents a request to disconnect this client from the server.
+     */
+    DISCONNECT
 }

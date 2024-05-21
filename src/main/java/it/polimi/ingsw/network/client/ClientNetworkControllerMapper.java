@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.actions.ServerToClientActions;
 import it.polimi.ingsw.network.client.message.ChatClientToServerMessage;
+import it.polimi.ingsw.network.client.message.DisconnectClientToServerMessage;
 import it.polimi.ingsw.network.client.message.gameController.*;
 import it.polimi.ingsw.network.client.message.mainController.CreateGameClientToServerMessage;
 import it.polimi.ingsw.network.client.message.mainController.DeleteGameClientToServerMessage;
@@ -177,6 +178,10 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      */
     public void sendChatMessage(ChatClientToServerMessage message) {
         messageHandler.sendMessage(message);
+    }
+
+    public void sendDisconnect(String gameName, String playerName) {
+        messageHandler.sendMessage(new DisconnectClientToServerMessage(gameName, playerName));
     }
 
     /* ***************************************

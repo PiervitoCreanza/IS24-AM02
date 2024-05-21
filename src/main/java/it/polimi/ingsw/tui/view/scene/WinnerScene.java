@@ -107,6 +107,7 @@ public class WinnerScene implements Scene, PropertyChangeListener {
         String changedProperty = evt.getPropertyName();
         if (changedProperty.equals("q")) {
             controller.setIsGameOver(false);
+            controller.sendDisconnect();
             controller.closeConnection();
         } else {
             logger.error("Invalid property change event");

@@ -14,7 +14,7 @@ public class WaitForPlayersSceneTest {
         playersName.add("player3");
         playersName.add("player4");
 
-        WaitForPlayersScene waitForPlayersScene = new WaitForPlayersScene(playersName, 4);
+        WaitForPlayersScene waitForPlayersScene = new WaitForPlayersScene(null, playersName, 4);
         waitForPlayersScene.display();
     }
 }

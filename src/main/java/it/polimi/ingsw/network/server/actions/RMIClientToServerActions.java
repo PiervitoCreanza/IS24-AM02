@@ -145,4 +145,6 @@ public interface RMIClientToServerActions extends Remote {
      * @throws RemoteException if the remote operation fails.
      */
     void heartbeat() throws RemoteException;
+
+    void disconnect(String gameName, String playerName) throws RemoteException;
 }

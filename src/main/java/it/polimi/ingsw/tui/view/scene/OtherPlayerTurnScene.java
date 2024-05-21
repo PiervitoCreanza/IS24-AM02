@@ -85,7 +85,10 @@ public class OtherPlayerTurnScene implements Scene, PropertyChangeListener {
         String changedProperty = evt.getPropertyName();
         switch (changedProperty) {
             case "c" -> controller.showChat();
-            case "q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
+            case "q" -> {
+                controller.sendDisconnect();
+                controller.closeConnection();
+            }
             default -> logger.error("Invalid property change event");
         }
     }

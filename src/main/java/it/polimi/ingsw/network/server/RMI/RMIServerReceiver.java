@@ -251,4 +251,9 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     @Override
     public void heartbeat() throws RemoteException {
     }
+
+    @Override
+    public void disconnect(String gameName, String playerName) throws RemoteException {
+        new Thread(() -> serverNetworkControllerMapper.disconnect(gameName, playerName)).start();
+    }
 }

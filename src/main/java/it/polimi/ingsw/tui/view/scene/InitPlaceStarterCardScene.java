@@ -91,10 +91,12 @@ public class InitPlaceStarterCardScene implements Scene, PropertyChangeListener 
         String changedProperty = evt.getPropertyName();
         ArrayList<String> inputs = (ArrayList<String>) evt.getNewValue();
         switch (changedProperty) {
-            case "q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
-            case "input" -> {
-                controller.placeStarterCard(starterCard.getCardId(), Integer.parseInt(inputs.getFirst()) == 2);
+            case "q" -> {
+                controller.sendDisconnect();
+                controller.closeConnection();
             }
+            case "input" ->
+                    controller.placeStarterCard(starterCard.getCardId(), Integer.parseInt(inputs.getFirst()) == 2);
             default -> System.out.println("Invalid property change event");
         }
     }

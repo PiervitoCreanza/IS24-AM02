@@ -143,7 +143,10 @@ public class DrawCardScene implements Scene, PropertyChangeListener {
                 }
             }
             case "c" -> controller.showChat();
-            case "q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
+            case "q" -> {
+                controller.sendDisconnect();
+                controller.closeConnection();
+            }
             default -> Logger.error("Invalid property change event");
         }
     }

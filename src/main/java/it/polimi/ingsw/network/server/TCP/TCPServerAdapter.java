@@ -135,6 +135,8 @@ public class TCPServerAdapter implements ServerMessageHandler, PropertyChangeLis
                     serverNetworkControllerMapper.switchCardSide(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCardId());
             case SEND_CHAT_MSG ->
                     serverNetworkControllerMapper.sendChatMessage(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getMessage(), receivedMessage.getReceiver(), receivedMessage.getTimestamp());
+            case DISCONNECT ->
+                    serverNetworkControllerMapper.disconnect(receivedMessage.getGameName(), receivedMessage.getPlayerName());
             default -> logger.error("Invalid action");
         }
     }

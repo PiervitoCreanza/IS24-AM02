@@ -218,6 +218,8 @@ public class TUIViewController implements PropertyChangeListener, ViewController
     public void joinGame(int gameID, String playerName) {
         if (gameID < 0 || gameID >= gamesList.size()) {
             this.currentScene = sceneBuilder.instanceGetGamesScene(gamesList);
+            showCurrentScene();
+            System.err.println("Invalid game ID");
             return;
         }
         this.gameName = gamesList.get(gameID).gameName();
@@ -306,6 +308,10 @@ public class TUIViewController implements PropertyChangeListener, ViewController
 
     public void sendMessage(String message, String receiver) {
         networkController.sendChatMessage(new ChatClientToServerMessage(gameName, playerName, message, receiver));
+    }
+
+    public void sendDisconnect() {
+        networkController.sendDisconnect(gameName, playerName);
     }
 
     private boolean isClientTurn() {
@@ -430,7 +436,7 @@ public class TUIViewController implements PropertyChangeListener, ViewController
                     showChat();
                 else
                     showCurrentScene();
-                System.err.println("Error: " + errorMessage);
+                System.err.println("\nError: " + errorMessage);
                 break;
         }
         if (!changedProperty.equals("CHAT_MESSAGE") && !changedProperty.equals("ERROR") && !isGameOver)

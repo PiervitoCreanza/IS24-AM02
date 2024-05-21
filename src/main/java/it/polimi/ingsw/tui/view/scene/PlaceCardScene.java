@@ -18,8 +18,6 @@ import it.polimi.ingsw.tui.view.component.userInputHandler.menu.MenuItem;
 import it.polimi.ingsw.tui.view.component.userInputHandler.menu.commands.EmptyCommand;
 import it.polimi.ingsw.tui.view.component.userInputHandler.menu.commands.UserInputChain;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -78,8 +76,6 @@ public class PlaceCardScene implements Scene, PropertyChangeListener {
      * The username of the player.
      */
     private final String playerUsername;
-
-    private static final Logger logger = LogManager.getLogger(PlaceCardScene.class);
 
     private final MenuHandler menuHandler;
 
@@ -167,7 +163,10 @@ public class PlaceCardScene implements Scene, PropertyChangeListener {
                 controller.placeCard(choosenCardId, coordinate, handFlipped.get(choosenCardIndex));
             }
             case "c" -> controller.showChat();
-            case "q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
+            case "q" -> {
+                controller.sendDisconnect();
+                controller.closeConnection();
+            }
         }
     }
 

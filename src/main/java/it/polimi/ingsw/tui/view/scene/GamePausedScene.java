@@ -59,7 +59,8 @@ public class GamePausedScene implements Scene, PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         String changedProperty = evt.getPropertyName();
         if (changedProperty.equals("q")) {
-            controller.selectScene(ScenesEnum.MAIN_MENU);
+            controller.sendDisconnect();
+            controller.closeConnection();
         } else {
             logger.error("Invalid property change event");
         }

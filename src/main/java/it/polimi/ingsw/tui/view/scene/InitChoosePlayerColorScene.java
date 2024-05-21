@@ -68,7 +68,8 @@ public class InitChoosePlayerColorScene implements Scene {
      */
     public void handleUserInput(String input) {
         if (input.equals("q")) {
-            controller.selectScene(ScenesEnum.MAIN_MENU);
+            controller.sendDisconnect();
+            controller.closeConnection();
             return;
         }
 

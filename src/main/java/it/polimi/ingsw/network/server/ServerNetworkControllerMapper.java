@@ -318,7 +318,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      */
     @Override
     public void sendChatMessage(String gameName, String playerName, String message, String receiver, long timestamp) {
-// The message is converted to a ChatServerToClientMessage and sent to all clients excluding the sender.
+        // The message is converted to a ChatServerToClientMessage and sent to all clients excluding the sender.
         ChatServerToClientMessage convertedMessage = new ChatServerToClientMessage(playerName, message, timestamp, !receiver.isEmpty());
 
         if (convertedMessage.isDirectMessage()) {
@@ -336,7 +336,10 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
             //It is broadcast to any player of the game (even the sender) to avoid code redundancy client-side.
             broadcastMessage(gameName, convertedMessage);
         }
+    }
 
-
+    @Override
+    public void disconnect(String gameName, String playerName) {
+        gameConnectionMapper.get(gameName).get(playerName).closeConnection();
     }
 }

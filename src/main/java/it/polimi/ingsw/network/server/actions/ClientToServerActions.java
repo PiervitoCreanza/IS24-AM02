@@ -114,11 +114,13 @@ public interface ClientToServerActions {
      * Sends a chat message from the client to the server.
      * The server will convert it to a ChatServerToClientMessage and send it to all clients excluding the sender.
      *
-     * @param gameName  the name of the game.
+     * @param gameName   the name of the game.
      * @param playerName the name of the player who is sending the chat message.
      * @param message    the chat message to be sent.
-     * @param receiver  the receiver of the message if it's a direct message.
-     * @param timestamp the timestamp of the message.
+     * @param receiver   the receiver of the message if it's a direct message.
+     * @param timestamp  the timestamp of the message.
      */
     void sendChatMessage(String gameName, String playerName, String message, String receiver, long timestamp);
+
+    void disconnect(String gameName, String playerName);
 }

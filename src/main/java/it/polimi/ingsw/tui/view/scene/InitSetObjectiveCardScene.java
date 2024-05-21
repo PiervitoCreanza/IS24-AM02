@@ -108,7 +108,8 @@ public class InitSetObjectiveCardScene implements Scene, PropertyChangeListener 
         ArrayList<String> inputs = (ArrayList<String>) evt.getNewValue();
         switch (changedProperty) {
             case "q" -> {
-                controller.selectScene(ScenesEnum.MAIN_MENU);
+                controller.sendDisconnect();
+                controller.closeConnection();
             }
             case "input" -> {
                 int chosenCardIndex = Integer.parseInt(inputs.getFirst()) - 1;

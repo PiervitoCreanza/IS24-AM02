@@ -35,6 +35,8 @@ public class RMIClientSender implements ClientMessageHandler {
      */
     private final PropertyChangeSupport listeners;
 
+    private Timer heartbeatTimer;
+
     /**
      * The logger.
      */
@@ -86,6 +88,7 @@ public class RMIClientSender implements ClientMessageHandler {
                         serverStub.switchCardSide(message.getGameName(), message.getPlayerName(), message.getGameCardId());
                 case SEND_CHAT_MSG ->
                         serverStub.chatMessageSender(message.getGameName(), message.getPlayerName(), message.getMessage(), message.getReceiver(), message.getTimestamp());
+                case DISCONNECT -> serverStub.disconnect(message.getGameName(), message.getPlayerName());
             }
         } catch (RemoteException e) {
             closeConnection();
@@ -97,7 +100,7 @@ public class RMIClientSender implements ClientMessageHandler {
      */
     @Override
     public void closeConnection() {
-        logger.error("RMI Server Unreachable - detected when pinging.");
+        heartbeatTimer.cancel();
         listeners.firePropertyChange("CONNECTION_CLOSED", null, null);
     }
 
@@ -106,13 +109,14 @@ public class RMIClientSender implements ClientMessageHandler {
      * This method is used to check if the connection is still alive.
      */
     private void heartbeat() {
-        new Timer().scheduleAtFixedRate(new TimerTask() {
+        heartbeatTimer = new Timer();
+        heartbeatTimer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 try {
                     serverStub.heartbeat();
                 } catch (RemoteException e) {
+                    logger.error("RMI Server Unreachable - detected when pinging.");
                     closeConnection();
-                    cancel();
                 }
             }
         }, 0, 5000);
