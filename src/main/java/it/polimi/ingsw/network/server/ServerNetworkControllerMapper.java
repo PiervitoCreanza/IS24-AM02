@@ -278,6 +278,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
         }
         // If the game is now empty we delete it.
         if (gameConnectionMapper.get(gameName).isEmpty()) {
+
             // Delete the game
             mainController.deleteGame(gameName);
 
@@ -297,6 +298,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
                 // If after 30 seconds there is still only one player in the game we close the connections and delete the game.
                 HashMap<String, ServerMessageHandler> gameConnections = gameConnectionMapper.get(gameName);
                 if (gameConnections != null && gameConnections.size() == 1) {
+                    broadcastMessage(gameName, new DeleteGameServerToClientMessage());
                     closeConnections(gameName);
                 }
             }

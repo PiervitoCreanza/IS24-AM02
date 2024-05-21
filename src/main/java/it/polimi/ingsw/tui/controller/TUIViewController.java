@@ -430,6 +430,10 @@ public class TUIViewController implements PropertyChangeListener, ViewController
                     showChat();
                 break;
 
+            case "GAME_DELETED":
+                closeConnection();
+                break;
+
             case "ERROR":
                 String errorMessage = (String) evt.getNewValue();
                 if (isInChat)
@@ -439,7 +443,7 @@ public class TUIViewController implements PropertyChangeListener, ViewController
                 System.err.println("\nError: " + errorMessage);
                 break;
         }
-        if (!changedProperty.equals("CHAT_MESSAGE") && !changedProperty.equals("ERROR") && !isGameOver)
+        if (!changedProperty.equals("CHAT_MESSAGE") && !changedProperty.equals("ERROR") && !changedProperty.equals("GAME_DELETED") && !isGameOver)
             showCurrentScene();
     }
 }
