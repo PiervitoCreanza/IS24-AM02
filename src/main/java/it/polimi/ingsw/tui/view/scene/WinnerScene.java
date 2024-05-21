@@ -6,12 +6,19 @@ import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.view.component.PlayerComponent;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
+import it.polimi.ingsw.tui.view.component.userInputHandler.menu.MenuHandler;
+import it.polimi.ingsw.tui.view.component.userInputHandler.menu.MenuItem;
+import it.polimi.ingsw.tui.view.component.userInputHandler.menu.commands.EmptyCommand;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.List;
 
-public class WinnerScene implements Scene {
+public class WinnerScene implements Scene, PropertyChangeListener {
     /**
      * The DrawArea object where the scene will be drawn.
      */
@@ -21,6 +28,10 @@ public class WinnerScene implements Scene {
      * The controller that manages the user interface and the game logic.
      */
     private final TUIViewController controller;
+
+    private static final Logger logger = LogManager.getLogger(WinnerScene.class);
+
+    private final MenuHandler menuHandler;
 
     /**
      * Constructs a new MainMenuScene.
@@ -57,9 +68,9 @@ public class WinnerScene implements Scene {
         this.drawArea.drawCenteredX(drawArea.getHeight(), winnersDrawArea);
         this.drawArea.drawAt(0, drawArea.getHeight() + 1, (players.size() - winners.size() == 1) ? "Other player:" : "Other players:");
         this.drawArea.drawCenteredX(drawArea.getHeight(), losersDrawArea);
-        this.drawArea.drawNewLine("""
-                Press <q> to quit.
-                """, 1);
+        this.menuHandler = new MenuHandler(this,
+                new MenuItem("q", "quit", new EmptyCommand())
+        );
     }
 
     /**
@@ -68,6 +79,7 @@ public class WinnerScene implements Scene {
     @Override
     public void display() {
         this.drawArea.println();
+        menuHandler.print();
     }
 
     /**
@@ -86,5 +98,20 @@ public class WinnerScene implements Scene {
 
     public DrawArea getDrawArea() {
         return drawArea;
+    }
+
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String changedProperty = evt.getPropertyName();
+        switch (changedProperty) {
+            case "q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
+            default -> logger.error("Invalid property change event");
+        }
     }
 }

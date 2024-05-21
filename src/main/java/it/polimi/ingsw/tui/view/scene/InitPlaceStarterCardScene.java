@@ -5,13 +5,18 @@ import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.component.cards.gameCard.GameCardComponent;
 import it.polimi.ingsw.tui.view.component.userInputHandler.UserInputHandler;
+import it.polimi.ingsw.tui.view.component.userInputHandler.menu.commands.UserInputChain;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 /**
  * The InitPlaceStarterCardScene class represents the scene where the player places their starter card.
  * It implements the Scene interface.
  */
-public class InitPlaceStarterCardScene implements Scene {
+public class InitPlaceStarterCardScene implements Scene, PropertyChangeListener {
     /**
      * The DrawArea object where the scene will be drawn.
      */
@@ -30,7 +35,7 @@ public class InitPlaceStarterCardScene implements Scene {
     /**
      * The handler for user input.
      */
-    private UserInputHandler handler;
+    private final UserInputChain inputChain;
 
     /**
      * Constructs a new InitPlaceStarterCardScene.
@@ -52,6 +57,9 @@ public class InitPlaceStarterCardScene implements Scene {
         StarterCardArea.drawAt(gameCardComponent.getWidth() + 5, 1, gameCardComponent.getDrawArea());
         drawArea.drawCenteredX(drawArea.getHeight(), StarterCardArea);
         this.controller = controller;
+        this.inputChain = new UserInputChain(this,
+                new UserInputHandler("Choose the side of the Starter Card [1/2]:", input -> input.matches("[1-2]"))
+        );
     }
 
     /**
@@ -60,8 +68,7 @@ public class InitPlaceStarterCardScene implements Scene {
     @Override
     public void display() {
         drawArea.println();
-        handler = new UserInputHandler("Choose the side of the Starter Card [1/2]:", input -> input.matches("[1-2]"));
-        handler.print();
+        inputChain.print();
     }
 
     /**
@@ -70,14 +77,25 @@ public class InitPlaceStarterCardScene implements Scene {
      * @param input the user's input
      */
     public void handleUserInput(String input) {
-        if (input.equals("q")) {
-            controller.selectScene(ScenesEnum.MAIN_MENU);
-            return;
+        inputChain.handleInput(input);
+    }
+
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String changedProperty = evt.getPropertyName();
+        ArrayList<String> inputs = (ArrayList<String>) evt.getNewValue();
+        switch (changedProperty) {
+            case "q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
+            case "input" -> {
+                controller.placeStarterCard(starterCard.getCardId(), Integer.parseInt(inputs.getFirst()) == 2);
+            }
+            default -> System.out.println("Invalid property change event");
         }
-        if (handler.validate(input)) {
-            controller.placeStarterCard(starterCard.getCardId(), Integer.parseInt(handler.getInput()) == 2);
-            return;
-        }
-        handler.print();
     }
 }

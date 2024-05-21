@@ -8,33 +8,40 @@ import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 
 public class MenuHandler {
-    private final HashMap<String, MenuItem> items;
+    private final HashMap<String, MenuItem> itemsMap;
+
+    private final MenuItem[] items;
 
     private MenuItem selectedMenuItem;
 
     private final PropertyChangeSupport support;
 
-    public MenuHandler(PropertyChangeListener listener, MenuItem... items) {
+    public MenuHandler(PropertyChangeListener listener, MenuItem... itemsMap) {
         this.support = new PropertyChangeSupport(this);
         this.support.addPropertyChangeListener(listener);
 
-        this.items = new HashMap<>();
+        this.itemsMap = new HashMap<>();
 
         // Add all items to the map. The key is the option that the user must input to select the item.
-        for (MenuItem item : items) {
-            this.items.put(item.getOpt(), item);
+        for (MenuItem item : itemsMap) {
+            this.itemsMap.put(item.getOpt(), item);
         }
+
+        // Save the items in an array. This is required to preserve the order.
+        this.items = itemsMap;
     }
 
     public void print() {
-        for (MenuItem item : items.values()) {
+        // We use the array as a source to preserve the order.
+        for (MenuItem item : items) {
             System.out.println("Press <" + item.getOpt() + "> to " + item.getLabel());
         }
     }
 
     public DrawArea getDrawArea() {
         DrawArea drawArea = new DrawArea();
-        for (MenuItem item : items.values()) {
+        // We use the array as a source to preserve the order.
+        for (MenuItem item : items) {
             drawArea.drawNewLine("Press <" + item.getOpt() + "> to " + item.getLabel(), 0);
         }
         return drawArea;
@@ -49,7 +56,7 @@ public class MenuHandler {
                 support.firePropertyChange("q", null, null);
                 return;
             }
-            selectedMenuItem = items.get(input);
+            selectedMenuItem = itemsMap.get(input);
 
             // If the input is not valid, print the menu again and return.
             if (selectedMenuItem == null) {
@@ -64,6 +71,9 @@ public class MenuHandler {
             if ("q".equalsIgnoreCase(input)) {
                 // Reset the selected item.
                 selectedMenuItem = null;
+
+                // Print the menu again.
+                print();
                 return;
             }
         }

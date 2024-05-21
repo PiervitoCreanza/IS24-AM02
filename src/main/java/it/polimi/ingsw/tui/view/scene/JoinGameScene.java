@@ -3,13 +3,20 @@ package it.polimi.ingsw.tui.view.scene;
 import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.component.userInputHandler.UserInputHandler;
+import it.polimi.ingsw.tui.view.component.userInputHandler.menu.commands.UserInputChain;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 /**
  * The JoinGameScene class represents the scene where a player can join a game.
  * It implements the Scene interface.
  */
-public class JoinGameScene implements Scene {
+public class JoinGameScene implements Scene, PropertyChangeListener {
     /**
      * The DrawArea object where the scene will be drawn.
      */
@@ -20,9 +27,8 @@ public class JoinGameScene implements Scene {
      */
     private final TUIViewController controller;
 
-    private final UserInputHandler gameIdHandler;
-    private final UserInputHandler nicknameHandler;
-    private JoinStatus currentStatus;
+    private static final Logger logger = LogManager.getLogger(JoinGameScene.class);
+    private final UserInputChain inputHandler;
 
     /**
      * Constructs a new JoinGameScene.
@@ -30,11 +36,12 @@ public class JoinGameScene implements Scene {
      * @param controller the controller for this scene
      */
     public JoinGameScene(TUIViewController controller) {
-        this.gameIdHandler = new UserInputHandler("Enter game ID:", input -> input.matches("\\d+"));
-        this.nicknameHandler = new UserInputHandler("Enter your nickname:", input -> !input.isEmpty());
         this.drawArea = new TitleComponent("Join Game").getDrawArea();
-        this.currentStatus = JoinStatus.GAME_ID;
         this.controller = controller;
+        this.inputHandler = new UserInputChain(this,
+                new UserInputHandler("Enter game ID:", input -> input.matches("\\d+")),
+                new UserInputHandler("Enter your nickname:", input -> !input.isEmpty())
+        );
     }
 
     /**
@@ -43,7 +50,7 @@ public class JoinGameScene implements Scene {
     @Override
     public void display() {
         drawArea.println();
-        gameIdHandler.print();
+        inputHandler.print();
     }
 
     /**
@@ -53,48 +60,23 @@ public class JoinGameScene implements Scene {
      * @param input the user's input
      */
     public void handleUserInput(String input) {
-        if (currentStatus == JoinStatus.GAME_ID) {
-            handleGameId(input);
-            return;
-        }
-        if (currentStatus == JoinStatus.NICKNAME) {
-            handleNickname(input);
-        }
-    }
-
-    private void handleGameId(String input) {
-        if (input.equals("q")) {
-            // Go back to action chooser
-            controller.selectScene(ScenesEnum.MAIN_MENU);
-            return;
-        }
-        if (gameIdHandler.validate(input)) {
-            currentStatus = JoinStatus.NICKNAME;
-            nicknameHandler.print();
-        } else {
-            gameIdHandler.print();
-        }
-    }
-
-    private void handleNickname(String input) {
-        if (input.equals("q")) {
-            // Go back to action chooser
-            controller.selectScene(ScenesEnum.MAIN_MENU);
-            return;
-        }
-        if (nicknameHandler.validate(input)) {
-            controller.joinGame(Integer.parseInt(gameIdHandler.getInput()), nicknameHandler.getInput());
-            currentStatus = JoinStatus.GAME_ID;
-        } else {
-            nicknameHandler.print();
-        }
+        inputHandler.handleInput(input);
     }
 
     /**
-     * The current status of the scene.
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
      */
-    private enum JoinStatus {
-        GAME_ID,
-        NICKNAME
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String changedProperty = evt.getPropertyName();
+        ArrayList<String> inputs = (ArrayList<String>) evt.getNewValue();
+        switch (changedProperty) {
+            case "q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
+            case "input" -> controller.joinGame(Integer.parseInt(inputs.get(0)), inputs.get(1));
+            default -> logger.error("Invalid property change event");
+        }
     }
 }

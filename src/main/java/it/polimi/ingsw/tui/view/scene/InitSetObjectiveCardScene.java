@@ -5,15 +5,20 @@ import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.component.cards.objectiveCard.ObjectiveCardComponent;
 import it.polimi.ingsw.tui.view.component.userInputHandler.UserInputHandler;
+import it.polimi.ingsw.tui.view.component.userInputHandler.menu.commands.UserInputChain;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 /**
  * The InitSetObjectiveCardScene class represents the scene where the player sets their objective card.
  * It implements the Scene interface.
  */
-public class InitSetObjectiveCardScene implements Scene {
+public class InitSetObjectiveCardScene implements Scene, PropertyChangeListener {
 
     /**
      * The DrawArea object where the scene will be drawn.
@@ -31,9 +36,14 @@ public class InitSetObjectiveCardScene implements Scene {
     private final ArrayList<ObjectiveCard> objectiveCards;
 
     /**
-     * The UserInputHandler object that handles the user input.
+     * The UserInputChain object that handles the user input.
      */
-    private UserInputHandler handler;
+    private final UserInputChain inputChain;
+
+    /**
+     * The logger.
+     */
+    private final Logger logger = LogManager.getLogger(InitSetObjectiveCardScene.class);
 
     /**
      * Constructs a new InitSetObjectiveCardScene.
@@ -62,6 +72,10 @@ public class InitSetObjectiveCardScene implements Scene {
         drawArea.drawCenteredX(drawArea.getHeight(), objectiveArea);
 
         this.controller = controller;
+
+        this.inputChain = new UserInputChain(this,
+                new UserInputHandler("Choose your Objective card [1/2]:", input -> input.matches("[1-2]"))
+        );
     }
 
     /**
@@ -70,8 +84,7 @@ public class InitSetObjectiveCardScene implements Scene {
     @Override
     public void display() {
         drawArea.println();
-        handler = new UserInputHandler("Choose your Objective card [1/2]:", input -> input.matches("[1-2]"));
-        handler.print();
+        inputChain.print();
     }
 
     /**
@@ -80,14 +93,29 @@ public class InitSetObjectiveCardScene implements Scene {
      * @param input the user's input
      */
     public void handleUserInput(String input) {
-        if (input.equals("q")) {
-            controller.selectScene(ScenesEnum.MAIN_MENU);
-            return;
+        inputChain.handleInput(input);
+    }
+
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String changedProperty = evt.getPropertyName();
+        ArrayList<String> inputs = (ArrayList<String>) evt.getNewValue();
+        switch (changedProperty) {
+            case "q" -> {
+                controller.selectScene(ScenesEnum.MAIN_MENU);
+            }
+            case "input" -> {
+                int chosenCardIndex = Integer.parseInt(inputs.getFirst()) - 1;
+                int choosenCardId = objectiveCards.get(chosenCardIndex).getCardId();
+                controller.setPlayerObjective(choosenCardId);
+            }
+            default -> logger.error("Invalid property change event");
         }
-        if (handler.validate(input)) {
-            controller.setPlayerObjective(objectiveCards.get(Integer.parseInt(handler.getInput()) - 1).getCardId());
-            return;
-        }
-        handler.print();
     }
 }

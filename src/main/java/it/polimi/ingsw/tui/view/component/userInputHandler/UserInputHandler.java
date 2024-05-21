@@ -73,7 +73,7 @@ public class UserInputHandler implements MenuCommand {
     }
 
     /**
-     * Returns the list of inputs.
+     * Returns the list of inputs. After the call, the saved input is cleared.
      *
      * @return the list of inputs. In this case it is a single element.
      */
@@ -81,6 +81,8 @@ public class UserInputHandler implements MenuCommand {
     public ArrayList<String> getInputs() {
         ArrayList<String> inputs = new ArrayList<>();
         inputs.add(input);
+        // Clear the saved input to accept new user inputs.
+        input = null;
         return inputs;
     }
 
