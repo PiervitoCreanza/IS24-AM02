@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.NetworkUtils;
 import it.polimi.ingsw.network.server.RMI.RMIServerReceiver;
 import it.polimi.ingsw.network.server.TCP.TCPServerAdapter;
 import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
+import it.polimi.ingsw.network.server.persistence.Persistence;
 import it.polimi.ingsw.tui.utils.Utils;
 import org.apache.commons.cli.*;
 import org.apache.logging.log4j.LogManager;
@@ -58,7 +59,7 @@ public class Server {
          * ***************************************/
         MainController mainController = new MainController();
         ServerNetworkControllerMapper serverNetworkControllerMapper = new ServerNetworkControllerMapper(mainController);
-
+        new Persistence(mainController, serverNetworkControllerMapper).load("almostEnded");
         /* ***************************************
          * CLI ARGUMENTS PARSING
          * ***************************************/
