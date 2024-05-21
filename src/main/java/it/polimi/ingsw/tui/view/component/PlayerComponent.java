@@ -1,5 +1,6 @@
 package it.polimi.ingsw.tui.view.component;
 
+import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 import it.polimi.ingsw.tui.view.drawer.Drawable;
 
@@ -30,19 +31,13 @@ public class PlayerComponent implements Drawable {
 
     }
 
+    public PlayerComponent(String playerName, ColorsEnum color) {
+        this(playerName);
+        drawArea.setColor(color);
+    }
+
     public PlayerComponent(String playerName, int point) {
-        drawArea = new DrawArea("""
-                ┌──────────────────────────────┐
-                │                              │
-                │                              │
-                │                              │
-                │                              │
-                └──────────────────────────────┘
-                """);
-        if (playerName.length() > 26) {
-            playerName = playerName.substring(0, 23) + "...";
-        }
-        drawArea.drawCenteredX(2, playerName);
+        this(playerName);
         drawArea.drawCenteredX(3, String.valueOf(point));
 
     }

@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.component.cards.gameCard.GameCardComponent;
+import it.polimi.ingsw.tui.view.component.userInputHandler.UserInputHandler;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 /**

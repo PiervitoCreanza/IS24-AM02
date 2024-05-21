@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
+import it.polimi.ingsw.tui.view.component.userInputHandler.UserInputHandler;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 import java.util.ArrayList;

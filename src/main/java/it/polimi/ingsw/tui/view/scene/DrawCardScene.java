@@ -10,8 +10,16 @@ import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.component.decks.DrawingAreaComponent;
 import it.polimi.ingsw.tui.view.component.player.playerBoard.PlayerBoardComponent;
 import it.polimi.ingsw.tui.view.component.player.playerInventory.PlayerInventoryComponent;
+import it.polimi.ingsw.tui.view.component.userInputHandler.UserInputHandler;
+import it.polimi.ingsw.tui.view.component.userInputHandler.menu.MenuHandler;
+import it.polimi.ingsw.tui.view.component.userInputHandler.menu.MenuItem;
+import it.polimi.ingsw.tui.view.component.userInputHandler.menu.commands.EmptyCommand;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,7 +27,7 @@ import java.util.HashMap;
  * The DrawCardScene class represents the scene where the player can draw a card.
  * It implements the Scene and UserInputScene interfaces.
  */
-public class DrawCardScene implements Scene {
+public class DrawCardScene implements Scene, PropertyChangeListener {
 
     /**
      * The draw area of the scene.
@@ -42,14 +50,18 @@ public class DrawCardScene implements Scene {
     private final ArrayList<GameCard> fieldGoldCards;
 
     /**
-     * The handler for the user input.
+     * The logger.
      */
-    private final UserInputHandler handler;
+    private static final Logger Logger = LogManager.getLogger(DrawCardScene.class);
+    /**
+     * The menu handler for the scene.
+     */
+    private final MenuHandler menuHandler;
 
     /**
      * The status of the scene.
      */
-    private int status = 0;
+    private final int status = 0;
 
     /**
      * Constructs a new DrawCardScene.
@@ -83,12 +95,10 @@ public class DrawCardScene implements Scene {
                     You can place the last card on the board.
                     """, ColorsEnum.BRIGHT_RED, 0);
         }
-        this.drawArea.drawNewLine("""
-                Press <d> to draw a card.
-                Press <c> to see the Chat.
-                """, 0);
-
-        handler = new UserInputHandler("Choose the card to draw:", input -> input.matches("[1-6]"));
+        this.menuHandler = new MenuHandler(this,
+                new MenuItem("d", "draw a card", new UserInputHandler("Choose the card to draw:", input -> input.matches("[1-6]"))),
+                new MenuItem("c", "show chat", new EmptyCommand())
+        );
     }
 
     /**
@@ -97,6 +107,7 @@ public class DrawCardScene implements Scene {
     @Override
     public void display() {
         drawArea.println();
+        menuHandler.print();
     }
 
     /**
@@ -104,35 +115,9 @@ public class DrawCardScene implements Scene {
      *
      * @param input The user input.
      */
+    @Override
     public void handleUserInput(String input) {
-        if (input.equals("q")) {
-            controller.selectScene(ScenesEnum.MAIN_MENU);
-            return;
-        }
-        if (status == 0) {
-            switch (input.toLowerCase()) {
-                case "d" -> {
-                    new TitleComponent("Drawing a Card").getDrawArea().println();
-                    status = 1;
-                }
-                case "c" -> controller.showChat();
-            }
-        }
-
-        if (status == 1) {
-            if (handler.validate(input)) {
-                switch (handler.getInput()) {
-                    case "1" -> controller.drawCardFromField(fieldResourceCards.getFirst());
-                    case "2" -> controller.drawCardFromField(fieldResourceCards.get(1));
-                    case "3" -> controller.drawCardFromField(fieldGoldCards.getFirst());
-                    case "4" -> controller.drawCardFromField(fieldGoldCards.get(1));
-                    case "5" -> controller.drawCardFromResourceDeck();
-                    case "6" -> controller.drawCardFromGoldDeck();
-                }
-            } else {
-                handler.print();
-            }
-        }
+        menuHandler.handleInput(input);
     }
 
     /**
@@ -142,5 +127,34 @@ public class DrawCardScene implements Scene {
      */
     public DrawArea getDrawArea() {
         return drawArea;
+    }
+
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String changedProperty = evt.getPropertyName();
+        ArrayList<String> inputs = (ArrayList<String>) evt.getNewValue();
+        switch (changedProperty) {
+            case "d" -> {
+                switch (inputs.getFirst()) {
+                    case "1" -> controller.drawCardFromField(fieldResourceCards.getFirst());
+                    case "2" -> controller.drawCardFromField(fieldResourceCards.get(1));
+                    case "3" -> controller.drawCardFromField(fieldGoldCards.getFirst());
+                    case "4" -> controller.drawCardFromField(fieldGoldCards.get(1));
+                    case "5" -> controller.drawCardFromResourceDeck();
+                    case "6" -> controller.drawCardFromGoldDeck();
+                }
+            }
+            case "c" -> {
+                controller.showChat();
+            }
+            case "q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
+            default -> Logger.error("Invalid property change event");
+        }
     }
 }

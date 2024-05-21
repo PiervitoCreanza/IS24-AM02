@@ -2,15 +2,19 @@ package it.polimi.ingsw.tui.view.scene;
 
 import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
+import it.polimi.ingsw.tui.view.component.userInputHandler.UserInputHandler;
+import it.polimi.ingsw.tui.view.component.userInputHandler.menu.commands.UserInputChain;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 /**
  * The CreateGameScene class represents the scene where the player can create a new game.
  * It implements the Scene and UserInputScene interfaces.
  */
-public class CreateGameScene implements Scene {
+public class CreateGameScene implements Scene, PropertyChangeListener {
     /**
      * The DrawArea object where the scene will be drawn.
      */
@@ -21,14 +25,9 @@ public class CreateGameScene implements Scene {
     private final TUIViewController controller;
 
     /**
-     * The list of handlers for the user input. Each handler corresponds to a different input field.
+     * The UserInputChain object that handles the user input.
      */
-    private final ArrayList<UserInputHandler> handlers = new ArrayList<>();
-
-    /**
-     * The status of the scene.
-     */
-    private int status;
+    private final UserInputChain userInputChain;
 
     /**
      * Constructs a new CreateGameScene.
@@ -38,6 +37,12 @@ public class CreateGameScene implements Scene {
     public CreateGameScene(TUIViewController controller) {
         this.drawArea = new TitleComponent("Create Game").getDrawArea();
         this.controller = controller;
+
+        this.userInputChain = new UserInputChain(this,
+                new UserInputHandler("Choose the name of the game:", input -> !input.isEmpty()),
+                new UserInputHandler("Choose the number of players [2-4]:", input -> input.matches("[2-4]")),
+                new UserInputHandler("Enter your nickname:", input -> !input.isEmpty())
+        );
     }
 
     /**
@@ -49,10 +54,7 @@ public class CreateGameScene implements Scene {
     @Override
     public void display() {
         drawArea.println();
-        handlers.add(new UserInputHandler("Choose the name of the game:", input -> !input.isEmpty()));
-        handlers.add(new UserInputHandler("Choose the number of players [2-4]:", input -> input.matches("[2-4]")));
-        handlers.add(new UserInputHandler("Enter your nickname:", input -> !input.isEmpty()));
-        handlers.get(status).print();
+        userInputChain.print();
     }
 
     /**
@@ -61,18 +63,25 @@ public class CreateGameScene implements Scene {
      * @param input the user input
      */
     public void handleUserInput(String input) {
-        if (input.equals("q")) {
-            controller.selectScene(ScenesEnum.MAIN_MENU);
-            return;
-        }
-        if (handlers.get(status).validate(input)) {
-            status++;
-            if (status >= handlers.size()) {
-                controller.createGame(handlers.get(0).getInput(), handlers.get(2).getInput(), Integer.parseInt(handlers.get(1).getInput()));
-                return;
-            }
+        userInputChain.handleInput(input);
+    }
 
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String changedProperty = evt.getPropertyName();
+        switch (changedProperty) {
+            case "q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
+            case "input" -> {
+                ArrayList<String> inputs = (ArrayList<String>) evt.getNewValue();
+                controller.createGame(inputs.get(0), inputs.get(2), Integer.parseInt(inputs.get(1)));
+            }
+            default -> handleUserInput((String) evt.getNewValue());
         }
-        handlers.get(status).print();
     }
 }

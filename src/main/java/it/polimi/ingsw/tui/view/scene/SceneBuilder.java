@@ -10,6 +10,7 @@ import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.network.virtualView.GlobalBoardView;
 import it.polimi.ingsw.network.virtualView.PlayerView;
 import it.polimi.ingsw.tui.controller.TUIViewController;
+import it.polimi.ingsw.tui.view.scene.chatScene.ChatScene;
 
 import java.util.ArrayList;
 import java.util.HashMap;

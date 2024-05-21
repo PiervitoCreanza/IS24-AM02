@@ -2,18 +2,24 @@ package it.polimi.ingsw.tui.view.scene;
 
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.tui.controller.TUIViewController;
-import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.view.component.GameInfoComponent;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
+import it.polimi.ingsw.tui.view.component.userInputHandler.menu.MenuHandler;
+import it.polimi.ingsw.tui.view.component.userInputHandler.menu.MenuItem;
+import it.polimi.ingsw.tui.view.component.userInputHandler.menu.commands.EmptyCommand;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 /**
  * This class represents the scene for getting games.
  * It implements the Scene interface, meaning it can be displayed in the UI.
  */
-public class GetGamesScene implements Scene {
+public class GetGamesScene implements Scene, PropertyChangeListener {
 
     /**
      * The DrawArea object where the scene will be drawn.
@@ -25,10 +31,9 @@ public class GetGamesScene implements Scene {
      */
     private final TUIViewController controller;
 
-    /**
-     * The list of games to be displayed.
-     */
-    private final ArrayList<GameRecord> games;
+    private final MenuHandler menuHandler;
+
+    private final Logger logger = LogManager.getLogger(GetGamesScene.class);
 
     /**
      * Constructs a new GetGamesScene.
@@ -37,19 +42,19 @@ public class GetGamesScene implements Scene {
      * @param games      the list of games to be displayed
      */
     public GetGamesScene(TUIViewController controller, ArrayList<GameRecord> games) {
-        this.games = games;
         this.drawArea = new TitleComponent("Game List").getDrawArea();
         int i = 0;
         for (GameRecord game : games) {
             drawArea.drawAt(0, drawArea.getHeight(), new GameInfoComponent(game, i++).getDrawArea());
         }
         drawArea.drawAt(0, drawArea.getHeight(), "-".repeat(drawArea.getWidth()));
-        drawArea.drawAt(0, drawArea.getHeight(), """
-                Press <l> to refresh the list.
-                Press <j> to join a game.
-                Press <c> to create a new game.
-                Press <q> to quit the menu.
-                """, ColorsEnum.YELLOW);
+
+        this.menuHandler = new MenuHandler(this,
+                new MenuItem("l", "refresh the list", new EmptyCommand()),
+                new MenuItem("j", "join a game", new EmptyCommand()),
+                new MenuItem("c", "create a new game", new EmptyCommand()),
+                new MenuItem("q", "quit the menu", new EmptyCommand())
+        );
         this.controller = controller;
     }
 
@@ -60,6 +65,7 @@ public class GetGamesScene implements Scene {
     @Override
     public void display() {
         drawArea.println();
+        menuHandler.print();
     }
 
     /**
@@ -77,18 +83,24 @@ public class GetGamesScene implements Scene {
      * @param input the user input
      */
     public void handleUserInput(String input) {
-        switch (input) {
-            case "l", "L" -> controller.getGames();
-            case "j", "J" -> {
-                if (games.isEmpty()) {
-                    System.out.println("No games available");
-                    return;
-                }
-                controller.selectScene(ScenesEnum.JOIN_GAME);
-            }
-            case "c", "C" -> controller.selectScene(ScenesEnum.CREATE_GAME);
-            case "q", "Q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
-            default -> System.out.println("Invalid input");
+        menuHandler.handleInput(input);
+    }
+
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String changedProperty = evt.getPropertyName();
+        switch (changedProperty) {
+            case "q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
+            case "l" -> controller.getGames();
+            case "j" -> controller.selectScene(ScenesEnum.JOIN_GAME);
+            case "c" -> controller.selectScene(ScenesEnum.CREATE_GAME);
+            default -> logger.error("Invalid property change event");
         }
     }
 }

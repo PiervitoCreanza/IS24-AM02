@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.MainController;
+import it.polimi.ingsw.network.NetworkUtils;
 import it.polimi.ingsw.network.server.RMI.RMIServerReceiver;
 import it.polimi.ingsw.network.server.TCP.TCPServerAdapter;
 import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
@@ -11,9 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.rmi.AlreadyBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -42,16 +41,6 @@ public class Server {
     public static boolean IS_DEBUG = false;
 
     /**
-     * The port number used by the TCP server.
-     */
-    private static int TCPPortNumber;
-
-    /**
-     * The port number used by the RMI server.
-     */
-    private static int RMIPortNumber;
-
-    /**
      * The logger.
      */
     private static final Logger logger = LogManager.getLogger(Server.class);
@@ -75,34 +64,24 @@ public class Server {
          * CLI ARGUMENTS PARSING
          * ***************************************/
         CommandLine cmd = parseCommandLineArgs(args);
-        TCPPortNumber = Integer.parseInt(cmd.getOptionValue("TCP_P", "12345")); // default is 12345
-        RMIPortNumber = Integer.parseInt(cmd.getOptionValue("RMI_P", "1099")); // default is 1099
-        String serverIp;
+        int TCPPort = Integer.parseInt(cmd.getOptionValue("tp", "12345")); // default is 12345
+        int RMIPort = Integer.parseInt(cmd.getOptionValue("rp", "1099")); // default is 1099
         if (cmd.hasOption("debug")) {
             logger.info(ANSI_PURPLE + "Start the Server in DEBUG mode." + Utils.ANSI_RESET);
             HEARTBEAT_TIMEOUT = 600000; //if debug, set the timeout to 10 minutes
             IS_DEBUG = true;
         }
-        if (cmd.hasOption("lan")) {
-            try {
-                Socket socket = new Socket();
-                socket.connect(new InetSocketAddress("google.com", 80));
-                serverIp = socket.getLocalAddress().getHostAddress();
-                socket.close();
-            } catch (Exception e) {
-                serverIp = "localhost";
-            }
-        } else serverIp = cmd.getOptionValue("IP", "localhost");
+        String serverIp = NetworkUtils.getCurrentHostIp(cmd);
 
-        logger.info("ServerApp IP: {}", serverIp);
+        logger.info("Server IP: {}", serverIp);
         /* ***************************************
          * START RMI SERVER
          * ***************************************/
-        RMIServerStart(serverNetworkControllerMapper, RMIPortNumber, serverIp);
+        RMIServerStart(serverNetworkControllerMapper, RMIPort, serverIp);
         /* ***************************************
          * START TCP SERVER
          * ***************************************/
-        TCPServerStart(serverNetworkControllerMapper, TCPPortNumber);
+        TCPServerStart(serverNetworkControllerMapper, TCPPort);
     }
 
     /**
@@ -113,9 +92,9 @@ public class Server {
      */
     private static CommandLine parseCommandLineArgs(String[] args) {
         Options options = new Options();
-        options.addOption("TCP_P", true, "TCP ServerApp Port number (default is 12345).");
-        options.addOption("RMI_P", true, "RMI ServerApp Port number (default is 1099).");
-        options.addOption("IP", true, "RMI ServerApp server external IP (default is localhost).");
+        options.addOption("tp", "tcp_port", true, "TCP ServerApp Port number (default is 12345).");
+        options.addOption("rp", "rmi_port", true, "RMI ServerApp Port number (default is 1099).");
+        options.addOption("ip", true, "RMI ServerApp server external IP (default is localhost).");
         options.addOption("lan", "Start the server with his lan ip address.");
         options.addOption("debug", "Start the Server in DEBUG mode.");
 
@@ -123,16 +102,14 @@ public class Server {
 
         try {
             CommandLine cmd = parser.parse(options, args);
-            TCPPortNumber = cmd.hasOption("TCP_P") ? Integer.parseInt(cmd.getOptionValue("TCP_P")) : 12345; // default is 12345
-            RMIPortNumber = cmd.hasOption("RMI_P") ? Integer.parseInt(cmd.getOptionValue("RMI_P")) : 1099; // default is 1099
 
-            if (cmd.hasOption("TCP_P") && cmd.hasOption("RMI_P") && Integer.parseInt(cmd.getOptionValue("TCP_P")) == Integer.parseInt(cmd.getOptionValue("RMI_P"))) {
-                System.err.println("Please specify different ports for TCP and RMI ServerApps.");
+            if (cmd.hasOption("tp") && cmd.hasOption("rp") && Integer.parseInt(cmd.getOptionValue("tp")) == Integer.parseInt(cmd.getOptionValue("rp"))) {
+                logger.fatal("Please specify different ports for TCP and RMI ServerApps.");
                 System.exit(1);
             }
             return cmd;
         } catch (ParseException e) {
-            System.err.println("Parsing failed. Reason: " + e.getMessage());
+            logger.fatal("Parsing failed. Reason: {}", e.getMessage());
             System.exit(1);
         }
         return null;
@@ -161,7 +138,8 @@ public class Server {
             }
 
         } catch (RemoteException | AlreadyBoundException e) {
-            e.printStackTrace();
+            logger.fatal("Failed to start RMI Server on port: {}", RMIPortNumber);
+            System.exit(1);
         }
     }
 
@@ -175,10 +153,10 @@ public class Server {
         try (ServerSocket serverSocket = new ServerSocket(TCPPortNumber)) {
             logger.info("Codex Naturalis TCP Server ready on port: {}", TCPPortNumber);
             while (true) {
-                TCPServerAdapter messageHandler = new TCPServerAdapter(serverSocket.accept(), serverNetworkControllerMapper);
+                new TCPServerAdapter(serverSocket.accept(), serverNetworkControllerMapper);
             }
         } catch (IOException e) {
-            System.err.println("Could not listen on port " + TCPPortNumber);
+            logger.fatal("Could not listen on port {}", TCPPortNumber);
             System.exit(-1);
         }
     }
@@ -193,21 +171,20 @@ public class Server {
         // Get the list of names bound in the registry
         String[] boundNames = registry.list();
 
-        logger.info(ANSI_PURPLE + "Inspecting services available in the RMI registry:" + ANSI_RESET);
+        logger.debug(ANSI_PURPLE + "Inspecting services available in the RMI registry:" + ANSI_RESET);
         for (String name : boundNames) {
             try {
                 Remote remoteObject = registry.lookup(name);
                 Class<?> objClass = remoteObject.getClass();
 
-                logger.info("Methods available for: {}", name);
+                logger.debug("Methods available for: {}", name);
                 Method[] methods = objClass.getMethods(); // Retrieves all public methods
 
                 for (Method method : methods) {
-                    logger.info(method.toString());
+                    logger.debug(method.toString());
                 }
             } catch (Exception e) {
-                logger.info("Failed to inspect methods for: {}", name);
-                e.printStackTrace();
+                logger.fatal("Failed to inspect methods for: {} \n Error: {}", name, e);
             }
         }
     }

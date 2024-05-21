@@ -1,4 +1,4 @@
-package it.polimi.ingsw.tui.view.scene;
+package it.polimi.ingsw.tui.view.component.userInputHandler;
 
 /**
  * This is a functional interface that represents a validator for user input.

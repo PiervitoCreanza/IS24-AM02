@@ -1,12 +1,15 @@
-package it.polimi.ingsw.tui.view.scene;
+package it.polimi.ingsw.tui.view.component.userInputHandler;
 
 import it.polimi.ingsw.tui.view.component.InputPromptComponent;
+import it.polimi.ingsw.tui.view.component.userInputHandler.menu.commands.MenuCommand;
+
+import java.util.ArrayList;
 
 /**
  * This class is responsible for handling user input. It prompts the user for input and validates it.
  * It uses an instance of InputPromptComponent to prompt the user and an instance of UserInputValidator to validate the input.
  */
-public class UserInputHandler {
+public class UserInputHandler implements MenuCommand {
     /**
      * Component used to request input from the user.
      */
@@ -40,11 +43,45 @@ public class UserInputHandler {
      * @return true if the input is valid, false otherwise
      */
     public boolean validate(String input) {
-        if (validator.validate(input)) {
+        if (input != null && validator.validate(input)) {
             this.input = input;
             return true;
         }
         return false;
+    }
+
+    /**
+     * Handles the user's input.
+     *
+     * @param input The user's input
+     */
+    @Override
+    public void handleInput(String input) {
+        if (!validate(input)) {
+            print();
+        }
+    }
+
+    /**
+     * Checks if the input has been filled.
+     *
+     * @return true if the input has been filled, false otherwise
+     */
+    @Override
+    public boolean isNotWaitingInput() {
+        return input != null;
+    }
+
+    /**
+     * Returns the list of inputs.
+     *
+     * @return the list of inputs. In this case it is a single element.
+     */
+    @Override
+    public ArrayList<String> getInputs() {
+        ArrayList<String> inputs = new ArrayList<>();
+        inputs.add(input);
+        return inputs;
     }
 
     /**

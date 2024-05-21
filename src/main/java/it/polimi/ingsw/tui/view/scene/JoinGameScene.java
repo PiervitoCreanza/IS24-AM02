@@ -2,6 +2,7 @@ package it.polimi.ingsw.tui.view.scene;
 
 import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
+import it.polimi.ingsw.tui.view.component.userInputHandler.UserInputHandler;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 /**

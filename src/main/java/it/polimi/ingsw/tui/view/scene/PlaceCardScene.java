@@ -14,6 +14,7 @@ import it.polimi.ingsw.tui.view.component.leaderBoard.LeaderBoardComponent;
 import it.polimi.ingsw.tui.view.component.player.playerBoard.PlayerBoardComponent;
 import it.polimi.ingsw.tui.view.component.player.playerInventory.PlayerInventoryComponent;
 import it.polimi.ingsw.tui.view.component.player.playerItems.PlayerItemsComponent;
+import it.polimi.ingsw.tui.view.component.userInputHandler.UserInputHandler;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 import java.util.ArrayList;

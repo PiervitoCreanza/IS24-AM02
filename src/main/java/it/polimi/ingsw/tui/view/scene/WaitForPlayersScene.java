@@ -1,11 +1,13 @@
 package it.polimi.ingsw.tui.view.scene;
 
+import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.view.component.PlayerComponent;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * This class represents the scene displayed while waiting for players to join the game.
@@ -20,19 +22,27 @@ public class WaitForPlayersScene implements Scene {
     /**
      * Constructs a new WaitForPlayersScene with the specified list of player names and spacing.
      *
-     * @param playersName The names of the players who have already joined
+     * @param playerNames The names of the players who have already joined
      * @param spacing     The spacing between player names in the display
      */
-    public WaitForPlayersScene(ArrayList<String> playersName, int spacing) {
+    public WaitForPlayersScene(ArrayList<String> playerNames, int spacing) {
         drawArea = new DrawArea();
 
-        // Array of colors used to display player names
-        ColorsEnum[] colors = {ColorsEnum.RED, ColorsEnum.GREEN, ColorsEnum.YELLOW, ColorsEnum.BLUE, ColorsEnum.CYAN, ColorsEnum.BRIGHT_RED, ColorsEnum.BRIGHT_GREEN, ColorsEnum.BRIGHT_YELLOW, ColorsEnum.BRIGHT_BLUE, ColorsEnum.BRIGHT_CYAN};
-        int colorIndex = 0;
+        // Get the list of player colors
+        ArrayList<ColorsEnum> colors = PlayerColorEnum.stream().map(PlayerColorEnum::getColor).collect(Collectors.toCollection(ArrayList::new));
+
         DrawArea playersDrawArea = new DrawArea();
-        for (String playerName : playersName) {
-            playersDrawArea.drawAt((playersDrawArea.getWidth() == 0) ? 2 : playersDrawArea.getWidth() + spacing, 0, String.valueOf(new PlayerComponent(playerName)), colors[colorIndex]);
-            colorIndex++;
+        int playerIndex = 0;
+        for (String playerName : playerNames) {
+            int spacingX = spacing;
+
+            // If the first player is being drawn, use a different spacing value
+            if (playerIndex == 0) {
+                spacingX = 2;
+            }
+
+            playersDrawArea.drawAt(playersDrawArea.getWidth() + spacingX, 0, new PlayerComponent(playerName, colors.get(playerIndex)));
+            playerIndex++;
         }
         DrawArea titleDrawArea = new TitleComponent("Waiting for players", playersDrawArea.getWidth()).getDrawArea();
         drawArea.drawAt(0, 0, titleDrawArea);

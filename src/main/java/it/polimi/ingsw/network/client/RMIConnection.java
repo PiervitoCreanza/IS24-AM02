@@ -62,7 +62,7 @@ public class RMIConnection implements Connection, PropertyChangeListener {
                 break;
             } catch (RemoteException e1) {
                 if (e1.getCause() != null && e1.getCause().getClass().equals(BindException.class)) {
-                    logger.warn("Port already in use: {}. Trying with: {}", clientPort, ++clientPort);
+                    logger.warn("Port {} already in use. Trying with: {}", clientPort, ++clientPort);
                 } else {
                     logger.warn("RMI server unreachable, retrying in {} seconds. Attempt {} out of {}", (waitTime / 1000), attempts, maxAttempts);
                     attempts++;

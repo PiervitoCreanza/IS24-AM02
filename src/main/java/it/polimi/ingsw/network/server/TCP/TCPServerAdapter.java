@@ -146,9 +146,9 @@ public class TCPServerAdapter implements ServerMessageHandler, PropertyChangeLis
      */
     @Override
     public void sendMessage(ServerToClientMessage message) {
-
+        logger.debug("Sending message: SERVER_ACTION: {}", message.getServerAction());
         String serializedMessage = this.gson.toJson(message);
-        logger.debug("Sending message: STATUS: {}, message: {}", message.getServerAction(), serializedMessage);
+        logger.trace("Sending message: {}", serializedMessage);
         try {
             this.clientConnectionHandler.send(serializedMessage);
         } catch (IOException e) {

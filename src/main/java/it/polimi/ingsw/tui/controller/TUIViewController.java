@@ -9,6 +9,7 @@ import it.polimi.ingsw.network.client.message.ChatClientToServerMessage;
 import it.polimi.ingsw.network.server.message.ChatServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
+import it.polimi.ingsw.tui.ViewController;
 import it.polimi.ingsw.tui.commandLine.CLIReader;
 import it.polimi.ingsw.tui.utils.Utils;
 import it.polimi.ingsw.tui.view.scene.Scene;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
  * The TUIViewController class is the controller for the text user interface.
  * It is responsible for managing the user interface and the network controller.
  */
-public class TUIViewController implements PropertyChangeListener {
+public class TUIViewController implements PropertyChangeListener, ViewController {
 
     /**
      * Instance of SceneBuilder to manage different scenes in the game.

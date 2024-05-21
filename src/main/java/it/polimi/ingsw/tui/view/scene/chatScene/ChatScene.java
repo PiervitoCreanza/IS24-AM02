@@ -1,40 +1,43 @@
-package it.polimi.ingsw.tui.view.scene;
+package it.polimi.ingsw.tui.view.scene.chatScene;
 
 import it.polimi.ingsw.network.server.message.ChatServerToClientMessage;
 import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
+import it.polimi.ingsw.tui.view.component.userInputHandler.UserInputHandler;
+import it.polimi.ingsw.tui.view.component.userInputHandler.menu.MenuHandler;
+import it.polimi.ingsw.tui.view.component.userInputHandler.menu.MenuItem;
+import it.polimi.ingsw.tui.view.component.userInputHandler.menu.commands.EmptyCommand;
+import it.polimi.ingsw.tui.view.component.userInputHandler.menu.commands.UserInputChain;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
+import it.polimi.ingsw.tui.view.scene.Scene;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static it.polimi.ingsw.tui.utils.Utils.ANSI_BLUE;
 import static it.polimi.ingsw.tui.utils.Utils.ANSI_RESET;
 
-public class ChatScene implements Scene {
+public class ChatScene implements Scene, PropertyChangeListener {
 
     private final DrawArea drawArea;
 
     private final TUIViewController controller;
 
-    private final UserInputHandler receiverHandler = new UserInputHandler("Enter receiver: ", Objects::nonNull);
-
-    private final UserInputHandler messageHandler = new UserInputHandler("Enter message: ", input -> !input.isEmpty());
-
     private final String playerName;
 
-    private enum ChatStatus {
-        HANDLE_INPUT,
-        DIRECT_RECEIVER,
-        DIRECT_MESSAGE,
-        GLOBAL
-    }
+    /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(ChatScene.class);
 
-    private ChatStatus currentStatus = ChatStatus.HANDLE_INPUT;
+    private final MenuHandler menuHandler;
 
     public ChatScene(TUIViewController controller, String playerName, ArrayList<ChatServerToClientMessage> messages) {
         this.controller = controller;
@@ -47,43 +50,27 @@ public class ChatScene implements Scene {
         DrawArea titleArea = new TitleComponent("ChatScene", (chatArea.getWidth() <= 55) ? 55 : chatArea.getWidth()).getDrawArea();
         this.drawArea.drawAt(0, 0, titleArea);
         this.drawArea.drawAt(0, drawArea.getHeight(), chatArea);
-        this.drawArea.drawNewLine("""
-                Press <d> to send direct message.
-                Press <g> to send global message.
-                Press <q> to quit.
-                """, 1);
+
+        // Create the menu handler
+        this.menuHandler = new MenuHandler(this,
+                new MenuItem("d", "send direct message",
+                        new UserInputChain(
+                                new UserInputHandler("Enter the recipient's username: ", input -> !input.isEmpty()),
+                                new UserInputHandler("Enter the message: ", input -> !input.isEmpty())
+                        )
+                ),
+                new MenuItem("g", "send global message",
+                        new UserInputHandler("Enter the message: ", input -> !input.isEmpty()
+                        )
+                ),
+                new MenuItem("q", "quit", new EmptyCommand())
+        );
+
+        this.drawArea.drawAt(0, drawArea.getHeight(), menuHandler.getDrawArea());
     }
 
     public void handleUserInput(String input) {
-        if (currentStatus == ChatStatus.HANDLE_INPUT) {
-            switch (input.toLowerCase()) {
-                case "d" -> {
-                    currentStatus = ChatStatus.DIRECT_RECEIVER;
-                    receiverHandler.print();
-                    return;
-                }
-                case "g" -> {
-                    currentStatus = ChatStatus.GLOBAL;
-                    messageHandler.print();
-                    return;
-                }
-                case "q" -> {
-                    controller.closeChat();
-                    // We need to go back to the previous scene (PlaceCardScene or DrawCardScene)
-                    return;
-                }
-                default -> System.out.println("Invalid input");
-            }
-        }
-        if (currentStatus == ChatStatus.DIRECT_MESSAGE) {
-            handleDirectMessage(input);
-        }
-        if (currentStatus == ChatStatus.DIRECT_RECEIVER) {
-            handleDirectReceiver(input);
-        }
-        if (currentStatus == ChatStatus.GLOBAL) {
-            handleGlobalMessage(input);
-        }
+        menuHandler.handleInput(input);
     }
 
     @Override
@@ -91,45 +78,27 @@ public class ChatScene implements Scene {
         this.drawArea.println();
     }
 
-    private void handleGlobalMessage(String input) {
-        if (input.equals("q")) {
-            // Go back to action chooser
-            controller.showChat();
-            return;
-        }
-        if (messageHandler.validate(input)) {
-            controller.sendMessage(messageHandler.getInput(), "");
-            currentStatus = ChatStatus.HANDLE_INPUT;
-        } else {
-            messageHandler.print();
-        }
-    }
-
-    private void handleDirectReceiver(String input) {
-        if (input.equals("q")) {
-            // Go back to action chooser
-            controller.showChat();
-            return;
-        }
-        if (receiverHandler.validate(input)) {
-            currentStatus = ChatStatus.DIRECT_MESSAGE;
-            messageHandler.print();
-        } else {
-            receiverHandler.print();
-        }
-    }
-
-    private void handleDirectMessage(String input) {
-        if (input.equals("q")) {
-            // Go back to action chooser
-            controller.showChat();
-            return;
-        }
-        if (messageHandler.validate(input)) {
-            controller.sendMessage(messageHandler.getInput(), receiverHandler.getInput());
-            currentStatus = ChatStatus.HANDLE_INPUT;
-        } else {
-            messageHandler.print();
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String changedProperty = evt.getPropertyName();
+        ArrayList<String> inputs = (ArrayList<String>) evt.getNewValue();
+        switch (changedProperty) {
+            case "d" -> {
+                controller.sendMessage(inputs.get(1), inputs.get(0));
+            }
+            case "g" -> {
+                controller.sendMessage(inputs.getFirst(), "");
+            }
+            case "q" -> {
+                controller.closeChat();
+            }
+            default -> logger.error("Invalid property change event");
         }
     }
 
