@@ -342,6 +342,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
 
     @Override
     public void disconnect(String gameName, String playerName) {
-        gameConnectionMapper.get(gameName).get(playerName).closeConnection();
+        if (gameConnectionMapper.containsKey(gameName))
+            gameConnectionMapper.get(gameName).get(playerName).closeConnection();
     }
 }

@@ -23,6 +23,9 @@ public class UserInputChain implements MenuCommand {
     }
 
     private UserInputHandler getCurrentHandler() {
+        if (currentHandlerIndex >= handlers.length)
+            // Clear the current handler index
+            this.currentHandlerIndex = 0;
         return handlers[currentHandlerIndex];
     }
 
@@ -50,8 +53,6 @@ public class UserInputChain implements MenuCommand {
     }
 
     public void print() {
-        // Clear the current handler index
-        this.currentHandlerIndex = 0;
         getCurrentHandler().print();
     }
 

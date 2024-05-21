@@ -135,9 +135,9 @@ public class TCPClientAdapter implements PropertyChangeListener, ClientMessageHa
      */
     @Override
     public void closeConnection() {
-        this.serverConnectionHandler.closeConnection();
         // Debug
         logger.info("Close the connection.");
+        this.serverConnectionHandler.closeConnection();
     }
 
     /**
