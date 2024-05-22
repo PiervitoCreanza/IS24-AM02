@@ -11,7 +11,7 @@ module it.polimi.ingsw {
     requires java.desktop;
 
     // Exports
-    exports it.polimi.ingsw to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
+    exports it.polimi.ingsw.gui to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     exports it.polimi.ingsw.model to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     exports it.polimi.ingsw.model.card to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     exports it.polimi.ingsw.model.card.corner to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
@@ -57,12 +57,11 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw.tui.view.component.player.playerInventory.playerHand to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     exports it.polimi.ingsw.tui.view.component.player.playerItems to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     exports it.polimi.ingsw.tui.view.drawer to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
-
     exports it.polimi.ingsw.tui.view.scene to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
 
     //GUI exports
     // Opens
-    opens it.polimi.ingsw to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
+    opens it.polimi.ingsw.gui to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     opens it.polimi.ingsw.model to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     opens it.polimi.ingsw.model.card to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     opens it.polimi.ingsw.model.card.corner to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
@@ -110,4 +109,6 @@ module it.polimi.ingsw {
     opens it.polimi.ingsw.tui.view.drawer to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
 
     opens it.polimi.ingsw.tui.view.scene to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
+    exports it.polimi.ingsw.gui.controllers to com.google.gson, java.rmi, javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.gui.controllers to com.google.gson, java.rmi, javafx.fxml, javafx.graphics;
 }

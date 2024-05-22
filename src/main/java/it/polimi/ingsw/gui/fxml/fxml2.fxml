@@ -7,12 +7,13 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rootPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
+<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rootPane" alignment="CENTER" maxHeight="-Infinity"
+           maxWidth="-Infinity"
            minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0"
-           xmlns="http://javafx.com/javafx/21" fx:controller="it.polimi.ingsw.GUIController">
+           xmlns="http://javafx.com/javafx/21" fx:controller="it.polimi.ingsw.gui.controllers.GamesListController">
     <ImageView fx:id="backgroundImage" fitHeight="1080.0" fitWidth="1920.0" pickOnBounds="true">
         <image>
-            <Image url="@images/homeScreen/bg.png"/>
+            <Image url="@/bg.png"/>
         </image>
     </ImageView>
     <VBox alignment="CENTER" layoutX="460" layoutY="90" maxHeight="900" maxWidth="1000" spacing="20.0">
