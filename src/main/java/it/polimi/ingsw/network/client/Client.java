@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.gui.GUIApp;
 import it.polimi.ingsw.network.NetworkUtils;
 import it.polimi.ingsw.network.client.connection.Connection;
 import it.polimi.ingsw.network.client.connection.RMIConnection;
@@ -54,12 +55,9 @@ public class Client {
 
         // Create the ViewController
         ClientNetworkControllerMapper networkControllerMapper = new ClientNetworkControllerMapper();
-        ViewController viewController;
+        ViewController viewController = null;
         if (cmd.hasOption(("tui"))) {
             viewController = instanceTUI(networkControllerMapper);
-        } else {
-            // TODO: Implement GUI
-            throw new UnsupportedOperationException("GUI not implemented yet. Please use the TUI mode passing the -tui arg.");
         }
 
         // Connect with the server
@@ -72,8 +70,16 @@ public class Client {
             logger.info("Starting TCP connection with server. IP: {} on port: {}", serverIp, serverPort);
             connection = new TCPConnection(networkControllerMapper, serverIp, serverPort);
         }
-        connection.addPropertyChangeListener(viewController);
+
+        if (cmd.hasOption(("tui"))) {
+            connection.addPropertyChangeListener(viewController);
+        }
+        // Connect to the server
         connection.connect();
+
+        if (!cmd.hasOption("tui")) {
+            new GUIApp().instanceGUI(networkControllerMapper);
+        }
     }
 
     private static TUIViewController instanceTUI(ClientNetworkControllerMapper networkControllerMapper) {

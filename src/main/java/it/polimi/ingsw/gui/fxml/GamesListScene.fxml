@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8"
-            fx:controller="it.polimi.ingsw.GUIController">
+            fx:controller="it.polimi.ingsw.gui.controllers.GamesListController">
     <VBox spacing="10" styleClass="menu-vbox" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="20"
           AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
         <Label text="Game List" styleClass="title-label"/>
