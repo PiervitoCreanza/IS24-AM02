@@ -104,7 +104,7 @@ public class RMIServerSender implements ServerMessageHandler {
                 case ERROR_MSG -> stub.receiveErrorMessage(message.getErrorMessage());
                 case RECEIVE_CHAT_MSG ->
                         stub.receiveChatMessage(message.getPlayerName(), message.getChatMessage(), message.getTimestamp(), message.isDirectMessage());
-                default -> System.err.print("Invalid action\n");
+                default -> logger.error("Invalid action");
             }
         } catch (RemoteException e) {
             logger.warn("RMI Client: {} disconnected. Detected when sending message", playerName);

@@ -11,7 +11,9 @@ import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.tui.ViewController;
 import it.polimi.ingsw.tui.commandLine.CLIReader;
+import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.utils.Utils;
+import it.polimi.ingsw.tui.view.drawer.DrawArea;
 import it.polimi.ingsw.tui.view.scene.Scene;
 import it.polimi.ingsw.tui.view.scene.SceneBuilder;
 import it.polimi.ingsw.tui.view.scene.ScenesEnum;
@@ -87,6 +89,8 @@ public class TUIViewController implements PropertyChangeListener, ViewController
     private boolean isInChat = false;
 
     private boolean isGameOver = false;
+
+    private boolean dontDisplay = false;
 
 
     /**
@@ -225,7 +229,7 @@ public class TUIViewController implements PropertyChangeListener, ViewController
         if (gameID < 0 || gameID >= gamesList.size()) {
             this.currentScene = sceneBuilder.instanceGetGamesScene(gamesList);
             showCurrentScene();
-            System.err.println("Invalid game ID");
+            new DrawArea("Invalid game ID", ColorsEnum.RED).println();
             return;
         }
         this.gameName = gamesList.get(gameID).gameName();
@@ -328,8 +332,8 @@ public class TUIViewController implements PropertyChangeListener, ViewController
         if (oldView == null) {
             return true;
         }
-        // If the status has changed
-        if (!updatedView.gameStatus().equals(oldView.gameStatus())) {
+        // If the previous status was Game_Paused
+        if (oldView.gameStatus().equals(GameStatusEnum.GAME_PAUSED) && !updatedView.gameStatus().equals(GameStatusEnum.GAME_PAUSED)) {
             return true;
         }
         // If the player has changed
@@ -372,6 +376,7 @@ public class TUIViewController implements PropertyChangeListener, ViewController
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
+        dontDisplay = false;
         String changedProperty = evt.getPropertyName();
         switch (changedProperty) {
             case "CONNECTION_ESTABLISHED":
@@ -424,21 +429,26 @@ public class TUIViewController implements PropertyChangeListener, ViewController
                             this.currentScene = sceneBuilder.instancePlaceCardScene(updatedView.getCurrentPlayerView().playerBoardView().playerBoard(), updatedView.gameView().globalBoardView().globalObjectives(), updatedView.getCurrentPlayerView().objectiveCard(), updatedView.getCurrentPlayerView().playerHandView().hand(), updatedView.gameView().playerViews(), updatedView.isLastRound(), updatedView.remainingRoundsToEndGame());
                             break;
                     }
+                    break;
                 }
 
                 if (!isClientTurn() && isPlayerBoardChanged(oldView, updatedView)) {
                     this.currentScene = sceneBuilder.instanceOtherPlayerTurnScene(updatedView.getCurrentPlayerView().playerName(), updatedView.getCurrentPlayerView().color(), updatedView.getCurrentPlayerView().playerBoardView().playerBoard(), updatedView.isLastRound(), updatedView.remainingRoundsToEndGame());
+                    break;
                 }
+                dontDisplay = true;
                 break;
 
             case "CHAT_MESSAGE":
                 messages.add((ChatServerToClientMessage) evt.getNewValue());
                 if (isInChat)
                     showChat();
+                dontDisplay = true;
                 break;
 
             case "GAME_DELETED":
                 closeConnection();
+                dontDisplay = true;
                 break;
 
             case "ERROR":
@@ -447,10 +457,11 @@ public class TUIViewController implements PropertyChangeListener, ViewController
                     showChat();
                 else
                     showCurrentScene();
-                System.err.println("\nError: " + errorMessage);
+                new DrawArea("\n" + errorMessage, ColorsEnum.RED).println();
+                dontDisplay = true;
                 break;
         }
-        if (!changedProperty.equals("CHAT_MESSAGE") && !changedProperty.equals("ERROR") && !changedProperty.equals("GAME_DELETED") && !isGameOver)
+        if (!dontDisplay && !isGameOver)
             showCurrentScene();
     }
 }

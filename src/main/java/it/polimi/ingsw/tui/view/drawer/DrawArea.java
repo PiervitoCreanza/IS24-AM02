@@ -55,6 +55,16 @@ public class DrawArea implements Drawable {
     }
 
     /**
+     * Constructor that initializes the drawable area with a string and a color.
+     *
+     * @param drawArea The string to initialize the drawable area with.
+     * @param color    The color to use when drawing the string.
+     */
+    public DrawArea(String drawArea, ColorsEnum color) {
+        drawAt(0, 0, drawArea, color);
+    }
+
+    /**
      * Copy constructor that creates a new drawable area from an existing one.
      * It is useful to compose drawable areas.
      *

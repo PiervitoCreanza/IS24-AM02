@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.virtualView.PlayerBoardView;
 import it.polimi.ingsw.network.virtualView.PlayerView;
 import it.polimi.ingsw.tui.controller.TUIViewController;
+import it.polimi.ingsw.tui.utils.Utils;
 import it.polimi.ingsw.tui.view.component.EndPhaseComponent;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.component.leaderBoard.LeaderBoardComponent;
@@ -152,6 +153,7 @@ public class PlaceCardScene implements Scene, PropertyChangeListener {
                 int cardToSwitchIndex = Integer.parseInt(inputs.getFirst()) - 1;
                 hand.get(cardToSwitchIndex).switchSide();
                 handFlipped.set(cardToSwitchIndex, !handFlipped.get(cardToSwitchIndex));
+                Utils.clearScreen();
                 display();
             }
             case "p" -> {
