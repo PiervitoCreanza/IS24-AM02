@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 /**
  * This class represents the scene for getting games.
- * It implements the Scene interface, meaning it can be displayed in the UI.
+ * It implements the Scene and UserInputScene interfaces.
  */
 public class GetGamesScene implements Scene, PropertyChangeListener {
 
@@ -31,12 +31,20 @@ public class GetGamesScene implements Scene, PropertyChangeListener {
      */
     private final TUIViewController controller;
 
+    /**
+     * The menu handler for handling user input.
+     */
     private final MenuHandler menuHandler;
 
+    /**
+     * The logger.
+     */
     private final Logger logger = LogManager.getLogger(GetGamesScene.class);
 
     /**
      * Constructs a new GetGamesScene.
+     * It initializes the draw area with the title and the list of games.
+     * It also initializes the menu handler with the available commands.
      *
      * @param controller the controller for this scene
      * @param games      the list of games to be displayed
@@ -59,8 +67,9 @@ public class GetGamesScene implements Scene, PropertyChangeListener {
     }
 
     /**
-     * Displays the game scene on the console.
-     * It reads the user input and performs the corresponding action.
+     * This method is used to display the scene.
+     * It prints the draw area and the menuHandler.
+     * The menuHandler will prompt the user to choose an action.
      */
     @Override
     public void display() {

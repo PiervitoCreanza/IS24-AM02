@@ -53,6 +53,7 @@ public class DrawCardScene implements Scene, PropertyChangeListener {
      * The logger.
      */
     private static final Logger Logger = LogManager.getLogger(DrawCardScene.class);
+
     /**
      * The menu handler for the scene.
      */
@@ -60,13 +61,19 @@ public class DrawCardScene implements Scene, PropertyChangeListener {
 
     /**
      * Constructs a new DrawCardScene.
+     * It initializes the draw area with the player's game board,
+     * the global objectives, the player's objective, the player's hand of cards,
+     * the global board view, and the end phase component.
+     * It also initializes the menu handler with the available commands.
      *
-     * @param controller       the controller for this scene
-     * @param playerBoard      the player's game board
-     * @param globalObjectives the global objectives for the game
-     * @param playerObjective  the player's objective
-     * @param hand             the player's hand of cards
-     * @param globalBoardView  the global board view
+     * @param controller               the controller for this scene
+     * @param playerBoard              the player's game board
+     * @param globalObjectives         the global objectives for the game
+     * @param playerObjective          the player's objective
+     * @param hand                     the player's hand of cards
+     * @param globalBoardView          the global board view
+     * @param isLastRound              the flag that indicates if it is the last round
+     * @param remainingRoundsToEndGame the number of remaining rounds to end the game
      */
     public DrawCardScene(TUIViewController controller, HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, GlobalBoardView globalBoardView, boolean isLastRound, int remainingRoundsToEndGame) {
         this.controller = controller;
@@ -95,7 +102,9 @@ public class DrawCardScene implements Scene, PropertyChangeListener {
     }
 
     /**
-     * This method is used to display the object.
+     * This method is used to display the scene.
+     * It prompts the user to choose a card to draw.
+     * If the user enters a valid input, it calls the controller's drawCard method to draw the card.
      */
     @Override
     public void display() {

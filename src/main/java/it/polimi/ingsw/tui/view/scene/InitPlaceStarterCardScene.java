@@ -14,9 +14,10 @@ import java.util.ArrayList;
 
 /**
  * The InitPlaceStarterCardScene class represents the scene where the player places their starter card.
- * It implements the Scene interface.
+ * It implements the Scene and UserInputScene interfaces.
  */
 public class InitPlaceStarterCardScene implements Scene, PropertyChangeListener {
+
     /**
      * The DrawArea object where the scene will be drawn.
      */
@@ -39,6 +40,7 @@ public class InitPlaceStarterCardScene implements Scene, PropertyChangeListener 
 
     /**
      * Constructs a new InitPlaceStarterCardScene.
+     * It initializes the draw area and the user input handler.
      *
      * @param controller  the controller for this scene
      * @param starterCard the starter card that the player will place
@@ -63,7 +65,8 @@ public class InitPlaceStarterCardScene implements Scene, PropertyChangeListener 
     }
 
     /**
-     * This method is used to display the scene to the user.
+     * This method is used to display the scene.
+     * It draws the draw area and the user input handler.
      */
     @Override
     public void display() {

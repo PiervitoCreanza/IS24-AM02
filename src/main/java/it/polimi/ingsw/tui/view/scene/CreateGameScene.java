@@ -15,10 +15,12 @@ import java.util.ArrayList;
  * It implements the Scene and UserInputScene interfaces.
  */
 public class CreateGameScene implements Scene, PropertyChangeListener {
+
     /**
      * The DrawArea object where the scene will be drawn.
      */
     private final DrawArea drawArea;
+
     /**
      * The controller that manages the user interface and the game logic.
      */
@@ -31,6 +33,7 @@ public class CreateGameScene implements Scene, PropertyChangeListener {
 
     /**
      * Constructs a new CreateGameScene.
+     * It initializes the DrawArea and the UserInputChain with the user input handlers.
      *
      * @param controller the controller for this scene
      */
@@ -58,7 +61,7 @@ public class CreateGameScene implements Scene, PropertyChangeListener {
     }
 
     /**
-     * Handles the user input.
+     * Handles the user input thanks to the UserInputChain.
      *
      * @param input the user input
      */

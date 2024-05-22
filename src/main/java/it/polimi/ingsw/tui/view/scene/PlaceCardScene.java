@@ -32,7 +32,11 @@ import java.util.List;
  */
 public class PlaceCardScene implements Scene, PropertyChangeListener {
 
+    /**
+     * The flag that indicates if this is the last round of the game.
+     */
     private final boolean isLastRound;
+
     /**
      * The draw area of the place card scene.
      */
@@ -78,20 +82,30 @@ public class PlaceCardScene implements Scene, PropertyChangeListener {
      */
     private final String playerUsername;
 
+    /**
+     * The menu handler for the manage of the user input.
+     */
     private final MenuHandler menuHandler;
 
+    /**
+     * The number of remaining rounds to end the game.
+     */
     private final int remainingRoundsToEndGame;
 
     /**
      * Constructs a new PlaceCardScene.
+     * It initializes the scene with the given parameters.
+     * It also initializes the menu handler.
      *
-     * @param controller       the controller for this scene
-     * @param playerBoard      the player's game board
-     * @param globalObjectives the global objectives for the game
-     * @param playerObjective  the player's objective
-     * @param hand             the player's hand of cards
-     * @param playerViews      the views of the players
-     * @param playerUsername   the username of the player
+     * @param controller               the controller for this scene
+     * @param playerBoard              the player's game board
+     * @param globalObjectives         the global objectives for the game
+     * @param playerObjective          the player's objective
+     * @param hand                     the player's hand of cards
+     * @param playerViews              the views of the players
+     * @param playerUsername           the username of the player
+     * @param isLastRound              the flag that indicates if it is the last round
+     * @param remainingRoundsToEndGame the number of remaining rounds to end the game
      */
     public PlaceCardScene(TUIViewController controller, HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, List<PlayerView> playerViews, String playerUsername, boolean isLastRound, int remainingRoundsToEndGame) {
         this.controller = controller;
@@ -121,6 +135,7 @@ public class PlaceCardScene implements Scene, PropertyChangeListener {
 
     /**
      * Displays the scene to the user.
+     * It prints the draw area and the menu handler.
      */
     @Override
     public void display() {
@@ -172,6 +187,13 @@ public class PlaceCardScene implements Scene, PropertyChangeListener {
         }
     }
 
+    /**
+     * Translates the text to the coordinates.
+     *
+     * @param choosenCardCoordinates the coordinates of the choosen card in the board
+     * @param choosenCorner          the corner of the choosen card where to place the new card
+     * @return the coordinates of the choosen card
+     */
     private Coordinate translateTextToCoordinates(String choosenCardCoordinates, String choosenCorner) {
         Coordinate coordinate = new Coordinate(Integer.parseInt(choosenCardCoordinates.split(",")[0]), Integer.parseInt(choosenCardCoordinates.split(",")[1]));
         switch (choosenCorner.toLowerCase()) {

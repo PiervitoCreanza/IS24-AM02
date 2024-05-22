@@ -18,7 +18,12 @@ import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * This class represents the scene displayed when the game is over.
+ * It implements the Scene and UserInputScene interfaces.
+ */
 public class WinnerScene implements Scene, PropertyChangeListener {
+
     /**
      * The DrawArea object where the scene will be drawn.
      */
@@ -29,12 +34,19 @@ public class WinnerScene implements Scene, PropertyChangeListener {
      */
     private final TUIViewController controller;
 
+    /**
+     * The logger.
+     */
     private static final Logger logger = LogManager.getLogger(WinnerScene.class);
 
+    /**
+     * The menu handler for managing user input.
+     */
     private final MenuHandler menuHandler;
 
     /**
      * Constructs a new MainMenuScene.
+     * The scene will display the specified list of winners and players.
      *
      * @param controller the controller for this scene
      */
@@ -75,6 +87,7 @@ public class WinnerScene implements Scene, PropertyChangeListener {
 
     /**
      * This method is used to display the scene to the user.
+     * It prints the draw area and the menu handler.
      */
     @Override
     public void display() {
@@ -92,6 +105,11 @@ public class WinnerScene implements Scene, PropertyChangeListener {
         menuHandler.handleInput(input);
     }
 
+    /**
+     * This method is used to get the draw area of the object.
+     *
+     * @return the draw area of the object
+     */
     public DrawArea getDrawArea() {
         return drawArea;
     }

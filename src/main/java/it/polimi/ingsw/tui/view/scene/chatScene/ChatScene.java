@@ -24,12 +24,25 @@ import java.util.ArrayList;
 import static it.polimi.ingsw.tui.utils.Utils.ANSI_BLUE;
 import static it.polimi.ingsw.tui.utils.Utils.ANSI_RESET;
 
+/**
+ * This class represents the scene displayed when the player is in the chat.
+ * It implements the Scene and PropertyChangeListener interfaces.
+ */
 public class ChatScene implements Scene, PropertyChangeListener {
 
+    /**
+     * The DrawArea object where the scene will be drawn.
+     */
     private final DrawArea drawArea;
 
+    /**
+     * The controller that manages the user interface and the game logic.
+     */
     private final TUIViewController controller;
 
+    /**
+     * The name of the player.
+     */
     private final String playerName;
 
     /**
@@ -37,8 +50,19 @@ public class ChatScene implements Scene, PropertyChangeListener {
      */
     private static final Logger logger = LogManager.getLogger(ChatScene.class);
 
+    /**
+     * The menu handler for managing user input.
+     */
     private final MenuHandler menuHandler;
 
+    /**
+     * Constructs a new ChatScene with the specified controller and list of messages.
+     * The scene will display the messages in the order they are given.
+     *
+     * @param controller The controller that manages the user interface and the game logic
+     * @param playerName The name of the player
+     * @param messages   The list of messages to display
+     */
     public ChatScene(TUIViewController controller, String playerName, ArrayList<ChatServerToClientMessage> messages) {
         this.controller = controller;
         this.playerName = playerName;
@@ -69,10 +93,19 @@ public class ChatScene implements Scene, PropertyChangeListener {
         this.drawArea.drawAt(0, drawArea.getHeight(), menuHandler.getDrawArea());
     }
 
+    /**
+     * Handles the user input.
+     *
+     * @param input The user input to handle
+     */
     public void handleUserInput(String input) {
         menuHandler.handleInput(input);
     }
 
+    /**
+     * This method is used to display the object.
+     * It prints the draw area.
+     */
     @Override
     public void display() {
         this.drawArea.println();
@@ -89,15 +122,9 @@ public class ChatScene implements Scene, PropertyChangeListener {
         String changedProperty = evt.getPropertyName();
         ArrayList<String> inputs = (ArrayList<String>) evt.getNewValue();
         switch (changedProperty) {
-            case "d" -> {
-                controller.sendMessage(inputs.get(1), inputs.get(0));
-            }
-            case "g" -> {
-                controller.sendMessage(inputs.getFirst(), "");
-            }
-            case "q" -> {
-                controller.closeChat();
-            }
+            case "d" -> controller.sendMessage(inputs.get(1), inputs.get(0));
+            case "g" -> controller.sendMessage(inputs.getFirst(), "");
+            case "q" -> controller.closeChat();
             default -> logger.error("Invalid property change event");
         }
     }

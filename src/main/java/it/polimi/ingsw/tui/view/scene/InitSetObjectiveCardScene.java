@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 /**
  * The InitSetObjectiveCardScene class represents the scene where the player sets their objective card.
- * It implements the Scene interface.
+ * It implements the Scene and UserInputScene interfaces.
  */
 public class InitSetObjectiveCardScene implements Scene, PropertyChangeListener {
 
@@ -80,6 +80,7 @@ public class InitSetObjectiveCardScene implements Scene, PropertyChangeListener 
 
     /**
      * This method is used to display the scene to the user.
+     * It prints the drawArea and the inputChain.
      */
     @Override
     public void display() {

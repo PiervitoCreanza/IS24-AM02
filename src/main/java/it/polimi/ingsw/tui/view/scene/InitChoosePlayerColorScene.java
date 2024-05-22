@@ -14,6 +14,7 @@ import java.util.ArrayList;
  * It implements the Scene interface.
  */
 public class InitChoosePlayerColorScene implements Scene {
+
     /**
      * The DrawArea object where the scene will be drawn.
      */
@@ -52,7 +53,8 @@ public class InitChoosePlayerColorScene implements Scene {
     }
 
     /**
-     * This method is used to display the scene to the user.
+     * This method is used to display the scene.
+     * It prompts the user to choose a color.
      */
     @Override
     public void display() {
@@ -87,6 +89,11 @@ public class InitChoosePlayerColorScene implements Scene {
         handler.print();
     }
 
+    /**
+     * This method is used to get the DrawArea object of the scene.
+     *
+     * @return the DrawArea object of the scene
+     */
     public DrawArea getDrawArea() {
         return drawArea;
     }

@@ -14,9 +14,10 @@ import java.util.ArrayList;
 
 /**
  * The JoinGameScene class represents the scene where a player can join a game.
- * It implements the Scene interface.
+ * It implements the Scene and UserInputScene interfaces.
  */
 public class JoinGameScene implements Scene, PropertyChangeListener {
+
     /**
      * The DrawArea object where the scene will be drawn.
      */
@@ -27,11 +28,20 @@ public class JoinGameScene implements Scene, PropertyChangeListener {
      */
     private final TUIViewController controller;
 
+    /**
+     * The logger.
+     */
     private static final Logger logger = LogManager.getLogger(JoinGameScene.class);
+
+    /**
+     * The input handler for this scene.
+     */
     private final UserInputChain inputHandler;
 
     /**
      * Constructs a new JoinGameScene.
+     * It initializes the draw area and the controller.
+     * It also initializes the input handler with the required input fields.
      *
      * @param controller the controller for this scene
      */
@@ -46,6 +56,7 @@ public class JoinGameScene implements Scene, PropertyChangeListener {
 
     /**
      * This method is used to display the scene to the user.
+     * It prints the draw area and the input handler.
      */
     @Override
     public void display() {

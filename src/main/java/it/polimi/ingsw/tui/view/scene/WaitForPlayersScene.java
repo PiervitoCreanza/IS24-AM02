@@ -19,23 +19,35 @@ import java.util.stream.Collectors;
 
 /**
  * This class represents the scene displayed while waiting for players to join the game.
- * It displays a list of players who have already joined, each with a unique color.
+ * It implements the Scene and UserInputScene interfaces.
  */
 public class WaitForPlayersScene implements Scene, PropertyChangeListener {
+
     /**
      * The DrawArea object where the scene will be drawn.
      */
     private final DrawArea drawArea;
 
+    /**
+     * The controller that manages the user interface and the game logic.
+     */
     private final TUIViewController controller;
 
+    /**
+     * The menu handler for the scene.
+     */
     private final MenuHandler menuHandler;
 
+    /**
+     * The logger.
+     */
     private final Logger logger = LogManager.getLogger(GetGamesScene.class);
 
     /**
      * Constructs a new WaitForPlayersScene with the specified list of player names and spacing.
+     * The scene will display the player names in the order they are given.
      *
+     * @param controller  The controller that manages the user interface and the game logic
      * @param playerNames The names of the players who have already joined
      * @param spacing     The spacing between player names in the display
      */
@@ -67,6 +79,7 @@ public class WaitForPlayersScene implements Scene, PropertyChangeListener {
 
     /**
      * This method is used to display the object.
+     * It prints the draw area and the menu handler.
      */
     @Override
     public void display() {
@@ -92,6 +105,12 @@ public class WaitForPlayersScene implements Scene, PropertyChangeListener {
         return drawArea;
     }
 
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String changedProperty = evt.getPropertyName();

@@ -116,13 +116,15 @@ public class SceneBuilder {
     }
 
     /**
-     * Insta the DrawCardScene.
+     * Instances the DrawCardScene.
      *
-     * @param playerBoard      The player board.
-     * @param globalObjectives The global objectives.
-     * @param playerObjective  The player objective.
-     * @param hand             The player hand.
-     * @param globalBoardView  The global board view.
+     * @param playerBoard              The player board.
+     * @param globalObjectives         The global objectives.
+     * @param playerObjective          The player objective.
+     * @param hand                     The player hand.
+     * @param globalBoardView          The global board view.
+     * @param isLastRound              The flag that indicates if it is the last round.
+     * @param remainingRoundsToEndGame The number of remaining rounds to end the game.
      * @return The DrawCardScene scene.
      */
     public DrawCardScene instanceDrawCardScene(HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, GlobalBoardView globalBoardView, boolean isLastRound, int remainingRoundsToEndGame) {
@@ -132,11 +134,13 @@ public class SceneBuilder {
     /**
      * Instances the PlaceCardScene.
      *
-     * @param playerBoard      The player board.
-     * @param globalObjectives The global objectives.
-     * @param playerObjective  The player objective.
-     * @param hand             The player hand.
-     * @param playerViews      The player views.
+     * @param playerBoard              The player board.
+     * @param globalObjectives         The global objectives.
+     * @param playerObjective          The player objective.
+     * @param hand                     The player hand.
+     * @param playerViews              The list of player views.
+     * @param isLastRound              The flag that indicates if it is the last round.
+     * @param remainingRoundsToEndGame The number of remaining rounds to end the game.
      * @return The PlaceCardScene scene.
      */
     public PlaceCardScene instancePlaceCardScene(HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, List<PlayerView> playerViews, boolean isLastRound, int remainingRoundsToEndGame) {
@@ -144,12 +148,14 @@ public class SceneBuilder {
     }
 
     /**
-     * Instances the OtherPlayerTurnScene.
+     * Instances the PlayerTurnScene.
      *
-     * @param playerName  The player name.
-     * @param playerColor The player color.
-     * @param playerBoard The player board.
-     * @return The OtherPlayerTurnScene scene.
+     * @param playerName               The player name.
+     * @param playerColor              The player color.
+     * @param playerBoard              The player board.
+     * @param isLastRound              The flag that indicates if it is the last round.
+     * @param remainingRoundsToEndGame The number of remaining rounds to end the game.
+     * @return The PlayerTurnScene scene.
      */
     public OtherPlayerTurnScene instanceOtherPlayerTurnScene(String playerName, PlayerColorEnum playerColor, HashMap<Coordinate, GameCard> playerBoard, boolean isLastRound, int remainingRoundsToEndGame) {
         return new OtherPlayerTurnScene(this.controller, playerName, playerColor, playerBoard, isLastRound, remainingRoundsToEndGame);
@@ -159,7 +165,8 @@ public class SceneBuilder {
      * Instances the ChatScene.
      *
      * @param playerName The player name.
-     * @param messages   The messages to display.
+     * @param messages   The list of messages.
+     * @return The ChatScene scene.
      */
     public ChatScene instanceChatScene(String playerName, ArrayList<ChatServerToClientMessage> messages) {
         return new ChatScene(this.controller, playerName, messages);
@@ -174,6 +181,12 @@ public class SceneBuilder {
         return new GamePausedScene(this.controller);
     }
 
+    /**
+     * Instances the WinnerScene.
+     *
+     * @param updatedView The updated view.
+     * @return The WinnerScene scene.
+     */
     public Scene instanceWinnerScene(GameControllerView updatedView) {
         return new WinnerScene(this.controller, updatedView.gameView().winners(), updatedView.gameView().playerViews(), 2);
     }

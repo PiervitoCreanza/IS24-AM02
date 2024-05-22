@@ -14,9 +14,10 @@ import java.beans.PropertyChangeListener;
 
 /**
  * The MainMenuScene class represents the main menu scene of the game.
- * It implements the Scene interface.
+ * It implements the Scene and UserInputScene interfaces.
  */
 public class MainMenuScene implements Scene, PropertyChangeListener {
+
     /**
      * The DrawArea object where the scene will be drawn.
      */
@@ -27,11 +28,20 @@ public class MainMenuScene implements Scene, PropertyChangeListener {
      */
     private final TUIViewController controller;
 
+    /**
+     * The logger of the class.
+     */
     private static final Logger logger = LogManager.getLogger(MainMenuScene.class);
+
+    /**
+     * The menu handler that manages the menu items.
+     */
     private final MenuHandler menuHandler;
 
     /**
      * Constructs a new MainMenuScene.
+     * It initializes the draw area and the menu handler.
+     * The menu items are "list available games", "create a new game" and "quit".
      *
      * @param controller the controller for this scene
      */
@@ -47,6 +57,7 @@ public class MainMenuScene implements Scene, PropertyChangeListener {
 
     /**
      * This method is used to display the scene to the user.
+     * It prints the draw area and the menu items.
      */
     @Override
     public void display() {

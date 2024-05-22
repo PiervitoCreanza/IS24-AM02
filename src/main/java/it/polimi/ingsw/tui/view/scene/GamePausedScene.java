@@ -14,22 +14,35 @@ import java.beans.PropertyChangeListener;
 
 /**
  * The DrawArea object where the scene will be drawn.
+ * It implements the Scene and UserInputScene interfaces.
  */
 public class GamePausedScene implements Scene, PropertyChangeListener {
+
     /**
      * The DrawArea object where the scene will be drawn.
      */
-    DrawArea drawArea;
+    private final DrawArea drawArea;
 
+    /**
+     * The controller for this scene.
+     */
     private final TUIViewController controller;
 
+    /**
+     * The menu handler for handling user input.
+     */
     private final MenuHandler menuHandler;
 
+    /**
+     * The logger.
+     */
     private final Logger logger = LogManager.getLogger(GetGamesScene.class);
 
     /**
      * Constructs a new GamePausedScene.
      * It initializes the draw area and draws the title "Game Paused" at the top of the scene.
+     *
+     * @param controller the controller for this scene
      */
     public GamePausedScene(TUIViewController controller) {
         this.controller = controller;
@@ -39,7 +52,7 @@ public class GamePausedScene implements Scene, PropertyChangeListener {
     }
 
     /**
-     * This method is used to display the object.
+     * This method is used to display the scene.
      */
     @Override
     public void display() {
@@ -55,6 +68,12 @@ public class GamePausedScene implements Scene, PropertyChangeListener {
         menuHandler.handleInput(input);
     }
 
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String changedProperty = evt.getPropertyName();

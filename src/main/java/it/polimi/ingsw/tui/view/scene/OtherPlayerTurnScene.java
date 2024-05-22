@@ -19,25 +19,41 @@ import java.util.HashMap;
 
 /**
  * This class represents the scene for when it is another player's turn.
- * It implements the Scene interface, meaning it can be displayed in the UI.
+ * It implements the Scene and UserInputScene interfaces.
  */
 public class OtherPlayerTurnScene implements Scene, PropertyChangeListener {
+
     /**
      * The DrawArea object where the scene will be drawn.
      */
     private final DrawArea drawArea;
 
+    /**
+     * The controller that will handle the scene.
+     */
     private final TUIViewController controller;
 
+    /**
+     * The logger.
+     */
     private static final Logger logger = LogManager.getLogger(OtherPlayerTurnScene.class);
+
+    /**
+     * The menu handler.
+     */
     private final MenuHandler menuHandler;
 
     /**
      * Constructs a new OtherPlayerTurnScene.
+     * It initializes the drawArea and the menuHandler.
+     * It also initializes the scene with the given parameters.
      *
-     * @param playerName  the name of the player whose turn it is
-     * @param playerColor the color of the player whose turn it is
-     * @param playerBoard the board of the player whose turn it is
+     * @param controller               the controller for this scene
+     * @param playerName               the name of the player whose turn it is
+     * @param playerColor              the color of the player whose turn it is
+     * @param playerBoard              the board of the player whose turn it is
+     * @param isLastRound              whether it is the last round of the game
+     * @param remainingRoundsToEndGame the number of rounds remaining to end the game
      */
     public OtherPlayerTurnScene(TUIViewController controller, String playerName, PlayerColorEnum playerColor, HashMap<Coordinate, GameCard> playerBoard, boolean isLastRound, int remainingRoundsToEndGame) {
         this.controller = controller;
@@ -59,6 +75,7 @@ public class OtherPlayerTurnScene implements Scene, PropertyChangeListener {
 
     /**
      * This method is used to display the object.
+     * It prints the drawArea and the menuHandler.
      */
     @Override
     public void display() {
