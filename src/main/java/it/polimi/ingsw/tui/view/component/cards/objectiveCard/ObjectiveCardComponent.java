@@ -12,6 +12,7 @@ import it.polimi.ingsw.tui.view.drawer.Drawable;
  * The class is responsible for managing and displaying the Objective Card.
  */
 public class ObjectiveCardComponent implements Drawable {
+
     /**
      * The draw area of the Objective Card component.
      */
@@ -79,6 +80,11 @@ public class ObjectiveCardComponent implements Drawable {
         return drawArea.getWidth();
     }
 
+    /**
+     * Returns the draw area of the drawable object.
+     *
+     * @return the draw area of the drawable object.
+     */
     @Override
     public DrawArea getDrawArea() {
         return this.drawArea;

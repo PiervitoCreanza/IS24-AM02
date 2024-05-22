@@ -14,6 +14,7 @@ import java.util.Set;
  * @param <T> the type of the values in the map
  */
 public class TranslationMap<T> {
+
     /**
      * The original map. This map contains the original coordinates and their associated values.
      */

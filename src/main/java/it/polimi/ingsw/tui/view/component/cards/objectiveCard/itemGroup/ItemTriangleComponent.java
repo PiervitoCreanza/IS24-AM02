@@ -10,6 +10,7 @@ import it.polimi.ingsw.tui.view.drawer.Drawable;
  * It implements the Drawable interface, meaning it can be drawn on the screen.
  */
 public class ItemTriangleComponent implements Drawable {
+
     /**
      * The draw area of the item triangle component.
      */

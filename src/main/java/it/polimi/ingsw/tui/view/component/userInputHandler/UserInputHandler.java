@@ -10,14 +10,17 @@ import java.util.ArrayList;
  * It uses an instance of InputPromptComponent to prompt the user and an instance of UserInputValidator to validate the input.
  */
 public class UserInputHandler implements MenuCommand {
+
     /**
      * Component used to request input from the user.
      */
     private final InputPromptComponent inputRequestComponent;
+
     /**
      * Validator used to validate the user's input.
      */
     private final UserInputValidator validator;
+
     /**
      * The user's input after it has been validated.
      */

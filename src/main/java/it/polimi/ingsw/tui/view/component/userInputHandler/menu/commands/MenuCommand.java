@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * Any class that implements this interface can be executed as a command in a menu.
  */
 public interface MenuCommand {
+
     /**
      * Executes the command.
      * This method is called when the command is selected in a menu.

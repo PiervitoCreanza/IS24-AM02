@@ -5,9 +5,22 @@ import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 import it.polimi.ingsw.tui.view.drawer.Drawable;
 
+/**
+ * This class is a component that represents the end phase of the game.
+ */
 public class EndPhaseComponent implements Drawable {
+
+    /**
+     * The draw area of the component.
+     */
     private final DrawArea drawArea;
 
+    /**
+     * Constructor for the EndPhaseComponent class.
+     *
+     * @param isLastRound              true if it is the last round of the game, false otherwise.
+     * @param remainingRoundsToEndGame the number of rounds remaining to end the game.
+     */
     public EndPhaseComponent(boolean isLastRound, int remainingRoundsToEndGame) {
         this.drawArea = new DrawArea();
         if (isLastRound) {
@@ -23,6 +36,14 @@ public class EndPhaseComponent implements Drawable {
         }
     }
 
+    /**
+     * Constructor for the EndPhaseComponent class.
+     *
+     * @param playerName               the name of the player.
+     * @param playerColor              the color of the player.
+     * @param isLastRound              true if it is the last round of the game, false otherwise.
+     * @param remainingRoundsToEndGame the number of rounds remaining to end the game.
+     */
     public EndPhaseComponent(String playerName, PlayerColorEnum playerColor, boolean isLastRound, int remainingRoundsToEndGame) {
         this.drawArea = new DrawArea();
         if (isLastRound) {

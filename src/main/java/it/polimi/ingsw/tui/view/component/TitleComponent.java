@@ -7,11 +7,17 @@ import it.polimi.ingsw.tui.view.drawer.Drawable;
  * This class is a component that represents a title.
  */
 public class TitleComponent implements Drawable {
+
     /**
      * The draw area of the drawable object.
      */
     private final DrawArea drawArea;
 
+    /**
+     * Constructs a title component with the given title.
+     *
+     * @param title the title of the component.
+     */
     public TitleComponent(String title) {
         drawArea = new DrawArea("""
                 ┌───────────────────────────────────────────────────────┐

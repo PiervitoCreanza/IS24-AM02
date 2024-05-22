@@ -6,10 +6,12 @@ import it.polimi.ingsw.tui.utils.ColorsEnum;
  * This class represents a character that can be drawn with a specific color.
  */
 public class MagicChar {
+
     /**
      * The character to be drawn.
      */
     private char character;
+
     /**
      * The color of the character.
      */

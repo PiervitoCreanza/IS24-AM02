@@ -20,6 +20,15 @@ public class DrawingAreaComponent implements Drawable {
      */
     DrawArea drawArea;
 
+    /**
+     * Constructs a new DrawingAreaComponent with the given parameters.
+     *
+     * @param firstResourceCard  The first card of the resource deck.
+     * @param firstGoldCard      The first card of the gold deck.
+     * @param fieldResourceCards The resource cards on the field.
+     * @param fieldGoldCards     The gold cards on the field.
+     * @param spacing            The spacing between the decks.
+     */
     public DrawingAreaComponent(GameCard firstResourceCard, GameCard firstGoldCard, ArrayList<GameCard> fieldResourceCards, ArrayList<GameCard> fieldGoldCards, int spacing) {
         drawArea = new DrawArea();
         DrawArea temp = new DrawArea();

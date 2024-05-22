@@ -17,7 +17,11 @@ import java.util.Comparator;
  * The class is responsible for managing and displaying the Positional Objective Card.
  */
 public class PositionalObjectiveCardComponent implements Drawable {
+
     // The area where the Positional Objective Card is drawn
+    /**
+     * The draw area of the Positional Objective Card component.
+     */
     private final DrawArea drawArea;
 
     /**

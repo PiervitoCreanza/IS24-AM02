@@ -33,6 +33,9 @@ public class InputPromptComponent implements Drawable {
         drawArea.print();
     }
 
+    /**
+     * Prints the input prompt to the console and moves the cursor to the next line.
+     */
     public void println() {
         drawArea.println();
     }

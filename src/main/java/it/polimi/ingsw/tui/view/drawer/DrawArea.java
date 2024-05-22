@@ -14,6 +14,7 @@ import java.util.Set;
  * It also provides methods to set colors and get the width and height of the drawable area.
  */
 public class DrawArea implements Drawable {
+
     /**
      * The drawable area. It is a map that associates coordinates with single characters.
      */
@@ -188,7 +189,6 @@ public class DrawArea implements Drawable {
         drawAt(x, y, String.valueOf(string), color);
     }
 
-
     /**
      * Draws a new line with the specified string, color, and spacing.
      * The new line is drawn at the current height of the drawable area plus the specified spacing.
@@ -358,12 +358,6 @@ public class DrawArea implements Drawable {
      * @param x        The x-coordinate at which to draw the drawable area.
      * @param drawArea The drawable area to draw.
      */
-    /**
-     * Draws the specified drawable area centered on the y-axis of the drawable area.
-     *
-     * @param x        The x-coordinate at which to draw the drawable area.
-     * @param drawArea The drawable area to draw.
-     */
     public void drawCenteredY(int x, DrawArea drawArea) {
         drawAt(x, this.height / 2 - drawArea.height / 2, drawArea);
     }
@@ -426,5 +420,4 @@ public class DrawArea implements Drawable {
     public void println() {
         System.out.println(this);
     }
-
 }

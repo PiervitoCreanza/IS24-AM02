@@ -5,9 +5,22 @@ import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 import it.polimi.ingsw.tui.view.drawer.Drawable;
 
+/**
+ * This class is a component that represents a game info.
+ */
 public class GameInfoComponent implements Drawable {
+
+    /**
+     * The draw area of the component.
+     */
     private final DrawArea drawArea;
 
+    /**
+     * Constructor for the GameInfoComponent class.
+     *
+     * @param game the game record.
+     * @param n    the number of the game.
+     */
     public GameInfoComponent(GameRecord game, int n) {
         drawArea = new DrawArea("""
                 ┌───────────────────────────────────────────────────────┐

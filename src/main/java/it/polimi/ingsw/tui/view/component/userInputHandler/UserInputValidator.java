@@ -7,6 +7,7 @@ package it.polimi.ingsw.tui.view.component.userInputHandler;
  */
 @FunctionalInterface
 public interface UserInputValidator {
+
     /**
      * Validates the provided input.
      *

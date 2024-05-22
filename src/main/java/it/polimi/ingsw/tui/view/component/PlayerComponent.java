@@ -4,8 +4,11 @@ import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 import it.polimi.ingsw.tui.view.drawer.Drawable;
 
-
+/**
+ * This class is a component that represents a player.
+ */
 public class PlayerComponent implements Drawable {
+
     /**
      * The draw area of the component.
      */
@@ -28,14 +31,25 @@ public class PlayerComponent implements Drawable {
             playerName = playerName.substring(0, 23) + "...";
         }
         drawArea.drawCenteredX(2, playerName);
-
     }
 
+    /**
+     * Constructor for the PlayerComponent class.
+     *
+     * @param playerName the name of the player.
+     * @param color      the color of the player.
+     */
     public PlayerComponent(String playerName, ColorsEnum color) {
         this(playerName);
         drawArea.setColor(color);
     }
 
+    /**
+     * Constructor for the PlayerComponent class.
+     *
+     * @param playerName the name of the player.
+     * @param point      the point of the player.
+     */
     public PlayerComponent(String playerName, int point) {
         this(playerName);
         drawArea.drawCenteredX(3, String.valueOf(point));
