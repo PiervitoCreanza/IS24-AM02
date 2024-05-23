@@ -12,6 +12,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.net.BindException;
+import java.net.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -95,6 +96,8 @@ public class RMIConnection implements Connection, PropertyChangeListener {
                 RMIServerToClientActions clientStub = (RMIServerToClientActions) UnicastRemoteObject.exportObject(rmiClientReceiver, clientPort);
                 // Looking up the registry for the remote object
                 RMIClientToServerActions serverStub = (RMIClientToServerActions) registry.lookup("ClientToServerActions");
+                // Check if the connection works
+                serverStub.heartbeat();
                 RMIClientSender rmiClientSender = new RMIClientSender(serverStub, clientStub);
                 // Add the listener to the sender
                 rmiClientSender.addPropertyChangeListener(this);
@@ -104,6 +107,9 @@ public class RMIConnection implements Connection, PropertyChangeListener {
             } catch (RemoteException e1) {
                 if (e1.getCause() != null && e1.getCause().getClass().equals(BindException.class)) {
                     logger.warn("Port {} already in use. Trying with: {}", clientPort, ++clientPort);
+                } else if (e1.getCause() != null && e1.getCause().getClass().equals(ConnectException.class)) {
+                    logger.warn("Can't call methods on the server. Port forwarding might be needed. Exiting...");
+                    quit();
                 } else {
                     logger.warn("RMI server unreachable, retrying in {} seconds. Attempt {} out of {}", (waitTime / 1000), attempts, maxAttempts);
                     attempts++;
