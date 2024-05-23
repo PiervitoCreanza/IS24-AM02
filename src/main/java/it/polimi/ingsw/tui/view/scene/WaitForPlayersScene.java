@@ -54,7 +54,9 @@ public class WaitForPlayersScene implements Scene, PropertyChangeListener {
     public WaitForPlayersScene(TUIViewController controller, ArrayList<String> playerNames, int spacing) {
         this.controller = controller;
         this.drawArea = new DrawArea();
-        this.menuHandler = new MenuHandler(this, new MenuItem("q", "quit the menu", new EmptyCommand()));
+        this.menuHandler = new MenuHandler(this,
+                new MenuItem("q", "quit", new EmptyCommand()),
+                new MenuItem("c", "chat", new EmptyCommand()));
 
         // Get the list of player colors
         ArrayList<ColorsEnum> colors = PlayerColorEnum.stream().map(PlayerColorEnum::getColor).collect(Collectors.toCollection(ArrayList::new));
@@ -117,6 +119,8 @@ public class WaitForPlayersScene implements Scene, PropertyChangeListener {
         if (changedProperty.equals("q")) {
             controller.sendDisconnect();
             controller.closeConnection();
+        } else if (changedProperty.equals("c")) {
+            controller.showChat();
         } else {
             logger.error("Invalid property change event");
         }

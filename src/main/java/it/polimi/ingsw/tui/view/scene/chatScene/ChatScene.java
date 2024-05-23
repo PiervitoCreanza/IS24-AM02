@@ -77,7 +77,7 @@ public class ChatScene implements Scene, PropertyChangeListener {
 
         // Create the menu handler
         this.menuHandler = new MenuHandler(this,
-                new MenuItem("d", "send direct message",
+                new MenuItem("d", "send" + ANSI_BLUE + " direct " + ANSI_RESET + "message",
                         new UserInputChain(
                                 new UserInputHandler("Enter the recipient's username: ", input -> !input.isEmpty()),
                                 new UserInputHandler("Enter the message: ", input -> !input.isEmpty())

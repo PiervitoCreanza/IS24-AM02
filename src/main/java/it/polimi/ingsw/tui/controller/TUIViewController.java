@@ -145,10 +145,8 @@ public class TUIViewController implements PropertyChangeListener, ViewController
      * Method to show the current scene.
      */
     private void showCurrentScene() {
-        if (!isInChat) {
-            Utils.clearScreen();
-            this.currentScene.display();
-        }
+        Utils.clearScreen();
+        this.currentScene.display();
     }
 
     /**
@@ -459,6 +457,11 @@ public class TUIViewController implements PropertyChangeListener, ViewController
                     break;
                 }
 
+                if (isClientTurn() && isInChat) {
+                    showChat();
+                    new DrawArea("\nIt's your turn, type 'q' to close the chat", ColorsEnum.YELLOW).println();
+                }
+
                 // If the client is the current player and the view has changed. Prevent re-rendering the scene if the view has not changed.
                 if (isClientTurn() && isPlayerViewChanged(oldView, updatedView)) {
                     switch (gameStatus) {
@@ -510,7 +513,7 @@ public class TUIViewController implements PropertyChangeListener, ViewController
                 dontDisplay = true;
                 break;
         }
-        if (!dontDisplay && !isGameOver)
+        if (!dontDisplay && !isInChat && !isGameOver)
             showCurrentScene();
     }
 }

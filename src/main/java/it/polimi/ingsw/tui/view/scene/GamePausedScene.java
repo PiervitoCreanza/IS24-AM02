@@ -46,7 +46,7 @@ public class GamePausedScene implements Scene, PropertyChangeListener {
      */
     public GamePausedScene(TUIViewController controller) {
         this.controller = controller;
-        this.menuHandler = new MenuHandler(this, new MenuItem("q", "quit the menu", new EmptyCommand()));
+        this.menuHandler = new MenuHandler(this, new MenuItem("q", "quit", new EmptyCommand()));
         this.drawArea = new DrawArea();
         this.drawArea.drawAt(0, 0, new TitleComponent("Game Paused").getDrawArea());
     }
