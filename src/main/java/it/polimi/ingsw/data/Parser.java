@@ -9,7 +9,9 @@ import it.polimi.ingsw.model.card.objectiveCard.ItemObjectiveCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.card.objectiveCard.PositionalObjectiveCard;
 
-import java.io.FileReader;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -116,7 +118,12 @@ public class Parser {
     public Parser() {
         try {
             // Create a FileReader to read the JSON file
-            Reader reader = new FileReader("src/main/resources/json/CardDB.json");
+            InputStream is = getClass().getResourceAsStream("/json/CardDB.json");
+            if (is == null) {
+                throw new FileNotFoundException("File not found");
+            }
+            // Create a InputStreamReader to read the InputStream
+            Reader reader = new InputStreamReader(is);
 
             // Parse the JSON content using JsonParser
             JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
