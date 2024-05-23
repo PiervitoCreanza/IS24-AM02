@@ -162,6 +162,7 @@ public class PlaceCardScene implements Scene, PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String changedProperty = evt.getPropertyName();
+        @SuppressWarnings("unchecked")
         ArrayList<String> inputs = (ArrayList<String>) evt.getNewValue();
         switch (changedProperty) {
             case "s" -> {

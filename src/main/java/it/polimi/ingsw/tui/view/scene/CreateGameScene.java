@@ -81,6 +81,7 @@ public class CreateGameScene implements Scene, PropertyChangeListener {
         switch (changedProperty) {
             case "q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
             case "input" -> {
+                @SuppressWarnings("unchecked")
                 ArrayList<String> inputs = (ArrayList<String>) evt.getNewValue();
                 controller.createGame(inputs.get(0), inputs.get(2), Integer.parseInt(inputs.get(1)));
             }

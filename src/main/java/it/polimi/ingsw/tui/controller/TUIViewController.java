@@ -430,6 +430,7 @@ public class TUIViewController implements PropertyChangeListener, ViewController
      * @param evt the property change event.
      */
     @Override
+    @SuppressWarnings("unchecked")
     public void propertyChange(PropertyChangeEvent evt) {
         boolean dontDisplay = false;
         String changedProperty = evt.getPropertyName();
