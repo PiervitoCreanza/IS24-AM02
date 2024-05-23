@@ -84,8 +84,8 @@ public class WinnerScene implements Scene, PropertyChangeListener {
         this.drawArea.drawAt(0, drawArea.getHeight() + 1, (players.size() - winners.size() == 1) ? "Other player:" : "Other players:");
         this.drawArea.drawCenteredX(drawArea.getHeight(), losersDrawArea);
         this.menuHandler = new MenuHandler(this,
-                new MenuItem("q", "quit", new EmptyCommand()),
-                new MenuItem("c", "chat", new EmptyCommand())
+                new MenuItem("c", "chat", new EmptyCommand()),
+                new MenuItem("q", "quit", new EmptyCommand())
         );
     }
 

@@ -377,6 +377,10 @@ public class TUIViewController implements PropertyChangeListener, ViewController
         if (oldView.gameStatus().equals(GameStatusEnum.GAME_PAUSED) && !updatedView.gameStatus().equals(GameStatusEnum.GAME_PAUSED)) {
             return true;
         }
+        // If the previous status was Wait_For_Players
+        if (oldView.gameStatus().equals(GameStatusEnum.WAIT_FOR_PLAYERS) && !updatedView.gameStatus().equals(GameStatusEnum.WAIT_FOR_PLAYERS)) {
+            return true;
+        }
         // If the player has changed
         if (!updatedView.getCurrentPlayerView().playerName().equals(oldView.getCurrentPlayerView().playerName())) {
             return true;
@@ -499,6 +503,10 @@ public class TUIViewController implements PropertyChangeListener, ViewController
                 break;
 
             case "GAME_DELETED":
+                if (isInChat)
+                    isInChat = false;
+                if (isGameOver)
+                    isGameOver = false;
                 closeConnection();
                 dontDisplay = true;
                 break;
