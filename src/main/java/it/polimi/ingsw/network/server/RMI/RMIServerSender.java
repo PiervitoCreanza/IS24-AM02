@@ -170,7 +170,7 @@ public class RMIServerSender implements ServerMessageHandler, PropertyChangeNoti
     @Override
     public void closeConnection() {
         if (isConnectionSaved.getAndSet(false)) {
-            this.listeners.firePropertyChange("CONNECTION_CLOSED", null, null);
+            this.listeners.firePropertyChange("CONNECTION_CLOSED", null, this);
         }
     }
 
