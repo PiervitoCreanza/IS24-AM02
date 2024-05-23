@@ -15,7 +15,7 @@ public class DecksComponent implements Drawable {
     /**
      * The draw area of the decks component.
      */
-    DrawArea drawArea;
+    private final DrawArea drawArea;
 
     /**
      * Constructs a new DecksComponent with the given parameters.

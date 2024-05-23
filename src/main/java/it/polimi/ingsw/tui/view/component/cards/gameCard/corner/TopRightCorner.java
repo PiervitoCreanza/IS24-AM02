@@ -5,8 +5,6 @@ import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 import it.polimi.ingsw.tui.view.drawer.Drawable;
 
-import java.util.Optional;
-
 /**
  * This class represents the top right corner of a game card.
  * It implements the Drawable interface, meaning it can be drawn on a DrawArea.
@@ -25,15 +23,15 @@ public class TopRightCorner implements Drawable {
      * @param topRightCorner The optional corner to be drawn.
      * @param color          The color to be used for drawing.
      */
-    public TopRightCorner(Optional<Corner> topRightCorner, ColorsEnum color) {
-        if (topRightCorner.isEmpty()) {
+    public TopRightCorner(Corner topRightCorner, ColorsEnum color) {
+        if (topRightCorner == null) {
             drawArea = new DrawArea("""
                     ────┐
                         │
                         │
                     """);
             drawArea.setColor(color);
-        } else if (topRightCorner.get().isCovered()) {
+        } else if (topRightCorner.isCovered()) {
             drawArea = new DrawArea("");
         } else {
             drawArea = new DrawArea("""
@@ -42,7 +40,7 @@ public class TopRightCorner implements Drawable {
                     └───┤
                     """);
             drawArea.setColor(color);
-            drawArea.drawAt(2, 1, topRightCorner.get().getGameItem().getSymbol(), topRightCorner.get().getGameItem().getColor());
+            drawArea.drawAt(2, 1, topRightCorner.getGameItem().getSymbol(), topRightCorner.getGameItem().getColor());
         }
     }
 

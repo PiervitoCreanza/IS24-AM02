@@ -13,7 +13,7 @@ public abstract class ServerToClientMessage {
      * The action that the server wants the client to perform.
      * This is represented as an enum value of ServerActionEnum.
      */
-    public ServerActionEnum serverAction;
+    public final ServerActionEnum serverAction;
 
     /**
      * Constructor for ServerToClientMessage.

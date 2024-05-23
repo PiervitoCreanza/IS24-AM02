@@ -51,9 +51,8 @@ public class Server {
      * It also implements the Observer interface, which allows it to be notified when a change occurs in the ServerMessageHandler.
      *
      * @param args the command line arguments. These can be used to specify the port numbers for the TCP and RMI servers, the server IP, and whether to start the server in debug mode.
-     * @throws RemoteException if an error occurs during the remote method call
      */
-    public static void main(String[] args) throws RemoteException {
+    public static void main(String[] args) {
         /* ***************************************
          * INSTANTIATE MAIN CONTROLLER and NETWORK COMMAND MAPPER
          * ***************************************/
@@ -91,14 +90,7 @@ public class Server {
      * @return a CommandLine object that can be used to query the command line arguments.
      */
     private static CommandLine parseCommandLineArgs(String[] args) {
-        Options options = new Options();
-        options.addOption("tp", "tcp_port", true, "TCP ServerApp Port number (default is 12345).");
-        options.addOption("rp", "rmi_port", true, "RMI ServerApp Port number (default is 1099).");
-        //TODO
-        options.addOption("ip", true, "RMI ServerApp server external IP (default is localhost).");
-        options.addOption("l", "localhost", false, "Start the server with his localhost ip address");
-        options.addOption("lan", "Start the server with his lan ip address.");
-        options.addOption("debug", "Start the Server in DEBUG mode.");
+        Options options = getOptions();
         CommandLineParser parser = new DefaultParser();
 
         try {
@@ -114,6 +106,17 @@ public class Server {
             System.exit(1);
         }
         return null;
+    }
+
+    private static Options getOptions() {
+        Options options = new Options();
+        options.addOption("tp", "tcp_port", true, "TCP ServerApp Port number (default is 12345).");
+        options.addOption("rp", "rmi_port", true, "RMI ServerApp Port number (default is 1099).");
+        options.addOption("ip", true, "Start the server with the specified IP address.");
+        options.addOption("l", "localhost", false, "Start the server with his localhost ip address");
+        options.addOption("lan", "Start the server with his lan ip address.");
+        options.addOption("debug", "Start the Server in DEBUG mode.");
+        return options;
     }
 
     /**

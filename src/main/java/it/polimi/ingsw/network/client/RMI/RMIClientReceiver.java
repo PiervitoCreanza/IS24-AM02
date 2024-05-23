@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.client.RMI;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
+import it.polimi.ingsw.network.server.message.ServerActionEnum;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import org.apache.logging.log4j.LogManager;
@@ -10,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * The RMIClientReceiver class is responsible for receiving messages from the server.
@@ -48,7 +50,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
     public void receiveGameList(ArrayList<GameRecord> games) throws RemoteException {
         new Thread(() -> clientNetworkControllerMapper.receiveGameList(games)).start();
         // Debug
-        logger.debug("RMI received message: {}", games);
+        printDebug(ServerActionEnum.GET_GAMES, "games: " + games.stream().map(GameRecord::gameName).collect(Collectors.toCollection(ArrayList::new)));
     }
 
     /**
@@ -60,7 +62,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
     public void receiveGameDeleted(String message) throws RemoteException {
         new Thread(() -> clientNetworkControllerMapper.receiveGameDeleted(message)).start();
         // Debug
-        logger.debug("RMI received message: {}", message);
+        printDebug(ServerActionEnum.DELETE_GAME, "message: " + message);
     }
 
     /**
@@ -72,7 +74,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
     public void receiveUpdatedView(GameControllerView updatedView) throws RemoteException {
         new Thread(() -> clientNetworkControllerMapper.receiveUpdatedView(updatedView)).start();
         // Debug
-        logger.debug("RMI received message: " + updatedView);
+        printDebug(ServerActionEnum.UPDATE_VIEW, "view: " + updatedView.toString());
     }
 
     /**
@@ -84,7 +86,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
     public void receiveErrorMessage(String errorMessage) throws RemoteException {
         new Thread(() -> clientNetworkControllerMapper.receiveErrorMessage(errorMessage)).start();
         // Debug
-        logger.debug("RMI received message: {}", errorMessage);
+        printDebug(ServerActionEnum.ERROR_MSG, "error: " + errorMessage);
     }
 
     /**
@@ -103,14 +105,32 @@ public class RMIClientReceiver implements RMIServerToClientActions {
     public void receiveChatMessage(String playerName, String message, long timestamp, boolean isDirect) throws RemoteException {
         new Thread(() -> clientNetworkControllerMapper.receiveChatMessage(playerName, message, timestamp, isDirect)).start();
         // Debug
-        logger.debug("RMI received message: {}", playerName);
+        printDebug(ServerActionEnum.RECEIVE_CHAT_MSG, "sender: " + playerName + " message: " + message + " timestamp: " + timestamp + " isDirect: " + isDirect);
     }
 
+    /**
+     * Sends a heartbeat signal to the server.
+     * This method is used to indicate that the client is still active.
+     * It throws a RemoteException if the RMI connection encounters an error.
+     *
+     * @throws RemoteException If an error occurs during the RMI connection.
+     */
     @Override
     public void heartbeat() throws RemoteException {
         if (Client.DEBUG) {
             logger.debug("Ping received");
         }
+    }
+
+    /**
+     * Prints a debug message to the console.
+     * This method is used to log the received messages for debugging purposes.
+     *
+     * @param serverAction The action performed by the server.
+     * @param content      The content of the message.
+     */
+    private void printDebug(ServerActionEnum serverAction, String content) {
+        logger.debug("RMI message received: {} {}", serverAction, content);
     }
 }
 

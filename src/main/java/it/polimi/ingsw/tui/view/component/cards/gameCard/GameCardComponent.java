@@ -1,6 +1,7 @@
 package it.polimi.ingsw.tui.view.component.cards.gameCard;
 
 import it.polimi.ingsw.model.card.GameItemEnum;
+import it.polimi.ingsw.model.card.corner.Corner;
 import it.polimi.ingsw.model.card.corner.CornerPosition;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.utils.Coordinate;
@@ -14,6 +15,7 @@ import it.polimi.ingsw.tui.view.drawer.DrawArea;
 import it.polimi.ingsw.tui.view.drawer.Drawable;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * This class represents a game card component in the game.
@@ -44,10 +46,10 @@ public class GameCardComponent implements Drawable {
                      ─────────────
                 """);
         drawArea.setColor(color);
-        drawArea.drawAt(0, 0, new TopLeftCorner(gameCard.getCorner(CornerPosition.TOP_LEFT), color).getDrawArea());
-        drawArea.drawAt(18, 0, new TopRightCorner(gameCard.getCorner(CornerPosition.TOP_RIGHT), color).getDrawArea());
-        drawArea.drawAt(0, 4, new BottomLeftCorner(gameCard.getCorner(CornerPosition.BOTTOM_LEFT), color).getDrawArea());
-        drawArea.drawAt(18, 4, new BottomRightCorner(gameCard.getCorner(CornerPosition.BOTTOM_RIGHT), color).getDrawArea());
+        drawArea.drawAt(0, 0, new TopLeftCorner(getCorner(gameCard, CornerPosition.TOP_LEFT), color).getDrawArea());
+        drawArea.drawAt(18, 0, new TopRightCorner(getCorner(gameCard, CornerPosition.TOP_RIGHT), color).getDrawArea());
+        drawArea.drawAt(0, 4, new BottomLeftCorner(getCorner(gameCard, CornerPosition.BOTTOM_LEFT), color).getDrawArea());
+        drawArea.drawAt(18, 4, new BottomRightCorner(getCorner(gameCard, CornerPosition.BOTTOM_RIGHT), color).getDrawArea());
         drawArea.drawAt(6, 1, pointsComponent(gameCard.getPoints(), gameCard.getMultiplier(), gameCard.isGoldPositional()));
         drawArea.drawCenteredX(5, neededItemsComponent(gameCard.getNeededItemStore()));
         drawArea.drawAt(9, 2, itemStoreComponent(gameCard.getBackItemStore()));
@@ -89,10 +91,10 @@ public class GameCardComponent implements Drawable {
                      ─────────────
                 """);
         drawArea.setColor(color);
-        drawArea.drawAt(0, 0, new TopLeftCorner(gameCard.getCorner(CornerPosition.TOP_LEFT), color).getDrawArea());
-        drawArea.drawAt(18, 0, new TopRightCorner(gameCard.getCorner(CornerPosition.TOP_RIGHT), color).getDrawArea());
-        drawArea.drawAt(0, 4, new BottomLeftCorner(gameCard.getCorner(CornerPosition.BOTTOM_LEFT), color).getDrawArea());
-        drawArea.drawAt(18, 4, new BottomRightCorner(gameCard.getCorner(CornerPosition.BOTTOM_RIGHT), color).getDrawArea());
+        drawArea.drawAt(0, 0, new TopLeftCorner(getCorner(gameCard, CornerPosition.TOP_LEFT), color).getDrawArea());
+        drawArea.drawAt(18, 0, new TopRightCorner(getCorner(gameCard, CornerPosition.TOP_RIGHT), color).getDrawArea());
+        drawArea.drawAt(0, 4, new BottomLeftCorner(getCorner(gameCard, CornerPosition.BOTTOM_LEFT), color).getDrawArea());
+        drawArea.drawAt(18, 4, new BottomRightCorner(getCorner(gameCard, CornerPosition.BOTTOM_RIGHT), color).getDrawArea());
         drawArea.drawAt(6, 1, pointsComponent(gameCard.getPoints(), gameCard.getMultiplier(), gameCard.isGoldPositional()));
         drawArea.drawCenteredX(5, neededItemsComponent(gameCard.getNeededItemStore()));
         drawArea.drawAt(9, 2, itemStoreComponent(gameCard.getBackItemStore()));
@@ -103,7 +105,7 @@ public class GameCardComponent implements Drawable {
      * Constructor for a GameCardComponent.
      * Draws the missing game card and its number.
      *
-     * @param number
+     * @param number The number of the missing game card.
      */
     public GameCardComponent(int number) {
         drawArea = new DrawArea("""
@@ -196,6 +198,17 @@ public class GameCardComponent implements Drawable {
         return drawArea;
     }
 
+    /**
+     * Returns the corner of the game card at the specified position.
+     *
+     * @param gameCard       The game card.
+     * @param cornerPosition The position of the corner.
+     * @return The corner of the game card at the specified position.
+     */
+    private Corner getCorner(GameCard gameCard, CornerPosition cornerPosition) {
+        Optional<Corner> corner = gameCard.getCorner(cornerPosition);
+        return corner.orElse(null);
+    }
 
     /**
      * Returns the height of the drawable object.

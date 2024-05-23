@@ -114,7 +114,7 @@ public class RMIServerSender implements ServerMessageHandler, PropertyChangeNoti
         }
 
         // Debug
-        logger.debug("RMI message sent: SERVER_ACTION: {}", message.getServerAction());
+        logger.debug("RMI message sent: {}", message.getServerAction());
     }
 
     /**

@@ -15,7 +15,7 @@ public class FrontGameCard extends SideGameCard {
     /**
      * The number of points associated with this front side of the card.
      */
-    protected int points;
+    protected final int points;
 
     /**
      * Constructs a FrontGameCard object with specified corners and points.

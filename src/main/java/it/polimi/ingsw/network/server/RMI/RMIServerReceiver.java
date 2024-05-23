@@ -4,12 +4,8 @@ import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
-import it.polimi.ingsw.network.client.message.ClientToServerMessage;
-import it.polimi.ingsw.network.client.message.gameController.*;
-import it.polimi.ingsw.network.client.message.mainController.CreateGameClientToServerMessage;
-import it.polimi.ingsw.network.client.message.mainController.DeleteGameClientToServerMessage;
-import it.polimi.ingsw.network.client.message.mainController.GetGamesClientToServerMessage;
-import it.polimi.ingsw.network.client.message.mainController.JoinGameClientToServerMessage;
+import it.polimi.ingsw.network.client.message.PlayerActionEnum;
+import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.network.server.ServerMessageHandler;
 import it.polimi.ingsw.network.server.ServerNetworkControllerMapper;
 import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
@@ -70,7 +66,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     public void getGames(RMIServerToClientActions stub) throws RemoteException {
         new Thread(() -> serverNetworkControllerMapper.getGames(instanceRMIServerAdapter(stub))).start();
         // Debug
-        printDebug(new GetGamesClientToServerMessage());
+        printDebug(PlayerActionEnum.GET_GAMES, "");
     }
 
     /* All the methods that can be called from a ClientAsAClient on Server */
@@ -86,7 +82,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     public void createGame(RMIServerToClientActions stub, String gameName, String playerName, int nPlayers) throws RemoteException {
         new Thread(() -> serverNetworkControllerMapper.createGame(instanceRMIServerAdapter(stub), gameName, playerName, nPlayers)).start();
         // Debug
-        printDebug(new CreateGameClientToServerMessage(gameName, playerName, nPlayers));
+        printDebug(PlayerActionEnum.CREATE_GAME, "gameName: " + gameName + " playerName: " + playerName + " nPlayers: " + nPlayers);
     }
 
     /**
@@ -98,7 +94,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     public void deleteGame(RMIServerToClientActions stub, String gameName, String playerName) throws RemoteException {
         new Thread(() -> serverNetworkControllerMapper.deleteGame(instanceRMIServerAdapter(stub), gameName, playerName)).start();
         // Debug
-        printDebug(new DeleteGameClientToServerMessage(gameName, playerName));
+        inGamePrintDebug(PlayerActionEnum.DELETE_GAME, gameName, playerName, "");
     }
 
     /**
@@ -111,7 +107,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     public void joinGame(RMIServerToClientActions stub, String gameName, String playerName) throws RemoteException {
         new Thread(() -> serverNetworkControllerMapper.joinGame(instanceRMIServerAdapter(stub), gameName, playerName)).start();
         // Debug
-        printDebug(new JoinGameClientToServerMessage(gameName, playerName));
+        printDebug(PlayerActionEnum.JOIN_GAME, "gameName: " + gameName + " playerName: " + playerName);
     }
 
     /**
@@ -125,7 +121,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     public void choosePlayerColor(String gameName, String playerName, PlayerColorEnum playerColor) throws RemoteException {
         new Thread(() -> serverNetworkControllerMapper.choosePlayerColor(gameName, playerName, playerColor)).start();
         // Debug
-        printDebug(new ChoosePlayerColorClientToServerMessage(gameName, playerName, playerColor));
+        inGamePrintDebug(PlayerActionEnum.CHOOSE_PLAYER_COLOR, gameName, playerName, "playerColor: " + playerColor);
     }
 
     /**
@@ -139,7 +135,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     public void setPlayerObjective(String gameName, String playerName, int cardId) throws RemoteException {
         new Thread(() -> serverNetworkControllerMapper.setPlayerObjective(gameName, playerName, cardId)).start();
         // Debug
-        printDebug(new SetPlayerObjectiveClientToServerMessage(gameName, playerName, cardId));
+        inGamePrintDebug(PlayerActionEnum.SET_PLAYER_OBJECTIVE, gameName, playerName, "cardId: " + cardId);
     }
 
 
@@ -155,7 +151,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     public void placeCard(String gameName, String playerName, Coordinate coordinate, int cardId, boolean isFlipped) throws RemoteException {
         new Thread(() -> serverNetworkControllerMapper.placeCard(gameName, playerName, coordinate, cardId, isFlipped)).start();
         // Debug
-        printDebug(new PlaceCardClientToServerMessage(gameName, playerName, coordinate, cardId, isFlipped));
+        inGamePrintDebug(PlayerActionEnum.PLACE_CARD, gameName, playerName, "coordinate: " + coordinate + " cardId: " + cardId + " isFlipped: " + isFlipped);
     }
 
     /**
@@ -169,7 +165,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     public void drawCardFromField(String gameName, String playerName, GameCard card) throws RemoteException {
         new Thread(() -> serverNetworkControllerMapper.drawCardFromField(gameName, playerName, card)).start();
         // Debug
-        printDebug(new DrawCardFromFieldClientToServerMessage(gameName, playerName, card));
+        inGamePrintDebug(PlayerActionEnum.DRAW_CARD_FROM_FIELD, gameName, playerName, "card: " + card.getCardId());
     }
 
     /**
@@ -182,7 +178,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     public void drawCardFromResourceDeck(String gameName, String playerName) throws RemoteException {
         new Thread(() -> serverNetworkControllerMapper.drawCardFromResourceDeck(gameName, playerName)).start();
         // Debug
-        printDebug(new DrawCardFromResourceDeckClientToServerMessage(gameName, playerName));
+        inGamePrintDebug(PlayerActionEnum.DRAW_CARD_FROM_RESOURCE_DECK, gameName, playerName, "");
     }
 
     /**
@@ -195,7 +191,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     public void drawCardFromGoldDeck(String gameName, String playerName) throws RemoteException {
         new Thread(() -> serverNetworkControllerMapper.drawCardFromGoldDeck(gameName, playerName)).start();
         // Debug
-        printDebug(new DrawCardFromGoldDeckClientToServerMessage(gameName, playerName));
+        inGamePrintDebug(PlayerActionEnum.DRAW_CARD_FROM_GOLD_DECK, gameName, playerName, "");
     }
 
     /**
@@ -209,20 +205,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     public void switchCardSide(String gameName, String playerName, int cardId) throws RemoteException {
         new Thread(() -> serverNetworkControllerMapper.switchCardSide(gameName, playerName, cardId)).start();
         // Debug
-        printDebug(new SwitchCardSideClientToServerMessage(gameName, playerName, cardId));
-    }
-
-    /**
-     * This method creates an instance of RMIServerSender and adds the current object as an observer.
-     * It is used to create a new connection to a client.
-     *
-     * @param stub the stub used to call methods on the client's remote object
-     * @return an instance of RMIServerSender
-     */
-    private RMIServerSender instanceRMIServerAdapter(RMIServerToClientActions stub) {
-        RMIServerSender rmiServerSender = new RMIServerSender(stub);
-        rmiServerSender.addPropertyChangeListener(this);
-        return rmiServerSender;
+        inGamePrintDebug(PlayerActionEnum.SWITCH_CARD_SIDE, gameName, playerName, "cardId: " + cardId);
     }
 
     /**
@@ -239,6 +222,8 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     @Override
     public void chatMessageSender(String gameName, String playerName, String message, String receiver, long timestamp) throws RemoteException {
         new Thread(() -> serverNetworkControllerMapper.sendChatMessage(gameName, playerName, message, receiver, timestamp)).start();
+        // Debug
+        inGamePrintDebug(PlayerActionEnum.SEND_CHAT_MSG, gameName, playerName, "message: " + message + " receiver: " + receiver + " timestamp: " + timestamp);
     }
 
     /**
@@ -249,6 +234,9 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
      */
     @Override
     public void heartbeat() throws RemoteException {
+        if (Server.IS_DEBUG) {
+            logger.info("Received heartbeat from client");
+        }
     }
 
     /**
@@ -260,14 +248,42 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     @Override
     public void disconnect(String gameName, String playerName) throws RemoteException {
         new Thread(() -> serverNetworkControllerMapper.disconnect(gameName, playerName)).start();
+        // Debug
+        inGamePrintDebug(PlayerActionEnum.DISCONNECT, gameName, playerName, "");
+    }
+
+    /**
+     * This method creates an instance of RMIServerSender and adds the current object as an observer.
+     * It is used to create a new connection to a client.
+     *
+     * @param stub the stub used to call methods on the client's remote object
+     * @return an instance of RMIServerSender
+     */
+    private RMIServerSender instanceRMIServerAdapter(RMIServerToClientActions stub) {
+        RMIServerSender rmiServerSender = new RMIServerSender(stub);
+        rmiServerSender.addPropertyChangeListener(this);
+        return rmiServerSender;
     }
 
     /**
      * Prints a debug message with the details of the message received.
      *
-     * @param message the message received
+     * @param playerAction the action received
+     * @param content      the content of the message
      */
-    private void printDebug(ClientToServerMessage message) {
-        logger.debug("RMI message received: {} from: {} in game: {}", message.getPlayerAction(), message.getPlayerName(), message.getGameName());
+    private void printDebug(PlayerActionEnum playerAction, String content) {
+        logger.debug("RMI message received: {} {}", playerAction, content);
+    }
+
+    /**
+     * Prints a debug message with the details of the message received.
+     *
+     * @param playerAction the action received
+     * @param gameName     the name of the game
+     * @param playerName   the name of the player
+     * @param content      the content of the message
+     */
+    private void inGamePrintDebug(PlayerActionEnum playerAction, String gameName, String playerName, String content) {
+        printDebug(playerAction, "from player: " + playerName + " in game: " + gameName + " " + content);
     }
 }

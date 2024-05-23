@@ -98,6 +98,8 @@ public class RMIClientSender implements ClientMessageHandler, PropertyChangeNoti
             logger.error("RMI Server Unreachable - detected while sending message.");
             closeConnection();
         }
+        // Debug
+        logger.debug("RMI message sent: {}", message.getPlayerAction());
     }
 
     /**

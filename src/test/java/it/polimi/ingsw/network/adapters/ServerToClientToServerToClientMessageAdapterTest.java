@@ -40,11 +40,10 @@ public class ServerToClientToServerToClientMessageAdapterTest {
     @Test
     @DisplayName("Test if serialization and deserialization of UpdateViewServerToClientMessage works")
     public void serializeAndDeserializeUpdateViewServerMessage() {
-
+        GameControllerView gameControllerView;
         mainController.createGame("gameName", "playerName", 2);
         mainController.joinGame("gameName", "playerName2");
         GameControllerMiddleware gameControllerMiddleware = mainController.getGameController("gameName");
-        GameControllerView gameControllerView = mainController.getVirtualView("gameName");
         GameCard gameCard = mainController.getVirtualView("gameName").gameView().playerViews().stream().filter(playerView -> playerView.playerName().equals("playerName")).findFirst().get().starterCard();
         gameControllerMiddleware.placeCard("playerName", new Coordinate(0, 0), gameCard.getCardId());
         gameControllerView = mainController.getVirtualView("gameName");

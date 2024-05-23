@@ -143,7 +143,7 @@ public class TCPClientAdapter implements ClientMessageHandler, PropertyChangeLis
             logger.error("Error sending message: {}", e.getMessage());
         }
         // Debug
-        logger.debug("Message sent: " + serializedMessage);
+        logger.debug("Message sent: {}", serializedMessage);
     }
 
     /**

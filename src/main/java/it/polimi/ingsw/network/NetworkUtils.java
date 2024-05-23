@@ -20,7 +20,7 @@ public class NetworkUtils {
      * The method first checks if the "localhost" option is set in the command line.
      * If not, it checks if the "lan" option is set, in which case it tries to retrieve the local IP address.
      * If the "lan" option is not set, it checks if the "c" option is set, in which case it returns the value of this option.
-     * If none of the above options are set, it tries to retrieve the public IP address.
+     * If none of the above options set, it tries to retrieve the public IP address.
      *
      * @param cmd The command line options
      * @return The current host IP address
@@ -44,8 +44,8 @@ public class NetworkUtils {
             }
         }
 
-        if (cmd.hasOption("c")) {
-            return cmd.getOptionValue("c");
+        if (cmd.hasOption("ip")) {
+            return cmd.getOptionValue("ip");
         }
 
         // Get public ip address

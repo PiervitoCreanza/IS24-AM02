@@ -25,11 +25,10 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 /**
- * The TUIViewController class is the controller for the text user interface.
- * It is responsible for managing the user interface and the network controller.
+ * The TUIViewController class manages the scenes to be displayed to the user.
+ * Bind the client network controller mapper to the input from the user.
  */
 public class TUIViewController implements PropertyChangeListener, ViewController {
-
 
     /**
      * Instance of ClientNetworkControllerMapper to manage network requests.
@@ -60,10 +59,12 @@ public class TUIViewController implements PropertyChangeListener, ViewController
      * Chat scene.
      */
     private Scene chatScene;
+
     /**
      * Instance of SceneBuilder to manage different scenes in the game.
      */
     private final SceneBuilder sceneBuilder;
+
     /**
      * List of messages in the chat.
      */
@@ -73,6 +74,7 @@ public class TUIViewController implements PropertyChangeListener, ViewController
      * Winner scene.
      */
     private Scene winnerScene;
+
     /**
      * Boolean to check if the client is in chat scene.
      */
@@ -87,6 +89,7 @@ public class TUIViewController implements PropertyChangeListener, ViewController
      * List of players' cards.
      */
     private GameControllerView gameControllerView;
+
     /**
      * Boolean to check if the game is over.
      */
@@ -94,6 +97,8 @@ public class TUIViewController implements PropertyChangeListener, ViewController
 
     /**
      * Constructor for TUIViewController.
+     * It initializes the network controller and the scene builder.
+     * It starts the CLIReader for manages the user input.
      *
      * @param networkController the network controller.
      */
@@ -133,7 +138,6 @@ public class TUIViewController implements PropertyChangeListener, ViewController
     /**
      * Method used to set the game over status.
      * It's used to show the winner scene only one time.
-     * It can be set to true or false.
      *
      * @param isGameOver the game over status.
      */
@@ -167,7 +171,7 @@ public class TUIViewController implements PropertyChangeListener, ViewController
     }
 
     /**
-     * Method used by a UserInputScene to request a scene change.
+     * Method used to request a scene change.
      *
      * @param scene The scene to be selected.
      */
@@ -320,7 +324,7 @@ public class TUIViewController implements PropertyChangeListener, ViewController
     }
 
     /**
-     * Method to send a disconnect message.
+     * Method to send a disconnect message to the server.
      * It delegates the request to the network controller.
      */
     public void sendDisconnect() {
@@ -346,7 +350,7 @@ public class TUIViewController implements PropertyChangeListener, ViewController
     }
 
     /**
-     * Method to close the connection.
+     * Method to close the local connection.
      * It delegates the request to the network controller.
      */
     public void closeConnection() {

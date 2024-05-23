@@ -28,7 +28,7 @@ public class GetGamesServerToClientMessage extends ServerToClientMessage {
     /**
      * Method that returns the list of games.
      *
-     * @return the set of games.
+     * @return the list of games.
      */
     @Override
     public ArrayList<GameRecord> getGames() {
