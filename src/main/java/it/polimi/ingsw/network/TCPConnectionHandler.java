@@ -188,7 +188,7 @@ public class TCPConnectionHandler extends Thread implements PropertyChangeNotifi
             while (this.isConnected.get()) {
                 String message = receivedMessages.poll();
                 if (message != null) {
-                    notify("MESSAGE_RECEIVED", message);
+                    this.listeners.firePropertyChange("MESSAGE_RECEIVED", null, message);
                 }
 
             }
@@ -220,7 +220,7 @@ public class TCPConnectionHandler extends Thread implements PropertyChangeNotifi
                 // TODO: Improve code
                 this.isConnected.set(false);
                 this.receivedMessages.clear();
-                notify("CONNECTION_CLOSED", null);
+                this.listeners.firePropertyChange("CONNECTION_CLOSED", null, null);
                 socket.close();
             } catch (IOException ignored) {
                 // This exception is ignored because we are closing the connection.
@@ -248,31 +248,6 @@ public class TCPConnectionHandler extends Thread implements PropertyChangeNotifi
     @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         this.listeners.removePropertyChangeListener(listener);
-    }
-
-    /**
-     * Notifies all listeners about the change of a property.
-     * The PropertyChangeListeners firePropertyChange methods will be called.
-     *
-     * @param propertyName The name of the property that was changed
-     * @param message      The new value of the property
-     */
-    @Override
-    public void notify(String propertyName, Object message) {
-        this.listeners.firePropertyChange(propertyName, null, message);
-    }
-
-    /**
-     * Notifies all listeners about the change of a property.
-     * The PropertyChangeListeners firePropertyChange methods will be called.
-     *
-     * @param propertyName The name of the property that was changed
-     * @param oldMessage   The old value of the property
-     * @param message      The new value of the property
-     */
-    @Override
-    public void notify(String propertyName, Object oldMessage, Object message) {
-        this.listeners.firePropertyChange(propertyName, oldMessage, message);
     }
 }
 

@@ -95,7 +95,7 @@ public class TCPConnection implements Connection, PropertyChangeListener {
             quit();
         }
         logger.info("TCP connection established");
-        notify("CONNECTION_ESTABLISHED", null);
+        this.listeners.firePropertyChange("CONNECTION_ESTABLISHED", null, null);
     }
 
     /**
@@ -143,30 +143,4 @@ public class TCPConnection implements Connection, PropertyChangeListener {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         this.listeners.removePropertyChangeListener(listener);
     }
-
-    /**
-     * Notifies all listeners about the change of a property.
-     * The PropertyChangeListeners firePropertyChange methods will be called.
-     *
-     * @param propertyName The name of the property that was changed
-     * @param message      The new value of the property
-     */
-    @Override
-    public void notify(String propertyName, Object message) {
-        this.listeners.firePropertyChange(propertyName, null, message);
-    }
-
-    /**
-     * Notifies all listeners about the change of a property.
-     * The PropertyChangeListeners firePropertyChange methods will be called.
-     *
-     * @param propertyName The name of the property that was changed
-     * @param oldMessage   The old value of the property
-     * @param message      The new value of the property
-     */
-    @Override
-    public void notify(String propertyName, Object oldMessage, Object message) {
-        this.listeners.firePropertyChange(propertyName, oldMessage, message);
-    }
-
 }

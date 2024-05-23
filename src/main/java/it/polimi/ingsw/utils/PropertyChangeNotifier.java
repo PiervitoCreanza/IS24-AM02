@@ -24,23 +24,4 @@ public interface PropertyChangeNotifier {
      * @param listener The PropertyChangeListener to be removed
      */
     void removePropertyChangeListener(PropertyChangeListener listener);
-
-    /**
-     * Notifies all listeners about the change of a property.
-     * The PropertyChangeListeners firePropertyChange methods will be called.
-     *
-     * @param propertyName The name of the property that was changed
-     * @param message      The new value of the property
-     */
-    void notify(String propertyName, Object message);
-
-    /**
-     * Notifies all listeners about the change of a property.
-     * The PropertyChangeListeners firePropertyChange methods will be called.
-     *
-     * @param propertyName The name of the property that was changed
-     * @param oldMessage   The old value of the property
-     * @param message      The new value of the property
-     */
-    void notify(String propertyName, Object oldMessage, Object message);
 }

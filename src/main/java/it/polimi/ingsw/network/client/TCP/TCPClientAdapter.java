@@ -93,7 +93,7 @@ public class TCPClientAdapter implements ClientMessageHandler, PropertyChangeLis
         switch (changedProperty) {
             case "CONNECTION_CLOSED" -> {
                 logger.warn("Connection with server lost.");
-                notify("CONNECTION_CLOSED", null);
+                this.listeners.firePropertyChange("CONNECTION_CLOSED", null, null);
             }
             case "MESSAGE_RECEIVED" -> this.receiveMessage((String) evt.getNewValue());
             default -> logger.error("Invalid property change.");
@@ -177,30 +177,5 @@ public class TCPClientAdapter implements ClientMessageHandler, PropertyChangeLis
     @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         this.listeners.removePropertyChangeListener(listener);
-    }
-
-    /**
-     * Notifies all listeners about the change of a property.
-     * The PropertyChangeListeners firePropertyChange methods will be called.
-     *
-     * @param propertyName The name of the property that was changed
-     * @param message      The new value of the property
-     */
-    @Override
-    public void notify(String propertyName, Object message) {
-        this.listeners.firePropertyChange(propertyName, null, message);
-    }
-
-    /**
-     * Notifies all listeners about the change of a property.
-     * The PropertyChangeListeners firePropertyChange methods will be called.
-     *
-     * @param propertyName The name of the property that was changed
-     * @param oldMessage   The old value of the property
-     * @param message      The new value of the property
-     */
-    @Override
-    public void notify(String propertyName, Object oldMessage, Object message) {
-        this.listeners.firePropertyChange(propertyName, oldMessage, message);
     }
 }

@@ -230,7 +230,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      */
     @Override
     public void receiveGameList(ArrayList<GameRecord> games) {
-        notify("GET_GAMES", games);
+        this.listeners.firePropertyChange("GET_GAMES", null, games);
     }
 
 
@@ -242,7 +242,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      */
     @Override
     public void receiveGameDeleted(String message) {
-        notify("GAME_DELETED", message);
+        this.listeners.firePropertyChange("GAME_DELETED", null, message);
     }
 
 
@@ -254,7 +254,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      */
     @Override
     public void receiveUpdatedView(GameControllerView updatedView) {
-        notify("UPDATE_VIEW", this.view, updatedView);
+        this.listeners.firePropertyChange("UPDATE_VIEW", this.view, updatedView);
         this.view = updatedView;
     }
 
@@ -267,7 +267,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      */
     @Override
     public void receiveErrorMessage(String errorMessage) {
-        notify("ERROR", errorMessage);
+        this.listeners.firePropertyChange("ERROR", null, errorMessage);
     }
 
     /**
@@ -281,7 +281,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      */
     @Override
     public void receiveChatMessage(String playerName, String message, long timestamp, boolean isDirect) {
-        notify("CHAT_MESSAGE", new ChatServerToClientMessage(playerName, message, timestamp, isDirect));
+        this.listeners.firePropertyChange("CHAT_MESSAGE", null, new ChatServerToClientMessage(playerName, message, timestamp, isDirect));
     }
 
     /* ***************************************
@@ -296,7 +296,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      */
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
-        listeners.addPropertyChangeListener(listener);
+        this.listeners.addPropertyChangeListener(listener);
     }
 
     /**
@@ -307,31 +307,6 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      */
     @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
-        listeners.removePropertyChangeListener(listener);
-    }
-
-    /**
-     * Notifies all listeners about the change of a property.
-     * The PropertyChangeListeners firePropertyChange methods will be called.
-     *
-     * @param propertyName The name of the property that was changed
-     * @param message The new value of the property
-     */
-    @Override
-    public void notify(String propertyName, Object message) {
-        listeners.firePropertyChange(propertyName, null, message);
-    }
-
-    /**
-     * Notifies all listeners about the change of a property.
-     * The PropertyChangeListeners firePropertyChange methods will be called.
-     *
-     * @param propertyName The name of the property that was changed
-     * @param oldMessage The old value of the property
-     * @param message The new value of the property
-     */
-    @Override
-    public void notify(String propertyName, Object oldMessage, Object message) {
-        listeners.firePropertyChange(propertyName, oldMessage, message);
+        this.listeners.removePropertyChangeListener(listener);
     }
 }
