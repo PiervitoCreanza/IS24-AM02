@@ -10,7 +10,9 @@
 <StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity"
            minHeight="-Infinity"
            minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0"
-           xmlns="http://javafx.com/javafx/21" fx:controller="it.polimi.ingsw.gui.controllers.HomeSceneController">
+           xmlns="http://javafx.com/javafx/21" fx:controller="it.polimi.ingsw.gui.controllers.HomeSceneController"
+           stylesheets="@/styles.css"
+>
     <ImageView fitHeight="1080.0" fitWidth="1920.0" pickOnBounds="true">
         <image>
             <Image url="/bg.png"/>
