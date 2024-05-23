@@ -235,7 +235,6 @@ class GameControllerMiddlewareTest {
         // Game is over
         assertEquals(GameStatusEnum.GAME_OVER, gameControllerMiddleware.getGameStatus());
     }
-    // TODO: Add test for game end with 3 or 4 players.
 
     @Test
     @DisplayName("Test setPlayerConnectionStatus")

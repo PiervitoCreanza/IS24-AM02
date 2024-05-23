@@ -82,7 +82,6 @@ public class TCPConnectionHandler extends Thread implements PropertyChangeNotifi
             heartbeat();
 
         } catch (IOException e) {
-            // TODO: Should we handle it differently?
             logger.fatal("Error while getting streams from socket: {}", e.getMessage());
             throw new RuntimeException(e);
         }
@@ -217,7 +216,6 @@ public class TCPConnectionHandler extends Thread implements PropertyChangeNotifi
     public synchronized void closeConnection() {
         if (!this.socket.isClosed()) {
             try {
-                // TODO: Improve code
                 this.isConnected.set(false);
                 this.receivedMessages.clear();
                 this.listeners.firePropertyChange("CONNECTION_CLOSED", null, null);
