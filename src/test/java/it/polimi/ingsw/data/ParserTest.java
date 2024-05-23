@@ -12,7 +12,10 @@ import it.polimi.ingsw.model.card.gameCard.front.FrontGameCard;
 import it.polimi.ingsw.model.card.gameCard.front.goldCard.FrontGoldGameCard;
 import it.polimi.ingsw.model.card.gameCard.front.goldCard.FrontItemGoldGameCard;
 import it.polimi.ingsw.model.card.gameCard.front.goldCard.FrontPositionalGoldGameCard;
-import it.polimi.ingsw.model.card.objectiveCard.*;
+import it.polimi.ingsw.model.card.objectiveCard.ItemObjectiveCard;
+import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.card.objectiveCard.PositionalData;
+import it.polimi.ingsw.model.card.objectiveCard.PositionalObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 import org.junit.jupiter.api.BeforeEach;
@@ -108,7 +111,7 @@ public class ParserTest {
         neededItemStore.set(GameItemEnum.PLANT, 2);
         neededItemStore.set(GameItemEnum.ANIMAL, 2);
         neededItemStore.set(GameItemEnum.INSECT, 2);
-        GameCard positionalGoldCard = new GameCard(101, new FrontPositionalGoldGameCard(null, new Corner(GameItemEnum.FUNGI), new Corner(GameItemEnum.ANIMAL), null, 2, neededItemStore), new BackGameCard(new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), gameItemStore), CardColorEnum.BLUE);
+        GameCard positionalGoldCard = new GameCard(101, new FrontPositionalGoldGameCard(null, new Corner(GameItemEnum.FUNGI), new Corner(GameItemEnum.ANIMAL), null, 2, neededItemStore), new BackGameCard(new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), gameItemStore), CardColorEnum.CYAN);
 
         // Deserialize
         assertEquals(positionalGoldCard, parser.deserializeFromJson(jsonPositionalGoldCard, GameCard.class));

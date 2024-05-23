@@ -103,8 +103,8 @@ public class ClientToServerToClientToServerToClientMessageAdapterTest {
         assertEquals(setPlayerObjectiveClientToServerMessage1, this.gson.fromJson(jsonSetPlayerObjectiveClientMessage1, ClientToServerMessage.class));
         ArrayList<PositionalData> positionalDataArrayList = new ArrayList<>();
         positionalDataArrayList.add(new PositionalData(new Coordinate(1, 1), CardColorEnum.RED));
-        positionalDataArrayList.add(new PositionalData(new Coordinate(1, 2), CardColorEnum.BLUE));
-        positionalDataArrayList.add(new PositionalData(new Coordinate(1, 3), CardColorEnum.BLUE));
+        positionalDataArrayList.add(new PositionalData(new Coordinate(1, 2), CardColorEnum.CYAN));
+        positionalDataArrayList.add(new PositionalData(new Coordinate(1, 3), CardColorEnum.CYAN));
         ObjectiveCard objectiveCard2 = new PositionalObjectiveCard(1, 2, positionalDataArrayList);
         ClientToServerMessage setPlayerObjectiveClientToServerMessage2 = new SetPlayerObjectiveClientToServerMessage("Game2", "Player2", objectiveCard2.getCardId());
         // Serialize

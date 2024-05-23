@@ -15,7 +15,7 @@ public enum GameItemEnum {
     /**
      * ANIMAL is a game resource.
      */
-    ANIMAL("A", ColorsEnum.BLUE),
+    ANIMAL("A", ColorsEnum.CYAN),
     /**
      * STONE is a game resource.
      */

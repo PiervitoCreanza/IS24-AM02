@@ -80,6 +80,8 @@ public class MenuHandler {
         for (MenuItem item : items) {
             drawArea.drawNewLine("Press <" + item.getOpt() + "> to " + item.getLabel(), 0);
         }
+        // If the print has been called, the selected item must be reset.
+        selectedMenuItem = null;
         return drawArea;
     }
 

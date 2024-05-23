@@ -1,6 +1,7 @@
 package it.polimi.ingsw.tui.view.scene;
 
 import it.polimi.ingsw.tui.controller.TUIViewController;
+import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.component.userInputHandler.menu.MenuHandler;
 import it.polimi.ingsw.tui.view.component.userInputHandler.menu.MenuItem;
@@ -47,12 +48,34 @@ public class MainMenuScene implements Scene, PropertyChangeListener {
      */
     public MainMenuScene(TUIViewController controller) {
         this.controller = controller;
-        this.drawArea = new TitleComponent("Main Menu").getDrawArea();
+        this.drawArea = new DrawArea();
+        this.drawArea.drawAt(0, drawArea.getHeight(), """
+                                       ▄████████  ▄██████▄  ████████▄     ▄████████ ▀████     ████▀                                       
+                                      ███    ███ ███    ███ ███   ▀███   ███    ███   ███    ████▀                                        
+                                      ███    █▀  ███    ███ ███    ███   ███    █▀     ███   ███                                          
+                                      ███        ███    ███ ███    ███  ▄███▄▄▄        ▀███▄███▀                                          
+                                      ███        ███    ███ ███    ███ ▀▀███▀▀▀        ████▀██▄                                           
+                                      ███    █▄  ███    ███ ███    ███   ███    █▄     ███  ▀███                                          
+                                      ███    ███ ███    ███ ███   ▄███   ███    ███  ▄███     ███▄                                        
+                                      ████████▀   ▀██████▀  ████████▀    ██████████ ████       ███▄                                       
+                                                                                                                       
+                   ███▄▄▄▄      ▄████████     ███     ███    █▄     ▄████████    ▄████████  ▄█        ▄█     ▄████████ 
+                   ███▀▀▀██▄   ███    ███ ▀█████████▄ ███    ███   ███    ███   ███    ███ ███       ███    ███    ███ 
+                   ███   ███   ███    ███    ▀███▀▀██ ███    ███   ███    ███   ███    ███ ███       ███    ███    █▀  
+                   ███   ███   ███    ███     ███   ▀ ███    ███  ▄███▄▄▄▄██▀   ███    ███ ███       ███    ███        
+                   ███   ███ ▀███████████     ███     ███    ███ ▀▀███▀▀▀▀▀   ▀███████████ ███       ███  ▀███████████ 
+                   ███   ███   ███    ███     ███     ███    ███ ▀███████████   ███    ███ ███       ███           ███ 
+                   ███   ███   ███    ███     ███     ███    ███   ███    ███   ███    ███ ███     ▄ ███     ▄█    ███ 
+                    ▀█   █▀    ███    █▀     ▄████▀   ████████▀    ███    ███   ███    █▀  █████▄▄██ █▀    ▄████████▀  
+                                                                           ███    ███              ▀                           
+                """, ColorsEnum.BRIGHT_WHITE);
+        this.drawArea.drawAt(0, drawArea.getHeight(), new TitleComponent("Main Menu", drawArea.getWidth()).getDrawArea());
         this.menuHandler = new MenuHandler(this,
                 new MenuItem("l", "list available games", new EmptyCommand()),
                 new MenuItem("c", "create a new game", new EmptyCommand()),
                 new MenuItem("q", "quit", new EmptyCommand())
         );
+        this.drawArea.drawCenteredX(drawArea.getHeight(), this.menuHandler.getDrawArea());
     }
 
     /**
@@ -62,7 +85,6 @@ public class MainMenuScene implements Scene, PropertyChangeListener {
     @Override
     public void display() {
         this.drawArea.println();
-        menuHandler.print();
     }
 
     /**
@@ -93,4 +115,5 @@ public class MainMenuScene implements Scene, PropertyChangeListener {
             default -> logger.error("Invalid property change event");
         }
     }
+
 }

@@ -15,7 +15,7 @@ public enum CardColorEnum {
     /**
      * Represents a card of color blue.
      */
-    BLUE(ColorsEnum.BLUE),
+    CYAN(ColorsEnum.CYAN),
 
     /**
      * Represents a card of color green.

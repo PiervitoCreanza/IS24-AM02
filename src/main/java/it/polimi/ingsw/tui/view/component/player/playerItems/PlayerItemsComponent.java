@@ -46,10 +46,10 @@ public class PlayerItemsComponent implements Drawable {
                 │              =      │
                 └─────────────────────┘
                 """);
-        playerResourcesDrawArea.drawAt(4, 2, "F [Fungi]", ColorsEnum.RED);
-        playerResourcesDrawArea.drawAt(4, 3, "P [Plant]", ColorsEnum.GREEN);
-        playerResourcesDrawArea.drawAt(4, 4, "A [Animal]", ColorsEnum.CYAN);
-        playerResourcesDrawArea.drawAt(4, 5, "I [Insect]", ColorsEnum.PURPLE);
+        playerResourcesDrawArea.drawAt(4, 2, "F [Fungi]", GameItemEnum.FUNGI.getColor());
+        playerResourcesDrawArea.drawAt(4, 3, "P [Plant]", GameItemEnum.PLANT.getColor());
+        playerResourcesDrawArea.drawAt(4, 4, "A [Animal]", GameItemEnum.ANIMAL.getColor());
+        playerResourcesDrawArea.drawAt(4, 5, "I [Insect]", GameItemEnum.INSECT.getColor());
         playerResourcesDrawArea.drawCenteredX(18, 20, 2, new DrawArea(gameItemStore.get(GameItemEnum.FUNGI).toString()));
         playerResourcesDrawArea.drawCenteredX(18, 20, 3, new DrawArea(gameItemStore.get(GameItemEnum.PLANT).toString()));
         playerResourcesDrawArea.drawCenteredX(18, 20, 4, new DrawArea(gameItemStore.get(GameItemEnum.ANIMAL).toString()));

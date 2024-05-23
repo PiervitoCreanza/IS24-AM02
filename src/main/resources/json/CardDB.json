@@ -1158,7 +1158,7 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       {
         "cardId": 22,
@@ -1213,7 +1213,7 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       {
         "cardId": 23,
@@ -1268,7 +1268,7 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       {
         "cardId": 24,
@@ -1323,7 +1323,7 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       {
         "cardId": 25,
@@ -1378,7 +1378,7 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       {
         "cardId": 26,
@@ -1433,7 +1433,7 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       {
         "cardId": 27,
@@ -1488,7 +1488,7 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       {
         "cardId": 28,
@@ -1543,7 +1543,7 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       {
         "cardId": 29,
@@ -1598,7 +1598,7 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       {
         "cardId": 30,
@@ -1653,7 +1653,7 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       {
         "cardId": 31,
@@ -2682,7 +2682,7 @@
               }
             }
           },
-          "cardColorEnum": "BLUE"
+          "cardColorEnum": "CYAN"
         },
         {
           "cardId": 62,
@@ -2750,7 +2750,7 @@
               }
             }
           },
-          "cardColorEnum": "BLUE"
+          "cardColorEnum": "CYAN"
         },
         {
           "cardId": 63,
@@ -2818,7 +2818,7 @@
               }
             }
           },
-          "cardColorEnum": "BLUE"
+          "cardColorEnum": "CYAN"
         },
         {
           "cardId": 71,
@@ -3493,7 +3493,7 @@
               }
             }
           },
-          "cardColorEnum": "BLUE"
+          "cardColorEnum": "CYAN"
         },
         {
           "cardId": 65,
@@ -3560,7 +3560,7 @@
               }
             }
           },
-          "cardColorEnum": "BLUE"
+          "cardColorEnum": "CYAN"
         },
         {
           "cardId": 66,
@@ -3627,7 +3627,7 @@
               }
             }
           },
-          "cardColorEnum": "BLUE"
+          "cardColorEnum": "CYAN"
         },
         {
           "cardId": 74,
@@ -4397,7 +4397,7 @@
               }
             }
           },
-          "cardColorEnum": "BLUE"
+          "cardColorEnum": "CYAN"
         },
         {
           "cardId": 68,
@@ -4460,7 +4460,7 @@
               }
             }
           },
-          "cardColorEnum": "BLUE"
+          "cardColorEnum": "CYAN"
         },
         {
           "cardId": 69,
@@ -4523,7 +4523,7 @@
               }
             }
           },
-          "cardColorEnum": "BLUE"
+          "cardColorEnum": "CYAN"
         },
         {
           "cardId": 70,
@@ -4586,7 +4586,7 @@
               }
             }
           },
-          "cardColorEnum": "BLUE"
+          "cardColorEnum": "CYAN"
         },
         {
           "cardId": 77,
@@ -5246,21 +5246,21 @@
               "x": 0,
               "y": 0
             },
-            "cardColorEnum": "BLUE"
+            "cardColorEnum": "CYAN"
           },
           {
             "coordinate": {
               "x": -1,
               "y": -1
             },
-            "cardColorEnum": "BLUE"
+            "cardColorEnum": "CYAN"
           },
           {
             "coordinate": {
               "x": -2,
               "y": -2
             },
-            "cardColorEnum": "BLUE"
+            "cardColorEnum": "CYAN"
           }
         ],
         "cardId": 89,
@@ -5361,14 +5361,14 @@
               "x": -1,
               "y": -1
             },
-            "cardColorEnum": "BLUE"
+            "cardColorEnum": "CYAN"
           },
           {
             "coordinate": {
               "x": -1,
               "y": -3
             },
-            "cardColorEnum": "BLUE"
+            "cardColorEnum": "CYAN"
           }
         ],
         "cardId": 93,
@@ -5381,7 +5381,7 @@
               "x": 0,
               "y": 0
             },
-            "cardColorEnum": "BLUE"
+            "cardColorEnum": "CYAN"
           },
           {
             "coordinate": {
