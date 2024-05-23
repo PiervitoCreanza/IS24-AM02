@@ -54,6 +54,7 @@ public class Utils {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
             } else if (os.contains("nix") || os.contains("nux") || os.contains("mac")) {
                 System.out.print(Utils.ANSI_CLEAR_UNIX);
+                System.out.flush();
             } else {
                 // Fallback to printing new lines if OS detection failed
                 for (int i = 0; i < 100; i++) {
