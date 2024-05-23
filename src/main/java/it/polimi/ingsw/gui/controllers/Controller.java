@@ -17,10 +17,12 @@ public abstract class Controller {
      * The current scene.
      */
     private static Scene scene;
+
     /**
      * The name of the previously shown scene.
      */
     private ControllersEnum previousLayoutName = ControllersEnum.START;
+
     /**
      * A flag indicating whether the current layout is active.
      */
@@ -62,29 +64,44 @@ public abstract class Controller {
      */
     public void switchScene(ControllersEnum nextScene) {
         Platform.runLater(() -> {
+            // Call the beforeUnmount method of the current controller.
+            // This method is used to perform actions right before the window is unmounted.
             beforeUnmount();
+
+            // Set the current scene to false.
             isCurrentScene = false;
 
             Parent nextLayout;
             try {
+                // Load the next scene.
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/" + nextScene.getFxmlFileName() + ".fxml"));
-
                 nextLayout = loader.load();
 
+                // Get the next scene controller.
                 Controller nextController = loader.getController();
+
+                // Set the previous layout name on the next controller.
                 nextController.previousLayoutName = getName();
+
+                // Set the next controller as the current scene.
                 nextController.isCurrentScene = true;
+
+                // Call the beforeMount method of the next controller.
+                // This is used to perform actions right before the window is shown.
+                // For example subscribing to network events.
                 nextController.beforeMount();
             } catch (IOException e) {
                 throw new IllegalArgumentException("Could not load " + nextScene + "Layout", e);
             }
+
+            // Display the next scene.
             scene.setRoot(nextLayout);
         });
     }
 
     /**
-     * Sets a property in the scene.
+     * Sets a property shared among all controllers.
      *
      * @param property the name of the property.
      * @param value    the value of the property.
@@ -106,9 +123,9 @@ public abstract class Controller {
     }
 
     /**
-     * Returns whether the current layout is active.
+     * Returns whether the current scene is active.
      *
-     * @return true if the current layout is active, false otherwise.
+     * @return true if the current scene is active, false otherwise.
      */
     public boolean isCurrentScene() {
         return isCurrentScene;

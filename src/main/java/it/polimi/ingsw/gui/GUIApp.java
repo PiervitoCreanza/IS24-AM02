@@ -51,8 +51,6 @@ public class GUIApp extends Application {
         Parent root = loader.load();
         Scene scene = new Scene(root, DEFAULT_WIDTH, DEFAULT_HEIGTH);
 
-        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
-
         // Set the stage to the current scene.
         stage.setScene(scene);
 
