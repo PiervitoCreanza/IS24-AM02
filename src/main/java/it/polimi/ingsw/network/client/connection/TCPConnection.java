@@ -1,5 +1,6 @@
-package it.polimi.ingsw.network.client;
+package it.polimi.ingsw.network.client.connection;
 
+import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import it.polimi.ingsw.network.client.TCP.TCPClientAdapter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,17 +13,41 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.channels.IllegalBlockingModeException;
 
+/**
+ * The TCPConnection class implements the Connection interface using the TCP protocol.
+ * It also implements the PropertyChangeListener and PropertyChangeNotifier interfaces to provide property change support.
+ * It is responsible for establishing a connection between the client and the server.
+ */
 public class TCPConnection implements Connection, PropertyChangeListener {
 
+    /**
+     * The logger.
+     */
     private static final Logger logger = LogManager.getLogger(TCPConnection.class);
+    /**
+     * The network controller mapper.
+     */
     private final ClientNetworkControllerMapper networkControllerMapper;
+    /**
+     * The server IP.
+     */
     private final String serverIp;
-    private final int serverPort;
     /**
      * Listeners that will be notified when a message is received.
      */
     private final PropertyChangeSupport listeners;
+    /**
+     * The server port.
+     */
+    private final int serverPort;
 
+    /**
+     * Creates a new TCPConnection.
+     *
+     * @param networkControllerMapper The network controller mapper
+     * @param serverIp                The server IP
+     * @param serverPort              The server port
+     */
     public TCPConnection(ClientNetworkControllerMapper networkControllerMapper, String serverIp, int serverPort) {
         this.networkControllerMapper = networkControllerMapper;
         this.serverIp = serverIp;
@@ -30,6 +55,13 @@ public class TCPConnection implements Connection, PropertyChangeListener {
         this.listeners = new PropertyChangeSupport(this);
     }
 
+    /**
+     * Establishes a connection.
+     * It tries to connect to the server and, if successful, creates a TCPClientAdapter
+     * to handle the communication with the server.
+     * If the connection fails, it retries up to 5 times with a 5-second delay between each attempt.
+     * If it is not possible to connect after 5 attempts, the program will be closed.
+     */
     @Override
     public void connect() {
         int attempts = 1;
@@ -63,14 +95,23 @@ public class TCPConnection implements Connection, PropertyChangeListener {
             quit();
         }
         logger.info("TCP connection established");
-        listeners.firePropertyChange("CONNECTION_ESTABLISHED", null, null);
+        notify("CONNECTION_ESTABLISHED", null);
     }
 
+    /**
+     * Closes the program when it's impossible to establish a connection.
+     */
     @Override
     public void quit() {
-        System.exit(0);
+        System.exit(-1);
     }
 
+    /**
+     * This method is called when a property change event is fired.
+     * It is responsible for handling the property change event.
+     *
+     * @param evt The property change event that was fired
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String changedProperty = evt.getPropertyName();
@@ -87,6 +128,7 @@ public class TCPConnection implements Connection, PropertyChangeListener {
      *
      * @param listener The PropertyChangeListener to be added.
      */
+    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.listeners.addPropertyChangeListener(listener);
     }
@@ -97,8 +139,34 @@ public class TCPConnection implements Connection, PropertyChangeListener {
      *
      * @param listener The PropertyChangeListener to be removed.
      */
+    @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         this.listeners.removePropertyChangeListener(listener);
+    }
+
+    /**
+     * Notifies all listeners about the change of a property.
+     * The PropertyChangeListeners firePropertyChange methods will be called.
+     *
+     * @param propertyName The name of the property that was changed
+     * @param message      The new value of the property
+     */
+    @Override
+    public void notify(String propertyName, Object message) {
+        this.listeners.firePropertyChange(propertyName, null, message);
+    }
+
+    /**
+     * Notifies all listeners about the change of a property.
+     * The PropertyChangeListeners firePropertyChange methods will be called.
+     *
+     * @param propertyName The name of the property that was changed
+     * @param oldMessage   The old value of the property
+     * @param message      The new value of the property
+     */
+    @Override
+    public void notify(String propertyName, Object oldMessage, Object message) {
+        this.listeners.firePropertyChange(propertyName, oldMessage, message);
     }
 
 }

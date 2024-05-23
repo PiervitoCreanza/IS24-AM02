@@ -14,6 +14,7 @@ import it.polimi.ingsw.network.client.message.mainController.JoinGameClientToSer
 import it.polimi.ingsw.network.server.message.ChatServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
+import it.polimi.ingsw.utils.PropertyChangeNotifier;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
  * It is responsible for mapping the actions that the client can perform on the server.
  * This class is part of the network client package.
  */
-public class ClientNetworkControllerMapper implements ServerToClientActions {
+public class ClientNetworkControllerMapper implements ServerToClientActions, PropertyChangeNotifier {
 
     /**
      * The message handler for the client.
@@ -41,7 +42,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
     /**
      * The property change support.
      */
-    private final PropertyChangeSupport support;
+    private final PropertyChangeSupport listeners;
 
 
     /**
@@ -49,7 +50,34 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      * This constructor does not initialize any fields.
      */
     public ClientNetworkControllerMapper() {
-        support = new PropertyChangeSupport(this);
+        listeners = new PropertyChangeSupport(this);
+    }
+
+    /**
+     * Sets the message handler for the client.
+     * This method is used to set the message handler that will be used to send messages from the client to the server.
+     *
+     * @param messageHandler The message handler to be set.
+     */
+    public void setMessageHandler(ClientMessageHandler messageHandler) {
+        this.messageHandler = messageHandler;
+    }
+
+    /**
+     * Gets the view of the game controller.
+     * This method is used to get the current state of the game from the client's perspective.
+     *
+     * @return The view of the game controller.
+     */
+    public GameControllerView getView() {
+        return view;
+    }
+
+    /**
+     * Closes the connection of the current message handler.
+     */
+    public void closeConnection() {
+        messageHandler.closeConnection();
     }
 
     /* ***************************************
@@ -180,6 +208,12 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
         messageHandler.sendMessage(message);
     }
 
+    /**
+     * Sends a request to the server for the player to disconnect.
+     *
+     * @param gameName   The name of the game.
+     * @param playerName The name of the player disconnecting.
+     */
     public void sendDisconnect(String gameName, String playerName) {
         messageHandler.sendMessage(new DisconnectClientToServerMessage(gameName, playerName));
     }
@@ -187,7 +221,6 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
     /* ***************************************
      * METHODS INVOKED BY THE SERVER ON THE CLIENT
      * ***************************************/
-
 
     /**
      * Receives a list of games from the server.
@@ -235,7 +268,6 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
     @Override
     public void receiveErrorMessage(String errorMessage) {
         notify("ERROR", errorMessage);
-
     }
 
     /**
@@ -247,71 +279,59 @@ public class ClientNetworkControllerMapper implements ServerToClientActions {
      * @param timestamp  The timestamp when the message was created.
      * @param isDirect   Flag to indicate if the message is a direct message.
      */
+    @Override
     public void receiveChatMessage(String playerName, String message, long timestamp, boolean isDirect) {
         notify("CHAT_MESSAGE", new ChatServerToClientMessage(playerName, message, timestamp, isDirect));
-        //TODO: JavaFx / TUI event trigger?
     }
 
-    /**
-     * Sets the message handler for the client.
-     * This method is used to set the message handler that will be used to send messages from the client to the server.
-     *
-     * @param messageHandler The message handler to be set.
-     */
-    public void setMessageHandler(ClientMessageHandler messageHandler) {
-        this.messageHandler = messageHandler;
-    }
+    /* ***************************************
+     * PROPERTY CHANGE NOTIFIER METHODS
+     * ***************************************/
 
     /**
-     * Gets the view of the game controller.
-     * This method is used to get the current state of the game from the client's perspective.
+     * Adds a PropertyChangeListener to the listener list.
+     * The listener will be notified of property changes.
      *
-     * @return The view of the game controller.
+     * @param listener The PropertyChangeListener to be added
      */
-    public GameControllerView getView() {
-        return view;
-    }
-
-    /**
-     * Adds a PropertyChangeListener to the ClientNetworkCommandMapper.
-     *
-     * @param listener the PropertyChangeListener to be added.
-     */
+    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
-        support.addPropertyChangeListener(listener);
+        listeners.addPropertyChangeListener(listener);
     }
 
     /**
-     * Removes a PropertyChangeListener from the ClientNetworkCommandMapper.
+     * Removes a PropertyChangeListener from the listener list.
+     * The listener will no longer be notified of property changes.
      *
-     * @param listener the PropertyChangeListener to be removed.
+     * @param listener The PropertyChangeListener to be removed
      */
+    @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
-        support.removePropertyChangeListener(listener);
+        listeners.removePropertyChangeListener(listener);
     }
 
     /**
-     * Notifies of a message.
+     * Notifies all listeners about the change of a property.
+     * The PropertyChangeListeners firePropertyChange methods will be called.
      *
-     * @param propertyName the name of the property.
-     * @param message      the message to be sent.
+     * @param propertyName The name of the property that was changed
+     * @param message The new value of the property
      */
-    private void notify(String propertyName, Object message) {
-        support.firePropertyChange(propertyName, null, message);
+    @Override
+    public void notify(String propertyName, Object message) {
+        listeners.firePropertyChange(propertyName, null, message);
     }
 
     /**
-     * Notifies of a message.
+     * Notifies all listeners about the change of a property.
+     * The PropertyChangeListeners firePropertyChange methods will be called.
      *
-     * @param propertyName the name of the property.
-     * @param oldMessage   the old message.
-     * @param message      the message to be sent.
+     * @param propertyName The name of the property that was changed
+     * @param oldMessage The old value of the property
+     * @param message The new value of the property
      */
-    private void notify(String propertyName, Object oldMessage, Object message) {
-        support.firePropertyChange(propertyName, oldMessage, message);
-    }
-
-    public void closeConnection() {
-        messageHandler.closeConnection();
+    @Override
+    public void notify(String propertyName, Object oldMessage, Object message) {
+        listeners.firePropertyChange(propertyName, oldMessage, message);
     }
 }

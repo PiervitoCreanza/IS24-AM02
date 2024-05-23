@@ -1,6 +1,9 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.network.NetworkUtils;
+import it.polimi.ingsw.network.client.connection.Connection;
+import it.polimi.ingsw.network.client.connection.RMIConnection;
+import it.polimi.ingsw.network.client.connection.TCPConnection;
 import it.polimi.ingsw.tui.ViewController;
 import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.utils.Utils;

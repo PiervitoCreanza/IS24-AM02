@@ -28,6 +28,7 @@ public class PlayerHandComponent implements Drawable {
      * It initializes the drawArea and populates it with game cards.
      *
      * @param hand A list of GameCard objects representing the player's hand.
+     * @param spacing The spacing between the cards.
      */
     public PlayerHandComponent(ArrayList<GameCard> hand, int spacing) {
         drawArea = new DrawArea();

@@ -51,7 +51,11 @@ public class UserInputChain implements MenuCommand {
         this.listeners.addPropertyChangeListener(listener);
     }
 
-
+    /**
+     * Retrieves the current UserInputHandler in the chain.
+     *
+     * @return the current UserInputHandler in the chain.
+     */
     private UserInputHandler getCurrentHandler() {
         if (currentHandlerIndex >= handlers.length)
             // Clear the current handler index
@@ -59,6 +63,15 @@ public class UserInputChain implements MenuCommand {
         return handlers[currentHandlerIndex];
     }
 
+    /**
+     * Handles the input for the chain.
+     * This method validates the input and moves to the next handler if the input is valid.
+     * If the input is "q", it notifies the listener.
+     * If the current handler is the last one, it notifies the listener with the inputs.
+     *
+     * @param input The input to be handled.
+     */
+    @Override
     public void handleInput(String input) {
 
         // If the input is "q", notify the listener
@@ -82,14 +95,27 @@ public class UserInputChain implements MenuCommand {
         getCurrentHandler().print();
     }
 
+    /**
+     * Prints the prompt of the current UserInputHandler in the chain.
+     */
     public void print() {
         getCurrentHandler().print();
     }
 
+    /**
+     * Checks if the chain is not waiting for input.
+     *
+     * @return true if the chain is not waiting for input, false otherwise.
+     */
     public boolean isNotWaitingInput() {
         return currentHandlerIndex >= handlers.length;
     }
 
+    /**
+     * Retrieves the inputs required by the chain.
+     *
+     * @return the inputs required by the chain.
+     */
     @Override
     public ArrayList<String> getInputs() {
         ArrayList<String> inputs = new ArrayList<>();

@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
 import it.polimi.ingsw.network.client.message.ClientToServerMessage;
 import it.polimi.ingsw.network.client.message.PlayerActionEnum;
 import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
+import it.polimi.ingsw.utils.PropertyChangeNotifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +18,7 @@ import java.util.TimerTask;
 /**
  * The RMIClientSender class is responsible for sending messages to the server.
  */
-public class RMIClientSender implements ClientMessageHandler {
+public class RMIClientSender implements ClientMessageHandler, PropertyChangeNotifier {
     /**
      * The RMIClientToServerActions instance that represents the server stub.
      * This stub is used to perform actions on the server.
@@ -35,6 +36,9 @@ public class RMIClientSender implements ClientMessageHandler {
      */
     private final PropertyChangeSupport listeners;
 
+    /**
+     * Timer used to send heartbeat messages to the server.
+     */
     private Timer heartbeatTimer;
 
     /**
@@ -91,6 +95,7 @@ public class RMIClientSender implements ClientMessageHandler {
                 case DISCONNECT -> serverStub.disconnect(message.getGameName(), message.getPlayerName());
             }
         } catch (RemoteException e) {
+            logger.error("RMI Server Unreachable - detected while sending message.");
             closeConnection();
         }
     }
@@ -101,7 +106,7 @@ public class RMIClientSender implements ClientMessageHandler {
     @Override
     public void closeConnection() {
         heartbeatTimer.cancel();
-        listeners.firePropertyChange("CONNECTION_CLOSED", null, null);
+        notify("CONNECTION_CLOSED", null);
     }
 
     /**
@@ -115,30 +120,58 @@ public class RMIClientSender implements ClientMessageHandler {
                 try {
                     serverStub.heartbeat();
                 } catch (RemoteException e) {
-                    logger.error("RMI Server Unreachable - detected when pinging.");
+                    logger.error("RMI Server Unreachable - detected while pinging.");
                     closeConnection();
                 }
             }
         }, 0, 5000);
     }
 
+
     /**
-     * Adds a PropertyChangeListener to the listeners list.
+     * Adds a PropertyChangeListener to the listener list.
      * The listener will be notified of property changes.
      *
-     * @param listener The PropertyChangeListener to be added.
+     * @param listener The PropertyChangeListener to be added
      */
+    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.listeners.addPropertyChangeListener(listener);
     }
 
     /**
-     * Removes a PropertyChangeListener from the listeners list.
+     * Removes a PropertyChangeListener from the listener list.
      * The listener will no longer be notified of property changes.
      *
-     * @param listener The PropertyChangeListener to be removed.
+     * @param listener The PropertyChangeListener to be removed
      */
+    @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         this.listeners.removePropertyChangeListener(listener);
+    }
+
+    /**
+     * Notifies all listeners about the change of a property.
+     * The PropertyChangeListeners firePropertyChange methods will be called.
+     *
+     * @param propertyName The name of the property that was changed
+     * @param message      The new value of the property
+     */
+    @Override
+    public void notify(String propertyName, Object message) {
+        this.listeners.firePropertyChange(propertyName, null, message);
+    }
+
+    /**
+     * Notifies all listeners about the change of a property.
+     * The PropertyChangeListeners firePropertyChange methods will be called.
+     *
+     * @param propertyName The name of the property that was changed
+     * @param oldMessage   The old value of the property
+     * @param message      The new value of the property
+     */
+    @Override
+    public void notify(String propertyName, Object oldMessage, Object message) {
+        this.listeners.firePropertyChange(propertyName, oldMessage, message);
     }
 }

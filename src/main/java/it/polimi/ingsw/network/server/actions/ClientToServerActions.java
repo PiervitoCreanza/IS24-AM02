@@ -122,5 +122,11 @@ public interface ClientToServerActions {
      */
     void sendChatMessage(String gameName, String playerName, String message, String receiver, long timestamp);
 
+    /**
+     * Disconnects a player from the game.
+     *
+     * @param gameName   the name of the game.
+     * @param playerName the name of the player who is disconnecting.
+     */
     void disconnect(String gameName, String playerName);
 }

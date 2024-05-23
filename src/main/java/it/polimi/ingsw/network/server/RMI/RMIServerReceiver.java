@@ -32,6 +32,9 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
      */
     private final ServerNetworkControllerMapper serverNetworkControllerMapper;
 
+    /**
+     * The logger.
+     */
     private static final Logger logger = LogManager.getLogger(RMIServerReceiver.class);
 
     /**
@@ -222,10 +225,6 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
         return rmiServerSender;
     }
 
-    private void printDebug(ClientToServerMessage message) {
-        System.out.println("RMI message received: " + message.getPlayerAction() + " from: " + message.getPlayerName() + " in game: " + message.getGameName());
-    }
-
     /**
      * This method is used to send a chat message from the client to the server.
      * The server will convert it to a ChatServerToClientMessage and send it to all clients excluding the sender.
@@ -252,8 +251,23 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     public void heartbeat() throws RemoteException {
     }
 
+    /**
+     * Disconnects a player from the game.
+     *
+     * @param gameName   the name of the game.
+     * @param playerName the name of the player who is disconnecting.
+     */
     @Override
     public void disconnect(String gameName, String playerName) throws RemoteException {
         new Thread(() -> serverNetworkControllerMapper.disconnect(gameName, playerName)).start();
+    }
+
+    /**
+     * Prints a debug message with the details of the message received.
+     *
+     * @param message the message received
+     */
+    private void printDebug(ClientToServerMessage message) {
+        logger.debug("RMI message received: {} from: {} in game: {}", message.getPlayerAction(), message.getPlayerName(), message.getGameName());
     }
 }

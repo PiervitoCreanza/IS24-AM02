@@ -30,6 +30,9 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      */
     private final MainController mainController;
 
+    /**
+     * The logger.
+     */
     private static final Logger logger = LogManager.getLogger(ServerNetworkControllerMapper.class);
 
 
@@ -52,22 +55,11 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
     }
 
     /**
-     * Sends a message to all players in a game.
-     *
-     * @param gameName the name of the game
-     * @param message  the message to be sent
-     */
-    private void broadcastMessage(String gameName, ServerToClientMessage message) {
-        for (ServerMessageHandler messageHandler : gameConnectionMapper.get(gameName).values()) {
-            messageHandler.sendMessage(message);
-        }
-    }
-
-    /**
      * Gets the list of available games.
      *
      * @param messageHandler the ServerMessageHandler that will handle the response
      */
+    @Override
     public void getGames(ServerMessageHandler messageHandler) {
         try {
             messageHandler.sendMessage(new GetGamesServerToClientMessage(mainController.getGameRecords()));
@@ -84,7 +76,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      * @param playerName     the name of the player creating the game
      * @param nPlayers       the number of players in the game
      */
-
+    @Override
     public void createGame(ServerMessageHandler messageHandler, String gameName, String playerName, int nPlayers) {
         try {
             mainController.createGame(gameName, playerName, nPlayers);
@@ -108,6 +100,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      * @param gameName       the name of the game to join
      * @param playerName     the name of the player joining the game
      */
+    @Override
     public void joinGame(ServerMessageHandler messageHandler, String gameName, String playerName) {
         try {
             mainController.joinGame(gameName, playerName);
@@ -130,6 +123,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      * @param gameName       the name of the game.
      * @param playerName     the name of the player who is leaving the game.
      */
+    @Override
     public void deleteGame(ServerMessageHandler messageHandler, String gameName, String playerName) {
         try {
             mainController.isGameDeletable(gameName, playerName);
@@ -148,6 +142,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      * @param playerName  the name of the player who is choosing the color.
      * @param playerColor the color to be chosen.
      */
+    @Override
     public void choosePlayerColor(String gameName, String playerName, PlayerColorEnum playerColor) {
         try {
             mainController.getGameController(gameName).choosePlayerColor(playerName, playerColor);
@@ -164,6 +159,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      * @param playerName the name of the player whose objective is to be set.
      * @param cardId     the objective card to be set for the player.
      */
+    @Override
     public void setPlayerObjective(String gameName, String playerName, int cardId) {
         try {
             mainController.getGameController(gameName).setPlayerObjective(playerName, cardId);
@@ -182,6 +178,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      * @param cardId     the card to be placed.
      * @param isFlipped  whether the card is flipped or not.
      */
+    @Override
     public void placeCard(String gameName, String playerName, Coordinate coordinate, int cardId, boolean isFlipped) {
         try {
             GameControllerMiddleware gameController = mainController.getGameController(gameName);
@@ -204,6 +201,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      * @param playerName the name of the player who is drawing the card.
      * @param card       the card to be drawn.
      */
+    @Override
     public void drawCardFromField(String gameName, String playerName, GameCard card) {
         try {
             mainController.getGameController(gameName).drawCardFromField(playerName, card);
@@ -219,6 +217,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is drawing the card.
      */
+    @Override
     public void drawCardFromResourceDeck(String gameName, String playerName) {
         try {
             mainController.getGameController(gameName).drawCardFromResourceDeck(playerName);
@@ -234,6 +233,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is drawing the card.
      */
+    @Override
     public void drawCardFromGoldDeck(String gameName, String playerName) {
         try {
             mainController.getGameController(gameName).drawCardFromGoldDeck(playerName);
@@ -250,12 +250,77 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      * @param playerName the name of the player who is switching the card side.
      * @param cardId     the card whose side is to be switched.
      */
+    @Override
     public void switchCardSide(String gameName, String playerName, int cardId) {
         try {
             mainController.getGameController(gameName).switchCardSide(playerName, cardId);
             broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
         } catch (Exception e) {
             gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+        }
+    }
+
+    /**
+     * @param gameName   the name of the game.
+     * @param playerName the name of the player who is sending the chat message.
+     * @param message    the chat message to be sent.
+     * @param receiver   the receiver of the message. If this is null, the message is not a direct message.
+     * @param timestamp  the timestamp of the message.
+     */
+    @Override
+    public void sendChatMessage(String gameName, String playerName, String message, String receiver, long timestamp) {
+        // The message is converted to a ChatServerToClientMessage and sent to all clients excluding the sender.
+        ChatServerToClientMessage convertedMessage = new ChatServerToClientMessage(playerName, message, timestamp, !receiver.isEmpty());
+
+        if (convertedMessage.isDirectMessage()) {
+            //It is sent only to the receiver and the sender.
+            ServerMessageHandler receiverHandler = gameConnectionMapper.get(gameName).get(receiver);
+            ServerMessageHandler senderHandler = gameConnectionMapper.get(gameName).get(playerName);
+            if (receiverHandler != null) {
+                receiverHandler.sendMessage(convertedMessage);
+                if (!receiver.equals(playerName))
+                    senderHandler.sendMessage(convertedMessage);
+            } else {
+                senderHandler.sendMessage(new ErrorServerToClientMessage("The player you are trying to send a message to is not in the game."));
+            }
+        } else {
+            //It is broadcast to any player of the game (even the sender) to avoid code redundancy client-side.
+            broadcastMessage(gameName, convertedMessage);
+        }
+    }
+
+    /**
+     * Disconnects a player from a game.
+     *
+     * @param gameName   the name of the game.
+     * @param playerName the name of the player who is disconnecting.
+     */
+    @Override
+    public void disconnect(String gameName, String playerName) {
+        if (gameConnectionMapper.containsKey(gameName))
+            gameConnectionMapper.get(gameName).get(playerName).closeConnection();
+    }
+
+    /**
+     * Sends a message to all players in a game.
+     *
+     * @param gameName the name of the game
+     * @param message  the message to be sent
+     */
+    private void broadcastMessage(String gameName, ServerToClientMessage message) {
+        for (ServerMessageHandler messageHandler : gameConnectionMapper.get(gameName).values()) {
+            messageHandler.sendMessage(message);
+        }
+    }
+
+    /**
+     * Closes all connections for a game.
+     *
+     * @param gameName the name of the game
+     */
+    private void closeConnections(String gameName) {
+        for (ServerMessageHandler messageHandler : gameConnectionMapper.get(gameName).values()) {
+            messageHandler.closeConnection();
         }
     }
 
@@ -290,6 +355,11 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
         broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
     }
 
+    /**
+     * Starts a timer that will delete the game if there is only one player left in it.
+     *
+     * @param gameName the name of the game
+     */
     private void startLastPlayerTimeout(String gameName) {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -303,46 +373,5 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
                 }
             }
         }, 30000); // Delay in milliseconds
-    }
-
-    private void closeConnections(String gameName) {
-        for (ServerMessageHandler messageHandler : gameConnectionMapper.get(gameName).values()) {
-            messageHandler.closeConnection();
-        }
-    }
-
-    /**
-     * @param gameName   the name of the game.
-     * @param playerName the name of the player who is sending the chat message.
-     * @param message    the chat message to be sent.
-     * @param receiver   the receiver of the message. If this is null, the message is not a direct message.
-     * @param timestamp  the timestamp of the message.
-     */
-    @Override
-    public void sendChatMessage(String gameName, String playerName, String message, String receiver, long timestamp) {
-        // The message is converted to a ChatServerToClientMessage and sent to all clients excluding the sender.
-        ChatServerToClientMessage convertedMessage = new ChatServerToClientMessage(playerName, message, timestamp, !receiver.isEmpty());
-
-        if (convertedMessage.isDirectMessage()) {
-            //It is sent only to the receiver and the sender.
-            ServerMessageHandler receiverHandler = gameConnectionMapper.get(gameName).get(receiver);
-            ServerMessageHandler senderHandler = gameConnectionMapper.get(gameName).get(playerName);
-            if (receiverHandler != null) {
-                receiverHandler.sendMessage(convertedMessage);
-                if (!receiver.equals(playerName))
-                    senderHandler.sendMessage(convertedMessage);
-            } else {
-                senderHandler.sendMessage(new ErrorServerToClientMessage("The player you are trying to send a message to is not in the game."));
-            }
-        } else {
-            //It is broadcast to any player of the game (even the sender) to avoid code redundancy client-side.
-            broadcastMessage(gameName, convertedMessage);
-        }
-    }
-
-    @Override
-    public void disconnect(String gameName, String playerName) {
-        if (gameConnectionMapper.containsKey(gameName))
-            gameConnectionMapper.get(gameName).get(playerName).closeConnection();
     }
 }

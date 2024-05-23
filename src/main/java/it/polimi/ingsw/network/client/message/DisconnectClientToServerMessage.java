@@ -1,6 +1,11 @@
 package it.polimi.ingsw.network.client.message;
 
+/**
+ * The DisconnectClientToServerMessage class is used by the client to notify the server that the player wants to disconnect.
+ * It extends the ClientToServerMessage class.
+ */
 public class DisconnectClientToServerMessage extends ClientToServerMessage {
+
     /**
      * Constructor for ClientToServerMessage.
      * Initializes the player action with the specified value.

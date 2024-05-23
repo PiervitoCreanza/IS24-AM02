@@ -1,5 +1,6 @@
-package it.polimi.ingsw.network.client;
+package it.polimi.ingsw.network.client.connection;
 
+import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import it.polimi.ingsw.network.client.RMI.RMIClientReceiver;
 import it.polimi.ingsw.network.client.RMI.RMIClientSender;
 import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
@@ -17,19 +18,52 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
+/**
+ * The RMIConnection class implements the Connection interface using the Java RMI technology.
+ * It also implements the PropertyChangeListener and PropertyChangeNotifier interfaces to provide property change support.
+ * It is responsible for establishing a connection between the client and the server.
+ */
 public class RMIConnection implements Connection, PropertyChangeListener {
 
+    /**
+     * The logger.
+     */
     private static final Logger logger = LogManager.getLogger(RMIConnection.class);
+    /**
+     * The network controller mapper.
+     */
     private final ClientNetworkControllerMapper networkControllerMapper;
+    /**
+     * The server IP.
+     */
     private final String serverIp;
+    /**
+     * The server port.
+     */
     private final int serverPort;
+    /**
+     * The client IP.
+     */
     private final String clientIp;
+
     /**
      * Listeners that will be notified when a message is received.
      */
     private final PropertyChangeSupport listeners;
+    /**
+     * The client port.
+     */
     private int clientPort;
 
+    /**
+     * Creates a new RMIConnection.
+     *
+     * @param clientNetworkControllerMapper The network controller mapper
+     * @param serverIp                      The server IP
+     * @param serverPort                    The server port
+     * @param clientIp                      The client IP
+     * @param clientPort                    The client port
+     */
     public RMIConnection(ClientNetworkControllerMapper clientNetworkControllerMapper, String serverIp, int serverPort, String clientIp, int clientPort) {
         this.networkControllerMapper = clientNetworkControllerMapper;
         this.serverIp = serverIp;
@@ -39,6 +73,14 @@ public class RMIConnection implements Connection, PropertyChangeListener {
         this.listeners = new PropertyChangeSupport(this);
     }
 
+    /**
+     * Establishes a connection.
+     * It tries to connect to the server and, if it fails, it retries for a maximum of 5 times
+     * with a 5-second delay between each attempt.
+     * If it is not possible to connect after 5 attempts, the program will be closed.
+     * If the port is already in use, it will try with the next port until it finds an available one.
+     * It locates the stub of the server and creates a new client stub that will be sent later to the server.
+     */
     @Override
     public void connect() {
         System.setProperty("java.rmi.server.hostname", clientIp);
@@ -54,9 +96,9 @@ public class RMIConnection implements Connection, PropertyChangeListener {
                 // Looking up the registry for the remote object
                 RMIClientToServerActions serverStub = (RMIClientToServerActions) registry.lookup("ClientToServerActions");
                 RMIClientSender rmiClientSender = new RMIClientSender(serverStub, clientStub);
-                // Add the listener to the sender and receiver
+                // Add the listener to the sender
                 rmiClientSender.addPropertyChangeListener(this);
-                // Path the sender to the mapper
+                // Set the message handler in the mapper
                 networkControllerMapper.setMessageHandler(rmiClientSender);
                 break;
             } catch (RemoteException e1) {
@@ -82,20 +124,22 @@ public class RMIConnection implements Connection, PropertyChangeListener {
             quit();
         }
         logger.info("RMI connection established");
-        listeners.firePropertyChange("CONNECTION_ESTABLISHED", null, null);
-    }
-
-    @Override
-    public void quit() {
-        System.exit(0);
+        notify("CONNECTION_ESTABLISHED", null);
     }
 
     /**
-     * This method gets called when a bound property is changed.
-     * Is Synchronized because it can be notified by the heartbeat from the sender and the receiver
+     * Closes the program when it's impossible to establish a connection.
+     */
+    @Override
+    public void quit() {
+        System.exit(-1);
+    }
+
+    /**
+     * This method is called when a property change event is fired.
+     * It is responsible for handling the property change event.
      *
-     * @param evt A PropertyChangeEvent object describing the event source
-     *            and the property that has changed.
+     * @param evt The property change event that was fired
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -111,8 +155,9 @@ public class RMIConnection implements Connection, PropertyChangeListener {
      * Adds a PropertyChangeListener to the listeners list.
      * The listener will be notified of property changes.
      *
-     * @param listener The PropertyChangeListener to be added.
+     * @param listener The PropertyChangeListener to be added
      */
+    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.listeners.addPropertyChangeListener(listener);
     }
@@ -121,10 +166,36 @@ public class RMIConnection implements Connection, PropertyChangeListener {
      * Removes a PropertyChangeListener from the listeners list.
      * The listener will no longer be notified of property changes.
      *
-     * @param listener The PropertyChangeListener to be removed.
+     * @param listener The PropertyChangeListener to be removed
      */
+    @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         this.listeners.removePropertyChangeListener(listener);
+    }
+
+    /**
+     * Notifies all listeners about the change of a property.
+     * The PropertyChangeListeners firePropertyChange methods will be called.
+     *
+     * @param propertyName The name of the property that was changed
+     * @param message      The new value of the property
+     */
+    @Override
+    public void notify(String propertyName, Object message) {
+        this.listeners.firePropertyChange(propertyName, null, message);
+    }
+
+    /**
+     * Notifies all listeners about the change of a property.
+     * The PropertyChangeListeners firePropertyChange methods will be called.
+     *
+     * @param propertyName The name of the property that was changed
+     * @param oldMessage   The old value of the property
+     * @param message      The new value of the property
+     */
+    @Override
+    public void notify(String propertyName, Object oldMessage, Object message) {
+        this.listeners.firePropertyChange(propertyName, oldMessage, message);
     }
 }
 

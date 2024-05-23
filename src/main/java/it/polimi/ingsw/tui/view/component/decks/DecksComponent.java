@@ -37,6 +37,7 @@ public class DecksComponent implements Drawable {
      * Creates a DrawArea for a deck with the given card.
      *
      * @param card The card to be drawn in the deck.
+     * @param number The number of the deck.
      * @return The DrawArea representing the deck.
      */
     private DrawArea deckComponent(GameCard card, int number) {

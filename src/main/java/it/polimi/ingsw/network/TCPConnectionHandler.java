@@ -2,6 +2,7 @@ package it.polimi.ingsw.network;
 
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.utils.PropertyChangeNotifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,16 +20,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * This class is responsible for handling the connection with a client over TCP.
  * It extends Thread, meaning it can run concurrently with other threads.
  */
-public class TCPConnectionHandler extends Thread {
+public class TCPConnectionHandler extends Thread implements PropertyChangeNotifier {
     /**
      * Socket object representing the connection to the client.
      */
     private final Socket socket;
-
-    /**
-     * Listeners that will be notified when a message is received.
-     */
-    private final PropertyChangeSupport listeners;
 
     /**
      * BufferedWriter object used to write to the socket.
@@ -49,6 +45,11 @@ public class TCPConnectionHandler extends Thread {
      * Queue of received messages.
      */
     private final LinkedBlockingQueue<String> receivedMessages = new LinkedBlockingQueue<>();
+
+    /**
+     * Listeners that will be notified when a message is received.
+     */
+    private final PropertyChangeSupport listeners;
 
     /**
      * The logger.
@@ -81,30 +82,15 @@ public class TCPConnectionHandler extends Thread {
             heartbeat();
 
         } catch (IOException e) {
+            // TODO: Should we handle it differently?
+            logger.fatal("Error while getting streams from socket: {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
 
     /**
-     * Adds a PropertyChangeListener to the listeners list.
-     * The listener will be notified of property changes.
-     *
-     * @param listener The PropertyChangeListener to be added.
+     * Method to send a heartbeat message to the client every 2.5 seconds.
      */
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        this.listeners.addPropertyChangeListener(listener);
-    }
-
-    /**
-     * Removes a PropertyChangeListener from the listeners list.
-     * The listener will no longer be notified of property changes.
-     *
-     * @param listener The PropertyChangeListener to be removed.
-     */
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        this.listeners.removePropertyChangeListener(listener);
-    }
-
     private void heartbeat() {
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -202,7 +188,7 @@ public class TCPConnectionHandler extends Thread {
             while (this.isConnected.get()) {
                 String message = receivedMessages.poll();
                 if (message != null) {
-                    listeners.firePropertyChange("MESSAGE_RECEIVED", null, message);
+                    notify("MESSAGE_RECEIVED", message);
                 }
 
             }
@@ -234,12 +220,59 @@ public class TCPConnectionHandler extends Thread {
                 // TODO: Improve code
                 this.isConnected.set(false);
                 this.receivedMessages.clear();
-                listeners.firePropertyChange("CONNECTION_CLOSED", null, null);
+                notify("CONNECTION_CLOSED", null);
                 socket.close();
             } catch (IOException ignored) {
                 // This exception is ignored because we are closing the connection.
             }
         }
+    }
+
+    /**
+     * Adds a PropertyChangeListener to the listener list.
+     * The listener will be notified of property changes.
+     *
+     * @param listener The PropertyChangeListener to be added
+     */
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.listeners.addPropertyChangeListener(listener);
+    }
+
+    /**
+     * Removes a PropertyChangeListener from the listener list.
+     * The listener will no longer be notified of property changes.
+     *
+     * @param listener The PropertyChangeListener to be removed
+     */
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.listeners.removePropertyChangeListener(listener);
+    }
+
+    /**
+     * Notifies all listeners about the change of a property.
+     * The PropertyChangeListeners firePropertyChange methods will be called.
+     *
+     * @param propertyName The name of the property that was changed
+     * @param message      The new value of the property
+     */
+    @Override
+    public void notify(String propertyName, Object message) {
+        this.listeners.firePropertyChange(propertyName, null, message);
+    }
+
+    /**
+     * Notifies all listeners about the change of a property.
+     * The PropertyChangeListeners firePropertyChange methods will be called.
+     *
+     * @param propertyName The name of the property that was changed
+     * @param oldMessage   The old value of the property
+     * @param message      The new value of the property
+     */
+    @Override
+    public void notify(String propertyName, Object oldMessage, Object message) {
+        this.listeners.firePropertyChange(propertyName, oldMessage, message);
     }
 }
 

@@ -30,10 +30,6 @@ import java.util.ArrayList;
  */
 public class TUIViewController implements PropertyChangeListener, ViewController {
 
-    /**
-     * Instance of SceneBuilder to manage different scenes in the game.
-     */
-    private final SceneBuilder sceneBuilder;
 
     /**
      * Instance of ClientNetworkControllerMapper to manage network requests.
@@ -56,16 +52,6 @@ public class TUIViewController implements PropertyChangeListener, ViewController
     private String gameName;
 
     /**
-     * Status of the game, initially set to null.
-     */
-    private GameStatusEnum gameStatus = null;
-
-    /**
-     * A CLIReader used from the client to call handleUserInput from the scene.
-     */
-    private final CLIReader cliReader;
-
-    /**
      * Current scene displayed.
      */
     private Scene currentScene;
@@ -74,11 +60,23 @@ public class TUIViewController implements PropertyChangeListener, ViewController
      * Chat scene.
      */
     private Scene chatScene;
+    /**
+     * Instance of SceneBuilder to manage different scenes in the game.
+     */
+    private final SceneBuilder sceneBuilder;
+    /**
+     * List of messages in the chat.
+     */
+    private final ArrayList<ChatServerToClientMessage> messages = new ArrayList<>();
 
     /**
      * Winner scene.
      */
     private Scene winnerScene;
+    /**
+     * Boolean to check if the client is in chat scene.
+     */
+    private boolean isInChat = false;
 
     /**
      * List of games.
@@ -89,26 +87,10 @@ public class TUIViewController implements PropertyChangeListener, ViewController
      * List of players' cards.
      */
     private GameControllerView gameControllerView;
-
-    /**
-     * List of messages in the chat.
-     */
-    private final ArrayList<ChatServerToClientMessage> messages = new ArrayList<>();
-
-    /**
-     * Boolean to check if the client is in chat scene.
-     */
-    private boolean isInChat = false;
-
     /**
      * Boolean to check if the game is over.
      */
     private boolean isGameOver = false;
-
-    /**
-     * Boolean to check if the scene should be displayed.
-     */
-    private boolean dontDisplay = false;
 
     /**
      * Constructor for TUIViewController.
@@ -118,8 +100,45 @@ public class TUIViewController implements PropertyChangeListener, ViewController
     public TUIViewController(ClientNetworkControllerMapper networkController) {
         this.networkController = networkController;
         this.sceneBuilder = new SceneBuilder(this);
-        this.cliReader = new CLIReader(this);
-        cliReader.start();
+        new CLIReader(this).start();
+    }
+
+    /**
+     * Method to set the game name.
+     *
+     * @param gameName the game name.
+     */
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
+    }
+
+    /**
+     * Method to get the player name.
+     *
+     * @return the player name.
+     */
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    /**
+     * Method to set the player name.
+     *
+     * @param playerName the player name.
+     */
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    /**
+     * Method used to set the game over status.
+     * It's used to show the winner scene only one time.
+     * It can be set to true or false.
+     *
+     * @param isGameOver the game over status.
+     */
+    public void setIsGameOver(boolean isGameOver) {
+        this.isGameOver = isGameOver;
     }
 
     /**
@@ -133,53 +152,9 @@ public class TUIViewController implements PropertyChangeListener, ViewController
     }
 
     /**
-     * Method to show the chat.
-     */
-    public void showChat() {
-        isInChat = true;
-        chatScene = sceneBuilder.instanceChatScene(playerName, messages);
-        Utils.clearScreen();
-        chatScene.display();
-    }
-
-    /**
-     * Method to close the chat.
-     */
-    public void closeChat() {
-        isInChat = false;
-        showCurrentScene();
-    }
-
-    /**
-     * Method to set the player name.
+     * Method to handle user input.
      *
-     * @param playerName the player name.
-     */
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
-    }
-
-    /**
-     * Method to set the game name.
-     *
-     * @param gameName the game name.
-     */
-    public void setGameName(String gameName) {
-        this.gameName = gameName;
-    }
-
-
-    /**
-     * Method to get the client status.
-     *
-     * @return the client status.
-     */
-    public Scene getCurrentScene() {
-        return currentScene;
-    }
-
-    /**
-     * Method to handle user input of the current scene.
+     * @param input the user input.
      */
     public void handleUserInput(String input) {
         if (isInChat) {
@@ -195,7 +170,8 @@ public class TUIViewController implements PropertyChangeListener, ViewController
 
     /**
      * Method used by a UserInputScene to request a scene change.
-     * scene The scene to be selected.
+     *
+     * @param scene The scene to be selected.
      */
     public void selectScene(ScenesEnum scene) {
         switch (scene) {
@@ -215,19 +191,11 @@ public class TUIViewController implements PropertyChangeListener, ViewController
     }
 
     /**
-     * Method to get the player name.
-     *
-     * @return the player name.
-     */
-    public String getPlayerName() {
-        return playerName;
-    }
-
-    /**
      * Method to create a new game.
      * It delegates the request to the network controller.
      *
      * @param gameName the name of the game to be created.
+     * @param playerName the name of the player.
      * @param nPlayers the number of players in the game.
      */
     public void createGame(String gameName, String playerName, int nPlayers) {
@@ -288,12 +256,12 @@ public class TUIViewController implements PropertyChangeListener, ViewController
      * Method to place a card.
      * It delegates the request to the network controller.
      *
-     * @param choosenCardId the card to be placed.
+     * @param chosenCardId the card to be placed.
      * @param coordinate    the coordinate where the card is placed.
      * @param isFlipped     the side of the card.
      */
-    public void placeCard(int choosenCardId, Coordinate coordinate, boolean isFlipped) {
-        networkController.placeCard(gameName, playerName, coordinate, choosenCardId, isFlipped);
+    public void placeCard(int chosenCardId, Coordinate coordinate, boolean isFlipped) {
+        networkController.placeCard(gameName, playerName, coordinate, chosenCardId, isFlipped);
     }
 
     /**
@@ -354,7 +322,7 @@ public class TUIViewController implements PropertyChangeListener, ViewController
     }
 
     /**
-     * Method to pause the game.
+     * Method to send a disconnect message.
      * It delegates the request to the network controller.
      */
     public void sendDisconnect() {
@@ -362,8 +330,35 @@ public class TUIViewController implements PropertyChangeListener, ViewController
     }
 
     /**
-     * Method to resume the game.
+     * Method to show the chat.
+     */
+    public void showChat() {
+        isInChat = true;
+        chatScene = sceneBuilder.instanceChatScene(playerName, messages);
+        Utils.clearScreen();
+        chatScene.display();
+    }
+
+    /**
+     * Method to close the chat.
+     */
+    public void closeChat() {
+        isInChat = false;
+        showCurrentScene();
+    }
+
+    /**
+     * Method to close the connection.
      * It delegates the request to the network controller.
+     */
+    public void closeConnection() {
+        networkController.closeConnection();
+    }
+
+    /**
+     * Method to check if it is the client's turn.
+     *
+     * @return true if it is the client's turn, false otherwise.
      */
     private boolean isClientTurn() {
         return gameControllerView.getCurrentPlayerView().playerName().equals(playerName);
@@ -423,29 +418,14 @@ public class TUIViewController implements PropertyChangeListener, ViewController
     }
 
     /**
-     * Method to check if the game is over.
-     *
-     * @return true if the game is over, false otherwise.
-     */
-    public void setIsGameOver(boolean isGameOver) {
-        this.isGameOver = isGameOver;
-    }
-
-    /**
-     * Method to close the connection.
-     */
-    public void closeConnection() {
-        networkController.closeConnection();
-    }
-
-    /**
      * Method to handle property change events.
      * Manages the current scene based on the event.
      *
      * @param evt the property change event.
      */
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        dontDisplay = false;
+        boolean dontDisplay = false;
         String changedProperty = evt.getPropertyName();
         switch (changedProperty) {
             case "CONNECTION_ESTABLISHED":
@@ -460,7 +440,7 @@ public class TUIViewController implements PropertyChangeListener, ViewController
             case "UPDATE_VIEW":
                 GameControllerView updatedView = (GameControllerView) evt.getNewValue();
                 GameControllerView oldView = (GameControllerView) evt.getOldValue();
-                gameStatus = updatedView.gameStatus();
+                GameStatusEnum gameStatus = updatedView.gameStatus();
 
                 gameControllerView = updatedView;
                 if (gameStatus == GameStatusEnum.WAIT_FOR_PLAYERS) {

@@ -13,6 +13,7 @@ import it.polimi.ingsw.network.client.message.ClientToServerMessage;
 import it.polimi.ingsw.network.client.message.adapter.ServerToClientMessageAdapter;
 import it.polimi.ingsw.network.server.message.ServerActionEnum;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
+import it.polimi.ingsw.utils.PropertyChangeNotifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,7 +29,8 @@ import java.net.Socket;
  * It implements the TCPObserver and ClientMessageHandler interfaces.
  * It is UNIQUE to every RMI player.
  */
-public class TCPClientAdapter implements PropertyChangeListener, ClientMessageHandler {
+public class TCPClientAdapter implements ClientMessageHandler, PropertyChangeListener, PropertyChangeNotifier {
+
     /**
      * The ServerNetworkControllerMapper object is used to map network commands to actions in the game.
      */
@@ -85,18 +87,32 @@ public class TCPClientAdapter implements PropertyChangeListener, ClientMessageHa
      *
      * @param evt A PropertyChangeEvent object describing the event source and the property that has changed.
      */
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String changedProperty = evt.getPropertyName();
         switch (changedProperty) {
             case "CONNECTION_CLOSED" -> {
                 logger.warn("Connection with server lost.");
-                listeners.firePropertyChange("CONNECTION_CLOSED", null, null);
+                notify("CONNECTION_CLOSED", null);
             }
             case "MESSAGE_RECEIVED" -> this.receiveMessage((String) evt.getNewValue());
             default -> logger.error("Invalid property change.");
         }
     }
 
+    /**
+     * Receives a message from the server.
+     * The method deserializes the message and calls the appropriate method in the ClientNetworkControllerMapper.
+     * The method handles the following server actions:
+     * - UPDATE_VIEW: Calls the receiveUpdatedView method in the ClientNetworkControllerMapper with the view contained in the message.
+     * - DELETE_GAME: Calls the receiveGameDeleted method in the ClientNetworkControllerMapper with the successDeleteMessage contained in the message.
+     * - GET_GAMES: Calls the receiveGameList method in the ClientNetworkControllerMapper with the games contained in the message.
+     * - ERROR_MSG: Calls the receiveErrorMessage method in the ClientNetworkControllerMapper with the errorMessage contained in the message.
+     * - RECEIVE_CHAT_MSG: Calls the receiveChatMessage method in the ClientNetworkControllerMapper with the playerName, chatMessage, timestamp, and directMessage contained in the message.
+     * Any other server action is considered invalid and an error is logged.
+     *
+     * @param message the message received from the server
+     */
     private void receiveMessage(String message) {
         logger.debug("Received message: {}", message);
         ServerToClientMessage receivedMessage = this.gson.fromJson(message, ServerToClientMessage.class);
@@ -140,13 +156,51 @@ public class TCPClientAdapter implements PropertyChangeListener, ClientMessageHa
         this.serverConnectionHandler.closeConnection();
     }
 
+
     /**
-     * Adds a PropertyChangeListener to the ClientNetworkCommandMapper.
+     * Adds a PropertyChangeListener to the listener list.
+     * The listener will be notified of property changes.
      *
-     * @param listener the PropertyChangeListener to be added.
+     * @param listener The PropertyChangeListener to be added
      */
+    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
-        listeners.addPropertyChangeListener(listener);
+        this.listeners.addPropertyChangeListener(listener);
     }
 
+    /**
+     * Removes a PropertyChangeListener from the listener list.
+     * The listener will no longer be notified of property changes.
+     *
+     * @param listener The PropertyChangeListener to be removed
+     */
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.listeners.removePropertyChangeListener(listener);
+    }
+
+    /**
+     * Notifies all listeners about the change of a property.
+     * The PropertyChangeListeners firePropertyChange methods will be called.
+     *
+     * @param propertyName The name of the property that was changed
+     * @param message      The new value of the property
+     */
+    @Override
+    public void notify(String propertyName, Object message) {
+        this.listeners.firePropertyChange(propertyName, null, message);
+    }
+
+    /**
+     * Notifies all listeners about the change of a property.
+     * The PropertyChangeListeners firePropertyChange methods will be called.
+     *
+     * @param propertyName The name of the property that was changed
+     * @param oldMessage   The old value of the property
+     * @param message      The new value of the property
+     */
+    @Override
+    public void notify(String propertyName, Object oldMessage, Object message) {
+        this.listeners.firePropertyChange(propertyName, oldMessage, message);
+    }
 }

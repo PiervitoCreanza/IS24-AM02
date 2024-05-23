@@ -146,5 +146,12 @@ public interface RMIClientToServerActions extends Remote {
      */
     void heartbeat() throws RemoteException;
 
+    /**
+     * Disconnects the player from the game.
+     *
+     * @param gameName   the name of the game.
+     * @param playerName the name of the player who is disconnecting.
+     * @throws RemoteException if the remote operation fails.
+     */
     void disconnect(String gameName, String playerName) throws RemoteException;
 }

@@ -49,6 +49,9 @@ public class WinnerScene implements Scene, PropertyChangeListener {
      * The scene will display the specified list of winners and players.
      *
      * @param controller the controller for this scene
+     * @param winners    the list of winners
+     * @param players    the list of players
+     * @param spacing    the spacing between the players
      */
     public WinnerScene(TUIViewController controller, List<String> winners, List<PlayerView> players, int spacing) {
         this.controller = controller;

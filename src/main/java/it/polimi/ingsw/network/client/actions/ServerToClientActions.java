@@ -42,7 +42,6 @@ public interface ServerToClientActions extends Remote {
      */
     void receiveErrorMessage(String errorMessage) throws RemoteException;
 
-
     /**
      * This method is called when the server receives a chat message.
      * It is responsible for handling the received chat message from the client.

@@ -10,7 +10,22 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+/**
+ * The NetworkUtils class provides utility methods for network operations.
+ */
 public class NetworkUtils {
+
+    /**
+     * Returns the current host IP address.
+     * The method first checks if the "localhost" option is set in the command line.
+     * If not, it checks if the "lan" option is set, in which case it tries to retrieve the local IP address.
+     * If the "lan" option is not set, it checks if the "c" option is set, in which case it returns the value of this option.
+     * If none of the above options are set, it tries to retrieve the public IP address.
+     *
+     * @param cmd The command line options
+     * @return The current host IP address
+     * @throws RuntimeException if unable to retrieve the IP address
+     */
     public static String getCurrentHostIp(CommandLine cmd) {
         if (cmd.hasOption("localhost")) {
             return "localhost";
