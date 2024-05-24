@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.client.TCP;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.data.ObjectiveCardAdapter;
 import it.polimi.ingsw.data.SideGameCardAdapter;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
@@ -115,17 +116,21 @@ public class TCPClientAdapter implements ClientMessageHandler, PropertyChangeLis
      */
     private void receiveMessage(String message) {
         logger.debug("Received message: {}", message);
-        ServerToClientMessage receivedMessage = this.gson.fromJson(message, ServerToClientMessage.class);
-        ServerActionEnum serverAction = receivedMessage.getServerAction();
-        switch (serverAction) {
-            case UPDATE_VIEW -> clientNetworkControllerMapper.receiveUpdatedView(receivedMessage.getView());
-            case DELETE_GAME ->
-                    clientNetworkControllerMapper.receiveGameDeleted(receivedMessage.getSuccessDeleteMessage());
-            case GET_GAMES -> clientNetworkControllerMapper.receiveGameList(receivedMessage.getGames());
-            case ERROR_MSG -> clientNetworkControllerMapper.receiveErrorMessage(receivedMessage.getErrorMessage());
-            case RECEIVE_CHAT_MSG ->
-                    clientNetworkControllerMapper.receiveChatMessage(receivedMessage.getPlayerName(), receivedMessage.getChatMessage(), receivedMessage.getTimestamp(), receivedMessage.isDirectMessage());
-            default -> logger.error("Invalid action");
+        try {
+            ServerToClientMessage receivedMessage = this.gson.fromJson(message, ServerToClientMessage.class);
+            ServerActionEnum serverAction = receivedMessage.getServerAction();
+            switch (serverAction) {
+                case UPDATE_VIEW -> clientNetworkControllerMapper.receiveUpdatedView(receivedMessage.getView());
+                case DELETE_GAME ->
+                        clientNetworkControllerMapper.receiveGameDeleted(receivedMessage.getSuccessDeleteMessage());
+                case GET_GAMES -> clientNetworkControllerMapper.receiveGameList(receivedMessage.getGames());
+                case ERROR_MSG -> clientNetworkControllerMapper.receiveErrorMessage(receivedMessage.getErrorMessage());
+                case RECEIVE_CHAT_MSG ->
+                        clientNetworkControllerMapper.receiveChatMessage(receivedMessage.getPlayerName(), receivedMessage.getChatMessage(), receivedMessage.getTimestamp(), receivedMessage.isDirectMessage());
+                default -> logger.error("Invalid action");
+            }
+        } catch (JsonSyntaxException e) {
+            logger.error("Error parsing message: {}", e.getMessage());
         }
     }
 

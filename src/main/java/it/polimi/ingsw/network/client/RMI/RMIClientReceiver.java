@@ -11,6 +11,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 /**
@@ -27,6 +29,11 @@ public class RMIClientReceiver implements RMIServerToClientActions {
     private final ClientNetworkControllerMapper clientNetworkControllerMapper;
 
     /**
+     * The executor service.
+     */
+    private final ExecutorService executor;
+
+    /**
      * The logger.
      */
     private static final Logger logger = LogManager.getLogger(RMIClientReceiver.class);
@@ -38,6 +45,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      */
     public RMIClientReceiver(ClientNetworkControllerMapper clientNetworkControllerMapper) {
         this.clientNetworkControllerMapper = clientNetworkControllerMapper;
+        this.executor = Executors.newSingleThreadExecutor();
     }
 
 
@@ -48,7 +56,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      */
     @Override
     public void receiveGameList(ArrayList<GameRecord> games) throws RemoteException {
-        new Thread(() -> clientNetworkControllerMapper.receiveGameList(games)).start();
+        this.executor.submit(() -> clientNetworkControllerMapper.receiveGameList(games));
         // Debug
         printDebug(ServerActionEnum.GET_GAMES, "games: " + games.stream().map(GameRecord::gameName).collect(Collectors.toCollection(ArrayList::new)));
     }
@@ -60,7 +68,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      */
     @Override
     public void receiveGameDeleted(String message) throws RemoteException {
-        new Thread(() -> clientNetworkControllerMapper.receiveGameDeleted(message)).start();
+        this.executor.submit(() -> clientNetworkControllerMapper.receiveGameDeleted(message));
         // Debug
         printDebug(ServerActionEnum.DELETE_GAME, "message: " + message);
     }
@@ -72,7 +80,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      */
     @Override
     public void receiveUpdatedView(GameControllerView updatedView) throws RemoteException {
-        new Thread(() -> clientNetworkControllerMapper.receiveUpdatedView(updatedView)).start();
+        this.executor.submit(() -> clientNetworkControllerMapper.receiveUpdatedView(updatedView));
         // Debug
         printDebug(ServerActionEnum.UPDATE_VIEW, "view: " + updatedView.toString());
     }
@@ -84,7 +92,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      */
     @Override
     public void receiveErrorMessage(String errorMessage) throws RemoteException {
-        new Thread(() -> clientNetworkControllerMapper.receiveErrorMessage(errorMessage)).start();
+        this.executor.submit(() -> clientNetworkControllerMapper.receiveErrorMessage(errorMessage));
         // Debug
         printDebug(ServerActionEnum.ERROR_MSG, "error: " + errorMessage);
     }
@@ -103,7 +111,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      */
     @Override
     public void receiveChatMessage(String playerName, String message, long timestamp, boolean isDirect) throws RemoteException {
-        new Thread(() -> clientNetworkControllerMapper.receiveChatMessage(playerName, message, timestamp, isDirect)).start();
+        this.executor.submit(() -> clientNetworkControllerMapper.receiveChatMessage(playerName, message, timestamp, isDirect));
         // Debug
         printDebug(ServerActionEnum.RECEIVE_CHAT_MSG, "sender: " + playerName + " message: " + message + " timestamp: " + timestamp + " isDirect: " + isDirect);
     }
