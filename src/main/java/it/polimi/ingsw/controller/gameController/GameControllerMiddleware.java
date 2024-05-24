@@ -13,11 +13,6 @@ import it.polimi.ingsw.network.virtualView.VirtualViewable;
 /**
  * This class represents the middleware between the GameController and the PlayerActions interface.
  * It implements the PlayerActions interface and defines the actions flow that a player can perform in the game.
- * <p>
- * All the actions are to avoid concurrency problems. In fact the setPlayerConnectionStatus method
- * is called when a player disconnects, and it can be called in any moment of the game. We need to be sure that
- * the game status is consistent with the player actions.
- * </p>
  */
 public class GameControllerMiddleware implements PlayerActions, VirtualViewable<GameControllerView> {
     /**
