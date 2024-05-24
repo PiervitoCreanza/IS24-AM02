@@ -19,7 +19,6 @@
         </ListView>
         <HBox spacing="10">
             <Button text="Refresh" onAction="#refreshList" styleClass="menu-button"/>
-            <Button text="Join Game" onAction="#joinGame" styleClass="menu-button"/>
             <Button text="Create Game" onAction="#createGame" styleClass="menu-button"/>
             <Button text="Quit" onAction="#quit" styleClass="menu-button"/>
         </HBox>

@@ -1,25 +1,26 @@
 package it.polimi.ingsw.gui.controllers;
 
-
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
-import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 
-public class GamesListController extends Controller implements PropertyChangeListener {
+
+public class JoinGameSceneController extends Controller implements PropertyChangeListener {
     public static final ControllersEnum NAME = ControllersEnum.GAMES_LIST;
-    private final static Logger logger = LogManager.getLogger(GamesListController.class);
+    private final static Logger logger = LogManager.getLogger(JoinGameSceneController.class);
     private ClientNetworkControllerMapper networkControllerMapper;
+
     @FXML
-    private ListView<String> gameListView;
+    private TextField playerTextField;
+
 
     /**
      * Returns the name of the controller.
@@ -42,15 +43,6 @@ public class GamesListController extends Controller implements PropertyChangeLis
             networkControllerMapper = getProperty("networkControllerMapper");
             networkControllerMapper.addPropertyChangeListener(this);
         }
-        gameListView.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) {
-                String gameName = gameListView.getSelectionModel().getSelectedItem();
-                if (gameName != null)
-                    joinGame(gameName);
-
-            }
-        });
-        networkControllerMapper.getGames();
     }
 
     /**
@@ -62,6 +54,26 @@ public class GamesListController extends Controller implements PropertyChangeLis
         networkControllerMapper.removePropertyChangeListener(this);
     }
 
+    @FXML
+    public void joinGame(ActionEvent actionEvent) {
+        String gameName = getProperty("gameName");
+        String playerName = playerTextField.getText();
+        logger.debug("Joining game: {} with player: {}", gameName, playerName);
+        if (gameName != null && playerName != null)
+            networkControllerMapper.joinGame(gameName, playerName);
+    }
+
+    public void quit(ActionEvent actionEvent) {
+    }
+
+    private void showErrorPopup(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     /**
      * This method gets called when a bound property is changed.
      *
@@ -70,35 +82,9 @@ public class GamesListController extends Controller implements PropertyChangeLis
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        String changedProperty = evt.getPropertyName();
-        if (!"GET_GAMES".equals(changedProperty)) return;
-
-        logger.debug("Received games list");
-        ArrayList<GameRecord> gamesList = (ArrayList<GameRecord>) evt.getNewValue();
-        Platform.runLater(() -> {
-            gameListView.getItems().clear();
-            gameListView.getItems().addAll(gamesList.stream().map(GameRecord::gameName).toList());
-        });
-    }
-
-
-    @FXML
-    public void refreshList(ActionEvent actionEvent) {
-        networkControllerMapper.getGames();
-    }
-
-    @FXML
-    private void joinGame(String gameName) {
-        setProperty("gameName", gameName);
-        switchScene(ControllersEnum.JOIN_GAME);
-    }
-
-    @FXML
-    public void createGame(ActionEvent actionEvent) {
-        switchScene(ControllersEnum.CREATE_GAME);
-    }
-
-    @FXML
-    public void quit(ActionEvent actionEvent) {
+        if (evt.getPropertyName().equals("ERROR")) {
+            Platform.runLater(() -> showErrorPopup((String) evt.getNewValue()));
+            switchScene(getPreviousLayoutName());
+        }
     }
 }

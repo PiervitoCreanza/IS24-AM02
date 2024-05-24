@@ -96,7 +96,6 @@ public class MainMenuSceneController extends Controller implements PropertyChang
      */
     @Override
     public void beforeUnmount() {
-        // TODO
-
+        this.networkControllerMapper.removePropertyChangeListener(this);
     }
 }
