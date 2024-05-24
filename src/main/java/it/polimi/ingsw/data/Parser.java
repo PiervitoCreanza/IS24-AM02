@@ -133,8 +133,8 @@ public class Parser {
             parseGoldCardList(jsonObject);
             parseStarterCardList(jsonObject);
             parseObjectiveCardList(jsonObject);
-
             // Close the reader
+            is.close();
             reader.close();
         } catch (Exception e) {
             throw new RuntimeException("Parsing failed");
