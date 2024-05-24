@@ -79,7 +79,7 @@ public class GamesListController extends Controller implements PropertyChangeLis
     }
 
     public void joinGame(ActionEvent actionEvent) {
-        networkControllerMapper.joinGame(gameListView.getSelectionModel().getSelectedItem(), "GUI player");
+        //networkControllerMapper.joinGame(gameListView.getSelectionModel().getSelectedItem(), "GUI player");
     }
 
     public void createGame(ActionEvent actionEvent) {
