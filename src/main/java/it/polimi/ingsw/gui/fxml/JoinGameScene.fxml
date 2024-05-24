@@ -6,16 +6,19 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<StackPane xmlns:fx="http://javafx.com/fxml"
-           xmlns="http://javafx.com/javafx"
+<StackPane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx"
+           fx:controller="it.polimi.ingsw.gui.controllers.JoinGameSceneController"
            prefHeight="400.0" prefWidth="600.0">
     <fx:include source="Background.fxml"/>
+
     <VBox alignment="CENTER" spacing="20" maxWidth="650" maxHeight="200" styleClass="container">
         <Text styleClass="title" text="Join a game"/>
-        <TextField fx:id="textField" promptText="Choose your nickname"/>
+
+        <TextField fx:id="playerTextField" promptText="Choose your nickname"/>
+
         <HBox alignment="CENTER" spacing="20">
             <Button styleClass="brutalist-button" mnemonicParsing="false" text="Back"/>
-            <Button styleClass="brutalist-button" mnemonicParsing="false" text="Join"/>
+            <Button onAction="#joinGame" styleClass="brutalist-button" mnemonicParsing="false" text="Join"/>
         </HBox>
     </VBox>
 

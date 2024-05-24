@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+           prefHeight="1080.0"
+           prefWidth="1920.0"
+           xmlns="http://javafx.com/javafx/21"
+           fx:controller="it.polimi.ingsw.gui.controllers.CreateGameSceneController"
+>
+    <fx:include source="Background_with_logo.fxml"/>
+    <StackPane prefHeight="1080.0" prefWidth="1920.0">
+        <!-- Include the background -->
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" StackPane.alignment="CENTER">
+            <opaqueInsets>
+                <Insets/>
+            </opaqueInsets>
+            <StackPane.margin>
+                <Insets bottom="300.0" left="450.0" right="450.0" top="300.0"/>
+            </StackPane.margin>
+            <padding>
+                <Insets left="30.0" right="30.0"/>
+            </padding>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Create a game">
+                <font>
+                    <Font name="MedievalSharp" size="55.0"/>
+                </font>
+            </Text>
+            <TextField fx:id="gameTextField" prefWidth="958.0" promptText="Choose the game name">
+                <font>
+                    <Font size="25.0"/>
+                </font>
+            </TextField>
+            <TextField fx:id="playerTextField" prefHeight="26.0" prefWidth="1980.0" promptText="Choose the player name">
+                <font>
+                    <Font size="25.0"/>
+                </font>
+            </TextField>
+            <HBox alignment="CENTER" prefHeight="72.0" prefWidth="958.0" spacing="12.0">
+                <children>
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose the number of players">
+                        <font>
+                            <Font size="28.0"/>
+                        </font>
+                    </Text>
+                    <Button onAction="#player2" mnemonicParsing="false" prefHeight="59.0" prefWidth="78.0" text="2">
+                        <HBox.margin>
+                            <Insets left="250.0"/>
+                        </HBox.margin>
+                        <font>
+                            <Font size="25.0"/>
+                        </font>
+                    </Button>
+                    <Button onAction="#player3" mnemonicParsing="false" prefHeight="59.0" prefWidth="78.0" text="3">
+                        <font>
+                            <Font size="25.0"/>
+                        </font>
+                    </Button>
+                    <Button onAction="#player4" mnemonicParsing="false" prefHeight="59.0" prefWidth="78.0" text="4">
+                        <font>
+                            <Font size="25.0"/>
+                        </font>
+                        <HBox.margin>
+                            <Insets/>
+                        </HBox.margin>
+                    </Button>
+                </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="18.0" prefWidth="958.0" spacing="40.0"/>
+            <HBox alignment="CENTER" prefHeight="70.0" prefWidth="958.0" spacing="40.0">
+                <children>
+                    <Button onAction="#back" mnemonicParsing="false" prefHeight="46.0" prefWidth="196.0" text="Back"/>
+                    <Button onAction="#createGame" mnemonicParsing="false" prefHeight="46.0" prefWidth="196.0"
+                            text="Create"/>
+                </children>
+            </HBox>
+        </VBox>
+    </StackPane>
+</StackPane>
