@@ -51,7 +51,8 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("CONNECTION_CLOSED")) {
             logger.warn("Connection lost");
-            new Thread(() -> serverNetworkControllerMapper.handleDisconnection((ServerMessageHandler) evt.getNewValue())).start();
+            ServerMessageHandler serverMessageHandler = (ServerMessageHandler) evt.getSource();
+            new Thread(() -> serverNetworkControllerMapper.handleDisconnection(serverMessageHandler.getGameName(), serverMessageHandler.getPlayerName())).start();
         } else {
             logger.error("Unknown property name: {}", evt.getPropertyName());
         }

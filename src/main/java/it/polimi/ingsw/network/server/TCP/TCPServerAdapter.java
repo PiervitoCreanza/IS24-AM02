@@ -97,7 +97,7 @@ public class TCPServerAdapter implements ServerMessageHandler, PropertyChangeLis
             case "CONNECTION_CLOSED" -> {
                 if (this.isConnectionSaved) {
                     this.isConnectionSaved = false;
-                    this.serverNetworkControllerMapper.handleDisconnection(this);
+                    this.serverNetworkControllerMapper.handleDisconnection(gameName, playerName);
                 }
                 logger.warn("Connection with client lost.");
             }

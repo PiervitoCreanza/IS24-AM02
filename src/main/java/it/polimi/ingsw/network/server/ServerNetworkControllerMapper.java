@@ -61,10 +61,12 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      */
     @Override
     public void getGames(ServerMessageHandler messageHandler) {
-        try {
-            messageHandler.sendMessage(new GetGamesServerToClientMessage(mainController.getGameRecords()));
-        } catch (Exception e) {
-            messageHandler.sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+        synchronized (gameConnectionMapper) {
+            try {
+                messageHandler.sendMessage(new GetGamesServerToClientMessage(mainController.getGameRecords()));
+            } catch (Exception e) {
+                messageHandler.sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+            }
         }
     }
 
@@ -78,18 +80,20 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      */
     @Override
     public void createGame(ServerMessageHandler messageHandler, String gameName, String playerName, int nPlayers) {
-        try {
-            mainController.createGame(gameName, playerName, nPlayers);
-            messageHandler.setGameName(gameName);
-            messageHandler.setPlayerName(playerName);
-            messageHandler.connectionSaved(true);
+        synchronized (gameConnectionMapper) {
+            try {
+                mainController.createGame(gameName, playerName, nPlayers);
+                messageHandler.setGameName(gameName);
+                messageHandler.setPlayerName(playerName);
+                messageHandler.connectionSaved(true);
 
-            gameConnectionMapper.put(gameName, new HashMap<>());
-            gameConnectionMapper.get(gameName).put(playerName, messageHandler);
+                gameConnectionMapper.put(gameName, new HashMap<>());
+                gameConnectionMapper.get(gameName).put(playerName, messageHandler);
 
-            broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
-        } catch (Exception e) {
-            messageHandler.sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+                broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+            } catch (Exception e) {
+                messageHandler.sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+            }
         }
     }
 
@@ -102,17 +106,19 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      */
     @Override
     public void joinGame(ServerMessageHandler messageHandler, String gameName, String playerName) {
-        try {
-            mainController.joinGame(gameName, playerName);
+        synchronized (gameConnectionMapper) {
+            try {
+                mainController.joinGame(gameName, playerName);
 
-            messageHandler.setGameName(gameName);
-            messageHandler.setPlayerName(playerName);
-            messageHandler.connectionSaved(true);
+                messageHandler.setGameName(gameName);
+                messageHandler.setPlayerName(playerName);
+                messageHandler.connectionSaved(true);
 
-            gameConnectionMapper.get(gameName).put(playerName, messageHandler);
-            broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
-        } catch (Exception e) {
-            messageHandler.sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+                gameConnectionMapper.get(gameName).put(playerName, messageHandler);
+                broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+            } catch (Exception e) {
+                messageHandler.sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+            }
         }
     }
 
@@ -125,13 +131,15 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      */
     @Override
     public void deleteGame(ServerMessageHandler messageHandler, String gameName, String playerName) {
-        try {
-            mainController.isGameDeletable(gameName, playerName);
-            broadcastMessage(gameName, new DeleteGameServerToClientMessage());
-            // We close the connections. This will trigger the handleDisconnection method and so the game deletion.
-            closeConnections(gameName);
-        } catch (Exception e) {
-            messageHandler.sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+        synchronized (gameConnectionMapper) {
+            try {
+                mainController.isGameDeletable(gameName, playerName);
+                broadcastMessage(gameName, new DeleteGameServerToClientMessage());
+                // We close the connections. This will trigger the handleDisconnection method and so the game deletion.
+                closeConnections(gameName);
+            } catch (Exception e) {
+                messageHandler.sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+            }
         }
     }
 
@@ -144,11 +152,13 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      */
     @Override
     public void choosePlayerColor(String gameName, String playerName, PlayerColorEnum playerColor) {
-        try {
-            mainController.getGameController(gameName).choosePlayerColor(playerName, playerColor);
-            broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
-        } catch (Exception e) {
-            gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+        synchronized (gameConnectionMapper.get(gameName)) {
+            try {
+                mainController.getGameController(gameName).choosePlayerColor(playerName, playerColor);
+                broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+            } catch (Exception e) {
+                gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+            }
         }
     }
 
@@ -161,11 +171,13 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      */
     @Override
     public void setPlayerObjective(String gameName, String playerName, int cardId) {
-        try {
-            mainController.getGameController(gameName).setPlayerObjective(playerName, cardId);
-            broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
-        } catch (Exception e) {
-            gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+        synchronized (gameConnectionMapper.get(gameName)) {
+            try {
+                mainController.getGameController(gameName).setPlayerObjective(playerName, cardId);
+                broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+            } catch (Exception e) {
+                gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+            }
         }
     }
 
@@ -180,17 +192,19 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      */
     @Override
     public void placeCard(String gameName, String playerName, Coordinate coordinate, int cardId, boolean isFlipped) {
-        try {
-            GameControllerMiddleware gameController = mainController.getGameController(gameName);
-            if (isFlipped) {
-                gameController.switchCardSide(playerName, cardId);
+        synchronized (gameConnectionMapper.get(gameName)) {
+            try {
+                GameControllerMiddleware gameController = mainController.getGameController(gameName);
+                if (isFlipped) {
+                    gameController.switchCardSide(playerName, cardId);
+                }
+                gameController.placeCard(playerName, coordinate, cardId);
+
+                broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+
+            } catch (Exception e) {
+                gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
             }
-            gameController.placeCard(playerName, coordinate, cardId);
-
-            broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
-
-        } catch (Exception e) {
-            gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
         }
     }
 
@@ -203,11 +217,13 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      */
     @Override
     public void drawCardFromField(String gameName, String playerName, GameCard card) {
-        try {
-            mainController.getGameController(gameName).drawCardFromField(playerName, card);
-            broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
-        } catch (Exception e) {
-            gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+        synchronized (gameConnectionMapper.get(gameName)) {
+            try {
+                mainController.getGameController(gameName).drawCardFromField(playerName, card);
+                broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+            } catch (Exception e) {
+                gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+            }
         }
     }
 
@@ -219,11 +235,13 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      */
     @Override
     public void drawCardFromResourceDeck(String gameName, String playerName) {
-        try {
-            mainController.getGameController(gameName).drawCardFromResourceDeck(playerName);
-            broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
-        } catch (Exception e) {
-            gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+        synchronized (gameConnectionMapper.get(gameName)) {
+            try {
+                mainController.getGameController(gameName).drawCardFromResourceDeck(playerName);
+                broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+            } catch (Exception e) {
+                gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+            }
         }
     }
 
@@ -235,11 +253,13 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      */
     @Override
     public void drawCardFromGoldDeck(String gameName, String playerName) {
-        try {
-            mainController.getGameController(gameName).drawCardFromGoldDeck(playerName);
-            broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
-        } catch (Exception e) {
-            gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+        synchronized (gameConnectionMapper.get(gameName)) {
+            try {
+                mainController.getGameController(gameName).drawCardFromGoldDeck(playerName);
+                broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+            } catch (Exception e) {
+                gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+            }
         }
     }
 
@@ -252,11 +272,13 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      */
     @Override
     public void switchCardSide(String gameName, String playerName, int cardId) {
-        try {
-            mainController.getGameController(gameName).switchCardSide(playerName, cardId);
-            broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
-        } catch (Exception e) {
-            gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+        synchronized (gameConnectionMapper.get(gameName)) {
+            try {
+                mainController.getGameController(gameName).switchCardSide(playerName, cardId);
+                broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+            } catch (Exception e) {
+                gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
+            }
         }
     }
 
@@ -269,23 +291,25 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      */
     @Override
     public void sendChatMessage(String gameName, String playerName, String message, String receiver, long timestamp) {
-        // The message is converted to a ChatServerToClientMessage and sent to all clients excluding the sender.
-        ChatServerToClientMessage convertedMessage = new ChatServerToClientMessage(playerName, message, timestamp, !receiver.isEmpty());
+        synchronized (gameConnectionMapper.get(gameName)) {
+            // The message is converted to a ChatServerToClientMessage and sent to all clients excluding the sender.
+            ChatServerToClientMessage convertedMessage = new ChatServerToClientMessage(playerName, message, timestamp, !receiver.isEmpty());
 
-        if (convertedMessage.isDirectMessage()) {
-            //It is sent only to the receiver and the sender.
-            ServerMessageHandler receiverHandler = gameConnectionMapper.get(gameName).get(receiver);
-            ServerMessageHandler senderHandler = gameConnectionMapper.get(gameName).get(playerName);
-            if (receiverHandler != null) {
-                receiverHandler.sendMessage(convertedMessage);
-                if (!receiver.equals(playerName))
-                    senderHandler.sendMessage(convertedMessage);
+            if (convertedMessage.isDirectMessage()) {
+                //It is sent only to the receiver and the sender.
+                ServerMessageHandler receiverHandler = gameConnectionMapper.get(gameName).get(receiver);
+                ServerMessageHandler senderHandler = gameConnectionMapper.get(gameName).get(playerName);
+                if (receiverHandler != null) {
+                    receiverHandler.sendMessage(convertedMessage);
+                    if (!receiver.equals(playerName))
+                        senderHandler.sendMessage(convertedMessage);
+                } else {
+                    senderHandler.sendMessage(new ErrorServerToClientMessage("The player you are trying to send a message to is not in the game."));
+                }
             } else {
-                senderHandler.sendMessage(new ErrorServerToClientMessage("The player you are trying to send a message to is not in the game."));
+                //It is broadcast to any player of the game (even the sender) to avoid code redundancy client-side.
+                broadcastMessage(gameName, convertedMessage);
             }
-        } else {
-            //It is broadcast to any player of the game (even the sender) to avoid code redundancy client-side.
-            broadcastMessage(gameName, convertedMessage);
         }
     }
 
@@ -297,8 +321,9 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      */
     @Override
     public void disconnect(String gameName, String playerName) {
-        if (gameConnectionMapper.containsKey(gameName))
+        synchronized (gameConnectionMapper.get(gameName)) {
             gameConnectionMapper.get(gameName).get(playerName).closeConnection();
+        }
     }
 
     /**
@@ -328,31 +353,32 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      * Handles the disconnection of a client.
      * If all clients in a game have disconnected, the game is deleted.
      *
-     * @param messageHandler the ServerMessageHandler that has been disconnected
+     * @param gameName   the name of the game
+     * @param playerName the name of the player who disconnected
      */
-    public synchronized void handleDisconnection(ServerMessageHandler messageHandler) {
-        String gameName = messageHandler.getGameName();
+    public void handleDisconnection(String gameName, String playerName) {
+        synchronized (gameConnectionMapper.get(gameName)) {
 
-        gameConnectionMapper.get(gameName).remove(messageHandler.getPlayerName());
-        mainController.getGameController(gameName).setPlayerConnectionStatus(messageHandler.getPlayerName(), false);
+            gameConnectionMapper.get(gameName).remove(playerName);
+            mainController.getGameController(gameName).setPlayerConnectionStatus(playerName, false);
 
-        logger.debug("Player {} disconnected from game {}. Remaining players: {}", messageHandler.getPlayerName(), gameName, gameConnectionMapper.get(gameName).size());
+            logger.debug("Player {} disconnected from game {}. Remaining players: {}", playerName, gameName, gameConnectionMapper.get(gameName).size());
 
-        if (gameConnectionMapper.get(gameName).size() == 1) {
-            startLastPlayerTimeout(gameName);
+            if (gameConnectionMapper.get(gameName).size() == 1) {
+                startLastPlayerTimeout(gameName);
+            }
+            // If the game is now empty we delete it.
+            if (gameConnectionMapper.get(gameName).isEmpty()) {
+                // Delete the game
+                mainController.deleteGame(gameName);
+
+                gameConnectionMapper.remove(gameName);
+                logger.debug("Game {} deleted.", gameName);
+                return;
+            }
+            // If the game was not deleted we update the view for the remaining players.
+            broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
         }
-        // If the game is now empty we delete it.
-        if (gameConnectionMapper.get(gameName).isEmpty()) {
-
-            // Delete the game
-            mainController.deleteGame(gameName);
-
-            gameConnectionMapper.remove(gameName);
-            logger.debug("Game {} deleted.", gameName);
-            return;
-        }
-        // If the game was not deleted we update the view for the remaining players.
-        broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
     }
 
     /**
@@ -366,10 +392,12 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
             @Override
             public void run() {
                 // If after 30 seconds there is still only one player in the game we close the connections and delete the game.
-                HashMap<String, ServerMessageHandler> gameConnections = gameConnectionMapper.get(gameName);
-                if (gameConnections != null && gameConnections.size() == 1) {
-                    broadcastMessage(gameName, new DeleteGameServerToClientMessage());
-                    closeConnections(gameName);
+                synchronized (gameConnectionMapper.get(gameName)) {
+                    HashMap<String, ServerMessageHandler> gameConnections = gameConnectionMapper.get(gameName);
+                    if (gameConnections != null && gameConnections.size() == 1) {
+                        broadcastMessage(gameName, new DeleteGameServerToClientMessage());
+                        closeConnections(gameName);
+                    }
                 }
             }
         }, 30000); // Delay in milliseconds
