@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.net.URL;
 
 
-//TODO: REBASE
 public class GUIApp extends Application {
     private static final Logger logger = LogManager.getLogger(GUIApp.class);
     public static int DEFAULT_WIDTH = 1920;
@@ -38,8 +37,8 @@ public class GUIApp extends Application {
 
         // Set the stage title and dimensions.
         stage.setTitle("Codex Naturalis");
-        stage.setMinHeight(400);
-        stage.setMinWidth(600);
+        stage.setMinHeight(900);
+        stage.setMinWidth(1200);
 
 
         URL fxml1URL = getClass().getResource("/HomeScene.fxml");

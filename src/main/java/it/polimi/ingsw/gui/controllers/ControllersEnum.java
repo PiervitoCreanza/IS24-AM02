@@ -2,7 +2,9 @@ package it.polimi.ingsw.gui.controllers;
 
 public enum ControllersEnum {
     HOME("HomeScene"),
-    START("StartScene"), GAMES_LIST("GamesListScene");
+    START("StartScene"),
+    GAMES_LIST("GamesListScene"),
+    MAIN_MENU("MainMenuScene");
 
     private final String fxmlFileName;
 

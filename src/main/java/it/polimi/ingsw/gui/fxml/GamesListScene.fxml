@@ -9,6 +9,11 @@
     <VBox spacing="10" styleClass="menu-vbox" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="20"
           AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
         <Label text="Game List" styleClass="title-label"/>
+
+        <!-- Background should be placed before every other component in order to be displayed at the bottom -->
+        <fx:include source="Background.fxml"/>
+
+        <!-- Start of component content -->
         <ListView fx:id="gameListView" styleClass="game-list" VBox.vgrow="ALWAYS">
             <!-- List items will be populated by the controller -->
         </ListView>

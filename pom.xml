@@ -153,7 +153,10 @@
             </resource>
 
             <resource>
-                <directory>src/main/resources/images</directory>
+                <directory>src/main/resources/assets/images</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources/assets/css</directory>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
