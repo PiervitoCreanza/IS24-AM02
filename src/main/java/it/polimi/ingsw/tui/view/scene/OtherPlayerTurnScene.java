@@ -58,6 +58,9 @@ public class OtherPlayerTurnScene implements Scene, PropertyChangeListener {
     public OtherPlayerTurnScene(TUIViewController controller, String playerName, PlayerColorEnum playerColor, HashMap<Coordinate, GameCard> playerBoard, boolean isLastRound, int remainingRoundsToEndGame) {
         this.controller = controller;
         this.drawArea = new DrawArea();
+        if (playerName.length() > 26) {
+            playerName = playerName.substring(0, 23) + "...";
+        }
         if (isLastRound) {
             DrawArea endPhaseArea = new EndPhaseComponent(playerName, playerColor, true, remainingRoundsToEndGame).getDrawArea();
             this.drawArea.drawAt(0, 0, endPhaseArea);

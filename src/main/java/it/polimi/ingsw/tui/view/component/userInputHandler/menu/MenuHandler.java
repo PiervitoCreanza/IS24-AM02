@@ -100,7 +100,7 @@ public class MenuHandler {
                 listeners.firePropertyChange("q", null, null);
                 return;
             }
-            selectedMenuItem = itemsMap.get(input);
+            selectedMenuItem = itemsMap.get(input.toLowerCase());
 
             // If the input is not valid, print the menu again and return.
             if (selectedMenuItem == null) {

@@ -77,6 +77,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      * Closes the connection of the current message handler.
      */
     public void closeConnection() {
+        view = null;
         messageHandler.closeConnection();
     }
 
