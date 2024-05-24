@@ -288,13 +288,19 @@ public class DrawArea implements Drawable {
     public <U> ArrayList<Pair<Coordinate, U>> convertCoordinates(ArrayList<Pair<Coordinate, U>> pair) {
         int maxY = pair.stream().mapToInt(p -> p.x().y).max().orElse(0);
         int minX = pair.stream().mapToInt(p -> p.x().x).min().orElse(0);
+
+        ArrayList<Pair<Coordinate, U>> newPair = new ArrayList<>();
+
         pair.forEach(p -> {
+            Coordinate translationCoordinate = new Coordinate(p.x().x, p.x().y);
             if (minX < 0) {
-                p.key().x += Math.abs(minX);
+                translationCoordinate.x += Math.abs(minX);
             }
-            p.key().y = maxY - p.key().y;
+            translationCoordinate.y = maxY - translationCoordinate.y;
+            newPair.add(new Pair<>(translationCoordinate, p.y()));
         });
-        return pair;
+
+        return newPair;
     }
 
     /**
