@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.server.persistence;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.controller.MainController;
+import it.polimi.ingsw.controller.gameController.GameControllerMiddleware;
 import it.polimi.ingsw.data.ObjectiveCardAdapter;
 import it.polimi.ingsw.data.SideGameCardAdapter;
 import it.polimi.ingsw.model.Game;
@@ -55,10 +56,13 @@ public class Persistence {
                     mainController.joinGame("Room1", playerView.playerName());
                 }
             }
-
+            // Set the game status
             Game game = mainController.getGameController("Room1").getGame();
             game.setCurrentPlayer(gameControllerView.getCurrentPlayerView().playerName());
-            mainController.getGameController("Room1").setGameStatus(gameControllerView.gameStatus());
+            GameControllerMiddleware gameControllerMiddleware = mainController.getGameController("Room1");
+            gameControllerMiddleware.setGameStatus(gameControllerView.gameStatus());
+            gameControllerMiddleware.setRemainingRoundsToEndGame(gameControllerView.remainingRoundsToEndGame());
+            gameControllerMiddleware.setLastRound(gameControllerView.isLastRound());
             GlobalBoard globalBoard = game.getGlobalBoard();
             globalBoard.setGlobalObjectives(gameControllerView.gameView().globalBoardView().globalObjectives());
             globalBoard.getFieldResourceCards().clear();

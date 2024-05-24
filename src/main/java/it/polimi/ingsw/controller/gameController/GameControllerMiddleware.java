@@ -440,4 +440,12 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
     private boolean canDrawCard() {
         return !game.getGlobalBoard().areFieldAndDecksEmpty();
     }
+
+    public void setLastRound(boolean lastRound) {
+        isLastRound = lastRound;
+    }
+
+    public void setRemainingRoundsToEndGame(int remainingRoundsToEndGame) {
+        this.remainingRoundsToEndGame = remainingRoundsToEndGame;
+    }
 }
