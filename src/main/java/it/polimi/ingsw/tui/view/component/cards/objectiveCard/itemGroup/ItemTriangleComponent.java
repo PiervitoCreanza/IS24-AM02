@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 import it.polimi.ingsw.tui.view.drawer.Drawable;
 
+import java.util.ArrayList;
+
 /**
  * This class represents an item triangle component in the game.
  * It is used to represent the triangle of items in the objective cards.
@@ -40,6 +42,18 @@ public class ItemTriangleComponent implements Drawable {
         this.drawArea.drawAt(0, 0, item.getSymbol(), item.getColor());
         this.drawArea.drawAt(-1, 1, item.getSymbol(), item.getColor());
         this.drawArea.drawAt(1, 1, item.getSymbol(), item.getColor());
+    }
+
+    /**
+     * Constructor for the ItemTriangleComponent class.
+     *
+     * @param items the items of the triangle.
+     */
+    public ItemTriangleComponent(ArrayList<GameItemEnum> items) {
+        this.drawArea = new DrawArea();
+        this.drawArea.drawAt(0, 0, items.get(0).getSymbol(), items.get(0).getColor());
+        this.drawArea.drawAt(-1, 1, items.get(1).getSymbol(), items.get(1).getColor());
+        this.drawArea.drawAt(1, 1, items.get(2).getSymbol(), items.get(2).getColor());
     }
 
     /**

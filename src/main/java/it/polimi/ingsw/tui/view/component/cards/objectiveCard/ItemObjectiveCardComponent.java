@@ -2,9 +2,12 @@ package it.polimi.ingsw.tui.view.component.cards.objectiveCard;
 
 import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.model.card.objectiveCard.ItemObjectiveCard;
+import it.polimi.ingsw.tui.view.component.cards.objectiveCard.itemGroup.ItemPairComponent;
 import it.polimi.ingsw.tui.view.component.cards.objectiveCard.itemGroup.ItemTriangleComponent;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 import it.polimi.ingsw.tui.view.drawer.Drawable;
+
+import java.util.ArrayList;
 
 /*
                 ┌───────────────┐
@@ -34,12 +37,17 @@ public class ItemObjectiveCardComponent implements Drawable {
     public ItemObjectiveCardComponent(ItemObjectiveCard objectiveCard, DrawArea drawArea) {
         this.drawArea = drawArea;
         // There is only one item in the multiplier
-        GameItemEnum item = objectiveCard.getMultiplier().getNonEmptyKeys().getFirst();
+        ArrayList<GameItemEnum> items = objectiveCard.getMultiplier().getNonEmptyKeys();
 
         int x = 15, y = 2;
-        this.drawArea.drawAt(x, y, new ItemTriangleComponent(item).getDrawArea());
+        if (items.size() == 3)
+            this.drawArea.drawAt(x, y, new ItemTriangleComponent(items).getDrawArea());
+        else if (objectiveCard.getMultiplier().get(items.getFirst()) == 3)
+            this.drawArea.drawAt(x, y, new ItemTriangleComponent(items.getFirst()).getDrawArea());
+        else
+            this.drawArea.drawAt(x, y, new ItemPairComponent(items.getFirst()).getDrawArea());
         this.drawArea.drawAt(x - 3, y + 2, "-------");
-        this.drawArea.setColor(item.getColor());
+        this.drawArea.setColor(items.getFirst().getColor());
 
         this.drawArea.drawAt(6, 3, objectiveCard.getPointsWon());
     }
