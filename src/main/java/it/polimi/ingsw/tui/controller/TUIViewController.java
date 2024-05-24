@@ -196,9 +196,9 @@ public class TUIViewController implements PropertyChangeListener, ViewController
      * Method to create a new game.
      * It delegates the request to the network controller.
      *
-     * @param gameName the name of the game to be created.
+     * @param gameName   the name of the game to be created.
      * @param playerName the name of the player.
-     * @param nPlayers the number of players in the game.
+     * @param nPlayers   the number of players in the game.
      */
     public void createGame(String gameName, String playerName, int nPlayers) {
         this.playerName = playerName;
@@ -259,8 +259,8 @@ public class TUIViewController implements PropertyChangeListener, ViewController
      * It delegates the request to the network controller.
      *
      * @param chosenCardId the card to be placed.
-     * @param coordinate    the coordinate where the card is placed.
-     * @param isFlipped     the side of the card.
+     * @param coordinate   the coordinate where the card is placed.
+     * @param isFlipped    the side of the card.
      */
     public void placeCard(int chosenCardId, Coordinate coordinate, boolean isFlipped) {
         networkController.placeCard(gameName, playerName, coordinate, chosenCardId, isFlipped);
@@ -436,6 +436,10 @@ public class TUIViewController implements PropertyChangeListener, ViewController
         String changedProperty = evt.getPropertyName();
         switch (changedProperty) {
             case "CONNECTION_ESTABLISHED":
+                if (isInChat)
+                    isInChat = false;
+                if (isGameOver)
+                    isGameOver = false;
                 this.currentScene = sceneBuilder.instanceMainMenuScene();
                 break;
 
@@ -508,10 +512,6 @@ public class TUIViewController implements PropertyChangeListener, ViewController
                 break;
 
             case "GAME_DELETED":
-                if (isInChat)
-                    isInChat = false;
-                if (isGameOver)
-                    isGameOver = false;
                 closeConnection();
                 dontDisplay = true;
                 break;
