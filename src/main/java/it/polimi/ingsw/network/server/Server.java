@@ -59,7 +59,7 @@ public class Server {
          * ***************************************/
         MainController mainController = new MainController();
         ServerNetworkControllerMapper serverNetworkControllerMapper = new ServerNetworkControllerMapper(mainController);
-        new Persistence(mainController, serverNetworkControllerMapper).load("almostEnded");
+        new Persistence(mainController, serverNetworkControllerMapper).load("karmaBugEdit");
         /* ***************************************
          * CLI ARGUMENTS PARSING
          * ***************************************/
