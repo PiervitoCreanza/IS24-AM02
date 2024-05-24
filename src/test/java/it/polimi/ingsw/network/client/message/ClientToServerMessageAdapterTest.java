@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.adapters;
+package it.polimi.ingsw.network.client.message;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,7 +18,6 @@ import it.polimi.ingsw.model.card.objectiveCard.PositionalObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
-import it.polimi.ingsw.network.client.message.ClientToServerMessage;
 import it.polimi.ingsw.network.client.message.gameController.*;
 import it.polimi.ingsw.network.client.message.mainController.CreateGameClientToServerMessage;
 import it.polimi.ingsw.network.client.message.mainController.DeleteGameClientToServerMessage;
@@ -32,8 +31,8 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("ClientToServerToClientToServerToClientMessageAdapterTest")
-public class ClientToServerToClientToServerToClientMessageAdapterTest {
+@DisplayName("ClientToServerToClientToServerToClientToServerMessageAdapterTest")
+public class ClientToServerMessageAdapterTest {
     Gson gson = new GsonBuilder()
             .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter())
             .registerTypeAdapter(ObjectiveCard.class, new ObjectiveCardAdapter())
@@ -42,65 +41,65 @@ public class ClientToServerToClientToServerToClientMessageAdapterTest {
 
     @Test
     @DisplayName("Test if serialization and deserialization of GetGamesClientToServerMessage works")
-    public void serializeAndDeserializeGetGamesClientMessage() {
+    public void serializeAndDeserializeGetGamesClientToServerMessage() {
         ClientToServerMessage getGamesClientToServerMessage = new GetGamesClientToServerMessage();
         // Serialize
-        String jsonGetGamesClientMessage = this.gson.toJson(getGamesClientToServerMessage);
+        String jsonGetGamesClientToServerMessage = this.gson.toJson(getGamesClientToServerMessage);
         // Deserialize
-        assertEquals(getGamesClientToServerMessage, this.gson.fromJson(jsonGetGamesClientMessage, ClientToServerMessage.class));
+        assertEquals(getGamesClientToServerMessage, this.gson.fromJson(jsonGetGamesClientToServerMessage, ClientToServerMessage.class));
     }
 
     @Test
     @DisplayName("Test if serialization and deserialization of CreateGameClientToServerMessage works")
-    public void serializeAndDeserializeCreateGameClientMessage() {
+    public void serializeAndDeserializeCreateGameClientToServerMessage() {
         ClientToServerMessage createGameClientToServerMessage = new CreateGameClientToServerMessage("Game1", "Player1", 3);
         // Serialize
-        String jsonCreateGameClientMessage = this.gson.toJson(createGameClientToServerMessage);
+        String jsonCreateGameClientToServerMessage = this.gson.toJson(createGameClientToServerMessage);
         // Deserialize
-        assertEquals(createGameClientToServerMessage, this.gson.fromJson(jsonCreateGameClientMessage, ClientToServerMessage.class));
+        assertEquals(createGameClientToServerMessage, this.gson.fromJson(jsonCreateGameClientToServerMessage, ClientToServerMessage.class));
     }
 
     @Test
     @DisplayName("Test if serialization and deserialization of DeleteGameClientToServerMessage works")
-    public void serializeAndDeserializeDeleteGameClientMessage() {
+    public void serializeAndDeserializeDeleteGameClientToServerMessage() {
         ClientToServerMessage deleteGameClientToServerMessage = new DeleteGameClientToServerMessage("Game1", "Player1");
         // Serialize
-        String jsonCreateGameClientMessage = this.gson.toJson(deleteGameClientToServerMessage);
+        String jsonCreateGameClientToServerMessage = this.gson.toJson(deleteGameClientToServerMessage);
         // Deserialize
-        assertEquals(deleteGameClientToServerMessage, this.gson.fromJson(jsonCreateGameClientMessage, ClientToServerMessage.class));
+        assertEquals(deleteGameClientToServerMessage, this.gson.fromJson(jsonCreateGameClientToServerMessage, ClientToServerMessage.class));
     }
 
     @Test
     @DisplayName("Test if serialization and deserialization of JoinGameClientToServerMessage works")
-    public void serializeAndDeserializeJoinGameClientMessage() {
+    public void serializeAndDeserializeJoinGameClientToServerMessage() {
         ClientToServerMessage joinGameClientToServerMessage = new JoinGameClientToServerMessage("Game1", "Player1");
         // Serialize
-        String jsonJoinGameClientMessage = this.gson.toJson(joinGameClientToServerMessage);
+        String jsonJoinGameClientToServerMessage = this.gson.toJson(joinGameClientToServerMessage);
         // Deserialize
-        assertEquals(joinGameClientToServerMessage, this.gson.fromJson(jsonJoinGameClientMessage, ClientToServerMessage.class));
+        assertEquals(joinGameClientToServerMessage, this.gson.fromJson(jsonJoinGameClientToServerMessage, ClientToServerMessage.class));
     }
 
     @Test
     @DisplayName("Test if serialization and deserialization of ChoosePlayerColorClientToServerMessage works")
-    public void serializeAndDeserializeChoosePlayerColorClientMessage() {
+    public void serializeAndDeserializeChoosePlayerColorClientToServerMessage() {
         ClientToServerMessage choosePlayerColorClientToServerMessage = new ChoosePlayerColorClientToServerMessage("Game1", "Player1", PlayerColorEnum.RED);
         // Serialize
-        String jsonChoosePlayerColorClientMessage = this.gson.toJson(choosePlayerColorClientToServerMessage);
+        String jsonChoosePlayerColorClientToServerMessage = this.gson.toJson(choosePlayerColorClientToServerMessage);
         // Deserialize
-        assertEquals(choosePlayerColorClientToServerMessage, this.gson.fromJson(jsonChoosePlayerColorClientMessage, ClientToServerMessage.class));
+        assertEquals(choosePlayerColorClientToServerMessage, this.gson.fromJson(jsonChoosePlayerColorClientToServerMessage, ClientToServerMessage.class));
     }
 
     @Test
     @DisplayName("Test if serialization and deserialization of SetPlayerObjectiveClientToServerMessage works")
-    public void serializeAndDeserializeSetPlayerObjectiveClientMessage() {
+    public void serializeAndDeserializeSetPlayerObjectiveClientToServerMessage() {
         GameItemStore multiplier = new GameItemStore();
         multiplier.set(GameItemEnum.INKWELL, 2);
         ObjectiveCard objectiveCard1 = new ItemObjectiveCard(1, 2, multiplier);
         ClientToServerMessage setPlayerObjectiveClientToServerMessage1 = new SetPlayerObjectiveClientToServerMessage("Game1", "Player1", objectiveCard1.getCardId());
         // Serialize
-        String jsonSetPlayerObjectiveClientMessage1 = this.gson.toJson(setPlayerObjectiveClientToServerMessage1);
+        String jsonSetPlayerObjectiveClientToServerMessage1 = this.gson.toJson(setPlayerObjectiveClientToServerMessage1);
         // Deserialize
-        assertEquals(setPlayerObjectiveClientToServerMessage1, this.gson.fromJson(jsonSetPlayerObjectiveClientMessage1, ClientToServerMessage.class));
+        assertEquals(setPlayerObjectiveClientToServerMessage1, this.gson.fromJson(jsonSetPlayerObjectiveClientToServerMessage1, ClientToServerMessage.class));
         ArrayList<PositionalData> positionalDataArrayList = new ArrayList<>();
         positionalDataArrayList.add(new PositionalData(new Coordinate(1, 1), CardColorEnum.RED));
         positionalDataArrayList.add(new PositionalData(new Coordinate(1, 2), CardColorEnum.CYAN));
@@ -108,70 +107,90 @@ public class ClientToServerToClientToServerToClientMessageAdapterTest {
         ObjectiveCard objectiveCard2 = new PositionalObjectiveCard(1, 2, positionalDataArrayList);
         ClientToServerMessage setPlayerObjectiveClientToServerMessage2 = new SetPlayerObjectiveClientToServerMessage("Game2", "Player2", objectiveCard2.getCardId());
         // Serialize
-        String jsonSetPlayerObjectiveClientMessage2 = this.gson.toJson(setPlayerObjectiveClientToServerMessage2);
+        String jsonSetPlayerObjectiveClientToServerMessage2 = this.gson.toJson(setPlayerObjectiveClientToServerMessage2);
         // Deserialize
-        assertEquals(setPlayerObjectiveClientToServerMessage2, this.gson.fromJson(jsonSetPlayerObjectiveClientMessage2, ClientToServerMessage.class));
+        assertEquals(setPlayerObjectiveClientToServerMessage2, this.gson.fromJson(jsonSetPlayerObjectiveClientToServerMessage2, ClientToServerMessage.class));
     }
 
     @Test
     @DisplayName("Test if serialization and deserialization of PlaceCardClientToServerMessage works")
-    public void serializeAndDeserializePlaceCardClientMessage() {
+    public void serializeAndDeserializePlaceCardClientToServerMessage() {
         GameItemStore gameItemStore = new GameItemStore();
         gameItemStore.set(GameItemEnum.ANIMAL, 1);
         GameCard resourceGameCard = new GameCard(1, new FrontGameCard(new Corner(GameItemEnum.FUNGI), new Corner(GameItemEnum.PLANT), new Corner(GameItemEnum.ANIMAL), new Corner(GameItemEnum.INSECT), 1), new BackGameCard(new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), gameItemStore), CardColorEnum.RED);
 
         ClientToServerMessage placeCardClientToServerMessage = new PlaceCardClientToServerMessage("Game1", "Player1", new Coordinate(1, 1), resourceGameCard.getCardId(), false);
         // Serialize
-        String jsonPlaceCardClientMessage = this.gson.toJson(placeCardClientToServerMessage);
+        String jsonPlaceCardClientToServerMessage = this.gson.toJson(placeCardClientToServerMessage);
         // Deserialize
-        assertEquals(placeCardClientToServerMessage, this.gson.fromJson(jsonPlaceCardClientMessage, ClientToServerMessage.class));
+        assertEquals(placeCardClientToServerMessage, this.gson.fromJson(jsonPlaceCardClientToServerMessage, ClientToServerMessage.class));
     }
 
     @Test
     @DisplayName("Test if serialization and deserialization of DrawCardFromFieldClientToServerMessage works")
-    public void serializeAndDeserializeDrawCardFromFieldClientMessage() {
+    public void serializeAndDeserializeDrawCardFromFieldClientToServerMessage() {
         GameItemStore gameItemStore = new GameItemStore();
         gameItemStore.set(GameItemEnum.ANIMAL, 1);
         GameCard resourceGameCard = new GameCard(1, new FrontGameCard(new Corner(GameItemEnum.FUNGI), new Corner(GameItemEnum.PLANT), new Corner(GameItemEnum.ANIMAL), new Corner(GameItemEnum.INSECT), 1), new BackGameCard(new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), gameItemStore), CardColorEnum.RED);
 
         ClientToServerMessage drawCardFromFieldClientToServerMessage = new DrawCardFromFieldClientToServerMessage("Game1", "Player1", resourceGameCard);
         // Serialize
-        String jsonDrawCardFromFieldClientMessage = this.gson.toJson(drawCardFromFieldClientToServerMessage);
+        String jsonDrawCardFromFieldClientToServerMessage = this.gson.toJson(drawCardFromFieldClientToServerMessage);
         // Deserialize
-        assertEquals(drawCardFromFieldClientToServerMessage, this.gson.fromJson(jsonDrawCardFromFieldClientMessage, ClientToServerMessage.class));
+        assertEquals(drawCardFromFieldClientToServerMessage, this.gson.fromJson(jsonDrawCardFromFieldClientToServerMessage, ClientToServerMessage.class));
     }
 
     @Test
     @DisplayName("Test if serialization and deserialization of DrawCardFromGoldDeckClientToServerMessage works")
-    public void serializeAndDeserializeDrawCardFromGoldDeckClientMessage() {
+    public void serializeAndDeserializeDrawCardFromGoldDeckClientToServerMessage() {
         ClientToServerMessage drawCardFromGoldDeckClientToServerMessage = new DrawCardFromGoldDeckClientToServerMessage("Game1", "Player1");
         // Serialize
-        String jsonDrawCardFromGoldDeckClientMessage = this.gson.toJson(drawCardFromGoldDeckClientToServerMessage);
+        String jsonDrawCardFromGoldDeckClientToServerMessage = this.gson.toJson(drawCardFromGoldDeckClientToServerMessage);
         // Deserialize
-        assertEquals(drawCardFromGoldDeckClientToServerMessage, this.gson.fromJson(jsonDrawCardFromGoldDeckClientMessage, ClientToServerMessage.class));
+        assertEquals(drawCardFromGoldDeckClientToServerMessage, this.gson.fromJson(jsonDrawCardFromGoldDeckClientToServerMessage, ClientToServerMessage.class));
     }
 
     @Test
     @DisplayName("Test if serialization and deserialization of DrawCardFromResourceDeckClientToServerMessage works")
-    public void serializeAndDeserializeDrawCardFromResourceDeckClientMessage() {
+    public void serializeAndDeserializeDrawCardFromResourceDeckClientToServerMessage() {
         ClientToServerMessage drawCardFromResourceDeckClientToServerMessage = new DrawCardFromResourceDeckClientToServerMessage("Game1", "Player1");
         // Serialize
-        String jsonDrawCardFromResourceDeckClientMessage = this.gson.toJson(drawCardFromResourceDeckClientToServerMessage);
+        String jsonDrawCardFromResourceDeckClientToServerMessage = this.gson.toJson(drawCardFromResourceDeckClientToServerMessage);
         // Deserialize
-        assertEquals(drawCardFromResourceDeckClientToServerMessage, this.gson.fromJson(jsonDrawCardFromResourceDeckClientMessage, ClientToServerMessage.class));
+        assertEquals(drawCardFromResourceDeckClientToServerMessage, this.gson.fromJson(jsonDrawCardFromResourceDeckClientToServerMessage, ClientToServerMessage.class));
     }
 
     @Test
     @DisplayName("Test if serialization and deserialization of SwitchCardSideClientToServerMessage works")
-    public void serializeAndDeserializeSwitchCardSideClientMessage() {
+    public void serializeAndDeserializeSwitchCardSideClientToServerMessage() {
         GameItemStore gameItemStore = new GameItemStore();
         gameItemStore.set(GameItemEnum.ANIMAL, 1);
         GameCard resourceGameCard = new GameCard(1, new FrontGameCard(new Corner(GameItemEnum.FUNGI), new Corner(GameItemEnum.PLANT), new Corner(GameItemEnum.ANIMAL), new Corner(GameItemEnum.INSECT), 1), new BackGameCard(new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), gameItemStore), CardColorEnum.RED);
 
         ClientToServerMessage switchCardSideClientToServerMessage = new SwitchCardSideClientToServerMessage("Game1", "Player1", resourceGameCard.getCardId());
         // Serialize
-        String jsonSwitchCardSideClientMessage = this.gson.toJson(switchCardSideClientToServerMessage);
+        String jsonSwitchCardSideClientToServerMessage = this.gson.toJson(switchCardSideClientToServerMessage);
         // Deserialize
-        assertEquals(switchCardSideClientToServerMessage, this.gson.fromJson(jsonSwitchCardSideClientMessage, ClientToServerMessage.class));
+        assertEquals(switchCardSideClientToServerMessage, this.gson.fromJson(jsonSwitchCardSideClientToServerMessage, ClientToServerMessage.class));
+    }
+
+    @Test
+    @DisplayName("Test if serialization and deserialization of ChatClientToServerMessage works")
+    public void serializeAndDeserializeChatClientToServerMessage() {
+        ClientToServerMessage chatClientToServerMessage = new ChatClientToServerMessage("Game1", "Player1", "Hello", "Player2");
+        // Serialize
+        String jsonChatClientToServerMessage = this.gson.toJson(chatClientToServerMessage);
+        // Deserialize
+        assertEquals(chatClientToServerMessage, this.gson.fromJson(jsonChatClientToServerMessage, ClientToServerMessage.class));
+    }
+
+    @Test
+    @DisplayName("Test if serialization and deserialization of DisconnectClientToServerMessage works")
+    public void serializeAndDeserializeDisconnectClientToServerMessage() {
+        ClientToServerMessage disconnectClientToServerMessage = new DisconnectClientToServerMessage("Game1", "Player1");
+        // Serialize
+        String jsonDisconnectClientToServerMessage = this.gson.toJson(disconnectClientToServerMessage);
+        // Deserialize
+        assertEquals(disconnectClientToServerMessage, this.gson.fromJson(jsonDisconnectClientToServerMessage, ClientToServerMessage.class));
     }
 }

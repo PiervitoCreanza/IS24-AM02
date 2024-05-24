@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.adapters;
+package it.polimi.ingsw.network.server.message;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,9 +10,7 @@ import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
-import it.polimi.ingsw.network.client.message.adapter.ServerToClientMessageAdapter;
-import it.polimi.ingsw.network.server.message.ErrorServerToClientMessage;
-import it.polimi.ingsw.network.server.message.ServerToClientMessage;
+import it.polimi.ingsw.network.client.message.ServerToClientMessageAdapter;
 import it.polimi.ingsw.network.server.message.successMessage.DeleteGameServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.server.message.successMessage.GetGamesServerToClientMessage;
@@ -22,11 +20,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("ServerToClientToServerToClientMessageAdapterTest")
-public class ServerToClientToServerToClientMessageAdapterTest {
+@DisplayName("ServerToClientMessageAdapterTest")
+public class ServerToClientMessageAdapterTest {
 
     Gson gson = new GsonBuilder()
             .enableComplexMapKeySerialization()
@@ -87,5 +86,16 @@ public class ServerToClientToServerToClientMessageAdapterTest {
         String jsonErrorServerMessage = this.gson.toJson(errorServerToClientMessage);
         // Deserialize
         assertEquals(errorServerToClientMessage, this.gson.fromJson(jsonErrorServerMessage, ServerToClientMessage.class));
+    }
+
+    @Test
+    @DisplayName("Test if serialization and deserialization of ChatServerToClientMessage works")
+    public void serializeAndDeserializeChatServerMessage() {
+        long timeStamp = new Date().getTime();
+        ServerToClientMessage chatServerToClientMessage = new ChatServerToClientMessage("player1", "message", timeStamp, false);
+        // Serialize
+        String jsonChatServerMessage = this.gson.toJson(chatServerToClientMessage);
+        // Deserialize
+        assertEquals(chatServerToClientMessage, this.gson.fromJson(jsonChatServerMessage, ServerToClientMessage.class));
     }
 }
