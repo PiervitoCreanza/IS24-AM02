@@ -54,6 +54,7 @@ public abstract class Controller {
      * @return the name of the previous layout.
      */
     public ControllersEnum getPreviousLayoutName() {
+        //TODO: newgame to mainmenu doesnt work
         return previousLayoutName;
     }
 

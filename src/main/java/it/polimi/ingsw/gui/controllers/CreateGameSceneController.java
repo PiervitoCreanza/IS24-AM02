@@ -63,10 +63,10 @@ public class CreateGameSceneController extends Controller implements PropertyCha
         String gameName = gameTextField.getText();
         String playerName = playerTextField.getText();
         logger.debug("Create game: {} player: {}", gameName, playerName);
-        if (gameName != null || playerName != null || nPlayers != 0)
-            networkControllerMapper.createGame(gameName, playerName, nPlayers);
-        else {
+        if (gameName == null || playerName == null || nPlayers == 0)
             showErrorPopup("Please fill all the fields");
+        else {
+            networkControllerMapper.createGame(gameName, playerName, nPlayers);
         }
     }
 
