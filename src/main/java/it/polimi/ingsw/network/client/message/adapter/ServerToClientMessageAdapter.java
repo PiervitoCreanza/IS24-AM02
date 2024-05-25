@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.client.message;
+package it.polimi.ingsw.network.client.message.adapter;
 
 import com.google.gson.*;
 import it.polimi.ingsw.network.server.message.ChatServerToClientMessage;

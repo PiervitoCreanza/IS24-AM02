@@ -10,7 +10,7 @@ import it.polimi.ingsw.network.TCPConnectionHandler;
 import it.polimi.ingsw.network.client.ClientMessageHandler;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import it.polimi.ingsw.network.client.message.ClientToServerMessage;
-import it.polimi.ingsw.network.client.message.ServerToClientMessageAdapter;
+import it.polimi.ingsw.network.client.message.adapter.ServerToClientMessageAdapter;
 import it.polimi.ingsw.network.server.message.ServerActionEnum;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.utils.PropertyChangeNotifier;

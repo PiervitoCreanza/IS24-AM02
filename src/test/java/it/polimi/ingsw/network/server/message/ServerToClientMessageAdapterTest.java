@@ -10,7 +10,7 @@ import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
-import it.polimi.ingsw.network.client.message.ServerToClientMessageAdapter;
+import it.polimi.ingsw.network.client.message.adapter.ServerToClientMessageAdapter;
 import it.polimi.ingsw.network.server.message.successMessage.DeleteGameServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.server.message.successMessage.GetGamesServerToClientMessage;
