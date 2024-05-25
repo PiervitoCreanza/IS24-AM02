@@ -16,7 +16,12 @@ public class GameCellController {
         gameNameLabel.setText(gameName);
     }
 
-    public void setPlayersCount(String playersCount) {
+    public void setPlayersCount(String playersCount, boolean isFull) {
         playersLabel.setText(playersCount);
+        if (isFull) {
+            playersLabel.getStyleClass().add("players-count-full");
+        } else {
+            playersLabel.getStyleClass().add("players-count-available");
+        }
     }
 }
