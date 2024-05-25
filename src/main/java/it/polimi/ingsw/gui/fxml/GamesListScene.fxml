@@ -20,7 +20,7 @@
             <VBox alignment="CENTER" styleClass="menu-vbox" StackPane.alignment="CENTER" spacing="20">
                 <!-- Start of component content -->
                 <Text styleClass="title" text="Games lobby"/>
-                <ListView fx:id="gameListView" styleClass="gameListView" VBox.vgrow="ALWAYS" maxWidth="800">
+                <ListView fx:id="gameListView" styleClass="container" VBox.vgrow="ALWAYS" maxWidth="800">
                     <!-- List items will be populated by the controller -->
                 </ListView>
                 <VBox minHeight="30"/>
