@@ -15,15 +15,14 @@
 
         <!-- VBox for the ListView and buttons, layered above the background -->
 
-        <VBox alignment="CENTER" spacing="10" styleClass="menu-vbox" StackPane.alignment="CENTER">
+        <VBox alignment="CENTER" spacing="10" styleClass="menu-vbox" StackPane.alignment="CENTER" maxWidth="650">
             <VBox minHeight="40"/>
             <VBox alignment="CENTER" styleClass="menu-vbox" StackPane.alignment="CENTER" spacing="20">
                 <!-- Start of component content -->
                 <Text styleClass="title" text="Games lobby"/>
-                <ListView fx:id="gameListView" styleClass="container" VBox.vgrow="ALWAYS" maxWidth="800">
+                <ListView fx:id="gameListView" styleClass="container" VBox.vgrow="ALWAYS">
                     <!-- List items will be populated by the controller -->
                 </ListView>
-                <VBox minHeight="30"/>
                 <HBox spacing="20" alignment="CENTER" maxWidth="600">
                     <Button onAction="#back" styleClass="brutalist-button" text="Back"/>
                     <Button onAction="#refreshList" styleClass="brutalist-button" text="Refresh"/>
