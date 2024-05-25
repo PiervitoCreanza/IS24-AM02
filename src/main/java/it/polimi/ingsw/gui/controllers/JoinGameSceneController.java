@@ -63,7 +63,9 @@ public class JoinGameSceneController extends Controller implements PropertyChang
             networkControllerMapper.joinGame(gameName, playerName);
     }
 
-    public void quit(ActionEvent actionEvent) {
+    @FXML
+    public void back(ActionEvent actionEvent) {
+        switchScene(getPreviousLayoutName());
     }
 
     private void showErrorPopup(String message) {

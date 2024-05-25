@@ -75,14 +75,18 @@ public class GamesListController extends Controller implements PropertyChangeLis
 
         logger.debug("Received games list");
         ArrayList<GameRecord> gamesList = (ArrayList<GameRecord>) evt.getNewValue();
+        setProperty("gamesList", gamesList);
         Platform.runLater(() -> {
             gameListView.getItems().clear();
             gameListView.getItems().addAll(gamesList.stream().map(GameRecord::gameName).toList());
         });
     }
 
-
     @FXML
+    public void initialize() {
+        gameListView.setCellFactory(param -> new GameCell());
+    }
+
     public void refreshList(ActionEvent actionEvent) {
         networkControllerMapper.getGames();
     }
@@ -99,6 +103,7 @@ public class GamesListController extends Controller implements PropertyChangeLis
     }
 
     @FXML
-    public void quit(ActionEvent actionEvent) {
+    public void back(ActionEvent actionEvent) {
+        switchScene(ControllersEnum.MAIN_MENU);
     }
 }

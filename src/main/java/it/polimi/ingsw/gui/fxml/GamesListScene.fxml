@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8"
-            fx:controller="it.polimi.ingsw.gui.controllers.GamesListController"
-            stylesheets="@/styles.css"
->
-    <VBox spacing="10" styleClass="menu-vbox" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="20"
-          AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
-        <Label text="Game List" styleClass="title-label"/>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
+            fx:controller="it.polimi.ingsw.gui.controllers.GamesListController" stylesheets="@/styles.css">
+    <!-- StackPane to layer background and content -->
+    <StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+               AnchorPane.topAnchor="0">
 
-        <!-- Background should be placed before every other component in order to be displayed at the bottom -->
-        <fx:include source="Background.fxml"/>
+        <!-- Include the background -->
+        <fx:include source="Background_with_logo.fxml"/>
 
-        <!-- Start of component content -->
-        <ListView fx:id="gameListView" styleClass="game-list" VBox.vgrow="ALWAYS">
-            <!-- List items will be populated by the controller -->
-        </ListView>
-        <HBox spacing="10">
-            <Button text="Refresh" onAction="#refreshList" styleClass="menu-button"/>
-            <Button text="Create Game" onAction="#createGame" styleClass="menu-button"/>
-            <Button text="Quit" onAction="#quit" styleClass="menu-button"/>
-        </HBox>
-    </VBox>
+        <!-- VBox for the ListView and buttons, layered above the background -->
+        <VBox alignment="CENTER" spacing="10" styleClass="menu-vbox" StackPane.alignment="CENTER">
+            <VBox alignment="CENTER" styleClass="menu-vbox" StackPane.alignment="CENTER">
+                <!-- Start of component content -->
+                <ListView fx:id="gameListView" styleClass="game-list" VBox.vgrow="ALWAYS" scaleX="0.8" scaleY="0.8">
+                    <!-- List items will be populated by the controller -->
+                </ListView>
+                <HBox spacing="100" alignment="CENTER">
+                    <Button onAction="#refreshList" styleClass="menu-button" text="Refresh"/>
+                    <Button onAction="#createGame" styleClass="menu-button" text="Create Game"/>
+                    <Button onAction="#back" styleClass="menu-button" text="Back"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </StackPane>
 </AnchorPane>

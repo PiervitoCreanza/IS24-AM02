@@ -15,7 +15,7 @@ public class MainMenuSceneController extends Controller implements PropertyChang
     /**
      * The name of the controller. This is a static variable, meaning it's shared among all instances of this class.
      */
-    public static final ControllersEnum NAME = ControllersEnum.HOME;
+    public static final ControllersEnum NAME = ControllersEnum.MAIN_MENU;
 
     /**
      * The logger.
@@ -40,8 +40,7 @@ public class MainMenuSceneController extends Controller implements PropertyChang
 
     @FXML
     public void createGame() {
-        // create game
-        logger.debug("Game created");
+        switchScene(ControllersEnum.CREATE_GAME);
     }
 
     @FXML

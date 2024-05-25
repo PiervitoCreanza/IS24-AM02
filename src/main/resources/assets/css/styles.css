@@ -113,3 +113,22 @@ TextField {
 .list-cell:hover {
     -fx-background-color: #E6E6FA; /* Light purple background on hover */
 }
+
+.game-cell {
+    -fx-padding: 10;
+    -fx-border-color: brown;
+    -fx-border-width: 2;
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+}
+
+.game-name {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.players-count {
+    -fx-font-size: 14px;
+    -fx-text-fill: red;
+}
