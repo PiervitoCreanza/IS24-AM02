@@ -9,7 +9,7 @@ Text {
 /* Main Menu Scene */
 .button {
     -fx-text-fill: #422918;
-    -fx-font-family: MedievalSharp;
+    -fx-font-family: MedievalSharp-Book; /* Use the full name of the font as specified in the font file */
     -fx-font-weight: bold;
     -fx-font-size: 45px;
 
@@ -30,7 +30,7 @@ Text {
 /* Button neo-brutalism style */
 .brutalist-button {
     -fx-effect: dropshadow(three-pass-box, #422918, 0, 0, 3, 3);
-    -fx-font-family: "Cal Sans";
+    -fx-font-family: CalSans-SemiBold;
     -fx-font-size: 20px;
     /* Reset default button style */
     -fx-background-insets: 0;
@@ -44,13 +44,13 @@ Text {
 }
 
 .title {
-    -fx-font-family: MedievalSharp;
+    -fx-font-family: MedievalSharp-Bold;
     -fx-font-weight: bold;
     -fx-font-size: 45px;
 }
 
 TextField {
-    -fx-font-family: "Cal Sans";
+    -fx-font-family: CalSans-SemiBold;
     -fx-font-size: 20px;
     -fx-background-color: #e8e8e8;
     -fx-border-width: 3;
@@ -86,10 +86,10 @@ TextField {
     -fx-opacity: 0.4; /* Common way to show disabled state in JavaFX */
 }
 
-
+/* Game list styles */
 .game-list {
-    -fx-background-color: #C8C6D7;
-    -fx-border-color: #6A0DAD;
+    -fx-background-color: #E8E8E8;
+    -fx-border-color: #3B2312;
     -fx-border-width: 2;
     -fx-border-radius: 10; /* Rounded corners for the border */
     -fx-padding: 10; /* Padding inside the list to space the items a bit from the border */
@@ -99,36 +99,86 @@ TextField {
 .list-cell {
     -fx-padding: 10 20;
     -fx-font-size: 16px;
-    -fx-font-family: 'Arial';
+    -fx-font-family: 'CalSans-SemiBold';
     -fx-text-fill: #333333;
     -fx-background-color: transparent;
 }
 
 .list-cell:filled:selected, .list-cell:filled:selected:hover {
-    -fx-background-color: #6A0DAD;
+    -fx-background-color: #D8D8D8;
     -fx-text-fill: white;
     -fx-background-radius: 8;
 }
 
 .list-cell:hover {
-    -fx-background-color: #E6E6FA; /* Light purple background on hover */
+    -fx-background-color: #D8D8D8;
 }
 
+/* Custom game cell styles */
 .game-cell {
     -fx-padding: 10;
-    -fx-border-color: brown;
+    -fx-border-color: #3B2312;
     -fx-border-width: 2;
     -fx-background-color: white;
     -fx-background-radius: 5;
     -fx-border-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 5, 0.5, 0, 1); /* Drop shadow for depth */
 }
 
 .game-name {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
+    -fx-text-fill: #5C4033; /* A shade of brown */
+    -fx-font-family: MedievalSharp-Book;
 }
 
 .players-count {
     -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-color: #FFC0CB; /* Light pink background */
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-padding: 5;
+}
+
+.players-count-full {
     -fx-text-fill: red;
+}
+
+.players-count-available {
+    -fx-text-fill: green;
+}
+
+.menu-button {
+    -fx-text-fill: #422918; /* Brown text */
+    -fx-font-family: CalSans-SemiBold; /* Custom font */
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-padding: 10 20; /* Padding around the text */
+
+    /* Background and border radius */
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+
+    /* Background colors for the button */
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #f0f0f0, #d0d0d0), /* Main background gradient */ linear-gradient(from 0% 0% to 0% 100%, #f0f0f0 0%, #f0f0f0 95%, #3b2312 95%, #3b2312 100%); /* Bottom border */
+
+    /* Border color and width */
+    -fx-border-color: #3b2312;
+    -fx-border-width: 1 1 4 1; /* Thicker bottom border for the 3D effect */
+
+    /* Effect for depth */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 5, 0.5, 0, 1); /* Drop shadow for depth */
+
+    /* Minimum width to ensure consistent sizing */
+    -fx-min-width: 100;
+}
+
+.menu-button:hover {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e0e0e0, #c0c0c0), /* Lighter gradient on hover */ linear-gradient(from 0% 0% to 0% 100%, #e0e0e0 0%, #e0e0e0 95%, #3b2312 95%, #3b2312 100%); /* Bottom border */
+}
+
+.menu-button:pressed {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #c0c0c0, #a0a0a0), /* Darker gradient on press */ linear-gradient(from 0% 0% to 0% 100%, #c0c0c0 0%, #c0c0c0 95%, #3b2312 95%, #3b2312 100%); /* Bottom border */
+    -fx-effect: none; /* Remove shadow on press to give a pressed effect */
 }

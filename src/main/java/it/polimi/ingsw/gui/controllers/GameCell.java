@@ -40,7 +40,7 @@ public class GameCell extends ListCell<String> {
             ArrayList<GameRecord> gamesList = (ArrayList<GameRecord>) getScene().getProperties().get("gamesList");
             logger.debug("GamesList: " + gamesList);
             GameRecord gameRecord = gamesList.stream().filter(g -> g.gameName().equals(game)).findFirst().orElse(null);
-            controller.setPlayersCount(gameRecord.joinedPlayers() + "/" + gameRecord.maxAllowedPlayers() + " players");
+            controller.setPlayersCount(gameRecord.joinedPlayers() + "/" + gameRecord.maxAllowedPlayers() + " players", gameRecord.isFull());
             setGraphic(root);
         }
     }
