@@ -16,14 +16,14 @@
         <VBox alignment="CENTER" spacing="10" styleClass="menu-vbox" StackPane.alignment="CENTER">
             <VBox alignment="CENTER" styleClass="menu-vbox" StackPane.alignment="CENTER">
                 <!-- Start of component content -->
-                <ListView fx:id="gameListView" styleClass="game-list" VBox.vgrow="ALWAYS" maxWidth="800">
+                <ListView fx:id="gameListView" styleClass="container" VBox.vgrow="ALWAYS" maxWidth="800">
                     <!-- List items will be populated by the controller -->
                 </ListView>
                 <VBox minHeight="40"/>
-                <HBox spacing="100" alignment="CENTER">
-                    <Button onAction="#refreshList" styleClass="menu-button" text="Refresh"/>
-                    <Button onAction="#createGame" styleClass="menu-button" text="Create Game"/>
-                    <Button onAction="#back" styleClass="menu-button" text="Back"/>
+                <HBox spacing="20" alignment="CENTER" maxWidth="600">
+                    <Button onAction="#back" styleClass="brutalist-button" text="Back"/>
+                    <Button onAction="#refreshList" styleClass="brutalist-button" text="Refresh"/>
+                    <Button onAction="#createGame" styleClass="brutalist-button" text="Create Game"/>
                 </HBox>
             </VBox>
         </VBox>
