@@ -165,3 +165,11 @@ TextField {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
 }
+
+.player-name {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5C4033; /* A shade of brown */
+    -fx-font-family: MedievalSharp-Book;
+}
+

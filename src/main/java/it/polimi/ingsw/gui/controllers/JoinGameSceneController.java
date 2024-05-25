@@ -59,8 +59,10 @@ public class JoinGameSceneController extends Controller implements PropertyChang
         String gameName = getProperty("gameName");
         String playerName = playerTextField.getText();
         logger.debug("Joining game: {} with player: {}", gameName, playerName);
-        if (gameName != null && playerName != null)
+        if (gameName != null && playerName != null) {
             networkControllerMapper.joinGame(gameName, playerName);
+            switchScene(ControllersEnum.WAITING_FOR_PLAYER);
+        }
     }
 
     @FXML

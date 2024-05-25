@@ -3,10 +3,11 @@ package it.polimi.ingsw.gui.controllers;
 public enum ControllersEnum {
     HOME("HomeScene"),
     START("StartScene"),
-    GAMES_LIST("GamesListScene"),
     MAIN_MENU("MainMenuScene"),
     CREATE_GAME("CreateGameScene"),
-    JOIN_GAME("JoinGameScene");
+    GAMES_LIST("GamesListScene"),
+    JOIN_GAME("JoinGameScene"),
+    WAITING_FOR_PLAYER("WaitingForPlayerScene");
 
     private final String fxmlFileName;
 
