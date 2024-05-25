@@ -9,7 +9,7 @@ Text {
 /* Main Menu Scene */
 .button {
     -fx-text-fill: #422918;
-    -fx-font-family: MedievalSharp-Book; /* Use the full name of the font as specified in the font file */
+    -fx-font-family: MedievalSharp; /* Use the full name of the font as specified in the font file */
     -fx-font-weight: bold;
     -fx-font-size: 45px;
 
@@ -24,6 +24,10 @@ Text {
 }
 
 .button:focused ImageView {
+    -fx-opacity: 1;
+}
+
+.button:hover ImageView {
     -fx-opacity: 1;
 }
 
@@ -44,7 +48,7 @@ Text {
 }
 
 .title {
-    -fx-font-family: MedievalSharp-Bold;
+    -fx-font-family: MedievalSharp;
     -fx-font-weight: bold;
     -fx-font-size: 45px;
 }
@@ -69,32 +73,11 @@ TextField {
 }
 
 /* Old css */
-#quitButton {
-    -fx-text-fill: #fff;
-    -fx-padding: 15 25;
-    -fx-background-radius: 100;
-    -fx-background-color: linear-gradient(to bottom, #4A4063, #4A4063 50%, #4A4063 50%, #4A4063);
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 19, 0.0, 2, 31);
-    -fx-font-weight: bold;
-    -fx-font-size: 16px;
-    -fx-border-width: 0;
-    -fx-background-insets: 0;
-}
-
-
 .button:disabled {
     -fx-opacity: 0.4; /* Common way to show disabled state in JavaFX */
 }
 
 /* Game list styles */
-.game-list {
-    -fx-background-color: #E8E8E8;
-    -fx-border-color: #3B2312;
-    -fx-border-width: 2;
-    -fx-border-radius: 10; /* Rounded corners for the border */
-    -fx-padding: 10; /* Padding inside the list to space the items a bit from the border */
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 10); /* Subtle shadow effect for depth */
-}
 
 .list-cell {
     -fx-padding: 10 20;
