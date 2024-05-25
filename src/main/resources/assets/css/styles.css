@@ -43,7 +43,6 @@ Text {
     -fx-border-radius: 10;
     -fx-background-radius: 15;
     -fx-background-color: #e8e8e8;
-
     -fx-min-width: 100;
 }
 
@@ -74,38 +73,37 @@ TextField {
 
 /* Old css */
 .button:disabled {
-    -fx-opacity: 0.4; /* Common way to show disabled state in JavaFX */
+    -fx-opacity: 0.4;
+    -fx-effect: null;
 }
 
 /* Game list styles */
 
 .list-cell {
     -fx-padding: 10 20;
+    -fx-font-family: CalSans-SemiBold;
     -fx-font-size: 16px;
-    -fx-font-family: 'CalSans-SemiBold';
-    -fx-text-fill: #333333;
+    -fx-text-fill: #422918;
     -fx-background-color: transparent;
 }
 
-.list-cell:filled:selected, .list-cell:filled:selected:hover {
+.list-cell:filled:selected .game-cell, .list-cell:filled:hover .game-cell {
     -fx-background-color: #D8D8D8;
-    -fx-text-fill: white;
-    -fx-background-radius: 8;
 }
 
-.list-cell:hover {
-    -fx-background-color: #D8D8D8;
+.list-view .scroll-bar:vertical {
+    -fx-scale-x: 0;
 }
 
 /* Custom game cell styles */
 .game-cell {
     -fx-padding: 10;
     -fx-border-color: #3B2312;
-    -fx-border-width: 2;
-    -fx-background-color: white;
-    -fx-background-radius: 5;
-    -fx-border-radius: 5;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 5, 0.5, 0, 1); /* Drop shadow for depth */
+    -fx-border-width: 3;
+    -fx-background-color: #e8e8e8;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(three-pass-box, #422918, 0, 0, 3, 3);
 }
 
 .game-name {
@@ -116,12 +114,9 @@ TextField {
 }
 
 .players-count {
-    -fx-font-size: 14px;
+    -fx-font-family: CalSans-SemiBold; /* Use the full name of the font as specified in the font file */
     -fx-font-weight: bold;
-    -fx-background-color: #FFC0CB; /* Light pink background */
-    -fx-background-radius: 5;
-    -fx-border-radius: 5;
-    -fx-padding: 5;
+    -fx-font-size: 16px;
 }
 
 .players-count-full {
@@ -164,4 +159,9 @@ TextField {
 .menu-button:pressed {
     -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #c0c0c0, #a0a0a0), /* Darker gradient on press */ linear-gradient(from 0% 0% to 0% 100%, #c0c0c0 0%, #c0c0c0 95%, #3b2312 95%, #3b2312 100%); /* Bottom border */
     -fx-effect: none; /* Remove shadow on press to give a pressed effect */
+}
+
+.gameListView {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
 }

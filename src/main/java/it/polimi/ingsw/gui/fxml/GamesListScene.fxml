@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
             fx:controller="it.polimi.ingsw.gui.controllers.GamesListController" stylesheets="@/styles.css">
     <!-- StackPane to layer background and content -->
@@ -13,13 +14,16 @@
         <fx:include source="Background_with_logo.fxml"/>
 
         <!-- VBox for the ListView and buttons, layered above the background -->
+
         <VBox alignment="CENTER" spacing="10" styleClass="menu-vbox" StackPane.alignment="CENTER">
-            <VBox alignment="CENTER" styleClass="menu-vbox" StackPane.alignment="CENTER">
+            <VBox minHeight="40"/>
+            <VBox alignment="CENTER" styleClass="menu-vbox" StackPane.alignment="CENTER" spacing="20">
                 <!-- Start of component content -->
-                <ListView fx:id="gameListView" styleClass="container" VBox.vgrow="ALWAYS" maxWidth="800">
+                <Text styleClass="title" text="Games lobby"/>
+                <ListView fx:id="gameListView" styleClass="gameListView" VBox.vgrow="ALWAYS" maxWidth="800">
                     <!-- List items will be populated by the controller -->
                 </ListView>
-                <VBox minHeight="40"/>
+                <VBox minHeight="30"/>
                 <HBox spacing="20" alignment="CENTER" maxWidth="600">
                     <Button onAction="#back" styleClass="brutalist-button" text="Back"/>
                     <Button onAction="#refreshList" styleClass="brutalist-button" text="Refresh"/>
