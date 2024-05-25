@@ -13,6 +13,9 @@ public class GameCellController {
     private Label playersLabel;
 
     public void setGameName(String gameName) {
+        if (gameName.length() > 35) {
+            gameName = gameName.substring(0, 32) + "...";
+        }
         gameNameLabel.setText(gameName);
     }
 

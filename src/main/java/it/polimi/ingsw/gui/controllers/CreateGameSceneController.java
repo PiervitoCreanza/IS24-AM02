@@ -67,6 +67,7 @@ public class CreateGameSceneController extends Controller implements PropertyCha
             showErrorPopup("Please fill all the fields");
         else {
             networkControllerMapper.createGame(gameName, playerName, nPlayers);
+            switchScene(ControllersEnum.WAITING_FOR_PLAYER);
         }
     }
 
