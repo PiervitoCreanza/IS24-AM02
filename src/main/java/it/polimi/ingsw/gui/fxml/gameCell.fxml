@@ -4,7 +4,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <HBox xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx"
-      fx:controller="it.polimi.ingsw.gui.controllers.GameCellController" spacing="10" styleClass="game-cell">
+      fx:controller="it.polimi.ingsw.gui.controllers.GameCellController" spacing="10" styleClass="game-cell"
+      alignment="CENTER">
     <Label fx:id="gameNameLabel" text="Game Name" styleClass="game-name"/>
     <Region HBox.hgrow="ALWAYS"/>
     <Label fx:id="playersLabel" text="X/X players" styleClass="players-count"/>
