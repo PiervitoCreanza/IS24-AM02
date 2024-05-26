@@ -245,6 +245,23 @@ TextField {
     -fx-border-color: transparent;
 }
 
+.card {
+    -fx-effect: dropshadow(three-pass-box, #422918, 3, .6, 0, 0);
+}
+
+/* Make scroll pane transparent */
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.transparent {
+    -fx-background-color: null;
+}
+
+.black {
+    -fx-background-color: black;
+}
+
 .player-name {
     -fx-font-size: 22px;
     -fx-font-weight: bold;

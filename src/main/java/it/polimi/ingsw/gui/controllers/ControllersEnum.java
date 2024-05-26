@@ -5,9 +5,10 @@ public enum ControllersEnum {
     START("StartScene"),
     MAIN_MENU("MainMenuScene"),
     CREATE_GAME("CreateGameScene"),
-    GAMES_LIST("GamesListScene"),
     JOIN_GAME("JoinGameScene"),
-    WAITING_FOR_PLAYER("WaitingForPlayerScene");
+    GAMES_LIST("GamesListScene"),
+    WAITING_FOR_PLAYER("WaitingForPlayerScene"),
+    GAME_SCENE("GameScene");
 
     private final String fxmlFileName;
 
