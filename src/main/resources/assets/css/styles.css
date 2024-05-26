@@ -46,6 +46,21 @@ Text {
     -fx-min-width: 100;
 }
 
+.brutalist-button-clicked {
+    -fx-effect: dropshadow(three-pass-box, #422918, 0, 0, 3, 3);
+    -fx-font-family: CalSans-SemiBold;
+    -fx-font-size: 20px;
+    /* Reset default button style */
+    -fx-background-insets: 0;
+    -fx-border-width: 3;
+    -fx-border-color: #422918;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-background-color: #422918; /* Changed background color to match border color */
+    -fx-text-fill: white; /* Changed text color to white */
+    -fx-min-width: 100;
+}
+
 .title {
     -fx-font-family: MedievalSharp;
     -fx-font-weight: bold;

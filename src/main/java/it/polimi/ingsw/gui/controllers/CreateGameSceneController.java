@@ -6,6 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,6 +17,7 @@ import java.beans.PropertyChangeListener;
 public class CreateGameSceneController extends Controller implements PropertyChangeListener {
     public static final ControllersEnum NAME = ControllersEnum.CREATE_GAME;
     private final static Logger logger = LogManager.getLogger(CreateGameSceneController.class);
+
     private ClientNetworkControllerMapper networkControllerMapper;
 
     @FXML
@@ -23,6 +26,14 @@ public class CreateGameSceneController extends Controller implements PropertyCha
     @FXML
     private TextField playerTextField;
 
+    @FXML
+    private ToggleButton player2Button;
+    @FXML
+    private ToggleButton player3Button;
+    @FXML
+    private ToggleButton player4Button;
+
+    private ToggleGroup playerNumberGroup;
     private int nPlayers = 0;
 
 
@@ -62,7 +73,8 @@ public class CreateGameSceneController extends Controller implements PropertyCha
     public void createGame(ActionEvent actionEvent) {
         String gameName = gameTextField.getText();
         String playerName = playerTextField.getText();
-        logger.debug("Create game: {} player: {}", gameName, playerName);
+        nPlayers = playerNumberGroup.getSelectedToggle() == player2Button ? 2 : playerNumberGroup.getSelectedToggle() == player3Button ? 3 : 4;
+        logger.debug("Create game: {} player: {}, number of player: {}", gameName, playerName, nPlayers);
         if (gameName == null || playerName == null || nPlayers == 0)
             showErrorPopup("Please fill all the fields");
         else {
@@ -74,21 +86,6 @@ public class CreateGameSceneController extends Controller implements PropertyCha
     @FXML
     public void back(ActionEvent actionEvent) {
         switchScene(getPreviousLayoutName());
-    }
-
-    @FXML
-    public void player2(ActionEvent actionEvent) {
-        nPlayers = 2;
-    }
-
-    @FXML
-    public void player3(ActionEvent actionEvent) {
-        nPlayers = 3;
-    }
-
-    @FXML
-    public void player4(ActionEvent actionEvent) {
-        nPlayers = 4;
     }
 
     private void showErrorPopup(String message) {
@@ -110,5 +107,43 @@ public class CreateGameSceneController extends Controller implements PropertyCha
         if (evt.getPropertyName().equals("ERROR")) {
             Platform.runLater(() -> showErrorPopup((String) evt.getNewValue()));
         }
+    }
+
+    public void initialize() {
+        playerNumberGroup = new ToggleGroup();
+        player2Button.setToggleGroup(playerNumberGroup);
+        player3Button.setToggleGroup(playerNumberGroup);
+        player4Button.setToggleGroup(playerNumberGroup);
+
+        // Aggiungi i listener alle proprietà selectedProperty dei ToggleButton
+        player2Button.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                player2Button.getStyleClass().remove("brutalist-button");
+                player2Button.getStyleClass().add("brutalist-button-clicked");
+            } else {
+                player2Button.getStyleClass().remove("brutalist-button-clicked");
+                player2Button.getStyleClass().add("brutalist-button");
+            }
+        });
+
+        player3Button.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                player3Button.getStyleClass().remove("brutalist-button");
+                player3Button.getStyleClass().add("brutalist-button-clicked");
+            } else {
+                player3Button.getStyleClass().remove("brutalist-button-clicked");
+                player3Button.getStyleClass().add("brutalist-button");
+            }
+        });
+
+        player4Button.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                player4Button.getStyleClass().remove("brutalist-button");
+                player4Button.getStyleClass().add("brutalist-button-clicked");
+            } else {
+                player4Button.getStyleClass().remove("brutalist-button-clicked");
+                player4Button.getStyleClass().add("brutalist-button");
+            }
+        });
     }
 }

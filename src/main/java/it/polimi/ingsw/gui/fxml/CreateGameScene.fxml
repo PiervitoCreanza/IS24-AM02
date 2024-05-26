@@ -34,16 +34,14 @@
                         </font>
                     </Text>
                 </HBox>
-
                 <HBox alignment="CENTER_RIGHT" spacing="20">
-                    <Button styleClass="brutalist-button" onAction="#player2" mnemonicParsing="false" text="2">
-                    </Button>
-                    <Button styleClass="brutalist-button" onAction="#player3" mnemonicParsing="false" text="3">
-                    </Button>
-                    <Button styleClass="brutalist-button" onAction="#player4" mnemonicParsing="false" text="4">
-                    </Button>
+                    <ToggleButton fx:id="player2Button" styleClass="brutalist-button"
+                                  mnemonicParsing="false" text="2"/>
+                    <ToggleButton fx:id="player3Button" styleClass="brutalist-button"
+                                  mnemonicParsing="false" text="3"/>
+                    <ToggleButton fx:id="player4Button" styleClass="brutalist-button"
+                                  mnemonicParsing="false" text="4"/>
                 </HBox>
-
             </StackPane>
             <HBox alignment="CENTER" prefHeight="18.0" prefWidth="958.0" spacing="40.0"/>
             <HBox minWidth="20"/>
