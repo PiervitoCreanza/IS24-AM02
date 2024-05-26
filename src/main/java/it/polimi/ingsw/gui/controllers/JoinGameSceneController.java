@@ -61,7 +61,6 @@ public class JoinGameSceneController extends Controller implements PropertyChang
         logger.debug("Joining game: {} with player: {}", gameName, playerName);
         if (gameName != null && playerName != null) {
             networkControllerMapper.joinGame(gameName, playerName);
-            switchScene(ControllersEnum.WAITING_FOR_PLAYER);
         }
     }
 
@@ -86,9 +85,14 @@ public class JoinGameSceneController extends Controller implements PropertyChang
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+
         if (evt.getPropertyName().equals("ERROR")) {
             Platform.runLater(() -> showErrorPopup((String) evt.getNewValue()));
             switchScene(getPreviousLayoutName());
+        }
+
+        if (evt.getPropertyName().equals("UPDATE_VIEW")) {
+            switchScene(ControllersEnum.WAITING_FOR_PLAYER, evt);
         }
     }
 }

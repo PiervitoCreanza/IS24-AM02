@@ -32,8 +32,6 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
     @FXML
     private Text gameName;
 
-    private String gameNameString;
-
     /**
      * Returns the name of the controller.
      *
@@ -44,17 +42,30 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
         return NAME;
     }
 
+    @Override
+    public void beforeMount() {
+        return;
+    }
+
     /**
      * This method is called before showing the scene.
      * It should be overridden by the subclasses to perform any necessary operations before showing the scene.
      */
     @Override
-    public void beforeMount() {
+    public void beforeMount(PropertyChangeEvent evt) {
+        String changedProperty = evt.getPropertyName();
+        if (!"UPDATE_VIEW".equals(changedProperty)) return;
+
+        GameControllerView updatedView = (GameControllerView) evt.getNewValue();
+        GameStatusEnum gameStatus = updatedView.gameStatus();
+        setUpPlayerListView(updatedView);
+
         logger.debug("WaitingForPlayerController beforeMount");
         if (networkControllerMapper == null) {
             networkControllerMapper = getProperty("networkControllerMapper");
             networkControllerMapper.addPropertyChangeListener(this);
         }
+
         // Put here interaction with networkControllerMapper
     }
 
@@ -79,13 +90,24 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
         if (!"UPDATE_VIEW".equals(changedProperty)) return;
         // Setup variables
         GameControllerView updatedView = (GameControllerView) evt.getNewValue();
-        GameControllerView oldView = (GameControllerView) evt.getOldValue();
+        GameStatusEnum gameStatus = updatedView.gameStatus();
+
+        setUpPlayerListView(updatedView);
+
+        if (gameStatus == GameStatusEnum.INIT_PLACE_STARTER_CARD) {
+            logger.debug("Show place starter card scene");
+            //switchScene(ControllersEnum.PLACE_STARTER_CARD);
+        }
+
+    }
+
+    private void setUpPlayerListView(GameControllerView updatedView) {
         GameStatusEnum gameStatus = updatedView.gameStatus();
 
         if (gameStatus == GameStatusEnum.WAIT_FOR_PLAYERS) {
-            gameNameString = updatedView.gameView().gameName();
+            String gameNameString = updatedView.gameView().gameName();
             if (gameNameString.length() > 26) {
-                gameNameString = updatedView.gameView().gameName().substring(0, 23) + "...";
+                gameNameString = gameNameString.substring(0, 23) + "...";
             }
             logger.debug("Setting game name" + gameNameString);
             gameName.setText(gameNameString);
@@ -96,11 +118,6 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
                 playerListView.getItems().clear();
                 playerListView.getItems().addAll(playersList);
             });
-        }
-
-        if (gameStatus == GameStatusEnum.INIT_PLACE_STARTER_CARD) {
-            logger.debug("Show place starter card scene");
-            //switchScene(ControllersEnum.PLACE_STARTER_CARD);
         }
     }
 
