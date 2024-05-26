@@ -156,6 +156,12 @@
                 <directory>src/main/resources/assets/images</directory>
             </resource>
             <resource>
+                <directory>src/main/resources/assets/images/Cards/Fronts</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources/assets/images/Cards/Backs</directory>
+            </resource>
+            <resource>
                 <directory>src/main/resources/assets/css</directory>
             </resource>
             <resource>

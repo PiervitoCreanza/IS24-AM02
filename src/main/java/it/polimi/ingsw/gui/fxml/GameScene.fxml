@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           xmlns="http://javafx.com/javafx"
+           fx:controller="it.polimi.ingsw.gui.controllers.GameSceneController"
+           fx:id="rootPane"
+           stylesheets="styles.css">
+    <fx:include source="Background_with_logo.fxml"/>
+    <StackPane fx:id="contentPane">
+        <BorderPane styleClass="transparent" pickOnBounds="false">
+            <bottom>
+                <StackPane styleClass="transparent">
+
+                    <ImageView preserveRatio="true" fitWidth="900">
+                        <Image url="@/hand_board.png"/>
+                    </ImageView>
+                    <VBox alignment="BOTTOM_CENTER">
+                        <HBox fx:id="handBoard" alignment="BOTTOM_CENTER" spacing="43"/>
+                        <HBox minHeight="44.5"/>
+                    </VBox>
+                </StackPane>
+            </bottom>
+        </BorderPane>
+        <Pane fx:id="dragPane" styleClass="transparent" pickOnBounds="false"/>
+    </StackPane>
+
+
+</StackPane>
