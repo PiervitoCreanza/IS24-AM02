@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
+import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 
 /**
@@ -41,6 +42,12 @@ public abstract class Controller {
      */
     public abstract void beforeMount();
 
+    /**
+     * Overloaded method of beforeMount that takes a PropertyChangeEvent as an argument.
+     */
+    public void beforeMount(PropertyChangeEvent evt) {
+        return;
+    }
 
     /**
      * This method is called before switching to a new scene.
@@ -92,6 +99,49 @@ public abstract class Controller {
                 // This is used to perform actions right before the window is shown.
                 // For example subscribing to network events.
                 nextController.beforeMount();
+            } catch (IOException e) {
+                throw new IllegalArgumentException("Could not load " + nextScene + "Layout", e);
+            }
+
+            // Display the next scene.
+            scene.setRoot(nextLayout);
+        });
+    }
+
+    /**
+     * Overloaded method of switchScene that takes a PropertyChangeEvent as an argument.
+     *
+     * @param nextScene the name of the scene to switch to.
+     */
+    public void switchScene(ControllersEnum nextScene, PropertyChangeEvent evt) {
+        Platform.runLater(() -> {
+            // Call the beforeUnmount method of the current controller.
+            // This method is used to perform actions right before the window is unmounted.
+            beforeUnmount();
+
+            // Set the current scene to false.
+            isCurrentScene = false;
+
+            Parent nextLayout;
+            try {
+                // Load the next scene.
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/" + nextScene.getFxmlFileName() + ".fxml"));
+                nextLayout = loader.load();
+
+                // Get the next scene controller.
+                Controller nextController = loader.getController();
+
+                // Set the previous layout name on the next controller.
+                nextController.previousLayoutName = getName();
+
+                // Set the next controller as the current scene.
+                nextController.isCurrentScene = true;
+
+                // Call the beforeMount method of the next controller.
+                // This is used to perform actions right before the window is shown.
+                // For example subscribing to network events.
+                nextController.beforeMount(evt);
             } catch (IOException e) {
                 throw new IllegalArgumentException("Could not load " + nextScene + "Layout", e);
             }
