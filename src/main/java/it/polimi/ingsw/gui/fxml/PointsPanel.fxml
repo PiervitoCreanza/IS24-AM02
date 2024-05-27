@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="it.polimi.ingsw.gui.controllers.PointsPanelController"
+      styleClass="points-panel" stylesheets="@/styles.css">
+    <TabPane fx:id="tabPane" styleClass="brutalist-tab-pane">
+        <tabs>
+            <Tab styleClass="brutalist-tab-pane" closable="false">
+                <graphic>
+                    <ImageView fx:id="medalIcon1" fitWidth="20" fitHeight="20"/>
+                </graphic>
+                <content>
+                    <GridPane styleClass="brutalist-tab-content">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="50"/>
+                            <ColumnConstraints percentWidth="50"/>
+                        </columnConstraints>
+                        <Label text="Marco" onMouseClicked="#handlePlayerClick" styleClass="player-label"
+                               GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <Label text="13/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                        <Label text="Simone" onMouseClicked="#handlePlayerClick" styleClass="player-label"
+                               GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <Label text="9/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                        <Label text="Piervito" onMouseClicked="#handlePlayerClick" styleClass="player-label"
+                               GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <Label text="7/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                        <Label text="Mattia" onMouseClicked="#handlePlayerClick" styleClass="player-label"
+                               GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                        <Label text="6/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                    </GridPane>
+                </content>
+            </Tab>
+            <Tab styleClass="brutalist-tab-pane" closable="false">
+                <graphic>
+                    <ImageView fx:id="medalIcon2" fitWidth="20" fitHeight="20"/>
+                </graphic>
+                <content>
+                    <GridPane styleClass="brutalist-tab-content">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="50"/>
+                            <ColumnConstraints percentWidth="50"/>
+                        </columnConstraints>
+                        <Label text="Giovanni" onMouseClicked="#handlePlayerClick" styleClass="player-label"
+                               GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <Label text="12/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                        <Label text="Luca" onMouseClicked="#handlePlayerClick" styleClass="player-label"
+                               GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <Label text="8/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                        <Label text="Antonio" onMouseClicked="#handlePlayerClick" styleClass="player-label"
+                               GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <Label text="6/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                        <Label text="Francesco" onMouseClicked="#handlePlayerClick" styleClass="player-label"
+                               GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                        <Label text="5/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                    </GridPane>
+                </content>
+            </Tab>
+            <Tab styleClass="brutalist-tab-pane" closable="false">
+                <graphic>
+                    <ImageView fx:id="medalIcon3" fitWidth="20" fitHeight="20"/>
+                </graphic>
+                <content>
+                    <GridPane styleClass="brutalist-tab-content">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="50"/>
+                            <ColumnConstraints percentWidth="50"/>
+                        </columnConstraints>
+                        <Label text="Alessandro" onMouseClicked="#handlePlayerClick" styleClass="player-label"
+                               GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <Label text="14/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                        <Label text="Riccardo" onMouseClicked="#handlePlayerClick" styleClass="player-label"
+                               GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <Label text="10/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                        <Label text="Daniele" onMouseClicked="#handlePlayerClick" styleClass="player-label"
+                               GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <Label text="7/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                        <Label text="Federico" onMouseClicked="#handlePlayerClick" styleClass="player-label"
+                               GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                        <Label text="6/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                    </GridPane>
+                </content>
+            </Tab>
+        </tabs>
+    </TabPane>
+</VBox>

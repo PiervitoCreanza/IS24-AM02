@@ -252,3 +252,77 @@ TextField {
     -fx-font-family: MedievalSharp-Book;
 }
 
+.points-panel {
+    -fx-border-color: #422918;
+    -fx-border-width: 3;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-background-color: #e8e8e8;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
+.brutalist-tab-pane {
+    -fx-background-color: #e8e8e8;
+    -fx-padding: 0;
+    -fx-border-width: 0;
+}
+
+.brutalist-tab-pane .tab-header-area {
+    -fx-background-color: #e8e8e8;
+    -fx-padding: 0;
+}
+
+.brutalist-tab-pane .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.brutalist-tab-pane .tab {
+    -fx-background-color: #e8e8e8;
+    -fx-border-color: #422918;
+    -fx-border-width: 3;
+    -fx-border-radius: 10 10 0 0;
+    -fx-background-radius: 10 10 0 0;
+    -fx-padding: 5;
+}
+
+.brutalist-tab-pane .tab:selected {
+    -fx-background-color: #422918;
+    -fx-text-fill: white;
+}
+
+.brutalist-tab-pane .tab-content {
+    -fx-background-color: #e8e8e8;
+    -fx-border-color: #422918;
+    -fx-border-width: 3;
+    -fx-border-radius: 0 0 10 10;
+    -fx-background-radius: 0 0 10 10;
+    -fx-padding: 10;
+}
+
+.brutalist-tab-content {
+    -fx-padding: 10;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #422918;
+    -fx-border-width: 3;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.player-label {
+    -fx-font-family: 'CalSans-SemiBold';
+    -fx-font-size: 18px;
+    -fx-text-fill: #422918;
+    -fx-cursor: hand;
+}
+
+.player-label:hover {
+    -fx-text-fill: #e8e8e8;
+    -fx-background-color: #422918;
+}
+
+.score-label {
+    -fx-font-family: 'CalSans-SemiBold';
+    -fx-font-size: 18px;
+    -fx-text-fill: #422918;
+}
