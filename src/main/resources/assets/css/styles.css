@@ -61,6 +61,70 @@ Text {
     -fx-min-width: 100;
 }
 
+.brutalist-textarea {
+    -fx-font-family: 'CalSans-SemiBold';
+    -fx-font-size: 18px;
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #000000;
+    -fx-border-color: #422918;
+    -fx-border-width: 3;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(three-pass-box, #422918, 0, 0, 3, 3);
+    -fx-padding: 0; /* Remove padding */
+    -fx-background-insets: 0; /* Remove background insets */
+}
+
+.text-area .content {
+    -fx-font-family: 'CalSans-SemiBold';
+    -fx-font-size: 18px;
+    -fx-line-spacing: 5px; /* Adjust line spacing */
+    -fx-padding: 10; /* Add padding to the content */
+    -fx-background-insets: 0; /* Remove insets */
+    -fx-background-color: transparent; /* Make background transparent */
+    -fx-border-color: transparent; /* Remove internal borders */
+}
+
+.text-area .scroll-pane .viewport {
+    -fx-background-color: transparent; /* Ensure viewport background is transparent */
+    -fx-padding: 0; /* Remove padding from viewport */
+}
+
+.text-area:focused .content {
+    -fx-background-color: transparent; /* Maintain transparency when focused */
+    -fx-border-width: 0; /* Ensure no border on focus */
+}
+
+.text-area .scroll-pane {
+    -fx-padding: 0; /* Ensure no padding around scroll pane */
+}
+
+.brutalist-combobox {
+    -fx-effect: dropshadow(three-pass-box, #422918, 0, 0, 3, 3);
+    -fx-font-family: CalSans-SemiBold;
+    -fx-font-size: 20px;
+    /* Reset default button style */
+    -fx-background-insets: 0;
+    -fx-border-width: 3;
+    -fx-border-color: #422918;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-background-color: #e8e8e8;
+    -fx-min-width: 100;
+}
+
+.brutalist-combobox .combo-box-popup .list-view, .brutalist-combobox .combo-box-popup .list-view {
+    -fx-background-color: #e8e8e8;
+    -fx-border-color: #422918;
+    -fx-border-width: 3;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-padding: 5 10 5 10;
+    -fx-font-family: 'CalSans-SemiBold';
+    -fx-font-size: 18px;
+    -fx-effect: dropshadow(three-pass-box, #422918, 0, 0, 3, 3);
+}
+
 .title {
     -fx-font-family: MedievalSharp;
     -fx-font-weight: bold;
