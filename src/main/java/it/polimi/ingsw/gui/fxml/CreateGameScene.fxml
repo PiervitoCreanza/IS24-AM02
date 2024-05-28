@@ -35,11 +35,11 @@
                     </Text>
                 </HBox>
                 <HBox alignment="CENTER_RIGHT" spacing="20">
-                    <ToggleButton fx:id="player2Button" styleClass="brutalist-button"
+                    <ToggleButton fx:id="player2Button" styleClass="toggle-button"
                                   mnemonicParsing="false" text="2"/>
-                    <ToggleButton fx:id="player3Button" styleClass="brutalist-button"
+                    <ToggleButton fx:id="player3Button" styleClass="toggle-button"
                                   mnemonicParsing="false" text="3"/>
-                    <ToggleButton fx:id="player4Button" styleClass="brutalist-button"
+                    <ToggleButton fx:id="player4Button" styleClass="toggle-button"
                                   mnemonicParsing="false" text="4"/>
                 </HBox>
             </StackPane>

@@ -11,7 +11,7 @@
             </ImageView>
         </HBox>
         <VBox alignment="TOP_CENTER">
-            <ImageView preserveRatio="true" fitWidth="250">
+            <ImageView preserveRatio="true" fitWidth="180">
                 <Image url="@/logo_big.png"/>
             </ImageView>
             <padding>

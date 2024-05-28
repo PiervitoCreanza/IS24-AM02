@@ -31,6 +31,29 @@ Text {
     -fx-opacity: 1;
 }
 
+.toggle-button {
+    -fx-effect: dropshadow(three-pass-box, #422918, 0, 0, 3, 3);
+    -fx-font-family: CalSans-SemiBold;
+    -fx-font-size: 20px;
+    /* Reset default button style */
+    -fx-background-insets: 0;
+    -fx-border-width: 3;
+    -fx-border-color: #422918;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-background-color: #e8e8e8;
+    -fx-min-width: 100;
+}
+
+.toggle-button-hover {
+    -fx-background-color: #d8d8d8; /* Changed background color to indicate hover */
+}
+
+.toggle-button-pressed {
+    -fx-background-color: #422918; /* Changed background color to match border color */
+    -fx-text-fill: white; /* Changed text color to white */
+}
+
 /* Button neo-brutalism style */
 .brutalist-button {
     -fx-effect: dropshadow(three-pass-box, #422918, 0, 0, 3, 3);
@@ -46,19 +69,14 @@ Text {
     -fx-min-width: 100;
 }
 
-.brutalist-button-clicked {
-    -fx-effect: dropshadow(three-pass-box, #422918, 0, 0, 3, 3);
-    -fx-font-family: CalSans-SemiBold;
-    -fx-font-size: 20px;
-    /* Reset default button style */
-    -fx-background-insets: 0;
-    -fx-border-width: 3;
-    -fx-border-color: #422918;
-    -fx-border-radius: 10;
-    -fx-background-radius: 15;
+
+.brutalist-button:hover {
+    -fx-background-color: #d8d8d8; /* Changed background color to indicate click */
+}
+
+.brutalist-button:pressed {
     -fx-background-color: #422918; /* Changed background color to match border color */
     -fx-text-fill: white; /* Changed text color to white */
-    -fx-min-width: 100;
 }
 
 .brutalist-textarea {
