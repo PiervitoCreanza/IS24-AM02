@@ -42,8 +42,8 @@ public class Client {
 
         String clientIp = NetworkUtils.getCurrentHostIp(cmd);
         String serverIp = cmd.getOptionValue("s", "localhost"); // default is localhost
-        int serverPort = cmd.hasOption("rmi") ? 1100 : 12345;
-        int clientPort = Integer.parseInt(cmd.getOptionValue("cp", Integer.toString(serverPort)));
+        int serverPort = cmd.hasOption("rmi") ? 1099 : 12345;
+        int clientPort = Integer.parseInt(cmd.getOptionValue("cp", Integer.toString(serverPort + 1)));
 
         DEBUG = cmd.hasOption("debug");
 
@@ -92,7 +92,7 @@ public class Client {
         options.addOption("s", "server_ip", true, "Server IP address.");
         options.addOption("ip", "client_ip", true, "Client IP address.");
         options.addOption("sp", "server_port", true, "Server port number (default is 12345 for TCP and 1099 for RMI).");
-        options.addOption("cp", true, "Client port number (default is the same as the server port number).");
+        options.addOption("cp", true, "Client port number (default is server port number + 1).");
         options.addOption("lan", "lan", false, "Start the client in LAN mode.");
         options.addOption("l", "localhost", false, "Start the client in localhost mode");
         options.addOption("tui", "tui_mode", false, "Start the client in TUI mode.");
