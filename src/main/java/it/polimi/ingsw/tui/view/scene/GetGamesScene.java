@@ -4,9 +4,11 @@ import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.view.component.GameInfoComponent;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
+import it.polimi.ingsw.tui.view.component.userInputHandler.UserInputHandler;
 import it.polimi.ingsw.tui.view.component.userInputHandler.menu.MenuHandler;
 import it.polimi.ingsw.tui.view.component.userInputHandler.menu.MenuItem;
 import it.polimi.ingsw.tui.view.component.userInputHandler.menu.commands.EmptyCommand;
+import it.polimi.ingsw.tui.view.component.userInputHandler.menu.commands.UserInputChain;
 import it.polimi.ingsw.tui.view.drawer.DrawArea;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -59,7 +61,12 @@ public class GetGamesScene implements Scene, PropertyChangeListener {
 
         this.menuHandler = new MenuHandler(this,
                 new MenuItem("l", "refresh the list", new EmptyCommand()),
-                new MenuItem("j", "join a game", new EmptyCommand()),
+                new MenuItem("j", "join a game",
+                        new UserInputChain(
+                                new UserInputHandler("Enter game ID:", input -> input.matches("\\d+")),
+                                new UserInputHandler("Enter your nickname:", input -> !input.isEmpty())
+                        )
+                ),
                 new MenuItem("c", "create a new game", new EmptyCommand()),
                 new MenuItem("q", "quit the menu", new EmptyCommand())
         );
@@ -104,10 +111,14 @@ public class GetGamesScene implements Scene, PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String changedProperty = evt.getPropertyName();
+        @SuppressWarnings("unchecked")
+        ArrayList<String> inputs = (ArrayList<String>) evt.getNewValue();
         switch (changedProperty) {
             case "q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
             case "l" -> controller.getGames();
-            case "j" -> controller.selectScene(ScenesEnum.JOIN_GAME);
+            case "j" -> {
+                controller.joinGame(Integer.parseInt(inputs.get(0)), inputs.get(1));
+            }
             case "c" -> controller.selectScene(ScenesEnum.CREATE_GAME);
             default -> logger.error("Invalid property change event");
         }

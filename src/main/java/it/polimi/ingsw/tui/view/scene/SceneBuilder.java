@@ -68,15 +68,6 @@ public class SceneBuilder {
     }
 
     /**
-     * instances the JoinGameScene.
-     *
-     * @return The JoinGameScene scene.
-     */
-    public JoinGameScene instanceJoinGameScene() {
-        return new JoinGameScene(this.controller);
-    }
-
-    /**
      * Instances the CreateGameScene.
      *
      * @return The CreateGameScene scene.

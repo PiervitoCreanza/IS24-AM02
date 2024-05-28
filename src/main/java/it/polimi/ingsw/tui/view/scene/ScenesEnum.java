@@ -11,21 +11,6 @@ public enum ScenesEnum {
     MAIN_MENU,
 
     /**
-     * The scene for getting games.
-     */
-    GET_GAMES,
-
-    /**
-     * The scene for joining a game.
-     */
-    JOIN_GAME,
-
-    /**
-     * The chat scene.
-     */
-    CHAT,
-
-    /**
      * The scene for creating a game.
      */
     CREATE_GAME

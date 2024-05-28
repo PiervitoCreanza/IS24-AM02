@@ -179,7 +179,6 @@ public class TUIViewController implements PropertyChangeListener, ViewController
         switch (scene) {
             case MAIN_MENU -> this.currentScene = sceneBuilder.instanceMainMenuScene();
             case CREATE_GAME -> this.currentScene = sceneBuilder.instanceCreateGameScene();
-            case JOIN_GAME -> this.currentScene = sceneBuilder.instanceJoinGameScene();
         }
         showCurrentScene();
     }
