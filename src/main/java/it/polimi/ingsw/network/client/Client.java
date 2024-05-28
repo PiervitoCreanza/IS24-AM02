@@ -42,7 +42,7 @@ public class Client {
 
         String clientIp = NetworkUtils.getCurrentHostIp(cmd);
         String serverIp = cmd.getOptionValue("s", "localhost"); // default is localhost
-        int serverPort = cmd.hasOption("rmi") ? 1099 : 12345;
+        int serverPort = cmd.hasOption("rmi") ? 1100 : 12345;
         int clientPort = Integer.parseInt(cmd.getOptionValue("cp", Integer.toString(serverPort)));
 
         DEBUG = cmd.hasOption("debug");
