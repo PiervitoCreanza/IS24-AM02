@@ -34,8 +34,8 @@ public class PlayerCell extends ListCell<String> {
             logger.debug("PlayerCell empty");
             setGraphic(null);
         } else {
-            if (player.length() > 52) {
-                player = player.substring(0, 49) + "...";
+            if (player.length() > 45) {
+                player = player.substring(0, 42) + "...";
             }
             controller.setPlayerName(player);
             // You can set the player count here if you have that data
