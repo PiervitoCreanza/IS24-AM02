@@ -369,10 +369,12 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
             }
             // If the game is now empty we delete it.
             if (gameConnectionMapper.get(gameName).isEmpty()) {
-                // Delete the game
-                mainController.deleteGame(gameName);
+                synchronized (gameConnectionMapper) {
+                    // Delete the game
+                    mainController.deleteGame(gameName);
 
-                gameConnectionMapper.remove(gameName);
+                    gameConnectionMapper.remove(gameName);
+                }
                 logger.debug("Game {} deleted.", gameName);
                 return;
             }
