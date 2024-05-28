@@ -1,8 +1,11 @@
 package it.polimi.ingsw.gui.controllers;
 
 import it.polimi.ingsw.data.Parser;
-import it.polimi.ingsw.gui.CardImage;
+import it.polimi.ingsw.gui.GameCardImage;
 import it.polimi.ingsw.gui.ZoomableScrollPane;
+import it.polimi.ingsw.gui.dataStorage.MultiSystemCoordinate;
+import it.polimi.ingsw.gui.dataStorage.ObservableHand;
+import it.polimi.ingsw.gui.dataStorage.ObservarblePlayerBoard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import javafx.fxml.FXML;
@@ -31,8 +34,9 @@ public class GameSceneController extends Controller {
 
     @FXML
     public Pane dragPane;
-
-    private final HashMap<Coordinate, GameCard> playerBoard = new HashMap<>();
+    private final ObservarblePlayerBoard playerBoard = new ObservarblePlayerBoard();
+    private final ObservableHand hand = new ObservableHand();
+    public StackPane rootPane;
 
     @FXML
     private GridPane playerBoardGridPane;
@@ -42,47 +46,99 @@ public class GameSceneController extends Controller {
 
     private int selectedCard;
 
-    @FXML
-    public void initialize() {
-
-        VBox vbox = new VBox();
+    private void loadDummyData() {
         Parser parser = new Parser();
         ArrayList<GameCard> gameCards = parser.getResourceDeck().getCards();
-        playerBoardGridPane = new GridPane();
-        playerBoardGridPane.getStyleClass().add("player-board transparent");
-        playerBoardGridPane.setHgap(cardWidth / 100 * -22);
-        playerBoardGridPane.setVgap(cardWidth / 100 * -27);
-        playerBoardGridPane.add(new CardImage(parser.getStarterDeck().draw().getCardId()).getFront(), 1, 1);
-        playerBoardGridPane.add(new CardImage(gameCards.get(0).getCardId()).getFront(), 0, 0);
-        playerBoardGridPane.add(new CardImage(gameCards.get(1).getCardId()).getFront(), 2, 0);
-        playerBoardGridPane.add(new CardImage(gameCards.get(12).getCardId()).getFront(), 2, 2);
-        playerBoardGridPane.add(new CardImage(gameCards.get(20).getCardId()).getFront(), 3, 1);
 
-        vbox.getChildren().add(playerBoardGridPane);
-        ZoomableScrollPane scrollPane = new ZoomableScrollPane(vbox);
-        scrollPane.getStyleClass().add("transparent");
-        contentPane.getChildren().addFirst(scrollPane);
-//
-        ImageView card1 = new CardImage(gameCards.get(2).getCardId()).getFront();
-        ImageView card2 = new CardImage(gameCards.get(3).getCardId()).getFront();
-        ImageView card3 = new CardImage(gameCards.get(4).getCardId()).getFront();
+        final HashMap<Coordinate, GameCard> origPlayerBoard = new HashMap<>();
+        origPlayerBoard.put(new Coordinate(-20, -20), gameCards.get(1));
+        origPlayerBoard.put(new Coordinate(20, 20), gameCards.get(1));
+        origPlayerBoard.put(new Coordinate(0, 0), gameCards.get(0));
+        origPlayerBoard.put(new Coordinate(1, 1), gameCards.get(1));
+        origPlayerBoard.put(new Coordinate(-1, -1), gameCards.get(2));
+        origPlayerBoard.put(new Coordinate(1, -1), gameCards.get(3));
+        origPlayerBoard.put(new Coordinate(-1, 1), gameCards.get(4));
 
-        // Make the cards draggable
-        makeDraggable(card1);
-        makeDraggable(card2);
-        makeDraggable(card3);
+        hand.setCard(gameCards.get(5), 0);
+        hand.setCard(gameCards.get(6), 1);
+        hand.setCard(gameCards.get(7), 2);
 
-        handBoard.getChildren().add(card1);
-        handBoard.getChildren().add(card2);
-        handBoard.getChildren().add(card3);
+        playerBoard.loadData(origPlayerBoard);
     }
 
-    private void checkIntersectionWithPlayerBoard(ImageView imageView) {
-        playerBoardGridPane.getChildren().forEach(node -> {
-            if (node.getBoundsInParent().intersects(imageView.getBoundsInParent())) {
-                logger.debug("Intersection detected");
+    private void removeNodeFromGrid(int col, int row) {
+        Node nodeToRemove = null;
+
+        // Iterate over the children of the GridPane
+        for (Node node : playerBoardGridPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+                // If the current node's coordinates match the specified coordinates, mark it for removal
+                nodeToRemove = node;
+                break;
+            }
+        }
+
+        if (nodeToRemove != null) {
+            // Remove the node from the GridPane
+            playerBoardGridPane.getChildren().remove(nodeToRemove);
+        }
+    }
+
+    @FXML
+    public void initialize() {
+        StackPane pane = new StackPane();
+        pane.getStyleClass().add("black");
+        playerBoardGridPane = new GridPane();
+        playerBoardGridPane.gridLinesVisibleProperty().set(true);
+        playerBoardGridPane.getStyleClass().add("player-board black"); // TODO: Add transparent
+        playerBoardGridPane.setHgap(cardWidth / 100 * -22);
+        playerBoardGridPane.setVgap(cardWidth / 100 * -27);
+        pane.getChildren().add(playerBoardGridPane);
+
+        ZoomableScrollPane scrollPane = new ZoomableScrollPane(pane);
+        //scrollPane.getStyleClass().add("transparent");
+        contentPane.getChildren().addFirst(scrollPane);
+
+        // Handle the add of a new card to the player board
+        playerBoard.addPropertyChangeListener(evt -> {
+            String propertyName = evt.getPropertyName();
+            MultiSystemCoordinate multiSystemCoordinate = (MultiSystemCoordinate) evt.getNewValue();
+            Coordinate guiCoordinate = multiSystemCoordinate.getCoordinateInGUISystem();
+            // If the card was removed from the network, it is removed from the GUI.
+            if (propertyName.equals("remove")) {
+                logger.debug("Removing card at {}", guiCoordinate);
+                removeNodeFromGrid(guiCoordinate.x, guiCoordinate.y);
+                return;
+            }
+
+            // If the card is added from the GUI, it is dispatched to the network.
+            if (propertyName.equals("putFromGUI")) {
+                Coordinate modelCoordinate = multiSystemCoordinate.getCoordinateInModelSystem();
+                logger.debug("Sending new card at {} to network", modelCoordinate);
+                // TODO: Send the card to the network
+            }
+
+            // Either if the card is added from the network or from the GUI, it is displayed on the board.
+            logger.debug("Displaying card at {}", guiCoordinate);
+            ImageView imageView = playerBoard.get(multiSystemCoordinate).getFront();
+            playerBoardGridPane.add(imageView, guiCoordinate.x, guiCoordinate.y);
+        });
+
+        // Handle the add of a new card to the hand
+        hand.addPropertyChangeListener(evt -> {
+            if (evt.getPropertyName().equals("setCard")) {
+                GameCardImage card = (GameCardImage) evt.getNewValue();
+                ImageView imageView = card.getFront();
+                handBoard.getChildren().add(imageView);
+                makeDraggable(imageView);
+            }
+
+            if (evt.getPropertyName().equals("removeCard")) {
+                // TODO
             }
         });
+
+        loadDummyData();
     }
 
     private void makeDraggable(ImageView imageView) {
@@ -122,36 +178,54 @@ public class GameSceneController extends Controller {
                 Bounds boundsInDragPane = dragPane.localToScene(imageView.getBoundsInParent());
                 Bounds boundsInPlayerBoard = playerBoardGridPane.localToScene(node.getBoundsInParent());
 
+                // If the cards intersect
                 if (boundsInPlayerBoard.intersects(boundsInDragPane)) {
-                    Point2D playerBoardCardBaricenter = new Point2D(boundsInPlayerBoard.getCenterX(), boundsInPlayerBoard.getCenterY());
-                    Point2D dragPaneCardBaricenter = new Point2D(boundsInDragPane.getCenterX(), boundsInDragPane.getCenterY());
+                    // Get the respective barycenter. This is needed in order to calculate on which corner of the existing card the new one is placed
+                    Point2D playerBoardCardBarycenter = new Point2D(boundsInPlayerBoard.getCenterX(), boundsInPlayerBoard.getCenterY());
+                    Point2D dragPaneCardBarycenter = new Point2D(boundsInDragPane.getCenterX(), boundsInDragPane.getCenterY());
                     logger.debug("Intersection detected");
-                    if (playerBoardCardBaricenter.getX() > dragPaneCardBaricenter.getX() && playerBoardCardBaricenter.getY() > dragPaneCardBaricenter.getY()) {
+                    Coordinate newCardCoordinates = new Coordinate(GridPane.getColumnIndex(node), GridPane.getRowIndex(node));
+                    if (playerBoardCardBarycenter.getX() > dragPaneCardBarycenter.getX() && playerBoardCardBarycenter.getY() > dragPaneCardBarycenter.getY()) {
                         // The card is in the top left corner of the player board card
                         logger.debug("Top left corner");
-                        playerBoardGridPane.add(imageView, GridPane.getColumnIndex(node) - 1, GridPane.getRowIndex(node) - 1);
-                    } else if (playerBoardCardBaricenter.getX() < dragPaneCardBaricenter.getX() && playerBoardCardBaricenter.getY() < dragPaneCardBaricenter.getY()) {
+
+                        // Set the new card Coordinates
+                        newCardCoordinates.x += -1;
+                        newCardCoordinates.y += -1;
+                    } else if (playerBoardCardBarycenter.getX() < dragPaneCardBarycenter.getX() && playerBoardCardBarycenter.getY() < dragPaneCardBarycenter.getY()) {
                         // The card is in the bottom right corner of the player board card
                         logger.debug("Bottom right corner");
-                        playerBoardGridPane.add(imageView, GridPane.getColumnIndex(node) + 1, GridPane.getRowIndex(node) + 1);
-                    } else if (playerBoardCardBaricenter.getX() > dragPaneCardBaricenter.getX() && playerBoardCardBaricenter.getY() < dragPaneCardBaricenter.getY()) {
+
+                        // Set the new card Coordinates
+                        newCardCoordinates.x += 1;
+                        newCardCoordinates.y += 1;
+                    } else if (playerBoardCardBarycenter.getX() > dragPaneCardBarycenter.getX() && playerBoardCardBarycenter.getY() < dragPaneCardBarycenter.getY()) {
                         // The card is in the bottom left corner of the player board card
                         logger.debug("Bottom left corner");
-                        playerBoardGridPane.add(imageView, GridPane.getColumnIndex(node) - 1, GridPane.getRowIndex(node) + 1);
+
+                        // Set the new card Coordinates
+                        newCardCoordinates.x += -1;
+                        newCardCoordinates.y += 1;
                     } else {
                         // The card is in the top right corner of the player board card
                         logger.debug("Top right corner");
-                        logger.debug("COl: {}, ROW: {}", GridPane.getColumnIndex(node) + 1, GridPane.getRowIndex(node) - 1);
-                        dragPane.getChildren().remove(imageView);
-                        playerBoardGridPane.add(imageView, GridPane.getColumnIndex(node) + 1, GridPane.getRowIndex(node) - 1);
-                    }
 
+                        // Set the new card Coordinates
+                        newCardCoordinates.x += 1;
+                        newCardCoordinates.y += -1;
+                    }
+                    MultiSystemCoordinate multiSystemCoordinate = new MultiSystemCoordinate().setCoordinateInGUISystem(newCardCoordinates);
+                    // Add the card to the player board
+                    playerBoard.putFromGUI(multiSystemCoordinate, hand.getCardImage(selectedCard));
+
+                    // Remove the card from the hand
+                    dragPane.getChildren().remove(imageView);
                     didIntersect = true;
                     // Remove the listeners
-                    imageView.setOnMousePressed(null);
-                    imageView.setOnMouseReleased(null);
-                    imageView.setOnMouseDragged(null);
-                    imageView.setOnMouseEntered(null);
+//                    imageView.setOnMousePressed(null);
+//                    imageView.setOnMouseReleased(null);
+//                    imageView.setOnMouseDragged(null);
+//                    imageView.setOnMouseEntered(null);
                     break;
                 }
             }

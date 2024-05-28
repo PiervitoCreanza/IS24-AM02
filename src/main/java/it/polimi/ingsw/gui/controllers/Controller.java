@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
@@ -18,6 +19,11 @@ public abstract class Controller {
      * The current scene.
      */
     private static Scene scene;
+
+    /**
+     * The current stage.
+     */
+    private static Stage stage;
 
     /**
      * The name of the previously shown scene.
@@ -46,7 +52,6 @@ public abstract class Controller {
      * Overloaded method of beforeMount that takes a PropertyChangeEvent as an argument.
      */
     public void beforeMount(PropertyChangeEvent evt) {
-        return;
     }
 
     /**
@@ -189,6 +194,26 @@ public abstract class Controller {
      */
     protected Scene getScene() {
         return scene;
+    }
+
+    /**
+     * Gets the stage currently shown.
+     * This method is used to set the stage when the application starts.
+     *
+     * @return the stage currently shown.
+     */
+    protected Stage getStage() {
+        return stage;
+    }
+
+    /**
+     * Sets the stage currently shown.
+     * This method is used to set the stage when the application starts.
+     *
+     * @param stage the stage to set.
+     */
+    public static void setStage(Stage stage) {
+        Controller.stage = stage;
     }
 
     /**
