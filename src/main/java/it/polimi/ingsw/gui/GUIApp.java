@@ -57,13 +57,18 @@ public class GUIApp extends Application implements View {
         stage.setMinWidth(1200);
         stage.setFullScreen(true);
 
-        URL fxml1URL = getClass().getResource("/HomeScene.fxml");
+        // Set the current stage on all controllers.
+        Controller.setStage(stage);
+        logger.info("Stage set up: {}", stage);
+
+        URL fxml1URL = getClass().getResource("/GameScene.fxml");
         if (fxml1URL == null) {
-            throw new IOException("Cannot load resource: HomeScene.fxml");
+            throw new IOException("Cannot load resource: GameScene.fxml");
         }
         FXMLLoader loader = new FXMLLoader(fxml1URL);
 
         Parent root = loader.load();
+
         Scene scene = new Scene(root, DEFAULT_WIDTH, DEFAULT_HEIGTH);
 
         // Set the stage to the current scene.
