@@ -117,34 +117,46 @@ public class CreateGameSceneController extends Controller implements PropertyCha
         player3Button.setToggleGroup(playerNumberGroup);
         player4Button.setToggleGroup(playerNumberGroup);
 
+        // Add mouse hover listeners for player2Button
+        player2Button.setOnMouseEntered(e -> player2Button.getStyleClass().add("toggle-button-hover"));
+        player2Button.setOnMouseExited(e -> player2Button.getStyleClass().remove("toggle-button-hover"));
+
+        // Add mouse hover listeners for player3Button
+        player3Button.setOnMouseEntered(e -> player3Button.getStyleClass().add("toggle-button-hover"));
+        player3Button.setOnMouseExited(e -> player3Button.getStyleClass().remove("toggle-button-hover"));
+
+        // Add mouse hover listeners for player4Button
+        player4Button.setOnMouseEntered(e -> player4Button.getStyleClass().add("toggle-button-hover"));
+        player4Button.setOnMouseExited(e -> player4Button.getStyleClass().remove("toggle-button-hover"));
+
         // Aggiungi i listener alle proprietà selectedProperty dei ToggleButton
         player2Button.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                player2Button.getStyleClass().remove("brutalist-button");
-                player2Button.getStyleClass().add("brutalist-button-clicked");
+                player2Button.getStyleClass().remove("toggle-button");
+                player2Button.getStyleClass().add("toggle-button-pressed");
             } else {
-                player2Button.getStyleClass().remove("brutalist-button-clicked");
-                player2Button.getStyleClass().add("brutalist-button");
+                player2Button.getStyleClass().remove("toggle-button-pressed");
+                player2Button.getStyleClass().add("toggle-button");
             }
         });
 
         player3Button.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                player3Button.getStyleClass().remove("brutalist-button");
-                player3Button.getStyleClass().add("brutalist-button-clicked");
+                player3Button.getStyleClass().remove("toggle-button");
+                player3Button.getStyleClass().add("toggle-button-pressed");
             } else {
-                player3Button.getStyleClass().remove("brutalist-button-clicked");
-                player3Button.getStyleClass().add("brutalist-button");
+                player3Button.getStyleClass().remove("toggle-button-pressed");
+                player3Button.getStyleClass().add("toggle-button");
             }
         });
 
         player4Button.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                player4Button.getStyleClass().remove("brutalist-button");
-                player4Button.getStyleClass().add("brutalist-button-clicked");
+                player4Button.getStyleClass().remove("toggle-button");
+                player4Button.getStyleClass().add("toggle-button-pressed");
             } else {
-                player4Button.getStyleClass().remove("brutalist-button-clicked");
-                player4Button.getStyleClass().add("brutalist-button");
+                player4Button.getStyleClass().remove("toggle-button-pressed");
+                player4Button.getStyleClass().add("toggle-button");
             }
         });
     }

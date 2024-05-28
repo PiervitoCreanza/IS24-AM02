@@ -46,7 +46,7 @@ public class GUIApp extends Application {
         stage.setTitle("Codex Naturalis");
         stage.setMinHeight(900);
         stage.setMinWidth(1200);
-        //stage.setFullScreen(true);
+        stage.setFullScreen(true);
 
         URL fxml1URL = getClass().getResource("/HomeScene.fxml");
         if (fxml1URL == null) {
