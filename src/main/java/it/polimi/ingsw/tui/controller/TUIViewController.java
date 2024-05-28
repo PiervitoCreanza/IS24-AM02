@@ -5,11 +5,12 @@ import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
+import it.polimi.ingsw.network.client.connection.Connection;
 import it.polimi.ingsw.network.client.message.ChatClientToServerMessage;
 import it.polimi.ingsw.network.server.message.ChatServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
-import it.polimi.ingsw.tui.ViewController;
+import it.polimi.ingsw.tui.View;
 import it.polimi.ingsw.tui.commandLine.CLIReader;
 import it.polimi.ingsw.tui.utils.ColorsEnum;
 import it.polimi.ingsw.tui.utils.Utils;
@@ -28,12 +29,14 @@ import java.util.ArrayList;
  * The TUIViewController class manages the scenes to be displayed to the user.
  * Bind the client network controller mapper to the input from the user.
  */
-public class TUIViewController implements PropertyChangeListener, ViewController {
+public class TUIViewController implements PropertyChangeListener, View {
 
     /**
      * Instance of ClientNetworkControllerMapper to manage network requests.
      */
     private final ClientNetworkControllerMapper networkController;
+
+    private final Connection connection;
 
     /**
      * The logger.
@@ -102,10 +105,17 @@ public class TUIViewController implements PropertyChangeListener, ViewController
      *
      * @param networkController the network controller.
      */
-    public TUIViewController(ClientNetworkControllerMapper networkController) {
+    public TUIViewController(ClientNetworkControllerMapper networkController, Connection connection) {
         this.networkController = networkController;
         this.sceneBuilder = new SceneBuilder(this);
+        this.connection = connection;
+        connection.addPropertyChangeListener(this);
+    }
+
+    @Override
+    public void launchUI() {
         new CLIReader(this).start();
+        connection.connect();
     }
 
     /**

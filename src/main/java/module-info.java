@@ -42,6 +42,7 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw.network.client.message.mainController to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     exports it.polimi.ingsw.network.client.RMI to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     exports it.polimi.ingsw.network.client.TCP to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
+    exports it.polimi.ingsw.network.client.connection to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     exports it.polimi.ingsw.tui.commandLine to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     exports it.polimi.ingsw.tui.controller to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     exports it.polimi.ingsw.tui.utils to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
@@ -92,6 +93,7 @@ module it.polimi.ingsw {
     opens it.polimi.ingsw.network.client.message.mainController to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     opens it.polimi.ingsw.network.client.RMI to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     opens it.polimi.ingsw.network.client.TCP to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
+    opens it.polimi.ingsw.network.client.connection to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     opens it.polimi.ingsw.tui.commandLine to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     opens it.polimi.ingsw.tui.controller to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     opens it.polimi.ingsw.tui.utils to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;

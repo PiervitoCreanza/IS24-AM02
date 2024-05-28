@@ -5,7 +5,7 @@ import it.polimi.ingsw.network.NetworkUtils;
 import it.polimi.ingsw.network.client.connection.Connection;
 import it.polimi.ingsw.network.client.connection.RMIConnection;
 import it.polimi.ingsw.network.client.connection.TCPConnection;
-import it.polimi.ingsw.tui.ViewController;
+import it.polimi.ingsw.tui.View;
 import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.utils.Utils;
 import org.apache.commons.cli.*;
@@ -55,10 +55,8 @@ public class Client {
 
         // Create the ViewController
         ClientNetworkControllerMapper networkControllerMapper = new ClientNetworkControllerMapper();
-        ViewController viewController = null;
-        if (cmd.hasOption(("tui"))) {
-            viewController = instanceTUI(networkControllerMapper);
-        }
+
+        View view;
 
         // Connect with the server
         Connection connection;
@@ -72,21 +70,24 @@ public class Client {
         }
 
         if (cmd.hasOption(("tui"))) {
-            connection.addPropertyChangeListener(viewController);
+            view = instanceTUI(networkControllerMapper, connection);
+        } else {
+            view = instanceGUI(networkControllerMapper, connection);
         }
-        // Connect to the server
-        connection.connect();
-
-        if (!cmd.hasOption("tui")) {
-            new GUIApp().instanceGUI(networkControllerMapper);
-        }
+        view.launchUI();
     }
 
-    private static TUIViewController instanceTUI(ClientNetworkControllerMapper networkControllerMapper) {
-        TUIViewController tuiController = new TUIViewController(networkControllerMapper);
+    private static TUIViewController instanceTUI(ClientNetworkControllerMapper networkControllerMapper, Connection connection) {
+        TUIViewController tuiController = new TUIViewController(networkControllerMapper, connection);
         // Add the tuiController as a listener to the clientNetworkControllerMapper
         networkControllerMapper.addPropertyChangeListener(tuiController);
         return tuiController;
+    }
+
+    private static GUIApp instanceGUI(ClientNetworkControllerMapper networkControllerMapper, Connection connection) {
+        GUIApp guiApp = new GUIApp();
+        guiApp.instanceGUI(networkControllerMapper, connection);
+        return guiApp;
     }
 
     private static CommandLine parseCommandLineArgs(String[] args) {
