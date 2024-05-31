@@ -54,11 +54,7 @@ public class InitPlaceStarterCardSceneController {
 
     private void loadCardImages() {
         gameCardImages = new GameCardImage[]{
-                new GameCardImage(1), // Replace with actual card IDs
-                new GameCardImage(2),
-                new GameCardImage(3),
-                new GameCardImage(4),
-                new GameCardImage(5)
+                new GameCardImage(82), // Replace with actual card IDs
         };
     }
 
