@@ -2,6 +2,8 @@ package it.polimi.ingsw.gui;
 
 import it.polimi.ingsw.gui.controllers.Controller;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
+import it.polimi.ingsw.network.client.connection.Connection;
+import it.polimi.ingsw.tui.View;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -17,15 +19,22 @@ import java.net.URL;
 import java.util.List;
 
 
-public class GUIApp extends Application {
+public class GUIApp extends Application implements View {
     private static final Logger logger = LogManager.getLogger(GUIApp.class);
     public static int MIN_WIDTH = 1560;
     public static int MIN_HEIGHT = 900;
     public static ClientNetworkControllerMapper networkControllerMapper;
+    public static Connection connection;
 
-    public void instanceGUI(ClientNetworkControllerMapper networkControllerMapper) {
+    public void instanceGUI(ClientNetworkControllerMapper networkControllerMapper, Connection connection) {
         GUIApp.networkControllerMapper = networkControllerMapper;
+        GUIApp.connection = connection;
+    }
+
+    @Override
+    public void launchUI() {
         launch();
+
     }
 
     @Override
@@ -36,6 +45,7 @@ public class GUIApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        Platform.runLater(() -> connection.connect());
         // Set the stage to close the application when the window is closed.
         stage.setOnCloseRequest(event -> {
             logger.info("GUIApp quit");
