@@ -2,8 +2,6 @@ package it.polimi.ingsw.gui;
 
 import it.polimi.ingsw.gui.controllers.Controller;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
-import it.polimi.ingsw.network.client.connection.Connection;
-import it.polimi.ingsw.tui.View;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -19,22 +17,16 @@ import java.net.URL;
 import java.util.List;
 
 
-public class GUIApp extends Application implements View {
+public class GUIApp extends Application {
     private static final Logger logger = LogManager.getLogger(GUIApp.class);
-    public static int DEFAULT_WIDTH = 1920;
-    public static int DEFAULT_HEIGTH = 1080;
+    public static int MIN_WIDTH = 1560;
+    public static int MIN_HEIGHT = 900;
     public static ClientNetworkControllerMapper networkControllerMapper;
-    public static Connection connection;
 
-    public void instanceGUI(ClientNetworkControllerMapper networkControllerMapper, Connection connection) {
+    public void instanceGUI(ClientNetworkControllerMapper networkControllerMapper) {
         GUIApp.networkControllerMapper = networkControllerMapper;
-        GUIApp.connection = connection;
-    }
-
-    public void launchUI() {
         launch();
     }
-
 
     @Override
     public void init() {
@@ -44,7 +36,6 @@ public class GUIApp extends Application implements View {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Platform.runLater(() -> connection.connect());
         // Set the stage to close the application when the window is closed.
         stage.setOnCloseRequest(event -> {
             logger.info("GUIApp quit");
@@ -53,23 +44,23 @@ public class GUIApp extends Application implements View {
         });
         // Set the stage title and dimensions.
         stage.setTitle("Codex Naturalis");
-        stage.setMinHeight(900);
-        stage.setMinWidth(1200);
-        stage.setFullScreen(true);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMinWidth(MIN_WIDTH);
+        //stage.setFullScreen(true);
 
         // Set the current stage on all controllers.
         Controller.setStage(stage);
         logger.info("Stage set up: {}", stage);
 
-        URL fxml1URL = getClass().getResource("/GameScene.fxml");
+        URL fxml1URL = getClass().getResource("/HomeScene.fxml");
         if (fxml1URL == null) {
-            throw new IOException("Cannot load resource: GameScene.fxml");
+            throw new IOException("Cannot load resource: HomeScene.fxml");
         }
         FXMLLoader loader = new FXMLLoader(fxml1URL);
 
         Parent root = loader.load();
 
-        Scene scene = new Scene(root, DEFAULT_WIDTH, DEFAULT_HEIGTH);
+        Scene scene = new Scene(root, MIN_WIDTH, MIN_HEIGHT);
 
         // Set the stage to the current scene.
         stage.setScene(scene);
