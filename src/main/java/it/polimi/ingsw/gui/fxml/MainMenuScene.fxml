@@ -25,7 +25,7 @@
                 <graphic>
                     <VBox alignment="CENTER">
                         <Text text="New game"/>
-                        <ImageView preserveRatio="true" fitWidth="300">
+                        <ImageView preserveRatio="true" fitWidth="300" styleClass="button-decoration">
                             <Image url="@/big_text_decoration.png"/>
                         </ImageView>
                     </VBox>
@@ -35,7 +35,7 @@
                 <graphic>
                     <VBox alignment="CENTER">
                         <Text text="Join game"/>
-                        <ImageView preserveRatio="true" fitWidth="300">
+                        <ImageView preserveRatio="true" fitWidth="300" styleClass="button-decoration">
                             <Image url="@/big_text_decoration.png"/>
                         </ImageView>
                     </VBox>
@@ -45,7 +45,7 @@
                 <graphic>
                     <VBox alignment="CENTER">
                         <Text text="Quit"/>
-                        <ImageView preserveRatio="true" fitWidth="150">
+                        <ImageView preserveRatio="true" fitWidth="150" styleClass="button-decoration">
                             <Image url="@/big_text_decoration.png"/>
                         </ImageView>
                     </VBox>
