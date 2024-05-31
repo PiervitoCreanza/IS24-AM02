@@ -17,18 +17,18 @@
                     <ImageView preserveRatio="true" fitWidth="830">
                         <Image url="@/draw-decks.png"/>
                     </ImageView>
-                    <VBox>
-                        <HBox minHeight="40.5"/>
-                        <HBox alignment="CENTER" spacing="40">
+                    <VBox pickOnBounds="false">
+                        <HBox minHeight="40.5" pickOnBounds="false"/>
+                        <HBox alignment="CENTER" spacing="40" pickOnBounds="false">
                             <HBox spacing="10">
-                                <HBox fx:id="resourceDeck" styleClass="draw-deck" pickOnBounds="false"/>
+                                <HBox fx:id="resourceDeck" pickOnBounds="false"/>
                                 <VBox spacing="10">
                                     <HBox maxWidth="109.5" fx:id="firstResourceField"/>
                                     <HBox maxWidth="109.5" fx:id="secondResourceField"/>
                                 </VBox>
                             </HBox>
                             <HBox spacing="10">
-                                <HBox fx:id="goldDeck" styleClass="draw-deck" pickOnBounds="false"/>
+                                <HBox fx:id="goldDeck" pickOnBounds="false"/>
                                 <VBox spacing="10">
                                     <HBox maxWidth="109.5" fx:id="firstGoldField"/>
                                     <HBox maxWidth="109.5" fx:id="secondGoldField"/>
