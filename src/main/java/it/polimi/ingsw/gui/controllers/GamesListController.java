@@ -43,12 +43,9 @@ public class GamesListController extends Controller implements PropertyChangeLis
             networkControllerMapper.addPropertyChangeListener(this);
         }
         gameListView.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) {
-                String gameName = gameListView.getSelectionModel().getSelectedItem();
-                if (gameName != null)
-                    joinGame(gameName);
-
-            }
+            String gameName = gameListView.getSelectionModel().getSelectedItem();
+            if (gameName != null)
+                joinGame(gameName);
         });
         networkControllerMapper.getGames();
     }
