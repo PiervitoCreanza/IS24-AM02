@@ -82,6 +82,7 @@ public class GameSceneController extends Controller {
     private void loadDummyData() {
         Parser parser = new Parser();
         gameCards = parser.getResourceDeck().getCards();
+        ArrayList<GameCard> goldCards = parser.getGoldDeck().getCards();
 
         final HashMap<Coordinate, GameCard> origPlayerBoard = new HashMap<>();
         origPlayerBoard.put(new Coordinate(0, 0), gameCards.get(0));
@@ -95,9 +96,9 @@ public class GameSceneController extends Controller {
         hand.setCard(gameCards.get(7), 2);
 
         GlobalBoardView globalBoardView = new GlobalBoardView(
-                gameCards.get(8),
+                goldCards.get(1),
                 gameCards.get(9),
-                new ArrayList<>(gameCards.subList(10, 12)),
+                new ArrayList<>(goldCards.subList(2, 4)),
                 new ArrayList<>(gameCards.subList(12, 14)),
                 new ArrayList<>(parser.getObjectiveDeck().getCards().subList(0, 2))
         );
