@@ -2,36 +2,37 @@
 
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import java.lang.*?>
+<?import javafx.scene.text.Text?>
+<?import java.lang.String?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:id="chatSidebar"
-      fx:controller="it.polimi.ingsw.gui.controllers.ChatSidebarController" spacing="10"
-      style="-fx-background-color: #DDDDDD;" prefWidth="300" stylesheets="@/styles.css">
+      fx:controller="it.polimi.ingsw.gui.controllers.ChatSidebarController" spacing="10" prefWidth="320"
+      alignment="CENTER"
+      stylesheets="@/styles.css" styleClass="left-container">
     <padding>
         <Insets top="10" right="10" bottom="10" left="10"/>
     </padding>
-    <TextArea fx:id="chatDisplay" editable="false" prefHeight="400" styleClass="brutalist-textarea"/>
-    <HBox spacing="10">
-        <ComboBox fx:id="messageType" styleClass="brutalist-combobox" value="Public">
-            <items>
-                <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="Public"/>
-                    <String fx:value="Private"/>
-                </FXCollections>
-            </items>
-        </ComboBox>
-        <ComboBox fx:id="playerList" visible="false" styleClass="brutalist-combobox">
-            <items>
-                <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="Player 1"/>
-                    <String fx:value="Player 2"/>
-                    <String fx:value="Player 3"/>
-                </FXCollections>
-            </items>
-        </ComboBox>
+    <HBox alignment="CENTER">
+        <Text styleClass="h3" textAlignment="CENTER">Chat</Text>
     </HBox>
-    <TextField fx:id="messageInput" promptText="Type your message..."/>
-    <Button text="Send" onAction="#handleSend" styleClass="brutalist-button"/>
+
+    <TextArea fx:id="chatDisplay" editable="false" minHeight="350" maxHeight="450" styleClass="brutalist-textarea"/>
+    <VBox spacing="10">
+        <ComboBox fx:id="recepient" styleClass="brutalist-combobox" minWidth="Infinity" maxWidth="Infinity">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="To Everyone"/>
+                    <String fx:value="To Player 1"/>
+                    <String fx:value="To Player 2"/>
+                    <String fx:value="To Player 3"/>
+                </FXCollections>
+            </items>
+        </ComboBox>
+    </VBox>
+    <TextArea fx:id="messageInput" promptText="Type your message..." styleClass="brutalist-textarea" maxHeight="24"/>
+    <Button text="Send" onAction="#handleSend" styleClass="brutalist-button" minWidth="Infinity" maxWidth="Infinity"/>
 </VBox>
