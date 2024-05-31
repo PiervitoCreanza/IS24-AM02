@@ -1,10 +1,20 @@
 package it.polimi.ingsw.gui.controllers;
 
+import it.polimi.ingsw.data.Parser;
+import it.polimi.ingsw.gui.GameCardImage;
+import it.polimi.ingsw.model.Deck;
+import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Region;
+import javafx.util.Callback;
 
 public class PointsPanelController {
 
@@ -12,8 +22,15 @@ public class PointsPanelController {
     private ImageView medalIcon1;
     @FXML
     private ImageView medalIcon2;
+
     @FXML
-    private ImageView medalIcon3;
+    private ListView<ObjectiveCard> objectivesList;
+
+    private void loadDummyData() {
+        Parser parser = new Parser();
+        Deck<ObjectiveCard> objectiveDeck = parser.getObjectiveDeck();
+        objectivesList.getItems().addAll(objectiveDeck.draw(), objectiveDeck.draw(), objectiveDeck.draw());
+    }
 
     @FXML
     public void initialize() {
@@ -23,7 +40,42 @@ public class PointsPanelController {
 
         medalIcon1.setImage(medalImage);
         medalIcon2.setImage(medalImage);
-        medalIcon3.setImage(medalImage);
+
+        // Set the cell factory for the ListView
+        objectivesList.setCellFactory(new Callback<>() {
+            @Override
+            public ListCell<ObjectiveCard> call(ListView<ObjectiveCard> param) {
+                return new ListCell<>() {
+
+                    @Override
+                    protected void updateItem(ObjectiveCard item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (empty || item == null) {
+                            setText(null);
+                            setGraphic(null);
+                        } else {
+                            ImageView imageView = new GameCardImage(item.getCardId()).getCurrentSide();
+                            imageView.fitWidthProperty().set(150);
+                            setGraphic(imageView);
+                            setAlignment(Pos.CENTER);
+                        }
+                    }
+                };
+            }
+        });
+        // Load the data into the ListView
+        loadDummyData();
+
+        // Adjust the height of the ListView
+        adjustListViewHeight(objectivesList);
+    }
+
+    private void adjustListViewHeight(ListView<?> listView) {
+        double cellHeight = GameCardImage.getHeightFromWidth(150) + 20;
+        listView.setPrefHeight(Region.USE_COMPUTED_SIZE);
+        listView.minHeightProperty().bind(Bindings.size(listView.getItems()).multiply(cellHeight).add(25));
+        listView.maxHeightProperty().bind(Bindings.size(listView.getItems()).multiply(cellHeight).add(25));
     }
 
     @FXML
