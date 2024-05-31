@@ -1,25 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
 <StackPane xmlns:fx="http://javafx.com/fxml"
            xmlns="http://javafx.com/javafx"
            fx:controller="it.polimi.ingsw.gui.controllers.GameSceneController"
            fx:id="rootPane"
            stylesheets="styles.css">
-    <fx:include source="Background_with_logo.fxml"/>
+    <fx:include source="BackgroundOnlyCorners.fxml"/>
     <StackPane fx:id="contentPane">
+        <BorderPane pickOnBounds="false">
+            <top>
+                <StackPane pickOnBounds="false">
+                    <ImageView preserveRatio="true" fitWidth="830">
+                        <Image url="@/draw-decks.png"/>
+                    </ImageView>
+                    <VBox>
+                        <HBox minHeight="40.5"/>
+                        <HBox alignment="CENTER" spacing="40">
+                            <HBox spacing="10">
+                                <HBox fx:id="resourceDeck" styleClass="draw-deck" pickOnBounds="false"/>
+                                <VBox spacing="10">
+                                    <HBox maxWidth="109.5" fx:id="firstResourceField"/>
+                                    <HBox maxWidth="109.5" fx:id="secondResourceField"/>
+                                </VBox>
+                            </HBox>
+                            <HBox spacing="10">
+                                <HBox fx:id="goldDeck" styleClass="draw-deck" pickOnBounds="false"/>
+                                <VBox spacing="10">
+                                    <HBox maxWidth="109.5" fx:id="firstGoldField"/>
+                                    <HBox maxWidth="109.5" fx:id="secondGoldField"/>
+                                </VBox>
+                            </HBox>
+                        </HBox>
+                    </VBox>
+
+                </StackPane>
+            </top>
+
+
+        </BorderPane>
+        <HBox alignment="CENTER_LEFT" pickOnBounds="false">
+            <Button styleClass="left-container, shadow" fx:id="ChatSideBarButton" onAction="#showChat">
+                <graphic>
+                    <ImageView preserveRatio="true" fitWidth="35">
+                        <Image url="@/chat-icon.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+
+
+            <VBox alignment="CENTER_LEFT" maxWidth="320" pickOnBounds="false">
+                <fx:include source="ChatSidebar.fxml" fx:id="ChatSideBar" visible="false"/>
+            </VBox>
+        </HBox>
+
+        <HBox alignment="CENTER_RIGHT" pickOnBounds="false">
+
+            <VBox alignment="CENTER_RIGHT" maxWidth="320">
+                <fx:include source="PointsPanel.fxml" fx:id="PointsPanel"/>
+            </VBox>
+            <VBox prefWidth="10"/>
+        </HBox>
+
         <BorderPane styleClass="transparent" pickOnBounds="false">
             <bottom>
-                <StackPane styleClass="transparent">
-
+                <StackPane styleClass="transparent" pickOnBounds="false">
                     <ImageView preserveRatio="true" fitWidth="900">
                         <Image url="@/hand_board.png"/>
                     </ImageView>
-                    <VBox alignment="BOTTOM_CENTER">
-                        <HBox fx:id="handBoard" alignment="BOTTOM_CENTER" spacing="43"/>
-                        <HBox minHeight="44.5"/>
+                    <VBox alignment="BOTTOM_CENTER" styleClass="transparent" pickOnBounds="false">
+                        <HBox alignment="BOTTOM_CENTER" spacing="10">
+                            <Text fx:id="playerName" styleClass="h2">Marco:</Text>
+                            <Text fx:id="playerPrompt" styleClass="h2">Place a new card on the board.</Text>
+                        </HBox>
+                        <HBox minHeight="49" styleClass="transparent" pickOnBounds="false"/>
+                        <HBox fx:id="handBoard" alignment="BOTTOM_CENTER" spacing="43" styleClass="transparent"
+                              pickOnBounds="false"/>
+                        <HBox minHeight="44.5" styleClass="transparent" pickOnBounds="false"/>
                     </VBox>
                 </StackPane>
             </bottom>

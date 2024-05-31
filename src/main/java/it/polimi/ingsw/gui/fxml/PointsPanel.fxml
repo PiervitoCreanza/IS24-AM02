@@ -3,94 +3,87 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="it.polimi.ingsw.gui.controllers.PointsPanelController"
-      styleClass="points-panel" stylesheets="@/styles.css">
-    <TabPane fx:id="tabPane" styleClass="brutalist-tab-pane">
-        <tabs>
-            <Tab styleClass="brutalist-tab-pane" closable="false">
-                <graphic>
-                    <ImageView fx:id="medalIcon1" fitWidth="20" fitHeight="20"/>
-                </graphic>
-                <content>
-                    <GridPane styleClass="brutalist-tab-content">
-                        <columnConstraints>
-                            <ColumnConstraints percentWidth="50"/>
-                            <ColumnConstraints percentWidth="50"/>
-                        </columnConstraints>
-                        <Label text="Marco" onMouseClicked="#handlePlayerClick" styleClass="player-label"
-                               GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                        <Label text="13/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+      styleClass="right-panel" stylesheets="@/styles.css">
+    <TabPane styleClass="brutalist-tab-pane" tabMaxWidth="Infinity" tabMaxHeight="Infinity">
+        <Tab styleClass="brutalist-tab-pane" closable="false">
+            <graphic>
+                <HBox>
+                    <ImageView fx:id="medalIcon1" HBox.hgrow="ALWAYS" fitWidth="30" preserveRatio="true"/>
+                </HBox>
 
-                        <Label text="Simone" onMouseClicked="#handlePlayerClick" styleClass="player-label"
-                               GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                        <Label text="9/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            </graphic>
+            <VBox spacing="20">
+                <VBox alignment="CENTER">
+                    <Text text="Players" styleClass="h3"/>
+                    <HBox>
+                        <VBox HBox.hgrow="ALWAYS">
+                            <Label text="Marco" onMouseClicked="#handlePlayerClick" styleClass="player-label"/>
+                            <Label text="Simone" onMouseClicked="#handlePlayerClick" styleClass="player-label"/>
+                            <Label text="Piervito" onMouseClicked="#handlePlayerClick" styleClass="player-label"/>
+                            <Label text="Mattia" onMouseClicked="#handlePlayerClick" styleClass="player-label"/>
+                        </VBox>
+                        <VBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
+                            <Label text="13/20" styleClass="score-label"/>
+                            <Label text="9/20" styleClass="score-label"/>
+                            <Label text="7/20" styleClass="score-label"/>
+                            <Label text="6/20" styleClass="score-label"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+                <VBox alignment="CENTER">
+                    <Text text="Resources" styleClass="h3"/>
+                    <HBox>
 
-                        <Label text="Piervito" onMouseClicked="#handlePlayerClick" styleClass="player-label"
-                               GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                        <Label text="7/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                        <VBox HBox.hgrow="ALWAYS">
+                            <Label text="Fungi" styleClass="player-label"/>
+                            <Label text="Plant" styleClass="player-label"/>
+                            <Label text="Animal" styleClass="player-label"/>
+                            <Label text="Insect" styleClass="player-label"/>
+                        </VBox>
+                        <VBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
+                            <Label text="13" styleClass="score-label" style="-fx-text-fill: #d32622"/>
+                            <Label text="9" styleClass="score-label" style="-fx-text-fill: #40ac53"/>
+                            <Label text="7" styleClass="score-label" style="-fx-text-fill: #00a099"/>
+                            <Label text="6" styleClass="score-label" style="-fx-text-fill: #75246f"/>
+                        </VBox>
+                    </HBox>
 
-                        <Label text="Mattia" onMouseClicked="#handlePlayerClick" styleClass="player-label"
-                               GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                        <Label text="6/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                    </GridPane>
-                </content>
-            </Tab>
-            <Tab styleClass="brutalist-tab-pane" closable="false">
-                <graphic>
-                    <ImageView fx:id="medalIcon2" fitWidth="20" fitHeight="20"/>
-                </graphic>
-                <content>
-                    <GridPane styleClass="brutalist-tab-content">
-                        <columnConstraints>
-                            <ColumnConstraints percentWidth="50"/>
-                            <ColumnConstraints percentWidth="50"/>
-                        </columnConstraints>
-                        <Label text="Giovanni" onMouseClicked="#handlePlayerClick" styleClass="player-label"
-                               GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                        <Label text="12/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                </VBox>
 
-                        <Label text="Luca" onMouseClicked="#handlePlayerClick" styleClass="player-label"
-                               GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                        <Label text="8/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <VBox alignment="CENTER">
+                    <Text text="Items" styleClass="h3"/>
+                    <HBox>
 
-                        <Label text="Antonio" onMouseClicked="#handlePlayerClick" styleClass="player-label"
-                               GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                        <Label text="6/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                        <VBox HBox.hgrow="ALWAYS">
+                            <Label text="Quill" styleClass="player-label"/>
+                            <Label text="Inkwell" styleClass="player-label"/>
+                            <Label text="Manuscript" styleClass="player-label"/>
+                        </VBox>
+                        <VBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
+                            <Label text="13" styleClass="score-label" style="-fx-text-fill: #b4a31f"/>
+                            <Label text="9" styleClass="score-label" style="-fx-text-fill: #b4a31f"/>
+                            <Label text="7" styleClass="score-label" style="-fx-text-fill: #b4a31f"/>
+                        </VBox>
+                    </HBox>
 
-                        <Label text="Francesco" onMouseClicked="#handlePlayerClick" styleClass="player-label"
-                               GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                        <Label text="5/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                    </GridPane>
-                </content>
-            </Tab>
-            <Tab styleClass="brutalist-tab-pane" closable="false">
-                <graphic>
-                    <ImageView fx:id="medalIcon3" fitWidth="20" fitHeight="20"/>
-                </graphic>
-                <content>
-                    <GridPane styleClass="brutalist-tab-content">
-                        <columnConstraints>
-                            <ColumnConstraints percentWidth="50"/>
-                            <ColumnConstraints percentWidth="50"/>
-                        </columnConstraints>
-                        <Label text="Alessandro" onMouseClicked="#handlePlayerClick" styleClass="player-label"
-                               GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                        <Label text="14/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                </VBox>
+            </VBox>
+        </Tab>
+        <Tab styleClass="brutalist-tab-pane" closable="false">
+            <graphic>
+                <HBox>
+                    <ImageView fx:id="medalIcon2" HBox.hgrow="ALWAYS" fitWidth="30" preserveRatio="true"/>
+                </HBox>
 
-                        <Label text="Riccardo" onMouseClicked="#handlePlayerClick" styleClass="player-label"
-                               GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                        <Label text="10/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            </graphic>
+            <VBox alignment="CENTER">
+                <Text text="Objectives" styleClass="h3" textAlignment="CENTER"/>
 
-                        <Label text="Daniele" onMouseClicked="#handlePlayerClick" styleClass="player-label"
-                               GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                        <Label text="7/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <ListView styleClass="unstyled-list-view" fx:id="objectivesList" prefWidth="200"/>
+            </VBox>
 
-                        <Label text="Federico" onMouseClicked="#handlePlayerClick" styleClass="player-label"
-                               GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                        <Label text="6/20" styleClass="score-label" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                    </GridPane>
-                </content>
-            </Tab>
-        </tabs>
+        </Tab>
     </TabPane>
 </VBox>
