@@ -1,67 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<StackPane xmlns="http://javafx.com/javafx">
-    <StackPane alignment="TOP_CENTER">
-        <HBox alignment="TOP_LEFT">
-            <ImageView preserveRatio="true" fitHeight="200">
-                <Image url="@/top_left_decoration.png"/>
-            </ImageView>
-        </HBox>
-        <VBox alignment="TOP_CENTER">
-            <ImageView preserveRatio="true" fitWidth="180">
-                <Image url="@/logo_big.png"/>
-            </ImageView>
-            <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
-            </padding>
-        </VBox>
-        <HBox alignment="TOP_RIGHT">
-            <ImageView preserveRatio="true" fitHeight="200">
-                <Image url="@/top_right_decoration.png"/>
-            </ImageView>
-        </HBox>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1">
+    <fx:include source="Background.fxml"/>
+    <VBox alignment="TOP_CENTER">
+        <ImageView preserveRatio="true" fitWidth="250">
+            <Image url="@/logo_big.png"/>
+        </ImageView>
         <padding>
             <Insets top="20" right="20" bottom="20" left="20"/>
         </padding>
-    </StackPane>
-    <StackPane alignment="CENTER">
-        <HBox alignment="CENTER_LEFT">
-            <ImageView fitHeight="80" preserveRatio="true">
-                <Image url="@/middle_left_decoration.png"/>
-            </ImageView>
-        </HBox>
-
-        <HBox alignment="CENTER_RIGHT">
-            <ImageView fitHeight="80" preserveRatio="true">
-                <Image url="@/middle_right_decoration.png"/>
-            </ImageView>
-        </HBox>
-        <padding>
-            <Insets top="20" right="20" bottom="20" left="20"/>
-        </padding>
-    </StackPane>
-    <StackPane alignment="BOTTOM_CENTER">
-        <HBox alignment="BOTTOM_LEFT">
-            <ImageView preserveRatio="true" fitHeight="300">
-                <Image url="@/bottom_left_decoration.png"/>
-            </ImageView>
-        </HBox>
-        <VBox alignment="BOTTOM_CENTER">
-            <ImageView preserveRatio="true" fitWidth="250">
-                <Image url="@/bottom_center_decoration.png"/>
-            </ImageView>
-            <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
-            </padding>
-        </VBox>
-
-        <HBox alignment="BOTTOM_RIGHT">
-            <ImageView preserveRatio="true" fitHeight="400">
-                <Image url="@/bottom_right_decoration.png"/>
-            </ImageView>
-        </HBox>
-    </StackPane>
+    </VBox>
 </StackPane>
