@@ -1,14 +1,21 @@
 .root {
     -fx-background-color: #e8e8e8;
+    -white-200: #f2f2f2;
+    -white-300: #e8e8e8;
+    -brown-500: #422918;
 }
 
 Text {
-    -fx-fill: #422918;
+    -fx-fill: -brown-500;
+}
+
+Button {
+    -fx-cursor: HAND;
 }
 
 /* Main Menu Scene */
 .button {
-    -fx-text-fill: #422918;
+    -fx-text-fill: -brown-500;
     -fx-font-family: MedievalSharp; /* Use the full name of the font as specified in the font file */
     -fx-font-weight: bold;
     -fx-font-size: 45px;
@@ -19,76 +26,57 @@ Text {
     -fx-background-color: transparent;
 }
 
-.button ImageView {
+.button .button-decoration {
     -fx-opacity: 0;
 }
 
-.button:focused ImageView {
+.button:focused .button-decoration {
     -fx-opacity: 1;
 }
 
-.button:hover ImageView {
+.button:hover .button-decoration {
     -fx-opacity: 1;
-}
-
-.toggle-button {
-    -fx-effect: dropshadow(three-pass-box, #422918, 0, 0, 3, 3);
-    -fx-font-family: CalSans-SemiBold;
-    -fx-font-size: 20px;
-    /* Reset default button style */
-    -fx-background-insets: 0;
-    -fx-border-width: 3;
-    -fx-border-color: #422918;
-    -fx-border-radius: 10;
-    -fx-background-radius: 15;
-    -fx-background-color: #e8e8e8;
-    -fx-min-width: 100;
-}
-
-.toggle-button-hover {
-    -fx-background-color: #d8d8d8; /* Changed background color to indicate hover */
-}
-
-.toggle-button-pressed {
-    -fx-background-color: #422918; /* Changed background color to match border color */
-    -fx-text-fill: white; /* Changed text color to white */
 }
 
 /* Button neo-brutalism style */
 .brutalist-button {
-    -fx-effect: dropshadow(three-pass-box, #422918, 0, 0, 3, 3);
+    -fx-effect: dropshadow(three-pass-box, -brown-500, 0, 0, 3, 3);
     -fx-font-family: CalSans-SemiBold;
     -fx-font-size: 20px;
     /* Reset default button style */
     -fx-background-insets: 0;
     -fx-border-width: 3;
-    -fx-border-color: #422918;
+    -fx-border-color: -brown-500;
     -fx-border-radius: 10;
     -fx-background-radius: 15;
-    -fx-background-color: #e8e8e8;
+    -fx-background-color: -white-300;
     -fx-min-width: 100;
 }
 
-
-.brutalist-button:hover {
-    -fx-background-color: #d8d8d8; /* Changed background color to indicate click */
-}
-
-.brutalist-button:pressed {
-    -fx-background-color: #422918; /* Changed background color to match border color */
+.brutalist-button-clicked {
+    -fx-effect: dropshadow(three-pass-box, -brown-500, 0, 0, 3, 3);
+    -fx-font-family: CalSans-SemiBold;
+    -fx-font-size: 20px;
+    /* Reset default button style */
+    -fx-background-insets: 0;
+    -fx-border-width: 3;
+    -fx-border-color: -brown-500;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-background-color: -brown-500; /* Changed background color to match border color */
     -fx-text-fill: white; /* Changed text color to white */
+    -fx-min-width: 100;
 }
 
 .brutalist-textarea {
     -fx-font-family: 'CalSans-SemiBold';
     -fx-font-size: 18px;
-    -fx-background-color: #FFFFFF;
+    -fx-background-color: -white-200;
     -fx-text-fill: #000000;
-    -fx-border-color: #422918;
+    -fx-border-color: -brown-500;
     -fx-border-width: 3;
     -fx-border-radius: 10;
     -fx-background-radius: 15;
-    -fx-effect: dropshadow(three-pass-box, #422918, 0, 0, 3, 3);
     -fx-padding: 0; /* Remove padding */
     -fx-background-insets: 0; /* Remove background insets */
 }
@@ -118,29 +106,29 @@ Text {
 }
 
 .brutalist-combobox {
-    -fx-effect: dropshadow(three-pass-box, #422918, 0, 0, 3, 3);
+    -fx-effect: dropshadow(three-pass-box, -brown-500, 0, 0, 3, 3);
     -fx-font-family: CalSans-SemiBold;
     -fx-font-size: 20px;
     /* Reset default button style */
     -fx-background-insets: 0;
     -fx-border-width: 3;
-    -fx-border-color: #422918;
+    -fx-border-color: -brown-500;
     -fx-border-radius: 10;
     -fx-background-radius: 15;
-    -fx-background-color: #e8e8e8;
+    -fx-background-color: -white-300;
     -fx-min-width: 100;
 }
 
 .brutalist-combobox .combo-box-popup .list-view, .brutalist-combobox .combo-box-popup .list-view {
-    -fx-background-color: #e8e8e8;
-    -fx-border-color: #422918;
+    -fx-background-color: -white-300;
+    -fx-border-color: -brown-500;
     -fx-border-width: 3;
     -fx-border-radius: 10;
     -fx-background-radius: 15;
     -fx-padding: 5 10 5 10;
     -fx-font-family: 'CalSans-SemiBold';
     -fx-font-size: 18px;
-    -fx-effect: dropshadow(three-pass-box, #422918, 0, 0, 3, 3);
+    -fx-effect: dropshadow(three-pass-box, -brown-500, 0, 0, 3, 3);
 }
 
 .title {
@@ -152,20 +140,34 @@ Text {
 TextField {
     -fx-font-family: CalSans-SemiBold;
     -fx-font-size: 20px;
-    -fx-background-color: #e8e8e8;
+    -fx-background-color: -white-300;
     -fx-border-width: 3;
-    -fx-border-color: #422918;
+    -fx-border-color: -brown-500;
     -fx-border-radius: 10;
     -fx-background-radius: 15;
 }
 
 .container {
-    -fx-background-color: #f2f2f2;
+    -fx-background-color: -white-200;
     -fx-border-width: 3;
-    -fx-border-color: #422918;
+    -fx-border-color: -brown-500;
     -fx-border-radius: 10;
     -fx-background-radius: 15;
     -fx-padding: 20;
+}
+
+.left-container {
+    -fx-background-color: -white-200;
+    -fx-border-color: -brown-500;
+    -fx-border-radius: 0 10 10 0;
+    -fx-background-radius: 0 15 15 0;
+    -fx-padding: 20;
+    -fx-border-width: 3 3 3 0;
+}
+
+.shadow {
+    -fx-effect: dropshadow(three-pass-box, -brown-500, 0, 0, 3, 3);
+    -fx-padding: 2 12 2 12;
 }
 
 /* Old css */
@@ -180,7 +182,7 @@ TextField {
     -fx-padding: 10 20;
     -fx-font-family: CalSans-SemiBold;
     -fx-font-size: 16px;
-    -fx-text-fill: #422918;
+    -fx-text-fill: -brown-500;
     -fx-background-color: transparent;
 }
 
@@ -197,10 +199,10 @@ TextField {
     -fx-padding: 10;
     -fx-border-color: #3B2312;
     -fx-border-width: 3;
-    -fx-background-color: #e8e8e8;
+    -fx-background-color: -white-300;
     -fx-border-radius: 10;
     -fx-background-radius: 15;
-    -fx-effect: dropshadow(three-pass-box, #422918, 0, 0, 3, 3);
+    -fx-effect: dropshadow(three-pass-box, -brown-500, 0, 0, 3, 3);
 }
 
 .game-name {
@@ -225,7 +227,7 @@ TextField {
 }
 
 .menu-button {
-    -fx-text-fill: #422918; /* Brown text */
+    -fx-text-fill: -brown-500; /* Brown text */
     -fx-font-family: CalSans-SemiBold; /* Custom font */
     -fx-font-weight: bold;
     -fx-font-size: 20px;
@@ -264,7 +266,7 @@ TextField {
 }
 
 .card {
-    -fx-effect: dropshadow(three-pass-box, #422918, 3, .6, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, -brown-500, 3, .6, 0, 0);
 }
 
 /* Make scroll pane transparent */
@@ -287,91 +289,90 @@ TextField {
     -fx-font-family: MedievalSharp-Book;
 }
 
-.points-panel {
-    -fx-border-color: #422918;
+.right-panel {
+    -fx-border-color: -brown-500;
     -fx-border-width: 3;
     -fx-border-radius: 10;
     -fx-background-radius: 15;
-    -fx-background-color: #e8e8e8;
-    -fx-padding: 10;
-    -fx-spacing: 10;
+    -fx-background-color: -white-300;
 }
 
 .brutalist-tab-pane {
-    -fx-background-color: #e8e8e8;
     -fx-padding: 0;
     -fx-border-width: 0;
+    -fx-focus-color: transparent;
 }
 
+/** Tab header style (Group of tab headers) **/
 .brutalist-tab-pane .tab-header-area {
-    -fx-background-color: #e8e8e8;
     -fx-padding: 0;
 }
 
 .brutalist-tab-pane .tab-header-background {
     -fx-background-color: transparent;
+    -fx-border-width: 1;
+    -fx-border-color: -brown-500;
 }
+
+.brutalist-tab-pane .tab-content-area {
+    -fx-background-color: -white-200;
+    -fx-background-radius: 15;
+    -fx-padding: 20;
+}
+
 
 .brutalist-tab-pane .tab {
-    -fx-background-color: #e8e8e8;
-    -fx-border-color: #422918;
-    -fx-border-width: 3;
-    -fx-border-radius: 10 10 0 0;
-    -fx-background-radius: 10 10 0 0;
-    -fx-padding: 5;
+    -fx-background-color: transparent;
+    -fx-border-color: -brown-500;
+    -fx-border-width: 0 1 1 0;
+    -fx-padding: 5 20 5 20;
 }
 
+/** Selected tab header style **/
 .brutalist-tab-pane .tab:selected {
-    -fx-background-color: #422918;
+    -fx-background-color: -white-200;
+    -fx-background-radius: 8;
+    -fx-border-width: 0 1 0 0;
     -fx-text-fill: white;
-}
-
-.brutalist-tab-pane .tab-content {
-    -fx-background-color: #e8e8e8;
-    -fx-border-color: #422918;
-    -fx-border-width: 3;
-    -fx-border-radius: 0 0 10 10;
-    -fx-background-radius: 0 0 10 10;
-    -fx-padding: 10;
-}
-
-.brutalist-tab-content {
-    -fx-padding: 10;
-    -fx-background-color: #ffffff;
-    -fx-border-color: #422918;
-    -fx-border-width: 3;
-    -fx-border-radius: 10;
-    -fx-background-radius: 10;
+    -fx-padding: 5 20 5 20;
 }
 
 .player-label {
-    -fx-font-family: 'CalSans-SemiBold';
+    -fx-font-family: "Cal Sans";
     -fx-font-size: 18px;
-    -fx-text-fill: #422918;
+    -fx-text-fill: -brown-500;
     -fx-cursor: hand;
 }
 
 .player-label:hover {
-    -fx-text-fill: #e8e8e8;
-    -fx-background-color: #422918;
+    -fx-text-fill: -white-300;
+    -fx-background-color: -brown-500;
 }
 
 .score-label {
     -fx-font-family: 'CalSans-SemiBold';
+    -fx-font-weight: 500;
     -fx-font-size: 18px;
-    -fx-text-fill: #422918;
+    -fx-text-fill: -brown-500;
 }
 
-.image-shadow {
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 4, 0.3, 0, 0);
+.h2 {
+    -fx-font-family: MedievalSharp;
+    -fx-font-size: 25px;
 }
 
-.selected-card-image {
-    -fx-background-color: #f2f2f2;
-    -fx-border-width: 3;
-    -fx-border-color: #422918;
-    -fx-border-radius: 10;
-    -fx-background-radius: 15;
+.h3 {
+    -fx-font-family: "Cal Sans";
+    -fx-font-size: 25px;
+
+}
+
+.unstyled-list-view {
     -fx-padding: 0;
-    -fx-effect: none; /* This ensures the shadow is removed */
+    -fx-background-color: transparent;
+}
+
+.unstyled-list-view .list-cell {
+    -fx-padding: 20 0 0 0;
+    -fx-background-color: transparent;
 }
