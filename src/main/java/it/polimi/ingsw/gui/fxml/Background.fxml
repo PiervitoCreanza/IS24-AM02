@@ -1,24 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<StackPane xmlns="http://javafx.com/javafx">
-    <StackPane alignment="TOP_CENTER">
-        <HBox alignment="TOP_LEFT">
-            <ImageView preserveRatio="true" fitHeight="200">
-                <Image url="@/top_left_decoration.png"/>
-            </ImageView>
-        </HBox>
-        <HBox alignment="TOP_RIGHT">
-            <ImageView preserveRatio="true" fitHeight="200">
-                <Image url="@/top_right_decoration.png"/>
-            </ImageView>
-        </HBox>
-        <padding>
-            <Insets top="20" right="20" bottom="20" left="20"/>
-        </padding>
-    </StackPane>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1">
+    <fx:include source="BackgroundOnlyCorners.fxml"/>
     <StackPane alignment="CENTER">
         <HBox alignment="CENTER_LEFT">
             <ImageView fitHeight="80" preserveRatio="true">
@@ -34,26 +22,5 @@
         <padding>
             <Insets top="20" right="20" bottom="20" left="20"/>
         </padding>
-    </StackPane>
-    <StackPane alignment="BOTTOM_CENTER">
-        <HBox alignment="BOTTOM_LEFT">
-            <ImageView preserveRatio="true" fitHeight="300">
-                <Image url="@/bottom_left_decoration.png"/>
-            </ImageView>
-        </HBox>
-        <VBox alignment="BOTTOM_CENTER">
-            <ImageView preserveRatio="true" fitWidth="250">
-                <Image url="@/bottom_center_decoration.png"/>
-            </ImageView>
-            <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
-            </padding>
-        </VBox>
-
-        <HBox alignment="BOTTOM_RIGHT">
-            <ImageView preserveRatio="true" fitHeight="400">
-                <Image url="@/bottom_right_decoration.png"/>
-            </ImageView>
-        </HBox>
     </StackPane>
 </StackPane>
