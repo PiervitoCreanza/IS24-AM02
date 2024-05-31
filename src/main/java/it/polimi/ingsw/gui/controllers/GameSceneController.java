@@ -4,17 +4,24 @@ import it.polimi.ingsw.data.Parser;
 import it.polimi.ingsw.gui.GameCardImage;
 import it.polimi.ingsw.gui.ZoomableScrollPane;
 import it.polimi.ingsw.gui.dataStorage.MultiSystemCoordinate;
+import it.polimi.ingsw.gui.dataStorage.ObservableDrawArea;
 import it.polimi.ingsw.gui.dataStorage.ObservableHand;
 import it.polimi.ingsw.gui.dataStorage.ObservarblePlayerBoard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.network.virtualView.GlobalBoardView;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,6 +33,7 @@ public class GameSceneController extends Controller {
     private static final ControllersEnum NAME = ControllersEnum.GAME_SCENE;
 
     private static final double cardWidth = 234;
+    private static final double cardRatio = 1.5;
 
     private static final Logger logger = LogManager.getLogger(GameSceneController.class);
 
@@ -34,25 +42,48 @@ public class GameSceneController extends Controller {
 
     @FXML
     public Pane dragPane;
-    private final ObservarblePlayerBoard playerBoard = new ObservarblePlayerBoard();
+
+    @FXML
     private final ObservableHand hand = new ObservableHand();
+    private final ObservarblePlayerBoard playerBoard = new ObservarblePlayerBoard();
+    @FXML
     public StackPane rootPane;
+    @FXML
+    private Text playerPrompt;
+    @FXML
+    private Button ChatSideBarButton;
+    private ArrayList<GameCard> gameCards;
+    @FXML
+    private Text playerName;
 
     @FXML
     private GridPane playerBoardGridPane;
 
     @FXML
     private HBox handBoard;
+    @FXML
+    private Parent ChatSideBar;
+    @FXML
+    private HBox resourceDeck;
+    @FXML
+    private HBox goldDeck;
+    @FXML
+    private HBox firstResourceField;
+    @FXML
+    private HBox secondResourceField;
+    @FXML
+    private HBox firstGoldField;
+    @FXML
+    private HBox secondGoldField;
+    private final ObservableDrawArea drawArea = new ObservableDrawArea();
 
     private int selectedCard;
 
     private void loadDummyData() {
         Parser parser = new Parser();
-        ArrayList<GameCard> gameCards = parser.getResourceDeck().getCards();
+        gameCards = parser.getResourceDeck().getCards();
 
         final HashMap<Coordinate, GameCard> origPlayerBoard = new HashMap<>();
-        origPlayerBoard.put(new Coordinate(-20, -20), gameCards.get(1));
-        origPlayerBoard.put(new Coordinate(20, 20), gameCards.get(1));
         origPlayerBoard.put(new Coordinate(0, 0), gameCards.get(0));
         origPlayerBoard.put(new Coordinate(1, 1), gameCards.get(1));
         origPlayerBoard.put(new Coordinate(-1, -1), gameCards.get(2));
@@ -63,7 +94,24 @@ public class GameSceneController extends Controller {
         hand.setCard(gameCards.get(6), 1);
         hand.setCard(gameCards.get(7), 2);
 
+        GlobalBoardView globalBoardView = new GlobalBoardView(
+                gameCards.get(8),
+                gameCards.get(9),
+                new ArrayList<>(gameCards.subList(10, 12)),
+                new ArrayList<>(gameCards.subList(12, 14)),
+                new ArrayList<>(parser.getObjectiveDeck().getCards().subList(0, 2))
+        );
+
+
+        drawArea.loadData(globalBoardView);
+
         playerBoard.loadData(origPlayerBoard);
+        playerPrompt.setText("Place a new card on the board");
+
+    }
+
+    private void setPlayerPrompt(String prompt) {
+        playerPrompt.setText(playerPrompt.getText() + " " + prompt);
     }
 
     private void removeNodeFromGrid(int col, int row) {
@@ -84,19 +132,33 @@ public class GameSceneController extends Controller {
         }
     }
 
+    private void initializePlayerBoardGridPane() {
+        // Add column constraints to set column width
+        for (int i = 0; i <= 100; i++) {
+            ColumnConstraints colConstraints = new ColumnConstraints();
+            colConstraints.setPrefWidth(cardWidth); // Set preferred width of the column
+            playerBoardGridPane.getColumnConstraints().add(colConstraints);
+        }
+
+        // Add row constraints to set row height
+        for (int i = 0; i <= 100; i++) {
+            RowConstraints rowConstraints = new RowConstraints();
+            rowConstraints.setPrefHeight(cardWidth / cardRatio); // Set preferred height of the row
+            playerBoardGridPane.getRowConstraints().add(rowConstraints);
+        }
+    }
+
     @FXML
     public void initialize() {
         StackPane pane = new StackPane();
-        pane.getStyleClass().add("black");
+        pane.getStyleClass().add("transparent");
         playerBoardGridPane = new GridPane();
-        playerBoardGridPane.gridLinesVisibleProperty().set(true);
-        playerBoardGridPane.getStyleClass().add("player-board black"); // TODO: Add transparent
+        playerBoardGridPane.getStyleClass().add("player-board transparent");
         playerBoardGridPane.setHgap(cardWidth / 100 * -22);
         playerBoardGridPane.setVgap(cardWidth / 100 * -27);
         pane.getChildren().add(playerBoardGridPane);
-
         ZoomableScrollPane scrollPane = new ZoomableScrollPane(pane);
-        //scrollPane.getStyleClass().add("transparent");
+        scrollPane.getStyleClass().add("transparent");
         contentPane.getChildren().addFirst(scrollPane);
 
         // Handle the add of a new card to the player board
@@ -120,7 +182,7 @@ public class GameSceneController extends Controller {
 
             // Either if the card is added from the network or from the GUI, it is displayed on the board.
             logger.debug("Displaying card at {}", guiCoordinate);
-            ImageView imageView = playerBoard.get(multiSystemCoordinate).getFront();
+            ImageView imageView = playerBoard.get(multiSystemCoordinate).getCurrentSide();
             playerBoardGridPane.add(imageView, guiCoordinate.x, guiCoordinate.y);
         });
 
@@ -128,8 +190,13 @@ public class GameSceneController extends Controller {
         hand.addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals("setCard")) {
                 GameCardImage card = (GameCardImage) evt.getNewValue();
-                ImageView imageView = card.getFront();
-                handBoard.getChildren().add(imageView);
+                int index = (int) evt.getOldValue();
+                ImageView imageView = card.getCurrentSide();
+                if (handBoard.getChildren().size() <= index) {
+                    handBoard.getChildren().add(imageView);
+                } else {
+                    handBoard.getChildren().set(index, imageView);
+                }
                 makeDraggable(imageView);
             }
 
@@ -138,12 +205,68 @@ public class GameSceneController extends Controller {
             }
         });
 
+        drawArea.addPropertyChangeListener(evt -> {
+            String eventName = evt.getPropertyName();
+            GameCard gameCard = (GameCard) evt.getNewValue();
+            ImageView imageView;
+            if (gameCard != null) {
+                imageView = new GameCardImage(gameCard.getCardId()).getCurrentSide();
+            } else {
+                imageView = new ImageView();
+                imageView.setFitWidth(cardWidth);
+                imageView.setFitHeight(cardWidth / cardRatio);
+            }
+
+            if (!eventName.equals("firstGoldCard") && !eventName.equals("firstResourceCard")) {
+                imageView.setFitWidth(109.5);
+                imageView.setFitHeight(109.5 / cardRatio);
+            }
+
+            switch (eventName) {
+                case "firstGoldCard":
+                    goldDeck.getChildren().clear();
+                    goldDeck.getChildren().add(imageView);
+                    break;
+                case "firstResourceCard":
+                    resourceDeck.getChildren().clear();
+                    resourceDeck.getChildren().add(imageView);
+                    break;
+                case "firstGoldFieldCard":
+                    firstResourceField.getChildren().clear();
+                    firstResourceField.getChildren().add(imageView);
+                    break;
+                case "secondGoldFieldCard":
+                    secondGoldField.getChildren().clear();
+                    secondGoldField.getChildren().add(imageView);
+                    break;
+                case "firstResourceFieldCard":
+                    firstGoldField.getChildren().clear();
+                    firstGoldField.getChildren().add(imageView);
+                    break;
+                case "secondResourceFieldCard":
+                    secondResourceField.getChildren().clear();
+                    secondResourceField.getChildren().add(imageView);
+                    break;
+            }
+        });
+
+        initializePlayerBoardGridPane();
         loadDummyData();
     }
 
     private void makeDraggable(ImageView imageView) {
         final Coordinate dragDelta = new Coordinate(0, 0);
+
         imageView.setOnMousePressed(mouseEvent -> {
+            // Save the index of the selected card
+            selectedCard = handBoard.getChildren().indexOf(imageView);
+
+            // If the right mouse button is pressed, switch the card
+            if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                logger.debug("Context menu requested");
+                hand.switchCard(selectedCard);
+                return;
+            }
             // record a delta distance for the drag and drop operation.
             if (imageView.getParent().equals(handBoard)) {
                 imageView.getBoundsInLocal();
@@ -157,7 +280,6 @@ public class GameSceneController extends Controller {
                 placeholder.setPrefHeight(imageView.getFitHeight());
 
                 // Replace the imageView with the placeholder in the parent
-                selectedCard = handBoard.getChildren().indexOf(imageView);
                 handBoard.getChildren().set(selectedCard, placeholder);
 
                 dragPane.getChildren().add(imageView);
@@ -172,6 +294,10 @@ public class GameSceneController extends Controller {
         });
 
         imageView.setOnMouseReleased(mouseEvent -> {
+            // If the right mouse button is released, do nothing
+            if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                return;
+            }
             logger.debug("Mouse released");
             boolean didIntersect = false;
             for (Node node : playerBoardGridPane.getChildren()) {
@@ -184,6 +310,14 @@ public class GameSceneController extends Controller {
                     Point2D playerBoardCardBarycenter = new Point2D(boundsInPlayerBoard.getCenterX(), boundsInPlayerBoard.getCenterY());
                     Point2D dragPaneCardBarycenter = new Point2D(boundsInDragPane.getCenterX(), boundsInDragPane.getCenterY());
                     logger.debug("Intersection detected");
+                    Integer xCoord = GridPane.getColumnIndex(node);
+                    Integer yCoord = GridPane.getRowIndex(node);
+
+                    // This check is needed as some cells are filled with empty elements and the coordinates are null
+                    if (xCoord == null || yCoord == null) {
+                        continue;
+                    }
+
                     Coordinate newCardCoordinates = new Coordinate(GridPane.getColumnIndex(node), GridPane.getRowIndex(node));
                     if (playerBoardCardBarycenter.getX() > dragPaneCardBarycenter.getX() && playerBoardCardBarycenter.getY() > dragPaneCardBarycenter.getY()) {
                         // The card is in the top left corner of the player board card
@@ -221,11 +355,6 @@ public class GameSceneController extends Controller {
                     // Remove the card from the hand
                     dragPane.getChildren().remove(imageView);
                     didIntersect = true;
-                    // Remove the listeners
-//                    imageView.setOnMousePressed(null);
-//                    imageView.setOnMouseReleased(null);
-//                    imageView.setOnMouseDragged(null);
-//                    imageView.setOnMouseEntered(null);
                     break;
                 }
             }
@@ -237,7 +366,6 @@ public class GameSceneController extends Controller {
         });
 
         imageView.setOnMouseDragged(mouseEvent -> {
-
             imageView.setLayoutX(mouseEvent.getSceneX() + dragDelta.getX());
             imageView.setLayoutY(mouseEvent.getSceneY() + dragDelta.getY());
         });
@@ -273,5 +401,12 @@ public class GameSceneController extends Controller {
     @Override
     public void beforeUnmount() {
 
+    }
+
+    @FXML
+    private void showChat(ActionEvent actionEvent) {
+        ChatSideBar.setVisible(true);
+        ChatSideBarButton.setVisible(false);
+        ChatSideBarButton.setManaged(false);
     }
 }
