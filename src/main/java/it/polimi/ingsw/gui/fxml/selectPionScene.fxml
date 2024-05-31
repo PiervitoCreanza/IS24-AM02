@@ -15,9 +15,9 @@
 
         <!-- VBox for the ImageView and buttons, layered above the background -->
 
-        <VBox alignment="CENTER" spacing="10" styleClass="menu-vbox" StackPane.alignment="CENTER" maxWidth="650">
+        <VBox alignment="CENTER" spacing="10" StackPane.alignment="CENTER" maxWidth="650">
             <VBox minHeight="40"/>
-            <VBox alignment="CENTER" styleClass="menu-vbox" StackPane.alignment="CENTER" spacing="20">
+            <VBox alignment="CENTER" styleClass="container" StackPane.alignment="CENTER" spacing="20">
                 <!-- Start of component content -->
                 <Text styleClass="title" text="Select your Pion"/>
                 <ImageView fx:id="pionImageView" fitHeight="200" fitWidth="200" styleClass="image-shadow"/>
