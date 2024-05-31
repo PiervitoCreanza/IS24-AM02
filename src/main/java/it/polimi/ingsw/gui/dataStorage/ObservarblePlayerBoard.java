@@ -8,7 +8,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 
-public class ObservarblePlayerBoard extends HashMap<MultiSystemCoordinate, GameCardImage> {
+public class ObservarblePlayerBoard extends HashMap<MultiSystemCoordinate, GameCardImage> implements ObservableDataStorage {
 
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);

@@ -7,7 +7,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ObservableHand {
+public class ObservableHand implements ObservableDataStorage {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final HashMap<Integer, GameCardImage> hand;
 
@@ -32,6 +32,12 @@ public class ObservableHand {
     public void removeCard(int index) {
         hand.put(index, null);
         pcs.firePropertyChange("removeCard", null, index);
+    }
+
+    public void switchCard(int index) {
+        GameCardImage gameCardImage = hand.get(index);
+        gameCardImage.switchSide();
+        pcs.firePropertyChange("setCard", index, gameCardImage);
     }
 
     public void loadData(ArrayList<GameCard> cards) {
