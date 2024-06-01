@@ -45,7 +45,7 @@ public class GUIApp extends Application implements View {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Platform.runLater(() -> connection.connect());
+
         // Set the stage to close the application when the window is closed.
         stage.setOnCloseRequest(event -> {
             logger.info("GUIApp quit");
@@ -89,6 +89,8 @@ public class GUIApp extends Application implements View {
         controller.beforeMount();
 
         stage.show();
+
+        Platform.runLater(() -> connection.connect());
     }
 
     private void loadFonts() {
