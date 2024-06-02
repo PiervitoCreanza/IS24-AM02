@@ -400,6 +400,16 @@ TextField {
     -fx-background-color: transparent;
 }
 
+.selected-card-image {
+    -fx-background-color: #f2f2f2;
+    -fx-border-width: 3;
+    -fx-border-color: #422918;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-padding: 0;
+    -fx-effect: none; /* This ensures the shadow is removed */
+}
+
 #playerTextField {
     -fx-prompt-text-fill: gray;
 }
