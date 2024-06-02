@@ -15,11 +15,11 @@ public class ChatSidebarTest extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Load the FXML file for the chat sidebar
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GameScene.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ChatSidebar.fxml"));
         Parent chatSidebar = loader.load();
 
         // Create a scene with the chat sidebar
-        Scene scene = new Scene(chatSidebar, 1920, 1080);
+        Scene scene = new Scene(chatSidebar, 300, 600);
 
         // Set up the stage
         primaryStage.setScene(scene);

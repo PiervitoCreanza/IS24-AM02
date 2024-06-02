@@ -2,7 +2,6 @@ package it.polimi.ingsw.gui.controllers;
 
 
 import it.polimi.ingsw.controller.GameStatusEnum;
-import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.network.virtualView.PlayerView;
 import javafx.application.Platform;
@@ -24,8 +23,6 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
 
     private final static Logger logger = LogManager.getLogger(WaitingForPlayerController.class);
 
-    private ClientNetworkControllerMapper networkControllerMapper;
-
     @FXML
     private ListView<String> playerListView;
 
@@ -42,11 +39,6 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
         return NAME;
     }
 
-    @Override
-    public void beforeMount() {
-        return;
-    }
-
     /**
      * This method is called before showing the scene.
      * It should be overridden by the subclasses to perform any necessary operations before showing the scene.
@@ -61,10 +53,6 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
         setUpPlayerListView(updatedView);
 
         logger.debug("WaitingForPlayerController beforeMount");
-        if (networkControllerMapper == null) {
-            networkControllerMapper = getProperty("networkControllerMapper");
-            networkControllerMapper.addPropertyChangeListener(this);
-        }
 
         // Put here interaction with networkControllerMapper
     }
@@ -75,7 +63,7 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
      */
     @Override
     public void beforeUnmount() {
-        networkControllerMapper.removePropertyChangeListener(this);
+
     }
 
     /**
@@ -96,7 +84,7 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
 
         if (gameStatus == GameStatusEnum.INIT_PLACE_STARTER_CARD) {
             logger.debug("Show place starter card scene");
-            //switchScene(ControllersEnum.PLACE_STARTER_CARD);
+            switchScene(ControllersEnum.INIT_PLACE_STARTER_CARD, evt);
         }
 
     }

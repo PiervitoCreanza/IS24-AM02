@@ -9,7 +9,10 @@ import it.polimi.ingsw.gui.dataStorage.ObservableHand;
 import it.polimi.ingsw.gui.dataStorage.ObservarblePlayerBoard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.network.virtualView.GlobalBoardView;
+import it.polimi.ingsw.network.virtualView.PlayerView;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
@@ -25,10 +28,12 @@ import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class GameSceneController extends Controller {
+public class GameSceneController extends Controller implements PropertyChangeListener {
 
     private static final ControllersEnum NAME = ControllersEnum.GAME_SCENE;
 
@@ -36,7 +41,7 @@ public class GameSceneController extends Controller {
     private static final double cardRatio = 1.5;
 
     private static final Logger logger = LogManager.getLogger(GameSceneController.class);
-
+    private GameControllerView gameControllerView;
     @FXML
     public StackPane contentPane;
 
@@ -376,6 +381,13 @@ public class GameSceneController extends Controller {
         });
     }
 
+    private void loadUpdatedView(GameControllerView gameControllerView, String playerName) {
+        PlayerView playerView = gameControllerView.getPlayerViewByName(playerName);
+        hand.loadData(playerView.playerHandView().hand());
+        playerBoard.loadData(playerView.playerBoardView().playerBoard());
+        drawArea.loadData(gameControllerView.gameView().globalBoardView());
+    }
+
     /**
      * Returns the name of the controller.
      *
@@ -389,9 +401,12 @@ public class GameSceneController extends Controller {
     /**
      * This method is called before showing the scene.
      * It should be overridden by the subclasses to perform any necessary operations before showing the scene.
+     * If the switchScene was caused by a property change, the event is passed as an argument.
+     *
+     * @param evt the property change event that caused the switch.
      */
     @Override
-    public void beforeMount() {
+    public void beforeMount(PropertyChangeEvent evt) {
 
     }
 
@@ -409,5 +424,21 @@ public class GameSceneController extends Controller {
         ChatSideBar.setVisible(true);
         ChatSideBarButton.setVisible(false);
         ChatSideBarButton.setManaged(false);
+    }
+
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String propertyName = evt.getPropertyName();
+        if (propertyName.equals("UPDATE_VIEW")) {
+            gameControllerView = (GameControllerView) evt.getNewValue();
+            logger.debug("Received updated view");
+            Platform.runLater(() -> loadUpdatedView(gameControllerView, getProperty("playerName")));
+        }
     }
 }

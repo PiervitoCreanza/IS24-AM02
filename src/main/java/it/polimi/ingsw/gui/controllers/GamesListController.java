@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gui.controllers;
 
 
-import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 public class GamesListController extends Controller implements PropertyChangeListener {
     public static final ControllersEnum NAME = ControllersEnum.GAMES_LIST;
     private final static Logger logger = LogManager.getLogger(GamesListController.class);
-    private ClientNetworkControllerMapper networkControllerMapper;
     @FXML
     private ListView<String> gameListView;
 
@@ -36,17 +34,8 @@ public class GamesListController extends Controller implements PropertyChangeLis
      * It should be overridden by the subclasses to perform any necessary operations before showing the scene.
      */
     @Override
-    public void beforeMount() {
+    public void beforeMount(PropertyChangeEvent evt) {
         logger.debug("GamesListController beforeMount");
-        if (networkControllerMapper == null) {
-            networkControllerMapper = getProperty("networkControllerMapper");
-            networkControllerMapper.addPropertyChangeListener(this);
-        }
-        gameListView.setOnMouseClicked(event -> {
-            String gameName = gameListView.getSelectionModel().getSelectedItem();
-            if (gameName != null)
-                joinGame(gameName);
-        });
         networkControllerMapper.getGames();
     }
 
@@ -56,7 +45,7 @@ public class GamesListController extends Controller implements PropertyChangeLis
      */
     @Override
     public void beforeUnmount() {
-        networkControllerMapper.removePropertyChangeListener(this);
+
     }
 
     /**
@@ -82,6 +71,11 @@ public class GamesListController extends Controller implements PropertyChangeLis
     @FXML
     public void initialize() {
         gameListView.setCellFactory(param -> new GameCell());
+        gameListView.setOnMouseClicked(event -> {
+            String gameName = gameListView.getSelectionModel().getSelectedItem();
+            if (gameName != null)
+                joinGame(gameName);
+        });
     }
 
     public void refreshList(ActionEvent actionEvent) {
