@@ -220,7 +220,7 @@ public class TUIViewController implements PropertyChangeListener, View {
      * It delegates the request to the network controller.
      */
     public void deleteGame() {
-        networkController.deleteGame(gameName, playerName);
+        networkController.deleteGame();
     }
 
     /**
@@ -249,7 +249,7 @@ public class TUIViewController implements PropertyChangeListener, View {
      * @param playerColor the player color to be chosen.
      */
     public void choosePlayerColor(PlayerColorEnum playerColor) {
-        networkController.choosePlayerColor(gameName, playerName, playerColor);
+        networkController.choosePlayerColor(playerColor);
     }
 
     /**
@@ -260,7 +260,7 @@ public class TUIViewController implements PropertyChangeListener, View {
      * @param isFlipped     the side of the card.
      */
     public void placeStarterCard(int starterCardId, boolean isFlipped) {
-        networkController.placeCard(gameName, playerName, new Coordinate(0, 0), starterCardId, isFlipped);
+        networkController.placeCard(new Coordinate(0, 0), starterCardId, isFlipped);
     }
 
     /**
@@ -272,7 +272,7 @@ public class TUIViewController implements PropertyChangeListener, View {
      * @param isFlipped    the side of the card.
      */
     public void placeCard(int chosenCardId, Coordinate coordinate, boolean isFlipped) {
-        networkController.placeCard(gameName, playerName, coordinate, chosenCardId, isFlipped);
+        networkController.placeCard(coordinate, chosenCardId, isFlipped);
     }
 
     /**
@@ -282,7 +282,7 @@ public class TUIViewController implements PropertyChangeListener, View {
      * @param gameCard the card to be drawn.
      */
     public void drawCardFromField(GameCard gameCard) {
-        networkController.drawCardFromField(gameName, playerName, gameCard);
+        networkController.drawCardFromField(gameCard);
     }
 
     /**
@@ -290,7 +290,7 @@ public class TUIViewController implements PropertyChangeListener, View {
      * It delegates the request to the network controller.
      */
     public void drawCardFromResourceDeck() {
-        networkController.drawCardFromResourceDeck(gameName, playerName);
+        networkController.drawCardFromResourceDeck();
     }
 
     /**
@@ -298,7 +298,7 @@ public class TUIViewController implements PropertyChangeListener, View {
      * It delegates the request to the network controller.
      */
     public void drawCardFromGoldDeck() {
-        networkController.drawCardFromGoldDeck(gameName, playerName);
+        networkController.drawCardFromGoldDeck();
     }
 
     /**
@@ -308,7 +308,7 @@ public class TUIViewController implements PropertyChangeListener, View {
      * @param gameCardId the card to be switched.
      */
     public void switchCardSide(int gameCardId) {
-        networkController.switchCardSide(gameName, playerName, gameCardId);
+        networkController.switchCardSide(gameCardId);
     }
 
     /**
@@ -318,7 +318,7 @@ public class TUIViewController implements PropertyChangeListener, View {
      * @param objectiveCardId the objective card to be set.
      */
     public void setPlayerObjective(int objectiveCardId) {
-        networkController.setPlayerObjective(gameName, playerName, objectiveCardId);
+        networkController.setPlayerObjective(objectiveCardId);
     }
 
     /**
@@ -337,7 +337,7 @@ public class TUIViewController implements PropertyChangeListener, View {
      * It delegates the request to the network controller.
      */
     public void sendDisconnect() {
-        networkController.sendDisconnect(gameName, playerName);
+        networkController.sendDisconnect();
     }
 
     /**
