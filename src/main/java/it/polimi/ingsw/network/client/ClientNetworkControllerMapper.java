@@ -111,11 +111,8 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
 
     /**
      * Sends a request to the server to delete a game.
-     *
-     * @param gameName   The name of the game to be deleted.
-     * @param playerName The name of the player deleting the game.
      */
-    public void deleteGame(String gameName, String playerName) {
+    public void deleteGame() {
         messageHandler.sendMessage(new DeleteGameClientToServerMessage(gameName, playerName));
     }
 
@@ -134,77 +131,61 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
     /**
      * Sends a request to the server for the player to choose a color.
      *
-     * @param gameName    The name of the game.
-     * @param playerName  The name of the player choosing the color.
      * @param playerColor The chosen color.
      */
-    public void choosePlayerColor(String gameName, String playerName, PlayerColorEnum playerColor) {
+    public void choosePlayerColor(PlayerColorEnum playerColor) {
         messageHandler.sendMessage(new ChoosePlayerColorClientToServerMessage(gameName, playerName, playerColor));
     }
 
     /**
      * Sends a request to the server for the player to place a card.
      *
-     * @param gameName   The name of the game.
-     * @param playerName The name of the player placing the card.
      * @param coordinate The coordinate where the card is placed.
      * @param cardId     The card to be placed.
      * @param isFlipped  Flag to indicate if the card is flipped.
      */
-    public void placeCard(String gameName, String playerName, Coordinate coordinate, int cardId, boolean isFlipped) {
+    public void placeCard(Coordinate coordinate, int cardId, boolean isFlipped) {
         messageHandler.sendMessage(new PlaceCardClientToServerMessage(gameName, playerName, coordinate, cardId, isFlipped));
     }
 
     /**
      * Sends a request to the server for the player to draw a card from the field.
      *
-     * @param gameName   The name of the game.
-     * @param playerName The name of the player drawing the card.
-     * @param card       The card to be drawn.
+     * @param card The card to be drawn.
      */
-    public void drawCardFromField(String gameName, String playerName, GameCard card) {
+    public void drawCardFromField(GameCard card) {
         messageHandler.sendMessage(new DrawCardFromFieldClientToServerMessage(gameName, playerName, card));
     }
 
     /**
      * Sends a request to the server for the player to draw a card from the resource deck.
-     *
-     * @param gameName   The name of the game.
-     * @param playerName The name of the player drawing the card.
      */
-    public void drawCardFromResourceDeck(String gameName, String playerName) {
+    public void drawCardFromResourceDeck() {
         messageHandler.sendMessage(new DrawCardFromResourceDeckClientToServerMessage(gameName, playerName));
     }
 
     /**
      * Sends a request to the server for the player to draw a card from the gold deck.
-     *
-     * @param gameName   The name of the game.
-     * @param playerName The name of the player drawing the card.
      */
-    public void drawCardFromGoldDeck(String gameName, String playerName) {
+    public void drawCardFromGoldDeck() {
         messageHandler.sendMessage(new DrawCardFromGoldDeckClientToServerMessage(gameName, playerName));
     }
 
     /**
      * Sends a request to the server for the player to switch the side of a card.
      *
-     * @param gameName   The name of the game.
-     * @param playerName The name of the player switching the card side.
-     * @param cardId     The card to switch side.
+     * @param cardId The card to switch side.
      */
-    public void switchCardSide(String gameName, String playerName, int cardId) {
+    public void switchCardSide(int cardId) {
         messageHandler.sendMessage(new SwitchCardSideClientToServerMessage(gameName, playerName, cardId));
     }
 
     /**
      * Sends a request to the server for the player to set an objective card.
      *
-     * @param gameName   The name of the game.
-     * @param playerName The name of the player setting the objective card.
-     * @param cardId     The objective card to be set.
+     * @param cardId The objective card to be set.
      */
-    public void setPlayerObjective(String gameName, String playerName, int cardId) {
+    public void setPlayerObjective(int cardId) {
         messageHandler.sendMessage(new SetPlayerObjectiveClientToServerMessage(gameName, playerName, cardId));
     }
 
@@ -219,11 +200,8 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
 
     /**
      * Sends a request to the server for the player to disconnect.
-     *
-     * @param gameName   The name of the game.
-     * @param playerName The name of the player disconnecting.
      */
-    public void sendDisconnect(String gameName, String playerName) {
+    public void sendDisconnect() {
         messageHandler.sendMessage(new DisconnectClientToServerMessage(gameName, playerName));
     }
 
