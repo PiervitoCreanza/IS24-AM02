@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gui.controllers;
 
-import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import org.apache.logging.log4j.LogManager;
@@ -21,7 +20,6 @@ public class MainMenuSceneController extends Controller implements PropertyChang
      * The logger.
      */
     private final static Logger logger = LogManager.getLogger(MainMenuSceneController.class);
-    private ClientNetworkControllerMapper networkControllerMapper;
 
     /**
      * The initialize method is called when the scene and controller are created.
@@ -29,13 +27,6 @@ public class MainMenuSceneController extends Controller implements PropertyChang
     @FXML
     public void initialize() {
         logger.debug("Initializing MainMenuSceneController");
-    }
-
-    public void beforeMount() {
-        if (this.networkControllerMapper == null) {
-            this.networkControllerMapper = getProperty("networkControllerMapper");
-            this.networkControllerMapper.addPropertyChangeListener(this);
-        }
     }
 
     @FXML
@@ -91,10 +82,21 @@ public class MainMenuSceneController extends Controller implements PropertyChang
     }
 
     /**
+     * This method is called before showing the scene.
+     * It should be overridden by the subclasses to perform any necessary operations before showing the scene.
+     * If the switchScene was caused by a property change, the event is passed as an argument.
+     *
+     * @param evt the property change event that caused the switch.
+     */
+    @Override
+    public void beforeMount(PropertyChangeEvent evt) {
+
+    }
+
+    /**
      *
      */
     @Override
     public void beforeUnmount() {
-        this.networkControllerMapper.removePropertyChangeListener(this);
     }
 }

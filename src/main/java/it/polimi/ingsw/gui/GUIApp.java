@@ -17,6 +17,8 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class GUIApp extends Application implements View {
@@ -34,7 +36,6 @@ public class GUIApp extends Application implements View {
     @Override
     public void launchUI() {
         launch();
-
     }
 
     @Override
@@ -75,8 +76,8 @@ public class GUIApp extends Application implements View {
         // Set the stage to the current scene.
         stage.setScene(scene);
 
-        // Make the network controller mapper available to all controllers.
-        stage.getScene().getProperties().put("networkControllerMapper", networkControllerMapper);
+        // Set the network controller mapper aon all controllers.
+        Controller.setNetworkControllerMapper(networkControllerMapper);
 
         // Set the current scene on all controllers.
         Controller.setScene(scene);
@@ -86,11 +87,18 @@ public class GUIApp extends Application implements View {
 
         // Call the beforeShow method of the controller.
         // This method is used to perform actions right before the window is shown.
-        controller.beforeMount();
+        controller.beforeMount(null);
 
         stage.show();
 
-        Platform.runLater(() -> connection.connect());
+        // Connect to the server after 1 second. For some reason, connecting immediately causes the connection to fail.
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> connection.connect());
+            }
+        }, 1000);
     }
 
     private void loadFonts() {

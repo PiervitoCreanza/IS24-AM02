@@ -5,6 +5,8 @@ import javafx.scene.input.KeyEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.beans.PropertyChangeEvent;
+
 public class HomeSceneController extends Controller {
 
     public static final ControllersEnum NAME = ControllersEnum.HOME;
@@ -41,9 +43,12 @@ public class HomeSceneController extends Controller {
     /**
      * This method is called before showing the scene.
      * It should be overridden by the subclasses to perform any necessary operations before showing the scene.
+     * If the switchScene was caused by a property change, the event is passed as an argument.
+     *
+     * @param evt the property change event that caused the switch.
      */
     @Override
-    public void beforeMount() {
+    public void beforeMount(PropertyChangeEvent evt) {
 
     }
 
@@ -53,6 +58,17 @@ public class HomeSceneController extends Controller {
      */
     @Override
     public void beforeUnmount() {
+
+    }
+
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
 
     }
 }

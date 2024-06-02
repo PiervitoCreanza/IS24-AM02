@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gui.controllers;
 
-import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,8 +16,6 @@ import java.beans.PropertyChangeListener;
 public class CreateGameSceneController extends Controller implements PropertyChangeListener {
     public static final ControllersEnum NAME = ControllersEnum.CREATE_GAME;
     private final static Logger logger = LogManager.getLogger(CreateGameSceneController.class);
-
-    private ClientNetworkControllerMapper networkControllerMapper;
 
     @FXML
     private TextField gameTextField;
@@ -52,12 +49,10 @@ public class CreateGameSceneController extends Controller implements PropertyCha
      * It should be overridden by the subclasses to perform any necessary operations before showing the scene.
      */
     @Override
-    public void beforeMount() {
+    public void beforeMount(PropertyChangeEvent evt) {
+
         logger.debug("GamesListController beforeMount");
-        if (networkControllerMapper == null) {
-            networkControllerMapper = getProperty("networkControllerMapper");
-            networkControllerMapper.addPropertyChangeListener(this);
-        }
+
     }
 
     /**
@@ -73,6 +68,7 @@ public class CreateGameSceneController extends Controller implements PropertyCha
     public void createGame(ActionEvent actionEvent) {
         String gameName = gameTextField.getText();
         String playerName = playerTextField.getText();
+        setProperty("playerName", playerName);
         nPlayers = playerNumberGroup.getSelectedToggle() == player2Button ? 2 : playerNumberGroup.getSelectedToggle() == player3Button ? 3 : 4;
         logger.debug("Create game: {} player: {}, number of player: {}", gameName, playerName, nPlayers);
         if (gameName == null || playerName == null || nPlayers == 0)

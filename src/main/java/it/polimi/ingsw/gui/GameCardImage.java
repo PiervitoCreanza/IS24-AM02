@@ -45,7 +45,7 @@ public class GameCardImage {
             paddedCardId = "051";
         } else if (cardId < 73) {
             paddedCardId = "066";
-        } else if (88 >= cardId) {
+        } else if (cardId >= 88) {
             paddedCardId = "102";
         }
 

@@ -7,6 +7,8 @@ import it.polimi.ingsw.model.utils.Coordinate;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ObservarblePlayerBoard extends HashMap<MultiSystemCoordinate, GameCardImage> implements ObservableDataStorage {
 
@@ -57,7 +59,8 @@ public class ObservarblePlayerBoard extends HashMap<MultiSystemCoordinate, GameC
         }
 
         // Remove all the cards that are not present in the new data. This is to prevent the local board from having cards that are not present in the model.
-        for (MultiSystemCoordinate key : super.keySet()) {
+        Set<MultiSystemCoordinate> keys = new HashSet<>(super.keySet());
+        for (MultiSystemCoordinate key : keys) {
             if (!data.containsKey(key.getCoordinateInModelSystem())) {
                 remove(key);
                 pcs.firePropertyChange("remove", null, key);

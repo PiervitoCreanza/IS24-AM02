@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gui.controllers;
 
-import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
+import it.polimi.ingsw.controller.GameStatusEnum;
+import it.polimi.ingsw.network.virtualView.GameControllerView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +17,6 @@ import java.beans.PropertyChangeListener;
 public class JoinGameSceneController extends Controller implements PropertyChangeListener {
     public static final ControllersEnum NAME = ControllersEnum.GAMES_LIST;
     private final static Logger logger = LogManager.getLogger(JoinGameSceneController.class);
-    private ClientNetworkControllerMapper networkControllerMapper;
 
     @FXML
     private TextField playerTextField;
@@ -37,12 +37,8 @@ public class JoinGameSceneController extends Controller implements PropertyChang
      * It should be overridden by the subclasses to perform any necessary operations before showing the scene.
      */
     @Override
-    public void beforeMount() {
+    public void beforeMount(PropertyChangeEvent evt) {
         logger.debug("GamesListController beforeMount");
-        if (networkControllerMapper == null) {
-            networkControllerMapper = getProperty("networkControllerMapper");
-            networkControllerMapper.addPropertyChangeListener(this);
-        }
     }
 
     /**
@@ -58,6 +54,7 @@ public class JoinGameSceneController extends Controller implements PropertyChang
     public void joinGame(ActionEvent actionEvent) {
         String gameName = getProperty("gameName");
         String playerName = playerTextField.getText();
+        setProperty("playerName", playerName);
         logger.debug("Joining game: {} with player: {}", gameName, playerName);
         if (gameName != null && playerName != null) {
             networkControllerMapper.joinGame(gameName, playerName);
@@ -92,7 +89,17 @@ public class JoinGameSceneController extends Controller implements PropertyChang
         }
 
         if (evt.getPropertyName().equals("UPDATE_VIEW")) {
-            switchScene(ControllersEnum.WAITING_FOR_PLAYER, evt);
+            GameControllerView gameControllerView = (GameControllerView) evt.getNewValue();
+            if (gameControllerView.gameStatus() == GameStatusEnum.WAIT_FOR_PLAYERS) {
+                switchScene(ControllersEnum.WAITING_FOR_PLAYER, evt);
+                return;
+            }
+            if (gameControllerView.gameStatus() == GameStatusEnum.INIT_PLACE_STARTER_CARD) {
+                switchScene(ControllersEnum.INIT_PLACE_STARTER_CARD, evt);
+                return;
+            }
+            // TODO: Add the other scenes
+            switchScene(ControllersEnum.GAME_SCENE, evt);
         }
     }
 }

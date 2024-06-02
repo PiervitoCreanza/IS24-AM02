@@ -44,6 +44,10 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      */
     private final PropertyChangeSupport listeners;
 
+    private String gameName;
+
+    private String playerName;
+
 
     /**
      * Default constructor for the ClientNetworkControllerMapper class.
@@ -100,6 +104,8 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      * @param nPlayers   The number of players in the game.
      */
     public void createGame(String gameName, String playerName, int nPlayers) {
+        this.gameName = gameName;
+        this.playerName = playerName;
         messageHandler.sendMessage(new CreateGameClientToServerMessage(gameName, playerName, nPlayers));
     }
 
@@ -120,6 +126,8 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      * @param playerName The name of the player joining the game.
      */
     public void joinGame(String gameName, String playerName) {
+        this.gameName = gameName;
+        this.playerName = playerName;
         messageHandler.sendMessage(new JoinGameClientToServerMessage(gameName, playerName));
     }
 

@@ -8,7 +8,9 @@ public enum ControllersEnum {
     JOIN_GAME("JoinGameScene"),
     GAMES_LIST("GamesListScene"),
     WAITING_FOR_PLAYER("WaitingForPlayerScene"),
-    GAME_SCENE("GameScene");
+    GAME_SCENE("GameScene"),
+    INIT_PLACE_STARTER_CARD("InitPlaceStarterCardScene"),
+    ;
 
     private final String fxmlFileName;
 
