@@ -3,7 +3,9 @@ package it.polimi.ingsw.gui.controllers;
 import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.gui.GameCardImage;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -14,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 
 // Each player receives a single starterCard at the beginning of the game, and it has to choose which side to use.
 public class InitPlaceStarterCardSceneController extends Controller implements PropertyChangeListener {
@@ -34,13 +37,13 @@ public class InitPlaceStarterCardSceneController extends Controller implements P
     @FXML
     private ImageView cardBackImageView;
 
-    private GameCard starterCard;
+    private GameCard gameCard;
     private String selectedSide = ""; // Variable to track the selected side
 
     @FXML
     public void initialize() {
         frontImagePane.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 1) {
+            if (event.getClickCount() == 1 && !selectedSide.equals("front")) {
                 System.out.println("Clicked on the front of the card");
                 selectedSide = "front"; // Update the selected side
                 // Remove the selection from the other card, if present
@@ -51,7 +54,7 @@ public class InitPlaceStarterCardSceneController extends Controller implements P
         });
 
         backImagePane.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 1) {
+            if (event.getClickCount() == 1 && !selectedSide.equals("back")) {
                 System.out.println("Clicked on the back of the card");
                 selectedSide = "back"; // Update the selected side
                 frontImagePane.getStyleClass().remove("selected-card-image");
@@ -61,10 +64,11 @@ public class InitPlaceStarterCardSceneController extends Controller implements P
     }
 
     private void loadCard(GameCard gameCard) {
-        this.starterCard = gameCard;
-        GameCardImage gameCardImage = new GameCardImage(gameCard.getCardId());
-        cardFrontImageView.setImage(gameCardImage.getFront().getImage());
-        cardBackImageView.setImage(gameCardImage.getBack().getImage());
+        this.gameCard = gameCard;
+        GameCardImage gameCardImage = new GameCardImage(gameCard);
+        // TODO: We inverted the front and back images in the cardDB.json, as a temporary fix we are inverting them here.
+        cardFrontImageView.setImage(gameCardImage.getBack().getImage());
+        cardBackImageView.setImage(gameCardImage.getFront().getImage());
     }
 
     @FXML
@@ -79,13 +83,14 @@ public class InitPlaceStarterCardSceneController extends Controller implements P
             alert.showAndWait();
         } else {
             // Print the selected card ID and the selected side to the console
-            System.out.println("Selected Card ID: " + starterCard.getCardId() + ", Side: " + selectedSide);
+            System.out.println("Selected Card ID: " + gameCard.getCardId() + ", Side: " + selectedSide);
             // Reset the styles after continuing
             backImagePane.getStyleClass().remove("selected-card-image");
             frontImagePane.getStyleClass().remove("selected-card-image");
 
             // Send the selected side to the server
-            //networkControllerMapper.placeCard(starterCard.getCardId(), selectedSide);
+            networkControllerMapper.placeCard(new Coordinate(0, 0), gameCard.getCardId(), Objects.equals(selectedSide, "back"));
+
             //Not resetting the selected ID & side, as it is needed for the next scene, it may seem like a bug in the single scene testing but it is not
         }
     }
@@ -136,8 +141,8 @@ public class InitPlaceStarterCardSceneController extends Controller implements P
         String propertyName = evt.getPropertyName();
         if (propertyName.equals("UPDATE_VIEW")) {
             GameControllerView gameControllerView = (GameControllerView) evt.getNewValue();
-            if (gameControllerView.gameStatus() == GameStatusEnum.INIT_CHOOSE_OBJECTIVE_CARD) {
-                //Platform.runLater(() -> setScene(ControllersEnum.INIT_PLACE_OBJECTIVE_CARD));
+            if (gameControllerView.gameStatus() == GameStatusEnum.INIT_CHOOSE_PLAYER_COLOR) {
+                Platform.runLater(() -> switchScene(ControllersEnum.INIT_SET_PION, evt));
             }
         }
     }

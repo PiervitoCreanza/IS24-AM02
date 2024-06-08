@@ -32,6 +32,16 @@ public record GameControllerView(GameView gameView, GameStatusEnum gameStatus,
         return gameView.getViewByPlayer(player);
     }
 
+    /**
+     * Returns true if it is the turn of the player with the given name.
+     *
+     * @param player the name of the player.
+     * @return true if it is the turn of the player with the given name.
+     */
+    public boolean isMyTurn(String player) {
+        return gameView.currentPlayer().equals(player);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

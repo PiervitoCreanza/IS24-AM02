@@ -10,7 +10,8 @@ public enum ControllersEnum {
     WAITING_FOR_PLAYER("WaitingForPlayerScene"),
     GAME_SCENE("GameScene"),
     INIT_PLACE_STARTER_CARD("InitPlaceStarterCardScene"),
-    ;
+    INIT_SET_OBJECTIVE_CARD("InitSetObjectiveCardScene"),
+    INIT_SET_PION("SelectPionScene");
 
     private final String fxmlFileName;
 

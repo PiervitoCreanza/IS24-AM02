@@ -7,6 +7,8 @@ import it.polimi.ingsw.model.card.corner.CornerPosition;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -22,6 +24,11 @@ public class GameCard implements Serializable {
      * The unique identifier for the game card.
      */
     private final int cardId;
+
+    /**
+     * The side of the card that is currently facing up.
+     */
+    private final SimpleBooleanProperty isFlipped = new SimpleBooleanProperty(false);
 
     /**
      * The side of the card that is currently facing up.
@@ -82,6 +89,7 @@ public class GameCard implements Serializable {
      * Switches the current side of the card with the other side.
      */
     public void switchSide() {
+        isFlipped.set(!isFlipped.get());
         SideGameCard tempSideGameCard = currentSideGameCard;
         currentSideGameCard = otherSideGameCard;
         otherSideGameCard = tempSideGameCard;
@@ -179,6 +187,37 @@ public class GameCard implements Serializable {
      */
     public boolean isGoldPositional() {
         return currentSideGameCard.isGoldPositional();
+    }
+
+    /**
+     * Returns a boolean indicating if the card is flipped.
+     *
+     * @return true if the card is flipped, false otherwise.
+     */
+    public boolean isFlipped() {
+        return isFlipped.get();
+    }
+
+    /**
+     * Sets the current side of the card.
+     *
+     * @param flipped The flipped status to set.
+     */
+    public void setFlipped(boolean flipped) {
+        if (flipped == isFlipped.get()) {
+            return;
+        }
+        isFlipped.set(flipped);
+        switchSide();
+    }
+
+    /**
+     * Gets the boolean property indicating if the card is flipped.
+     *
+     * @return The boolean property indicating if the card is flipped.
+     */
+    public BooleanProperty getIsFlippedProperty() {
+        return isFlipped;
     }
 
     /**

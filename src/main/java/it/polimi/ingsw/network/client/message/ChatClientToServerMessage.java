@@ -41,6 +41,24 @@ public class ChatClientToServerMessage extends ClientToServerMessage {
     }
 
     /**
+     * Set the game name.
+     *
+     * @param gameName The name of the game.
+     */
+    public void setGameName(String gameName) {
+        super.gameName = gameName;
+    }
+
+    /**
+     * Set the sender of the chat message.
+     *
+     * @param sender The sender of the chat message.
+     */
+    public void setSender(String sender) {
+        super.playerName = sender;
+    }
+
+    /**
      * Returns the content of the chat message.
      *
      * @return The content of the chat message.
