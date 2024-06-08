@@ -195,6 +195,8 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      * @param message The chat message to be sent.
      */
     public void sendChatMessage(ChatClientToServerMessage message) {
+        message.setSender(playerName);
+        message.setGameName(gameName);
         messageHandler.sendMessage(message);
     }
 

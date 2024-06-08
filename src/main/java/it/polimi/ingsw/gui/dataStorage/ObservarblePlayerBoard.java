@@ -45,7 +45,6 @@ public class ObservarblePlayerBoard extends HashMap<MultiSystemCoordinate, GameC
         return oldImage;
     }
 
-
     public void loadData(HashMap<Coordinate, GameCard> data) {
         // Add all the new cards to the board
         for (Coordinate key : data.keySet()) {
@@ -55,7 +54,7 @@ public class ObservarblePlayerBoard extends HashMap<MultiSystemCoordinate, GameC
                 continue;
             }
 
-            putFromNetwork(multiSystemCoordinate, new GameCardImage(data.get(key).getCardId()));
+            putFromNetwork(multiSystemCoordinate, new GameCardImage(data.get(key)));
         }
 
         // Remove all the cards that are not present in the new data. This is to prevent the local board from having cards that are not present in the model.

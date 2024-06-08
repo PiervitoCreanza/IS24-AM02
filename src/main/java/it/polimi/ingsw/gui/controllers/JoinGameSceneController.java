@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 
 
 public class JoinGameSceneController extends Controller implements PropertyChangeListener {
@@ -89,6 +90,13 @@ public class JoinGameSceneController extends Controller implements PropertyChang
         }
 
         if (evt.getPropertyName().equals("UPDATE_VIEW")) {
+
+            boolean isMyTurn = Objects.equals(getProperty("playerName"), ((GameControllerView) evt.getNewValue()).getCurrentPlayerView().playerName());
+            if (!isMyTurn) {
+                // TODO: Show wait scene
+                logger.debug("Not my turn");
+                return;
+            }
             GameControllerView gameControllerView = (GameControllerView) evt.getNewValue();
             if (gameControllerView.gameStatus() == GameStatusEnum.WAIT_FOR_PLAYERS) {
                 switchScene(ControllersEnum.WAITING_FOR_PLAYER, evt);
@@ -96,6 +104,16 @@ public class JoinGameSceneController extends Controller implements PropertyChang
             }
             if (gameControllerView.gameStatus() == GameStatusEnum.INIT_PLACE_STARTER_CARD) {
                 switchScene(ControllersEnum.INIT_PLACE_STARTER_CARD, evt);
+                return;
+            }
+
+            if (gameControllerView.gameStatus() == GameStatusEnum.INIT_CHOOSE_PLAYER_COLOR) {
+                Platform.runLater(() -> switchScene(ControllersEnum.INIT_SET_PION, evt));
+                return;
+            }
+
+            if (gameControllerView.gameStatus() == GameStatusEnum.INIT_CHOOSE_OBJECTIVE_CARD) {
+                Platform.runLater(() -> switchScene(ControllersEnum.INIT_SET_OBJECTIVE_CARD, evt));
                 return;
             }
             // TODO: Add the other scenes

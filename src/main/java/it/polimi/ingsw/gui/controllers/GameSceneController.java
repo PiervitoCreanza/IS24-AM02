@@ -1,16 +1,18 @@
 package it.polimi.ingsw.gui.controllers;
 
+import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.data.Parser;
-import it.polimi.ingsw.gui.GameCardImage;
 import it.polimi.ingsw.gui.ZoomableScrollPane;
-import it.polimi.ingsw.gui.dataStorage.MultiSystemCoordinate;
-import it.polimi.ingsw.gui.dataStorage.ObservableDrawArea;
-import it.polimi.ingsw.gui.dataStorage.ObservableHand;
-import it.polimi.ingsw.gui.dataStorage.ObservarblePlayerBoard;
+import it.polimi.ingsw.gui.controllers.gameSceneController.ChatController;
+import it.polimi.ingsw.gui.controllers.gameSceneController.HandController;
+import it.polimi.ingsw.gui.controllers.gameSceneController.RightSidebarController;
+import it.polimi.ingsw.gui.dataStorage.*;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.model.utils.store.GameItemStore;
+import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
-import it.polimi.ingsw.network.virtualView.GlobalBoardView;
 import it.polimi.ingsw.network.virtualView.PlayerView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -22,7 +24,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
@@ -31,7 +32,9 @@ import org.apache.logging.log4j.Logger;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class GameSceneController extends Controller implements PropertyChangeListener {
 
@@ -69,23 +72,44 @@ public class GameSceneController extends Controller implements PropertyChangeLis
     @FXML
     private Parent ChatSideBar;
     @FXML
-    private HBox resourceDeck;
+    private ImageView resourceDeck;
     @FXML
-    private HBox goldDeck;
+    private ImageView goldDeck;
     @FXML
-    private HBox firstResourceField;
+    private ImageView firstResourceField;
     @FXML
-    private HBox secondResourceField;
+    private ImageView secondResourceField;
     @FXML
-    private HBox firstGoldField;
+    private ImageView firstGoldField;
     @FXML
-    private HBox secondGoldField;
-    private final ObservableDrawArea drawArea = new ObservableDrawArea();
+    private ImageView secondGoldField;
 
-    private int selectedCard;
+    @FXML
+    private Node pointsPanel;
+
+    private ObservedGameCard firstResourceFieldCard;
+    private ObservedGameCard secondResourceFieldCard;
+    private ObservedGameCard firstGoldFieldCard;
+    private ObservedGameCard secondGoldFieldCard;
+    private ObservedGameCard resourceDeckCard;
+    private ObservedGameCard goldDeckCard;
+
+    private HandController handController;
+    private final ObservableDrawArea drawArea = new ObservableDrawArea();
+    private RightSidebarController rightSidebarController;
+    private ChatController chatController;
+
+    private ObservedPlayerBoard observedPlayerBoard;
+
+    private GameCard placedCard;
+
+    private boolean isDrawingPhase;
+
+    private GameItemStore gameItemStore;
 
     private void loadDummyData() {
         Parser parser = new Parser();
+        ArrayList<ObjectiveCard> objectiveCards = parser.getObjectiveDeck().getCards();
         gameCards = parser.getResourceDeck().getCards();
         ArrayList<GameCard> goldCards = parser.getGoldDeck().getCards();
 
@@ -96,23 +120,25 @@ public class GameSceneController extends Controller implements PropertyChangeLis
         origPlayerBoard.put(new Coordinate(1, -1), gameCards.get(3));
         origPlayerBoard.put(new Coordinate(-1, 1), gameCards.get(4));
 
-        hand.setCard(gameCards.get(5), 0);
-        hand.setCard(gameCards.get(6), 1);
-        hand.setCard(gameCards.get(7), 2);
 
-        GlobalBoardView globalBoardView = new GlobalBoardView(
-                goldCards.get(1),
-                gameCards.get(9),
-                new ArrayList<>(goldCards.subList(2, 4)),
-                new ArrayList<>(gameCards.subList(12, 14)),
-                new ArrayList<>(parser.getObjectiveDeck().getCards().subList(0, 2))
-        );
+        //drawArea.loadData(globalBoardView);
+        firstResourceFieldCard = new ObservedGameCard(goldCards.get(1), firstGoldField);
+        secondResourceFieldCard = new ObservedGameCard(goldCards.get(2), secondGoldField);
+        firstGoldFieldCard = new ObservedGameCard(gameCards.get(9), firstResourceField);
+        secondGoldFieldCard = new ObservedGameCard(gameCards.get(10), secondResourceField);
+        resourceDeckCard = new ObservedGameCard(gameCards.get(11), resourceDeck);
+        goldDeckCard = new ObservedGameCard(goldCards.get(0), goldDeck);
 
 
-        drawArea.loadData(globalBoardView);
-
-        playerBoard.loadData(origPlayerBoard);
+        observedPlayerBoard.syncWithServerPlayerBoard(origPlayerBoard);
         playerPrompt.setText("Place a new card on the board");
+
+        handController.update(new ArrayList<>(gameCards.subList(5, 8)));
+
+        rightSidebarController.updateObjectiveCards(objectiveCards.getFirst(), new ArrayList<>(objectiveCards.subList(1, 3)));
+
+        rightSidebarController.updateStats(new ArrayList<String>(Arrays.asList("Pier", "Marco", "Simo", "Mattia")), new ArrayList<Integer>(Arrays.asList(10, 20, 30, 40)), new GameItemStore());
+        chatController.updateUsers(new ArrayList<>(Arrays.asList("Pier", "Marco", "Simo", "Mattia")));
 
     }
 
@@ -154,6 +180,78 @@ public class GameSceneController extends Controller implements PropertyChangeLis
         }
     }
 
+    public boolean handleCardDrop(ImageView imageView, Pane parent) {
+        boolean didIntersect = false;
+
+        for (Node node : playerBoardGridPane.getChildren()) {
+            Bounds boundsInDragPane = parent.localToScene(imageView.getBoundsInParent());
+            Bounds boundsInPlayerBoard = playerBoardGridPane.localToScene(node.getBoundsInParent());
+
+            // If the cards intersect
+            if (boundsInPlayerBoard.intersects(boundsInDragPane)) {
+                // Get the respective barycenter. This is needed in order to calculate on which corner of the existing card the new one is placed
+                Point2D playerBoardCardBarycenter = new Point2D(boundsInPlayerBoard.getCenterX(), boundsInPlayerBoard.getCenterY());
+                Point2D dragPaneCardBarycenter = new Point2D(boundsInDragPane.getCenterX(), boundsInDragPane.getCenterY());
+                logger.debug("Intersection detected");
+                Integer xCoord = GridPane.getColumnIndex(node);
+                Integer yCoord = GridPane.getRowIndex(node);
+
+                // This check is needed as some cells are filled with empty elements and the coordinates are null
+                if (xCoord == null || yCoord == null) {
+                    continue;
+                }
+
+                Coordinate newCardCoordinates = new Coordinate(GridPane.getColumnIndex(node), GridPane.getRowIndex(node));
+                if (playerBoardCardBarycenter.getX() > dragPaneCardBarycenter.getX() && playerBoardCardBarycenter.getY() > dragPaneCardBarycenter.getY()) {
+                    // The card is in the top left corner of the player board card
+                    logger.debug("Top left corner");
+
+                    // Set the new card Coordinates
+                    newCardCoordinates.x += -1;
+                    newCardCoordinates.y += -1;
+                } else if (playerBoardCardBarycenter.getX() < dragPaneCardBarycenter.getX() && playerBoardCardBarycenter.getY() < dragPaneCardBarycenter.getY()) {
+                    // The card is in the bottom right corner of the player board card
+                    logger.debug("Bottom right corner");
+
+                    // Set the new card Coordinates
+                    newCardCoordinates.x += 1;
+                    newCardCoordinates.y += 1;
+                } else if (playerBoardCardBarycenter.getX() > dragPaneCardBarycenter.getX() && playerBoardCardBarycenter.getY() < dragPaneCardBarycenter.getY()) {
+                    // The card is in the bottom left corner of the player board card
+                    logger.debug("Bottom left corner");
+
+                    // Set the new card Coordinates
+                    newCardCoordinates.x += -1;
+                    newCardCoordinates.y += 1;
+                } else {
+                    // The card is in the top right corner of the player board card
+                    logger.debug("Top right corner");
+
+                    // Set the new card Coordinates
+                    newCardCoordinates.x += 1;
+                    newCardCoordinates.y += -1;
+                }
+                MultiSystemCoordinate multiSystemCoordinate = new MultiSystemCoordinate().setCoordinateInGUISystem(newCardCoordinates);
+
+                // Obtain the NodeDataBinding associated with the card
+                NodeGameCardBinding nodeGameCardBinding = (NodeGameCardBinding) imageView.getUserData();
+                placedCard = nodeGameCardBinding.getGameCard();
+
+                // Add the card to the player board
+                observedPlayerBoard.putFromGUI(newCardCoordinates, imageView);
+                //playerBoard.putFromGUI(multiSystemCoordinate, nodeGameCardBinding.getGameCardImage());
+
+                // Remove the card from the hand
+                parent.getChildren().remove(imageView);
+                didIntersect = true;
+                break;
+            }
+        }
+        imageView.setCursor(Cursor.DEFAULT);
+        return didIntersect;
+
+    }
+
     @FXML
     public void initialize() {
         StackPane pane = new StackPane();
@@ -167,223 +265,54 @@ public class GameSceneController extends Controller implements PropertyChangeLis
         scrollPane.getStyleClass().add("transparent");
         contentPane.getChildren().addFirst(scrollPane);
 
-        // Handle the add of a new card to the player board
-        playerBoard.addPropertyChangeListener(evt -> {
-            String propertyName = evt.getPropertyName();
-            MultiSystemCoordinate multiSystemCoordinate = (MultiSystemCoordinate) evt.getNewValue();
-            Coordinate guiCoordinate = multiSystemCoordinate.getCoordinateInGUISystem();
-            // If the card was removed from the network, it is removed from the GUI.
-            if (propertyName.equals("remove")) {
-                logger.debug("Removing card at {}", guiCoordinate);
-                removeNodeFromGrid(guiCoordinate.x, guiCoordinate.y);
-                return;
-            }
 
-            // If the card is added from the GUI, it is dispatched to the network.
-            if (propertyName.equals("putFromGUI")) {
-                Coordinate modelCoordinate = multiSystemCoordinate.getCoordinateInModelSystem();
-                logger.debug("Sending new card at {} to network", modelCoordinate);
-                // TODO: Send the card to the network
-            }
-
-            // Either if the card is added from the network or from the GUI, it is displayed on the board.
-            logger.debug("Displaying card at {}", guiCoordinate);
-            ImageView imageView = playerBoard.get(multiSystemCoordinate).getCurrentSide();
-            playerBoardGridPane.add(imageView, guiCoordinate.x, guiCoordinate.y);
-        });
-
-        // Handle the add of a new card to the hand
-        hand.addPropertyChangeListener(evt -> {
-            if (evt.getPropertyName().equals("setCard")) {
-                GameCardImage card = (GameCardImage) evt.getNewValue();
-                int index = (int) evt.getOldValue();
-                ImageView imageView = card.getCurrentSide();
-                if (handBoard.getChildren().size() <= index) {
-                    handBoard.getChildren().add(imageView);
-                } else {
-                    handBoard.getChildren().set(index, imageView);
-                }
-                makeDraggable(imageView);
-            }
-
-            if (evt.getPropertyName().equals("removeCard")) {
-                // TODO
-            }
-        });
-
-        drawArea.addPropertyChangeListener(evt -> {
-            String eventName = evt.getPropertyName();
-            GameCard gameCard = (GameCard) evt.getNewValue();
-            ImageView imageView;
-            if (gameCard != null) {
-                imageView = new GameCardImage(gameCard.getCardId()).getCurrentSide();
-            } else {
-                imageView = new ImageView();
-                imageView.setFitWidth(cardWidth);
-                imageView.setFitHeight(cardWidth / cardRatio);
-            }
-
-            if (!eventName.equals("firstGoldCard") && !eventName.equals("firstResourceCard")) {
-                imageView.setFitWidth(109.5);
-                imageView.setFitHeight(109.5 / cardRatio);
-            }
-
-            switch (eventName) {
-                case "firstGoldCard":
-                    goldDeck.getChildren().clear();
-                    goldDeck.getChildren().add(imageView);
-                    break;
-                case "firstResourceCard":
-                    resourceDeck.getChildren().clear();
-                    resourceDeck.getChildren().add(imageView);
-                    break;
-                case "firstGoldFieldCard":
-                    firstResourceField.getChildren().clear();
-                    firstResourceField.getChildren().add(imageView);
-                    break;
-                case "secondGoldFieldCard":
-                    secondGoldField.getChildren().clear();
-                    secondGoldField.getChildren().add(imageView);
-                    break;
-                case "firstResourceFieldCard":
-                    firstGoldField.getChildren().clear();
-                    firstGoldField.getChildren().add(imageView);
-                    break;
-                case "secondResourceFieldCard":
-                    secondResourceField.getChildren().clear();
-                    secondResourceField.getChildren().add(imageView);
-                    break;
-            }
-        });
-
+        this.observedPlayerBoard = new ObservedPlayerBoard(playerBoardGridPane, networkControllerMapper);
+        this.handController = new HandController(handBoard, this);
+        rightSidebarController = new RightSidebarController(pointsPanel);
+        chatController = new ChatController(ChatSideBar, ChatSideBarButton, networkControllerMapper);
         initializePlayerBoardGridPane();
+        logger.fatal("DEBUG MODE ENABLED");
         loadDummyData();
     }
 
-    private void makeDraggable(ImageView imageView) {
-        final Coordinate dragDelta = new Coordinate(0, 0);
+    private boolean canDrawCard() {
+        if (!isDrawingPhase) {
+            return false;
+        }
+        isDrawingPhase = false;
+        return true;
+    }
 
-        imageView.setOnMousePressed(mouseEvent -> {
-            // Save the index of the selected card
-            selectedCard = handBoard.getChildren().indexOf(imageView);
+    @FXML
+    private void drawCardFromResourceDeck() {
+        if (canDrawCard()) {
+            networkControllerMapper.drawCardFromResourceDeck();
+        }
+    }
 
-            // If the right mouse button is pressed, switch the card
-            if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-                logger.debug("Context menu requested");
-                hand.switchCard(selectedCard);
-                return;
-            }
-            // record a delta distance for the drag and drop operation.
-            if (imageView.getParent().equals(handBoard)) {
-                imageView.getBoundsInLocal();
-                Point2D originaPosition = imageView.localToScene(imageView.getBoundsInLocal().getMinX(), imageView.getBoundsInLocal().getMinY());
-                Point2D newPos = dragPane.sceneToLocal(originaPosition.getX(), originaPosition.getY());
-                logger.debug(originaPosition);
-
-                // Create a placeholder with the same size as the imageView
-                Region placeholder = new Region();
-                placeholder.setPrefWidth(imageView.getFitWidth());
-                placeholder.setPrefHeight(imageView.getFitHeight());
-
-                // Replace the imageView with the placeholder in the parent
-                handBoard.getChildren().set(selectedCard, placeholder);
-
-                dragPane.getChildren().add(imageView);
-                imageView.relocate(newPos.getX(), newPos.getY());
-                logger.debug("New pos: {}:{}", imageView.getLayoutX(), imageView.getLayoutY());
-
-            }
-
-
-            dragDelta.setLocation(imageView.getLayoutX() - mouseEvent.getSceneX(), imageView.getLayoutY() - mouseEvent.getSceneY());
-            imageView.setCursor(Cursor.MOVE);
-        });
-
-        imageView.setOnMouseReleased(mouseEvent -> {
-            // If the right mouse button is released, do nothing
-            if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-                return;
-            }
-            logger.debug("Mouse released");
-            boolean didIntersect = false;
-            for (Node node : playerBoardGridPane.getChildren()) {
-                Bounds boundsInDragPane = dragPane.localToScene(imageView.getBoundsInParent());
-                Bounds boundsInPlayerBoard = playerBoardGridPane.localToScene(node.getBoundsInParent());
-
-                // If the cards intersect
-                if (boundsInPlayerBoard.intersects(boundsInDragPane)) {
-                    // Get the respective barycenter. This is needed in order to calculate on which corner of the existing card the new one is placed
-                    Point2D playerBoardCardBarycenter = new Point2D(boundsInPlayerBoard.getCenterX(), boundsInPlayerBoard.getCenterY());
-                    Point2D dragPaneCardBarycenter = new Point2D(boundsInDragPane.getCenterX(), boundsInDragPane.getCenterY());
-                    logger.debug("Intersection detected");
-                    Integer xCoord = GridPane.getColumnIndex(node);
-                    Integer yCoord = GridPane.getRowIndex(node);
-
-                    // This check is needed as some cells are filled with empty elements and the coordinates are null
-                    if (xCoord == null || yCoord == null) {
-                        continue;
-                    }
-
-                    Coordinate newCardCoordinates = new Coordinate(GridPane.getColumnIndex(node), GridPane.getRowIndex(node));
-                    if (playerBoardCardBarycenter.getX() > dragPaneCardBarycenter.getX() && playerBoardCardBarycenter.getY() > dragPaneCardBarycenter.getY()) {
-                        // The card is in the top left corner of the player board card
-                        logger.debug("Top left corner");
-
-                        // Set the new card Coordinates
-                        newCardCoordinates.x += -1;
-                        newCardCoordinates.y += -1;
-                    } else if (playerBoardCardBarycenter.getX() < dragPaneCardBarycenter.getX() && playerBoardCardBarycenter.getY() < dragPaneCardBarycenter.getY()) {
-                        // The card is in the bottom right corner of the player board card
-                        logger.debug("Bottom right corner");
-
-                        // Set the new card Coordinates
-                        newCardCoordinates.x += 1;
-                        newCardCoordinates.y += 1;
-                    } else if (playerBoardCardBarycenter.getX() > dragPaneCardBarycenter.getX() && playerBoardCardBarycenter.getY() < dragPaneCardBarycenter.getY()) {
-                        // The card is in the bottom left corner of the player board card
-                        logger.debug("Bottom left corner");
-
-                        // Set the new card Coordinates
-                        newCardCoordinates.x += -1;
-                        newCardCoordinates.y += 1;
-                    } else {
-                        // The card is in the top right corner of the player board card
-                        logger.debug("Top right corner");
-
-                        // Set the new card Coordinates
-                        newCardCoordinates.x += 1;
-                        newCardCoordinates.y += -1;
-                    }
-                    MultiSystemCoordinate multiSystemCoordinate = new MultiSystemCoordinate().setCoordinateInGUISystem(newCardCoordinates);
-                    // Add the card to the player board
-                    playerBoard.putFromGUI(multiSystemCoordinate, hand.getCardImage(selectedCard));
-
-                    // Remove the card from the hand
-                    dragPane.getChildren().remove(imageView);
-                    didIntersect = true;
-                    break;
-                }
-            }
-            if (!didIntersect) {
-                dragPane.getChildren().remove(imageView);
-                handBoard.getChildren().set(selectedCard, imageView);
-            }
-            imageView.setCursor(Cursor.DEFAULT);
-        });
-
-        imageView.setOnMouseDragged(mouseEvent -> {
-            imageView.setLayoutX(mouseEvent.getSceneX() + dragDelta.getX());
-            imageView.setLayoutY(mouseEvent.getSceneY() + dragDelta.getY());
-        });
-
-        imageView.setOnMouseEntered(mouseEvent -> {
-            imageView.setCursor(Cursor.HAND);
-        });
+    @FXML
+    private void drawCardFromGoldDeck() {
+        if (canDrawCard()) {
+            networkControllerMapper.drawCardFromGoldDeck();
+        }
     }
 
     private void loadUpdatedView(GameControllerView gameControllerView, String playerName) {
+        if (gameControllerView.gameStatus() == GameStatusEnum.DRAW_CARD) {
+            isDrawingPhase = true;
+        }
+
         PlayerView playerView = gameControllerView.getPlayerViewByName(playerName);
-        hand.loadData(playerView.playerHandView().hand());
+        observedPlayerBoard.syncWithServerPlayerBoard(playerView.playerBoardView().playerBoard());
+        List<String> playerNames = gameControllerView.gameView().playerViews().stream().map(PlayerView::playerName).toList();
+
+        rightSidebarController.updateObjectiveCards(gameControllerView.getPlayerViewByName(playerName).objectiveCard(), gameControllerView.gameView().globalBoardView().globalObjectives());
+        rightSidebarController.updateStats(playerNames, gameControllerView.gameView().playerViews().stream().map(PlayerView::playerPos).toList(), gameControllerView.gameView().getViewByPlayer(playerName).playerBoardView().gameItemStore());
+
+        chatController.updateUsers(playerNames);
+
+        gameItemStore = playerView.playerBoardView().gameItemStore();
+        handController.update(playerView.playerHandView().hand());
         playerBoard.loadData(playerView.playerBoardView().playerBoard());
         drawArea.loadData(gameControllerView.gameView().globalBoardView());
     }
@@ -407,7 +336,8 @@ public class GameSceneController extends Controller implements PropertyChangeLis
      */
     @Override
     public void beforeMount(PropertyChangeEvent evt) {
-
+        gameControllerView = (GameControllerView) evt.getNewValue();
+        loadUpdatedView(gameControllerView, getProperty("playerName"));
     }
 
     /**
@@ -435,10 +365,20 @@ public class GameSceneController extends Controller implements PropertyChangeLis
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();
-        if (propertyName.equals("UPDATE_VIEW")) {
-            gameControllerView = (GameControllerView) evt.getNewValue();
-            logger.debug("Received updated view");
-            Platform.runLater(() -> loadUpdatedView(gameControllerView, getProperty("playerName")));
+        switch (propertyName) {
+            case "ERROR":
+                // Reset the view
+                Platform.runLater(() -> loadUpdatedView(gameControllerView, getProperty("playerName")));
+                break;
+            case "UPDATE_VIEW":
+                gameControllerView = (GameControllerView) evt.getNewValue();
+                logger.debug("Received updated view");
+
+                Platform.runLater(() -> loadUpdatedView(gameControllerView, getProperty("playerName")));
+                break;
+            case "CHAT_MESSAGE":
+                chatController.handleChatMessage((ServerToClientMessage) evt.getNewValue());
+                break;
         }
     }
 }

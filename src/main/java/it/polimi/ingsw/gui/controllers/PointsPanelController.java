@@ -2,6 +2,7 @@ package it.polimi.ingsw.gui.controllers;
 
 import it.polimi.ingsw.data.Parser;
 import it.polimi.ingsw.gui.GameCardImage;
+import it.polimi.ingsw.gui.ObjectiveCardImage;
 import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import javafx.beans.binding.Bindings;
@@ -55,7 +56,7 @@ public class PointsPanelController {
                             setText(null);
                             setGraphic(null);
                         } else {
-                            ImageView imageView = new GameCardImage(item.getCardId()).getCurrentSide();
+                            ImageView imageView = new ObjectiveCardImage(item).getImageView();
                             imageView.fitWidthProperty().set(150);
                             setGraphic(imageView);
                             setAlignment(Pos.CENTER);

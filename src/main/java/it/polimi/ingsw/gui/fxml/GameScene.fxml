@@ -21,17 +21,23 @@
                         <HBox minHeight="40.5" pickOnBounds="false"/>
                         <HBox alignment="CENTER" spacing="40" pickOnBounds="false">
                             <HBox spacing="10">
-                                <HBox fx:id="resourceDeck" pickOnBounds="false"/>
+                                <ImageView fx:id="resourceDeck" fitWidth="234" preserveRatio="true"
+                                           styleClass="card" onMouseClicked="#drawCardFromResourceDeck"/>
                                 <VBox spacing="10">
-                                    <HBox maxWidth="109.5" fx:id="firstResourceField"/>
-                                    <HBox maxWidth="109.5" fx:id="secondResourceField"/>
+                                    <ImageView fx:id="firstResourceField" fitWidth="109.5" preserveRatio="true"
+                                               styleClass="card"/>
+                                    <ImageView fx:id="secondResourceField" fitWidth="109.5" preserveRatio="true"
+                                               styleClass="card"/>
                                 </VBox>
                             </HBox>
                             <HBox spacing="10">
-                                <HBox fx:id="goldDeck" pickOnBounds="false"/>
+                                <ImageView fx:id="goldDeck" fitWidth="234" preserveRatio="true"
+                                           styleClass="card" onMouseClicked="#drawCardFromResourceDeck"/>
                                 <VBox spacing="10">
-                                    <HBox maxWidth="109.5" fx:id="firstGoldField"/>
-                                    <HBox maxWidth="109.5" fx:id="secondGoldField"/>
+                                    <ImageView fx:id="firstGoldField" fitWidth="109.5" preserveRatio="true"
+                                               styleClass="card"/>
+                                    <ImageView fx:id="secondGoldField" fitWidth="109.5" preserveRatio="true"
+                                               styleClass="card"/>
                                 </VBox>
                             </HBox>
                         </HBox>
@@ -60,7 +66,7 @@
         <HBox alignment="CENTER_RIGHT" pickOnBounds="false">
 
             <VBox alignment="CENTER_RIGHT" maxWidth="320">
-                <fx:include source="PointsPanel.fxml" fx:id="PointsPanel"/>
+                <fx:include source="PointsPanel.fxml" fx:id="pointsPanel"/>
             </VBox>
             <VBox prefWidth="10"/>
         </HBox>
@@ -78,7 +84,11 @@
                         </HBox>
                         <HBox minHeight="49" styleClass="transparent" pickOnBounds="false"/>
                         <HBox fx:id="handBoard" alignment="BOTTOM_CENTER" spacing="43" styleClass="transparent"
-                              pickOnBounds="false"/>
+                              pickOnBounds="false">
+                            <Pane fx:id="firstCard" prefWidth="234" prefHeight="156"/>
+                            <Pane fx:id="secondCard" prefWidth="234" prefHeight="156"/>
+                            <Pane fx:id="thirdCard" prefWidth="234" prefHeight="156"/>
+                        </HBox>
                         <HBox minHeight="44.5" styleClass="transparent" pickOnBounds="false"/>
                     </VBox>
                 </StackPane>

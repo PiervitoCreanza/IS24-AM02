@@ -20,7 +20,7 @@ public class ObservableHand implements ObservableDataStorage {
         if (hand.get(index) != null) {
             oldCardId = hand.get(index).getCardId();
         }
-        GameCardImage gameCardImage = new GameCardImage(card.getCardId());
+        GameCardImage gameCardImage = new GameCardImage(card);
         hand.put(index, gameCardImage);
 
         // If the card is different from the one already present, fire a property change event.

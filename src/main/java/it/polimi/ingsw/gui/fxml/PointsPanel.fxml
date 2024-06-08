@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="it.polimi.ingsw.gui.controllers.PointsPanelController"
+<VBox xmlns:fx="http://javafx.com/fxml"
       styleClass="right-panel" stylesheets="@/styles.css">
     <TabPane styleClass="brutalist-tab-pane" tabMaxWidth="Infinity" tabMaxHeight="Infinity">
         <Tab styleClass="brutalist-tab-pane" closable="false">
             <graphic>
                 <HBox>
-                    <ImageView fx:id="medalIcon1" HBox.hgrow="ALWAYS" fitWidth="30" preserveRatio="true"/>
+                    <ImageView HBox.hgrow="ALWAYS" fitWidth="30" preserveRatio="true">
+                        <Image url="@/medalIcon.png"/>
+                    </ImageView>
                 </HBox>
 
             </graphic>
@@ -18,18 +21,8 @@
                 <VBox alignment="CENTER">
                     <Text text="Players" styleClass="h3"/>
                     <HBox>
-                        <VBox HBox.hgrow="ALWAYS">
-                            <Label text="Marco" onMouseClicked="#handlePlayerClick" styleClass="player-label"/>
-                            <Label text="Simone" onMouseClicked="#handlePlayerClick" styleClass="player-label"/>
-                            <Label text="Piervito" onMouseClicked="#handlePlayerClick" styleClass="player-label"/>
-                            <Label text="Mattia" onMouseClicked="#handlePlayerClick" styleClass="player-label"/>
-                        </VBox>
-                        <VBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
-                            <Label text="13/20" styleClass="score-label"/>
-                            <Label text="9/20" styleClass="score-label"/>
-                            <Label text="7/20" styleClass="score-label"/>
-                            <Label text="6/20" styleClass="score-label"/>
-                        </VBox>
+                        <VBox HBox.hgrow="ALWAYS" fx:id="playersList"/>
+                        <VBox alignment="TOP_RIGHT" fx:id="playersPoints"/>
                     </HBox>
                 </VBox>
                 <VBox alignment="CENTER">
@@ -43,10 +36,14 @@
                             <Label text="Insect" styleClass="player-label"/>
                         </VBox>
                         <VBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
-                            <Label text="13" styleClass="score-label" style="-fx-text-fill: #d32622"/>
-                            <Label text="9" styleClass="score-label" style="-fx-text-fill: #40ac53"/>
-                            <Label text="7" styleClass="score-label" style="-fx-text-fill: #00a099"/>
-                            <Label text="6" styleClass="score-label" style="-fx-text-fill: #75246f"/>
+                            <Label text="13" styleClass="score-label" style="-fx-text-fill: #d32622"
+                                   fx:id="fungiAmount"/>
+                            <Label text="9" styleClass="score-label" style="-fx-text-fill: #40ac53"
+                                   fx:id="plantAmount"/>
+                            <Label text="7" styleClass="score-label" style="-fx-text-fill: #00a099"
+                                   fx:id="animalAmount"/>
+                            <Label text="6" styleClass="score-label" style="-fx-text-fill: #75246f"
+                                   fx:id="insectAmount"/>
                         </VBox>
                     </HBox>
 
@@ -62,9 +59,12 @@
                             <Label text="Manuscript" styleClass="player-label"/>
                         </VBox>
                         <VBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
-                            <Label text="13" styleClass="score-label" style="-fx-text-fill: #b4a31f"/>
-                            <Label text="9" styleClass="score-label" style="-fx-text-fill: #b4a31f"/>
-                            <Label text="7" styleClass="score-label" style="-fx-text-fill: #b4a31f"/>
+                            <Label text="13" styleClass="score-label" style="-fx-text-fill: #b4a31f"
+                                   fx:id="quillAmount"/>
+                            <Label text="9" styleClass="score-label" style="-fx-text-fill: #b4a31f"
+                                   fx:id="inkwellAmount"/>
+                            <Label text="7" styleClass="score-label" style="-fx-text-fill: #b4a31f"
+                                   fx:id="manuscriptAmount"/>
                         </VBox>
                     </HBox>
 
@@ -73,9 +73,9 @@
         </Tab>
         <Tab styleClass="brutalist-tab-pane" closable="false">
             <graphic>
-                <HBox>
-                    <ImageView fx:id="medalIcon2" HBox.hgrow="ALWAYS" fitWidth="30" preserveRatio="true"/>
-                </HBox>
+                <ImageView HBox.hgrow="ALWAYS" fitWidth="30" preserveRatio="true">
+                    <Image url="@/medalIcon.png"/>
+                </ImageView>
 
             </graphic>
             <VBox alignment="CENTER">

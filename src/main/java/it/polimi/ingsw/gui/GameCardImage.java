@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gui;
 
+import it.polimi.ingsw.model.card.gameCard.GameCard;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -10,25 +11,30 @@ import java.net.URL;
  * It contains the URLs of the front and back images of the card.
  */
 public class GameCardImage {
-    private final URL front;
-    private final URL back;
+    private final ImageView front;
+    private final ImageView back;
     private static final double cardWidth = 234;
     private final int cardId;
+    private final GameCard gameCard;
     private static final double cardRatio = 1.5;
-    private boolean isFront = true;
 
     /**
      * This method loads the images for the card from resources.
      * The cardId is padded to 3 digits and used to construct the resource path.
      * If the front image is not found, an IllegalArgumentException is thrown.
      *
-     * @param cardId The id of the card to load images for.
+     * @param gameCard The card for which to load the images.
      * @throws IllegalArgumentException If the front image is not found.
      */
-    public GameCardImage(int cardId) {
-        this.cardId = cardId;
+    public GameCardImage(GameCard gameCard) {
+        this.gameCard = gameCard;
+        this.cardId = gameCard.getCardId();
         String paddedCardId = String.format("%03d", cardId);
-        this.front = getClass().getResource("/" + paddedCardId + "_front.png");
+        URL frontUrl = getClass().getResource("/" + paddedCardId + "_front.png");
+        if (frontUrl == null) {
+            throw new IllegalArgumentException("Card image not found");
+        }
+        this.front = createImageView(frontUrl);
 
         // Determine the file name for the back image based on the cardId.
         if (cardId < 11) {
@@ -49,10 +55,12 @@ public class GameCardImage {
             paddedCardId = "102";
         }
 
-        this.back = getClass().getResource("/" + paddedCardId + "_back.png");
+        URL backUrl = getClass().getResource("/" + paddedCardId + "_back.png");
 
-        if (this.front == null) {
-            throw new IllegalArgumentException("Card image not found");
+        if (backUrl != null) {
+            this.back = createImageView(backUrl);
+        } else {
+            this.back = null;
         }
     }
 
@@ -73,7 +81,8 @@ public class GameCardImage {
      * @return An ImageView of the front of the card.
      */
     public ImageView getFront() {
-        return createImageView(this.front);
+        gameCard.setFlipped(false);
+        return front;
     }
 
     /**
@@ -83,7 +92,8 @@ public class GameCardImage {
      * @return An ImageView of the back of the card.
      */
     public ImageView getBack() {
-        return createImageView(this.back);
+        gameCard.setFlipped(true);
+        return back;
     }
 
     private ImageView createImageView(URL imageUrl) {
@@ -102,12 +112,8 @@ public class GameCardImage {
      * @return An ImageView of the front or back of the card.
      */
     public ImageView switchSide() {
-        if (isFront) {
-            isFront = false;
-            return createImageView(this.back);
-        }
-        isFront = true;
-        return createImageView(this.front);
+        gameCard.switchSide();
+        return getCurrentSide();
     }
 
     /**
@@ -126,9 +132,27 @@ public class GameCardImage {
      * @return An ImageView of the current side of the card.
      */
     public ImageView getCurrentSide() {
-        if (isFront) {
-            return createImageView(this.front);
+        if (gameCard.isFlipped()) {
+            return back;
         }
-        return createImageView(this.back);
+        return front;
+    }
+
+    /**
+     * This method returns whether the card is flipped.
+     *
+     * @return Whether the card is flipped.
+     */
+    public boolean isFlipped() {
+        return gameCard.isFlipped();
+    }
+
+    /**
+     * This method returns the game card associated with the image.
+     *
+     * @return The game card associated with the image.
+     */
+    public GameCard getGameCard() {
+        return gameCard;
     }
 }
