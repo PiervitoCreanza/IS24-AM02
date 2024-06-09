@@ -1,8 +1,8 @@
 package it.polimi.ingsw.gui.controllers;
 
 import it.polimi.ingsw.data.Parser;
-import it.polimi.ingsw.gui.GameCardImage;
 import it.polimi.ingsw.gui.ObjectiveCardImage;
+import it.polimi.ingsw.gui.dataStorage.GameCardImageFactory;
 import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import javafx.beans.binding.Bindings;
@@ -73,7 +73,7 @@ public class PointsPanelController {
     }
 
     private void adjustListViewHeight(ListView<?> listView) {
-        double cellHeight = GameCardImage.getHeightFromWidth(150) + 20;
+        double cellHeight = GameCardImageFactory.getHeightFromWidth(150) + 20;
         listView.setPrefHeight(Region.USE_COMPUTED_SIZE);
         listView.minHeightProperty().bind(Bindings.size(listView.getItems()).multiply(cellHeight).add(25));
         listView.maxHeightProperty().bind(Bindings.size(listView.getItems()).multiply(cellHeight).add(25));

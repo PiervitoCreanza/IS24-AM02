@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.client.message.gameController;
 
-import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.network.client.message.ClientToServerMessage;
 import it.polimi.ingsw.network.client.message.PlayerActionEnum;
 
@@ -14,7 +13,7 @@ public class DrawCardFromFieldClientToServerMessage extends ClientToServerMessag
     /**
      * The game card to be drawn.
      */
-    private final GameCard gameCard;
+    private final int gameCard;
 
     /**
      * Constructor for DrawCardFromFieldClientToServerMessage.
@@ -24,7 +23,7 @@ public class DrawCardFromFieldClientToServerMessage extends ClientToServerMessag
      * @param playerName The name of the player who is drawing the card. This cannot be null.
      * @param gameCard   The game card to be drawn. This cannot be null.
      */
-    public DrawCardFromFieldClientToServerMessage(String gameName, String playerName, GameCard gameCard) {
+    public DrawCardFromFieldClientToServerMessage(String gameName, String playerName, int gameCard) {
         super(PlayerActionEnum.DRAW_CARD_FROM_FIELD, gameName, playerName);
         this.gameCard = gameCard;
     }
@@ -35,7 +34,7 @@ public class DrawCardFromFieldClientToServerMessage extends ClientToServerMessag
      * @return The game card to be drawn.
      */
     @Override
-    public GameCard getGameCard() {
+    public int getGameCardId() {
         return gameCard;
     }
 

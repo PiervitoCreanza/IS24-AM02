@@ -16,7 +16,7 @@
     <VBox alignment="CENTER" spacing="20" maxWidth="650" maxHeight="200" styleClass="container">
         <Text styleClass="title" text="Join a game"/>
 
-        <TextField fx:id="playerTextField" promptText="Choose your nickname"/>
+        <TextField fx:id="playerTextField" promptText="Choose your nickname" onKeyPressed="#handleKeyPress"/>
 
         <HBox alignment="CENTER" spacing="20">
             <Button onAction="#back" styleClass="brutalist-button" mnemonicParsing="false" text="Back"/>

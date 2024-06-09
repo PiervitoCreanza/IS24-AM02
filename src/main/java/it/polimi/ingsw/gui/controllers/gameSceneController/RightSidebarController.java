@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gui.controllers.gameSceneController;
 
-import it.polimi.ingsw.gui.GameCardImage;
 import it.polimi.ingsw.gui.ObjectiveCardImage;
+import it.polimi.ingsw.gui.dataStorage.GameCardImageFactory;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 import javafx.beans.binding.Bindings;
@@ -34,9 +34,11 @@ public class RightSidebarController {
     private final Label quillAmount;
     private final Label inkwellAmount;
     private final Label manuscriptAmount;
+    private final GameSceneController mainController;
 
-    public RightSidebarController(Node root) {
+    public RightSidebarController(Node root, GameSceneController mainController) {
         this.root = root;
+        this.mainController = mainController;
         this.objectivesList = (ListView<ObjectiveCard>) root.lookup("#objectivesList");
         this.objectives = FXCollections.observableArrayList(new ArrayList<>());
         this.objectivesList.setItems(objectives);
@@ -75,13 +77,11 @@ public class RightSidebarController {
         });
 
         // Adjust the height of the ListView
-        if (objectives != null) {
-            adjustListViewHeight(objectivesList);
-        }
+        adjustListViewHeight(objectivesList);
     }
 
     private void adjustListViewHeight(ListView<?> listView) {
-        double cellHeight = GameCardImage.getHeightFromWidth(150) + 20;
+        double cellHeight = GameCardImageFactory.getHeightFromWidth(150) + 20;
         listView.setPrefHeight(Region.USE_COMPUTED_SIZE);
         listView.minHeightProperty().bind(Bindings.size(listView.getItems()).multiply(cellHeight).add(25));
         listView.maxHeightProperty().bind(Bindings.size(listView.getItems()).multiply(cellHeight).add(25));
@@ -91,7 +91,7 @@ public class RightSidebarController {
         Label clickedLabel = (Label) event.getSource();
         String playerName = clickedLabel.getText();
         // Logica per reindirizzare alla vista del giocatore
-        System.out.println("Clicked on player: " + playerName);
+        mainController.updateView(playerName);
     }
 
     public void updateObjectiveCards(ObjectiveCard playerObjectiveCard, List<ObjectiveCard> globalObjectiveCards) {

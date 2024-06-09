@@ -20,14 +20,16 @@
             <VBox alignment="CENTER" styleClass="container" StackPane.alignment="CENTER" spacing="20">
                 <!-- Start of component content -->
                 <Text styleClass="title" text="Choose your Starter Card Side"/>
-                <HBox alignment="CENTER" spacing="20">
+                <HBox alignment="CENTER" spacing="20" minHeight="100">
                     <!-- StackPane wrapping ImageView for card back -->
-                    <StackPane fx:id="backImagePane" styleClass="card">
-                        <ImageView fx:id="cardBackImageView" fitHeight="300" fitWidth="200" preserveRatio="true"/>
+                    <StackPane fx:id="backImagePane" styleClass="card, choosable-card">
+                        <ImageView fx:id="cardBackImageView" fitHeight="300" fitWidth="200"
+                                   preserveRatio="true"/>
                     </StackPane>
                     <!-- StackPane wrapping ImageView for card front -->
-                    <StackPane fx:id="frontImagePane" styleClass="card">
-                        <ImageView fx:id="cardFrontImageView" fitHeight="300" fitWidth="200" preserveRatio="true"/>
+                    <StackPane fx:id="frontImagePane" styleClass="card, choosable-card">
+                        <ImageView fx:id="cardFrontImageView" fitHeight="300" fitWidth="200"
+                                   preserveRatio="true"/>
                     </StackPane>
                 </HBox>
                 <!-- Buttons to select the card -->

@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.StackPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,14 +25,14 @@ public class CreateGameSceneController extends Controller implements PropertyCha
     private TextField playerTextField;
 
     @FXML
-    private ToggleButton player2Button;
+    private ToggleButton twoPlayersButton;
     @FXML
-    private ToggleButton player3Button;
+    private ToggleButton threePlayersButton;
     @FXML
-    private ToggleButton player4Button;
+    private ToggleButton fourPlayersButton;
 
-    private ToggleGroup playerNumberGroup;
-    private int nPlayers = 0;
+    @FXML
+    private StackPane root;
 
 
     /**
@@ -69,12 +70,19 @@ public class CreateGameSceneController extends Controller implements PropertyCha
         String gameName = gameTextField.getText();
         String playerName = playerTextField.getText();
         setProperty("playerName", playerName);
-        nPlayers = playerNumberGroup.getSelectedToggle() == player2Button ? 2 : playerNumberGroup.getSelectedToggle() == player3Button ? 3 : 4;
-        logger.debug("Create game: {} player: {}, number of player: {}", gameName, playerName, nPlayers);
-        if (gameName == null || playerName == null || nPlayers == 0)
+        int playersNumber = 0;
+        if (twoPlayersButton.isSelected()) {
+            playersNumber = 2;
+        } else if (threePlayersButton.isSelected()) {
+            playersNumber = 3;
+        } else if (fourPlayersButton.isSelected()) {
+            playersNumber = 4;
+        }
+        logger.debug("Create game: {} player: {}, number of player: {}", gameName, playerName, playersNumber);
+        if (gameName == null || playerName == null)
             showErrorPopup("Please fill all the fields");
         else {
-            networkControllerMapper.createGame(gameName, playerName, nPlayers);
+            networkControllerMapper.createGame(gameName, playerName, playersNumber);
         }
     }
 
@@ -108,51 +116,21 @@ public class CreateGameSceneController extends Controller implements PropertyCha
     }
 
     public void initialize() {
-        playerNumberGroup = new ToggleGroup();
-        player2Button.setToggleGroup(playerNumberGroup);
-        player3Button.setToggleGroup(playerNumberGroup);
-        player4Button.setToggleGroup(playerNumberGroup);
+        ToggleGroup playerNumberGroup = new ToggleGroup();
+        twoPlayersButton.setToggleGroup(playerNumberGroup);
+        threePlayersButton.setToggleGroup(playerNumberGroup);
+        fourPlayersButton.setToggleGroup(playerNumberGroup);
+        // Default selection
+        twoPlayersButton.setSelected(true);
 
-        // Add mouse hover listeners for player2Button
-        player2Button.setOnMouseEntered(e -> player2Button.getStyleClass().add("toggle-button-hover"));
-        player2Button.setOnMouseExited(e -> player2Button.getStyleClass().remove("toggle-button-hover"));
-
-        // Add mouse hover listeners for player3Button
-        player3Button.setOnMouseEntered(e -> player3Button.getStyleClass().add("toggle-button-hover"));
-        player3Button.setOnMouseExited(e -> player3Button.getStyleClass().remove("toggle-button-hover"));
-
-        // Add mouse hover listeners for player4Button
-        player4Button.setOnMouseEntered(e -> player4Button.getStyleClass().add("toggle-button-hover"));
-        player4Button.setOnMouseExited(e -> player4Button.getStyleClass().remove("toggle-button-hover"));
-
-        // Aggiungi i listener alle proprietà selectedProperty dei ToggleButton
-        player2Button.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                player2Button.getStyleClass().remove("toggle-button");
-                player2Button.getStyleClass().add("toggle-button-pressed");
-            } else {
-                player2Button.getStyleClass().remove("toggle-button-pressed");
-                player2Button.getStyleClass().add("toggle-button");
-            }
-        });
-
-        player3Button.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                player3Button.getStyleClass().remove("toggle-button");
-                player3Button.getStyleClass().add("toggle-button-pressed");
-            } else {
-                player3Button.getStyleClass().remove("toggle-button-pressed");
-                player3Button.getStyleClass().add("toggle-button");
-            }
-        });
-
-        player4Button.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                player4Button.getStyleClass().remove("toggle-button");
-                player4Button.getStyleClass().add("toggle-button-pressed");
-            } else {
-                player4Button.getStyleClass().remove("toggle-button-pressed");
-                player4Button.getStyleClass().add("toggle-button");
+        root.onKeyPressedProperty().set(event -> {
+            switch (event.getCode()) {
+                case ENTER:
+                    createGame(null);
+                    break;
+                case ESCAPE:
+                    back(null);
+                    break;
             }
         });
     }

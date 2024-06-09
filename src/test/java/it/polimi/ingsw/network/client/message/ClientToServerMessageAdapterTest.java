@@ -133,7 +133,7 @@ public class ClientToServerMessageAdapterTest {
         gameItemStore.set(GameItemEnum.ANIMAL, 1);
         GameCard resourceGameCard = new GameCard(1, new FrontGameCard(new Corner(GameItemEnum.FUNGI), new Corner(GameItemEnum.PLANT), new Corner(GameItemEnum.ANIMAL), new Corner(GameItemEnum.INSECT), 1), new BackGameCard(new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), new Corner(GameItemEnum.NONE), gameItemStore), CardColorEnum.RED);
 
-        ClientToServerMessage drawCardFromFieldClientToServerMessage = new DrawCardFromFieldClientToServerMessage("Game1", "Player1", resourceGameCard);
+        ClientToServerMessage drawCardFromFieldClientToServerMessage = new DrawCardFromFieldClientToServerMessage("Game1", "Player1", resourceGameCard.getCardId());
         // Serialize
         String jsonDrawCardFromFieldClientToServerMessage = this.gson.toJson(drawCardFromFieldClientToServerMessage);
         // Deserialize

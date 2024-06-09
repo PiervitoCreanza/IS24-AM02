@@ -12,6 +12,9 @@ import java.net.URL;
  */
 public class GameCardImageFactory {
 
+    private static final double cardWidth = 234;
+    private static final double cardRatio = 1.5;
+
     /**
      * Creates an image for a game card.
      * If the card is flipped, it creates a back image.
@@ -36,11 +39,17 @@ public class GameCardImageFactory {
 
     public static ImageView createGameCardImageView(GameCard card) {
         Image cardImage = GameCardImageFactory.createGameCardImage(card);
+        return createGameCardImageViewFromImage(card, cardImage);
+    }
+
+    public static ImageView createGameCardImageViewFromImage(GameCard card, Image cardImage) {
         ImageView cardImageView = new ImageView(cardImage);
         cardImageView.setFitWidth(234);
         cardImageView.setFitHeight(156);
         cardImageView.setPreserveRatio(true);
         cardImageView.setUserData(card);
+        cardImageView.getStyleClass().add("card");
+
         return cardImageView;
     }
 
@@ -51,7 +60,7 @@ public class GameCardImageFactory {
      * @return The created front image.
      * @throws IllegalArgumentException If the card image is not found.
      */
-    private static Image createFrontImage(int cardId) {
+    public static Image createFrontImage(int cardId) {
         String paddedCardId = String.format("%03d", cardId);
         URL frontUrl = GameCardImageFactory.class.getResource("/" + paddedCardId + "_front.png");
         if (frontUrl == null) {
@@ -67,7 +76,7 @@ public class GameCardImageFactory {
      * @return The created back image.
      * @throws IllegalArgumentException If the card image is not found or the card ID is invalid.
      */
-    private static Image createBackImage(int cardId) {
+    public static Image createBackImage(int cardId) {
         String paddedCardId;
 
         // Determine the file name for the back image based on the cardId.
@@ -85,16 +94,36 @@ public class GameCardImageFactory {
             paddedCardId = "051";
         } else if (cardId < 73) {
             paddedCardId = "066";
+        } else if (cardId < 81) {
+            paddedCardId = "073";
         } else if (cardId >= 88) {
             paddedCardId = "102";
         } else {
             paddedCardId = String.format("%03d", cardId);
         }
-
-        URL backUrl = GameCardImageFactory.class.getResource("/" + paddedCardId + "_back.png");
+        String filename = "/" + paddedCardId + "_back.png";
+        URL backUrl = GameCardImageFactory.class.getResource(filename);
         if (backUrl == null) {
-            throw new IllegalArgumentException("Card image not found");
+            throw new IllegalArgumentException("Card image " + filename + " not found");
         }
         return new Image(backUrl.toExternalForm());
+    }
+
+    /**
+     * This method returns the height of the card image.
+     *
+     * @param width The width of the card image.
+     * @return The height of the card image.
+     */
+    public static double getHeightFromWidth(double width) {
+        return width / cardRatio;
+    }
+
+    public static double getDefaultCardWidth() {
+        return cardWidth;
+    }
+
+    public static double getDefaultCardHeight() {
+        return cardWidth / cardRatio;
     }
 }
