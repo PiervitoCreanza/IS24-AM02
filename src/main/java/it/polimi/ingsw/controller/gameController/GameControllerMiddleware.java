@@ -3,7 +3,6 @@ package it.polimi.ingsw.controller.gameController;
 import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GlobalBoard;
-import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
@@ -216,15 +215,15 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * Draws a card from the game field.
      *
      * @param playerName the name of the player who is drawing the card.
-     * @param card       the card to be drawn.
+     * @param cardId     the id of the card to be drawn.
      */
     @Override
-    public void drawCardFromField(String playerName, GameCard card) {
+    public void drawCardFromField(String playerName, int cardId) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.DRAW_CARD) {
             throw new IllegalStateException("Cannot draw card in current game status");
         }
-        gameController.drawCardFromField(playerName, card);
+        gameController.drawCardFromField(playerName, cardId);
         handleDrawFinish();
     }
 
@@ -350,9 +349,9 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
                     } else if (!globalBoard.isGoldDeckEmpty()) {
                         drawCardFromGoldDeck(playerName);
                     } else if (!globalBoard.getFieldResourceCards().isEmpty()) {
-                        drawCardFromField(playerName, globalBoard.getFieldResourceCards().getFirst());
+                        drawCardFromField(playerName, globalBoard.getFieldResourceCards().getFirst().getCardId());
                     } else {
-                        drawCardFromField(playerName, globalBoard.getFieldGoldCards().getFirst());
+                        drawCardFromField(playerName, globalBoard.getFieldGoldCards().getFirst().getCardId());
                     }
                     break;
             }

@@ -83,7 +83,7 @@ public class RMIClientSender implements ClientMessageHandler, PropertyChangeNoti
                 case PLACE_CARD ->
                         serverStub.placeCard(message.getGameName(), message.getPlayerName(), message.getCoordinate(), message.getGameCardId(), message.isFlipped());
                 case DRAW_CARD_FROM_FIELD ->
-                        serverStub.drawCardFromField(message.getGameName(), message.getPlayerName(), message.getGameCard());
+                        serverStub.drawCardFromField(message.getGameName(), message.getPlayerName(), message.getGameCardId());
                 case DRAW_CARD_FROM_RESOURCE_DECK ->
                         serverStub.drawCardFromResourceDeck(message.getGameName(), message.getPlayerName());
                 case DRAW_CARD_FROM_GOLD_DECK ->

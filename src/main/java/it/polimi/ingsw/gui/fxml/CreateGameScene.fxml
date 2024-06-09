@@ -12,6 +12,7 @@
            prefWidth="1920.0"
            xmlns="http://javafx.com/javafx/21"
            fx:controller="it.polimi.ingsw.gui.controllers.CreateGameSceneController"
+           fx:id="root"
            stylesheets="@/styles.css"
 >
     <fx:include source="Background_with_logo.fxml"/>
@@ -35,11 +36,11 @@
                     </Text>
                 </HBox>
                 <HBox alignment="CENTER_RIGHT" spacing="20">
-                    <ToggleButton fx:id="player2Button" styleClass="toggle-button"
+                    <ToggleButton fx:id="twoPlayersButton" styleClass="toggle-button"
                                   mnemonicParsing="false" text="2"/>
-                    <ToggleButton fx:id="player3Button" styleClass="toggle-button"
+                    <ToggleButton fx:id="threePlayersButton" styleClass="toggle-button"
                                   mnemonicParsing="false" text="3"/>
-                    <ToggleButton fx:id="player4Button" styleClass="toggle-button"
+                    <ToggleButton fx:id="fourPlayersButton" styleClass="toggle-button"
                                   mnemonicParsing="false" text="4"/>
                 </HBox>
             </StackPane>

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.server.RMI;
 
-import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
@@ -168,13 +167,13 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
      *
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is drawing the card.
-     * @param card       the card to be drawn.
+     * @param cardId     the id of the card to be drawn.
      */
     @Override
-    public void drawCardFromField(String gameName, String playerName, GameCard card) throws RemoteException {
-        this.executor.submit(() -> serverNetworkControllerMapper.drawCardFromField(gameName, playerName, card));
+    public void drawCardFromField(String gameName, String playerName, int cardId) throws RemoteException {
+        this.executor.submit(() -> serverNetworkControllerMapper.drawCardFromField(gameName, playerName, cardId));
         // Debug
-        inGamePrintDebug(PlayerActionEnum.DRAW_CARD_FROM_FIELD, gameName, playerName, "card: " + card.getCardId());
+        inGamePrintDebug(PlayerActionEnum.DRAW_CARD_FROM_FIELD, gameName, playerName, "card: " + cardId);
     }
 
     /**

@@ -54,7 +54,7 @@ public class Client {
             System.out.println(Utils.ANSI_PURPLE + "Debug mode enabled" + Utils.ANSI_RESET);
 
         // Create the ViewController
-        ClientNetworkControllerMapper networkControllerMapper = new ClientNetworkControllerMapper();
+        ClientNetworkControllerMapper networkControllerMapper = ClientNetworkControllerMapper.getInstance();
 
         View view;
 
@@ -72,7 +72,7 @@ public class Client {
         if (cmd.hasOption(("tui"))) {
             view = instanceTUI(networkControllerMapper, connection);
         } else {
-            view = instanceGUI(networkControllerMapper, connection);
+            view = instanceGUI(connection);
         }
         view.launchUI();
     }
@@ -84,9 +84,9 @@ public class Client {
         return tuiController;
     }
 
-    private static GUIApp instanceGUI(ClientNetworkControllerMapper networkControllerMapper, Connection connection) {
+    private static GUIApp instanceGUI(Connection connection) {
         GUIApp guiApp = new GUIApp();
-        guiApp.instanceGUI(networkControllerMapper, connection);
+        guiApp.instanceGUI(connection);
         return guiApp;
     }
 

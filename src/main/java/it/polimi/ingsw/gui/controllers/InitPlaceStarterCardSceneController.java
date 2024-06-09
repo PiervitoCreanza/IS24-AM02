@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gui.controllers;
 
 import it.polimi.ingsw.controller.GameStatusEnum;
-import it.polimi.ingsw.gui.GameCardImage;
+import it.polimi.ingsw.gui.dataStorage.GameCardImageFactory;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
@@ -65,10 +65,8 @@ public class InitPlaceStarterCardSceneController extends Controller implements P
 
     private void loadCard(GameCard gameCard) {
         this.gameCard = gameCard;
-        GameCardImage gameCardImage = new GameCardImage(gameCard);
-        // TODO: We inverted the front and back images in the cardDB.json, as a temporary fix we are inverting them here.
-        cardFrontImageView.setImage(gameCardImage.getBack().getImage());
-        cardBackImageView.setImage(gameCardImage.getFront().getImage());
+        cardFrontImageView.setImage(GameCardImageFactory.createFrontImage(gameCard.getCardId()));
+        cardBackImageView.setImage(GameCardImageFactory.createBackImage(gameCard.getCardId()));
     }
 
     @FXML
@@ -83,15 +81,13 @@ public class InitPlaceStarterCardSceneController extends Controller implements P
             alert.showAndWait();
         } else {
             // Print the selected card ID and the selected side to the console
-            System.out.println("Selected Card ID: " + gameCard.getCardId() + ", Side: " + selectedSide);
+            logger.debug("Selected Card ID: " + gameCard.getCardId() + ", Side: " + selectedSide);
             // Reset the styles after continuing
             backImagePane.getStyleClass().remove("selected-card-image");
             frontImagePane.getStyleClass().remove("selected-card-image");
 
             // Send the selected side to the server
             networkControllerMapper.placeCard(new Coordinate(0, 0), gameCard.getCardId(), Objects.equals(selectedSide, "back"));
-
-            //Not resetting the selected ID & side, as it is needed for the next scene, it may seem like a bug in the single scene testing but it is not
         }
     }
 

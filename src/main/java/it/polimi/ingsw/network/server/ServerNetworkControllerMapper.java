@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.MainController;
 import it.polimi.ingsw.controller.gameController.GameControllerMiddleware;
-import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.server.actions.ClientToServerActions;
@@ -281,14 +280,14 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      *
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is drawing the card.
-     * @param card       the card to be drawn.
+     * @param cardId     the id of card to be drawn.
      */
     @Override
-    public void drawCardFromField(String gameName, String playerName, GameCard card) {
+    public void drawCardFromField(String gameName, String playerName, int cardId) {
         synchronized (getLock(gameName)) {
             if (isConnected(gameName, playerName)) {
                 try {
-                    mainController.getGameController(gameName).drawCardFromField(playerName, card);
+                    mainController.getGameController(gameName).drawCardFromField(playerName, cardId);
                     broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
                 } catch (Exception e) {
                     gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));

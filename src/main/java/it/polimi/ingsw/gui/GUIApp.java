@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gui;
 
 import it.polimi.ingsw.gui.controllers.Controller;
-import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import it.polimi.ingsw.network.client.connection.Connection;
 import it.polimi.ingsw.tui.View;
 import javafx.application.Application;
@@ -25,11 +24,9 @@ public class GUIApp extends Application implements View {
     private static final Logger logger = LogManager.getLogger(GUIApp.class);
     public static int MIN_WIDTH = 1560;
     public static int MIN_HEIGHT = 900;
-    public static ClientNetworkControllerMapper networkControllerMapper;
     public static Connection connection;
 
-    public void instanceGUI(ClientNetworkControllerMapper networkControllerMapper, Connection connection) {
-        GUIApp.networkControllerMapper = networkControllerMapper;
+    public void instanceGUI(Connection connection) {
         GUIApp.connection = connection;
     }
 
@@ -75,9 +72,6 @@ public class GUIApp extends Application implements View {
 
         // Set the stage to the current scene.
         stage.setScene(scene);
-
-        // Set the network controller mapper aon all controllers.
-        Controller.setNetworkControllerMapper(networkControllerMapper);
 
         // Set the current scene on all controllers.
         Controller.setScene(scene);

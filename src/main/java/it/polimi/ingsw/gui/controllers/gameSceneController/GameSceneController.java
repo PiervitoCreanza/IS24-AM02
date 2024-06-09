@@ -1,20 +1,23 @@
-package it.polimi.ingsw.gui.controllers;
+package it.polimi.ingsw.gui.controllers.gameSceneController;
 
 import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.data.Parser;
 import it.polimi.ingsw.gui.ZoomableScrollPane;
-import it.polimi.ingsw.gui.controllers.gameSceneController.ChatController;
-import it.polimi.ingsw.gui.controllers.gameSceneController.HandController;
-import it.polimi.ingsw.gui.controllers.gameSceneController.RightSidebarController;
-import it.polimi.ingsw.gui.dataStorage.*;
+import it.polimi.ingsw.gui.controllers.Controller;
+import it.polimi.ingsw.gui.controllers.ControllersEnum;
+import it.polimi.ingsw.gui.dataStorage.GameCardImageFactory;
+import it.polimi.ingsw.gui.dataStorage.ObservableDrawArea;
+import it.polimi.ingsw.gui.dataStorage.ObservedPlayerBoard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
+import it.polimi.ingsw.network.virtualView.GlobalBoardView;
 import it.polimi.ingsw.network.virtualView.PlayerView;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
@@ -40,27 +43,15 @@ public class GameSceneController extends Controller implements PropertyChangeLis
 
     private static final ControllersEnum NAME = ControllersEnum.GAME_SCENE;
 
-    private static final double cardWidth = 234;
-    private static final double cardRatio = 1.5;
-
     private static final Logger logger = LogManager.getLogger(GameSceneController.class);
+    private final SimpleBooleanProperty isDrawingPhase = new SimpleBooleanProperty(false);
     private GameControllerView gameControllerView;
     @FXML
-    public StackPane contentPane;
-
-    @FXML
-    public Pane dragPane;
-
-    @FXML
-    private final ObservableHand hand = new ObservableHand();
-    private final ObservarblePlayerBoard playerBoard = new ObservarblePlayerBoard();
-    @FXML
-    public StackPane rootPane;
+    private HBox drawArea;
     @FXML
     private Text playerPrompt;
     @FXML
     private Button ChatSideBarButton;
-    private ArrayList<GameCard> gameCards;
     @FXML
     private Text playerName;
 
@@ -71,46 +62,48 @@ public class GameSceneController extends Controller implements PropertyChangeLis
     private HBox handBoard;
     @FXML
     private Parent ChatSideBar;
-    @FXML
-    private ImageView resourceDeck;
-    @FXML
-    private ImageView goldDeck;
-    @FXML
-    private ImageView firstResourceField;
-    @FXML
-    private ImageView secondResourceField;
-    @FXML
-    private ImageView firstGoldField;
-    @FXML
-    private ImageView secondGoldField;
 
     @FXML
     private Node pointsPanel;
 
-    private ObservedGameCard firstResourceFieldCard;
-    private ObservedGameCard secondResourceFieldCard;
-    private ObservedGameCard firstGoldFieldCard;
-    private ObservedGameCard secondGoldFieldCard;
-    private ObservedGameCard resourceDeckCard;
-    private ObservedGameCard goldDeckCard;
-
     private HandController handController;
-    private final ObservableDrawArea drawArea = new ObservableDrawArea();
+    @FXML
+    private StackPane contentPane;
     private RightSidebarController rightSidebarController;
     private ChatController chatController;
 
     private ObservedPlayerBoard observedPlayerBoard;
+    private ObservableDrawArea observedDrawArea;
+    private String currentPlayerView;
 
-    private GameCard placedCard;
+    @FXML
+    public void initialize() {
+        StackPane pane = new StackPane();
+        pane.getStyleClass().add("transparent");
+        playerBoardGridPane = new GridPane();
+        playerBoardGridPane.getStyleClass().add("player-board transparent");
+        playerBoardGridPane.setHgap(GameCardImageFactory.getDefaultCardWidth() / 100 * -22);
+        playerBoardGridPane.setVgap(GameCardImageFactory.getDefaultCardWidth() / 100 * -27);
+        pane.getChildren().add(playerBoardGridPane);
+        ZoomableScrollPane scrollPane = new ZoomableScrollPane(pane);
+        scrollPane.getStyleClass().add("transparent");
+        contentPane.getChildren().addFirst(scrollPane);
 
-    private boolean isDrawingPhase;
 
-    private GameItemStore gameItemStore;
+        this.observedPlayerBoard = new ObservedPlayerBoard(playerBoardGridPane);
+        this.observedDrawArea = new ObservableDrawArea(drawArea, isDrawingPhase);
+        this.handController = new HandController(handBoard, this);
+        this.rightSidebarController = new RightSidebarController(pointsPanel, this);
+        this.chatController = new ChatController(ChatSideBar, ChatSideBarButton, networkControllerMapper);
+        initializePlayerBoardGridPane();
+        //loadDummyData();
+    }
 
     private void loadDummyData() {
+        logger.fatal("DEBUG MODE ENABLED");
         Parser parser = new Parser();
         ArrayList<ObjectiveCard> objectiveCards = parser.getObjectiveDeck().getCards();
-        gameCards = parser.getResourceDeck().getCards();
+        ArrayList<GameCard> gameCards = parser.getResourceDeck().getCards();
         ArrayList<GameCard> goldCards = parser.getGoldDeck().getCards();
 
         final HashMap<Coordinate, GameCard> origPlayerBoard = new HashMap<>();
@@ -121,13 +114,7 @@ public class GameSceneController extends Controller implements PropertyChangeLis
         origPlayerBoard.put(new Coordinate(-1, 1), gameCards.get(4));
 
 
-        //drawArea.loadData(globalBoardView);
-        firstResourceFieldCard = new ObservedGameCard(goldCards.get(1), firstGoldField);
-        secondResourceFieldCard = new ObservedGameCard(goldCards.get(2), secondGoldField);
-        firstGoldFieldCard = new ObservedGameCard(gameCards.get(9), firstResourceField);
-        secondGoldFieldCard = new ObservedGameCard(gameCards.get(10), secondResourceField);
-        resourceDeckCard = new ObservedGameCard(gameCards.get(11), resourceDeck);
-        goldDeckCard = new ObservedGameCard(goldCards.get(0), goldDeck);
+        observedDrawArea.loadData(new GlobalBoardView(goldCards.get(10), gameCards.get(10), new ArrayList<>(goldCards.subList(11, 13)), new ArrayList<>(gameCards.subList(11, 13)), new ArrayList<>(objectiveCards.subList(10, 12))));
 
 
         observedPlayerBoard.syncWithServerPlayerBoard(origPlayerBoard);
@@ -142,40 +129,18 @@ public class GameSceneController extends Controller implements PropertyChangeLis
 
     }
 
-    private void setPlayerPrompt(String prompt) {
-        playerPrompt.setText(playerPrompt.getText() + " " + prompt);
-    }
-
-    private void removeNodeFromGrid(int col, int row) {
-        Node nodeToRemove = null;
-
-        // Iterate over the children of the GridPane
-        for (Node node : playerBoardGridPane.getChildren()) {
-            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
-                // If the current node's coordinates match the specified coordinates, mark it for removal
-                nodeToRemove = node;
-                break;
-            }
-        }
-
-        if (nodeToRemove != null) {
-            // Remove the node from the GridPane
-            playerBoardGridPane.getChildren().remove(nodeToRemove);
-        }
-    }
-
     private void initializePlayerBoardGridPane() {
         // Add column constraints to set column width
         for (int i = 0; i <= 100; i++) {
             ColumnConstraints colConstraints = new ColumnConstraints();
-            colConstraints.setPrefWidth(cardWidth); // Set preferred width of the column
+            colConstraints.setPrefWidth(GameCardImageFactory.getDefaultCardWidth()); // Set preferred width of the column
             playerBoardGridPane.getColumnConstraints().add(colConstraints);
         }
 
         // Add row constraints to set row height
         for (int i = 0; i <= 100; i++) {
             RowConstraints rowConstraints = new RowConstraints();
-            rowConstraints.setPrefHeight(cardWidth / cardRatio); // Set preferred height of the row
+            rowConstraints.setPrefHeight(GameCardImageFactory.getDefaultCardHeight()); // Set preferred height of the row
             playerBoardGridPane.getRowConstraints().add(rowConstraints);
         }
     }
@@ -231,18 +196,10 @@ public class GameSceneController extends Controller implements PropertyChangeLis
                     newCardCoordinates.x += 1;
                     newCardCoordinates.y += -1;
                 }
-                MultiSystemCoordinate multiSystemCoordinate = new MultiSystemCoordinate().setCoordinateInGUISystem(newCardCoordinates);
-
-                // Obtain the NodeDataBinding associated with the card
-                NodeGameCardBinding nodeGameCardBinding = (NodeGameCardBinding) imageView.getUserData();
-                placedCard = nodeGameCardBinding.getGameCard();
 
                 // Add the card to the player board
                 observedPlayerBoard.putFromGUI(newCardCoordinates, imageView);
-                //playerBoard.putFromGUI(multiSystemCoordinate, nodeGameCardBinding.getGameCardImage());
 
-                // Remove the card from the hand
-                parent.getChildren().remove(imageView);
                 didIntersect = true;
                 break;
             }
@@ -252,69 +209,33 @@ public class GameSceneController extends Controller implements PropertyChangeLis
 
     }
 
-    @FXML
-    public void initialize() {
-        StackPane pane = new StackPane();
-        pane.getStyleClass().add("transparent");
-        playerBoardGridPane = new GridPane();
-        playerBoardGridPane.getStyleClass().add("player-board transparent");
-        playerBoardGridPane.setHgap(cardWidth / 100 * -22);
-        playerBoardGridPane.setVgap(cardWidth / 100 * -27);
-        pane.getChildren().add(playerBoardGridPane);
-        ZoomableScrollPane scrollPane = new ZoomableScrollPane(pane);
-        scrollPane.getStyleClass().add("transparent");
-        contentPane.getChildren().addFirst(scrollPane);
+    public void updateView(String playerName) {
+        currentPlayerView = playerName;
+        this.playerName.setText(playerName);
 
-
-        this.observedPlayerBoard = new ObservedPlayerBoard(playerBoardGridPane, networkControllerMapper);
-        this.handController = new HandController(handBoard, this);
-        rightSidebarController = new RightSidebarController(pointsPanel);
-        chatController = new ChatController(ChatSideBar, ChatSideBarButton, networkControllerMapper);
-        initializePlayerBoardGridPane();
-        logger.fatal("DEBUG MODE ENABLED");
-        loadDummyData();
-    }
-
-    private boolean canDrawCard() {
-        if (!isDrawingPhase) {
-            return false;
-        }
-        isDrawingPhase = false;
-        return true;
-    }
-
-    @FXML
-    private void drawCardFromResourceDeck() {
-        if (canDrawCard()) {
-            networkControllerMapper.drawCardFromResourceDeck();
-        }
-    }
-
-    @FXML
-    private void drawCardFromGoldDeck() {
-        if (canDrawCard()) {
-            networkControllerMapper.drawCardFromGoldDeck();
-        }
-    }
-
-    private void loadUpdatedView(GameControllerView gameControllerView, String playerName) {
-        if (gameControllerView.gameStatus() == GameStatusEnum.DRAW_CARD) {
-            isDrawingPhase = true;
-        }
-
+        logger.debug("Playername: {}", playerName);
         PlayerView playerView = gameControllerView.getPlayerViewByName(playerName);
         observedPlayerBoard.syncWithServerPlayerBoard(playerView.playerBoardView().playerBoard());
+        updatePrivateView(gameControllerView.gameStatus());
+    }
+
+    private void updatePrivateView(GameStatusEnum gameStatus) {
+        if (gameStatus == GameStatusEnum.DRAW_CARD && gameControllerView.isMyTurn(getProperty("playerName"))) {
+            isDrawingPhase.set(true);
+        }
+
+        switch (gameStatus) {
+            case GAME_PAUSED -> this.playerPrompt.setText("The game is paused");
+            case DRAW_CARD -> this.playerPrompt.setText("Draw a card from the deck");
+            case PLACE_CARD -> this.playerPrompt.setText("Place a new card on the board");
+        }
+        String clientPlayerName = getProperty("playerName");
+        PlayerView clientPlayerView = gameControllerView.getPlayerViewByName(clientPlayerName);
+        handController.update(clientPlayerView.playerHandView().hand());
+        observedDrawArea.loadData(gameControllerView.gameView().globalBoardView());
+        rightSidebarController.updateObjectiveCards(clientPlayerView.objectiveCard(), gameControllerView.gameView().globalBoardView().globalObjectives());
         List<String> playerNames = gameControllerView.gameView().playerViews().stream().map(PlayerView::playerName).toList();
-
-        rightSidebarController.updateObjectiveCards(gameControllerView.getPlayerViewByName(playerName).objectiveCard(), gameControllerView.gameView().globalBoardView().globalObjectives());
-        rightSidebarController.updateStats(playerNames, gameControllerView.gameView().playerViews().stream().map(PlayerView::playerPos).toList(), gameControllerView.gameView().getViewByPlayer(playerName).playerBoardView().gameItemStore());
-
-        chatController.updateUsers(playerNames);
-
-        gameItemStore = playerView.playerBoardView().gameItemStore();
-        handController.update(playerView.playerHandView().hand());
-        playerBoard.loadData(playerView.playerBoardView().playerBoard());
-        drawArea.loadData(gameControllerView.gameView().globalBoardView());
+        rightSidebarController.updateStats(playerNames, gameControllerView.gameView().playerViews().stream().map(PlayerView::playerPos).toList(), clientPlayerView.playerBoardView().gameItemStore());
     }
 
     /**
@@ -337,7 +258,7 @@ public class GameSceneController extends Controller implements PropertyChangeLis
     @Override
     public void beforeMount(PropertyChangeEvent evt) {
         gameControllerView = (GameControllerView) evt.getNewValue();
-        loadUpdatedView(gameControllerView, getProperty("playerName"));
+        updateView(getProperty("playerName"));
     }
 
     /**
@@ -368,13 +289,19 @@ public class GameSceneController extends Controller implements PropertyChangeLis
         switch (propertyName) {
             case "ERROR":
                 // Reset the view
-                Platform.runLater(() -> loadUpdatedView(gameControllerView, getProperty("playerName")));
+                Platform.runLater(() -> updateView(getProperty("playerName")));
                 break;
             case "UPDATE_VIEW":
                 gameControllerView = (GameControllerView) evt.getNewValue();
                 logger.debug("Received updated view");
+                String clientPlayerName = getProperty("playerName");
 
-                Platform.runLater(() -> loadUpdatedView(gameControllerView, getProperty("playerName")));
+                if (gameControllerView.isMyTurn(clientPlayerName) && !clientPlayerName.equals(currentPlayerView)) {
+                    // If it is the player turn force the view on his playerBoard.
+                    currentPlayerView = clientPlayerName;
+                }
+                Platform.runLater(() -> updateView(currentPlayerView));
+
                 break;
             case "CHAT_MESSAGE":
                 chatController.handleChatMessage((ServerToClientMessage) evt.getNewValue());

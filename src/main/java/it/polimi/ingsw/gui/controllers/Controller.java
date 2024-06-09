@@ -32,7 +32,7 @@ public abstract class Controller implements PropertyChangeListener {
      */
     private ControllersEnum previousLayoutName = ControllersEnum.START;
 
-    protected static ClientNetworkControllerMapper networkControllerMapper;
+    protected static ClientNetworkControllerMapper networkControllerMapper = ClientNetworkControllerMapper.getInstance();
 
     /**
      * A flag indicating whether the current layout is active.
@@ -45,16 +45,6 @@ public abstract class Controller implements PropertyChangeListener {
      * @return the name of the controller.
      */
     public abstract ControllersEnum getName();
-
-    /**
-     * Sets the network controller mapper.
-     * This method is used to set the scene when the application starts.
-     *
-     * @param networkControllerMapper the network controller mapper.
-     */
-    public static void setNetworkControllerMapper(ClientNetworkControllerMapper networkControllerMapper) {
-        Controller.networkControllerMapper = networkControllerMapper;
-    }
 
     /**
      * This method is called before switching to a new scene.

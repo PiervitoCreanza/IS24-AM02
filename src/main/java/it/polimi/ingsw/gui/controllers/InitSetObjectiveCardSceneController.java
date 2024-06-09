@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gui.controllers;
 
-import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.gui.ObjectiveCardImage;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
@@ -15,7 +14,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
-import java.util.Objects;
 
 // Each player receives multiple objective cards at the beginning of the game, and it has to choose one.
 public class InitSetObjectiveCardSceneController extends Controller {
@@ -86,10 +84,6 @@ public class InitSetObjectiveCardSceneController extends Controller {
             System.out.println("Selected Card ID: " + selectedCardId);
 
             networkControllerMapper.setPlayerObjective(selectedCardId);
-
-            // Reset the styles after continuing
-            firstImagePane.getStyleClass().remove("selected-card-image");
-            secondImagePane.getStyleClass().remove("selected-card-image");
         }
     }
 
@@ -142,14 +136,10 @@ public class InitSetObjectiveCardSceneController extends Controller {
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();
         if (propertyName.equals("UPDATE_VIEW")) {
-            GameControllerView gameControllerView = (GameControllerView) evt.getNewValue();
-            GameStatusEnum gameStatus = gameControllerView.gameStatus();
-            boolean isMyTurn = Objects.equals(gameControllerView.getCurrentPlayerView().playerName(), getProperty("playerName"));
-            if (gameStatus == GameStatusEnum.PLACE_CARD && isMyTurn) {
-                Platform.runLater(() -> {
-                    switchScene(ControllersEnum.GAME_SCENE, evt);
-                });
-            }
+            //
+            Platform.runLater(() -> {
+                switchScene(ControllersEnum.GAME_SCENE, evt);
+            });
         }
     }
 }

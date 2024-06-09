@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Text?>
 <StackPane xmlns:fx="http://javafx.com/fxml"
            xmlns="http://javafx.com/javafx"
-           fx:controller="it.polimi.ingsw.gui.controllers.GameSceneController"
+           fx:controller="it.polimi.ingsw.gui.controllers.gameSceneController.GameSceneController"
            fx:id="rootPane"
            stylesheets="styles.css">
     <fx:include source="BackgroundOnlyCorners.fxml"/>
@@ -19,24 +19,24 @@
                     </ImageView>
                     <VBox pickOnBounds="false">
                         <HBox minHeight="40.5" pickOnBounds="false"/>
-                        <HBox alignment="CENTER" spacing="40" pickOnBounds="false">
+                        <HBox alignment="CENTER" spacing="40" pickOnBounds="false" fx:id="drawArea">
                             <HBox spacing="10">
-                                <ImageView fx:id="resourceDeck" fitWidth="234" preserveRatio="true"
-                                           styleClass="card" onMouseClicked="#drawCardFromResourceDeck"/>
+                                <ImageView fx:id="firstResourceCard" fitWidth="234" preserveRatio="true"
+                                           styleClass="card"/>
                                 <VBox spacing="10">
-                                    <ImageView fx:id="firstResourceField" fitWidth="109.5" preserveRatio="true"
+                                    <ImageView fx:id="firstResourceFieldCard" fitWidth="109.5" preserveRatio="true"
                                                styleClass="card"/>
-                                    <ImageView fx:id="secondResourceField" fitWidth="109.5" preserveRatio="true"
+                                    <ImageView fx:id="secondResourceFieldCard" fitWidth="109.5" preserveRatio="true"
                                                styleClass="card"/>
                                 </VBox>
                             </HBox>
                             <HBox spacing="10">
-                                <ImageView fx:id="goldDeck" fitWidth="234" preserveRatio="true"
-                                           styleClass="card" onMouseClicked="#drawCardFromResourceDeck"/>
+                                <ImageView fx:id="firstGoldCard" fitWidth="234" preserveRatio="true"
+                                           styleClass="card"/>
                                 <VBox spacing="10">
-                                    <ImageView fx:id="firstGoldField" fitWidth="109.5" preserveRatio="true"
+                                    <ImageView fx:id="firstGoldFieldCard" fitWidth="109.5" preserveRatio="true"
                                                styleClass="card"/>
-                                    <ImageView fx:id="secondGoldField" fitWidth="109.5" preserveRatio="true"
+                                    <ImageView fx:id="secondGoldFieldCard" fitWidth="109.5" preserveRatio="true"
                                                styleClass="card"/>
                                 </VBox>
                             </HBox>
@@ -85,9 +85,15 @@
                         <HBox minHeight="49" styleClass="transparent" pickOnBounds="false"/>
                         <HBox fx:id="handBoard" alignment="BOTTOM_CENTER" spacing="43" styleClass="transparent"
                               pickOnBounds="false">
-                            <Pane fx:id="firstCard" prefWidth="234" prefHeight="156"/>
-                            <Pane fx:id="secondCard" prefWidth="234" prefHeight="156"/>
-                            <Pane fx:id="thirdCard" prefWidth="234" prefHeight="156"/>
+                            <Pane prefWidth="234" prefHeight="156">
+                                <ImageView fx:id="firstCard" fitWidth="234" preserveRatio="true" styleClass="card"/>
+                            </Pane>
+                            <Pane prefWidth="234" prefHeight="156">
+                                <ImageView fx:id="secondCard" fitWidth="234" preserveRatio="true" styleClass="card"/>
+                            </Pane>
+                            <Pane prefWidth="234" prefHeight="156">
+                                <ImageView fx:id="thirdCard" fitWidth="234" preserveRatio="true" styleClass="card"/>
+                            </Pane>
                         </HBox>
                         <HBox minHeight="44.5" styleClass="transparent" pickOnBounds="false"/>
                     </VBox>

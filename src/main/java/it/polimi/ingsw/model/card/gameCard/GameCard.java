@@ -207,7 +207,6 @@ public class GameCard implements Serializable {
         if (flipped == isFlipped.get()) {
             return;
         }
-        isFlipped.set(flipped);
         switchSide();
     }
 

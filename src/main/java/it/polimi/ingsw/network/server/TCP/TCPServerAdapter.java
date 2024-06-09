@@ -131,7 +131,7 @@ public class TCPServerAdapter implements ServerMessageHandler, PropertyChangeLis
                 case PLACE_CARD ->
                         serverNetworkControllerMapper.placeCard(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getCoordinate(), receivedMessage.getGameCardId(), receivedMessage.isFlipped());
                 case DRAW_CARD_FROM_FIELD ->
-                        serverNetworkControllerMapper.drawCardFromField(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
+                        serverNetworkControllerMapper.drawCardFromField(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCardId());
                 case DRAW_CARD_FROM_RESOURCE_DECK ->
                         serverNetworkControllerMapper.drawCardFromResourceDeck(receivedMessage.getGameName(), receivedMessage.getPlayerName());
                 case DRAW_CARD_FROM_GOLD_DECK ->

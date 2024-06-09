@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -118,6 +119,13 @@ public class JoinGameSceneController extends Controller implements PropertyChang
             }
             // TODO: Add the other scenes
             switchScene(ControllersEnum.GAME_SCENE, evt);
+        }
+    }
+
+    @FXML
+    private void handleKeyPress(KeyEvent keyEvent) {
+        if (keyEvent.getCode().toString().equals("ENTER")) {
+            joinGame(null);
         }
     }
 }

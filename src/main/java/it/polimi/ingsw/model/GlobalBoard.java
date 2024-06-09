@@ -8,6 +8,7 @@ import it.polimi.ingsw.network.virtualView.VirtualViewable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Class that represents the global board of the game.
@@ -177,19 +178,26 @@ public class GlobalBoard implements VirtualViewable<GlobalBoardView> {
      * Draws a card from the field. If the card is in the field of gold cards, it is removed and a new card is drawn from the gold deck.
      * If the card is in the field of resource cards, it is removed and a new card is drawn from the resource deck.
      *
-     * @param card The card to draw from the field.
+     * @param cardId The id of card to draw from the field.
+     * @return The card that has been drawn.
      * @throws IllegalArgumentException if the card is not present on the field.
      */
-    public void drawCardFromField(GameCard card) {
-        if (fieldGoldCards.contains(card)) {
-            fieldGoldCards.remove(card);
+    public GameCard drawCardFromField(int cardId) {
+        Optional<GameCard> cardToRemove = fieldGoldCards.stream().filter(c -> c.getCardId() == cardId).findFirst();
+        if (cardToRemove.isPresent()) {
+            fieldGoldCards.remove(cardToRemove.get());
             fieldGoldCards.add(goldDeck.draw());
-        } else if (fieldResourceCards.contains(card)) {
-            fieldResourceCards.remove(card);
-            fieldResourceCards.add(resourceDeck.draw());
-        } else {
-            throw new IllegalArgumentException("This card is not present on the field");
+            return cardToRemove.get();
         }
+
+        cardToRemove = fieldResourceCards.stream().filter(c -> c.getCardId() == cardId).findFirst();
+        if (cardToRemove.isPresent()) {
+            fieldResourceCards.remove(cardToRemove.get());
+            fieldResourceCards.add(resourceDeck.draw());
+            return cardToRemove.get();
+        }
+
+        throw new IllegalArgumentException("This card is not present on the field");
     }
 
     /**
