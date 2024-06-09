@@ -52,11 +52,11 @@ Button {
     -fx-min-width: 100;
 }
 
-.toggle-button-hover {
+.toggle-button:hover {
     -fx-background-color: #d8d8d8; /* Changed background color to indicate hover */
 }
 
-.toggle-button-pressed {
+.toggle-button:selected {
     -fx-background-color: #422918; /* Changed background color to match border color */
     -fx-text-fill: white; /* Changed text color to white */
 }
@@ -398,6 +398,13 @@ TextField {
 .unstyled-list-view .list-cell {
     -fx-padding: 20 0 0 0;
     -fx-background-color: transparent;
+}
+
+/* Since the border takes space, to avoid layout changes we set a transparent border with the same width that will be applied when the card is selected */
+/* IMPORTANT: This class must be before the selected-card-image class */
+.choosable-card {
+    -fx-border-width: 3;
+    -fx-border-color: transparent;
 }
 
 .selected-card-image {

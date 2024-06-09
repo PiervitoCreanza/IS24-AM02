@@ -1,52 +1,79 @@
 package it.polimi.ingsw.gui.dataStorage;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import it.polimi.ingsw.network.virtualView.GlobalBoardView;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.scene.Cursor;
+import javafx.scene.layout.Pane;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents an observable draw area in the game.
  * It implements the ObservableDataStorage interface and provides methods to load data into the draw area,
  * and to add and remove property change listeners.
  */
-public class ObservableDrawArea implements ObservableDataStorage {
+public class ObservableDrawArea {
 
-    private final ObservableElement<GameCard> firstGoldCard = new ObservableElement<>();
-    private final ObservableElement<GameCard> firstResourceCard = new ObservableElement<>();
-    private final ObservableElement<GameCard> firstGoldFieldCard = new ObservableElement<>();
-    private final ObservableElement<GameCard> secondGoldFieldCard = new ObservableElement<>();
-    private final ObservableElement<GameCard> firstResourceFieldCard = new ObservableElement<>();
-    private final ObservableElement<GameCard> secondResourceFieldCard = new ObservableElement<>();
-    PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private final ObservedGameCardsGroup observedGameCardsGroup;
+    private final SimpleBooleanProperty isDrawingPhase;
+    private final ClientNetworkControllerMapper clientNetworkControllerMapper;
 
     /**
      * Constructor for the ObservableDrawArea class.
      * It initializes the property change listeners for each card in the draw area.
+     *
+     * @param drawPane the pane containing the draw area.
      */
-    public ObservableDrawArea() {
-        // Add property change listeners to the cards to propagate the events to the listeners of this class
-        this.firstGoldCard.addPropertyChangeListener(evt -> {
-            pcs.firePropertyChange(new PropertyChangeEvent(this, "firstGoldCard", evt.getOldValue(), evt.getNewValue()));
+    public ObservableDrawArea(Pane drawPane, SimpleBooleanProperty isDrawingPhase) {
+        this.isDrawingPhase = isDrawingPhase;
+        this.clientNetworkControllerMapper = ClientNetworkControllerMapper.getInstance();
+        this.observedGameCardsGroup = new ObservedGameCardsGroup(drawPane);
+        this.observedGameCardsGroup.addCard("firstGoldCard");
+        this.observedGameCardsGroup.addCard("firstResourceCard");
+        this.observedGameCardsGroup.addCard("firstGoldFieldCard");
+        this.observedGameCardsGroup.addCard("secondGoldFieldCard");
+        this.observedGameCardsGroup.addCard("firstResourceFieldCard");
+        this.observedGameCardsGroup.addCard("secondResourceFieldCard");
+
+
+        observedGameCardsGroup.getCardNames().forEach(cardName -> {
+            ObservedGameCard observedGameCard = observedGameCardsGroup.getCard(cardName);
+            observedGameCard.getBoundImageView().setOnMouseClicked(event -> {
+                if (updateDrawStatus()) {
+                    switch (cardName) {
+                        case "firstGoldCard":
+                            clientNetworkControllerMapper.drawCardFromGoldDeck();
+                            break;
+                        case "firstResourceCard":
+                            clientNetworkControllerMapper.drawCardFromResourceDeck();
+                            break;
+                        default:
+                            clientNetworkControllerMapper.drawCardFromField(observedGameCard.getGameCard().getCardId());
+                            break;
+                    }
+                }
+            });
         });
-        this.firstResourceCard.addPropertyChangeListener(evt -> {
-            pcs.firePropertyChange(new PropertyChangeEvent(this, "firstResourceCard", evt.getOldValue(), evt.getNewValue()));
+
+
+        // Add a listener to the isDrawingPhase property to change the cursor of the cards
+        isDrawingPhase.addListener((observable, oldValue, newValue) -> {
+            observedGameCardsGroup.getCards().forEach(card -> card.getBoundImageView().setCursor(newValue ? Cursor.HAND : Cursor.DEFAULT));
         });
-        this.firstGoldFieldCard.addPropertyChangeListener(evt -> {
-            pcs.firePropertyChange(new PropertyChangeEvent(this, "firstGoldFieldCard", evt.getOldValue(), evt.getNewValue()));
-        });
-        this.secondGoldFieldCard.addPropertyChangeListener(evt -> {
-            pcs.firePropertyChange(new PropertyChangeEvent(this, "secondGoldFieldCard", evt.getOldValue(), evt.getNewValue()));
-        });
-        this.firstResourceFieldCard.addPropertyChangeListener(evt -> {
-            pcs.firePropertyChange(new PropertyChangeEvent(this, "firstResourceFieldCard", evt.getOldValue(), evt.getNewValue()));
-        });
-        this.secondResourceFieldCard.addPropertyChangeListener(evt -> {
-            pcs.firePropertyChange(new PropertyChangeEvent(this, "secondResourceFieldCard", evt.getOldValue(), evt.getNewValue()));
-        });
+    }
+
+    private boolean updateDrawStatus() {
+        // If the draw phase is active, deactivate it
+        if (isDrawingPhase.get()) {
+            isDrawingPhase.set(false);
+            // Return true to indicate that the draw phase was active
+            return true;
+        }
+        // Return false to indicate that the draw phase is not active
+        return false;
     }
 
     /**
@@ -55,35 +82,30 @@ public class ObservableDrawArea implements ObservableDataStorage {
      * @param globalBoardView the global board view from which to load data
      */
     public void loadData(GlobalBoardView globalBoardView) {
-        firstGoldCard.loadData(globalBoardView.goldFirstCard());
-        firstResourceCard.loadData(globalBoardView.resourceFirstCard());
+        globalBoardView.goldFirstCard().setFlipped(true);
+        observedGameCardsGroup.getCard("firstGoldCard").setGameCard(setBackSide(globalBoardView.goldFirstCard()));
+        observedGameCardsGroup.getCard("firstResourceCard").setGameCard(setBackSide(globalBoardView.resourceFirstCard()));
 
         ArrayList<GameCard> goldFieldCards = globalBoardView.fieldGoldCards();
-        firstGoldFieldCard.loadData(!goldFieldCards.isEmpty() ? goldFieldCards.getFirst() : null);
-        secondGoldFieldCard.loadData(goldFieldCards.size() > 1 ? goldFieldCards.get(1) : null);
+        observedGameCardsGroup.getCard("firstGoldFieldCard").setGameCard(getCardWithoutIllegalBounds(goldFieldCards, 0));
+        observedGameCardsGroup.getCard("secondGoldFieldCard").setGameCard(getCardWithoutIllegalBounds(goldFieldCards, 1));
 
         ArrayList<GameCard> resourceFieldCards = globalBoardView.fieldResourceCards();
-        firstResourceFieldCard.loadData(!resourceFieldCards.isEmpty() ? resourceFieldCards.getFirst() : null);
-        secondResourceFieldCard.loadData(resourceFieldCards.size() > 1 ? resourceFieldCards.get(1) : null);
+        observedGameCardsGroup.getCard("firstResourceFieldCard").setGameCard(getCardWithoutIllegalBounds(resourceFieldCards, 0));
+        observedGameCardsGroup.getCard("secondResourceFieldCard").setGameCard(getCardWithoutIllegalBounds(resourceFieldCards, 1));
     }
 
-    /**
-     * Adds a property change listener to this data storage.
-     *
-     * @param listener the listener to be added
-     */
-    @Override
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        pcs.addPropertyChangeListener(listener);
+    private GameCard setBackSide(GameCard card) {
+        if (card != null) {
+            card.setFlipped(true);
+        }
+        return card;
     }
 
-    /**
-     * Removes a property change listener from this data storage.
-     *
-     * @param listener the listener to be removed
-     */
-    @Override
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        pcs.removePropertyChangeListener(listener);
+    private GameCard getCardWithoutIllegalBounds(List<GameCard> cards, int index) {
+        if (index < 0 || index >= cards.size()) {
+            return null;
+        }
+        return cards.get(index);
     }
 }

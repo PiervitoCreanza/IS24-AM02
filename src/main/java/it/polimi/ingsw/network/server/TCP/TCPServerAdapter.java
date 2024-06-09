@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.server.TCP;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.data.BooleanPropertyDeserializer;
 import it.polimi.ingsw.data.ObjectiveCardAdapter;
 import it.polimi.ingsw.data.SideGameCardAdapter;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
@@ -13,6 +14,7 @@ import it.polimi.ingsw.network.server.ServerMessageHandler;
 import it.polimi.ingsw.network.server.ServerNetworkControllerMapper;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.network.server.message.adapter.ClientToServerMessageAdapter;
+import javafx.beans.property.SimpleBooleanProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -67,6 +69,7 @@ public class TCPServerAdapter implements ServerMessageHandler, PropertyChangeLis
      */
     private final Gson gson = new GsonBuilder()
             .enableComplexMapKeySerialization()
+            .registerTypeAdapter(SimpleBooleanProperty.class, new BooleanPropertyDeserializer())
             .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter())
             .registerTypeAdapter(ObjectiveCard.class, new ObjectiveCardAdapter())
             .registerTypeAdapter(ClientToServerMessage.class, new ClientToServerMessageAdapter())
@@ -126,7 +129,7 @@ public class TCPServerAdapter implements ServerMessageHandler, PropertyChangeLis
             case PLACE_CARD ->
                     serverNetworkControllerMapper.placeCard(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getCoordinate(), receivedMessage.getGameCardId(), receivedMessage.isFlipped());
             case DRAW_CARD_FROM_FIELD ->
-                    serverNetworkControllerMapper.drawCardFromField(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
+                    serverNetworkControllerMapper.drawCardFromField(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCardId());
             case DRAW_CARD_FROM_RESOURCE_DECK ->
                     serverNetworkControllerMapper.drawCardFromResourceDeck(receivedMessage.getGameName(), receivedMessage.getPlayerName());
             case DRAW_CARD_FROM_GOLD_DECK ->

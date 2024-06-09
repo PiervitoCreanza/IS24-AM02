@@ -7,11 +7,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 
 
 public class JoinGameSceneController extends Controller implements PropertyChangeListener {
@@ -89,6 +91,13 @@ public class JoinGameSceneController extends Controller implements PropertyChang
         }
 
         if (evt.getPropertyName().equals("UPDATE_VIEW")) {
+
+            boolean isMyTurn = Objects.equals(getProperty("playerName"), ((GameControllerView) evt.getNewValue()).getCurrentPlayerView().playerName());
+            if (!isMyTurn) {
+                // TODO: Show wait scene
+                logger.debug("Not my turn");
+                return;
+            }
             GameControllerView gameControllerView = (GameControllerView) evt.getNewValue();
             if (gameControllerView.gameStatus() == GameStatusEnum.WAIT_FOR_PLAYERS) {
                 switchScene(ControllersEnum.WAITING_FOR_PLAYER, evt);
@@ -98,8 +107,25 @@ public class JoinGameSceneController extends Controller implements PropertyChang
                 switchScene(ControllersEnum.INIT_PLACE_STARTER_CARD, evt);
                 return;
             }
+
+            if (gameControllerView.gameStatus() == GameStatusEnum.INIT_CHOOSE_PLAYER_COLOR) {
+                Platform.runLater(() -> switchScene(ControllersEnum.INIT_SET_PION, evt));
+                return;
+            }
+
+            if (gameControllerView.gameStatus() == GameStatusEnum.INIT_CHOOSE_OBJECTIVE_CARD) {
+                Platform.runLater(() -> switchScene(ControllersEnum.INIT_SET_OBJECTIVE_CARD, evt));
+                return;
+            }
             // TODO: Add the other scenes
             switchScene(ControllersEnum.GAME_SCENE, evt);
+        }
+    }
+
+    @FXML
+    private void handleKeyPress(KeyEvent keyEvent) {
+        if (keyEvent.getCode().toString().equals("ENTER")) {
+            joinGame(null);
         }
     }
 }

@@ -31,7 +31,6 @@ public class PlayerCell extends ListCell<String> {
         super.updateItem(player, empty);
 
         if (empty || player == null) {
-            logger.debug("PlayerCell empty");
             setGraphic(null);
         } else {
             if (player.length() > 45) {

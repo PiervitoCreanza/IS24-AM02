@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Text?>
 <?import java.lang.String?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:id="chatSidebar"
-      fx:controller="it.polimi.ingsw.gui.controllers.ChatSidebarController" spacing="10" prefWidth="320"
+      spacing="10" prefWidth="320"
       alignment="CENTER"
       stylesheets="@/styles.css" styleClass="left-container">
     <padding>
@@ -34,5 +34,5 @@
         </ComboBox>
     </VBox>
     <TextArea fx:id="messageInput" promptText="Type your message..." styleClass="brutalist-textarea" maxHeight="24"/>
-    <Button text="Send" onAction="#handleSend" styleClass="brutalist-button" minWidth="Infinity" maxWidth="Infinity"/>
+    <Button text="Send" fx:id="chatSendButton" styleClass="brutalist-button" minWidth="Infinity" maxWidth="Infinity"/>
 </VBox>

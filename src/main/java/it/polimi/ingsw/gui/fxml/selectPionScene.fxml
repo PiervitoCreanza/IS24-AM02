@@ -20,7 +20,7 @@
             <VBox alignment="CENTER" styleClass="container" StackPane.alignment="CENTER" spacing="20">
                 <!-- Start of component content -->
                 <Text styleClass="title" text="Select your Pion"/>
-                <ImageView fx:id="pionImageView" fitHeight="200" fitWidth="200" styleClass="image-shadow"/>
+                <ImageView fx:id="pionImageView" fitHeight="200" fitWidth="200" styleClass="card"/>
                 <HBox spacing="20" alignment="CENTER" maxWidth="600">
                     <Button onAction="#previousPion" styleClass="brutalist-button" text="Previous"/>
                     <Button onAction="#nextPion" styleClass="brutalist-button" text="Next"/>

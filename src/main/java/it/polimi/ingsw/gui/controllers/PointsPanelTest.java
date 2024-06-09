@@ -15,7 +15,7 @@ public class PointsPanelTest extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Carica il file FXML per PointsPanel
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PointsPanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GameScene.fxml"));
         Parent root = loader.load();
 
         // Crea una scena con il PointsPanel

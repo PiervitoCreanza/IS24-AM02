@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.actions.ServerToClientActions;
@@ -15,6 +14,8 @@ import it.polimi.ingsw.network.server.message.ChatServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.utils.PropertyChangeNotifier;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -26,6 +27,10 @@ import java.util.ArrayList;
  * This class is part of the network client package.
  */
 public class ClientNetworkControllerMapper implements ServerToClientActions, PropertyChangeNotifier {
+
+    private static final Logger logger = LogManager.getLogger(ClientNetworkControllerMapper.class);
+
+    private static ClientNetworkControllerMapper instance = null;
 
     /**
      * The message handler for the client.
@@ -48,13 +53,19 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
 
     private String playerName;
 
-
     /**
      * Default constructor for the ClientNetworkControllerMapper class.
      * This constructor does not initialize any fields.
      */
-    public ClientNetworkControllerMapper() {
+    private ClientNetworkControllerMapper() {
         listeners = new PropertyChangeSupport(this);
+    }
+
+    public static ClientNetworkControllerMapper getInstance() {
+        if (instance == null) {
+            instance = new ClientNetworkControllerMapper();
+        }
+        return instance;
     }
 
     /**
@@ -82,7 +93,9 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      */
     public void closeConnection() {
         view = null;
-        messageHandler.closeConnection();
+        if (checkConnectionStatus()) {
+            messageHandler.closeConnection();
+        }
     }
 
     /* ***************************************
@@ -93,7 +106,9 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      * Sends a request to the server to get the list of available games.
      */
     public void getGames() {
-        messageHandler.sendMessage(new GetGamesClientToServerMessage());
+        if (checkConnectionStatus()) {
+            messageHandler.sendMessage(new GetGamesClientToServerMessage());
+        }
     }
 
     /**
@@ -106,14 +121,18 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
     public void createGame(String gameName, String playerName, int nPlayers) {
         this.gameName = gameName;
         this.playerName = playerName;
-        messageHandler.sendMessage(new CreateGameClientToServerMessage(gameName, playerName, nPlayers));
+        if (checkConnectionStatus()) {
+            messageHandler.sendMessage(new CreateGameClientToServerMessage(gameName, playerName, nPlayers));
+        }
     }
 
     /**
      * Sends a request to the server to delete a game.
      */
     public void deleteGame() {
-        messageHandler.sendMessage(new DeleteGameClientToServerMessage(gameName, playerName));
+        if (checkConnectionStatus()) {
+            messageHandler.sendMessage(new DeleteGameClientToServerMessage(gameName, playerName));
+        }
     }
 
     /**
@@ -125,7 +144,9 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
     public void joinGame(String gameName, String playerName) {
         this.gameName = gameName;
         this.playerName = playerName;
-        messageHandler.sendMessage(new JoinGameClientToServerMessage(gameName, playerName));
+        if (checkConnectionStatus()) {
+            messageHandler.sendMessage(new JoinGameClientToServerMessage(gameName, playerName));
+        }
     }
 
     /**
@@ -134,7 +155,9 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      * @param playerColor The chosen color.
      */
     public void choosePlayerColor(PlayerColorEnum playerColor) {
-        messageHandler.sendMessage(new ChoosePlayerColorClientToServerMessage(gameName, playerName, playerColor));
+        if (checkConnectionStatus()) {
+            messageHandler.sendMessage(new ChoosePlayerColorClientToServerMessage(gameName, playerName, playerColor));
+        }
     }
 
     /**
@@ -145,30 +168,38 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      * @param isFlipped  Flag to indicate if the card is flipped.
      */
     public void placeCard(Coordinate coordinate, int cardId, boolean isFlipped) {
-        messageHandler.sendMessage(new PlaceCardClientToServerMessage(gameName, playerName, coordinate, cardId, isFlipped));
+        if (checkConnectionStatus()) {
+            messageHandler.sendMessage(new PlaceCardClientToServerMessage(gameName, playerName, coordinate, cardId, isFlipped));
+        }
     }
 
     /**
      * Sends a request to the server for the player to draw a card from the field.
      *
-     * @param card The card to be drawn.
+     * @param cardId The cardId to be drawn.
      */
-    public void drawCardFromField(GameCard card) {
-        messageHandler.sendMessage(new DrawCardFromFieldClientToServerMessage(gameName, playerName, card));
+    public void drawCardFromField(int cardId) {
+        if (checkConnectionStatus()) {
+            messageHandler.sendMessage(new DrawCardFromFieldClientToServerMessage(gameName, playerName, cardId));
+        }
     }
 
     /**
      * Sends a request to the server for the player to draw a card from the resource deck.
      */
     public void drawCardFromResourceDeck() {
-        messageHandler.sendMessage(new DrawCardFromResourceDeckClientToServerMessage(gameName, playerName));
+        if (checkConnectionStatus()) {
+            messageHandler.sendMessage(new DrawCardFromResourceDeckClientToServerMessage(gameName, playerName));
+        }
     }
 
     /**
      * Sends a request to the server for the player to draw a card from the gold deck.
      */
     public void drawCardFromGoldDeck() {
-        messageHandler.sendMessage(new DrawCardFromGoldDeckClientToServerMessage(gameName, playerName));
+        if (checkConnectionStatus()) {
+            messageHandler.sendMessage(new DrawCardFromGoldDeckClientToServerMessage(gameName, playerName));
+        }
     }
 
     /**
@@ -177,7 +208,9 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      * @param cardId The card to switch side.
      */
     public void switchCardSide(int cardId) {
-        messageHandler.sendMessage(new SwitchCardSideClientToServerMessage(gameName, playerName, cardId));
+        if (checkConnectionStatus()) {
+            messageHandler.sendMessage(new SwitchCardSideClientToServerMessage(gameName, playerName, cardId));
+        }
     }
 
     /**
@@ -186,7 +219,9 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      * @param cardId The objective card to be set.
      */
     public void setPlayerObjective(int cardId) {
-        messageHandler.sendMessage(new SetPlayerObjectiveClientToServerMessage(gameName, playerName, cardId));
+        if (checkConnectionStatus()) {
+            messageHandler.sendMessage(new SetPlayerObjectiveClientToServerMessage(gameName, playerName, cardId));
+        }
     }
 
     /**
@@ -195,14 +230,28 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      * @param message The chat message to be sent.
      */
     public void sendChatMessage(ChatClientToServerMessage message) {
-        messageHandler.sendMessage(message);
+        message.setSender(playerName);
+        message.setGameName(gameName);
+        if (checkConnectionStatus()) {
+            messageHandler.sendMessage(message);
+        }
     }
 
     /**
      * Sends a request to the server for the player to disconnect.
      */
     public void sendDisconnect() {
-        messageHandler.sendMessage(new DisconnectClientToServerMessage(gameName, playerName));
+        if (checkConnectionStatus()) {
+            messageHandler.sendMessage(new DisconnectClientToServerMessage(gameName, playerName));
+        }
+    }
+
+    private boolean checkConnectionStatus() {
+        if (messageHandler == null) {
+            logger.warn("MessageHandler was not set in the ClientNetworkControllerMapper class. You can ignore this message if in debug mode.");
+            return false;
+        }
+        return true;
     }
 
     /* ***************************************

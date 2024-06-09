@@ -9,25 +9,21 @@ public class MultiSystemCoordinate {
     public MultiSystemCoordinate() {
     }
 
-    public MultiSystemCoordinate setCoordinateInModelSystem(int x, int y) {
-        this.coordinateInModelSystem = new Coordinate(x, y);
-        this.coordinateInGUISystem = new Coordinate(coordinateInModelSystem.x + 50, coordinateInModelSystem.y + 50);
-        return this;
+    public static Coordinate convertGUItoModel(Coordinate coordinate) {
+        return new Coordinate(coordinate.x - 50, 50 - coordinate.y);
     }
 
-    public MultiSystemCoordinate setCoordinateInGUISystem(int x, int y) {
-        this.coordinateInGUISystem = new Coordinate(x, y);
-        this.coordinateInModelSystem = new Coordinate(coordinateInGUISystem.x - 50, coordinateInGUISystem.y - 50);
-        return this;
+    public static Coordinate convertModelToGUI(Coordinate coordinate) {
+        return new Coordinate(coordinate.x + 50, 50 - coordinate.y);
     }
 
     public Coordinate getCoordinateInModelSystem() {
         return coordinateInModelSystem;
     }
 
-    public MultiSystemCoordinate setCoordinateInModelSystem(Coordinate coordinateInModelSystem) {
-        this.coordinateInModelSystem = coordinateInModelSystem;
-        this.coordinateInGUISystem = new Coordinate(coordinateInModelSystem.x + 50, coordinateInModelSystem.y + 50);
+    public MultiSystemCoordinate setCoordinateInModelSystem(int x, int y) {
+        this.coordinateInModelSystem = new Coordinate(x, y);
+        this.coordinateInGUISystem = convertModelToGUI(new Coordinate(x, y));
         return this;
     }
 
@@ -35,9 +31,21 @@ public class MultiSystemCoordinate {
         return coordinateInGUISystem;
     }
 
+    public MultiSystemCoordinate setCoordinateInGUISystem(int x, int y) {
+        this.coordinateInGUISystem = new Coordinate(x, y);
+        this.coordinateInModelSystem = convertGUItoModel(new Coordinate(x, y));
+        return this;
+    }
+
+    public MultiSystemCoordinate setCoordinateInModelSystem(Coordinate coordinateInModelSystem) {
+        this.coordinateInModelSystem = coordinateInModelSystem;
+        this.coordinateInGUISystem = convertModelToGUI(coordinateInModelSystem);
+        return this;
+    }
+
     public MultiSystemCoordinate setCoordinateInGUISystem(Coordinate coordinateInGUISystem) {
         this.coordinateInGUISystem = coordinateInGUISystem;
-        this.coordinateInModelSystem = new Coordinate(coordinateInGUISystem.x - 50, coordinateInGUISystem.y - 50);
+        this.coordinateInModelSystem = convertGUItoModel(coordinateInGUISystem);
         return this;
     }
 

@@ -71,11 +71,11 @@ public class GameController implements PlayerActions {
      * Draws a card from the game field.
      *
      * @param playerName the name of the player who is drawing the card.
-     * @param card       the card to be drawn.
+     * @param cardId     the id of the card to be drawn.
      */
-    public void drawCardFromField(String playerName, GameCard card) {
-        game.getGlobalBoard().drawCardFromField(card);
-        game.getPlayer(playerName).getPlayerHand().addCard(card);
+    public void drawCardFromField(String playerName, int cardId) {
+        GameCard drawnCard = game.getGlobalBoard().drawCardFromField(cardId);
+        game.getPlayer(playerName).getPlayerHand().addCard(drawnCard);
     }
 
     /**

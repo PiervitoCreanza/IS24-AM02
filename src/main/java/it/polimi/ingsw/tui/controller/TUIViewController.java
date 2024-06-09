@@ -1,7 +1,6 @@
 package it.polimi.ingsw.tui.controller;
 
 import it.polimi.ingsw.controller.GameStatusEnum;
-import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
@@ -279,10 +278,10 @@ public class TUIViewController implements PropertyChangeListener, View {
      * Method to draw a card from the field.
      * It delegates the request to the network controller.
      *
-     * @param gameCard the card to be drawn.
+     * @param cardId of the card to be drawn.
      */
-    public void drawCardFromField(GameCard gameCard) {
-        networkController.drawCardFromField(gameCard);
+    public void drawCardFromField(int cardId) {
+        networkController.drawCardFromField(cardId);
     }
 
     /**

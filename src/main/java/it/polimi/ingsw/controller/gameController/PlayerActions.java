@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller.gameController;
 
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 
@@ -45,9 +44,9 @@ interface PlayerActions {
      * Draws a card from the game field.
      *
      * @param playerName the name of the player who is drawing the card.
-     * @param card       the card to be drawn.
+     * @param cardId     the id of the card to be drawn.
      */
-    void drawCardFromField(String playerName, GameCard card);
+    void drawCardFromField(String playerName, int cardId);
 
     /**
      * Draws a card from the resource deck.

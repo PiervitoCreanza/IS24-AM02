@@ -145,10 +145,10 @@ public class DrawCardScene implements Scene, PropertyChangeListener {
         switch (changedProperty) {
             case "d" -> {
                 switch (inputs.getFirst()) {
-                    case "1" -> controller.drawCardFromField(fieldResourceCards.getFirst());
-                    case "2" -> controller.drawCardFromField(fieldResourceCards.get(1));
-                    case "3" -> controller.drawCardFromField(fieldGoldCards.getFirst());
-                    case "4" -> controller.drawCardFromField(fieldGoldCards.get(1));
+                    case "1" -> controller.drawCardFromField(fieldResourceCards.getFirst().getCardId());
+                    case "2" -> controller.drawCardFromField(fieldResourceCards.get(1).getCardId());
+                    case "3" -> controller.drawCardFromField(fieldGoldCards.getFirst().getCardId());
+                    case "4" -> controller.drawCardFromField(fieldGoldCards.get(1).getCardId());
                     case "5" -> controller.drawCardFromResourceDeck();
                     case "6" -> controller.drawCardFromGoldDeck();
                 }

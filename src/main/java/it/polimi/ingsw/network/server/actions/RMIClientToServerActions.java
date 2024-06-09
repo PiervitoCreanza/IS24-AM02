@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.server.actions;
 
-import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
@@ -82,10 +81,10 @@ public interface RMIClientToServerActions extends Remote {
      *
      * @param gameName   the name of the game.
      * @param playerName the name of the player who is drawing the card.
-     * @param card       the card to be drawn.
+     * @param cardId     the id of the card to be drawn.
      * @throws RemoteException if the remote operation fails.
      */
-    void drawCardFromField(String gameName, String playerName, GameCard card) throws RemoteException;
+    void drawCardFromField(String gameName, String playerName, int cardId) throws RemoteException;
 
     /**
      * Draws a card from the resource deck.
