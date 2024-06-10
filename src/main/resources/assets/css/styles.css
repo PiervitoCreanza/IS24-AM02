@@ -190,7 +190,6 @@ TextField {
 
 .shadow {
     -fx-effect: dropshadow(three-pass-box, -brown-500, 0, 0, 3, 3);
-    -fx-padding: 2 12 2 12;
 }
 
 /* Old css */
