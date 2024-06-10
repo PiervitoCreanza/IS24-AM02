@@ -51,9 +51,9 @@ class GameControllerTest {
     @DisplayName("Should draw card from field and add to player's hand when drawCardFromField is called")
     void shouldDrawCardFromFieldWhenDrawCardFromFieldIsCalled() {
         GameCard card = Mockito.mock(GameCard.class);
-        utils.assertIllegalArgument("This card is not present on the field", () -> gameController.drawCardFromField("player1", card));
+        utils.assertIllegalArgument("This card is not present on the field", () -> gameController.drawCardFromField("player1", card.getCardId()));
         GameCard fieldResourceCard = game.getGlobalBoard().getFieldResourceCards().getFirst();
-        gameController.drawCardFromField("player1", fieldResourceCard);
+        gameController.drawCardFromField("player1", fieldResourceCard.getCardId());
         assertTrue(game.getPlayer("player1").getPlayerHand().getCards().contains(fieldResourceCard));
     }
 

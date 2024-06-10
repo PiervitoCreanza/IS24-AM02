@@ -8,7 +8,6 @@ import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -28,7 +27,7 @@ public class GameCard implements Serializable {
     /**
      * The side of the card that is currently facing up.
      */
-    private final SimpleBooleanProperty isFlipped = new SimpleBooleanProperty(false);
+    private final SerializableBooleanProperty isFlipped = new SerializableBooleanProperty(false);
 
     /**
      * The side of the card that is currently facing up.
