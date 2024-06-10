@@ -394,12 +394,10 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
             @Override
             public void run() {
                 // If after 30 seconds there is still only one player in the game we close the connections and delete the game.
-                synchronized (gameConnectionMapper.get(gameName)) {
-                    HashMap<String, ServerMessageHandler> gameConnections = gameConnectionMapper.get(gameName);
-                    if (gameConnections != null && gameConnections.size() == 1) {
-                        broadcastMessage(gameName, new DeleteGameServerToClientMessage());
-                        closeConnections(gameName);
-                    }
+                HashMap<String, ServerMessageHandler> gameConnections = gameConnectionMapper.get(gameName);
+                if (gameConnections != null && gameConnections.size() == 1) {
+                    broadcastMessage(gameName, new DeleteGameServerToClientMessage());
+                    closeConnections(gameName);
                 }
             }
         }, 30000); // Delay in milliseconds
