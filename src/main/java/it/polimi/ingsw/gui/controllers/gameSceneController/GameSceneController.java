@@ -18,7 +18,6 @@ import it.polimi.ingsw.network.virtualView.GlobalBoardView;
 import it.polimi.ingsw.network.virtualView.PlayerView;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -45,6 +44,8 @@ public class GameSceneController extends Controller implements PropertyChangeLis
 
     private static final Logger logger = LogManager.getLogger(GameSceneController.class);
     private final SimpleBooleanProperty isDrawingPhase = new SimpleBooleanProperty(false);
+    @FXML
+    private Button hideChatButton;
     private GameControllerView gameControllerView;
     @FXML
     private HBox drawArea;
@@ -271,10 +272,13 @@ public class GameSceneController extends Controller implements PropertyChangeLis
     }
 
     @FXML
-    private void showChat(ActionEvent actionEvent) {
-        ChatSideBar.setVisible(true);
-        ChatSideBarButton.setVisible(false);
-        ChatSideBarButton.setManaged(false);
+    private void toggleChat() {
+        boolean isVisible = ChatSideBar.isVisible();
+        ChatSideBar.setVisible(!isVisible);
+        ChatSideBarButton.setVisible(isVisible);
+        ChatSideBarButton.setManaged(isVisible);
+        hideChatButton.setVisible(!isVisible);
+        hideChatButton.setManaged(!isVisible);
     }
 
     /**
