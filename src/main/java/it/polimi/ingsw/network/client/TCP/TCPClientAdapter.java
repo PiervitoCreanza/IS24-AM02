@@ -2,10 +2,11 @@ package it.polimi.ingsw.network.client.TCP;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.data.BooleanPropertyDeserializer;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.data.ObjectiveCardAdapter;
+import it.polimi.ingsw.data.SerializableBooleanPropertyDeserializer;
 import it.polimi.ingsw.data.SideGameCardAdapter;
+import it.polimi.ingsw.model.card.gameCard.SerializableBooleanProperty;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.network.TCPConnectionHandler;
@@ -16,7 +17,6 @@ import it.polimi.ingsw.network.client.message.adapter.ServerToClientMessageAdapt
 import it.polimi.ingsw.network.server.message.ServerActionEnum;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.utils.PropertyChangeNotifier;
-import javafx.beans.property.SimpleBooleanProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -60,7 +60,7 @@ public class TCPClientAdapter implements ClientMessageHandler, PropertyChangeLis
      * This is a final variable, meaning it cannot be changed once it has been set.
      */
     private final Gson gson = new GsonBuilder()
-            .registerTypeAdapter(SimpleBooleanProperty.class, new BooleanPropertyDeserializer())
+            .registerTypeAdapter(SerializableBooleanProperty.class, new SerializableBooleanPropertyDeserializer())
             .registerTypeAdapter(ServerToClientMessage.class, new ServerToClientMessageAdapter()) // Registering a type adapter for ServerToClientMessage class
             .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter()) // Registering a type adapter for SideGameCard class
             .registerTypeAdapter(ObjectiveCard.class, new ObjectiveCardAdapter()) // Registering a type adapter for ObjectiveCard class

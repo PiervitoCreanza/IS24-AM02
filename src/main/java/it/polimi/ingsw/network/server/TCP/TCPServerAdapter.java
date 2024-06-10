@@ -2,10 +2,11 @@ package it.polimi.ingsw.network.server.TCP;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.data.BooleanPropertyDeserializer;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.data.ObjectiveCardAdapter;
+import it.polimi.ingsw.data.SerializableBooleanPropertyDeserializer;
 import it.polimi.ingsw.data.SideGameCardAdapter;
+import it.polimi.ingsw.model.card.gameCard.SerializableBooleanProperty;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.network.TCPConnectionHandler;
@@ -15,7 +16,6 @@ import it.polimi.ingsw.network.server.ServerMessageHandler;
 import it.polimi.ingsw.network.server.ServerNetworkControllerMapper;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.network.server.message.adapter.ClientToServerMessageAdapter;
-import javafx.beans.property.SimpleBooleanProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -70,7 +70,7 @@ public class TCPServerAdapter implements ServerMessageHandler, PropertyChangeLis
      */
     private final Gson gson = new GsonBuilder()
             .enableComplexMapKeySerialization()
-            .registerTypeAdapter(SimpleBooleanProperty.class, new BooleanPropertyDeserializer())
+            .registerTypeAdapter(SerializableBooleanProperty.class, new SerializableBooleanPropertyDeserializer())
             .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter())
             .registerTypeAdapter(ObjectiveCard.class, new ObjectiveCardAdapter())
             .registerTypeAdapter(ClientToServerMessage.class, new ClientToServerMessageAdapter())

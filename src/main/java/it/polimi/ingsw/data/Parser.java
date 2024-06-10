@@ -4,11 +4,11 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.card.gameCard.SerializableBooleanProperty;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ItemObjectiveCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.card.objectiveCard.PositionalObjectiveCard;
-import javafx.beans.property.SimpleBooleanProperty;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -47,7 +47,7 @@ public class Parser {
      */
     private final Gson gson = new GsonBuilder()
             .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter())
-            .registerTypeAdapter(SimpleBooleanProperty.class, new BooleanPropertyDeserializer())
+            .registerTypeAdapter(SerializableBooleanProperty.class, new SerializableBooleanPropertyDeserializer())
             .create();
 
     /**
@@ -139,7 +139,6 @@ public class Parser {
             is.close();
             reader.close();
         } catch (Exception e) {
-            System.out.println(e);
             throw new RuntimeException("Parsing failed");
         }
     }
