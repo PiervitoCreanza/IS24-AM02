@@ -260,16 +260,17 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
     }
 
     /**
-     * @param gameName   the name of the game.
-     * @param playerName the name of the player who is sending the chat message.
-     * @param message    the chat message to be sent.
-     * @param receiver   the receiver of the message. If this is null, the message is not a direct message.
-     * @param timestamp  the timestamp of the message.
+     * @param gameName        the name of the game.
+     * @param playerName      the name of the player who is sending the chat message.
+     * @param message         the chat message to be sent.
+     * @param receiver        the receiver of the message. If this is null, the message is not a direct message.
+     * @param timestamp       the timestamp of the message.
+     * @param isDirectMessage whether the message is a direct message or not.
      */
     @Override
-    public void sendChatMessage(String gameName, String playerName, String message, String receiver, long timestamp) {
+    public void sendChatMessage(String gameName, String playerName, String message, String receiver, long timestamp, boolean isDirectMessage) {
         // The message is converted to a ChatServerToClientMessage and sent to all clients excluding the sender.
-        ChatServerToClientMessage convertedMessage = new ChatServerToClientMessage(playerName, message, timestamp, !receiver.isEmpty());
+        ChatServerToClientMessage convertedMessage = new ChatServerToClientMessage(playerName, message, timestamp, isDirectMessage);
 
         if (convertedMessage.isDirectMessage()) {
             //It is sent only to the receiver and the sender.

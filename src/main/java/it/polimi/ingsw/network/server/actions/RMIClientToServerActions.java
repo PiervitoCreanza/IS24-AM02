@@ -128,14 +128,15 @@ public interface RMIClientToServerActions extends Remote {
      * Sends a chat message from the client to the server.
      * The server will convert it to a ChatServerToClientMessage and send it to all clients excluding the sender.
      *
-     * @param gameName   the name of the game.
-     * @param playerName the name of the player who is sending the chat message.
-     * @param message    the chat message to be sent.
-     * @param receiver   the receiver of the message. If this is null, the message is not a direct message.
-     * @param timestamp  the timestamp of the message.
+     * @param gameName        the name of the game.
+     * @param playerName      the name of the player who is sending the chat message.
+     * @param message         the chat message to be sent.
+     * @param receiver        the receiver of the message. If this is null, the message is not a direct message.
+     * @param timestamp       the timestamp of the message.
+     * @param isDirectMessage whether the message is a direct message.
      * @throws RemoteException if the remote operation fails.
      */
-    void chatMessageSender(String gameName, String playerName, String message, String receiver, long timestamp) throws RemoteException;
+    void chatMessageSender(String gameName, String playerName, String message, String receiver, long timestamp, boolean isDirectMessage) throws RemoteException;
 
     /**
      * Sends a heartbeat message to the server.

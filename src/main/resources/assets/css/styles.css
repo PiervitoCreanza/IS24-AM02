@@ -179,6 +179,7 @@ TextField {
     -fx-padding: 20;
 }
 
+
 .left-container {
     -fx-background-color: -white-200;
     -fx-border-color: -brown-500;
@@ -190,7 +191,6 @@ TextField {
 
 .shadow {
     -fx-effect: dropshadow(three-pass-box, -brown-500, 0, 0, 3, 3);
-    -fx-padding: 2 12 2 12;
 }
 
 /* Old css */
@@ -361,7 +361,7 @@ TextField {
 }
 
 .player-label {
-    -fx-font-family: "Cal Sans";
+    -fx-font-family: CalSans; /* Custom font */
     -fx-font-size: 18px;
     -fx-text-fill: -brown-500;
     -fx-cursor: hand;
@@ -370,6 +370,10 @@ TextField {
 .player-label:hover {
     -fx-text-fill: -white-300;
     -fx-background-color: -brown-500;
+}
+
+.selected-player {
+    -fx-font-weight: bold;
 }
 
 .score-label {

@@ -123,8 +123,8 @@ public class ChatScene implements Scene, PropertyChangeListener {
         @SuppressWarnings("unchecked")
         ArrayList<String> inputs = (ArrayList<String>) evt.getNewValue();
         switch (changedProperty) {
-            case "d" -> controller.sendMessage(inputs.get(1), inputs.get(0));
-            case "g" -> controller.sendMessage(inputs.getFirst(), "");
+            case "d" -> controller.sendMessage(inputs.get(1), inputs.get(0), true);
+            case "g" -> controller.sendMessage(inputs.getFirst(), "global", false);
             case "q" -> controller.closeChat();
             default -> logger.error("Invalid property change event");
         }

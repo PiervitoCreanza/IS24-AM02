@@ -5,6 +5,7 @@ import it.polimi.ingsw.gui.dataStorage.GameCardImageFactory;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -17,6 +18,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +37,12 @@ public class RightSidebarController {
     private final Label quillAmount;
     private final Label inkwellAmount;
     private final Label manuscriptAmount;
-    private final GameSceneController mainController;
+    private final SimpleStringProperty currentlyDisplayedPlayer;
+    private final Logger logger = LogManager.getLogger(RightSidebarController.class);
 
-    public RightSidebarController(Node root, GameSceneController mainController) {
+    public RightSidebarController(Node root, SimpleStringProperty currentlyDisplayedPlayer) {
         this.root = root;
-        this.mainController = mainController;
+        this.currentlyDisplayedPlayer = currentlyDisplayedPlayer;
         this.objectivesList = (ListView<ObjectiveCard>) root.lookup("#objectivesList");
         this.objectives = FXCollections.observableArrayList(new ArrayList<>());
         this.objectivesList.setItems(objectives);
@@ -51,6 +55,18 @@ public class RightSidebarController {
         this.quillAmount = (Label) root.lookup("#quillAmount");
         this.inkwellAmount = (Label) root.lookup("#inkwellAmount");
         this.manuscriptAmount = (Label) root.lookup("#manuscriptAmount");
+
+        currentlyDisplayedPlayer.addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                playersList.getChildren().forEach(playerLabel -> {
+                    if (playerLabel.getId().equals(newValue)) {
+                        playerLabel.getStyleClass().add("selected-player");
+                    } else {
+                        playerLabel.getStyleClass().remove("selected-player");
+                    }
+                });
+            }
+        });
 
         // Set the cell factory for the ListView
         objectivesList.setCellFactory(new Callback<>() {
@@ -91,7 +107,7 @@ public class RightSidebarController {
         Label clickedLabel = (Label) event.getSource();
         String playerName = clickedLabel.getText();
         // Logica per reindirizzare alla vista del giocatore
-        mainController.updateView(playerName);
+        currentlyDisplayedPlayer.set(playerName);
     }
 
     public void updateObjectiveCards(ObjectiveCard playerObjectiveCard, List<ObjectiveCard> globalObjectiveCards) {
@@ -99,15 +115,25 @@ public class RightSidebarController {
     }
 
     public void updateStats(List<String> players, List<Integer> points, GameItemStore gameItemStore) {
-        playersList.getChildren().clear();
-        playersPoints.getChildren().clear();
-        players.forEach(playerName -> {
-            Label playerLabel = new Label(playerName);
-            playerLabel.getStyleClass().add("player-label");
-            playerLabel.setOnMouseClicked(this::handlePlayerClick);
-            playersList.getChildren().addLast(playerLabel);
+        if (playersList.getChildren().size() != players.size()) {
+            playersList.getChildren().clear();
 
-            Label pointsLabel = new Label(String.valueOf(points.get(players.indexOf(playerName))));
+            players.forEach(playerName -> {
+                Label playerLabel = new Label(playerName);
+                playerLabel.getStyleClass().add("player-label");
+                playerLabel.setOnMouseClicked(this::handlePlayerClick);
+                playerLabel.setId(playerName);
+                playersList.getChildren().addLast(playerLabel);
+
+                Label pointsLabel = new Label(String.valueOf(points.get(players.indexOf(playerName))));
+                pointsLabel.getStyleClass().add("score-label");
+                playersPoints.getChildren().addLast(pointsLabel);
+            });
+        }
+        playersPoints.getChildren().clear();
+        points.forEach(point -> {
+
+            Label pointsLabel = new Label(String.valueOf(point));
             pointsLabel.getStyleClass().add("score-label");
             playersPoints.getChildren().addLast(pointsLabel);
         });

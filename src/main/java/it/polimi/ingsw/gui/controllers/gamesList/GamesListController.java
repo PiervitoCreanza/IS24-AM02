@@ -1,6 +1,8 @@
-package it.polimi.ingsw.gui.controllers;
+package it.polimi.ingsw.gui.controllers.gamesList;
 
 
+import it.polimi.ingsw.gui.controllers.Controller;
+import it.polimi.ingsw.gui.controllers.ControllersEnum;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -70,7 +72,7 @@ public class GamesListController extends Controller implements PropertyChangeLis
 
     @FXML
     public void initialize() {
-        gameListView.setCellFactory(param -> new GameCell());
+        gameListView.setCellFactory(param -> new GameListCell());
         gameListView.setOnMouseClicked(event -> {
             String gameName = gameListView.getSelectionModel().getSelectedItem();
             if (gameName != null)

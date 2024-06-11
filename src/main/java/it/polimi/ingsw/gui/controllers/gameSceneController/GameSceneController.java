@@ -18,7 +18,8 @@ import it.polimi.ingsw.network.virtualView.GlobalBoardView;
 import it.polimi.ingsw.network.virtualView.PlayerView;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.event.ActionEvent;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -27,6 +28,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
@@ -45,7 +47,11 @@ public class GameSceneController extends Controller implements PropertyChangeLis
 
     private static final Logger logger = LogManager.getLogger(GameSceneController.class);
     private final SimpleBooleanProperty isDrawingPhase = new SimpleBooleanProperty(false);
-    private GameControllerView gameControllerView;
+    @FXML
+    private StackPane rootPane;
+    @FXML
+    private Button hideChatButton;
+    private SimpleObjectProperty<GameControllerView> gameControllerView;
     @FXML
     private HBox drawArea;
     @FXML
@@ -64,7 +70,7 @@ public class GameSceneController extends Controller implements PropertyChangeLis
     private Parent ChatSideBar;
 
     @FXML
-    private Node pointsPanel;
+    private Node rightSidebar;
 
     private HandController handController;
     @FXML
@@ -74,7 +80,7 @@ public class GameSceneController extends Controller implements PropertyChangeLis
 
     private ObservedPlayerBoard observedPlayerBoard;
     private ObservableDrawArea observedDrawArea;
-    private String currentPlayerView;
+    private SimpleStringProperty currentlyDisplayedPlayer;
 
     @FXML
     public void initialize() {
@@ -89,12 +95,34 @@ public class GameSceneController extends Controller implements PropertyChangeLis
         scrollPane.getStyleClass().add("transparent");
         contentPane.getChildren().addFirst(scrollPane);
 
+        this.currentlyDisplayedPlayer = new SimpleStringProperty();
+        this.currentlyDisplayedPlayer.addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && gameControllerView.get() != null) {
+                updateView(newValue);
+            }
+        });
+
+        this.gameControllerView = new SimpleObjectProperty<>();
+        this.gameControllerView.addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && currentlyDisplayedPlayer.get() != null) {
+                updateView(currentlyDisplayedPlayer.get());
+            }
+        });
+
 
         this.observedPlayerBoard = new ObservedPlayerBoard(playerBoardGridPane);
         this.observedDrawArea = new ObservableDrawArea(drawArea, isDrawingPhase);
         this.handController = new HandController(handBoard, this);
-        this.rightSidebarController = new RightSidebarController(pointsPanel, this);
+        this.rightSidebarController = new RightSidebarController(rightSidebar, currentlyDisplayedPlayer);
         this.chatController = new ChatController(ChatSideBar, ChatSideBarButton, networkControllerMapper);
+
+        rootPane.onKeyPressedProperty().set(event -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                networkControllerMapper.sendDisconnect();
+                switchScene(ControllersEnum.MAIN_MENU);
+            }
+        });
+
         initializePlayerBoardGridPane();
         //loadDummyData();
     }
@@ -125,7 +153,7 @@ public class GameSceneController extends Controller implements PropertyChangeLis
         rightSidebarController.updateObjectiveCards(objectiveCards.getFirst(), new ArrayList<>(objectiveCards.subList(1, 3)));
 
         rightSidebarController.updateStats(new ArrayList<String>(Arrays.asList("Pier", "Marco", "Simo", "Mattia")), new ArrayList<Integer>(Arrays.asList(10, 20, 30, 40)), new GameItemStore());
-        chatController.updateUsers(new ArrayList<>(Arrays.asList("Pier", "Marco", "Simo", "Mattia")));
+        chatController.updateUsers(new ArrayList<>(Arrays.asList("Pier", "Marco", "Simo", "Mattia")), null);
 
     }
 
@@ -210,32 +238,38 @@ public class GameSceneController extends Controller implements PropertyChangeLis
     }
 
     public void updateView(String playerName) {
-        currentPlayerView = playerName;
-        this.playerName.setText(playerName);
-
         logger.debug("Playername: {}", playerName);
+        GameControllerView gameControllerView = this.gameControllerView.get();
+
         PlayerView playerView = gameControllerView.getPlayerViewByName(playerName);
         observedPlayerBoard.syncWithServerPlayerBoard(playerView.playerBoardView().playerBoard());
-        updatePrivateView(gameControllerView.gameStatus());
+        updatePrivateView(gameControllerView.gameStatus(), gameControllerView);
     }
 
-    private void updatePrivateView(GameStatusEnum gameStatus) {
+    private void updatePrivateView(GameStatusEnum gameStatus, GameControllerView gameControllerView) {
         if (gameStatus == GameStatusEnum.DRAW_CARD && gameControllerView.isMyTurn(getProperty("playerName"))) {
             isDrawingPhase.set(true);
         }
 
         switch (gameStatus) {
             case GAME_PAUSED -> this.playerPrompt.setText("The game is paused");
-            case DRAW_CARD -> this.playerPrompt.setText("Draw a card from the deck");
-            case PLACE_CARD -> this.playerPrompt.setText("Place a new card on the board");
+            case DRAW_CARD -> this.playerPrompt.setText("is drawing a card...");
+            case PLACE_CARD -> this.playerPrompt.setText("is placing a new card...");
+            case INIT_CHOOSE_OBJECTIVE_CARD -> this.playerPrompt.setText("is choosing the objective card...");
+            case INIT_PLACE_STARTER_CARD -> this.playerPrompt.setText("is choosing the starter card...");
+            case INIT_CHOOSE_PLAYER_COLOR -> this.playerPrompt.setText("is choosing the player color...");
         }
         String clientPlayerName = getProperty("playerName");
+        this.playerName.setText(gameControllerView.getCurrentPlayerView().playerName());
         PlayerView clientPlayerView = gameControllerView.getPlayerViewByName(clientPlayerName);
         handController.update(clientPlayerView.playerHandView().hand());
         observedDrawArea.loadData(gameControllerView.gameView().globalBoardView());
         rightSidebarController.updateObjectiveCards(clientPlayerView.objectiveCard(), gameControllerView.gameView().globalBoardView().globalObjectives());
         List<String> playerNames = gameControllerView.gameView().playerViews().stream().map(PlayerView::playerName).toList();
         rightSidebarController.updateStats(playerNames, gameControllerView.gameView().playerViews().stream().map(PlayerView::playerPos).toList(), clientPlayerView.playerBoardView().gameItemStore());
+        ArrayList<String> opponentPlayers = new ArrayList<>(playerNames);
+        opponentPlayers.remove(clientPlayerName);
+        chatController.updateUsers(opponentPlayers, clientPlayerName);
     }
 
     /**
@@ -257,8 +291,8 @@ public class GameSceneController extends Controller implements PropertyChangeLis
      */
     @Override
     public void beforeMount(PropertyChangeEvent evt) {
-        gameControllerView = (GameControllerView) evt.getNewValue();
-        updateView(getProperty("playerName"));
+        gameControllerView.set((GameControllerView) evt.getNewValue());
+        currentlyDisplayedPlayer.set(getProperty("playerName"));
     }
 
     /**
@@ -271,10 +305,13 @@ public class GameSceneController extends Controller implements PropertyChangeLis
     }
 
     @FXML
-    private void showChat(ActionEvent actionEvent) {
-        ChatSideBar.setVisible(true);
-        ChatSideBarButton.setVisible(false);
-        ChatSideBarButton.setManaged(false);
+    private void toggleChat() {
+        boolean isVisible = ChatSideBar.isVisible();
+        ChatSideBar.setVisible(!isVisible);
+        ChatSideBarButton.setVisible(isVisible);
+        ChatSideBarButton.setManaged(isVisible);
+        hideChatButton.setVisible(!isVisible);
+        hideChatButton.setManaged(!isVisible);
     }
 
     /**
@@ -292,19 +329,26 @@ public class GameSceneController extends Controller implements PropertyChangeLis
                 Platform.runLater(() -> updateView(getProperty("playerName")));
                 break;
             case "UPDATE_VIEW":
-                gameControllerView = (GameControllerView) evt.getNewValue();
+                GameControllerView gameControllerView = (GameControllerView) evt.getNewValue();
+                Platform.runLater(() -> this.gameControllerView.set(gameControllerView));
                 logger.debug("Received updated view");
                 String clientPlayerName = getProperty("playerName");
 
-                if (gameControllerView.isMyTurn(clientPlayerName) && !clientPlayerName.equals(currentPlayerView)) {
+                if (gameControllerView.isMyTurn(clientPlayerName) && !clientPlayerName.equals(currentlyDisplayedPlayer.get())) {
                     // If it is the player turn force the view on his playerBoard.
-                    currentPlayerView = clientPlayerName;
+                    Platform.runLater(() -> currentlyDisplayedPlayer.set(clientPlayerName));
                 }
-                Platform.runLater(() -> updateView(currentPlayerView));
+
 
                 break;
             case "CHAT_MESSAGE":
-                chatController.handleChatMessage((ServerToClientMessage) evt.getNewValue());
+                logger.debug("Received chat message");
+                ServerToClientMessage message = (ServerToClientMessage) evt.getNewValue();
+                Platform.runLater(() -> chatController.handleChatMessage(message));
+                // Open the chat if the message is a global message or if the message is to the player
+                if (!ChatSideBar.isVisible()) {
+                    toggleChat();
+                }
                 break;
         }
     }

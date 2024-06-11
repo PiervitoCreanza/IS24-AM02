@@ -117,4 +117,6 @@ module it.polimi.ingsw {
     opens it.polimi.ingsw.gui.controllers.gameSceneController to com.google.gson, java.rmi, javafx.fxml, javafx.graphics;
     exports it.polimi.ingsw.gui.dataStorage to com.google.gson, java.rmi, javafx.fxml, javafx.graphics;
     opens it.polimi.ingsw.gui.dataStorage to com.google.gson, java.rmi, javafx.fxml, javafx.graphics;
+    exports it.polimi.ingsw.gui.controllers.gamesList to com.google.gson, java.rmi, javafx.fxml, javafx.graphics;
+    opens it.polimi.ingsw.gui.controllers.gamesList to com.google.gson, java.rmi, javafx.fxml, javafx.graphics;
 }
