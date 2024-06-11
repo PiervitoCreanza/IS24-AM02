@@ -111,7 +111,13 @@ public class RightSidebarController {
     }
 
     public void updateObjectiveCards(ObjectiveCard playerObjectiveCard, List<ObjectiveCard> globalObjectiveCards) {
-        objectives.setAll(playerObjectiveCard, globalObjectiveCards.get(0), globalObjectiveCards.get(1));
+        List<ObjectiveCard> newObjectives = new ArrayList<>();
+        newObjectives.add(playerObjectiveCard);
+        newObjectives.addAll(globalObjectiveCards);
+
+        if (!objectives.equals(newObjectives)) {
+            objectives.setAll(newObjectives);
+        }
     }
 
     public void updateStats(List<String> players, List<Integer> points, GameItemStore gameItemStore) {
