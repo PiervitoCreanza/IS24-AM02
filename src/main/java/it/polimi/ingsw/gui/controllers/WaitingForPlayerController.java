@@ -29,6 +29,9 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
     @FXML
     private Text gameName;
 
+    @FXML
+    private Text waitingMessage;
+
     /**
      * Returns the name of the controller.
      *
@@ -82,31 +85,37 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
 
         setUpPlayerListView(updatedView);
 
-        if (gameStatus == GameStatusEnum.INIT_PLACE_STARTER_CARD) {
+        if (gameStatus == GameStatusEnum.INIT_PLACE_STARTER_CARD && updatedView.isMyTurn(getProperty("playerName"))) {
             logger.debug("Show place starter card scene");
             switchScene(ControllersEnum.INIT_PLACE_STARTER_CARD, evt);
+        }
+
+        if (gameStatus == GameStatusEnum.PLACE_CARD || gameStatus == GameStatusEnum.DRAW_CARD) {
+            logger.debug("Show place workers scene");
+            switchScene(ControllersEnum.GAME_SCENE, evt);
         }
 
     }
 
     private void setUpPlayerListView(GameControllerView updatedView) {
-        GameStatusEnum gameStatus = updatedView.gameStatus();
-
-        if (gameStatus == GameStatusEnum.WAIT_FOR_PLAYERS) {
-            String gameNameString = updatedView.gameView().gameName();
-            if (gameNameString.length() > 26) {
-                gameNameString = gameNameString.substring(0, 23) + "...";
-            }
-            logger.debug("Setting game name" + gameNameString);
-            gameName.setText(gameNameString);
-            logger.debug("Received player list");
-            ArrayList<String> playersList = updatedView.gameView().playerViews().stream().map(PlayerView::playerName).collect(Collectors.toCollection(ArrayList::new));
-            setProperty("playersList", playersList);
-            Platform.runLater(() -> {
-                playerListView.getItems().clear();
-                playerListView.getItems().addAll(playersList);
-            });
+        String gameNameString = updatedView.gameView().gameName();
+        if (gameNameString.length() > 26) {
+            gameNameString = gameNameString.substring(0, 23) + "...";
         }
+        logger.debug("Setting game name" + gameNameString);
+        gameName.setText(gameNameString);
+        logger.debug("Received player list");
+        ArrayList<String> playersList = updatedView.gameView().playerViews().stream().map(PlayerView::playerName).collect(Collectors.toCollection(ArrayList::new));
+        GameStatusEnum gameStatus = updatedView.gameStatus();
+        if (gameStatus == GameStatusEnum.WAIT_FOR_PLAYERS) {
+            waitingMessage.setText("Waiting for players to join...");
+        } else {
+            waitingMessage.setText("Waiting for players to complete their first turn...");
+        }
+        Platform.runLater(() -> {
+            playerListView.getItems().clear();
+            playerListView.getItems().addAll(playersList);
+        });
     }
 
     @FXML
@@ -117,6 +126,7 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
 
     @FXML
     public void back(ActionEvent actionEvent) {
+        Platform.runLater(() -> networkControllerMapper.sendDisconnect());
         switchScene(ControllersEnum.MAIN_MENU);
     }
 }

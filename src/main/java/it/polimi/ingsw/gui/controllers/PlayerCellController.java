@@ -1,4 +1,4 @@
-// GameCellController.java
+// GameListCellController.java
 package it.polimi.ingsw.gui.controllers;
 
 import javafx.fxml.FXML;

@@ -79,7 +79,7 @@
 
                             <TextArea fx:id="chatDisplay" editable="false" minHeight="350" maxHeight="450"
                                       styleClass="brutalist-textarea"/>
-                            <VBox spacing="10">
+                            <VBox spacing="10" pickOnBounds="false">
                                 <ComboBox fx:id="recepient" styleClass="brutalist-combobox" minWidth="Infinity"
                                           maxWidth="Infinity">
                                     <items>

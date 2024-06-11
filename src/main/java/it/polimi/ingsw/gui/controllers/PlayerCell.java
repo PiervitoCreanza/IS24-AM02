@@ -1,6 +1,7 @@
 // PlayerCell.java
 package it.polimi.ingsw.gui.controllers;
 
+import it.polimi.ingsw.gui.controllers.gamesList.GameListCell;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
@@ -11,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class PlayerCell extends ListCell<String> {
-    private final Logger logger = LogManager.getLogger(GameCell.class);
+    private final Logger logger = LogManager.getLogger(GameListCell.class);
     private HBox root;
     private PlayerCellController controller;
 

@@ -330,7 +330,13 @@ public class GameSceneController extends Controller implements PropertyChangeLis
 
                 break;
             case "CHAT_MESSAGE":
-                chatController.handleChatMessage((ServerToClientMessage) evt.getNewValue());
+                logger.debug("Received chat message");
+                ServerToClientMessage message = (ServerToClientMessage) evt.getNewValue();
+                Platform.runLater(() -> chatController.handleChatMessage(message));
+                // Open the chat if the message is a global message or if the message is to the player
+                if (!ChatSideBar.isVisible()) {
+                    toggleChat();
+                }
                 break;
         }
     }

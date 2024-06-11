@@ -1,10 +1,10 @@
-// GameCellController.java
-package it.polimi.ingsw.gui.controllers;
+// GameListCellController.java
+package it.polimi.ingsw.gui.controllers.gamesList;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class GameCellController {
+public class GameListCellController {
 
     @FXML
     private Label gameNameLabel;

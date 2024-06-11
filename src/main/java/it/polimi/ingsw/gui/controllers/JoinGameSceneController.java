@@ -109,7 +109,7 @@ public class JoinGameSceneController extends Controller implements PropertyChang
                 return;
             }
 
-            if (gameControllerView.gameStatus() == GameStatusEnum.PLACE_CARD || gameControllerView.gameStatus() == GameStatusEnum.DRAW_CARD || gameControllerView.gameStatus() == GameStatusEnum.WAIT_FOR_PLAYERS) {
+            if (gameControllerView.gameStatus() == GameStatusEnum.PLACE_CARD || gameControllerView.gameStatus() == GameStatusEnum.DRAW_CARD) {
                 Platform.runLater(() -> switchScene(ControllersEnum.GAME_SCENE, evt));
                 return;
             }

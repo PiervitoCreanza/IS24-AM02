@@ -324,11 +324,12 @@ public class TUIViewController implements PropertyChangeListener, View {
      * Method to send a chat message.
      * It delegates the request to the network controller.
      *
-     * @param message  the message to be sent.
-     * @param receiver the receiver of the message.
+     * @param message         the message to be sent.
+     * @param recipient       the recipient of the message.
+     * @param isDirectMessage true if the message is a direct message, false otherwise.
      */
-    public void sendMessage(String message, String receiver) {
-        networkController.sendChatMessage(new ChatClientToServerMessage(gameName, playerName, message, receiver));
+    public void sendMessage(String message, String recipient, boolean isDirectMessage) {
+        networkController.sendChatMessage(new ChatClientToServerMessage(gameName, playerName, message, recipient, isDirectMessage));
     }
 
     /**
