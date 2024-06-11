@@ -118,7 +118,7 @@
         <HBox alignment="CENTER_RIGHT" pickOnBounds="false">
 
             <VBox alignment="CENTER_RIGHT" maxWidth="320">
-                <fx:include source="PointsPanel.fxml" fx:id="pointsPanel"/>
+                <fx:include source="RightSidebar.fxml" fx:id="rightSidebar"/>
             </VBox>
             <VBox prefWidth="10"/>
         </HBox>
