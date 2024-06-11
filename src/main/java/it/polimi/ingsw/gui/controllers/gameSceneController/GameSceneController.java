@@ -28,6 +28,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
@@ -46,6 +47,8 @@ public class GameSceneController extends Controller implements PropertyChangeLis
 
     private static final Logger logger = LogManager.getLogger(GameSceneController.class);
     private final SimpleBooleanProperty isDrawingPhase = new SimpleBooleanProperty(false);
+    @FXML
+    private StackPane rootPane;
     @FXML
     private Button hideChatButton;
     private SimpleObjectProperty<GameControllerView> gameControllerView;
@@ -113,6 +116,12 @@ public class GameSceneController extends Controller implements PropertyChangeLis
         this.rightSidebarController = new RightSidebarController(rightSidebar, currentlyDisplayedPlayer);
         this.chatController = new ChatController(ChatSideBar, ChatSideBarButton, networkControllerMapper);
 
+        rootPane.onKeyPressedProperty().set(event -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                networkControllerMapper.sendDisconnect();
+                switchScene(ControllersEnum.MAIN_MENU);
+            }
+        });
 
         initializePlayerBoardGridPane();
         //loadDummyData();
@@ -246,6 +255,9 @@ public class GameSceneController extends Controller implements PropertyChangeLis
             case GAME_PAUSED -> this.playerPrompt.setText("The game is paused");
             case DRAW_CARD -> this.playerPrompt.setText("is drawing a card...");
             case PLACE_CARD -> this.playerPrompt.setText("is placing a new card...");
+            case INIT_CHOOSE_OBJECTIVE_CARD -> this.playerPrompt.setText("is choosing the objective card...");
+            case INIT_PLACE_STARTER_CARD -> this.playerPrompt.setText("is choosing the starter card...");
+            case INIT_CHOOSE_PLAYER_COLOR -> this.playerPrompt.setText("is choosing the player color...");
         }
         String clientPlayerName = getProperty("playerName");
         this.playerName.setText(gameControllerView.getCurrentPlayerView().playerName());
