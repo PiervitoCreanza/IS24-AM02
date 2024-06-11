@@ -5,6 +5,8 @@ import java.time.Instant;
 /**
  * This class represents a chat message that a client sends to the server.
  * It extends the ClientToServerMessage class and adds additional fields related to the chat functionality.
+ * The message can be a direct message to a specific player or a message to everyone.
+ * A message to everyone has the receiver field set to "".
  */
 public class ChatClientToServerMessage extends ClientToServerMessage {
     /**
@@ -22,22 +24,30 @@ public class ChatClientToServerMessage extends ClientToServerMessage {
      * The receiver of the message if it's a direct message.
      * This is a final variable, meaning it cannot be changed once it has been set.
      */
-    private final String receiver;
+    private final String recipient;
+
+    /**
+     * True if the message is a direct message, false otherwise.
+     * This is a final variable, meaning it cannot be changed once it has been set.
+     */
+    private boolean isDirectMessage = false;
 
     /**
      * Constructor for ChatClientToServerMessage.
      * Initializes the chat message with the specified values.
      *
-     * @param gameName The name of the game.
-     * @param sender   The sender of the message.
-     * @param message  The content of the message.
-     * @param receiver The receiver of the message. If this is null, the message is not a direct message.
+     * @param gameName        The name of the game.
+     * @param sender          The sender of the message.
+     * @param message         The content of the message.
+     * @param recipient       The receiver of the message.
+     * @param isDirectMessage True if the message is a direct message, false otherwise.
      */
-    public ChatClientToServerMessage(String gameName, String sender, String message, String receiver) {
+    public ChatClientToServerMessage(String gameName, String sender, String message, String recipient, boolean isDirectMessage) {
         super(PlayerActionEnum.SEND_CHAT_MSG, gameName, sender);
         this.message = message;
         this.timestamp = Instant.now().getEpochSecond(); // Set the timestamp when the message is created
-        this.receiver = receiver;
+        this.recipient = recipient;
+        this.isDirectMessage = isDirectMessage;
     }
 
     /**
@@ -83,8 +93,11 @@ public class ChatClientToServerMessage extends ClientToServerMessage {
      * @return The receiver of the chat message if it's a direct message, null otherwise.
      */
     @Override
-    public String getReceiver() {
-        return receiver;
+    public String getRecipient() {
+        return recipient;
     }
 
+    public boolean isDirectMessage() {
+        return isDirectMessage;
+    }
 }

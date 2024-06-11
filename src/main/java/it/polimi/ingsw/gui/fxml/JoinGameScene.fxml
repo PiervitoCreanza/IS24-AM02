@@ -11,7 +11,7 @@
            prefHeight="400.0" prefWidth="600.0"
            stylesheets="@/styles.css">
     <!-- Include the background -->
-    <fx:include source="Background_with_logo.fxml"/>
+    <fx:include source="Background_with_small_logo.fxml"/>
 
     <VBox alignment="CENTER" spacing="20" maxWidth="650" maxHeight="200" styleClass="container">
         <Text styleClass="title" text="Join a game"/>

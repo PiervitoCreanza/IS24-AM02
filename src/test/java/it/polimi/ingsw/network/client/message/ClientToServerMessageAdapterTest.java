@@ -177,7 +177,7 @@ public class ClientToServerMessageAdapterTest {
     @Test
     @DisplayName("Test if serialization and deserialization of ChatClientToServerMessage works")
     public void serializeAndDeserializeChatClientToServerMessage() {
-        ClientToServerMessage chatClientToServerMessage = new ChatClientToServerMessage("Game1", "Player1", "Hello", "Player2");
+        ClientToServerMessage chatClientToServerMessage = new ChatClientToServerMessage("Game1", "Player1", "Hello", "Player2", true);
         // Serialize
         String jsonChatClientToServerMessage = this.gson.toJson(chatClientToServerMessage);
         // Deserialize

@@ -172,7 +172,7 @@ public abstract class ClientToServerMessage {
      *
      * @return The receiver of the message, always null.
      */
-    public String getReceiver() {
+    public String getRecipient() {
         return null;
     }
 
@@ -184,5 +184,15 @@ public abstract class ClientToServerMessage {
      */
     public long getTimestamp() {
         return 0;
+    }
+
+    /**
+     * Returns a boolean indicating if the message is a direct message.
+     * This method is not implemented and always returns false.
+     *
+     * @return true if the message is a direct message, false otherwise.
+     */
+    public boolean isDirectMessage() {
+        return false;
     }
 }

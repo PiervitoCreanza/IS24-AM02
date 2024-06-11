@@ -91,7 +91,7 @@ public class RMIClientSender implements ClientMessageHandler, PropertyChangeNoti
                 case SWITCH_CARD_SIDE ->
                         serverStub.switchCardSide(message.getGameName(), message.getPlayerName(), message.getGameCardId());
                 case SEND_CHAT_MSG ->
-                        serverStub.chatMessageSender(message.getGameName(), message.getPlayerName(), message.getMessage(), message.getReceiver(), message.getTimestamp());
+                        serverStub.chatMessageSender(message.getGameName(), message.getPlayerName(), message.getMessage(), message.getRecipient(), message.getTimestamp(), message.isDirectMessage());
                 case DISCONNECT -> serverStub.disconnect(message.getGameName(), message.getPlayerName());
             }
         } catch (RemoteException e) {

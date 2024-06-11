@@ -1,5 +1,5 @@
-// GameCell.java
-package it.polimi.ingsw.gui.controllers;
+// GameListCell.java
+package it.polimi.ingsw.gui.controllers.gamesList;
 
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import javafx.fxml.FXMLLoader;
@@ -11,19 +11,19 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class GameCell extends ListCell<String> {
-    private final Logger logger = LogManager.getLogger(GameCell.class);
+public class GameListCell extends ListCell<String> {
+    private final Logger logger = LogManager.getLogger(GameListCell.class);
     private HBox root;
-    private GameCellController controller;
+    private GameListCellController controller;
 
-    public GameCell() {
+    public GameListCell() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/gameCell.fxml"));
             root = loader.load();
-            logger.debug("GameCell loaded");
+            logger.debug("GameListCell loaded");
             controller = loader.getController();
         } catch (IOException e) {
-            logger.error("Error loading GameCell", e);
+            logger.error("Error loading GameListCell", e);
         }
     }
 
@@ -32,7 +32,7 @@ public class GameCell extends ListCell<String> {
         super.updateItem(game, empty);
 
         if (empty || game == null) {
-            logger.debug("GameCell empty");
+            logger.debug("GameListCell empty");
             setGraphic(null);
         } else {
             controller.setGameName(game);

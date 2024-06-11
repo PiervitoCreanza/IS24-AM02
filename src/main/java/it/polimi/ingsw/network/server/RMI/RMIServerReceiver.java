@@ -220,16 +220,17 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
      * This method is used to send a chat message from the client to the server.
      * The server will convert it to a ChatServerToClientMessage and send it to all clients excluding the sender.
      *
-     * @param gameName   the name of the game
-     * @param playerName the name of the player who sent the chat message
-     * @param message    the chat message to be sent
-     * @param receiver   the receiver of the message if it's a direct message
-     * @param timestamp  the timestamp of the message
+     * @param gameName        the name of the game
+     * @param playerName      the name of the player who sent the chat message
+     * @param message         the chat message to be sent
+     * @param receiver        the receiver of the message if it's a direct message
+     * @param timestamp       the timestamp of the message
+     * @param isDirectMessage flag to indicate if the message is a direct message
      * @throws RemoteException if an error occurs during the remote method call
      */
     @Override
-    public void chatMessageSender(String gameName, String playerName, String message, String receiver, long timestamp) throws RemoteException {
-        this.executor.submit(() -> serverNetworkControllerMapper.sendChatMessage(gameName, playerName, message, receiver, timestamp));
+    public void chatMessageSender(String gameName, String playerName, String message, String receiver, long timestamp, boolean isDirectMessage) throws RemoteException {
+        this.executor.submit(() -> serverNetworkControllerMapper.sendChatMessage(gameName, playerName, message, receiver, timestamp, isDirectMessage));
         // Debug
         inGamePrintDebug(PlayerActionEnum.SEND_CHAT_MSG, gameName, playerName, "message: " + message + " receiver: " + receiver + " timestamp: " + timestamp);
     }
