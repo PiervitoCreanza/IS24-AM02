@@ -78,7 +78,9 @@ public class TCPConnection implements Connection, PropertyChangeListener {
                 networkControllerMapper.setMessageHandler(clientAdapter);
                 break;
             } catch (IOException e) {
-                logger.warn("TCP server unreachable, retrying in {} seconds. Attempt {} out of {}", (waitTime / 1000), attempts, maxAttempts);
+                String retry = "TCP server unreachable, retrying in " + (waitTime / 1000) + " seconds. Attempt " + attempts + " out of " + maxAttempts + "...";
+                logger.warn(retry);
+                this.listeners.firePropertyChange("CONNECTION_RETRY", null, retry);
             } catch (IllegalBlockingModeException e) {
                 logger.fatal("Socket already associated with a channel");
                 quit();

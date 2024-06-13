@@ -13,21 +13,32 @@ public class HomeSceneController extends Controller {
 
     private static final Logger logger = LogManager.getLogger(HomeSceneController.class);
 
+    private Thread connectionThread;
+
 
     @FXML
     public void initialize() {
+    }
+
+    private void connectToServer() {
+        // Avoid multiple connections
+        if (connectionThread == null) {
+            connectionThread = new Thread(() -> networkControllerMapper.connect());
+            connectionThread.start();
+        }
     }
 
     // TODO: Make it work
     @FXML
     public void handleKeyPressed(KeyEvent event) {
         logger.debug("Handle key pressed: {}", event.getText());
-        switchScene(ControllersEnum.MAIN_MENU);
+        connectToServer();
     }
 
+    @FXML
     public void handleMousePress() {
         logger.debug("Mouse click detected");
-        switchScene(ControllersEnum.MAIN_MENU);
+        connectToServer();
     }
 
     /**
@@ -41,18 +52,6 @@ public class HomeSceneController extends Controller {
     }
 
     /**
-     * This method is called before showing the scene.
-     * It should be overridden by the subclasses to perform any necessary operations before showing the scene.
-     * If the switchScene was caused by a property change, the event is passed as an argument.
-     *
-     * @param evt the property change event that caused the switch.
-     */
-    @Override
-    public void beforeMount(PropertyChangeEvent evt) {
-
-    }
-
-    /**
      * This method is called before switching to a new scene.
      * It should be overridden by the subclasses to perform any necessary operations before switching to a new scene.
      */
@@ -62,13 +61,14 @@ public class HomeSceneController extends Controller {
     }
 
     /**
-     * This method gets called when a bound property is changed.
+     * This method is called before showing the scene.
+     * It should be overridden by the subclasses to perform any necessary operations before showing the scene.
+     * If the switchScene was caused by a property change, the event is passed as an argument.
      *
-     * @param evt A PropertyChangeEvent object describing the event source
-     *            and the property that has changed.
+     * @param evt the property change event that caused the switch.
      */
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-
+    public void beforeMount(PropertyChangeEvent evt) {
+        networkControllerMapper.addPropertyChangeListener(this);
     }
 }

@@ -134,6 +134,7 @@ public class InitSetObjectiveCardSceneController extends Controller {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        super.propertyChange(evt);
         String propertyName = evt.getPropertyName();
         if (propertyName.equals("UPDATE_VIEW")) {
             //

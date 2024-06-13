@@ -58,6 +58,7 @@ public class GamesListController extends Controller implements PropertyChangeLis
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        super.propertyChange(evt);
         String changedProperty = evt.getPropertyName();
         if (!"GET_GAMES".equals(changedProperty)) return;
 

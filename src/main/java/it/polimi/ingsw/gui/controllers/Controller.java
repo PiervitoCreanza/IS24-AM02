@@ -1,11 +1,15 @@
 package it.polimi.ingsw.gui.controllers;
 
+import it.polimi.ingsw.gui.ErrorDialog;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -17,6 +21,7 @@ import java.io.IOException;
  */
 public abstract class Controller implements PropertyChangeListener {
 
+    private final Logger logger = LogManager.getLogger(Controller.class);
     /**
      * The current scene.
      */
@@ -26,6 +31,8 @@ public abstract class Controller implements PropertyChangeListener {
      * The current stage.
      */
     private static Stage stage;
+
+    private ErrorDialog alert;
 
     /**
      * The name of the previously shown scene.
@@ -150,6 +157,29 @@ public abstract class Controller implements PropertyChangeListener {
         Controller.stage = stage;
     }
 
+    protected void showErrorPopup(String message) {
+        closeAlert();
+        alert = new ErrorDialog(getStage(), Alert.AlertType.ERROR, "Error", message);
+        alert.showAndWait();
+    }
+
+    private void showConnectionErrorPopup(String message) {
+        logger.debug("Showing connection error popup");
+        if (alert == null || !alert.isShowing()) {
+            alert = new ErrorDialog(getStage(), Alert.AlertType.WARNING, "Connection error", message);
+            alert.getButtonTypes().clear();
+            alert.addButton("Quit", event -> System.exit(0));
+            alert.show();
+        }
+        alert.setContentText(message);
+    }
+
+    private void closeAlert() {
+        if (alert != null) {
+            alert.closeAlert();
+        }
+    }
+
     /**
      * Sets the scene currently shown.
      * This method is used to set the scene when the application starts.
@@ -202,5 +232,31 @@ public abstract class Controller implements PropertyChangeListener {
             // Display the next scene.
             scene.setRoot(nextLayout);
         });
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        logger.debug("Property change event received: {}", evt.getPropertyName());
+        switch (evt.getPropertyName()) {
+            case "ERROR" -> {
+                logger.debug("Error notification received: {}", evt.getNewValue());
+                Platform.runLater(() -> showErrorPopup((String) evt.getNewValue()));
+            }
+            case "CONNECTION_ESTABLISHED" -> {
+                logger.debug("Connection established notification received");
+                Platform.runLater(this::closeAlert);
+                if (getName() != ControllersEnum.MAIN_MENU) {
+                    switchScene(ControllersEnum.MAIN_MENU);
+                }
+            }
+            case "CONNECTION_RETRY" -> {
+                logger.debug("Connection retry notification received");
+                Platform.runLater(() -> showConnectionErrorPopup((String) evt.getNewValue()));
+            }
+            case "GAME_DELETED" -> {
+                logger.debug("Game deleted notification received");
+                Platform.runLater(() -> networkControllerMapper.closeConnection());
+            }
+        }
     }
 }

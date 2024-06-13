@@ -68,27 +68,15 @@ public class Client {
             logger.info("Starting TCP connection with server. IP: {} on port: {}", serverIp, serverPort);
             connection = new TCPConnection(networkControllerMapper, serverIp, serverPort);
         }
-
+        networkControllerMapper.setConnection(connection);
         if (cmd.hasOption(("tui"))) {
-            view = instanceTUI(networkControllerMapper, connection);
+            view = new TUIViewController(networkControllerMapper);
         } else {
-            view = instanceGUI(connection);
+            view = new GUIApp();
         }
         view.launchUI();
     }
 
-    private static TUIViewController instanceTUI(ClientNetworkControllerMapper networkControllerMapper, Connection connection) {
-        TUIViewController tuiController = new TUIViewController(networkControllerMapper, connection);
-        // Add the tuiController as a listener to the clientNetworkControllerMapper
-        networkControllerMapper.addPropertyChangeListener(tuiController);
-        return tuiController;
-    }
-
-    private static GUIApp instanceGUI(Connection connection) {
-        GUIApp guiApp = new GUIApp();
-        guiApp.instanceGUI(connection);
-        return guiApp;
-    }
 
     private static CommandLine parseCommandLineArgs(String[] args) {
         // create Options object

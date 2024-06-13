@@ -5,7 +5,6 @@ import it.polimi.ingsw.network.virtualView.GameControllerView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import org.apache.logging.log4j.LogManager;
@@ -68,13 +67,6 @@ public class JoinGameSceneController extends Controller implements PropertyChang
         switchScene(getPreviousLayoutName());
     }
 
-    private void showErrorPopup(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 
     /**
      * This method gets called when a bound property is changed.
@@ -84,12 +76,8 @@ public class JoinGameSceneController extends Controller implements PropertyChang
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
-        if (evt.getPropertyName().equals("ERROR")) {
-            Platform.runLater(() -> showErrorPopup((String) evt.getNewValue()));
-            switchScene(getPreviousLayoutName());
-        }
-
+        // TODO Check if error works
+        super.propertyChange(evt);
         if (evt.getPropertyName().equals("UPDATE_VIEW")) {
 
             boolean isMyTurn = Objects.equals(getProperty("playerName"), ((GameControllerView) evt.getNewValue()).getCurrentPlayerView().playerName());

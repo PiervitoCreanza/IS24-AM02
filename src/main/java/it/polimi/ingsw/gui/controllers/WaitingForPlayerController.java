@@ -77,6 +77,7 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        super.propertyChange(evt);
         String changedProperty = evt.getPropertyName();
         if (!"UPDATE_VIEW".equals(changedProperty)) return;
         // Setup variables
