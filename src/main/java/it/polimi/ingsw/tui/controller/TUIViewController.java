@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
-import it.polimi.ingsw.network.client.connection.Connection;
 import it.polimi.ingsw.network.client.message.ChatClientToServerMessage;
 import it.polimi.ingsw.network.server.message.ChatServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
@@ -34,8 +33,6 @@ public class TUIViewController implements PropertyChangeListener, View {
      * Instance of ClientNetworkControllerMapper to manage network requests.
      */
     private final ClientNetworkControllerMapper networkController;
-
-    private final Connection connection;
 
     /**
      * The logger.
@@ -104,17 +101,16 @@ public class TUIViewController implements PropertyChangeListener, View {
      *
      * @param networkController the network controller.
      */
-    public TUIViewController(ClientNetworkControllerMapper networkController, Connection connection) {
+    public TUIViewController(ClientNetworkControllerMapper networkController) {
         this.networkController = networkController;
         this.sceneBuilder = new SceneBuilder(this);
-        this.connection = connection;
-        connection.addPropertyChangeListener(this);
+        networkController.addPropertyChangeListener(this);
     }
 
     @Override
     public void launchUI() {
         new CLIReader(this).start();
-        connection.connect();
+        networkController.connect();
     }
 
     /**
@@ -451,7 +447,11 @@ public class TUIViewController implements PropertyChangeListener, View {
                     isGameOver = false;
                 this.currentScene = sceneBuilder.instanceMainMenuScene();
                 break;
-
+            case "CONNECTION_RETRY":
+                Utils.clearScreen();
+                new DrawArea((String) evt.getNewValue(), ColorsEnum.RED).println();
+                dontDisplay = true;
+                break;
             case "GET_GAMES":
                 gamesList = (ArrayList<GameRecord>) evt.getNewValue();
                 this.currentScene = sceneBuilder.instanceGetGamesScene(gamesList);

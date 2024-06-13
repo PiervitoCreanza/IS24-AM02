@@ -56,26 +56,6 @@ public class MainMenuSceneController extends Controller implements PropertyChang
         alert.showAndWait();
     }
 
-    /**
-     * This method gets called when a bound property is changed.
-     *
-     * @param evt A PropertyChangeEvent object describing the event source
-     *            and the property that has changed.
-     */
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        String changedProperty = evt.getPropertyName();
-        switch (changedProperty) {
-            case "CONNECTION_ESTABLISHED":
-                logger.debug("Connection established");
-                break;
-            case "CONNECTION_CLOSED":
-                displayDialog("Connection closed", "The connection to the server has been closed.");
-                logger.debug("Connection closed");
-                break;
-        }
-    }
-
     @Override
     public ControllersEnum getName() {
         return NAME;

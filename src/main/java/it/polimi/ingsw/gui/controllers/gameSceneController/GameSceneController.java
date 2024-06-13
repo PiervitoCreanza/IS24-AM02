@@ -322,6 +322,8 @@ public class GameSceneController extends Controller implements PropertyChangeLis
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        // TODO Check if error works
+        super.propertyChange(evt);
         String propertyName = evt.getPropertyName();
         switch (propertyName) {
             case "ERROR":

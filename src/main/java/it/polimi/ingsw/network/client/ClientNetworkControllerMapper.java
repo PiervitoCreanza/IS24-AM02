@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.client;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.actions.ServerToClientActions;
+import it.polimi.ingsw.network.client.connection.Connection;
 import it.polimi.ingsw.network.client.message.ChatClientToServerMessage;
 import it.polimi.ingsw.network.client.message.DisconnectClientToServerMessage;
 import it.polimi.ingsw.network.client.message.gameController.*;
@@ -17,6 +18,7 @@ import it.polimi.ingsw.utils.PropertyChangeNotifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ import java.util.ArrayList;
  * It is responsible for mapping the actions that the client can perform on the server.
  * This class is part of the network client package.
  */
-public class ClientNetworkControllerMapper implements ServerToClientActions, PropertyChangeNotifier {
+public class ClientNetworkControllerMapper implements ServerToClientActions, PropertyChangeNotifier, PropertyChangeListener {
 
     private static final Logger logger = LogManager.getLogger(ClientNetworkControllerMapper.class);
 
@@ -37,6 +39,8 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      * It is used to send messages from the client to the server.
      */
     private ClientMessageHandler messageHandler;
+
+    private Connection connection;
 
     /**
      * The view of the game controller.
@@ -53,6 +57,9 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
 
     private String playerName;
 
+    public void receive() {
+    }
+
     /**
      * Default constructor for the ClientNetworkControllerMapper class.
      * This constructor does not initialize any fields.
@@ -66,6 +73,11 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
             instance = new ClientNetworkControllerMapper();
         }
         return instance;
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+        connection.addPropertyChangeListener(this);
     }
 
     /**
@@ -86,6 +98,10 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      */
     public GameControllerView getView() {
         return view;
+    }
+
+    public void connect() {
+        connection.connect();
     }
 
     /**
@@ -344,5 +360,26 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
     @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         this.listeners.removePropertyChangeListener(listener);
+    }
+
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String changedProperty = evt.getPropertyName();
+        switch (changedProperty) {
+            case "CONNECTION_ESTABLISHED":
+                this.listeners.firePropertyChange("CONNECTION_ESTABLISHED", null, null);
+                break;
+            case "CONNECTION_RETRY":
+                this.listeners.firePropertyChange("CONNECTION_RETRY", null, evt.getNewValue());
+                break;
+            default:
+                logger.warn("Unknown property change event: {}", changedProperty);
+        }
     }
 }

@@ -1,9 +1,7 @@
 package it.polimi.ingsw.gui.controllers;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -91,13 +89,6 @@ public class CreateGameSceneController extends Controller implements PropertyCha
         switchScene(getPreviousLayoutName());
     }
 
-    private void showErrorPopup(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 
     /**
      * This method gets called when a bound property is changed.
@@ -107,9 +98,7 @@ public class CreateGameSceneController extends Controller implements PropertyCha
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("ERROR")) {
-            Platform.runLater(() -> showErrorPopup((String) evt.getNewValue()));
-        }
+        super.propertyChange(evt);
         if (evt.getPropertyName().equals("UPDATE_VIEW")) {
             switchScene(ControllersEnum.WAITING_FOR_PLAYER, evt);
         }
