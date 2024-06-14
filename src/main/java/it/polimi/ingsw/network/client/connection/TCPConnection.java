@@ -3,11 +3,7 @@ package it.polimi.ingsw.network.client.connection;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import it.polimi.ingsw.network.client.TCP.TCPClientAdapter;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -18,41 +14,11 @@ import java.nio.channels.IllegalBlockingModeException;
  * It also implements the PropertyChangeListener and PropertyChangeNotifier interfaces to provide property change support.
  * It is responsible for establishing a connection between the client and the server.
  */
-public class TCPConnection implements Connection, PropertyChangeListener {
+public class TCPConnection extends Connection {
 
-    /**
-     * The logger.
-     */
-    private static final Logger logger = LogManager.getLogger(TCPConnection.class);
-    /**
-     * The network controller mapper.
-     */
-    private final ClientNetworkControllerMapper networkControllerMapper;
-    /**
-     * The server IP.
-     */
-    private final String serverIp;
-    /**
-     * Listeners that will be notified when a message is received.
-     */
-    private final PropertyChangeSupport listeners;
-    /**
-     * The server port.
-     */
-    private final int serverPort;
-
-    /**
-     * Creates a new TCPConnection.
-     *
-     * @param networkControllerMapper The network controller mapper
-     * @param serverIp                The server IP
-     * @param serverPort              The server port
-     */
     public TCPConnection(ClientNetworkControllerMapper networkControllerMapper, String serverIp, int serverPort) {
-        this.networkControllerMapper = networkControllerMapper;
-        this.serverIp = serverIp;
-        this.serverPort = serverPort;
-        this.listeners = new PropertyChangeSupport(this);
+        super(networkControllerMapper, serverIp, serverPort);
+        logger = LogManager.getLogger(TCPConnection.class);
     }
 
     /**
@@ -64,9 +30,6 @@ public class TCPConnection implements Connection, PropertyChangeListener {
      */
     @Override
     public void connect() {
-        int attempts = 1;
-        int maxAttempts = 5;
-        long waitTime = 5000;
         while (attempts <= maxAttempts) {
             try {
                 Socket serverSocket = new Socket();
@@ -98,51 +61,5 @@ public class TCPConnection implements Connection, PropertyChangeListener {
         }
         logger.info("TCP connection established");
         this.listeners.firePropertyChange("CONNECTION_ESTABLISHED", null, null);
-    }
-
-    /**
-     * Closes the program when it's impossible to establish a connection.
-     */
-    @Override
-    public void quit() {
-        System.exit(-1);
-    }
-
-    /**
-     * This method is called when a property change event is fired.
-     * It is responsible for handling the property change event.
-     *
-     * @param evt The property change event that was fired
-     */
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        String changedProperty = evt.getPropertyName();
-        if (changedProperty.equals("CONNECTION_CLOSED")) {
-            connect();
-        } else {
-            logger.warn("Unknown property change event: {}", changedProperty);
-        }
-    }
-
-    /**
-     * Adds a PropertyChangeListener to the listeners list.
-     * The listener will be notified of property changes.
-     *
-     * @param listener The PropertyChangeListener to be added.
-     */
-    @Override
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        this.listeners.addPropertyChangeListener(listener);
-    }
-
-    /**
-     * Removes a PropertyChangeListener from the listeners list.
-     * The listener will no longer be notified of property changes.
-     *
-     * @param listener The PropertyChangeListener to be removed.
-     */
-    @Override
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        this.listeners.removePropertyChangeListener(listener);
     }
 }
