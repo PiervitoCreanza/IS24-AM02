@@ -4,6 +4,7 @@ import com.google.gson.*;
 import it.polimi.ingsw.model.card.gameCard.SerializableBooleanProperty;
 
 import java.lang.reflect.Type;
+// TODO DELETE
 
 /**
  * This class implements JsonDeserializer and JsonSerializer interfaces for SerializableBooleanProperty.
