@@ -9,7 +9,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class PlayerCell extends ListCell<String> {
     private final Logger logger = LogManager.getLogger(GameListCell.class);
@@ -20,7 +19,6 @@ public class PlayerCell extends ListCell<String> {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/playerCell.fxml"));
             root = loader.load();
-            logger.debug("PlayerCell loaded");
             controller = loader.getController();
         } catch (IOException e) {
             logger.error("Error loading PlayerCell", e);
@@ -31,16 +29,11 @@ public class PlayerCell extends ListCell<String> {
     protected void updateItem(String player, boolean empty) {
         super.updateItem(player, empty);
 
-        if (empty || player == null) {
-            setGraphic(null);
-        } else {
+        if (!empty & player != null) {
             if (player.length() > 45) {
                 player = player.substring(0, 42) + "...";
             }
             controller.setPlayerName(player);
-            // You can set the player count here if you have that data
-            ArrayList<String> playerList = (ArrayList<String>) getScene().getProperties().get("playerList");
-            logger.debug("PlayerList: " + playerList);
             setGraphic(root);
         }
     }

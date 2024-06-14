@@ -52,7 +52,6 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
         if (!"UPDATE_VIEW".equals(changedProperty)) return;
 
         GameControllerView updatedView = (GameControllerView) evt.getNewValue();
-        GameStatusEnum gameStatus = updatedView.gameStatus();
         setUpPlayerListView(updatedView);
 
         logger.debug("WaitingForPlayerController beforeMount");
@@ -122,7 +121,6 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
     @FXML
     public void initialize() {
         playerListView.setCellFactory(param -> new PlayerCell());
-
     }
 
     @FXML
