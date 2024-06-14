@@ -181,4 +181,8 @@ public class SceneBuilder {
     public Scene instanceWinnerScene(GameControllerView updatedView) {
         return new WinnerScene(this.controller, updatedView.gameView().winners(), updatedView.gameView().playerViews(), 2);
     }
+
+    public Scene instanceConnectionErrorScene(String message) {
+        return new ConnectionErrorScene(this.controller, message);
+    }
 }

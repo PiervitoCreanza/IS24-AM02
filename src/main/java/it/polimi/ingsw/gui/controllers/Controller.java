@@ -200,6 +200,7 @@ public abstract class Controller implements PropertyChangeListener {
                 alert = new ErrorDialog(getStage(), Alert.AlertType.WARNING, "Connection error", message, false);
                 alert.getButtonTypes().clear();
                 alert.addButton("Quit", event -> System.exit(0));
+                alert.addButton("Retry", event -> networkControllerMapper.connect());
                 alert.show();
             }
             alert.setContentText(message);
@@ -303,13 +304,13 @@ public abstract class Controller implements PropertyChangeListener {
             case "CONNECTION_ESTABLISHED" -> {
                 logger.debug("Connection established notification received");
                 closeAlert();
-                showInfoBox("green", "Connected", "You are now connected to the server.");
+                showInfoBox("green", "Connected", (String) evt.getNewValue());
                 if (getName() != ControllersEnum.MAIN_MENU) {
                     switchScene(ControllersEnum.MAIN_MENU);
                 }
             }
-            case "CONNECTION_RETRY" -> {
-                logger.debug("Connection retry notification received");
+            case "CONNECTION_FAILED" -> {
+                logger.debug("Connection failed notification received");
                 showConnectionErrorPopup((String) evt.getNewValue());
             }
             case "GAME_DELETED" -> {

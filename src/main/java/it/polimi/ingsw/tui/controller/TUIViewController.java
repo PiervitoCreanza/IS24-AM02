@@ -110,6 +110,10 @@ public class TUIViewController implements PropertyChangeListener, View {
     @Override
     public void launchUI() {
         new CLIReader(this).start();
+        connect();
+    }
+
+    public void connect() {
         networkController.connect();
     }
 
@@ -447,10 +451,9 @@ public class TUIViewController implements PropertyChangeListener, View {
                     isGameOver = false;
                 this.currentScene = sceneBuilder.instanceMainMenuScene();
                 break;
-            case "CONNECTION_RETRY":
-                Utils.clearScreen();
-                new DrawArea((String) evt.getNewValue(), ColorsEnum.RED).println();
-                dontDisplay = true;
+
+            case "CONNECTION_FAILED":
+                this.currentScene = sceneBuilder.instanceConnectionErrorScene((String) evt.getNewValue());
                 break;
             case "GET_GAMES":
                 gamesList = (ArrayList<GameRecord>) evt.getNewValue();
