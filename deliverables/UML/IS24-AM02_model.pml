@@ -1,31 +1,81 @@
 @startuml IS24-AM02
 
 package "Controller"{
-    class MainController {
-        -ArrayList<GameController> gameControllers
-        +getGames()
-        +createGame(String gameName, int nPlayers, String playerName)
-        +deleteGame(String gameName)
-        +joinGame(String gameName, String playerName)
-    }
+     class MainController {
+            - ArrayList<GameControllerMiddleware> gameControllerMiddlewares
+            + MainController()
+            + ArrayList<Game> getGames()
+            + Game createGame(String gameName, int nPlayers, String playerName)
+            + void deleteGame(String gameName)
+            + Game joinGame(String gameName, String playerName)
+            + Optional<GameControllerMiddleware> findGame(String gameName)
+        }
     MainController "1..N" *-- "1" GameController
 
     class GameController {
         -Game game
-        +placeCard(String playerName, GameCard card)
+        +Game getGame()
+        +void joinGame(String playerName)
+        +void choosePlayerColor(String playerName, PlayerColorEnum playerColor)
+        +void placeCard(String playerName, Coordinate coordinate, GameCard card)
         +drawCardFromField(String playerName, GameCard card)
         +drawCardFromResourceDeck(String playerName)
         +drawCardFromGoldDeck(String playerName)
         +switchCardSide(String playerName, GameCard card)
         +setPlayerObjective(String playerName, GameCard card)
         +getGame()
+        +choosePlayerColor(PlayerColorEnum)
     }
 
+        interface PlayerActions {
+            + Game getGame()
+            + void joinGame(String playerName)
+            + void choosePlayerColor(String playerName, PlayerColorEnum playerColor)
+            + void placeCard(String playerName, Coordinate coordinate, GameCard card)
+            + void drawCardFromField(String playerName, GameCard card)
+            + void drawCardFromResourceDeck(String playerName)
+            + void drawCardFromGoldDeck(String playerName)
+            + void switchCardSide(String playerName, GameCard card)
+            + void setPlayerObjective(String playerName, ObjectiveCard card)
+        }
 
-     note top of MainController
-        I tipi di ritorno del controller
-        sono ancora Work In Progress
-        end note
+
+    class GameControllerMiddleware {
+        - GameController gameController
+        - Game game
+        - GameStatusEnum gameStatus
+        - boolean isLastRound = false
+        - int remainingRoundsToEndGame = 1
+
+        + GameControllerMiddleware(String gameName, int nPlayers, String playerName)
+        + GameControllerMiddleware(GameController gameController, Game game)
+        + void setGameStatus(GameStatusEnum gameStatus)
+        + GameStatusEnum getGameStatus()
+        + void joinGame(String playerName)
+        + void placeCard(String playerName, Coordinate coordinate, GameCard card)
+        + void drawCardFromField(String playerName, GameCard card)
+        + void drawCardFromResourceDeck(String playerName)
+        + void drawCardFromGoldDeck(String playerName)
+        + void switchCardSide(String playerName, GameCard card)
+        + void setPlayerObjective(String playerName, ObjectiveCard card)
+        + Game getGame()
+    }
+
+    GameControllerMiddleware *-- "1" GameController
+    GameControllerMiddleware ..|> PlayerActions
+    GameController ..|> PlayerActions
+
+
+    enum GameStatusEnum {
+            WAIT_FOR_PLAYERS
+            INIT_PLACE_STARTER_CARD
+            INIT_DRAW_CARD
+            INIT_CHOOSE_PLAYER_COLOR
+            INIT_CHOOSE_OBJECTIVE_CARD
+            PLACE_CARD
+            DRAW_CARD
+            GAME_OVER
+        }
 
     note bottom of GameController
         Gestione delle azioni del giocatore
@@ -42,23 +92,27 @@ package "Model"{
 
     class Game {
         -String gameName
-        -int nPlayers
+        -int maxAllowedPlayers
         -ArrayList<Player> players
         -ArrayList<Player> winners
         -GlobalBoard globalBoard
         -Player currentPlayer
+        +Game(String gameName, int maxAllowedPlayers, String playerName)
+        +Game(String gameName, int maxAllowedPlayers, String playerName, GlobalBoard globalBoard)
+        +Player instanceNewPlayer(String playerName)
         +String getGameName()
         +ArrayList<Player> getPlayers()
         +Player getPlayer(String playerName)
         +GlobalBoard getGlobalBoard()
         +void addPlayer(String playerName)
         +Player getCurrentPlayer()
+        +int getCurrentPlayerIndex()
+        +boolean isLastPlayer()
         +void setNextPlayer()
         +boolean isStarted()
-        +boolean isOver()
+        +boolean isLastRound()
         +void calculateWinners()
         +ArrayList<Player> getWinners()
-
     }
 
     note left of Game
@@ -101,21 +155,23 @@ package "Model"{
         -String playerName
         -int playerPos
         -PlayerBoard playerBoard
+        -ArrayList<ObjectiveCard> choosableObjectives
         -ObjectiveCard objectiveCard
-        -ObjectiveCard[] choosableObjectives
-        -PlayerHand hand
+        -PlayerHand playerHand
         -boolean isConnected
+        -PlayerColorEnum playerColor
         +String getPlayerName()
+        +Integer getPlayerPos()
         +PlayerBoard getPlayerBoard()
-        +int getPlayerPos()
         +PlayerHand getPlayerHand()
         +ObjectiveCard getObjectiveCard()
-        +ObjectiveCard[] getChoosableObjectives()
-        +void setObjectiveCard(ObjectiveCard)
-        +void advancePlayerPos(int steps)
-        +boolean setConnected(boolean status)
-        +boolean isConnected()
-        'Numero di passi di cui avanzare
+        +void setPlayerObjective(ObjectiveCard objectiveCard)
+        +boolean isConnected
+        +ArrayList<ObjectiveCard> getChoosableObjectives()
+        +void setConnected(boolean connected)
+        +boolean advancePlayerPos(Integer steps)
+        +void setPlayerColor(PlayerColorEnum playerColor)
+        +PlayerColorEnum getPlayerColor()
     }
 
     Player "1" *-- "1" PlayerBoard
@@ -175,9 +231,11 @@ package "Model"{
 
 
     class GameCard {
+        -int gameCardId
         -Side currentSide
         -Side otherSide
         -CardColorEnum cardColor
+        +int getGameCardId()
         +Side getCurrentSide()
         +void switchSide()
         +CardColorEnum getCardColor()
@@ -212,13 +270,13 @@ package "Model"{
           -GameItemEnum gameItem
           +GameItemEnum getGameItem()
           +GameItemEnum setCovered()
+          +boolean isCovered()
       }
 
 
 
       note bottom of Corner
-        Nel caso in cui un Corner sia vuoto, allora risulterà avere GameItemEnum = NONE
-        Se invece il Corner non esiste, il getter restituirà Optional.empty()
+        Documentazione: [[https://bit.ly/3TCavdQ]]
       end note
 
     'FrontSide Section
@@ -318,6 +376,18 @@ package "Model"{
         PURPLE
         NONE
     }
+
+    enum PlayerColorEnum {
+        RED
+        BLUE
+        GREEN
+        PURPLE
+    }
+
+    note top of PlayerColorEnum
+        Per il nero basta vedere il primo player
+        nel Game.ArrayList<Player>
+    end note
 }
 
 @enduml
