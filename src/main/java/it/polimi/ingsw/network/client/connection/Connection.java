@@ -7,6 +7,8 @@ import org.apache.logging.log4j.Logger;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * The Connection interface represents a network connection in the application.
@@ -28,6 +30,8 @@ public abstract class Connection implements PropertyChangeNotifier, PropertyChan
 
     protected PropertyChangeSupport listeners;
 
+    private ExecutorService executor;
+
     protected Logger logger;
 
     public Connection(ClientNetworkControllerMapper networkControllerMapper, String serverIp, int serverPort) {
@@ -40,7 +44,13 @@ public abstract class Connection implements PropertyChangeNotifier, PropertyChan
     /**
      * Establishes a connection.
      */
-    public abstract void connect();
+    protected abstract void connectionSetUp();
+
+    public void connect() {
+        if (executor == null)
+            executor = Executors.newSingleThreadExecutor();
+        executor.submit(this::connectionSetUp);
+    }
 
     /**
      * Closes the program when it's impossible to establish a connection.

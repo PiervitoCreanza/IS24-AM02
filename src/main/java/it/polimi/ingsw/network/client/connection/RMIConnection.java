@@ -57,7 +57,7 @@ public class RMIConnection extends Connection implements PropertyChangeListener 
      * It locates the stub of the server and creates a new client stub that will be sent later to the server.
      */
     @Override
-    public void connect() {
+    protected void connectionSetUp() {
         System.setProperty("java.rmi.server.hostname", clientIp);
         while (attempts <= maxAttempts) {
             try {
@@ -69,6 +69,7 @@ public class RMIConnection extends Connection implements PropertyChangeListener 
                 RMIClientToServerActions serverStub = (RMIClientToServerActions) registry.lookup("ClientToServerActions");
                 // Check if the connection works
                 serverStub.heartbeat();
+
                 RMIClientSender rmiClientSender = new RMIClientSender(serverStub, clientStub);
                 // Add the listener to the sender
                 rmiClientSender.addPropertyChangeListener(this);
