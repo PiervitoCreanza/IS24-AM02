@@ -1,0 +1,25 @@
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" stylesheets="InfoBoxStyles.css" styleClass="toast-container">
+    <VBox styleClass="toast">
+        <HBox spacing="20">
+            <VBox alignment="CENTER">
+                <StackPane>
+                    <Circle radius="20" styleClass="icon"/>
+                    <ImageView preserveRatio="true">
+                        <Image url="/info-icon-letter.png"/>
+                    </ImageView>
+                </StackPane>
+
+            </VBox>
+
+            <VBox alignment="CENTER_LEFT">
+                <Label fx:id="toastTitle" styleClass="toast-title" text="Label"/>
+                <Label fx:id="toastMessage" styleClass="toast-description" text="Label"/>
+            </VBox>
+        </HBox>
+    </VBox>
+</VBox>

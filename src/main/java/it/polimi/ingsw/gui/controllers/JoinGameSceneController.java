@@ -79,7 +79,7 @@ public class JoinGameSceneController extends Controller implements PropertyChang
         // TODO Check if error works
         super.propertyChange(evt);
         if (evt.getPropertyName().equals("UPDATE_VIEW")) {
-            showInfoBox("Joined game \"" + getProperty("gameName") + "\" as \"" + getProperty("playerName") + "\"");
+            showInfoBox("green", "Game joined", "You joined the game \"" + getProperty("gameName") + "\" as \"" + getProperty("playerName") + "\"");
             boolean isMyTurn = Objects.equals(getProperty("playerName"), ((GameControllerView) evt.getNewValue()).getCurrentPlayerView().playerName());
             GameControllerView gameControllerView = (GameControllerView) evt.getNewValue();
             if (gameControllerView.gameStatus() == GameStatusEnum.INIT_PLACE_STARTER_CARD && isMyTurn) {
