@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gui.controllers;
 
+import it.polimi.ingsw.network.virtualView.GameControllerView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -77,8 +78,8 @@ public class CreateGameSceneController extends Controller implements PropertyCha
             playersNumber = 4;
         }
         logger.debug("Create game: {} player: {}, number of player: {}", gameName, playerName, playersNumber);
-        if (gameName == null || playerName == null)
-            showErrorPopup("Please fill all the fields");
+        if (gameName == null || playerName == null || playerName.isEmpty() || gameName.isEmpty())
+            showErrorPopup("Some fields are empty", "Please insert both a game name and a player name to continue.");
         else {
             networkControllerMapper.createGame(gameName, playerName, playersNumber);
         }
@@ -100,6 +101,7 @@ public class CreateGameSceneController extends Controller implements PropertyCha
     public void propertyChange(PropertyChangeEvent evt) {
         super.propertyChange(evt);
         if (evt.getPropertyName().equals("UPDATE_VIEW")) {
+            showInfoBox("Game \"" + ((GameControllerView) evt.getNewValue()).gameView().gameName() + "\" created successfully");
             switchScene(ControllersEnum.WAITING_FOR_PLAYER, evt);
         }
     }

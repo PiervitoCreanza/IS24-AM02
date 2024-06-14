@@ -19,8 +19,8 @@ import java.util.List;
 
 public class GUIApp extends Application implements View {
     private static final Logger logger = LogManager.getLogger(GUIApp.class);
-    public static int MIN_WIDTH = 1200;
-    public static int MIN_HEIGHT = 700;
+    public static int MIN_WIDTH = 1560;
+    public static int MIN_HEIGHT = 900;
 
     @Override
     public void launchUI() {
@@ -46,7 +46,7 @@ public class GUIApp extends Application implements View {
         stage.setTitle("Codex Naturalis");
         stage.setMinHeight(MIN_HEIGHT);
         stage.setMinWidth(MIN_WIDTH);
-        stage.setFullScreen(true);
+        //stage.setFullScreen(true);
 
         // Set the current stage on all controllers.
         Controller.setStage(stage);

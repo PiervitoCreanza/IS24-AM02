@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gui.controllers;
 
 import it.polimi.ingsw.gui.ErrorDialog;
+import it.polimi.ingsw.gui.InfoBox;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -33,6 +34,8 @@ public abstract class Controller implements PropertyChangeListener {
     private static Stage stage;
 
     private ErrorDialog alert;
+
+    private InfoBox infoBox;
 
     /**
      * The name of the previously shown scene.
@@ -157,27 +160,32 @@ public abstract class Controller implements PropertyChangeListener {
         Controller.stage = stage;
     }
 
-    protected void showErrorPopup(String message) {
-        closeAlert();
-        alert = new ErrorDialog(getStage(), Alert.AlertType.ERROR, "Error", message);
-        alert.showAndWait();
+    protected void showErrorPopup(String errorType, String message) {
+        Platform.runLater(() -> {
+            alert = new ErrorDialog(getStage(), Alert.AlertType.ERROR, errorType, message);
+            alert.showAndWait();
+        });
     }
 
     private void showConnectionErrorPopup(String message) {
-        logger.debug("Showing connection error popup");
-        if (alert == null || !alert.isShowing()) {
-            alert = new ErrorDialog(getStage(), Alert.AlertType.WARNING, "Connection error", message);
-            alert.getButtonTypes().clear();
-            alert.addButton("Quit", event -> System.exit(0));
-            alert.show();
-        }
-        alert.setContentText(message);
+        Platform.runLater(() -> {
+            logger.debug("Showing connection error popup");
+            if (alert == null || !alert.isShowing()) {
+                alert = new ErrorDialog(getStage(), Alert.AlertType.WARNING, "Connection error", message);
+                alert.getButtonTypes().clear();
+                alert.addButton("Quit", event -> System.exit(0));
+                alert.show();
+            }
+            alert.setContentText(message);
+        });
     }
 
     private void closeAlert() {
-        if (alert != null) {
-            alert.closeAlert();
-        }
+        Platform.runLater(() -> {
+            if (alert != null) {
+                alert.close();
+            }
+        });
     }
 
     /**
@@ -234,28 +242,73 @@ public abstract class Controller implements PropertyChangeListener {
         });
     }
 
+    public void showInfoBox(String message) {
+        // StackPane infobox
+        /*Platform.runLater(() -> {
+            // Crea un VBox per contenere il messaggio
+            VBox box = new VBox();
+            box.getStyleClass().add("popup-box");
+            box.getStylesheets().add(getClass().getResource("/alertStyles.css").toExternalForm());
+
+            // Crea un Label per il messaggio
+            Label label = new Label(message);
+            box.getChildren().add(label);
+
+            // Crea un Pane trasparente che copre l'intera Scene
+            Pane overlay = new Pane(box);
+            overlay.setMouseTransparent(true);
+
+            // Aggiungi il Pane alla Scene
+            ((Pane) getScene().getRoot()).getChildren().add(overlay);
+
+            FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1), box);
+            fadeTransition.setFromValue(1.0);
+            fadeTransition.setToValue(0.0);
+
+            // Crea un Timeline per rimuovere il Pane dopo 3 secondi
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), evt -> {
+                fadeTransition.play();
+                fadeTransition.setOnFinished(e -> ((Pane) getScene().getRoot()).getChildren().remove(overlay));
+            }));
+            timeline.play();
+        });*/
+        Platform.runLater(() -> {
+            InfoBox newInfoBox = new InfoBox(getStage(), message);
+            if (infoBox != null && infoBox.isShowing()) {
+                logger.debug("Showing new infobox below the previous one");
+                newInfoBox.showBoxBelow(infoBox);
+            } else {
+                newInfoBox.showBox();
+            }
+            infoBox = newInfoBox;
+        });
+    }
+
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         logger.debug("Property change event received: {}", evt.getPropertyName());
         switch (evt.getPropertyName()) {
             case "ERROR" -> {
                 logger.debug("Error notification received: {}", evt.getNewValue());
-                Platform.runLater(() -> showErrorPopup((String) evt.getNewValue()));
+                showErrorPopup("Server Error", (String) evt.getNewValue());
             }
             case "CONNECTION_ESTABLISHED" -> {
+                closeAlert();
+                showInfoBox("Connection established");
                 logger.debug("Connection established notification received");
-                Platform.runLater(this::closeAlert);
                 if (getName() != ControllersEnum.MAIN_MENU) {
-                    switchScene(ControllersEnum.MAIN_MENU);
+                    switchScene(ControllersEnum.MAIN_MENU, evt);
                 }
             }
             case "CONNECTION_RETRY" -> {
                 logger.debug("Connection retry notification received");
-                Platform.runLater(() -> showConnectionErrorPopup((String) evt.getNewValue()));
+                showConnectionErrorPopup((String) evt.getNewValue());
             }
             case "GAME_DELETED" -> {
                 logger.debug("Game deleted notification received");
                 Platform.runLater(() -> networkControllerMapper.closeConnection());
+                showInfoBox((String) evt.getNewValue());
             }
         }
     }

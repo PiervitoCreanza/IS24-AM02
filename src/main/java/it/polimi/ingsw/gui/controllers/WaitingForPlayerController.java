@@ -127,7 +127,8 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
 
     @FXML
     public void back(ActionEvent actionEvent) {
-        Platform.runLater(() -> networkControllerMapper.sendDisconnect());
-        switchScene(ControllersEnum.MAIN_MENU);
+        showInfoBox("Disconnecting...");
+        networkControllerMapper.sendDisconnect();
+        networkControllerMapper.closeConnection();
     }
 }
