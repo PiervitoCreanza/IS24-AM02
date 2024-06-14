@@ -99,7 +99,7 @@ class GameControllerMiddlewareTest {
     @DisplayName("Test if a player can draw a card from the field when the game status is DRAW_CARD")
     void drawCardFromField() {
         gameControllerMiddleware.setGameStatus(GameStatusEnum.DRAW_CARD);
-        gameControllerMiddleware.drawCardFromField("player0", null);
+        gameControllerMiddleware.drawCardFromField("player0", -1);
         assertEquals(GameStatusEnum.PLACE_CARD, gameControllerMiddleware.getGameStatus());
     }
 
@@ -107,9 +107,9 @@ class GameControllerMiddlewareTest {
     @DisplayName("Test if a player cannot draw a card when the game status is not DRAW_CARD or it is not their turn")
     void drawCardFromField2() {
         gameControllerMiddleware.setGameStatus(GameStatusEnum.PLACE_CARD);
-        assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.drawCardFromField("player0", null));
+        assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.drawCardFromField("player0", -1));
         gameControllerMiddleware.setGameStatus(GameStatusEnum.DRAW_CARD);
-        assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.drawCardFromField("player1", null));
+        assertThrows(IllegalStateException.class, () -> gameControllerMiddleware.drawCardFromField("player1", -1));
     }
 
     @Test
@@ -213,7 +213,7 @@ class GameControllerMiddlewareTest {
         gameControllerMiddleware.placeCard("player0", null, -1);
         assertEquals(GameStatusEnum.DRAW_CARD, gameControllerMiddleware.getGameStatus());
         // Player 1 can draw a card
-        gameControllerMiddleware.drawCardFromField("player0", null);
+        gameControllerMiddleware.drawCardFromField("player0", -1);
 
         // Player 2 places a card
         gameControllerMiddleware.placeCard("player1", null, -1);
@@ -222,16 +222,16 @@ class GameControllerMiddlewareTest {
         // We mock the game to be in the last round
         when(game.isLastRound()).thenReturn(true);
         // Player 2 can draw a card
-        gameControllerMiddleware.drawCardFromField("player1", null);
+        gameControllerMiddleware.drawCardFromField("player1", -1);
         // It is the last round phase. We have to play
         // Player 0 can place a card
         gameControllerMiddleware.placeCard("player0", null, -1);
         // Player 0 can draw a card
-        gameControllerMiddleware.drawCardFromField("player0", null);
+        gameControllerMiddleware.drawCardFromField("player0", -1);
         // Player 1 can place a card
         gameControllerMiddleware.placeCard("player1", null, -1);
         // Player 1 can place a card
-        gameControllerMiddleware.drawCardFromField("player1", null);
+        gameControllerMiddleware.drawCardFromField("player1", -1);
         // Game is over
         assertEquals(GameStatusEnum.GAME_OVER, gameControllerMiddleware.getGameStatus());
     }

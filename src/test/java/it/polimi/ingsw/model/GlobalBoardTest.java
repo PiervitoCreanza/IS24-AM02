@@ -70,7 +70,7 @@ class GlobalBoardTest {
         globalBoard.getFieldGoldCards().removeFirst();
         globalBoard.getFieldGoldCards().add(chosenGoldCard);
 
-        globalBoard.drawCardFromField(chosenGoldCard);
+        globalBoard.drawCardFromField(chosenGoldCard.getCardId());
         assertFalse(globalBoard.getFieldGoldCards().contains(chosenGoldCard));
         assertEquals(2, globalBoard.getFieldGoldCards().size());
     }
@@ -83,7 +83,7 @@ class GlobalBoardTest {
         globalBoard.getFieldResourceCards().removeFirst();
         globalBoard.getFieldResourceCards().add(chosenResourceCard);
 
-        globalBoard.drawCardFromField(chosenResourceCard);
+        globalBoard.drawCardFromField(chosenResourceCard.getCardId());
         assertFalse(globalBoard.getFieldResourceCards().contains(chosenResourceCard));
         assertEquals(2, globalBoard.getFieldResourceCards().size());
     }
@@ -91,7 +91,7 @@ class GlobalBoardTest {
     @Test
     @DisplayName("drawCardFromField returns an exception if the card is not present")
     void drawCardFromFieldShouldThrowExceptionIfCardNotPresent() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> globalBoard.drawCardFromField(Mockito.mock(GameCard.class)));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> globalBoard.drawCardFromField(-1));
         assertEquals("This card is not present on the field", exception.getMessage());
     }
 }
