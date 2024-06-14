@@ -8,14 +8,6 @@
     -fx-text-fill: #5C4033;
 }
 
-@font-face {
-    src: url('/fonts/MedievalSharp-Book.ttf');
-}
-
-@font-face {
-    src: url('/fonts/CalSans-SemiBold.ttf');
-}
-
 
 Text {
     -fx-fill: -brown-500;
