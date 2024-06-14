@@ -4,7 +4,18 @@
     -white-300: #e8e8e8;
     -white-400: #bdbab8;
     -brown-500: #422918;
+    -fx-fill: #5C4033;
+    -fx-text-fill: #5C4033;
 }
+
+@font-face {
+    src: url('/fonts/MedievalSharp-Book.ttf');
+}
+
+@font-face {
+    src: url('/fonts/CalSans-SemiBold.ttf');
+}
+
 
 Text {
     -fx-fill: -brown-500;
@@ -15,10 +26,9 @@ Button {
 }
 
 /* Main Menu Scene */
-.button {
+.transparent-button {
     -fx-text-fill: -brown-500;
-    -fx-font-family: MedievalSharp; /* Use the full name of the font as specified in the font file */
-    -fx-font-weight: bold;
+    -fx-font-family: "Medieval Sharp Book";
     -fx-font-size: 45px;
 
     /* Reset default button style */
@@ -27,46 +37,26 @@ Button {
     -fx-background-color: transparent;
 }
 
-.button .button-decoration {
+.transparent-button .transparent-button-decoration {
     -fx-opacity: 0;
 }
 
-.button:focused .button-decoration {
+.transparent-button:focused .transparent-button-decoration {
     -fx-opacity: 1;
 }
 
-.button:hover .button-decoration {
+.transparent-button:hover .transparent-button-decoration {
     -fx-opacity: 1;
 }
 
-.toggle-button {
-    -fx-effect: dropshadow(three-pass-box, #422918, 0, 0, 3, 3);
-    -fx-font-family: CalSans-SemiBold;
-    -fx-font-size: 20px;
-    /* Reset default button style */
-    -fx-background-insets: 0;
-    -fx-border-width: 3;
-    -fx-border-color: #422918;
-    -fx-border-radius: 10;
-    -fx-background-radius: 15;
-    -fx-background-color: #e8e8e8;
-    -fx-min-width: 100;
-}
-
-.toggle-button:hover {
-    -fx-background-color: #d8d8d8; /* Changed background color to indicate hover */
-}
-
-.toggle-button:selected {
-    -fx-background-color: #422918; /* Changed background color to match border color */
-    -fx-text-fill: white; /* Changed text color to white */
-}
+/* End of Main Menu Scene */
 
 /* Button neo-brutalism style */
 .brutalist-button {
     -fx-effect: dropshadow(three-pass-box, -brown-500, 0, 0, 3, 3);
-    -fx-font-family: CalSans-SemiBold;
+    -fx-font-family: "CalSans-SemiBold";
     -fx-font-size: 20px;
+    -fx-font-weight: bold;
     /* Reset default button style */
     -fx-background-insets: 0;
     -fx-border-width: 3;
@@ -75,25 +65,16 @@ Button {
     -fx-background-radius: 15;
     -fx-background-color: -white-300;
     -fx-min-width: 100;
+    -fx-fill: -brown-500;
 }
 
 .brutalist-button:hover {
     -fx-background-color: -white-400;
 }
 
-.brutalist-button-clicked {
-    -fx-effect: dropshadow(three-pass-box, -brown-500, 0, 0, 3, 3);
-    -fx-font-family: CalSans-SemiBold;
-    -fx-font-size: 20px;
-    /* Reset default button style */
-    -fx-background-insets: 0;
-    -fx-border-width: 3;
-    -fx-border-color: -brown-500;
-    -fx-border-radius: 10;
-    -fx-background-radius: 15;
+.brutalist-button:selected {
     -fx-background-color: -brown-500; /* Changed background color to match border color */
     -fx-text-fill: white; /* Changed text color to white */
-    -fx-min-width: 100;
 }
 
 .brutalist-textarea {
@@ -135,7 +116,7 @@ Button {
 
 .brutalist-combobox {
     -fx-effect: dropshadow(three-pass-box, -brown-500, 0, 0, 3, 3);
-    -fx-font-family: CalSans-SemiBold;
+    -fx-font-family: "CalSans-SemiBold";
     -fx-font-size: 20px;
     /* Reset default button style */
     -fx-background-insets: 0;
@@ -160,13 +141,12 @@ Button {
 }
 
 .title {
-    -fx-font-family: MedievalSharp;
-    -fx-font-weight: bold;
+    -fx-font-family: "Medieval Sharp Book";
     -fx-font-size: 45px;
 }
 
 TextField {
-    -fx-font-family: CalSans-SemiBold;
+    -fx-font-family: "CalSans-SemiBold";
     -fx-font-size: 20px;
     -fx-background-color: -white-300;
     -fx-border-width: 3;
@@ -199,7 +179,7 @@ TextField {
 }
 
 /* Old css */
-.button:disabled {
+.transparent-button:disabled {
     -fx-opacity: 0.4;
     -fx-effect: null;
 }
@@ -208,7 +188,7 @@ TextField {
 
 .list-cell {
     -fx-padding: 10 20;
-    -fx-font-family: CalSans-SemiBold;
+    -fx-font-family: "CalSans-SemiBold";
     -fx-font-size: 16px;
     -fx-text-fill: -brown-500;
     -fx-background-color: transparent;
@@ -224,6 +204,7 @@ TextField {
 
 /* Custom game cell styles */
 .game-cell {
+    -fx-font-family: "CalSans-SemiBold";
     -fx-padding: 10;
     -fx-border-color: #3B2312;
     -fx-border-width: 3;
@@ -235,13 +216,13 @@ TextField {
 
 .game-name {
     -fx-font-size: 18px;
-    -fx-font-weight: bold;
     -fx-text-fill: #5C4033; /* A shade of brown */
-    -fx-font-family: MedievalSharp-Book;
+    -fx-font-family: "CalSans-SemiBold";
+    -fx-font-weight: bold;
 }
 
 .players-count {
-    -fx-font-family: CalSans-SemiBold; /* Use the full name of the font as specified in the font file */
+    -fx-font-family: "CalSans-SemiBold";
     -fx-font-weight: bold;
     -fx-font-size: 16px;
 }
@@ -256,7 +237,7 @@ TextField {
 
 .menu-button {
     -fx-text-fill: -brown-500; /* Brown text */
-    -fx-font-family: CalSans-SemiBold; /* Custom font */
+    -fx-font-family: "CalSans-SemiBold";
     -fx-font-weight: bold;
     -fx-font-size: 20px;
     -fx-padding: 10 20; /* Padding around the text */
@@ -312,9 +293,8 @@ TextField {
 
 .player-name {
     -fx-font-size: 22px;
-    -fx-font-weight: bold;
     -fx-text-fill: #5C4033; /* A shade of brown */
-    -fx-font-family: MedievalSharp-Book;
+    -fx-font-family: "CalSans-SemiBold";
 }
 
 .right-panel {
@@ -366,7 +346,7 @@ TextField {
 }
 
 .player-label {
-    -fx-font-family: CalSans; /* Custom font */
+    -fx-font-family: "CalSans-SemiBold"; /* Custom font */
     -fx-font-size: 18px;
     -fx-text-fill: -brown-500;
     -fx-cursor: hand;
@@ -389,12 +369,13 @@ TextField {
 }
 
 .h2 {
-    -fx-font-family: MedievalSharp;
+    -fx-font-family: "Medieval Sharp Book";
     -fx-font-size: 25px;
 }
 
 .h3 {
-    -fx-font-family: "Cal Sans";
+    -fx-font-family: "CalSans-SemiBold";
+    -fx-font-weight: bold;
     -fx-font-size: 25px;
 
 }

@@ -21,31 +21,31 @@
             <Image url="@/logo_big.png"/>
         </ImageView>
         <VBox alignment="CENTER" spacing="20.0">
-            <Button styleClass="button" mnemonicParsing="false" onAction="#createGame">
+            <Button styleClass="transparent-button" mnemonicParsing="false" onAction="#createGame">
                 <graphic>
                     <VBox alignment="CENTER">
                         <Text text="New game"/>
-                        <ImageView preserveRatio="true" fitWidth="300" styleClass="button-decoration">
+                        <ImageView preserveRatio="true" fitWidth="300" styleClass="transparent-button-decoration">
                             <Image url="@/big_text_decoration.png"/>
                         </ImageView>
                     </VBox>
                 </graphic>
             </Button>
-            <Button styleClass="button" mnemonicParsing="false" onAction="#joinGame">
+            <Button styleClass="transparent-button" mnemonicParsing="false" onAction="#joinGame">
                 <graphic>
                     <VBox alignment="CENTER">
                         <Text text="Join game"/>
-                        <ImageView preserveRatio="true" fitWidth="300" styleClass="button-decoration">
+                        <ImageView preserveRatio="true" fitWidth="300" styleClass="transparent-button-decoration">
                             <Image url="@/big_text_decoration.png"/>
                         </ImageView>
                     </VBox>
                 </graphic>
             </Button>
-            <Button styleClass="button" mnemonicParsing="false" onAction="#quit">
+            <Button styleClass="transparent-button" mnemonicParsing="false" onAction="#quit">
                 <graphic>
                     <VBox alignment="CENTER">
                         <Text text="Quit"/>
-                        <ImageView preserveRatio="true" fitWidth="150" styleClass="button-decoration">
+                        <ImageView preserveRatio="true" fitWidth="150" styleClass="transparent-button-decoration">
                             <Image url="@/big_text_decoration.png"/>
                         </ImageView>
                     </VBox>

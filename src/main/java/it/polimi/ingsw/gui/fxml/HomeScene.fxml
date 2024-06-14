@@ -37,7 +37,7 @@
                 <Text text="Press a button to start"
                       textAlignment="CENTER">
                     <font>
-                        <Font name="MedievalSharp" size="55.0"/>
+                        <Font name="Medieval Sharp Book" size="55.0"/>
                     </font>
                 </Text>
                 <ImageView fitWidth="700" preserveRatio="true">
