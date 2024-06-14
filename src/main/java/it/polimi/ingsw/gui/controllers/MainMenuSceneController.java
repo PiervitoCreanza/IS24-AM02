@@ -2,6 +2,8 @@ package it.polimi.ingsw.gui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,6 +22,12 @@ public class MainMenuSceneController extends Controller implements PropertyChang
      * The logger.
      */
     private final static Logger logger = LogManager.getLogger(MainMenuSceneController.class);
+
+    @FXML
+    private void requestFocus(MouseEvent event) {
+        Button hoveredButton = (Button) event.getTarget();
+        hoveredButton.requestFocus();
+    }
 
     /**
      * The initialize method is called when the scene and controller are created.

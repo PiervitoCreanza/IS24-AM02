@@ -16,36 +16,40 @@
     <fx:include source="Background.fxml"/>
 
     <!-- Start of component content -->
-    <VBox alignment="CENTER" spacing="100">
-        <ImageView preserveRatio="true" fitHeight="350">
+    <VBox alignment="CENTER" spacing="50">
+        <ImageView preserveRatio="true" fitHeight="320">
             <Image url="@/logo_big.png"/>
         </ImageView>
         <VBox alignment="CENTER" spacing="20.0">
-            <Button styleClass="transparent-button" mnemonicParsing="false" onAction="#createGame">
+            <Button styleClass="transparent-button" mnemonicParsing="false" onAction="#createGame"
+                    onMouseEntered="#requestFocus">
                 <graphic>
                     <VBox alignment="CENTER">
                         <Text text="New game"/>
-                        <ImageView preserveRatio="true" fitWidth="300" styleClass="transparent-button-decoration">
+                        <ImageView preserveRatio="true" scaleX="0.2" styleClass="transparent-button-decoration"
+                                   pickOnBounds="false">
                             <Image url="@/big_text_decoration.png"/>
                         </ImageView>
                     </VBox>
                 </graphic>
             </Button>
-            <Button styleClass="transparent-button" mnemonicParsing="false" onAction="#joinGame">
+            <Button styleClass="transparent-button" mnemonicParsing="false" onAction="#joinGame"
+                    onMouseEntered="#requestFocus" pickOnBounds="false">
                 <graphic>
                     <VBox alignment="CENTER">
                         <Text text="Join game"/>
-                        <ImageView preserveRatio="true" fitWidth="300" styleClass="transparent-button-decoration">
+                        <ImageView preserveRatio="true" scaleX="0.2" styleClass="transparent-button-decoration">
                             <Image url="@/big_text_decoration.png"/>
                         </ImageView>
                     </VBox>
                 </graphic>
             </Button>
-            <Button styleClass="transparent-button" mnemonicParsing="false" onAction="#quit">
+            <Button styleClass="transparent-button" mnemonicParsing="false" onAction="#quit"
+                    onMouseEntered="#requestFocus" pickOnBounds="false">
                 <graphic>
                     <VBox alignment="CENTER">
                         <Text text="Quit"/>
-                        <ImageView preserveRatio="true" fitWidth="150" styleClass="transparent-button-decoration">
+                        <ImageView preserveRatio="true" scaleX="0.08" styleClass="transparent-button-decoration">
                             <Image url="@/big_text_decoration.png"/>
                         </ImageView>
                     </VBox>
