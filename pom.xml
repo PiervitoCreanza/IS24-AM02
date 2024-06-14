@@ -102,49 +102,49 @@
                         </execution>
                     </executions>
                 </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.7.1</version>
-                <executions>
-                    <execution>
-                        <id>client-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
-                            </descriptorRefs>
-                            <archive>
-                                <manifest>
-                                    <mainClass>it.polimi.ingsw.network.client.Client</mainClass>
-                                </manifest>
-                            </archive>
-                            <finalName>AM02-client</finalName>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>server-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
-                            </descriptorRefs>
-                            <archive>
-                                <manifest>
-                                    <mainClass>it.polimi.ingsw.network.server.Server</mainClass>
-                                </manifest>
-                            </archive>
-                            <finalName>AM02-server</finalName>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.7.1</version>
+                    <executions>
+                        <execution>
+                            <id>client-assembly</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                            <configuration>
+                                <descriptorRefs>
+                                    <descriptorRef>jar-with-dependencies</descriptorRef>
+                                </descriptorRefs>
+                                <archive>
+                                    <manifest>
+                                        <mainClass>it.polimi.ingsw.network.client.Client</mainClass>
+                                    </manifest>
+                                </archive>
+                                <finalName>AM02-client</finalName>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>server-assembly</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                            <configuration>
+                                <descriptorRefs>
+                                    <descriptorRef>jar-with-dependencies</descriptorRef>
+                                </descriptorRefs>
+                                <archive>
+                                    <manifest>
+                                        <mainClass>it.polimi.ingsw.network.server.Server</mainClass>
+                                    </manifest>
+                                </archive>
+                                <finalName>AM02-server</finalName>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
         </pluginManagement>
         <!-- fxml files are in src/main/java/it/polimi/ingsw/gui/fxml -->
         <resources>
@@ -166,6 +166,9 @@
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources/assets/fonts</directory>
             </resource>
         </resources>
     </build>

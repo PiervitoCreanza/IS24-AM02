@@ -36,11 +36,11 @@
                     </Text>
                 </HBox>
                 <HBox alignment="CENTER_RIGHT" spacing="20">
-                    <ToggleButton fx:id="twoPlayersButton" styleClass="toggle-button"
+                    <ToggleButton fx:id="twoPlayersButton" styleClass="brutalist-button"
                                   mnemonicParsing="false" text="2"/>
-                    <ToggleButton fx:id="threePlayersButton" styleClass="toggle-button"
+                    <ToggleButton fx:id="threePlayersButton" styleClass="brutalist-button"
                                   mnemonicParsing="false" text="3"/>
-                    <ToggleButton fx:id="fourPlayersButton" styleClass="toggle-button"
+                    <ToggleButton fx:id="fourPlayersButton" styleClass="brutalist-button"
                                   mnemonicParsing="false" text="4"/>
                 </HBox>
             </StackPane>

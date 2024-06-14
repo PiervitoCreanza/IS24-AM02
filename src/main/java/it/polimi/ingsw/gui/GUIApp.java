@@ -14,13 +14,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 
 
 public class GUIApp extends Application implements View {
     private static final Logger logger = LogManager.getLogger(GUIApp.class);
-    public static int MIN_WIDTH = 1200;
-    public static int MIN_HEIGHT = 700;
+    public static int MIN_WIDTH = 1500;
+    public static int MIN_HEIGHT = 900;
 
     @Override
     public void launchUI() {
@@ -46,7 +45,7 @@ public class GUIApp extends Application implements View {
         stage.setTitle("Codex Naturalis");
         stage.setMinHeight(MIN_HEIGHT);
         stage.setMinWidth(MIN_WIDTH);
-        stage.setFullScreen(true);
+        //stage.setFullScreen(true);
 
         // Set the current stage on all controllers.
         Controller.setStage(stage);
@@ -88,17 +87,7 @@ public class GUIApp extends Application implements View {
     }
 
     private void loadFonts() {
-        Font medievalSharpBold = Font.loadFont(getClass().getResourceAsStream("/fonts/MedievalSharp-Bold.ttf"), 10);
-        Font medievalSharpBoldOblique = Font.loadFont(getClass().getResourceAsStream("/fonts/MedievalSharp-BoldOblique.ttf"), 10);
-        Font medievalSharpBook = Font.loadFont(getClass().getResourceAsStream("/fonts/MedievalSharp-Book.ttf"), 10);
-        Font medievalSharpBookOblique = Font.loadFont(getClass().getResourceAsStream("/fonts/MedievalSharp-BookOblique.ttf"), 10);
-        Font calSansSemiBold = Font.loadFont(getClass().getResourceAsStream("/fonts/CalSans-SemiBold.otf"), 10);
-
-        List<Font> fonts = List.of(medievalSharpBold, medievalSharpBoldOblique, medievalSharpBook, medievalSharpBookOblique, calSansSemiBold);
-        for (Font font : fonts) {
-            if (font != null) {
-                logger.debug("Font loaded: {}", font.getName());
-            }
-        }
+        Font.loadFont(getClass().getResourceAsStream("/fonts/MedievalSharp-Book.ttf"), 10);
+        Font.loadFont(getClass().getResourceAsStream("/fonts/CalSans-SemiBold.ttf"), 10);
     }
 }
