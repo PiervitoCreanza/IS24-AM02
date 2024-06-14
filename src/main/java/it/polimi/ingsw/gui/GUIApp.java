@@ -14,11 +14,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 
 public class GUIApp extends Application implements View {
     private static final Logger logger = LogManager.getLogger(GUIApp.class);
-    public static int MIN_WIDTH = 1500;
+    public static int MIN_WIDTH = 1560;
     public static int MIN_HEIGHT = 900;
 
     @Override

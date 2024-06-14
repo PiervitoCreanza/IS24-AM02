@@ -6,8 +6,6 @@ import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import org.apache.logging.log4j.LogManager;
@@ -72,13 +70,7 @@ public class InitSetObjectiveCardSceneController extends Controller {
     @FXML
     private void continueAction() {
         if (selectedCard == null || selectedCard.isEmpty()) {
-            // Show error alert
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Selection Error");
-            alert.setHeaderText("No Card Selected");
-            alert.setContentText("Please select a card before continuing.");
-            alert.getDialogPane().getStylesheets().add(getClass().getResource("/alertStyles.css").toExternalForm());
-            alert.showAndWait();
+            showErrorPopup("No Card Selected", "Please select a card before continuing.");
         } else {
             // Print the selected card ID to the console
             int selectedCardId = selectedCard.equals("first") ? gameCardImages[currentIndex].getCardId() : gameCardImages[(currentIndex + 1) % gameCardImages.length].getCardId();
