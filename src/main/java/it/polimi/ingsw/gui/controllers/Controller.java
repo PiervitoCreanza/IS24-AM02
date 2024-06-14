@@ -72,6 +72,10 @@ public abstract class Controller implements PropertyChangeListener {
         return previousLayoutName;
     }
 
+    public void setInfoBox(InfoBox infoBox) {
+        this.infoBox = infoBox;
+    }
+
     /**
      * This method is called before showing the scene.
      * It should be overridden by the subclasses to perform any necessary operations before showing the scene.
@@ -226,6 +230,8 @@ public abstract class Controller implements PropertyChangeListener {
                 // Set the next controller as the current scene.
                 nextController.isCurrentScene = true;
 
+                nextController.setInfoBox(infoBox);
+
                 // Connect the nextController to the network controller mapper.
                 networkControllerMapper.addPropertyChangeListener(nextController);
 
@@ -294,11 +300,11 @@ public abstract class Controller implements PropertyChangeListener {
                 showErrorPopup("Server Error", (String) evt.getNewValue());
             }
             case "CONNECTION_ESTABLISHED" -> {
+                logger.debug("Connection established notification received");
                 closeAlert();
                 showInfoBox("Connection established");
-                logger.debug("Connection established notification received");
                 if (getName() != ControllersEnum.MAIN_MENU) {
-                    switchScene(ControllersEnum.MAIN_MENU, evt);
+                    switchScene(ControllersEnum.MAIN_MENU);
                 }
             }
             case "CONNECTION_RETRY" -> {
