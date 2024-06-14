@@ -101,7 +101,7 @@ public class CreateGameSceneController extends Controller implements PropertyCha
     public void propertyChange(PropertyChangeEvent evt) {
         super.propertyChange(evt);
         if (evt.getPropertyName().equals("UPDATE_VIEW")) {
-            showInfoBox("Game \"" + ((GameControllerView) evt.getNewValue()).gameView().gameName() + "\" created successfully");
+            showInfoBox("green", "Game created", "The game \"" + ((GameControllerView) evt.getNewValue()).gameView().gameName() + "\" has been successfully created");
             switchScene(ControllersEnum.WAITING_FOR_PLAYER, evt);
         }
     }

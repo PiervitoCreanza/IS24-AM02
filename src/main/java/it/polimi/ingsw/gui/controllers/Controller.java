@@ -248,7 +248,7 @@ public abstract class Controller implements PropertyChangeListener {
         });
     }
 
-    public void showInfoBox(String message) {
+    public void showInfoBox(String color, String title, String message) {
         // StackPane infobox
         /*Platform.runLater(() -> {
             // Crea un VBox per contenere il messaggio
@@ -279,7 +279,7 @@ public abstract class Controller implements PropertyChangeListener {
             timeline.play();
         });*/
         Platform.runLater(() -> {
-            InfoBox newInfoBox = new InfoBox(getStage(), message);
+            InfoBox newInfoBox = new InfoBox(getStage(), color, title, message);
             if (infoBox != null && infoBox.isShowing()) {
                 logger.debug("Showing new infobox below the previous one");
                 newInfoBox.showBoxBelow(infoBox);
@@ -302,7 +302,7 @@ public abstract class Controller implements PropertyChangeListener {
             case "CONNECTION_ESTABLISHED" -> {
                 logger.debug("Connection established notification received");
                 closeAlert();
-                showInfoBox("Connection established");
+                showInfoBox("green", "Connected", "You are now connected to the server.");
                 if (getName() != ControllersEnum.MAIN_MENU) {
                     switchScene(ControllersEnum.MAIN_MENU);
                 }
@@ -314,7 +314,7 @@ public abstract class Controller implements PropertyChangeListener {
             case "GAME_DELETED" -> {
                 logger.debug("Game deleted notification received");
                 Platform.runLater(() -> networkControllerMapper.closeConnection());
-                showInfoBox((String) evt.getNewValue());
+                showInfoBox("red", "Game deleted", (String) evt.getNewValue());
             }
         }
     }

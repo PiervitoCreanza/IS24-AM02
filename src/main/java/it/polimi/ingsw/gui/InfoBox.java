@@ -4,12 +4,15 @@ import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.IOException;
 
 public class InfoBox extends Popup {
 
@@ -19,17 +22,27 @@ public class InfoBox extends Popup {
 
     private Point2D sceneTopLeft;
 
-    public InfoBox(Stage stage, String message) {
+    public InfoBox(Stage stage, String color, String toastTitle, String toastDescription) {
         super();
         this.stage = stage;
-        // Crea un VBox per contenere il messaggio
-        box = new VBox();
-        box.getStyleClass().add("popup-box");
-        box.getStylesheets().add(getClass().getResource("/alertStyles.css").toExternalForm());
-        // Crea un Label per il messaggio
-        Label label = new Label(message);
-        box.getChildren().add(label);
-        // Aggiungi il VBox al Popup
+        // Load the toast FXML
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Toast.fxml"));
+
+        try {
+            box = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        // Set the toast color. Supported colors are "green" and "red".
+        box.getStyleClass().add(color);
+
+        // Set the title and message of the toast
+        Label title = (Label) box.lookup("#toastTitle");
+        Label messageLabel = (Label) box.lookup("#toastMessage");
+        title.setText(toastTitle);
+        messageLabel.setText(toastDescription);
+
         getContent().add(box);
 
         stage.widthProperty().addListener((obs, oldVal, newVal) -> setWidth(newVal.doubleValue()));
@@ -60,8 +73,8 @@ public class InfoBox extends Popup {
         fadeOutTransition.setFromValue(1.0);
         fadeOutTransition.setToValue(0.0);
 
-        // Crea un Timeline per nascondere il Popup dopo 3 secondi
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), evt -> {
+        // Crea un Timeline per nascondere il Popup dopo 5 secondi
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), evt -> {
             fadeOutTransition.play();
             fadeOutTransition.setOnFinished(e -> hide());
         }));
