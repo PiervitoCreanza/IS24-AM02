@@ -8,7 +8,7 @@
 <StackPane xmlns:fx="http://javafx.com/fxml/1">
     <fx:include source="Background.fxml"/>
     <VBox alignment="TOP_CENTER">
-        <ImageView preserveRatio="true" fitWidth="250">
+        <ImageView preserveRatio="true" fitWidth="230">
             <Image url="@/logo_big.png"/>
         </ImageView>
         <padding>

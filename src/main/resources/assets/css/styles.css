@@ -4,17 +4,17 @@
     -white-300: #e8e8e8;
     -white-400: #bdbab8;
     -brown-500: #422918;
-    -fx-fill: #5C4033;
-    -fx-text-fill: #5C4033;
 }
 
-
+/* Text defaults */
 Text {
     -fx-fill: -brown-500;
 }
 
+/* Button defaults */
 Button {
     -fx-cursor: HAND;
+    -fx-text-fill: -brown-500;
 }
 
 /* Main Menu Scene */
@@ -37,10 +37,6 @@ Button {
     -fx-opacity: 1;
 }
 
-.transparent-button:hover .transparent-button-decoration {
-    -fx-opacity: 1;
-}
-
 /* End of Main Menu Scene */
 
 /* Button neo-brutalism style */
@@ -57,7 +53,6 @@ Button {
     -fx-background-radius: 15;
     -fx-background-color: -white-300;
     -fx-min-width: 100;
-    -fx-fill: -brown-500;
 }
 
 .brutalist-button:hover {
@@ -145,6 +140,7 @@ TextField {
     -fx-border-color: -brown-500;
     -fx-border-radius: 10;
     -fx-background-radius: 15;
+    -fx-prompt-text-fill: gray;
 }
 
 .container {
@@ -168,12 +164,6 @@ TextField {
 
 .shadow {
     -fx-effect: dropshadow(three-pass-box, -brown-500, 0, 0, 3, 3);
-}
-
-/* Old css */
-.transparent-button:disabled {
-    -fx-opacity: 0.4;
-    -fx-effect: null;
 }
 
 /* Game list styles */
@@ -397,10 +387,6 @@ TextField {
     -fx-background-radius: 15;
     -fx-padding: 0;
     -fx-effect: none; /* This ensures the shadow is removed */
-}
-
-#playerTextField {
-    -fx-prompt-text-fill: gray;
 }
 
 .winner-row {
