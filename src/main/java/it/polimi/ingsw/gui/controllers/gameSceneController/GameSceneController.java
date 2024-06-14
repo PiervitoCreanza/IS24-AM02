@@ -341,6 +341,10 @@ public class GameSceneController extends Controller implements PropertyChangeLis
                     Platform.runLater(() -> currentlyDisplayedPlayer.set(clientPlayerName));
                 }
 
+                if (gameControllerView.gameStatus() == GameStatusEnum.GAME_OVER) {
+                    Platform.runLater(() -> switchScene(ControllersEnum.WINNER_SCENE, evt));
+                }
+
 
                 break;
             case "CHAT_MESSAGE":

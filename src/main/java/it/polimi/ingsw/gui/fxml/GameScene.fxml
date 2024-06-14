@@ -130,7 +130,7 @@
                         <Image url="@/hand_board.png"/>
                     </ImageView>
                     <VBox alignment="BOTTOM_CENTER" styleClass="transparent" pickOnBounds="false">
-                        <HBox alignment="BOTTOM_CENTER" spacing="10">
+                        <HBox alignment="BOTTOM_CENTER" spacing="10" pickOnBounds="false">
                             <Text fx:id="playerName" styleClass="h2">Marco:</Text>
                             <Text fx:id="playerPrompt" styleClass="h2">Place a new card on the board.</Text>
                         </HBox>

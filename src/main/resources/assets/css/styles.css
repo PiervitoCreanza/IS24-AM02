@@ -2,6 +2,7 @@
     -fx-background-color: #e8e8e8;
     -white-200: #f2f2f2;
     -white-300: #e8e8e8;
+    -white-400: #bdbab8;
     -brown-500: #422918;
 }
 
@@ -74,6 +75,10 @@ Button {
     -fx-background-radius: 15;
     -fx-background-color: -white-300;
     -fx-min-width: 100;
+}
+
+.brutalist-button:hover {
+    -fx-background-color: -white-400;
 }
 
 .brutalist-button-clicked {
@@ -423,4 +428,32 @@ TextField {
 
 #playerTextField {
     -fx-prompt-text-fill: gray;
+}
+
+.winner-row {
+    -fx-background-color: -white-200;
+    -fx-text-fill: #000000;
+    -fx-border-color: -brown-500;
+    -fx-border-width: 3;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-padding: 10;
+}
+
+.winner-name {
+    -fx-font-size: 21px;
+    -fx-font-weight: bold;
+}
+
+.winner-points {
+    -fx-font-size: 18px;
+}
+
+.winner-border {
+    -fx-border-color: #c9b127;
+    -fx-background-color: #c9b127;
+}
+
+.winner-border Text {
+    -fx-fill: -white-200;
 }
