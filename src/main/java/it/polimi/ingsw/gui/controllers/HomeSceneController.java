@@ -13,7 +13,7 @@ public class HomeSceneController extends Controller {
 
     private static final Logger logger = LogManager.getLogger(HomeSceneController.class);
 
-    private Thread connectionThread;
+    private boolean connected = false;
 
 
     @FXML
@@ -22,9 +22,9 @@ public class HomeSceneController extends Controller {
 
     private void connectToServer() {
         // Avoid multiple connections
-        if (connectionThread == null) {
-            connectionThread = new Thread(() -> networkControllerMapper.connect());
-            connectionThread.start();
+        if (!connected) {
+            networkControllerMapper.connect();
+            connected = true;
         }
     }
 

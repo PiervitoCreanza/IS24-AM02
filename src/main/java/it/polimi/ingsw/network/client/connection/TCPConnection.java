@@ -29,7 +29,7 @@ public class TCPConnection extends Connection {
      * If it is not possible to connect after 5 attempts, the program will be closed.
      */
     @Override
-    public void connect() {
+    protected void connectionSetUp() {
         while (attempts <= maxAttempts) {
             try {
                 Socket serverSocket = new Socket();

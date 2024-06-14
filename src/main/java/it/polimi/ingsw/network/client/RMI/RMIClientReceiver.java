@@ -31,6 +31,8 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      */
     private static final Logger logger = LogManager.getLogger(RMIClientReceiver.class);
 
+    private static RMIClientReceiver strongReference;
+
     /**
      * Class constructor.
      *
@@ -38,6 +40,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
      */
     public RMIClientReceiver(ClientNetworkControllerMapper clientNetworkControllerMapper) {
         this.clientNetworkControllerMapper = clientNetworkControllerMapper;
+        strongReference = this;
     }
 
 
