@@ -1,8 +1,8 @@
 package it.polimi.ingsw.gui.controllers;
 
 import it.polimi.ingsw.gui.ErrorDialog;
-import it.polimi.ingsw.gui.InfoBox;
-import it.polimi.ingsw.gui.Toaster;
+import it.polimi.ingsw.gui.toast.Toast;
+import it.polimi.ingsw.gui.toast.Toaster;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -36,7 +36,7 @@ public abstract class Controller implements PropertyChangeListener {
 
     protected static ErrorDialog alert;
 
-    protected static InfoBox infoBox;
+    protected static Toast infoBox;
 
     /**
      * The name of the previously shown scene.
