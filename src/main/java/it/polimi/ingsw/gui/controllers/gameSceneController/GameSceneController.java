@@ -133,10 +133,10 @@ public class GameSceneController extends Controller implements PropertyChangeLis
             public void onChanged(Change<? extends String> c) {
                 if (c.wasAdded()) {
                     logger.debug("Player connected: {}", c.getElementAdded());
-                    showInfoBox("green", "Player connected", c.getElementAdded() + " has connected to the game.");
+                    showInfoBox("green", "Player connected", capitalizeFirstLetter(c.getElementAdded()) + " has connected to the game.");
                 } else if (c.wasRemoved()) {
                     logger.debug("Player disconnected: {}", c.getElementRemoved());
-                    showInfoBox("red", "Player disconnected", c.getElementRemoved() + " has disconnected from the game.");
+                    showInfoBox("red", "Player disconnected", capitalizeFirstLetter(c.getElementRemoved()) + " has disconnected from the game.");
                 }
             }
         });
