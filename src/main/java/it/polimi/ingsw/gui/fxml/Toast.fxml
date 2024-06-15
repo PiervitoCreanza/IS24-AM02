@@ -3,7 +3,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" stylesheets="InfoBoxStyles.css" styleClass="toast-container">
+<VBox xmlns:fx="http://javafx.com/fxml/1" stylesheets="Toast.css" styleClass="toast-container">
     <VBox styleClass="toast">
         <HBox spacing="20">
             <VBox alignment="CENTER">
