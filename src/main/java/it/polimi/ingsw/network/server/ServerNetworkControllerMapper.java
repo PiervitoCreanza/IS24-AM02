@@ -44,6 +44,10 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
     // and then this "playerName:connectionType" is mapped to each game
     private final HashMap<String, HashMap<String, ServerMessageHandler>> gameConnectionMapper;
 
+    /**
+     * Dummy map used to synchronize game operations when the game is not found in the gameConnectionMapper.
+     * This is used to avoid null pointer exceptions.
+     */
     private final HashMap<String, ServerMessageHandler> exceptionLock;
 
     /**
@@ -80,6 +84,13 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
         }
     }
 
+    /**
+     * Gets the lock for a game.
+     * This is used to synchronize operations on a game.
+     *
+     * @param gameName the name of the game
+     * @return the lock for the game
+     */
     private HashMap<String, ServerMessageHandler> getLock(String gameName) {
         synchronized (gameConnectionMapper) {
             HashMap<String, ServerMessageHandler> lock = gameConnectionMapper.get(gameName);
@@ -90,6 +101,13 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
         }
     }
 
+    /**
+     * Checks if a player is connected to a game.
+     *
+     * @param gameName   the name of the game
+     * @param playerName the name of the player
+     * @return true if the player is connected, false otherwise
+     */
     private boolean isConnected(String gameName, String playerName) {
         if (gameConnectionMapper.get(gameName) == null || gameConnectionMapper.get(gameName).get(playerName) == null) {
             logger.warn("Received a request from an already disconnected player. Game: {}, Player: {}", gameName, playerName);
