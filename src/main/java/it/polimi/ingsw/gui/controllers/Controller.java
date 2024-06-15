@@ -210,7 +210,7 @@ public abstract class Controller implements PropertyChangeListener {
     private void closeAlert() {
         Platform.runLater(() -> {
             if (alert != null) {
-                alert.close();
+                alert.closeAlert();
             }
         });
     }
