@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.data.ObjectiveCardAdapter;
-import it.polimi.ingsw.data.SerializableBooleanPropertyDeserializer;
+import it.polimi.ingsw.data.SerializableBooleanPropertyAdapter;
 import it.polimi.ingsw.data.SideGameCardAdapter;
 import it.polimi.ingsw.model.card.gameCard.SerializableBooleanProperty;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
@@ -70,7 +70,7 @@ public class TCPServerAdapter implements ServerMessageHandler, PropertyChangeLis
      */
     private final Gson gson = new GsonBuilder()
             .enableComplexMapKeySerialization()
-            .registerTypeAdapter(SerializableBooleanProperty.class, new SerializableBooleanPropertyDeserializer())
+            .registerTypeAdapter(SerializableBooleanProperty.class, new SerializableBooleanPropertyAdapter())
             .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter())
             .registerTypeAdapter(ObjectiveCard.class, new ObjectiveCardAdapter())
             .registerTypeAdapter(ClientToServerMessage.class, new ClientToServerMessageAdapter())

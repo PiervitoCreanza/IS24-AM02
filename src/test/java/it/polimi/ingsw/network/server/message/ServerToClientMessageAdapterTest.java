@@ -5,8 +5,10 @@ import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.controller.MainController;
 import it.polimi.ingsw.controller.gameController.GameControllerMiddleware;
 import it.polimi.ingsw.data.ObjectiveCardAdapter;
+import it.polimi.ingsw.data.SerializableBooleanPropertyAdapter;
 import it.polimi.ingsw.data.SideGameCardAdapter;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.card.gameCard.SerializableBooleanProperty;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
@@ -32,6 +34,7 @@ public class ServerToClientMessageAdapterTest {
             .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter())
             .registerTypeAdapter(ObjectiveCard.class, new ObjectiveCardAdapter())
             .registerTypeAdapter(ServerToClientMessage.class, new ServerToClientMessageAdapter())
+            .registerTypeAdapter(SerializableBooleanProperty.class, new SerializableBooleanPropertyAdapter())
             .create();
 
     MainController mainController = new MainController();

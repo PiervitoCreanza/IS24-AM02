@@ -47,7 +47,7 @@ public class Parser {
      */
     private final Gson gson = new GsonBuilder()
             .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter())
-            .registerTypeAdapter(SerializableBooleanProperty.class, new SerializableBooleanPropertyDeserializer())
+            .registerTypeAdapter(SerializableBooleanProperty.class, new SerializableBooleanPropertyAdapter())
             .create();
 
     /**
