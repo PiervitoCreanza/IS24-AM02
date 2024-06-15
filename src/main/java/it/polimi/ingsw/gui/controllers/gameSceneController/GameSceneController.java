@@ -11,7 +11,6 @@ import it.polimi.ingsw.gui.dataStorage.ObservedPlayerBoard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
-import it.polimi.ingsw.model.utils.store.GameItemStore;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.network.virtualView.GlobalBoardView;
@@ -170,7 +169,7 @@ public class GameSceneController extends Controller implements PropertyChangeLis
 
         rightSidebarController.updateObjectiveCards(objectiveCards.getFirst(), new ArrayList<>(objectiveCards.subList(1, 3)));
 
-        rightSidebarController.updateStats(new ArrayList<String>(Arrays.asList("Pier", "Marco", "Simo", "Mattia")), new ArrayList<Integer>(Arrays.asList(10, 20, 30, 40)), new GameItemStore());
+        //rightSidebarController.updateStats(new ArrayList<String>(Arrays.asList("Pier", "Marco", "Simo", "Mattia")), new ArrayList<Integer>(Arrays.asList(10, 20, 30, 40)), new GameItemStore());
         chatController.updateUsers(new ArrayList<>(Arrays.asList("Pier", "Marco", "Simo", "Mattia")), null);
 
     }
@@ -296,7 +295,7 @@ public class GameSceneController extends Controller implements PropertyChangeLis
         observedDrawArea.loadData(gameControllerView.gameView().globalBoardView());
         rightSidebarController.updateObjectiveCards(clientPlayerView.objectiveCard(), gameControllerView.gameView().globalBoardView().globalObjectives());
         List<String> playerNames = gameControllerView.gameView().playerViews().stream().map(PlayerView::playerName).toList();
-        rightSidebarController.updateStats(playerNames, gameControllerView.gameView().playerViews().stream().map(PlayerView::playerPos).toList(), clientPlayerView.playerBoardView().gameItemStore());
+        rightSidebarController.updateStats(gameControllerView.getPlayerViews(), clientPlayerView.playerBoardView().gameItemStore());
         ArrayList<String> opponentPlayers = new ArrayList<>(playerNames);
         opponentPlayers.remove(clientPlayerName);
         chatController.updateUsers(opponentPlayers, clientPlayerName);

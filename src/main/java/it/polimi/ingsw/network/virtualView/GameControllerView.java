@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.virtualView;
 import it.polimi.ingsw.controller.GameStatusEnum;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -51,6 +52,10 @@ public record GameControllerView(GameView gameView, GameStatusEnum gameStatus,
      */
     public Set<String> getConnectedPlayers() {
         return gameView.playerViews().stream().filter(PlayerView::isConnected).map(PlayerView::playerName).collect(Collectors.toSet());
+    }
+
+    public List<PlayerView> getPlayerViews() {
+        return gameView.playerViews();
     }
 
     @Override
