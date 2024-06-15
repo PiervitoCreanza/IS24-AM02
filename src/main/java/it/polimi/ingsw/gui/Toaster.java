@@ -16,9 +16,13 @@ public class Toaster {
     private final Stage stage;
     private final Queue<InfoBox> toastQueue = new LinkedList<>();
     private final Deque<InfoBox> currentlyShownToasts = new ArrayDeque<>();
+    private final ToastArea toastArea;
+
 
     private Toaster(Stage stage) {
         this.stage = stage;
+        this.toastArea = new ToastArea(stage, this::removeToast);
+
     }
 
     public static Toaster getInstance(Stage stage) {
@@ -33,15 +37,16 @@ public class Toaster {
         if (currentlyShownToasts.size() < MAX_TOASTS && !toastQueue.isEmpty()) {
             InfoBox lastToast = currentlyShownToasts.peekLast();
             InfoBox nextToast = toastQueue.poll();
-            // Show the next toast below the last one
-            nextToast.showBoxBelow(lastToast, this::removeToast);
+            // Show the next toast
+            this.toastArea.addToast(nextToast);
+            logger.debug("Toast added to toastArea");
             // Add the toast to the list of currently shown toasts
             currentlyShownToasts.addLast(nextToast);
         }
     }
 
     public void showToast(String color, String toastTitle, String toastDescription) {
-        InfoBox toast = new InfoBox(stage, color, toastTitle, toastDescription);
+        InfoBox toast = new InfoBox(color, toastTitle, toastDescription);
         toastQueue.add(toast);
         displayNextToastIfPossible();
     }
@@ -49,11 +54,6 @@ public class Toaster {
     public void removeToast(InfoBox toast) {
         double toastHeight = toast.getToastNode().getBoundsInParent().getHeight();
         currentlyShownToasts.remove(toast);
-        // Move all remaining toasts up
-        for (InfoBox remainingToast : currentlyShownToasts) {
-            // TODO: Make a transition if possible
-            remainingToast.setY(remainingToast.getY() - toastHeight);
-        }
         displayNextToastIfPossible();
     }
 }
