@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gui.controllers;
 
-import it.polimi.ingsw.gui.ToastManager;
+import it.polimi.ingsw.gui.Toaster;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -35,7 +35,7 @@ public class SelectPionTest extends Application {
             try {
                 for (int i = 0; i < 10; i++) {
                     int finalI = i;
-                    Platform.runLater(() -> ToastManager.getInstance(primaryStage).showToast("green", String.valueOf(finalI), ""));
+                    Platform.runLater(() -> Toaster.getInstance(primaryStage).showToast("green", String.valueOf(finalI), ""));
                     Thread.sleep(1000);
                 }
 

@@ -1,44 +1,41 @@
 package it.polimi.ingsw.gui;
 
-import it.polimi.ingsw.gui.dataStorage.ObservableQueue;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class ToastManager {
-    private static final Logger logger = LogManager.getLogger(ToastManager.class);
+public class Toaster {
+    private static final Logger logger = LogManager.getLogger(Toaster.class);
     private static final int MAX_TOASTS = 3;
-    private static ToastManager instance;
+    private static Toaster instance;
     private final Stage stage;
-    private final ObservableQueue<InfoBox> toastQueue = new ObservableQueue<>();
+    private final Queue<InfoBox> toastQueue = new LinkedList<>();
     private final Deque<InfoBox> currentlyShownToasts = new ArrayDeque<>();
 
-    private ToastManager(Stage stage) {
+    private Toaster(Stage stage) {
         this.stage = stage;
-        toastQueue.setListener(new ObservableQueue.QueueChangeListener<InfoBox>() {
-            @Override
-            public void elementAdded(InfoBox element) {
-                displayNextToastIfPossible();
-            }
-        });
     }
 
-    public static ToastManager getInstance(Stage stage) {
+    public static Toaster getInstance(Stage stage) {
         if (instance == null) {
-            instance = new ToastManager(stage);
+            instance = new Toaster(stage);
         }
         return instance;
     }
 
     private void displayNextToastIfPossible() {
-        InfoBox nextToast = toastQueue.peek();
-        if (currentlyShownToasts.size() < MAX_TOASTS && nextToast != null) {
+        // If there are less than MAX_TOASTS toasts currently shown and there are toasts in the queue, show the next toast
+        if (currentlyShownToasts.size() < MAX_TOASTS && !toastQueue.isEmpty()) {
             InfoBox lastToast = currentlyShownToasts.peekLast();
+            InfoBox nextToast = toastQueue.poll();
+            // Show the next toast below the last one
             nextToast.showBoxBelow(lastToast, this::removeToast);
-            toastQueue.poll();
+            // Add the toast to the list of currently shown toasts
             currentlyShownToasts.addLast(nextToast);
         }
     }
@@ -46,6 +43,7 @@ public class ToastManager {
     public void showToast(String color, String toastTitle, String toastDescription) {
         InfoBox toast = new InfoBox(stage, color, toastTitle, toastDescription);
         toastQueue.add(toast);
+        displayNextToastIfPossible();
     }
 
     public void removeToast(InfoBox toast) {
