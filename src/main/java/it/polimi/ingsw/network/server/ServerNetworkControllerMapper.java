@@ -45,10 +45,10 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
     private final HashMap<String, HashMap<String, ServerMessageHandler>> gameConnectionMapper;
 
     /**
-     * Dummy map used to synchronize game operations when the game is not found in the gameConnectionMapper.
+     * Object used to synchronize game operations when the game is not found in the gameConnectionMapper.
      * This is used to avoid null pointer exceptions.
      */
-    private final HashMap<String, ServerMessageHandler> exceptionLock;
+    private final Object exceptionLock;
 
     /**
      * Constructs a new ServerNetworkControllerMapper object with the specified MainController.
@@ -91,9 +91,9 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      * @param gameName the name of the game
      * @return the lock for the game
      */
-    private HashMap<String, ServerMessageHandler> getLock(String gameName) {
+    private Object getLock(String gameName) {
         synchronized (gameConnectionMapper) {
-            HashMap<String, ServerMessageHandler> lock = gameConnectionMapper.get(gameName);
+            Object lock = gameConnectionMapper.get(gameName);
             if (lock == null) {
                 lock = exceptionLock;
             }
@@ -168,7 +168,6 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      */
     @Override
     public void joinGame(ServerMessageHandler messageHandler, String gameName, String playerName) {
-        // Should it be on the single game or on the whole gameConnectionMapper?
         synchronized (getLock(gameName)) {
             try {
                 mainController.joinGame(gameName, playerName);
@@ -194,7 +193,6 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      */
     @Override
     public void deleteGame(ServerMessageHandler messageHandler, String gameName, String playerName) {
-        // Should it be on the single game or on the whole gameConnectionMapper?
         synchronized (getLock(gameName)) {
             try {
                 mainController.isGameDeletable(gameName, playerName);
