@@ -4,6 +4,8 @@ import it.polimi.ingsw.controller.GameStatusEnum;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * The GameControllerView class represents the view of a game controller.
@@ -40,6 +42,15 @@ public record GameControllerView(GameView gameView, GameStatusEnum gameStatus,
      */
     public boolean isMyTurn(String player) {
         return gameView.currentPlayer().equals(player);
+    }
+
+    /**
+     * Returns the set of connected players.
+     *
+     * @return the set of connected players.
+     */
+    public Set<String> getConnectedPlayers() {
+        return gameView.playerViews().stream().filter(PlayerView::isConnected).map(PlayerView::playerName).collect(Collectors.toSet());
     }
 
     @Override

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.gui.controllers;
 
+import it.polimi.ingsw.gui.ToastManager;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,5 +30,21 @@ public class SelectPionTest extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Select Pion Test");
         primaryStage.show();
+
+        new Thread(() -> {
+            try {
+                for (int i = 0; i < 10; i++) {
+                    int finalI = i;
+                    Platform.runLater(() -> ToastManager.getInstance(primaryStage).showToast("green", String.valueOf(finalI), ""));
+                    Thread.sleep(1000);
+                }
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }).start();
+
+
     }
 }
