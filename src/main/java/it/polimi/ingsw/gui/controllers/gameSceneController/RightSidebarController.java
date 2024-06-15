@@ -4,7 +4,9 @@ import it.polimi.ingsw.gui.ObjectiveCardImage;
 import it.polimi.ingsw.gui.dataStorage.GameCardImageFactory;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
+import it.polimi.ingsw.network.virtualView.PlayerView;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,12 +24,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class RightSidebarController {
     private final Node root;
     private final ObservableList<ObjectiveCard> objectives;
     private final ListView<ObjectiveCard> objectivesList;
+    private final SimpleObjectProperty<List<PlayerView>> playerViews = new SimpleObjectProperty<>();
     private final VBox playersList;
     private final VBox playersPoints;
     private final Label fungiAmount;
@@ -58,13 +62,8 @@ public class RightSidebarController {
 
         currentlyDisplayedPlayer.addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                playersList.getChildren().forEach(playerLabel -> {
-                    if (playerLabel.getId().equals(newValue)) {
-                        playerLabel.getStyleClass().add("selected-player");
-                    } else {
-                        playerLabel.getStyleClass().remove("selected-player");
-                    }
-                });
+                updateCurrentlyDisplayedPlayer(newValue);
+
             }
         });
 
@@ -92,8 +91,50 @@ public class RightSidebarController {
             }
         });
 
+        // Set the listener for the playerViews property
+        playerViews.addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                // Sort by descending position
+                newValue.sort(Comparator.comparingInt(PlayerView::playerPos).reversed());
+
+                // Clear the players and respective points list
+                playersList.getChildren().clear();
+                playersPoints.getChildren().clear();
+
+                // Create the new list of players and their points
+                newValue.forEach(playerView -> {
+                    Label playerLabel = new Label(playerView.playerName());
+                    playerLabel.getStyleClass().add("player-label");
+
+                    // If the player is disconnected add a specific class
+                    if (!playerView.isConnected()) {
+                        playerLabel.getStyleClass().add("player-disconnected");
+                    }
+
+                    playerLabel.setOnMouseClicked(this::handlePlayerClick);
+                    playerLabel.setId(playerView.playerName());
+                    playersList.getChildren().addLast(playerLabel);
+
+                    Label pointsLabel = new Label(String.valueOf(playerView.playerPos()));
+                    pointsLabel.getStyleClass().add("score-label");
+                    playersPoints.getChildren().addLast(pointsLabel);
+                });
+                updateCurrentlyDisplayedPlayer(currentlyDisplayedPlayer.get());
+            }
+        });
+
         // Adjust the height of the ListView
         adjustListViewHeight(objectivesList);
+    }
+
+    private void updateCurrentlyDisplayedPlayer(String newPlayerName) {
+        playersList.getChildren().forEach(playerLabel -> {
+            if (playerLabel.getId().equals(newPlayerName)) {
+                playerLabel.getStyleClass().add("selected-player");
+            } else {
+                playerLabel.getStyleClass().remove("selected-player");
+            }
+        });
     }
 
     private void adjustListViewHeight(ListView<?> listView) {
@@ -120,29 +161,8 @@ public class RightSidebarController {
         }
     }
 
-    public void updateStats(List<String> players, List<Integer> points, GameItemStore gameItemStore) {
-        if (playersList.getChildren().size() != players.size()) {
-            playersList.getChildren().clear();
-
-            players.forEach(playerName -> {
-                Label playerLabel = new Label(playerName);
-                playerLabel.getStyleClass().add("player-label");
-                playerLabel.setOnMouseClicked(this::handlePlayerClick);
-                playerLabel.setId(playerName);
-                playersList.getChildren().addLast(playerLabel);
-
-                Label pointsLabel = new Label(String.valueOf(points.get(players.indexOf(playerName))));
-                pointsLabel.getStyleClass().add("score-label");
-                playersPoints.getChildren().addLast(pointsLabel);
-            });
-        }
-        playersPoints.getChildren().clear();
-        points.forEach(point -> {
-
-            Label pointsLabel = new Label(String.valueOf(point));
-            pointsLabel.getStyleClass().add("score-label");
-            playersPoints.getChildren().addLast(pointsLabel);
-        });
+    public void updateStats(List<PlayerView> playerViews, GameItemStore gameItemStore) {
+        this.playerViews.set(playerViews);
 
         gameItemStore.keySet().forEach(item -> {
             switch (item) {
