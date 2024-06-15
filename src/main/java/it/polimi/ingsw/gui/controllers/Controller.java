@@ -2,6 +2,7 @@ package it.polimi.ingsw.gui.controllers;
 
 import it.polimi.ingsw.gui.ErrorDialog;
 import it.polimi.ingsw.gui.InfoBox;
+import it.polimi.ingsw.gui.ToastManager;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -33,9 +34,9 @@ public abstract class Controller implements PropertyChangeListener {
      */
     private static Stage stage;
 
-    private ErrorDialog alert;
+    protected static ErrorDialog alert;
 
-    private InfoBox infoBox;
+    protected static InfoBox infoBox;
 
     /**
      * The name of the previously shown scene.
@@ -70,10 +71,6 @@ public abstract class Controller implements PropertyChangeListener {
     public ControllersEnum getPreviousLayoutName() {
         //TODO: newgame to mainmenu doesnt work
         return previousLayoutName;
-    }
-
-    public void setInfoBox(InfoBox infoBox) {
-        this.infoBox = infoBox;
     }
 
     /**
@@ -230,8 +227,6 @@ public abstract class Controller implements PropertyChangeListener {
                 // Set the next controller as the current scene.
                 nextController.isCurrentScene = true;
 
-                nextController.setInfoBox(infoBox);
-
                 // Connect the nextController to the network controller mapper.
                 networkControllerMapper.addPropertyChangeListener(nextController);
 
@@ -249,44 +244,8 @@ public abstract class Controller implements PropertyChangeListener {
     }
 
     public void showInfoBox(String color, String title, String message) {
-        // StackPane infobox
-        /*Platform.runLater(() -> {
-            // Crea un VBox per contenere il messaggio
-            VBox box = new VBox();
-            box.getStyleClass().add("popup-box");
-            box.getStylesheets().add(getClass().getResource("/alertStyles.css").toExternalForm());
-
-            // Crea un Label per il messaggio
-            Label label = new Label(message);
-            box.getChildren().add(label);
-
-            // Crea un Pane trasparente che copre l'intera Scene
-            Pane overlay = new Pane(box);
-            overlay.setMouseTransparent(true);
-
-            // Aggiungi il Pane alla Scene
-            ((Pane) getScene().getRoot()).getChildren().add(overlay);
-
-            FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1), box);
-            fadeTransition.setFromValue(1.0);
-            fadeTransition.setToValue(0.0);
-
-            // Crea un Timeline per rimuovere il Pane dopo 3 secondi
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), evt -> {
-                fadeTransition.play();
-                fadeTransition.setOnFinished(e -> ((Pane) getScene().getRoot()).getChildren().remove(overlay));
-            }));
-            timeline.play();
-        });*/
         Platform.runLater(() -> {
-            InfoBox newInfoBox = new InfoBox(getStage(), color, title, message);
-            if (infoBox != null && infoBox.isShowing()) {
-                logger.debug("Showing new infobox below the previous one");
-                newInfoBox.showBoxBelow(infoBox);
-            } else {
-                newInfoBox.showBox();
-            }
-            infoBox = newInfoBox;
+            ToastManager.getInstance(getStage()).showToast(color, title, message);
         });
     }
 

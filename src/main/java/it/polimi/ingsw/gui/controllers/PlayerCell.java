@@ -29,7 +29,9 @@ public class PlayerCell extends ListCell<String> {
     protected void updateItem(String player, boolean empty) {
         super.updateItem(player, empty);
 
-        if (!empty & player != null) {
+        if (empty || player == null) {
+            setGraphic(null);
+        } else {
             if (player.length() > 45) {
                 player = player.substring(0, 42) + "...";
             }

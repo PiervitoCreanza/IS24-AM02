@@ -6,6 +6,7 @@ import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
@@ -13,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.function.Consumer;
 
 public class InfoBox extends Popup {
 
@@ -21,6 +23,7 @@ public class InfoBox extends Popup {
     private final VBox box;
 
     private Point2D sceneTopLeft;
+    private Consumer<InfoBox> onHideCallback;
 
     public InfoBox(Stage stage, String color, String toastTitle, String toastDescription) {
         super();
@@ -73,20 +76,24 @@ public class InfoBox extends Popup {
         fadeOutTransition.setFromValue(1.0);
         fadeOutTransition.setToValue(0.0);
 
-        // Crea un Timeline per nascondere il Popup dopo 5 secondi
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), evt -> {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), evt -> {
             fadeOutTransition.play();
-            fadeOutTransition.setOnFinished(e -> hide());
+            fadeOutTransition.setOnFinished(e -> {
+                hide();
+                onHideCallback.accept(this);
+            });
         }));
         timeline.play();
     }
 
-    public void showBox() {
-        privateShowBox(0);
-    }
+    public void showBoxBelow(InfoBox infoBox, Consumer<InfoBox> onHideCallback) {
+        this.onHideCallback = onHideCallback;
+        if (infoBox != null) {
+            privateShowBox((int) (infoBox.getRelativeY() + infoBox.getToastNode().getBoundsInParent().getHeight()));
+        } else {
+            privateShowBox(0);
+        }
 
-    public void showBoxBelow(InfoBox infoBox) {
-        privateShowBox((int) (infoBox.getRelativeY() + infoBox.getHeight()));
     }
 
     private Point2D getSceneTopLeft() {
@@ -96,5 +103,9 @@ public class InfoBox extends Popup {
 
     private int getRelativeY() {
         return (int) this.getY() - (int) sceneTopLeft.getY();
+    }
+
+    public Node getToastNode() {
+        return box;
     }
 }
