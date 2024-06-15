@@ -47,6 +47,7 @@ public class InfoBox extends Popup {
         messageLabel.setText(toastDescription);
 
         getContent().add(box);
+        this.getScene().getRoot().setStyle("-fx-background-color: null;");
 
         stage.widthProperty().addListener((obs, oldVal, newVal) -> setWidth(newVal.doubleValue()));
         stage.heightProperty().addListener((obs, oldVal, newVal) -> setHeight(newVal.doubleValue()));
