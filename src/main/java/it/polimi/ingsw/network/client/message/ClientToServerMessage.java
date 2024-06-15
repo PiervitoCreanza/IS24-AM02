@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.client.message;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
-import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 
@@ -23,7 +22,7 @@ public abstract class ClientToServerMessage {
      * The name of the player who sent the message.
      * It is final, meaning it cannot be changed once it has been set.
      */
-    protected final String playerName; //sender of the message
+    protected final String playerName;
     /**
      * The action taken by the player.
      * This is an enum value representing the type of action the player has taken.
@@ -109,12 +108,12 @@ public abstract class ClientToServerMessage {
 
     /**
      * Returns the objective card of the player.
-     * This method is not implemented and always returns null.
+     * This method is not implemented and always returns -1.
      *
-     * @return The objective card of the player, always null.
+     * @return The objective card of the player, always -1.
      */
-    public ObjectiveCard getObjectiveCard() {
-        return null;
+    public int getObjectiveCardId() {
+        return -1;
     }
 
     /**
@@ -128,13 +127,33 @@ public abstract class ClientToServerMessage {
     }
 
     /**
-     * Returns the game card of the player.
-     * This method is not implemented and always returns null.
+     * Returns the game card in the message.
+     * This method is not implemented here, but it is overridden by classes that provide cards.
      *
      * @return The game card of the player, always null.
      */
     public GameCard getGameCard() {
         return null;
+    }
+
+    /**
+     * Returns the game card ID in the message.
+     * This method is not implemented here, but it is overridden by classes that provide card ids.
+     *
+     * @return The game card ID of the player, always -1.
+     */
+    public int getGameCardId() {
+        return -1;
+    }
+
+    /**
+     * Returns the flipped status of the card.
+     * This method is overridden by the PlaceCardClientToServerMessage class.
+     *
+     * @return The flipped status of the player.
+     */
+    public boolean isFlipped() {
+        return false;
     }
 
     /**

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.data.Parser;
 import it.polimi.ingsw.model.card.CardColorEnum;
 import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.model.card.corner.Corner;
@@ -13,6 +14,8 @@ import it.polimi.ingsw.model.utils.store.GameItemStore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -204,6 +207,43 @@ public class PlayerBoardTest {
         assertEquals(0, playerBoard.getGameItemAmount(GameItemEnum.MANUSCRIPT));
 
         // Check that the points are calculated correctly
-        assertEquals(positionalGoldCard.getPoints(coordinate, playerBoard), points);
+        assertEquals(positionalGoldCard.calculatePoints(coordinate, playerBoard), points);
+    }
+
+    @Test
+    @DisplayName("getAvailablePositions return <0,0> when no cards present")
+    public void getAvailablePositionsReturns00WhenNoCardsPresent() {
+        assertEquals(1, playerBoard.getAvailablePositions().size());
+        assertTrue(playerBoard.getAvailablePositions().contains(new Coordinate(0, 0)));
+    }
+
+    private void placeCard(int x, int y, GameCard card, PlayerBoard playerBoard) {
+        playerBoard.placeGameCard(new Coordinate(x, y), card);
+    }
+
+    private GameCard getGameCardById(int id, ArrayList<GameCard> cards) {
+        return cards.stream().filter(c -> c.getCardId() == id).findFirst().get();
+    }
+
+    @Test
+    @DisplayName("getAvailablePositions returns correct coordinates when cards present")
+    public void getAvailablePositionsReturnsCorrectCoordinatesWhenCardsPresent() {
+        Parser p = new Parser();
+        GameCard starterCard = p.getStarterDeck().getCards().stream().filter(c -> c.getCardId() == 84).findFirst().get();
+        PlayerBoard playerBoard = new PlayerBoard(starterCard);
+        ArrayList<GameCard> cards = p.getResourceDeck().getCards();
+
+        placeCard(0, 0, starterCard, playerBoard);
+        placeCard(1, 1, getGameCardById(2, cards), playerBoard);
+        placeCard(-1, -1, getGameCardById(5, cards), playerBoard);
+        placeCard(-1, 1, getGameCardById(10, cards), playerBoard);
+
+        assertEquals(6, playerBoard.getAvailablePositions().size());
+        assertTrue(playerBoard.getAvailablePositions().contains(new Coordinate(0, 2)));
+        assertTrue(playerBoard.getAvailablePositions().contains(new Coordinate(1, -1)));
+        assertTrue(playerBoard.getAvailablePositions().contains(new Coordinate(2, 2)));
+        assertTrue(playerBoard.getAvailablePositions().contains(new Coordinate(2, 0)));
+        assertTrue(playerBoard.getAvailablePositions().contains(new Coordinate(0, -2)));
+        assertTrue(playerBoard.getAvailablePositions().contains(new Coordinate(-2, -2)));
     }
 }

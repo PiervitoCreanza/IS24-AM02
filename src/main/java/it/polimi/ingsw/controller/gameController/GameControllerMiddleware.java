@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GlobalBoard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
-import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
@@ -44,6 +43,11 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * The number of remaining rounds to end the game.
      */
     private int remainingRoundsToEndGame = 1;
+
+    /**
+     * The saved game status.
+     */
+    private GameStatusEnum savedGameStatus;
 
 
     /**
@@ -116,7 +120,6 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
             if (remainingRoundsToEndGame == 0) {
                 game.calculateWinners();
                 gameStatus = GameStatusEnum.GAME_OVER;
-
                 // Return to prevent the next player from being set
                 return;
             } else {
@@ -161,7 +164,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
         }
 
         // If the game is ready to start, the game status is set to INIT_PLACE_STARTER_CARD
-        if (game.isStarted()) {
+        if (game.isStarted() && gameStatus == GameStatusEnum.WAIT_FOR_PLAYERS) {
             gameStatus = GameStatusEnum.INIT_PLACE_STARTER_CARD;
         }
     }
@@ -171,17 +174,17 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      *
      * @param playerName the name of the player who is placing the card.
      * @param coordinate the coordinate where the card should be placed.
-     * @param card       the card to be placed.
+     * @param cardId     the card to be placed.
      */
     @Override
-    public synchronized void placeCard(String playerName, Coordinate coordinate, GameCard card) {
+    public synchronized void placeCard(String playerName, Coordinate coordinate, int cardId) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.PLACE_CARD && gameStatus != GameStatusEnum.INIT_PLACE_STARTER_CARD) {
             throw new IllegalStateException("Cannot place card in current game status");
         }
 
 
-        gameController.placeCard(playerName, coordinate, card);
+        gameController.placeCard(playerName, coordinate, cardId);
 
 
         // If we are in the init status the next phase is to draw the hand cards and choose the player color
@@ -266,31 +269,31 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * Switches the side of a card.
      *
      * @param playerName the name of the player who is switching the card side.
-     * @param card       the card whose side is to be switched.
+     * @param cardId     the card whose side is to be switched.
      */
 
     @Override
-    public synchronized void switchCardSide(String playerName, GameCard card) {
+    public synchronized void switchCardSide(String playerName, int cardId) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.PLACE_CARD && gameStatus != GameStatusEnum.INIT_PLACE_STARTER_CARD && gameStatus != GameStatusEnum.DRAW_CARD) {
             throw new IllegalStateException("Cannot switch card side in current game status");
         }
-        gameController.switchCardSide(playerName, card);
+        gameController.switchCardSide(playerName, cardId);
     }
 
     /**
      * Sets the objective for a player.
      *
      * @param playerName the name of the player whose objective is to be set.
-     * @param card       the objective card to be set for the player.
+     * @param cardId     the objective card to be set for the player.
      */
     @Override
-    public synchronized void setPlayerObjective(String playerName, ObjectiveCard card) {
+    public synchronized void setPlayerObjective(String playerName, int cardId) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.INIT_CHOOSE_OBJECTIVE_CARD) {
             throw new IllegalStateException("Cannot set player objective in current game status");
         }
-        gameController.setPlayerObjective(playerName, card);
+        gameController.setPlayerObjective(playerName, cardId);
 
         // If the last player has chosen his objective card, the game status is set to PLACE_CARD
         if (game.isLastPlayerAmongConnected()) {
@@ -310,6 +313,22 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      */
     public synchronized void setPlayerConnectionStatus(String playerName, boolean isConnected) {
         gameController.setPlayerConnectionStatus(playerName, isConnected);
+
+        // If there is only one player connected, the game is paused
+        if (game.getConnectedPlayers().size() == 1 && gameStatus != GameStatusEnum.GAME_OVER && gameStatus != GameStatusEnum.WAIT_FOR_PLAYERS) {
+            savedGameStatus = gameStatus;
+            gameStatus = GameStatusEnum.GAME_PAUSED;
+        }
+
+        // If the game is paused and a player reconnects, the game restarts
+        if (gameStatus == GameStatusEnum.GAME_PAUSED && isConnected) {
+            gameStatus = savedGameStatus;
+            // If the current player is not connected anymore we need to skip his turn
+            if (!game.getConnectedPlayers().contains(game.getCurrentPlayer())) {
+                handleDrawFinish();
+            }
+        }
+
         Player currentPlayer = game.getCurrentPlayer();
         // If the player gets disconnected during his turn
         if (currentPlayer.getPlayerName().equals(playerName) && !isConnected) {
@@ -317,11 +336,11 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
                 // These cases don't have breaks because starting from the current status
                 // we want to execute all the initialization steps until the last one.
                 case INIT_PLACE_STARTER_CARD:
-                    placeCard(playerName, new Coordinate(0, 0), currentPlayer.getPlayerBoard().getStarterCard());
+                    placeCard(playerName, new Coordinate(0, 0), currentPlayer.getPlayerBoard().getStarterCard().getCardId());
                 case INIT_CHOOSE_PLAYER_COLOR:
                     choosePlayerColor(playerName, game.getAvailablePlayerColors().getFirst());
                 case INIT_CHOOSE_OBJECTIVE_CARD:
-                    setPlayerObjective(playerName, currentPlayer.getChoosableObjectives().getFirst());
+                    setPlayerObjective(playerName, currentPlayer.getChoosableObjectives().getFirst().getCardId());
                     // End of initialization steps, break the switch.
                     break;
                 case PLACE_CARD:
@@ -364,6 +383,6 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      */
     @Override
     public GameControllerView getVirtualView() {
-        return new GameControllerView(game.getVirtualView(), gameStatus, isLastRound);
+        return new GameControllerView(game.getVirtualView(), gameStatus, isLastRound, remainingRoundsToEndGame);
     }
 }

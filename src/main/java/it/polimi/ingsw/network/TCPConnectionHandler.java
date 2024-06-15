@@ -2,13 +2,15 @@ package it.polimi.ingsw.network;
 
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import it.polimi.ingsw.utils.Observable;
-import it.polimi.ingsw.utils.Observer;
+import it.polimi.ingsw.utils.PropertyChangeNotifier;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -18,16 +20,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * This class is responsible for handling the connection with a client over TCP.
  * It extends Thread, meaning it can run concurrently with other threads.
  */
-public class TCPConnectionHandler extends Thread implements Observable<String> {
+public class TCPConnectionHandler extends Thread implements PropertyChangeNotifier {
     /**
      * Socket object representing the connection to the client.
      */
     private final Socket socket;
-
-    /**
-     * Set of observers that will be notified when a message is received.
-     */
-    private final HashSet<Observer<String>> observers = new HashSet<>();
 
     /**
      * BufferedWriter object used to write to the socket.
@@ -50,6 +47,16 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
     private final LinkedBlockingQueue<String> receivedMessages = new LinkedBlockingQueue<>();
 
     /**
+     * Listeners that will be notified when a message is received.
+     */
+    private final PropertyChangeSupport listeners;
+
+    /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(TCPConnectionHandler.class);
+
+    /**
      * Constructor for the TCPConnectionHandler class.
      *
      * @param socket The socket connected to the client.
@@ -57,7 +64,7 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
     public TCPConnectionHandler(Socket socket) {
         super("TCPConnectionHandler");
         this.socket = socket;
-
+        this.listeners = new PropertyChangeSupport(this);
         try {
             // Initialize PrintWriter and BufferedReader for reading from and writing to the socket
             this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -67,6 +74,7 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
             // Set the timeout to 5 seconds. If no message is received in this time, the socket will throw a SocketTimeoutException.
             // This is useful to detect when the client disconnects.
             this.socket.setSoTimeout(5000);
+            logger.debug("TCP connection established with {}:{}", socket.getInetAddress(), socket.getPort());
 
             // Start the thread that executes received messages
             notifyReceivedMessages();
@@ -74,10 +82,14 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
             heartbeat();
 
         } catch (IOException e) {
+            logger.fatal("Error while getting streams from socket: {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
 
+    /**
+     * Method to send a heartbeat message to the client every 2.5 seconds.
+     */
     private void heartbeat() {
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -90,7 +102,7 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
                 try {
                     send("heartbeat");
                 } catch (IOException e) {
-                    System.out.println("TCP disconnected - detected when pinging");
+                    logger.warn("TCP disconnected - detected when pinging");
                     closeConnection();
                     cancel();
                 }
@@ -113,10 +125,10 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
                     receivedMessages.offer(receivedMessage);
                 }
             } catch (SocketTimeoutException e) {
-                System.out.println("TCP disconnected - detected by timeout");
+                logger.warn("TCP disconnected - detected by timeout");
                 closeConnection();
             } catch (IOException e) {
-                System.out.println("TCP disconnected - detected while reading from socket");
+                logger.warn("TCP disconnected - detected while reading from socket");
                 closeConnection();
             }
         }
@@ -137,8 +149,6 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
             // Discard the heartbeat messages.
             if (!"heartbeat".equals(inputLine)) {
                 allJSON.append(inputLine);
-            } else {
-                //System.out.println("TCP Ping received");
             }
 
             // If the JSON string is complete, break the loop.
@@ -177,41 +187,12 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
             while (this.isConnected.get()) {
                 String message = receivedMessages.poll();
                 if (message != null) {
-                    synchronized (observers) {
-                        observers.forEach(observer -> observer.notify(message));
-                    }
-
+                    this.listeners.firePropertyChange("MESSAGE_RECEIVED", null, message);
                 }
 
             }
         }).start();
 
-    }
-
-    /**
-     * Adds an observer to the observable.
-     * It is synchronized on the observers to prevent race-conditions.
-     *
-     * @param observer the observer to be added
-     */
-    @Override
-    public void addObserver(Observer<String> observer) {
-        synchronized (observers) {
-            observers.add(observer);
-        }
-    }
-
-    /**
-     * Removes an observer from the observable.
-     * It is synchronized on the observers to prevent race-conditions.
-     *
-     * @param observer the observer to be removed
-     */
-    @Override
-    public void removeObserver(Observer<String> observer) {
-        synchronized (observers) {
-            observers.remove(observer);
-        }
     }
 
     /**
@@ -235,15 +216,36 @@ public class TCPConnectionHandler extends Thread implements Observable<String> {
     public synchronized void closeConnection() {
         if (!this.socket.isClosed()) {
             try {
-                // TODO: Improve code
                 this.isConnected.set(false);
                 this.receivedMessages.clear();
-                observers.forEach(observer -> observer.notify("CONNECTION_CLOSED"));
+                this.listeners.firePropertyChange("CONNECTION_CLOSED", null, null);
                 socket.close();
-            } catch (IOException e) {
-                // TODO: Handle any IOExceptions that might occur
+            } catch (IOException ignored) {
+                // This exception is ignored because we are closing the connection.
             }
         }
+    }
+
+    /**
+     * Adds a PropertyChangeListener to the listener list.
+     * The listener will be notified of property changes.
+     *
+     * @param listener The PropertyChangeListener to be added
+     */
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.listeners.addPropertyChangeListener(listener);
+    }
+
+    /**
+     * Removes a PropertyChangeListener from the listener list.
+     * The listener will no longer be notified of property changes.
+     *
+     * @param listener The PropertyChangeListener to be removed
+     */
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.listeners.removePropertyChangeListener(listener);
     }
 }
 

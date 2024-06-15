@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.adapters;
+package it.polimi.ingsw.network.server.message;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,8 +11,6 @@ import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.message.adapter.ServerToClientMessageAdapter;
-import it.polimi.ingsw.network.server.message.ErrorServerToClientMessage;
-import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.DeleteGameServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.server.message.successMessage.GetGamesServerToClientMessage;
@@ -21,12 +19,13 @@ import it.polimi.ingsw.network.virtualView.GameControllerView;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("ServerToClientToServerToClientMessageAdapterTest")
-public class ServerToClientToServerToClientMessageAdapterTest {
+@DisplayName("ServerToClientMessageAdapterTest")
+public class ServerToClientMessageAdapterTest {
 
     Gson gson = new GsonBuilder()
             .enableComplexMapKeySerialization()
@@ -40,13 +39,12 @@ public class ServerToClientToServerToClientMessageAdapterTest {
     @Test
     @DisplayName("Test if serialization and deserialization of UpdateViewServerToClientMessage works")
     public void serializeAndDeserializeUpdateViewServerMessage() {
-
+        GameControllerView gameControllerView;
         mainController.createGame("gameName", "playerName", 2);
         mainController.joinGame("gameName", "playerName2");
         GameControllerMiddleware gameControllerMiddleware = mainController.getGameController("gameName");
-        GameControllerView gameControllerView = mainController.getVirtualView("gameName");
         GameCard gameCard = mainController.getVirtualView("gameName").gameView().playerViews().stream().filter(playerView -> playerView.playerName().equals("playerName")).findFirst().get().starterCard();
-        gameControllerMiddleware.placeCard("playerName", new Coordinate(0, 0), gameCard);
+        gameControllerMiddleware.placeCard("playerName", new Coordinate(0, 0), gameCard.getCardId());
         gameControllerView = mainController.getVirtualView("gameName");
 
         ServerToClientMessage updateViewServerToClientMessage = new UpdateViewServerToClientMessage(gameControllerView);
@@ -59,7 +57,7 @@ public class ServerToClientToServerToClientMessageAdapterTest {
     @Test
     @DisplayName("Test if serialization and deserialization of GetGamesServerToClientMessage works")
     public void serializeAndDeserializeGetGamesServerMessage() {
-        HashSet<GameRecord> gameRecords = new HashSet<>();
+        ArrayList<GameRecord> gameRecords = new ArrayList<>();
         gameRecords.add(new GameRecord("gameName", 2, 2));
         gameRecords.add(new GameRecord("gameName2", 1, 2));
         gameRecords.add(new GameRecord("gameName3", 0, 2));
@@ -88,5 +86,16 @@ public class ServerToClientToServerToClientMessageAdapterTest {
         String jsonErrorServerMessage = this.gson.toJson(errorServerToClientMessage);
         // Deserialize
         assertEquals(errorServerToClientMessage, this.gson.fromJson(jsonErrorServerMessage, ServerToClientMessage.class));
+    }
+
+    @Test
+    @DisplayName("Test if serialization and deserialization of ChatServerToClientMessage works")
+    public void serializeAndDeserializeChatServerMessage() {
+        long timeStamp = new Date().getTime();
+        ServerToClientMessage chatServerToClientMessage = new ChatServerToClientMessage("player1", "message", timeStamp, false);
+        // Serialize
+        String jsonChatServerMessage = this.gson.toJson(chatServerToClientMessage);
+        // Deserialize
+        assertEquals(chatServerToClientMessage, this.gson.fromJson(jsonChatServerMessage, ServerToClientMessage.class));
     }
 }

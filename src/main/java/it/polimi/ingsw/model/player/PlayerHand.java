@@ -59,11 +59,21 @@ public class PlayerHand implements VirtualViewable<PlayerHandView> {
     /**
      * This method is used to check if the hand contains a specific card.
      *
-     * @param card This is the card to check for in the hand.
+     * @param cardId This is the card to check for in the hand.
      * @return boolean This returns true if the hand contains the card, false otherwise.
      */
-    public boolean containsCard(GameCard card) {
-        return hand.contains(card);
+    public boolean containsCard(int cardId) {
+        return hand.stream().anyMatch(c -> c.getCardId() == cardId);
+    }
+
+    /**
+     * This method is used to get a card from the hand by its ID.
+     *
+     * @param cardId This is the ID of the card to get from the hand.
+     * @return GameCard This returns the card with the specified ID, or null if the card is not in the hand.
+     */
+    public GameCard getById(int cardId) {
+        return hand.stream().filter(c -> c.getCardId() == cardId).findFirst().orElse(null);
     }
 
     /**

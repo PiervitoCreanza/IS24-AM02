@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.virtualView;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.player.PlayerColorEnum;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.Objects;
  * The PlayerView class represents the view of a player.
  * It is a record class, which means it is an immutable data carrier with the fields specified in the record declaration.
  */
-public record PlayerView(String playerName, int playerPos, ObjectiveCard objectiveCard,
+public record PlayerView(String playerName, PlayerColorEnum color, int playerPos, ObjectiveCard objectiveCard,
                          ArrayList<ObjectiveCard> choosableObjectives, boolean isConnected, GameCard starterCard,
                          PlayerHandView playerHandView, PlayerBoardView playerBoardView) implements Serializable {
 

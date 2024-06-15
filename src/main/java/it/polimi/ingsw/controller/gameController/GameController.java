@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller.gameController;
 
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
-import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 
@@ -62,10 +61,10 @@ public class GameController implements PlayerActions {
      *
      * @param playerName the name of the player who is placing the card.
      * @param coordinate the coordinate where the card should be placed.
-     * @param card       the card to be placed.
+     * @param cardId     the card to be placed.
      */
-    public void placeCard(String playerName, Coordinate coordinate, GameCard card) {
-        game.getPlayer(playerName).placeGameCard(coordinate, card);
+    public void placeCard(String playerName, Coordinate coordinate, int cardId) {
+        game.getPlayer(playerName).placeGameCard(coordinate, cardId);
     }
 
     /**
@@ -103,24 +102,33 @@ public class GameController implements PlayerActions {
      * Switches the side of a card.
      *
      * @param playerName the name of the player who is switching the card side.
-     * @param card       the card whose side is to be switched.
+     * @param cardId     the card whose side is to be switched.
      */
-    public void switchCardSide(String playerName, GameCard card) {
-        Optional<GameCard> cardToSwitch = game.getPlayer(playerName).getPlayerHand().getCards().stream().filter(c -> c.equals(card)).findFirst();
-        if (cardToSwitch.isEmpty()) {
-            throw new IllegalArgumentException("Card cannot be switched. Not present in player's hand");
+    public void switchCardSide(String playerName, int cardId) {
+        Optional<GameCard> cardToSwitch = game.getPlayer(playerName).getPlayerHand().getCards().stream().filter(c -> c.getCardId() == cardId).findFirst();
+
+        if (cardToSwitch.isPresent()) {
+            cardToSwitch.get().switchSide();
+            return;
         }
-        cardToSwitch.get().switchSide();
+
+        GameCard starterCard = game.getPlayer(playerName).getPlayerBoard().getStarterCard();
+        if (starterCard.getCardId() == cardId) {
+            starterCard.switchSide();
+            return;
+        }
+
+        throw new IllegalArgumentException("Card cannot be switched. Not present in player's hand");
     }
 
     /**
      * Sets the objective for a player.
      *
      * @param playerName the name of the player whose objective is to be set.
-     * @param card       the objective card to be set for the player.
+     * @param cardId     the objective card to be set for the player.
      */
-    public void setPlayerObjective(String playerName, ObjectiveCard card) {
-        game.getPlayer(playerName).setPlayerObjective(card);
+    public void setPlayerObjective(String playerName, int cardId) {
+        game.getPlayer(playerName).setPlayerObjective(cardId);
     }
 
     /**

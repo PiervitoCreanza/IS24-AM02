@@ -1,11 +1,11 @@
 package it.polimi.ingsw.model.card.objectiveCard;
 
 import it.polimi.ingsw.model.card.GameItemEnum;
-import it.polimi.ingsw.model.utils.store.GameItemStore;
 import it.polimi.ingsw.model.player.PlayerBoard;
+import it.polimi.ingsw.model.utils.store.GameItemStore;
 
-import java.util.Objects;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * This class extends the ObjectiveCard class and represents an objective card that rewards points based on the items a player has.
@@ -16,6 +16,15 @@ public class ItemObjectiveCard extends ObjectiveCard {
      * The GameItemStore object that represents the items that are considered for calculating the points.
      */
     private final GameItemStore multiplier;
+
+    /**
+     * Returns the GameItemStore object that represents the items that are considered for calculating the points.
+     *
+     * @return The GameItemStore object that represents the items that are considered for calculating the points.
+     */
+    public GameItemStore getMultiplier() {
+        return multiplier;
+    }
 
     /**
      * Constructs a new ItemObjectiveCard object with the specified number of points and the items that are considered for calculating the points.

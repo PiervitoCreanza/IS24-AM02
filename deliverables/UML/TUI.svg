@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="us-ascii" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" contentStyleType="text/css"
+     height="673px" preserveAspectRatio="none" style="width:2038px;height:673px;background:#FFFFFF;" version="1.1"
+     viewBox="0 0 2038 673" width="2038px" zoomAndPan="magnify">
+    <defs/>
+    <g><!--class Controller-->
+        <g id="elem_Controller">
+            <rect codeLine="3" fill="#F1F1F1" height="80.5938" id="Controller" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="208" x="1540.5" y="15.15"/>
+            <ellipse cx="1606.75" cy="31.15" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M1609.7188,36.7906 Q1609.1406,37.0875 1608.5,37.2281 Q1607.8594,37.3844 1607.1563,37.3844 Q1604.6563,37.3844 1603.3281,35.7437 Q1602.0156,34.0875 1602.0156,30.9625 Q1602.0156,27.8375 1603.3281,26.1812 Q1604.6563,24.525 1607.1563,24.525 Q1607.8594,24.525 1608.5,24.6812 Q1609.1563,24.8375 1609.7188,25.1344 L1609.7188,27.8531 Q1609.0938,27.275 1608.5,27.0094 Q1607.9063,26.7281 1607.2813,26.7281 Q1605.9375,26.7281 1605.25,27.8062 Q1604.5625,28.8687 1604.5625,30.9625 Q1604.5625,33.0562 1605.25,34.1344 Q1605.9375,35.1969 1607.2813,35.1969 Q1607.9063,35.1969 1608.5,34.9312 Q1609.0938,34.65 1609.7188,34.0719 L1609.7188,36.7906 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="67"
+                  x="1627.25" y="35.9967">Controller
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="1541.5" x2="1747.5" y1="47.15" y2="47.15"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="1548.5" y="57.7984"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="88"
+                  x="1560.5" y="64.1451">TUIView view
+            </text>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="1548.5" y="74.0953"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="182"
+                  x="1560.5" y="80.442">SceneEnum currentScene
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="1541.5" x2="1747.5" y1="87.7437" y2="87.7437"/>
+        </g><!--class ClientNetworkControllerMapper-->
+        <g id="elem_ClientNetworkControllerMapper">
+            <rect codeLine="10" fill="#F1F1F1" height="64.2969" id="ClientNetworkControllerMapper" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="247" x="1784" y="23.3"/>
+            <ellipse cx="1799" cy="39.3" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M1801.9688,44.9406 Q1801.3906,45.2375 1800.75,45.3781 Q1800.1094,45.5344 1799.4063,45.5344 Q1796.9063,45.5344 1795.5781,43.8937 Q1794.2656,42.2375 1794.2656,39.1125 Q1794.2656,35.9875 1795.5781,34.3312 Q1796.9063,32.675 1799.4063,32.675 Q1800.1094,32.675 1800.75,32.8312 Q1801.4063,32.9875 1801.9688,33.2844 L1801.9688,36.0031 Q1801.3438,35.425 1800.75,35.1594 Q1800.1563,34.8781 1799.5313,34.8781 Q1798.1875,34.8781 1797.5,35.9562 Q1796.8125,37.0187 1796.8125,39.1125 Q1796.8125,41.2062 1797.5,42.2844 Q1798.1875,43.3469 1799.5313,43.3469 Q1800.1563,43.3469 1800.75,43.0812 Q1801.3438,42.8 1801.9688,42.2219 L1801.9688,44.9406 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="215"
+                  x="1813" y="44.1467">ClientNetworkControllerMapper
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="1785" x2="2030" y1="55.3" y2="55.3"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="1792" y="65.9484"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="88" x="1804"
+                  y="72.2951">TUIView view
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="1785" x2="2030" y1="79.5969" y2="79.5969"/>
+        </g><!--class SceneEnum-->
+        <g id="elem_SceneEnum">
+            <rect codeLine="14" fill="#F1F1F1" height="80.5938" id="SceneEnum" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="116" x="1586.5" y="172.04"/>
+            <ellipse cx="1601.5" cy="188.04" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M1604.4688,193.6806 Q1603.8906,193.9775 1603.25,194.1181 Q1602.6094,194.2744 1601.9063,194.2744 Q1599.4063,194.2744 1598.0781,192.6337 Q1596.7656,190.9775 1596.7656,187.8525 Q1596.7656,184.7275 1598.0781,183.0712 Q1599.4063,181.415 1601.9063,181.415 Q1602.6094,181.415 1603.25,181.5712 Q1603.9063,181.7275 1604.4688,182.0244 L1604.4688,184.7431 Q1603.8438,184.165 1603.25,183.8994 Q1602.6563,183.6181 1602.0313,183.6181 Q1600.6875,183.6181 1600,184.6962 Q1599.3125,185.7587 1599.3125,187.8525 Q1599.3125,189.9462 1600,191.0244 Q1600.6875,192.0869 1602.0313,192.0869 Q1602.6563,192.0869 1603.25,191.8212 Q1603.8438,191.54 1604.4688,190.9619 L1604.4688,193.6806 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="84"
+                  x="1615.5" y="192.8867">SceneEnum
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="1587.5" x2="1701.5" y1="204.04" y2="204.04"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="1594.5" y="214.6884"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85"
+                  x="1606.5" y="221.0351">HomeScene
+            </text>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="1594.5" y="230.9853"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85"
+                  x="1606.5" y="237.332">GameScene
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="1587.5" x2="1701.5" y1="244.6337" y2="244.6337"/>
+        </g><!--class TUIView-->
+        <g id="elem_TUIView">
+            <rect codeLine="19" fill="#F1F1F1" height="80.5938" id="TUIView" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="276" x="1229.5" y="15.15"/>
+            <ellipse cx="1336.25" cy="31.15" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M1339.2188,36.7906 Q1338.6406,37.0875 1338,37.2281 Q1337.3594,37.3844 1336.6563,37.3844 Q1334.1563,37.3844 1332.8281,35.7437 Q1331.5156,34.0875 1331.5156,30.9625 Q1331.5156,27.8375 1332.8281,26.1812 Q1334.1563,24.525 1336.6563,24.525 Q1337.3594,24.525 1338,24.6812 Q1338.6563,24.8375 1339.2188,25.1344 L1339.2188,27.8531 Q1338.5938,27.275 1338,27.0094 Q1337.4063,26.7281 1336.7813,26.7281 Q1335.4375,26.7281 1334.75,27.8062 Q1334.0625,28.8687 1334.0625,30.9625 Q1334.0625,33.0562 1334.75,34.1344 Q1335.4375,35.1969 1336.7813,35.1969 Q1337.4063,35.1969 1338,34.9312 Q1338.5938,34.65 1339.2188,34.0719 L1339.2188,36.7906 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54"
+                  x="1356.75" y="35.9967">TUIView
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="1230.5" x2="1504.5" y1="47.15" y2="47.15"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="142"
+                  x="1235.5" y="64.1451">Scene currentScene
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="1230.5" x2="1504.5" y1="71.4469" y2="71.4469"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="264"
+                  x="1235.5" y="88.442">void displayScene(SceneEnum scene)
+            </text>
+        </g><!--class UserInputScene-->
+        <g id="elem_Scene">
+            <rect codeLine="24" fill="#F1F1F1" height="64.2969" id="Scene" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="101" x="1317" y="180.19"/>
+            <ellipse cx="1343.25" cy="196.19" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M1339.1719,191.9556 L1339.1719,189.7994 L1346.5625,189.7994 L1346.5625,191.9556 L1344.0938,191.9556 L1344.0938,200.0338 L1346.5625,200.0338 L1346.5625,202.19 L1339.1719,202.19 L1339.1719,200.0338 L1341.6406,200.0338 L1341.6406,191.9556 L1339.1719,191.9556 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing"
+                  textLength="44" x="1359.75" y="201.0367">Scene
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="1318" x2="1417" y1="212.19" y2="212.19"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="1318" x2="1417" y1="220.19" y2="220.19"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="89" x="1323"
+                  y="237.1851">void display()
+            </text>
+        </g><!--class HomeScene-->
+        <g id="elem_HomeScene">
+            <rect codeLine="28" fill="#F1F1F1" height="64.2969" id="HomeScene" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="295" x="1220" y="320.79"/>
+            <ellipse cx="1320.75" cy="336.79" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M1323.7188,342.4306 Q1323.1406,342.7275 1322.5,342.8681 Q1321.8594,343.0244 1321.1563,343.0244 Q1318.6563,343.0244 1317.3281,341.3837 Q1316.0156,339.7275 1316.0156,336.6025 Q1316.0156,333.4775 1317.3281,331.8212 Q1318.6563,330.165 1321.1563,330.165 Q1321.8594,330.165 1322.5,330.3212 Q1323.1563,330.4775 1323.7188,330.7744 L1323.7188,333.4931 Q1323.0938,332.915 1322.5,332.6494 Q1321.9063,332.3681 1321.2813,332.3681 Q1319.9375,332.3681 1319.25,333.4462 Q1318.5625,334.5087 1318.5625,336.6025 Q1318.5625,338.6962 1319.25,339.7744 Q1319.9375,340.8369 1321.2813,340.8369 Q1321.9063,340.8369 1322.5,340.5712 Q1323.0938,340.29 1323.7188,339.7119 L1323.7188,342.4306 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85"
+                  x="1341.25" y="341.6367">HomeScene
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="1221" x2="1514" y1="352.79" y2="352.79"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="1221" x2="1514" y1="360.79" y2="360.79"/>
+            <ellipse cx="1231" cy="374.4384" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="269"
+                  x="1240" y="377.7851">HomeScene(GameControllerView view)
+            </text>
+        </g>
+        <g id="elem_GMN10">
+            <path d="M1549.5,332.8 L1549.5,349.27 L1515.11,353.27 L1549.5,357.27 L1549.5,373.0656 A0,0 0 0 0 1549.5,373.0656 L1757.5,373.0656 A0,0 0 0 0 1757.5,373.0656 L1757.5,342.8 L1747.5,332.8 L1549.5,332.8 A0,0 0 0 0 1549.5,332.8 "
+                  fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/>
+            <path d="M1747.5,332.8 L1747.5,342.8 L1757.5,342.8 L1747.5,332.8 " fill="#FEFFDD"
+                  style="stroke:#181818;stroke-width:0.5;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="158"
+                  x="1555.5" y="349.8669">Mostra i giochi disponibili
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="187"
+                  x="1555.5" y="364.9997">Permette di scegliere il game
+            </text>
+        </g><!--class GameScene-->
+        <g id="elem_GameScene">
+            <rect codeLine="33" fill="#F1F1F1" height="64.2969" id="GameScene" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="186" x="894.5" y="320.79"/>
+            <ellipse cx="940.75" cy="336.79" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M943.7188,342.4306 Q943.1406,342.7275 942.5,342.8681 Q941.8594,343.0244 941.1563,343.0244 Q938.6563,343.0244 937.3281,341.3837 Q936.0156,339.7275 936.0156,336.6025 Q936.0156,333.4775 937.3281,331.8212 Q938.6563,330.165 941.1563,330.165 Q941.8594,330.165 942.5,330.3212 Q943.1563,330.4775 943.7188,330.7744 L943.7188,333.4931 Q943.0938,332.915 942.5,332.6494 Q941.9063,332.3681 941.2813,332.3681 Q939.9375,332.3681 939.25,333.4462 Q938.5625,334.5087 938.5625,336.6025 Q938.5625,338.6962 939.25,339.7744 Q939.9375,340.8369 941.2813,340.8369 Q941.9063,340.8369 942.5,340.5712 Q943.0938,340.29 943.7188,339.7119 L943.7188,342.4306 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85"
+                  x="961.25" y="341.6367">GameScene
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="895.5" x2="1079.5" y1="352.79" y2="352.79"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="174"
+                  x="900.5" y="369.7851">GameControllerView view
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="895.5" x2="1079.5" y1="377.0869" y2="377.0869"/>
+        </g><!--class DrawArea-->
+        <g id="elem_DrawArea">
+            <rect codeLine="46" fill="#F1F1F1" height="96.8906" id="DrawArea" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="307" x="241" y="163.89"/>
+            <ellipse cx="357.25" cy="179.89" fill="#A9DCDF" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M357.3594,175.2338 L356.2031,180.3119 L358.5313,180.3119 L357.3594,175.2338 Z M355.875,172.9994 L358.8594,172.9994 L362.2188,185.39 L359.7656,185.39 L359,182.3275 L355.7188,182.3275 L354.9688,185.39 L352.5313,185.39 L355.875,172.9994 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing"
+                  textLength="66" x="377.75" y="184.7367">DrawArea
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="242" x2="547" y1="195.89" y2="195.89"/>
+            <polygon fill="none" points="252,204.5384,256,208.5384,252,212.5384,248,208.5384"
+                     style="stroke:#B38D22;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="120" x="261"
+                  y="212.8851">Char[][] drawArea
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="242" x2="547" y1="220.1869" y2="220.1869"/>
+            <polygon fill="#FFFF44" points="252,228.8353,256,232.8353,252,236.8353,248,232.8353"
+                     style="stroke:#B38D22;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="281" x="261"
+                  y="237.182">void drawAt(int x, int y, Char[][] drawArea)
+            </text>
+            <ellipse cx="252" cy="250.1322" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="184" x="261"
+                  y="253.4789">Char[][] getDrawableArea()
+            </text>
+        </g><!--class PlayerInventoryComponent-->
+        <g id="elem_PlayerInventoryComponent">
+            <rect codeLine="53" fill="#F1F1F1" height="80.5938" id="PlayerInventoryComponent" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="610" x="400.5" y="445.08"/>
+            <ellipse cx="608.25" cy="461.08" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M611.2188,466.7206 Q610.6406,467.0175 610,467.1581 Q609.3594,467.3144 608.6563,467.3144 Q606.1563,467.3144 604.8281,465.6738 Q603.5156,464.0175 603.5156,460.8925 Q603.5156,457.7675 604.8281,456.1113 Q606.1563,454.455 608.6563,454.455 Q609.3594,454.455 610,454.6113 Q610.6563,454.7675 611.2188,455.0644 L611.2188,457.7831 Q610.5938,457.205 610,456.9394 Q609.4063,456.6581 608.7813,456.6581 Q607.4375,456.6581 606.75,457.7363 Q606.0625,458.7988 606.0625,460.8925 Q606.0625,462.9863 606.75,464.0644 Q607.4375,465.1269 608.7813,465.1269 Q609.4063,465.1269 610,464.8613 Q610.5938,464.58 611.2188,464.0019 L611.2188,466.7206 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="186"
+                  x="628.75" y="465.9267">PlayerInventoryComponent
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="401.5" x2="1009.5" y1="477.08" y2="477.08"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="408.5" y="487.7284"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="134"
+                  x="420.5" y="494.0751">DrawArea drawArea
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="401.5" x2="1009.5" y1="501.3769" y2="501.3769"/>
+            <ellipse cx="411.5" cy="515.0253" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="584"
+                  x="420.5" y="518.372">public PlayerInventoryComponent(PlayerHandView, playerObjective,
+                globalObjectives)
+            </text>
+        </g><!--class PlayerBoardComponent-->
+        <g id="elem_PlayerBoardComponent">
+            <rect codeLine="59" fill="#F1F1F1" height="80.5938" id="PlayerBoardComponent" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="318" x="1045.5" y="445.08"/>
+            <ellipse cx="1118.25" cy="461.08" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M1121.2188,466.7206 Q1120.6406,467.0175 1120,467.1581 Q1119.3594,467.3144 1118.6563,467.3144 Q1116.1563,467.3144 1114.8281,465.6738 Q1113.5156,464.0175 1113.5156,460.8925 Q1113.5156,457.7675 1114.8281,456.1113 Q1116.1563,454.455 1118.6563,454.455 Q1119.3594,454.455 1120,454.6113 Q1120.6563,454.7675 1121.2188,455.0644 L1121.2188,457.7831 Q1120.5938,457.205 1120,456.9394 Q1119.4063,456.6581 1118.7813,456.6581 Q1117.4375,456.6581 1116.75,457.7363 Q1116.0625,458.7988 1116.0625,460.8925 Q1116.0625,462.9863 1116.75,464.0644 Q1117.4375,465.1269 1118.7813,465.1269 Q1119.4063,465.1269 1120,464.8613 Q1120.5938,464.58 1121.2188,464.0019 L1121.2188,466.7206 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="164"
+                  x="1138.75" y="465.9267">PlayerBoardComponent
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="1046.5" x2="1362.5" y1="477.08" y2="477.08"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="1053.5" y="487.7284"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="134"
+                  x="1065.5" y="494.0751">DrawArea drawArea
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="1046.5" x2="1362.5" y1="501.3769" y2="501.3769"/>
+            <ellipse cx="1056.5" cy="515.0253" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="292"
+                  x="1065.5" y="518.372">public PlayerBoardComponent(PlayerView)
+            </text>
+        </g>
+        <g id="elem_GMN21">
+            <path d="M576,340.37 L576,365.5028 A0,0 0 0 0 576,365.5028 L859,365.5028 A0,0 0 0 0 859,365.5028 L859,358.37 L894.17,353.27 L859,350.37 L859,350.37 L849,340.37 L576,340.37 A0,0 0 0 0 576,340.37 "
+                  fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/>
+            <path d="M849,340.37 L849,350.37 L859,350.37 L849,340.37 " fill="#FEFFDD"
+                  style="stroke:#181818;stroke-width:0.5;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="262" x="582"
+                  y="357.4369">shows player's board, hand and objective
+            </text>
+        </g><!--class Drawable-->
+        <g id="elem_Drawable">
+            <rect codeLine="40" fill="#F1F1F1" height="96.8906" id="Drawable" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="199" x="638" y="7"/>
+            <ellipse cx="701.25" cy="23" fill="#B4A7E5" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M697.1719,18.7656 L697.1719,16.6094 L704.5625,16.6094 L704.5625,18.7656 L702.0938,18.7656 L702.0938,26.8438 L704.5625,26.8438 L704.5625,29 L697.1719,29 L697.1719,26.8438 L699.6406,26.8438 L699.6406,18.7656 L697.1719,18.7656 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing"
+                  textLength="64" x="721.75" y="27.8467">Drawable
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="639" x2="836" y1="39" y2="39"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="639" x2="836" y1="47" y2="47"/>
+            <ellipse cx="649" cy="60.6484" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="99" x="658"
+                  y="63.9951">int getHeight()
+            </text>
+            <ellipse cx="649" cy="76.9453" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="93" x="658"
+                  y="80.292">int getWidth()
+            </text>
+            <ellipse cx="649" cy="93.2422" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="173" x="658"
+                  y="96.5889">Char[][] getDrawedArea()
+            </text>
+        </g>
+        <g id="elem_GMN26">
+            <path d="M200,42.88 L200,68.0128 A0,0 0 0 0 200,68.0128 L390.5,68.0128 L394.5,163.74 L398.5,68.0128 L589,68.0128 A0,0 0 0 0 589,68.0128 L589,52.88 L579,42.88 L200,42.88 A0,0 0 0 0 200,42.88 "
+                  fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/>
+            <path d="M579,42.88 L579,52.88 L589,52.88 L579,42.88 " fill="#FEFFDD"
+                  style="stroke:#181818;stroke-width:0.5;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="368" x="206"
+                  y="59.9469">Qui vengono posizionate le varie Drawable da visualizzare
+            </text>
+        </g>
+        <g id="elem_GMN30">
+            <path d="M777,613.41 L777,638.5428 A0,0 0 0 0 777,638.5428 L972,638.5428 A0,0 0 0 0 972,638.5428 L972,623.41 L962,613.41 L878.5,613.41 L874.5,526.04 L870.5,613.41 L777,613.41 A0,0 0 0 0 777,613.41 "
+                  fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/>
+            <path d="M962,613.41 L962,623.41 L972,623.41 L962,613.41 " fill="#FEFFDD"
+                  style="stroke:#181818;stroke-width:0.5;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="174" x="783"
+                  y="630.4769">Mostra la hand e l'objective
+            </text>
+        </g>
+        <g id="elem_GMN34">
+            <path d="M1007,613.41 L1007,638.5428 A0,0 0 0 0 1007,638.5428 L1466,638.5428 A0,0 0 0 0 1466,638.5428 L1466,623.41 L1456,613.41 L1208.5,613.41 L1204.5,526.04 L1200.5,613.41 L1007,613.41 A0,0 0 0 0 1007,613.41 "
+                  fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/>
+            <path d="M1456,613.41 L1456,623.41 L1466,623.41 L1456,613.41 " fill="#FEFFDD"
+                  style="stroke:#181818;stroke-width:0.5;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="438"
+                  x="1013" y="630.4769">Mostra la playerboard, il nome, le risorse e la posizione del giocatore
+            </text>
+        </g><!--class PlayerHandComponent-->
+        <g id="elem_PlayerHandComponent">
+            <rect codeLine="65" fill="#F1F1F1" height="80.5938" id="PlayerHandComponent" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="349" x="7" y="585.68"/>
+            <ellipse cx="97.75" cy="601.68" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M100.7188,607.3206 Q100.1406,607.6175 99.5,607.7581 Q98.8594,607.9144 98.1563,607.9144 Q95.6563,607.9144 94.3281,606.2738 Q93.0156,604.6175 93.0156,601.4925 Q93.0156,598.3675 94.3281,596.7113 Q95.6563,595.055 98.1563,595.055 Q98.8594,595.055 99.5,595.2113 Q100.1563,595.3675 100.7188,595.6644 L100.7188,598.3831 Q100.0938,597.805 99.5,597.5394 Q98.9063,597.2581 98.2813,597.2581 Q96.9375,597.2581 96.25,598.3363 Q95.5625,599.3988 95.5625,601.4925 Q95.5625,603.5863 96.25,604.6644 Q96.9375,605.7269 98.2813,605.7269 Q98.9063,605.7269 99.5,605.4613 Q100.0938,605.18 100.7188,604.6019 L100.7188,607.3206 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="159"
+                  x="118.25" y="606.5267">PlayerHandComponent
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="355" y1="617.68" y2="617.68"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="15" y="628.3284"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="134" x="27"
+                  y="634.6751">DrawArea drawArea
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="355" y1="641.9769" y2="641.9769"/>
+            <ellipse cx="18" cy="655.6253" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="323" x="27"
+                  y="658.972">public PlayerHandComponent(PlayerHandView)
+            </text>
+        </g><!--class GlobalObjectivesComponent-->
+        <g id="elem_GlobalObjectivesComponent">
+            <rect codeLine="71" fill="#F1F1F1" height="80.5938" id="GlobalObjectivesComponent" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="351" x="391" y="585.68"/>
+            <ellipse cx="463.75" cy="601.68" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M466.7188,607.3206 Q466.1406,607.6175 465.5,607.7581 Q464.8594,607.9144 464.1563,607.9144 Q461.6563,607.9144 460.3281,606.2738 Q459.0156,604.6175 459.0156,601.4925 Q459.0156,598.3675 460.3281,596.7113 Q461.6563,595.055 464.1563,595.055 Q464.8594,595.055 465.5,595.2113 Q466.1563,595.3675 466.7188,595.6644 L466.7188,598.3831 Q466.0938,597.805 465.5,597.5394 Q464.9063,597.2581 464.2813,597.2581 Q462.9375,597.2581 462.25,598.3363 Q461.5625,599.3988 461.5625,601.4925 Q461.5625,603.5863 462.25,604.6644 Q462.9375,605.7269 464.2813,605.7269 Q464.9063,605.7269 465.5,605.4613 Q466.0938,605.18 466.7188,604.6019 L466.7188,607.3206 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="197"
+                  x="484.25" y="606.5267">GlobalObjectivesComponent
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="392" x2="741" y1="617.68" y2="617.68"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="399" y="628.3284"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="134" x="411"
+                  y="634.6751">DrawArea drawArea
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="392" x2="741" y1="641.9769" y2="641.9769"/>
+            <ellipse cx="402" cy="655.6253" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="325" x="411"
+                  y="658.972">public GlobalObjectivesComponent(GameView)
+            </text>
+        </g><!--class GameCardComponent-->
+        <g id="elem_GameCardComponent">
+            <rect codeLine="77" fill="#F1F1F1" height="80.5938" id="GameCardComponent" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="309" x="583" y="172.04"/>
+            <ellipse cx="655.75" cy="188.04" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M658.7188,193.6806 Q658.1406,193.9775 657.5,194.1181 Q656.8594,194.2744 656.1563,194.2744 Q653.6563,194.2744 652.3281,192.6337 Q651.0156,190.9775 651.0156,187.8525 Q651.0156,184.7275 652.3281,183.0712 Q653.6563,181.415 656.1563,181.415 Q656.8594,181.415 657.5,181.5712 Q658.1563,181.7275 658.7188,182.0244 L658.7188,184.7431 Q658.0938,184.165 657.5,183.8994 Q656.9063,183.6181 656.2813,183.6181 Q654.9375,183.6181 654.25,184.6962 Q653.5625,185.7587 653.5625,187.8525 Q653.5625,189.9462 654.25,191.0244 Q654.9375,192.0869 656.2813,192.0869 Q656.9063,192.0869 657.5,191.8212 Q658.0938,191.54 658.7188,190.9619 L658.7188,193.6806 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="155"
+                  x="676.25" y="192.8867">GameCardComponent
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="584" x2="891" y1="204.04" y2="204.04"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="591" y="214.6884"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="120" x="603"
+                  y="221.0351">Char[][] drawArea
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="584" x2="891" y1="228.3369" y2="228.3369"/>
+            <ellipse cx="594" cy="241.9853" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="283" x="603"
+                  y="245.332">public GameCardComponent(GameCard)
+            </text>
+        </g><!--class ObjectiveCardComponent-->
+        <g id="elem_ObjectiveCardComponent">
+            <rect codeLine="82" fill="#F1F1F1" height="80.5938" id="ObjectiveCardComponent" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="355" x="927" y="172.04"/>
+            <ellipse cx="1011.25" cy="188.04" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M1014.2188,193.6806 Q1013.6406,193.9775 1013,194.1181 Q1012.3594,194.2744 1011.6563,194.2744 Q1009.1563,194.2744 1007.8281,192.6337 Q1006.5156,190.9775 1006.5156,187.8525 Q1006.5156,184.7275 1007.8281,183.0712 Q1009.1563,181.415 1011.6563,181.415 Q1012.3594,181.415 1013,181.5712 Q1013.6563,181.7275 1014.2188,182.0244 L1014.2188,184.7431 Q1013.5938,184.165 1013,183.8994 Q1012.4063,183.6181 1011.7813,183.6181 Q1010.4375,183.6181 1009.75,184.6962 Q1009.0625,185.7587 1009.0625,187.8525 Q1009.0625,189.9462 1009.75,191.0244 Q1010.4375,192.0869 1011.7813,192.0869 Q1012.4063,192.0869 1013,191.8212 Q1013.5938,191.54 1014.2188,190.9619 L1014.2188,193.6806 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="178"
+                  x="1031.75" y="192.8867">ObjectiveCardComponent
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="928" x2="1281" y1="204.04" y2="204.04"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="935" y="214.6884"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="120" x="947"
+                  y="221.0351">Char[][] drawArea
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="928" x2="1281" y1="228.3369" y2="228.3369"/>
+            <ellipse cx="938" cy="241.9853" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="329" x="947"
+                  y="245.332">public ObjectiveCardComponent(ObjectiveCard)
+            </text>
+        </g><!--reverse link TUIView to UserInputScene-->
+        <g id="link_TUIView_Scene">
+            <path codeLine="23" d="M1367.5,107.85 C1367.5,133.91 1367.5,155.36 1367.5,179.72 " fill="none"
+                  id="TUIView-backto-Scene" style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818" points="1367.5,95.85,1363.5,101.85,1367.5,107.85,1371.5,101.85,1367.5,95.85"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link UserInputScene to HomeScene-->
+        <g id="link_Scene_HomeScene">
+            <path d="M1384.33,262.95 C1384.33,285.66 1384.33,297.83 1384.33,320.5 " fill="none"
+                  id="Scene-backto-HomeScene" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/>
+            <polygon fill="none" points="1384.33,244.95,1378.33,262.95,1390.33,262.95,1384.33,244.95"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link DrawArea to GameScene-->
+        <g id="link_DrawArea_GameScene">
+            <path d="M566.34,257.27 C718.49,257.27 910.75,257.27 910.75,257.27 C910.75,257.27 910.75,292.79 910.75,320.55 "
+                  fill="none" id="DrawArea-backto-GameScene" style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="none" points="548.34,257.27,566.34,263.27,566.34,251.27,548.34,257.27"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link UserInputScene to GameScene-->
+        <g id="link_Scene_GameScene">
+            <path d="M1350.67,262.93 C1350.67,262.93 1003.75,259.27 1003.75,259.27 C1003.75,259.27 1003.75,293.39 1003.75,320.44 "
+                  fill="none" id="Scene-backto-GameScene"
+                  style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/>
+            <polygon fill="none" points="1350.67,244.93,1344.67,262.93,1356.67,262.93,1350.67,244.93"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link GameScene to PlayerInventoryComponent-->
+        <g id="link_GameScene_PlayerInventoryComponent">
+            <path codeLine="36" d="M952.5,397.33 C952.5,415.25 952.5,425.69 952.5,444.77 " fill="none"
+                  id="GameScene-backto-PlayerInventoryComponent" style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818" points="952.5,385.33,948.5,391.33,952.5,397.33,956.5,391.33,952.5,385.33"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link GameScene to PlayerBoardComponent-->
+        <g id="link_GameScene_PlayerBoardComponent">
+            <path codeLine="37" d="M1063,397.33 C1063,415.25 1063,425.69 1063,444.77 " fill="none"
+                  id="GameScene-backto-PlayerBoardComponent" style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818" points="1063,385.33,1059,391.33,1063,397.33,1067,391.33,1063,385.33"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link Drawable to DrawArea-->
+        <g id="link_Drawable_DrawArea">
+            <path d="M704.33,122.28 C704.33,152.77 704.33,168.27 704.33,168.27 C704.33,168.27 625.96,168.27 548.06,168.27 "
+                  fill="none" id="Drawable-backto-DrawArea"
+                  style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/>
+            <polygon fill="none" points="704.33,104.28,698.33,122.28,710.33,122.28,704.33,104.28"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link DrawArea to PlayerInventoryComponent-->
+        <g id="link_DrawArea_PlayerInventoryComponent">
+            <path d="M474.25,279.15 C474.25,331.61 474.25,396.04 474.25,444.99 " fill="none"
+                  id="DrawArea-backto-PlayerInventoryComponent" style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="none" points="474.25,261.15,468.25,279.15,480.25,279.15,474.25,261.15"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link DrawArea to PlayerBoardComponent-->
+        <g id="link_DrawArea_PlayerBoardComponent">
+            <path d="M566.35,255.27 C787.32,255.27 1150.25,255.27 1150.25,255.27 C1150.25,255.27 1150.25,378.71 1150.25,444.77 "
+                  fill="none" id="DrawArea-backto-PlayerBoardComponent" style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="none" points="548.35,255.27,566.35,261.27,566.35,249.27,548.35,255.27"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link DrawArea to PlayerHandComponent-->
+        <g id="link_DrawArea_PlayerHandComponent">
+            <path d="M279.33,279.01 C279.33,361.33 279.33,508.59 279.33,585.22 " fill="none"
+                  id="DrawArea-backto-PlayerHandComponent" style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="none" points="279.33,261.01,273.33,279.01,285.33,279.01,279.33,261.01"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link PlayerInventoryComponent to PlayerHandComponent-->
+        <g id="link_PlayerInventoryComponent_PlayerHandComponent">
+            <path codeLine="69"
+                  d="M388.39,486.27 C340.07,486.27 317.67,486.27 317.67,486.27 C317.67,486.27 317.67,543.95 317.67,585.19 "
+                  fill="none" id="PlayerInventoryComponent-backto-PlayerHandComponent"
+                  style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818" points="400.39,486.27,394.39,482.27,388.39,486.27,394.39,490.27,400.39,486.27"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link DrawArea to GlobalObjectivesComponent-->
+        <g id="link_DrawArea_GlobalObjectivesComponent">
+            <path d="M395.75,279.01 C395.75,361.33 395.75,508.59 395.75,585.22 " fill="none"
+                  id="DrawArea-backto-GlobalObjectivesComponent" style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="none" points="395.75,261.01,389.75,279.01,401.75,279.01,395.75,261.01"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link PlayerInventoryComponent to GlobalObjectivesComponent-->
+        <g id="link_PlayerInventoryComponent_GlobalObjectivesComponent">
+            <path codeLine="75" d="M571.25,538.04 C571.25,556.7 571.25,566.76 571.25,585.4 " fill="none"
+                  id="PlayerInventoryComponent-backto-GlobalObjectivesComponent"
+                  style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818" points="571.25,526.04,567.25,532.04,571.25,538.04,575.25,532.04,571.25,526.04"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link Drawable to GameCardComponent-->
+        <g id="link_Drawable_GameCardComponent">
+            <path d="M770.67,122.23 C770.67,143.91 770.67,151.13 770.67,171.76 " fill="none"
+                  id="Drawable-backto-GameCardComponent"
+                  style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/>
+            <polygon fill="none" points="770.67,104.23,764.67,122.23,776.67,122.23,770.67,104.23"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--reverse link Drawable to ObjectiveCardComponent-->
+        <g id="link_Drawable_ObjectiveCardComponent">
+            <path d="M855.43,100.27 C955.98,100.27 1078.25,100.27 1078.25,100.27 C1078.25,100.27 1078.25,139.52 1078.25,171.56 "
+                  fill="none" id="Drawable-backto-ObjectiveCardComponent"
+                  style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/>
+            <polygon fill="none" points="837.43,100.27,855.43,106.27,855.43,94.27,837.43,100.27"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--SRC=[hLNBRjim4BphAnRe8KfZ_u1lhHlKEQHDqJOzf3bGqbfYGt45ahPZ1_ttBlMW9Di22YG6_D2IEvoPNQxjazILCA849JMwVOL0nXKKHQaIriAIj3Ea51fuYO1Vyny_R-ubxc3B7qtaUueQh_McX7HZ36fN1w8e-XjGbEJm5tGxCayzvAsegWdWaDg3jzjML69pGFtuMNIF8QK5QlRNQsDYFhmbcK4cRQN4lex6_K7M_xfal8xH-_cymOcaTcZM8iKMz-K4BBxiYGIg8CjAOSaCx2ZnAko8lOxUcM24HzFa48pC2mUqxa4NS4lM6G4ISabf8MiAf6KYbVojxz2Kw3WparvHpYKmJ4H1pYTr38DxWCyETMRXan6x3mR55EK9daopn_9-tR4NQ6xqbX78x9TKCZN-VNRRHn8cwxVKWXMkQxrX_m9iGJiBLProOI7nMJCeXCx0lodvWwcJMrRNrydh4OaAZlCAvEXMwFtaOWs3lsJcYYwsB8HvU7nuz0iU13DlIrDUaNZZKmUDY-SyEphtNO3BsirDk6aT7tAnP_4y0_-rdy59mWGlVqXWLZldgFB6TQmMy6qZWUkGaoQeoCg392rgYs4hZ1oOb0ckfjq89Gy7OKARJ1Npj6lQIngUHsglgasYP3e95pSBAowcRwnPM-glNLrda2jAX0e16pGdv1oLNlOKUBWkIZGjm_el1YqpL3hknrUf74Er2k-7D_kO-ZXZIBknesrxlicQHy7CLz58IyQYboH2XRcQgEhH8DY88uNUuxSHE48wgg3NEDax_VKVGOJHT5JgrxATnAj7xt-ndOGOZjFbg7Mc9yBy_4G8T8-XuYuo-8C9LDxeqFDuyIZCn_y3]-->
+    </g>
+</svg>

@@ -13,7 +13,8 @@ import java.util.Objects;
  * It is a record class, which means it is an immutable data carrier with the fields specified in the record declaration.
  */
 public record PlayerBoardView(HashMap<Coordinate, GameCard> playerBoard,
-                              GameItemStore gameItemStore) implements Serializable {
+                              GameItemStore gameItemStore,
+                              java.util.HashSet<Coordinate> availablePositions) implements Serializable {
 
     @Override
     public boolean equals(Object o) {

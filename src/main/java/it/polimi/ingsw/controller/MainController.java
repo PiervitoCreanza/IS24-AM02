@@ -6,7 +6,6 @@ import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -41,8 +40,8 @@ public class MainController {
      *
      * @return ArrayList of GameRecord objects.
      */
-    public HashSet<GameRecord> getGameRecords() {
-        return gameControllerMiddlewares.stream().map(GameControllerMiddleware::getGame).map(Game::getGameRecord).collect(Collectors.toCollection(HashSet::new));
+    public ArrayList<GameRecord> getGameRecords() {
+        return gameControllerMiddlewares.stream().map(GameControllerMiddleware::getGame).map(Game::getGameRecord).collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -143,16 +142,14 @@ public class MainController {
      *
      * @param gameName   The name of the game to join.
      * @param playerName The name of the player joining the game, it will also be his nickname
-     * @return The Game object that represents the game the player joined.
      * @throws IllegalArgumentException if a game with the specified name does not exist or a player with the same name already exists in the game.
      */
-    public Game joinGame(String gameName, String playerName) {
+    public void joinGame(String gameName, String playerName) {
         Optional<GameControllerMiddleware> chosenGameControllerMiddleware = findGame(gameName);
         if (chosenGameControllerMiddleware.isEmpty())
             throw new IllegalArgumentException("A game with the name \"" + gameName + "\" doesn't exists");
 
         chosenGameControllerMiddleware.get().joinGame(playerName);
-        return chosenGameControllerMiddleware.get().getGame();
     }
 
     /**

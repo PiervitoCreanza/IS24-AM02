@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+        </Console>
+
+        <File name="DebugLoggerFile" fileName="logs/DEBUG.log">
+            <PatternLayout pattern="%d{HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+        </File>
+        <File name="TracceLogFile" fileName="logs/TRACE.log">
+            <PatternLayout pattern="%d{HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+        </File>
+    </Appenders>
+
+    <Loggers>
+        <Root level="DEBUG">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="DebugLoggerFile"/>
+        </Root>
+        <logger name="it" level="TRACE">
+            <AppenderRef ref="TracceLogFile"/>
+        </logger>
+    </Loggers>
+</Configuration>

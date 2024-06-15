@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller.gameController;
 
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
-import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 
@@ -38,9 +37,9 @@ interface PlayerActions {
      *
      * @param playerName the name of the player who is placing the card.
      * @param coordinate the coordinate where the card should be placed.
-     * @param card       the card to be placed.
+     * @param cardId     the card to be placed.
      */
-    void placeCard(String playerName, Coordinate coordinate, GameCard card);
+    void placeCard(String playerName, Coordinate coordinate, int cardId);
 
     /**
      * Draws a card from the game field.
@@ -68,17 +67,17 @@ interface PlayerActions {
      * Switches the side of a card.
      *
      * @param playerName the name of the player who is switching the card side.
-     * @param card       the card whose side is to be switched.
+     * @param cardId     the card whose side is to be switched.
      */
-    void switchCardSide(String playerName, GameCard card);
+    void switchCardSide(String playerName, int cardId);
 
     /**
      * Sets the objective for a player.
      *
      * @param playerName the name of the player whose objective is to be set.
-     * @param card       the objective card to be set for the player.
+     * @param cardId     the objective card to be set for the player.
      */
-    void setPlayerObjective(String playerName, ObjectiveCard card);
+    void setPlayerObjective(String playerName, int cardId);
 
     /**
      * Sets the connection status of a player.

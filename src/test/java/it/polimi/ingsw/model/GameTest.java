@@ -40,8 +40,8 @@ class GameTest {
         testPlayer2.getChoosableObjectives().removeFirst();
         testPlayer1.getChoosableObjectives().add(mockPlayerObjective1);
         testPlayer2.getChoosableObjectives().add(mockPlayerObjective2);
-        testPlayer1.setPlayerObjective(mockPlayerObjective1);
-        testPlayer2.setPlayerObjective(mockPlayerObjective2);
+        testPlayer1.setPlayerObjective(mockPlayerObjective1.getCardId());
+        testPlayer2.setPlayerObjective(mockPlayerObjective2.getCardId());
 
         //We also initialize the globalObjectives, both with same mock and both "not completed" for the players
         ObjectiveCard mockGlobalObjective = Mockito.mock(ObjectiveCard.class);

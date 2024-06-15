@@ -4,11 +4,13 @@ import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
 import it.polimi.ingsw.network.server.ServerMessageHandler;
 import it.polimi.ingsw.network.server.message.ServerActionEnum;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
-import it.polimi.ingsw.utils.Observable;
-import it.polimi.ingsw.utils.Observer;
+import it.polimi.ingsw.utils.PropertyChangeNotifier;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.rmi.RemoteException;
-import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -18,16 +20,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * It implements the ServerMessageHandler interface, which defines the methods for handling server messages.
  * It also implements the Observable interface, which allows it to notify observers when a change occurs.
  */
-public class RMIServerSender implements ServerMessageHandler, Observable<ServerMessageHandler> {
+public class RMIServerSender implements ServerMessageHandler, PropertyChangeNotifier {
     /**
      * The stub used to call methods on the client's remote object.
      */
     private final RMIServerToClientActions stub;
 
     /**
-     * The observers that are notified when a change occurs.
+     * The listeners that are notified when a change occurs.
      */
-    private final HashSet<Observer<ServerMessageHandler>> observers = new HashSet<>();
+    private final PropertyChangeSupport listeners;
 
     /**
      * The name of the player associated with the connection.
@@ -38,6 +40,11 @@ public class RMIServerSender implements ServerMessageHandler, Observable<ServerM
      * The name of the game associated with the connection.
      */
     private String gameName;
+
+    /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(RMIServerSender.class);
 
     // This variable is used to check if the connection has been saved by the ServerNetworkControllerMapper.
     // The heartbeat will start only after the connection has been saved.
@@ -55,6 +62,7 @@ public class RMIServerSender implements ServerMessageHandler, Observable<ServerM
      */
     public RMIServerSender(RMIServerToClientActions stub) {
         this.stub = stub;
+        this.listeners = new PropertyChangeSupport(this);
     }
 
     /**
@@ -73,7 +81,7 @@ public class RMIServerSender implements ServerMessageHandler, Observable<ServerM
                 try {
                     stub.heartbeat();
                 } catch (RemoteException e) {
-                    System.out.println("RMI Client: " + playerName + " disconnected. Detected when pinging.");
+                    logger.warn("RMI Client: {} disconnected. Detected while pinging.", playerName);
                     closeConnection();
                     cancel();
                 }
@@ -96,16 +104,17 @@ public class RMIServerSender implements ServerMessageHandler, Observable<ServerM
                 case GET_GAMES -> stub.receiveGameList(message.getGames());
                 case ERROR_MSG -> stub.receiveErrorMessage(message.getErrorMessage());
                 case RECEIVE_CHAT_MSG ->
-                        stub.receiveChatMessage(message.getPlayerName(), message.getChatMessage(), message.getReceiver(), message.getTimestamp(), message.isDirectMessage());
-                default -> System.err.print("Invalid action\n");
+                        stub.receiveChatMessage(message.getPlayerName(), message.getChatMessage(), message.getTimestamp(), message.isDirectMessage());
+                default -> logger.error("Invalid action");
             }
         } catch (RemoteException e) {
-            System.out.println("RMI Client: " + playerName + " disconnected. Detected when sending message");
+            logger.warn("RMI Client: {} disconnected. Detected while sending message", playerName);
             closeConnection();
+            return;
         }
 
         // Debug
-        System.out.println("RMI message sent: " + message.getServerAction());
+        logger.debug("RMI message sent: {}", message.getServerAction());
     }
 
     /**
@@ -161,33 +170,29 @@ public class RMIServerSender implements ServerMessageHandler, Observable<ServerM
     @Override
     public void closeConnection() {
         if (isConnectionSaved.getAndSet(false)) {
-            synchronized (observers) {
-                observers.forEach(observer -> observer.notify(this));
-            }
+            this.listeners.firePropertyChange("CONNECTION_CLOSED", null, this);
         }
     }
 
     /**
-     * Adds an observer to the set of observers.
+     * Adds a PropertyChangeListener to the listener list.
+     * The listener will be notified of property changes.
      *
-     * @param observer the observer to be added
+     * @param listener The PropertyChangeListener to be added
      */
     @Override
-    public void addObserver(Observer<ServerMessageHandler> observer) {
-        synchronized (observers) {
-            observers.add(observer);
-        }
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.listeners.addPropertyChangeListener(listener);
     }
 
     /**
-     * Removes an observer from the set of observers.
+     * Removes a PropertyChangeListener from the listener list.
+     * The listener will no longer be notified of property changes.
      *
-     * @param observer the observer to be removed
+     * @param listener The PropertyChangeListener to be removed
      */
     @Override
-    public void removeObserver(Observer<ServerMessageHandler> observer) {
-        synchronized (observers) {
-            observers.remove(observer);
-        }
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.listeners.removePropertyChangeListener(listener);
     }
 }

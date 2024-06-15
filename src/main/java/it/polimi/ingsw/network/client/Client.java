@@ -1,32 +1,15 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.model.card.gameCard.GameCard;
-import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
-import it.polimi.ingsw.model.player.PlayerColorEnum;
-import it.polimi.ingsw.model.utils.Coordinate;
-import it.polimi.ingsw.network.client.RMI.RMIClientReceiver;
-import it.polimi.ingsw.network.client.RMI.RMIClientSender;
-import it.polimi.ingsw.network.client.TCP.TCPClientAdapter;
-import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
-import it.polimi.ingsw.network.client.message.ChatClientToServerMessage;
-import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
+import it.polimi.ingsw.network.NetworkUtils;
+import it.polimi.ingsw.network.client.connection.Connection;
+import it.polimi.ingsw.network.client.connection.RMIConnection;
+import it.polimi.ingsw.network.client.connection.TCPConnection;
+import it.polimi.ingsw.tui.ViewController;
+import it.polimi.ingsw.tui.controller.TUIViewController;
 import it.polimi.ingsw.tui.utils.Utils;
 import org.apache.commons.cli.*;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * The Client class is responsible for setting up the client's connection to the server.
@@ -37,35 +20,15 @@ import java.util.Objects;
 public class Client {
 
     /**
-     * The ClientNetworkControllerMapper object used to map network commands to actions in the game.
-     * This is a static final instance which means it's a constant throughout the application.
-     */
-    private static final ClientNetworkControllerMapper CLIENT_NETWORK_CONTROLLER_MAPPER = new ClientNetworkControllerMapper();
-    /**
      * A flag indicating whether the client is in debug mode.
      * This is a static variable, meaning it's shared among all instances of this class.
      */
     public static boolean DEBUG;
+
     /**
-     * The IP address of the server that the client will connect to.
-     * This is a static variable, meaning it's shared among all instances of this class.
+     * The logger.
      */
-    private static String serverIpAddress;
-    /**
-     * The port number of the server that the client will connect to.
-     * This is a static variable, meaning it's shared among all instances of this class.
-     */
-    private static int serverPortNumber;
-    /**
-     * The IP address of the client.
-     * This is a static variable, meaning it's shared among all instances of this class.
-     */
-    private static String clientIpAddress;
-    /**
-     * The port number of the client.
-     * This is a static variable, meaning it's shared among all instances of this class.
-     */
-    private static int clientPortNumber;
+    private static final Logger logger = LogManager.getLogger(Client.class);
 
     /**
      * The main method of the Client class.
@@ -76,383 +39,96 @@ public class Client {
      */
     public static void main(String[] args) {
         CommandLine cmd = parseCommandLineArgs(args);
-        boolean lan;
-        // get values from options
-        String connectionType = cmd.getOptionValue("c");
-        lan = cmd.hasOption("lan");
-        serverIpAddress = cmd.getOptionValue("ip_s", "localhost"); // default is localhost
-        serverPortNumber = Integer.parseInt(cmd.getOptionValue("p_s", (connectionType.equals("TCP") ? "12345" : "1099")));
+
+        String clientIp = NetworkUtils.getCurrentHostIp(cmd);
+        String serverIp = cmd.getOptionValue("s", "localhost"); // default is localhost
+        int serverPort = cmd.hasOption("rmi") ? 1099 : 12345;
+        int clientPort = Integer.parseInt(cmd.getOptionValue("cp", Integer.toString(serverPort + 1)));
+
         DEBUG = cmd.hasOption("debug");
-        if (lan) {
-            try {
-                Socket socket = new Socket();
-                socket.connect(new InetSocketAddress("google.com", 80));
-                clientIpAddress = socket.getLocalAddress().getHostAddress();
-                socket.close();
 
-            } catch (Exception e) {
-                clientIpAddress = "localhost";
-            }
-        } else {
-            clientIpAddress = cmd.getOptionValue("ip_c", "localhost");
-        }
-        clientPortNumber = Integer.parseInt(cmd.getOptionValue("p_c", Integer.toString(serverPortNumber + 1)));
+        System.out.println(Utils.ANSI_PURPLE + "Client IP: " + clientIp + Utils.ANSI_RESET);
 
-        System.out.println(Utils.ANSI_PURPLE + "Client IP: " + clientIpAddress + Utils.ANSI_RESET);
         if (DEBUG)
             System.out.println(Utils.ANSI_PURPLE + "Debug mode enabled" + Utils.ANSI_RESET);
-        switch (connectionType.toLowerCase()) {
-            case "tcp" -> {
-                System.out.println(Utils.ANSI_BLUE + "Started a TCP connection with IP: " + serverIpAddress + " on port: " + serverPortNumber + Utils.ANSI_RESET);
-                startTCPClient();
-            }
-            case "rmi" -> {
-                System.out.println(Utils.ANSI_YELLOW + "Started an RMI connection with IP: " + serverIpAddress + " on port: " + serverPortNumber + Utils.ANSI_RESET);
-                System.out.println(Utils.ANSI_YELLOW + "Waiting RMI request on IP: " + clientIpAddress + " on port: " + clientPortNumber + Utils.ANSI_RESET);
-                startRMIClient();
-            }
-            default -> System.err.println("Invalid connection type. Please specify either TCP or RMI.");
+
+        // Create the ViewController
+        ClientNetworkControllerMapper networkControllerMapper = new ClientNetworkControllerMapper();
+        ViewController viewController;
+        if (cmd.hasOption(("tui"))) {
+            viewController = instanceTUI(networkControllerMapper);
+        } else {
+            // TODO: Implement GUI
+            throw new UnsupportedOperationException("GUI not implemented yet. Please use the TUI mode passing the -tui arg.");
         }
 
+        // Connect with the server
+        Connection connection;
+        if (cmd.hasOption("rmi")) {
+            logger.info("Starting RMI connection with server. IP: {} on port: {}", serverIp, serverPort);
+            logger.info("Listening for RMI connections. IP: {} on port: {}", clientIp, clientPort);
+            connection = new RMIConnection(networkControllerMapper, serverIp, serverPort, clientIp, clientPort);
+        } else {
+            logger.info("Starting TCP connection with server. IP: {} on port: {}", serverIp, serverPort);
+            connection = new TCPConnection(networkControllerMapper, serverIp, serverPort);
+        }
+        connection.addPropertyChangeListener(viewController);
+        connection.connect();
+    }
+
+    private static TUIViewController instanceTUI(ClientNetworkControllerMapper networkControllerMapper) {
+        TUIViewController tuiController = new TUIViewController(networkControllerMapper);
+        // Add the tuiController as a listener to the clientNetworkControllerMapper
+        networkControllerMapper.addPropertyChangeListener(tuiController);
+        return tuiController;
     }
 
     private static CommandLine parseCommandLineArgs(String[] args) {
         // create Options object
         Options options = new Options();
-
+        HelpFormatter formatter = new HelpFormatter();
         // add options
-        options.addOption("c", true, "Connection type (TCP or RMI). This is mandatory.");
-        options.addOption("ip_s", true, "IP address (default is localhost).");
-        options.addOption("p_s", true, "Port number (default is 12345 for TCP and 1099 for RMI).");
-        options.addOption("ip_c", true, "Client IP address (default is localhost).");
-        options.addOption("p_c", true, "Client port number (default is the same as the server port number).");
-        options.addOption("lan", "Start the client with his lan ip address.");
+        options.addOption(Option.builder("rmi").longOpt("rmi_mode").desc("Start the client using a RMI connection.").build());
+        options.addOption("s", "server_ip", true, "Server IP address.");
+        options.addOption("ip", "client_ip", true, "Client IP address.");
+        options.addOption("sp", "server_port", true, "Server port number (default is 12345 for TCP and 1099 for RMI).");
+        options.addOption("cp", true, "Client port number (default is server port number + 1).");
+        options.addOption("lan", "lan", false, "Start the client in LAN mode.");
+        options.addOption("l", "localhost", false, "Start the client in localhost mode");
+        options.addOption("tui", "tui_mode", false, "Start the client in TUI mode.");
         options.addOption("debug", "Start the client in debug mode.");
+        options.addOption("h", "help", false, "Print this message.");
 
-        CommandLineParser parser = new DefaultParser();
-
+        CommandLine cmd = null;
         try {
             // parse the command line arguments
-            CommandLine cmd = parser.parse(options, args);
-
-            // check mandatory options
-            if (!cmd.hasOption("c")) {
-                System.err.println("Please specify the connection type (TCP or RMI) using the -c option.");
-                System.exit(1);
-            }
-
-            return cmd;
+            cmd = new DefaultParser().parse(options, args);
         } catch (ParseException e) {
             System.err.println("Parsing failed. Reason: " + e.getMessage());
+            formatter.printHelp("Client", options);
             System.exit(1);
         }
 
-
-        return null;
-    }
-
-    private static void startTCPClient() {
-        try {
-            Socket serverSocket = new Socket(serverIpAddress, serverPortNumber);
-            // Print configuration
-            System.err.println("Starting client  with connection to server at " + serverIpAddress + " on port " + serverPortNumber);
-            TCPClientAdapter clientAdapter = new TCPClientAdapter(serverSocket, CLIENT_NETWORK_CONTROLLER_MAPPER);
-            CLIENT_NETWORK_CONTROLLER_MAPPER.setMessageHandler(clientAdapter);
-            printTUIMenu();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void startRMIClient() {
-        // Getting the registry
-        try {
-            System.setProperty("java.rmi.server.hostname", clientIpAddress);
-
-            RMIClientReceiver rmiClientReceiver = new RMIClientReceiver(CLIENT_NETWORK_CONTROLLER_MAPPER);
-            RMIServerToClientActions clientStub = (RMIServerToClientActions) UnicastRemoteObject.exportObject(rmiClientReceiver, clientPortNumber);
-            //Client as a client, getting the registry
-            Registry registry = LocateRegistry.getRegistry(serverIpAddress, serverPortNumber);
-            // Looking up the registry for the remote object
-            RMIClientToServerActions serverStub = (RMIClientToServerActions) registry.lookup("ClientToServerActions");
-            RMIClientSender rmiClientSender = new RMIClientSender(serverStub, clientStub);
-            CLIENT_NETWORK_CONTROLLER_MAPPER.setMessageHandler(rmiClientSender); //Adding stub to the mapper
-            printTUIMenu();
-        } catch (RemoteException | NotBoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static void printTUIMenu() {
-        //TODO: substitute rmiClientAdapter with value coming from mapper
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String input = null;
-        String gameName = "";
-        String playerName = "";
-
-        try {
-            while (!Objects.equals(input, "15")) {
-                if (gameName.isEmpty()) {
-                    System.out.print("1) Get games\n");
-                    System.out.print("2) Create game\n");
-                    System.out.print("3) Delete game\n");
-                    System.out.print("4) Join game\n");
-                } else {
-
-                    System.out.print("5) Set StarterCard\n");
-                    System.out.print("6) Choose player color\n");
-                    System.out.print("7) Set ObjectiveCard \n");
-                    System.out.print("8) Place card\n");
-                    System.out.print("9) Draw card from field\n");
-                    System.out.print("10) Draw card from resource deck\n");
-                    System.out.print("11) Draw card from gold deck\n");
-                    System.out.print("12) Show map\n");
-                    System.out.print("13) Send public message\n");
-                    System.out.print("14) Send direct message\n");
-                    System.out.print("15) Exit\n");
-                }
-                input = reader.readLine();
-
-                String finalPlayerName = playerName;
-                switch (input) {
-                    case "1" -> {
-                        CLIENT_NETWORK_CONTROLLER_MAPPER.getGames();
-                    }
-                    case "2" -> {
-                        String numPlayers = "";
-                        System.out.println("Enter game name to create: ");
-                        gameName = reader.readLine();
-                        System.out.println("Enter number of players: ");
-                        numPlayers = reader.readLine();
-                        System.out.println("Enter player name: ");
-                        playerName = reader.readLine();
-                        CLIENT_NETWORK_CONTROLLER_MAPPER.createGame(gameName, playerName, Integer.parseInt(numPlayers));
-                    }
-                    case "3" -> {
-                        System.out.println("Enter game name to delete: ");
-                        gameName = reader.readLine();
-                        System.out.println("Enter player name: ");
-                        playerName = reader.readLine();
-                        CLIENT_NETWORK_CONTROLLER_MAPPER.deleteGame(gameName, playerName);
-                    }
-                    case "4" -> {
-                        System.out.println("Enter game name to join: ");
-                        gameName = reader.readLine();
-                        System.out.println("Enter player name: ");
-                        playerName = reader.readLine();
-                        CLIENT_NETWORK_CONTROLLER_MAPPER.joinGame(gameName, playerName);
-                    }
-                    case "5" -> {
-                        //TODO: gather arguments on updated VirtualView
-                        GameCard starterCard = CLIENT_NETWORK_CONTROLLER_MAPPER.getView().gameView().playerViews().stream().filter(playerView -> playerView.playerName().equals(finalPlayerName)).findFirst().get().starterCard();
-                        String choice = "0";
-                        boolean side = false;
-                        while (!choice.equals("2")) {
-                            System.out.print("These are your starter card items: ");
-                            starterCard.getCurrentSide().getGameItemStore().getNonEmptyKeys().forEach(System.out::print);
-                            System.out.println();
-                            System.out.println("1) Change side");
-                            System.out.println("2) Place card");
-                            choice = reader.readLine();
-                            switch (choice) {
-                                case "1" -> {
-                                    side = !side;
-                                    starterCard.switchSide();
-                                }
-                                case "2" -> {
-                                    if (side) {
-                                        starterCard.switchSide();
-                                        CLIENT_NETWORK_CONTROLLER_MAPPER.switchCardSide(gameName, playerName, starterCard);
-                                    }
-
-                                    CLIENT_NETWORK_CONTROLLER_MAPPER.placeCard(gameName, playerName, new Coordinate(0, 0), starterCard);
-                                }
-                            }
-                        }
-                        System.out.println("Placed!");
-                    }
-                    case "6" -> {
-                        System.out.println("Choose player color: RED, BLUE, GREEN, YELLOW");
-                        String choice = reader.readLine();
-                        PlayerColorEnum chosenColor;
-                        switch (choice.toLowerCase()) {
-                            case "red" -> chosenColor = PlayerColorEnum.RED;
-                            case "blue" -> chosenColor = PlayerColorEnum.BLUE;
-                            case "green" -> chosenColor = PlayerColorEnum.GREEN;
-                            case "yellow" -> chosenColor = PlayerColorEnum.YELLOW;
-                            default -> throw new IllegalStateException("Unexpected value: " + choice);
-                        }
-                        CLIENT_NETWORK_CONTROLLER_MAPPER.choosePlayerColor(gameName, playerName, chosenColor);
-                    }
-                    case "7" -> {
-                        ArrayList<ObjectiveCard> choosableObjectives = CLIENT_NETWORK_CONTROLLER_MAPPER.getView().gameView().playerViews().stream().filter(playerView -> playerView.playerName().equals(finalPlayerName)).findFirst().get().choosableObjectives();
-                        System.out.println("Choose an objective card: ");
-                        System.out.println("1) " + choosableObjectives.getFirst());
-                        System.out.println("2) " + choosableObjectives.getLast());
-                        String choice = reader.readLine();
-                        CLIENT_NETWORK_CONTROLLER_MAPPER.setPlayerObjective(gameName, playerName, choosableObjectives.get(Integer.parseInt(choice) - 1));
-                    }
-                    case "8" -> {
-                        ArrayList<GameCard> hand;
-                        String choiceAction = "0";
-                        int choiceCard;
-                        ArrayList<Boolean> side = new ArrayList<Boolean>(List.of(false, false, false));
-                        int x;
-                        int y;
-                        while (!choiceAction.equals("2")) {
-                            hand = printHand(finalPlayerName);
-                            System.out.println("1) Change side");
-                            System.out.println("2) Place card");
-                            choiceAction = reader.readLine();
-                            switch (choiceAction) {
-                                case "1" -> {
-                                    System.out.println("Of which card do you want to change the side?");
-                                    choiceCard = Integer.parseInt(reader.readLine()) - 1;
-                                    side.set(choiceCard, !side.get(choiceCard));
-                                    hand.get(choiceCard).switchSide();
-                                    System.out.println(hand.get(choiceCard).getCurrentSide());
-                                }
-                                case "2" -> {
-                                    System.out.println("Of which card do you want to place?");
-                                    choiceCard = Integer.parseInt(reader.readLine()) - 1;
-                                    System.out.println("Where do you want to place it?");
-                                    System.out.println("Coordniate x:");
-                                    x = Integer.parseInt(reader.readLine());
-                                    System.out.println("Coordniate y:");
-                                    y = Integer.parseInt(reader.readLine());
-                                    if (side.get(choiceCard)) {
-                                        hand.get(choiceCard).switchSide();
-                                        CLIENT_NETWORK_CONTROLLER_MAPPER.switchCardSide(gameName, playerName, hand.get(choiceCard));
-                                    }
-
-                                    CLIENT_NETWORK_CONTROLLER_MAPPER.placeCard(gameName, playerName, new Coordinate(x, y), hand.get(choiceCard));
-                                }
-                            }
-                        }
-                        //TODO: gather arguments on updated VirtualView
-                    }
-                    case "9" -> {
-                        ArrayList<GameCard> field = new ArrayList<>(CLIENT_NETWORK_CONTROLLER_MAPPER.getView().gameView().globalBoardView().fieldGoldCards());
-                        field.addAll(CLIENT_NETWORK_CONTROLLER_MAPPER.getView().gameView().globalBoardView().fieldResourceCards());
-                        System.out.println("Choose one of the cards on the field: ");
-                        System.out.println("1) " + field.get(0));
-                        System.out.println("2) " + field.get(1));
-                        System.out.println("3) " + field.get(2));
-                        System.out.println("4) " + field.get(3));
-                        String choice = reader.readLine();
-                        CLIENT_NETWORK_CONTROLLER_MAPPER.drawCardFromField(gameName, playerName, field.get(Integer.parseInt(choice) - 1));
-                    }
-                    case "10" -> {
-                        GameCard firstResourceCard = CLIENT_NETWORK_CONTROLLER_MAPPER.getView().gameView().globalBoardView().resourceFirstCard();
-                        System.out.println("The first resource card is: " + firstResourceCard.getCardColor());
-                        System.out.println("Do you want to draw it? (y/n)");
-                        String choice = reader.readLine();
-                        if (choice.equalsIgnoreCase("y")) {
-                            CLIENT_NETWORK_CONTROLLER_MAPPER.drawCardFromResourceDeck(gameName, playerName);
-                        }
-                    }
-                    case "11" -> {
-                        GameCard firstGoldCard = CLIENT_NETWORK_CONTROLLER_MAPPER.getView().gameView().globalBoardView().goldFirstCard();
-                        System.out.println("The first gold card is: " + firstGoldCard.getCardColor());
-                        System.out.println("Do you want to draw it? (y/n)");
-                        String choice = reader.readLine();
-                        if (choice.equalsIgnoreCase("y")) {
-                            CLIENT_NETWORK_CONTROLLER_MAPPER.drawCardFromGoldDeck(gameName, playerName);
-                        }
-                    }
-                    case "12" -> {
-                        HashMap<Coordinate, GameCard> map = CLIENT_NETWORK_CONTROLLER_MAPPER.getView().gameView().playerViews().stream().filter(playerView -> playerView.playerName().equals(finalPlayerName)).findFirst().get().playerBoardView().playerBoard();
-                        printBoardAsMatrix(map);
-                    }
-                    case "13" -> {
-                        System.out.println("Enter message: ");
-                        String actualMessage = reader.readLine();
-                        ChatClientToServerMessage message = new ChatClientToServerMessage(gameName, playerName, actualMessage, "");
-                        CLIENT_NETWORK_CONTROLLER_MAPPER.sendChatMessage(message);
-                    }
-                    case "14" -> {
-                        System.out.println("Enter recipient: ");
-                        String recipient = reader.readLine();
-                        System.out.println("Enter message: ");
-                        String actualMessage = reader.readLine();
-                        ChatClientToServerMessage message = new ChatClientToServerMessage(gameName, playerName, actualMessage, recipient);
-                        CLIENT_NETWORK_CONTROLLER_MAPPER.sendChatMessage(message);
-                    }
-                    case "15" -> {
-                        System.out.println("Exiting...");
-                    }
-                    default -> System.out.println("Invalid input");
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static ArrayList<GameCard> printHand(String finalPlayerName) {
-        int index = 0;
-        ArrayList<GameCard> hand = CLIENT_NETWORK_CONTROLLER_MAPPER.getView().gameView().playerViews().stream().filter(playerView -> playerView.playerName().equals(finalPlayerName)).findFirst().get().playerHandView().hand();
-        System.out.println("Here is your hand:");
-        for (GameCard gameCard : hand) {
-            System.out.println(index + 1 + ")" + gameCard);
-            index++;
-        }
-        return hand;
-    }
-
-    /**
-     * Prints the game board as a matrix in the console.
-     * The game board is represented as a HashMap where the keys are coordinates and the values are game cards.
-     * An 'x' is printed for each coordinate that contains a game card, and a space is printed for each coordinate that does not contain a game card.
-     *
-     * @param map the game board represented as a HashMap where the keys are coordinates and the values are game cards.
-     */
-    public static void printBoardAsMatrix(HashMap<Coordinate, GameCard> map) {
-        double maxX = 0;
-        double maxY = 0;
-
-        // Determine the size of the matrix
-        for (Coordinate coordinate : map.keySet()) {
-            if (coordinate.getX() > maxX) {
-                maxX = coordinate.getX();
-            }
-            if (coordinate.getY() > maxY) {
-                maxY = coordinate.getY();
-            }
+        if (cmd.hasOption("h")) {
+            formatter.printHelp("Client", options);
+            System.exit(0);
         }
 
-        // Print the matrix
-        for (int y = 0; y <= maxY; y++) {
-            for (int x = 0; x <= maxX; x++) {
-                Coordinate currentCoordinate = new Coordinate(x, y);
-                if (map.containsKey(currentCoordinate)) {
-                    System.out.print("x ");
-                } else {
-                    System.out.print("  ");
-                }
-            }
-            System.out.println();
-        }
-    }
-
-    private static void clearConsole() {
-        String os = System.getProperty("os.name").toLowerCase();
-
-        try {
-            if (os.contains("win")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else if (os.contains("nix") || os.contains("nux") || os.contains("mac")) {
-                System.out.print(Utils.ANSI_CLEAR_UNIX);
-            } else {
-                // Fallback to printing new lines if OS detection failed
-                for (int i = 0; i < 100; i++) {
-                    System.out.println();
-                }
-            }
-        } catch (Exception e) {
-            // Handle any exceptions
+        // check user args
+        if (cmd.hasOption("lan") && cmd.hasOption("localhost")) {
+            System.err.println("Please specify either LAN or localhost mode, not both.");
+            formatter.printHelp("Client", options);
+            System.exit(1);
         }
 
+        // If the connection is not on localhost a server ip is required.
+        if (!cmd.hasOption("s") && !cmd.hasOption("localhost")) {
+            System.err.println("Please specify the server ip");
+            formatter.printHelp("Client", options);
+            System.exit(1);
+        }
+
+        return cmd;
     }
 }
 

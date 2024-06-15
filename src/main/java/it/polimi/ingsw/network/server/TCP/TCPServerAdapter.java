@@ -13,8 +13,11 @@ import it.polimi.ingsw.network.server.ServerMessageHandler;
 import it.polimi.ingsw.network.server.ServerNetworkControllerMapper;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.network.server.message.adapter.ClientToServerMessageAdapter;
-import it.polimi.ingsw.utils.Observer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -23,7 +26,7 @@ import java.net.Socket;
  * It masks the TCPConnectionHandler in order to make RMI and TCP server operations interchangeable.
  * It implements the Observer and MessageHandler interfaces.
  */
-public class TCPServerAdapter implements Observer<String>, ServerMessageHandler {
+public class TCPServerAdapter implements ServerMessageHandler, PropertyChangeListener {
     /**
      * The ServerNetworkControllerMapper object is used to map network commands to actions in the game.
      */
@@ -50,6 +53,11 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
     private boolean isConnectionSaved = false;
 
     /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(TCPServerAdapter.class);
+
+    /**
      * Gson instance used for JSON serialization and deserialization.
      * It is configured to:
      * - Enable complex map key serialization.
@@ -73,26 +81,33 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
     public TCPServerAdapter(Socket socket, ServerNetworkControllerMapper serverNetworkControllerMapper) {
         this.serverNetworkControllerMapper = serverNetworkControllerMapper;
         this.clientConnectionHandler = new TCPConnectionHandler(socket);
-        this.clientConnectionHandler.addObserver(this);
+        this.clientConnectionHandler.addPropertyChangeListener(this);
         this.clientConnectionHandler.start();
     }
 
     /**
      * Notifies the TCPServerAdapter of a message.
      *
-     * @param message the message to be notified
+     * @param evt the message to be notified
      */
-    @Override
-    public void notify(String message) {
-        // Handle client disconnection
-        if ("CONNECTION_CLOSED".equals(message)) {
-            if (this.isConnectionSaved) {
-                this.isConnectionSaved = false;
-                this.serverNetworkControllerMapper.handleDisconnection(this);
-            }
-            return;
-        }
+    public void propertyChange(PropertyChangeEvent evt) {
+        String changedProperty = evt.getPropertyName();
 
+        switch (changedProperty) {
+            case "CONNECTION_CLOSED" -> {
+                if (this.isConnectionSaved) {
+                    this.isConnectionSaved = false;
+                    this.serverNetworkControllerMapper.handleDisconnection(this);
+                }
+                logger.warn("Connection with client lost.");
+            }
+            case "MESSAGE_RECEIVED" -> this.receiveMessage((String) evt.getNewValue());
+            default -> logger.error("Invalid property change.");
+        }
+    }
+
+    private void receiveMessage(String message) {
+        logger.debug("Received TCP message: {}", message);
         ClientToServerMessage receivedMessage = this.gson.fromJson(message, ClientToServerMessage.class);
         PlayerActionEnum playerAction = receivedMessage.getPlayerAction();
         // Thanks to polymorphism, the correct method is called based on the playerAction (ClientToServerMessage have all the methods of subclasses, so when we get the right message the methods was overridden)
@@ -107,9 +122,9 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
             case CHOOSE_PLAYER_COLOR ->
                     serverNetworkControllerMapper.choosePlayerColor(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getPlayerColor());
             case SET_PLAYER_OBJECTIVE ->
-                    serverNetworkControllerMapper.setPlayerObjective(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getObjectiveCard());
+                    serverNetworkControllerMapper.setPlayerObjective(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getObjectiveCardId());
             case PLACE_CARD ->
-                    serverNetworkControllerMapper.placeCard(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getCoordinate(), receivedMessage.getGameCard());
+                    serverNetworkControllerMapper.placeCard(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getCoordinate(), receivedMessage.getGameCardId(), receivedMessage.isFlipped());
             case DRAW_CARD_FROM_FIELD ->
                     serverNetworkControllerMapper.drawCardFromField(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
             case DRAW_CARD_FROM_RESOURCE_DECK ->
@@ -117,13 +132,13 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
             case DRAW_CARD_FROM_GOLD_DECK ->
                     serverNetworkControllerMapper.drawCardFromGoldDeck(receivedMessage.getGameName(), receivedMessage.getPlayerName());
             case SWITCH_CARD_SIDE ->
-                    serverNetworkControllerMapper.switchCardSide(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
+                    serverNetworkControllerMapper.switchCardSide(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCardId());
             case SEND_CHAT_MSG ->
                     serverNetworkControllerMapper.sendChatMessage(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getMessage(), receivedMessage.getReceiver(), receivedMessage.getTimestamp());
-            default -> System.err.print("Invalid action");
+            case DISCONNECT ->
+                    serverNetworkControllerMapper.disconnect(receivedMessage.getGameName(), receivedMessage.getPlayerName());
+            default -> logger.error("Invalid action");
         }
-        // Debug
-        System.out.println("TCP received message: " + message);
     }
 
     /**
@@ -133,16 +148,14 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
      */
     @Override
     public void sendMessage(ServerToClientMessage message) {
+        logger.debug("Sending message: SERVER_ACTION: {}", message.getServerAction());
         String serializedMessage = this.gson.toJson(message);
+        logger.trace("Sending message: {}", serializedMessage);
         try {
             this.clientConnectionHandler.send(serializedMessage);
         } catch (IOException e) {
-            System.out.println("Error sending message: ");
-            return;
+            logger.error("Error sending message: {}", e.getMessage());
         }
-
-        // Debug
-        System.out.println("TCP message sent: " + serializedMessage);
     }
 
     /**
@@ -151,8 +164,7 @@ public class TCPServerAdapter implements Observer<String>, ServerMessageHandler 
     @Override
     public void closeConnection() {
         this.clientConnectionHandler.closeConnection();
-        // Debug
-        System.out.println("Connection closed.");
+        logger.debug("Connection closed.");
     }
 
     /**

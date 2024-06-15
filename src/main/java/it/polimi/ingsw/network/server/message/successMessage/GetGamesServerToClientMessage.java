@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.server.message.successMessage;
 import it.polimi.ingsw.network.server.message.ServerActionEnum;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -13,14 +13,14 @@ public class GetGamesServerToClientMessage extends ServerToClientMessage {
     /**
      * The list of games.
      */
-    private final HashSet<GameRecord> games;
+    private final ArrayList<GameRecord> games;
 
     /**
      * Constructor for the GetGamesNetworkMessage class.
      *
      * @param games the list of games.
      */
-    public GetGamesServerToClientMessage(HashSet<GameRecord> games) {
+    public GetGamesServerToClientMessage(ArrayList<GameRecord> games) {
         super(ServerActionEnum.GET_GAMES);
         this.games = games;
     }
@@ -28,10 +28,10 @@ public class GetGamesServerToClientMessage extends ServerToClientMessage {
     /**
      * Method that returns the list of games.
      *
-     * @return the set of games.
+     * @return the list of games.
      */
     @Override
-    public HashSet<GameRecord> getGames() {
+    public ArrayList<GameRecord> getGames() {
         return games;
     }
 

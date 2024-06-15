@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.client.message.gameController;
 
-import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.network.client.message.ClientToServerMessage;
 import it.polimi.ingsw.network.client.message.PlayerActionEnum;
 
@@ -14,19 +13,19 @@ public class SetPlayerObjectiveClientToServerMessage extends ClientToServerMessa
     /**
      * The objective card to be set.
      */
-    private final ObjectiveCard objectiveCard;
+    private final int objectiveCardId;
 
     /**
      * Constructor for SetPlayerObjectiveClientToServerMessage.
      * Initializes the player action with the SETPLAYEROBJECTIVE value, and sets the game name, player name, and objective card.
      *
-     * @param gameName      The name of the game. This cannot be null.
-     * @param playerName    The name of the player who is setting the objective. This cannot be null.
-     * @param objectiveCard The objective card to be set. This cannot be null.
+     * @param gameName        The name of the game. This cannot be null.
+     * @param playerName      The name of the player who is setting the objective. This cannot be null.
+     * @param objectiveCardId The objective card to be set. This cannot be null.
      */
-    public SetPlayerObjectiveClientToServerMessage(String gameName, String playerName, ObjectiveCard objectiveCard) {
+    public SetPlayerObjectiveClientToServerMessage(String gameName, String playerName, int objectiveCardId) {
         super(PlayerActionEnum.SET_PLAYER_OBJECTIVE, gameName, playerName);
-        this.objectiveCard = objectiveCard;
+        this.objectiveCardId = objectiveCardId;
     }
 
     /**
@@ -35,8 +34,8 @@ public class SetPlayerObjectiveClientToServerMessage extends ClientToServerMessa
      * @return The objective card to be set.
      */
     @Override
-    public ObjectiveCard getObjectiveCard() {
-        return objectiveCard;
+    public int getObjectiveCardId() {
+        return objectiveCardId;
     }
 
     /**
@@ -51,6 +50,6 @@ public class SetPlayerObjectiveClientToServerMessage extends ClientToServerMessa
         if (this == o) return true;
         if (!(o instanceof SetPlayerObjectiveClientToServerMessage that)) return false;
         if (!super.equals(o)) return false;
-        return Objects.equals(this.objectiveCard, that.objectiveCard);
+        return Objects.equals(this.objectiveCardId, that.objectiveCardId);
     }
 }

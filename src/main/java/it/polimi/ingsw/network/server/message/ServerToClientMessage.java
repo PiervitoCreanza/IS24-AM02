@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.server.message;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 
 /**
  * Abstract class representing a message from the server to the client.
@@ -13,7 +13,7 @@ public abstract class ServerToClientMessage {
      * The action that the server wants the client to perform.
      * This is represented as an enum value of ServerActionEnum.
      */
-    public ServerActionEnum serverAction;
+    public final ServerActionEnum serverAction;
 
     /**
      * Constructor for ServerToClientMessage.
@@ -60,7 +60,7 @@ public abstract class ServerToClientMessage {
      *
      * @return null in this implementation.
      */
-    public HashSet<GameRecord> getGames() {
+    public ArrayList<GameRecord> getGames() {
         return null;
     }
 
@@ -107,15 +107,6 @@ public abstract class ServerToClientMessage {
      * @return null in this implementation.
      */
     public String getChatMessage() {
-        return null;
-    }
-
-    /**
-     * Method to get the message's receiver.
-     *
-     * @return null in this implementation.
-     */
-    public String getReceiver() {
         return null;
     }
 

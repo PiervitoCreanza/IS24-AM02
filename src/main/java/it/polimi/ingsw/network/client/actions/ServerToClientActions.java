@@ -5,7 +5,7 @@ import it.polimi.ingsw.network.virtualView.GameControllerView;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.HashSet;
+import java.util.ArrayList;
 
 
 /**
@@ -19,7 +19,7 @@ public interface ServerToClientActions extends Remote {
      *
      * @param games The list of games to be sent to the client.
      */
-    void receiveGameList(HashSet<GameRecord> games) throws RemoteException;
+    void receiveGameList(ArrayList<GameRecord> games) throws RemoteException;
 
     /**
      * This method is called when the server receives a notification that a game has been deleted.
@@ -42,17 +42,15 @@ public interface ServerToClientActions extends Remote {
      */
     void receiveErrorMessage(String errorMessage) throws RemoteException;
 
-
     /**
      * This method is called when the server receives a chat message.
      * It is responsible for handling the received chat message from the client.
      *
      * @param playerName The chat message received from the client.
      * @param message    The chat message received from the client.
-     * @param receiver  The receiver of the message if it's a direct message.
      * @param timestamp The timestamp of the message.
      * @param isDirect  Flag to indicate if the message is a direct message.
      * @throws RemoteException If an error occurs during the RMI connection.
      */
-    void receiveChatMessage(String playerName, String message, String receiver, long timestamp, boolean isDirect) throws RemoteException;
+    void receiveChatMessage(String playerName, String message, long timestamp, boolean isDirect) throws RemoteException;
 }

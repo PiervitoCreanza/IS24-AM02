@@ -13,9 +13,13 @@ import it.polimi.ingsw.network.client.message.ClientToServerMessage;
 import it.polimi.ingsw.network.client.message.adapter.ServerToClientMessageAdapter;
 import it.polimi.ingsw.network.server.message.ServerActionEnum;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
-import it.polimi.ingsw.tui.utils.Utils;
-import it.polimi.ingsw.utils.Observer;
+import it.polimi.ingsw.utils.PropertyChangeNotifier;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -25,7 +29,8 @@ import java.net.Socket;
  * It implements the TCPObserver and ClientMessageHandler interfaces.
  * It is UNIQUE to every RMI player.
  */
-public class TCPClientAdapter implements Observer<String>, ClientMessageHandler {
+public class TCPClientAdapter implements ClientMessageHandler, PropertyChangeListener, PropertyChangeNotifier {
+
     /**
      * The ServerNetworkControllerMapper object is used to map network commands to actions in the game.
      */
@@ -35,6 +40,16 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
      * The TCPConnectionHandler object is used to handle TCP client connections.
      */
     private final TCPConnectionHandler serverConnectionHandler;
+
+    /**
+     * The property change support.
+     */
+    private final PropertyChangeSupport listeners;
+
+    /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(TCPClientAdapter.class);
 
     /**
      * Gson instance for JSON serialization and deserialization.
@@ -56,22 +71,50 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
     public TCPClientAdapter(Socket socket, ClientNetworkControllerMapper clientNetworkControllerMapper) {
         this.clientNetworkControllerMapper = clientNetworkControllerMapper;
         this.serverConnectionHandler = new TCPConnectionHandler(socket);
-        this.serverConnectionHandler.addObserver(this);
+        this.serverConnectionHandler.addPropertyChangeListener(this);
         this.serverConnectionHandler.start();
+        listeners = new PropertyChangeSupport(this);
+    }
+
+
+    /**
+     * Handles property change events.
+     * This method is called when a bound property is changed.
+     * The method handles the following property changes:
+     * - "CONNECTION_CLOSED": Logs a warning that the connection with the server has been lost.
+     * - "MESSAGE_RECEIVED": Calls the receiveMessage method with the new value of the property.
+     * Any other property change is considered invalid and an error is logged.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String changedProperty = evt.getPropertyName();
+        switch (changedProperty) {
+            case "CONNECTION_CLOSED" -> {
+                logger.warn("Connection with server lost.");
+                this.listeners.firePropertyChange("CONNECTION_CLOSED", null, null);
+            }
+            case "MESSAGE_RECEIVED" -> this.receiveMessage((String) evt.getNewValue());
+            default -> logger.error("Invalid property change.");
+        }
     }
 
     /**
-     * Notifies the TCPClientAdapter of a message.
+     * Receives a message from the server.
+     * The method deserializes the message and calls the appropriate method in the ClientNetworkControllerMapper.
+     * The method handles the following server actions:
+     * - UPDATE_VIEW: Calls the receiveUpdatedView method in the ClientNetworkControllerMapper with the view contained in the message.
+     * - DELETE_GAME: Calls the receiveGameDeleted method in the ClientNetworkControllerMapper with the successDeleteMessage contained in the message.
+     * - GET_GAMES: Calls the receiveGameList method in the ClientNetworkControllerMapper with the games contained in the message.
+     * - ERROR_MSG: Calls the receiveErrorMessage method in the ClientNetworkControllerMapper with the errorMessage contained in the message.
+     * - RECEIVE_CHAT_MSG: Calls the receiveChatMessage method in the ClientNetworkControllerMapper with the playerName, chatMessage, timestamp, and directMessage contained in the message.
+     * Any other server action is considered invalid and an error is logged.
      *
-     * @param message the message to be notified
+     * @param message the message received from the server
      */
-    @Override
-    public void notify(String message) {
-        if ("CONNECTION_CLOSED".equals(message)) {
-            // TODO: Raise exception
-            System.out.println("Connection with server lost.");
-            return;
-        }
+    private void receiveMessage(String message) {
+        logger.debug("Received message: {}", message);
         ServerToClientMessage receivedMessage = this.gson.fromJson(message, ServerToClientMessage.class);
         ServerActionEnum serverAction = receivedMessage.getServerAction();
         switch (serverAction) {
@@ -81,11 +124,9 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
             case GET_GAMES -> clientNetworkControllerMapper.receiveGameList(receivedMessage.getGames());
             case ERROR_MSG -> clientNetworkControllerMapper.receiveErrorMessage(receivedMessage.getErrorMessage());
             case RECEIVE_CHAT_MSG ->
-                    clientNetworkControllerMapper.receiveChatMessage(receivedMessage.getPlayerName(), receivedMessage.getChatMessage(), receivedMessage.getReceiver(), receivedMessage.getTimestamp(), receivedMessage.isDirectMessage());
-            default -> System.out.print("Invalid action");
+                    clientNetworkControllerMapper.receiveChatMessage(receivedMessage.getPlayerName(), receivedMessage.getChatMessage(), receivedMessage.getTimestamp(), receivedMessage.isDirectMessage());
+            default -> logger.error("Invalid action");
         }
-        // Debug
-        System.out.println(Utils.ANSI_CYAN + "TCP received message: " + message + Utils.ANSI_RESET);
     }
 
     /**
@@ -99,10 +140,10 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
         try {
             this.serverConnectionHandler.send(serializedMessage);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            logger.error("Error sending message: {}", e.getMessage());
         }
         // Debug
-        System.out.println("Sending message: " + serializedMessage);
+        logger.debug("Message sent: {}", serializedMessage);
     }
 
     /**
@@ -110,10 +151,31 @@ public class TCPClientAdapter implements Observer<String>, ClientMessageHandler 
      */
     @Override
     public void closeConnection() {
-        this.serverConnectionHandler.closeConnection();
         // Debug
-        System.out.println("Close the connection.");
+        logger.info("Close the connection.");
+        this.serverConnectionHandler.closeConnection();
     }
 
 
+    /**
+     * Adds a PropertyChangeListener to the listener list.
+     * The listener will be notified of property changes.
+     *
+     * @param listener The PropertyChangeListener to be added
+     */
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.listeners.addPropertyChangeListener(listener);
+    }
+
+    /**
+     * Removes a PropertyChangeListener from the listener list.
+     * The listener will no longer be notified of property changes.
+     *
+     * @param listener The PropertyChangeListener to be removed
+     */
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.listeners.removePropertyChangeListener(listener);
+    }
 }

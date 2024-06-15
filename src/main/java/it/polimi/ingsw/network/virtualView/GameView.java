@@ -1,6 +1,9 @@
 package it.polimi.ingsw.network.virtualView;
 
+import it.polimi.ingsw.model.player.PlayerColorEnum;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,7 +13,18 @@ import java.util.Objects;
  * This class holds a string representing the current player, a GlobalBoardView object, and a list of PlayerView objects.
  */
 public record GameView(String currentPlayer, GlobalBoardView globalBoardView,
-                       List<PlayerView> playerViews) implements Serializable {
+                       List<PlayerView> playerViews, ArrayList<String> winners,
+                       ArrayList<PlayerColorEnum> availablePlayerColors) implements Serializable {
+
+    /**
+     * Returns the view of the player with the given name.
+     *
+     * @param player the name of the player.
+     * @return the view of the player with the given name.
+     */
+    public PlayerView getViewByPlayer(String player) {
+        return playerViews.stream().filter(p -> p.playerName().equals(player)).findFirst().get();
+    }
 
     @Override
     public boolean equals(Object o) {

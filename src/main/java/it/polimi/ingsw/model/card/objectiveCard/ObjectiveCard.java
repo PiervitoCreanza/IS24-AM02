@@ -35,6 +35,24 @@ abstract public class ObjectiveCard implements Serializable {
     }
 
     /**
+     * Returns true if the objective card is a positional objective card, false otherwise.
+     *
+     * @return true if the objective card is a positional objective card, false otherwise.
+     */
+    public boolean isPositionalObjectiveCard() {
+        return false;
+    }
+
+    /**
+     * Returns the number of points the player can win by fulfilling the objective of this card.
+     *
+     * @return The number of points the player can win by fulfilling the objective of this card.
+     */
+    public int getPointsWon() {
+        return pointsWon;
+    }
+
+    /**
      * Returns the unique identifier of this objective card.
      *
      * @return The unique identifier of this objective card.
