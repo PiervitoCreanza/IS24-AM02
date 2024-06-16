@@ -15,6 +15,8 @@ import org.apache.logging.log4j.Logger;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.rmi.RemoteException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * The RMIServerReceiver class is responsible for receiving client actions and notifying the server message handler.
@@ -29,6 +31,11 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     private final ServerNetworkControllerMapper serverNetworkControllerMapper;
 
     /**
+     * The executor service used to execute tasks in parallel.
+     */
+    private final ExecutorService executor;
+
+    /**
      * The logger.
      */
     private static final Logger logger = LogManager.getLogger(RMIServerReceiver.class);
@@ -40,6 +47,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
      */
     public RMIServerReceiver(ServerNetworkControllerMapper serverNetworkControllerMapper) {
         this.serverNetworkControllerMapper = serverNetworkControllerMapper;
+        this.executor = Executors.newFixedThreadPool(10);
     }
 
     /**
@@ -51,7 +59,8 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("CONNECTION_CLOSED")) {
             logger.warn("Connection lost");
-            new Thread(() -> serverNetworkControllerMapper.handleDisconnection((ServerMessageHandler) evt.getNewValue())).start();
+            ServerMessageHandler serverMessageHandler = (ServerMessageHandler) evt.getSource();
+            this.executor.submit(() -> serverNetworkControllerMapper.handleDisconnection(serverMessageHandler.getGameName(), serverMessageHandler.getPlayerName()));
         } else {
             logger.error("Unknown property name: {}", evt.getPropertyName());
         }
@@ -64,7 +73,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
      */
     @Override
     public void getGames(RMIServerToClientActions stub) throws RemoteException {
-        new Thread(() -> serverNetworkControllerMapper.getGames(instanceRMIServerAdapter(stub))).start();
+        this.executor.submit(() -> serverNetworkControllerMapper.getGames(instanceRMIServerAdapter(stub)));
         // Debug
         printDebug(PlayerActionEnum.GET_GAMES, "");
     }
@@ -80,7 +89,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
      */
     @Override
     public void createGame(RMIServerToClientActions stub, String gameName, String playerName, int nPlayers) throws RemoteException {
-        new Thread(() -> serverNetworkControllerMapper.createGame(instanceRMIServerAdapter(stub), gameName, playerName, nPlayers)).start();
+        this.executor.submit(() -> serverNetworkControllerMapper.createGame(instanceRMIServerAdapter(stub), gameName, playerName, nPlayers));
         // Debug
         printDebug(PlayerActionEnum.CREATE_GAME, "gameName: " + gameName + " playerName: " + playerName + " nPlayers: " + nPlayers);
     }
@@ -92,7 +101,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
      */
     @Override
     public void deleteGame(RMIServerToClientActions stub, String gameName, String playerName) throws RemoteException {
-        new Thread(() -> serverNetworkControllerMapper.deleteGame(instanceRMIServerAdapter(stub), gameName, playerName)).start();
+        this.executor.submit(() -> serverNetworkControllerMapper.deleteGame(instanceRMIServerAdapter(stub), gameName, playerName));
         // Debug
         inGamePrintDebug(PlayerActionEnum.DELETE_GAME, gameName, playerName, "");
     }
@@ -105,7 +114,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
      */
     @Override
     public void joinGame(RMIServerToClientActions stub, String gameName, String playerName) throws RemoteException {
-        new Thread(() -> serverNetworkControllerMapper.joinGame(instanceRMIServerAdapter(stub), gameName, playerName)).start();
+        this.executor.submit(() -> serverNetworkControllerMapper.joinGame(instanceRMIServerAdapter(stub), gameName, playerName));
         // Debug
         printDebug(PlayerActionEnum.JOIN_GAME, "gameName: " + gameName + " playerName: " + playerName);
     }
@@ -119,7 +128,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
      */
     @Override
     public void choosePlayerColor(String gameName, String playerName, PlayerColorEnum playerColor) throws RemoteException {
-        new Thread(() -> serverNetworkControllerMapper.choosePlayerColor(gameName, playerName, playerColor)).start();
+        this.executor.submit(() -> serverNetworkControllerMapper.choosePlayerColor(gameName, playerName, playerColor));
         // Debug
         inGamePrintDebug(PlayerActionEnum.CHOOSE_PLAYER_COLOR, gameName, playerName, "playerColor: " + playerColor);
     }
@@ -133,7 +142,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
      */
     @Override
     public void setPlayerObjective(String gameName, String playerName, int cardId) throws RemoteException {
-        new Thread(() -> serverNetworkControllerMapper.setPlayerObjective(gameName, playerName, cardId)).start();
+        this.executor.submit(() -> serverNetworkControllerMapper.setPlayerObjective(gameName, playerName, cardId));
         // Debug
         inGamePrintDebug(PlayerActionEnum.SET_PLAYER_OBJECTIVE, gameName, playerName, "cardId: " + cardId);
     }
@@ -149,7 +158,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
      */
     @Override
     public void placeCard(String gameName, String playerName, Coordinate coordinate, int cardId, boolean isFlipped) throws RemoteException {
-        new Thread(() -> serverNetworkControllerMapper.placeCard(gameName, playerName, coordinate, cardId, isFlipped)).start();
+        this.executor.submit(() -> serverNetworkControllerMapper.placeCard(gameName, playerName, coordinate, cardId, isFlipped));
         // Debug
         inGamePrintDebug(PlayerActionEnum.PLACE_CARD, gameName, playerName, "coordinate: " + coordinate + " cardId: " + cardId + " isFlipped: " + isFlipped);
     }
@@ -163,7 +172,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
      */
     @Override
     public void drawCardFromField(String gameName, String playerName, GameCard card) throws RemoteException {
-        new Thread(() -> serverNetworkControllerMapper.drawCardFromField(gameName, playerName, card)).start();
+        this.executor.submit(() -> serverNetworkControllerMapper.drawCardFromField(gameName, playerName, card));
         // Debug
         inGamePrintDebug(PlayerActionEnum.DRAW_CARD_FROM_FIELD, gameName, playerName, "card: " + card.getCardId());
     }
@@ -176,7 +185,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
      */
     @Override
     public void drawCardFromResourceDeck(String gameName, String playerName) throws RemoteException {
-        new Thread(() -> serverNetworkControllerMapper.drawCardFromResourceDeck(gameName, playerName)).start();
+        this.executor.submit(() -> serverNetworkControllerMapper.drawCardFromResourceDeck(gameName, playerName));
         // Debug
         inGamePrintDebug(PlayerActionEnum.DRAW_CARD_FROM_RESOURCE_DECK, gameName, playerName, "");
     }
@@ -189,7 +198,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
      */
     @Override
     public void drawCardFromGoldDeck(String gameName, String playerName) throws RemoteException {
-        new Thread(() -> serverNetworkControllerMapper.drawCardFromGoldDeck(gameName, playerName)).start();
+        this.executor.submit(() -> serverNetworkControllerMapper.drawCardFromGoldDeck(gameName, playerName));
         // Debug
         inGamePrintDebug(PlayerActionEnum.DRAW_CARD_FROM_GOLD_DECK, gameName, playerName, "");
     }
@@ -203,7 +212,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
      */
     @Override
     public void switchCardSide(String gameName, String playerName, int cardId) throws RemoteException {
-        new Thread(() -> serverNetworkControllerMapper.switchCardSide(gameName, playerName, cardId)).start();
+        this.executor.submit(() -> serverNetworkControllerMapper.switchCardSide(gameName, playerName, cardId));
         // Debug
         inGamePrintDebug(PlayerActionEnum.SWITCH_CARD_SIDE, gameName, playerName, "cardId: " + cardId);
     }
@@ -221,7 +230,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
      */
     @Override
     public void chatMessageSender(String gameName, String playerName, String message, String receiver, long timestamp) throws RemoteException {
-        new Thread(() -> serverNetworkControllerMapper.sendChatMessage(gameName, playerName, message, receiver, timestamp)).start();
+        this.executor.submit(() -> serverNetworkControllerMapper.sendChatMessage(gameName, playerName, message, receiver, timestamp));
         // Debug
         inGamePrintDebug(PlayerActionEnum.SEND_CHAT_MSG, gameName, playerName, "message: " + message + " receiver: " + receiver + " timestamp: " + timestamp);
     }
@@ -247,7 +256,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
      */
     @Override
     public void disconnect(String gameName, String playerName) throws RemoteException {
-        new Thread(() -> serverNetworkControllerMapper.disconnect(gameName, playerName)).start();
+        this.executor.submit(() -> serverNetworkControllerMapper.disconnect(gameName, playerName));
         // Debug
         inGamePrintDebug(PlayerActionEnum.DISCONNECT, gameName, playerName, "");
     }

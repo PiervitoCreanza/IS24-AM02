@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.server.TCP;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.data.ObjectiveCardAdapter;
 import it.polimi.ingsw.data.SideGameCardAdapter;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
@@ -97,7 +98,7 @@ public class TCPServerAdapter implements ServerMessageHandler, PropertyChangeLis
             case "CONNECTION_CLOSED" -> {
                 if (this.isConnectionSaved) {
                     this.isConnectionSaved = false;
-                    this.serverNetworkControllerMapper.handleDisconnection(this);
+                    this.serverNetworkControllerMapper.handleDisconnection(gameName, playerName);
                 }
                 logger.warn("Connection with client lost.");
             }
@@ -108,36 +109,40 @@ public class TCPServerAdapter implements ServerMessageHandler, PropertyChangeLis
 
     private void receiveMessage(String message) {
         logger.debug("Received TCP message: {}", message);
-        ClientToServerMessage receivedMessage = this.gson.fromJson(message, ClientToServerMessage.class);
-        PlayerActionEnum playerAction = receivedMessage.getPlayerAction();
-        // Thanks to polymorphism, the correct method is called based on the playerAction (ClientToServerMessage have all the methods of subclasses, so when we get the right message the methods was overridden)
-        switch (playerAction) {
-            case GET_GAMES -> serverNetworkControllerMapper.getGames(this);
-            case CREATE_GAME ->
-                    serverNetworkControllerMapper.createGame(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getNPlayers());
-            case DELETE_GAME ->
-                    serverNetworkControllerMapper.deleteGame(this, receivedMessage.getGameName(), receivedMessage.getPlayerName());
-            case JOIN_GAME ->
-                    serverNetworkControllerMapper.joinGame(this, receivedMessage.getGameName(), receivedMessage.getPlayerName());
-            case CHOOSE_PLAYER_COLOR ->
-                    serverNetworkControllerMapper.choosePlayerColor(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getPlayerColor());
-            case SET_PLAYER_OBJECTIVE ->
-                    serverNetworkControllerMapper.setPlayerObjective(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getObjectiveCardId());
-            case PLACE_CARD ->
-                    serverNetworkControllerMapper.placeCard(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getCoordinate(), receivedMessage.getGameCardId(), receivedMessage.isFlipped());
-            case DRAW_CARD_FROM_FIELD ->
-                    serverNetworkControllerMapper.drawCardFromField(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
-            case DRAW_CARD_FROM_RESOURCE_DECK ->
-                    serverNetworkControllerMapper.drawCardFromResourceDeck(receivedMessage.getGameName(), receivedMessage.getPlayerName());
-            case DRAW_CARD_FROM_GOLD_DECK ->
-                    serverNetworkControllerMapper.drawCardFromGoldDeck(receivedMessage.getGameName(), receivedMessage.getPlayerName());
-            case SWITCH_CARD_SIDE ->
-                    serverNetworkControllerMapper.switchCardSide(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCardId());
-            case SEND_CHAT_MSG ->
-                    serverNetworkControllerMapper.sendChatMessage(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getMessage(), receivedMessage.getReceiver(), receivedMessage.getTimestamp());
-            case DISCONNECT ->
-                    serverNetworkControllerMapper.disconnect(receivedMessage.getGameName(), receivedMessage.getPlayerName());
-            default -> logger.error("Invalid action");
+        try {
+            ClientToServerMessage receivedMessage = this.gson.fromJson(message, ClientToServerMessage.class);
+            PlayerActionEnum playerAction = receivedMessage.getPlayerAction();
+            // Thanks to polymorphism, the correct method is called based on the playerAction (ClientToServerMessage have all the methods of subclasses, so when we get the right message the methods was overridden)
+            switch (playerAction) {
+                case GET_GAMES -> serverNetworkControllerMapper.getGames(this);
+                case CREATE_GAME ->
+                        serverNetworkControllerMapper.createGame(this, receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getNPlayers());
+                case DELETE_GAME ->
+                        serverNetworkControllerMapper.deleteGame(this, receivedMessage.getGameName(), receivedMessage.getPlayerName());
+                case JOIN_GAME ->
+                        serverNetworkControllerMapper.joinGame(this, receivedMessage.getGameName(), receivedMessage.getPlayerName());
+                case CHOOSE_PLAYER_COLOR ->
+                        serverNetworkControllerMapper.choosePlayerColor(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getPlayerColor());
+                case SET_PLAYER_OBJECTIVE ->
+                        serverNetworkControllerMapper.setPlayerObjective(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getObjectiveCardId());
+                case PLACE_CARD ->
+                        serverNetworkControllerMapper.placeCard(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getCoordinate(), receivedMessage.getGameCardId(), receivedMessage.isFlipped());
+                case DRAW_CARD_FROM_FIELD ->
+                        serverNetworkControllerMapper.drawCardFromField(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCard());
+                case DRAW_CARD_FROM_RESOURCE_DECK ->
+                        serverNetworkControllerMapper.drawCardFromResourceDeck(receivedMessage.getGameName(), receivedMessage.getPlayerName());
+                case DRAW_CARD_FROM_GOLD_DECK ->
+                        serverNetworkControllerMapper.drawCardFromGoldDeck(receivedMessage.getGameName(), receivedMessage.getPlayerName());
+                case SWITCH_CARD_SIDE ->
+                        serverNetworkControllerMapper.switchCardSide(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getGameCardId());
+                case SEND_CHAT_MSG ->
+                        serverNetworkControllerMapper.sendChatMessage(receivedMessage.getGameName(), receivedMessage.getPlayerName(), receivedMessage.getMessage(), receivedMessage.getReceiver(), receivedMessage.getTimestamp());
+                case DISCONNECT ->
+                        serverNetworkControllerMapper.disconnect(receivedMessage.getGameName(), receivedMessage.getPlayerName());
+                default -> logger.error("Invalid action");
+            }
+        } catch (JsonSyntaxException e) {
+            logger.error("Error parsing message: {}", message);
         }
     }
 

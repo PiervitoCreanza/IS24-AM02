@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network;
 
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.utils.PropertyChangeNotifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +11,8 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -42,9 +41,9 @@ public class TCPConnectionHandler extends Thread implements PropertyChangeNotifi
     private final AtomicBoolean isConnected;
 
     /**
-     * Queue of received messages.
+     * ExecutorService used to run tasks concurrently.
      */
-    private final LinkedBlockingQueue<String> receivedMessages = new LinkedBlockingQueue<>();
+    private final ExecutorService executor;
 
     /**
      * Listeners that will be notified when a message is received.
@@ -65,6 +64,7 @@ public class TCPConnectionHandler extends Thread implements PropertyChangeNotifi
         super("TCPConnectionHandler");
         this.socket = socket;
         this.listeners = new PropertyChangeSupport(this);
+        this.executor = Executors.newSingleThreadExecutor();
         try {
             // Initialize PrintWriter and BufferedReader for reading from and writing to the socket
             this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -75,12 +75,7 @@ public class TCPConnectionHandler extends Thread implements PropertyChangeNotifi
             // This is useful to detect when the client disconnects.
             this.socket.setSoTimeout(5000);
             logger.debug("TCP connection established with {}:{}", socket.getInetAddress(), socket.getPort());
-
-            // Start the thread that executes received messages
-            notifyReceivedMessages();
-
             heartbeat();
-
         } catch (IOException e) {
             logger.fatal("Error while getting streams from socket: {}", e.getMessage());
             throw new RuntimeException(e);
@@ -98,7 +93,6 @@ public class TCPConnectionHandler extends Thread implements PropertyChangeNotifi
                     cancel();
                     return;
                 }
-
                 try {
                     send("heartbeat");
                 } catch (IOException e) {
@@ -116,13 +110,14 @@ public class TCPConnectionHandler extends Thread implements PropertyChangeNotifi
      * It reads from the socket and echoes back the input line until null (client disconnects).
      */
     public void run() {
-
         // Read from socket and echo back the input line until null (client disconnects).
         while (this.isConnected.get()) { //while for next JSON
             try {
-                String receivedMessage = keepReadingJSON(in);
-                if (!receivedMessage.isEmpty()) {
-                    receivedMessages.offer(receivedMessage);
+                String receivedMessage;
+                if ((receivedMessage = in.readLine()) != null) {
+                    if (!"heartbeat".equals(receivedMessage)) {
+                        this.executor.submit(() -> this.listeners.firePropertyChange("MESSAGE_RECEIVED", null, receivedMessage));
+                    }
                 }
             } catch (SocketTimeoutException e) {
                 logger.warn("TCP disconnected - detected by timeout");
@@ -135,67 +130,6 @@ public class TCPConnectionHandler extends Thread implements PropertyChangeNotifi
     }
 
     /**
-     * Method to avoid TCP fragmentation.
-     *
-     * @param in The BufferedReader to read from
-     * @return The complete JSON string
-     */
-    private String keepReadingJSON(BufferedReader in) throws IOException {
-        StringBuilder allJSON = new StringBuilder();
-
-        String inputLine;
-        // While the input buffer is not empty, read the input line.
-        while ((inputLine = in.readLine()) != null) {
-            // Discard the heartbeat messages.
-            if (!"heartbeat".equals(inputLine)) {
-                allJSON.append(inputLine);
-            }
-
-            // If the JSON string is complete, break the loop.
-            if (isJson(allJSON.toString())) {
-                break;
-            }
-        }
-
-        return allJSON.toString();
-    }
-
-
-    /**
-     * Checks if a string is a valid JSON string.
-     *
-     * @param json The string to check.
-     * @return true if the string is a valid JSON string, false otherwise.
-     */
-    private static boolean isJson(String json) {
-        try {
-            JsonParser.parseString(json);
-        } catch (JsonSyntaxException e) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Method to notify the observers of received messages.
-     * It is synchronized on the observers to prevent race-conditions.
-     */
-    private void notifyReceivedMessages() {
-        // We perform this action in a thread to make it non-blocking and so keep receiving messages.
-        // The method will notify each message synchronously.
-        new Thread(() -> {
-            while (this.isConnected.get()) {
-                String message = receivedMessages.poll();
-                if (message != null) {
-                    this.listeners.firePropertyChange("MESSAGE_RECEIVED", null, message);
-                }
-
-            }
-        }).start();
-
-    }
-
-    /**
      * Sends a message to the client.
      * It is synchronized to prevent closing a connection while sending a message.
      *
@@ -203,11 +137,10 @@ public class TCPConnectionHandler extends Thread implements PropertyChangeNotifi
      * @throws IOException If an I/O error occurs.
      */
     public synchronized void send(String message) throws IOException {
-        out.write(message);
-        out.newLine();
-        out.flush();
+        this.out.write(message);
+        this.out.newLine();
+        this.out.flush();
     }
-
 
     /**
      * Closes the connection with the client.
@@ -217,9 +150,9 @@ public class TCPConnectionHandler extends Thread implements PropertyChangeNotifi
         if (!this.socket.isClosed()) {
             try {
                 this.isConnected.set(false);
-                this.receivedMessages.clear();
+                this.executor.shutdownNow();
+                this.socket.close();
                 this.listeners.firePropertyChange("CONNECTION_CLOSED", null, null);
-                socket.close();
             } catch (IOException ignored) {
                 // This exception is ignored because we are closing the connection.
             }

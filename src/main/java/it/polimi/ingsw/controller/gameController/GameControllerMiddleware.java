@@ -13,11 +13,6 @@ import it.polimi.ingsw.network.virtualView.VirtualViewable;
 /**
  * This class represents the middleware between the GameController and the PlayerActions interface.
  * It implements the PlayerActions interface and defines the actions flow that a player can perform in the game.
- * <p>
- * All the actions are synchronized to avoid concurrency problems. In fact the setPlayerConnectionStatus method
- * is called when a player disconnects, and it can be called in any moment of the game. We need to be sure that
- * the game status is consistent with the player actions.
- * </p>
  */
 public class GameControllerMiddleware implements PlayerActions, VirtualViewable<GameControllerView> {
     /**
@@ -82,7 +77,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      *
      * @return the current game status.
      */
-    public synchronized GameStatusEnum getGameStatus() {
+    public GameStatusEnum getGameStatus() {
         return gameStatus;
     }
 
@@ -91,7 +86,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      *
      * @param gameStatus the game status to be set.
      */
-    public synchronized void setGameStatus(GameStatusEnum gameStatus) {
+    public void setGameStatus(GameStatusEnum gameStatus) {
         this.gameStatus = gameStatus;
     }
 
@@ -139,7 +134,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * @return the current game instance.
      */
     @Override
-    public synchronized Game getGame() {
+    public Game getGame() {
         return game;
     }
 
@@ -149,7 +144,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * @param playerName the name of the player who is joining the game.
      */
     @Override
-    public synchronized void joinGame(String playerName) {
+    public void joinGame(String playerName) {
         // If the game is not in the WAIT_FOR_PLAYERS status or the player is already connected, an exception is thrown
         if (gameStatus != GameStatusEnum.WAIT_FOR_PLAYERS && !game.isPlayerDisconnected(playerName)) {
             throw new IllegalStateException("Cannot join game in current game status");
@@ -177,7 +172,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * @param cardId     the card to be placed.
      */
     @Override
-    public synchronized void placeCard(String playerName, Coordinate coordinate, int cardId) {
+    public void placeCard(String playerName, Coordinate coordinate, int cardId) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.PLACE_CARD && gameStatus != GameStatusEnum.INIT_PLACE_STARTER_CARD) {
             throw new IllegalStateException("Cannot place card in current game status");
@@ -206,7 +201,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * @param playerName  the name of the player who is choosing the color.
      * @param playerColor the color to be chosen.
      */
-    public synchronized void choosePlayerColor(String playerName, PlayerColorEnum playerColor) {
+    public void choosePlayerColor(String playerName, PlayerColorEnum playerColor) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.INIT_CHOOSE_PLAYER_COLOR) {
             throw new IllegalStateException("Cannot choose player color in current game status");
@@ -224,7 +219,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * @param card       the card to be drawn.
      */
     @Override
-    public synchronized void drawCardFromField(String playerName, GameCard card) {
+    public void drawCardFromField(String playerName, GameCard card) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.DRAW_CARD) {
             throw new IllegalStateException("Cannot draw card in current game status");
@@ -239,7 +234,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * @param playerName the name of the player who is drawing the card.
      */
     @Override
-    public synchronized void drawCardFromResourceDeck(String playerName) {
+    public void drawCardFromResourceDeck(String playerName) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.DRAW_CARD) {
             throw new IllegalStateException("Cannot draw card in current game status");
@@ -255,7 +250,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * @param playerName the name of the player who is drawing the card.
      */
     @Override
-    public synchronized void drawCardFromGoldDeck(String playerName) {
+    public void drawCardFromGoldDeck(String playerName) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.DRAW_CARD) {
             throw new IllegalStateException("Cannot draw card in current game status");
@@ -273,7 +268,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      */
 
     @Override
-    public synchronized void switchCardSide(String playerName, int cardId) {
+    public void switchCardSide(String playerName, int cardId) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.PLACE_CARD && gameStatus != GameStatusEnum.INIT_PLACE_STARTER_CARD && gameStatus != GameStatusEnum.DRAW_CARD) {
             throw new IllegalStateException("Cannot switch card side in current game status");
@@ -288,7 +283,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * @param cardId     the objective card to be set for the player.
      */
     @Override
-    public synchronized void setPlayerObjective(String playerName, int cardId) {
+    public void setPlayerObjective(String playerName, int cardId) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.INIT_CHOOSE_OBJECTIVE_CARD) {
             throw new IllegalStateException("Cannot set player objective in current game status");
@@ -311,7 +306,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * @param playerName  the name of the player whose connection status is to be set.
      * @param isConnected the connection status to be set.
      */
-    public synchronized void setPlayerConnectionStatus(String playerName, boolean isConnected) {
+    public void setPlayerConnectionStatus(String playerName, boolean isConnected) {
         gameController.setPlayerConnectionStatus(playerName, isConnected);
 
         // If there is only one player connected, the game is paused
