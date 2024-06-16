@@ -50,13 +50,18 @@ public abstract class Controller implements PropertyChangeListener {
      * A flag indicating whether the current layout is active.
      */
     private boolean isCurrentScene = true;
-    private static boolean isInstance = false;
+    private static boolean isClassAlreadyInstantiated = false;
+    private static boolean showConnectedPlayers = true;
 
     {
-        if (!isInstance) {
+        if (!isClassAlreadyInstantiated) {
+            isClassAlreadyInstantiated = true;
             connectedPlayers.addListener(new SetChangeListener<String>() {
                 @Override
                 public void onChanged(Change<? extends String> c) {
+                    if (!showConnectedPlayers) {
+                        return;
+                    }
                     if (c.wasAdded()) {
                         logger.debug("Player connected: {}", c.getElementAdded());
                         showInfoBox("green", "Player connected", capitalizeFirstLetter(c.getElementAdded()) + " has connected to the game.");
@@ -66,7 +71,6 @@ public abstract class Controller implements PropertyChangeListener {
                     }
                 }
             });
-            isInstance = true;
         }
     }
 
@@ -275,6 +279,15 @@ public abstract class Controller implements PropertyChangeListener {
         } else {
             return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
         }
+    }
+
+    /**
+     * Sets the flag indicating whether the connected players should be shown.
+     *
+     * @param showConnectedPlayers the flag indicating whether the connected players should be shown.
+     */
+    public void setShowConnectedPlayers(boolean showConnectedPlayers) {
+        Controller.showConnectedPlayers = showConnectedPlayers;
     }
 
 

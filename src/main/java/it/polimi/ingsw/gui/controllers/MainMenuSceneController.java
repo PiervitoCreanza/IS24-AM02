@@ -78,7 +78,12 @@ public class MainMenuSceneController extends Controller implements PropertyChang
      */
     @Override
     public void beforeMount(PropertyChangeEvent evt) {
+        // Do not show updates on connected players
+        super.setShowConnectedPlayers(false);
+        // Clear the list of connected players
         connectedPlayers.clear();
+        // Re-enable the connected players updates
+        super.setShowConnectedPlayers(true);
     }
 
     /**
