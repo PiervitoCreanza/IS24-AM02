@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -42,6 +43,8 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
     // Mapping a ServerMessageHandler (TCP or RMI connection via polimorphism) to a player,
     // and then this "playerName:connectionType" is mapped to each game
     private final HashMap<String, HashMap<String, ServerMessageHandler>> gameConnectionMapper;
+
+    private final Map<String, Timer> deleteGameTimers = new HashMap<>();
 
     /**
      * Object used to synchronize game operations when the game is not found in the gameConnectionMapper.
@@ -174,6 +177,12 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
                 messageHandler.setGameName(gameName);
                 messageHandler.setPlayerName(playerName);
                 messageHandler.connectionSaved(true);
+
+                // Clear the timer that would delete the game if the player did not reconnect.
+                if (deleteGameTimers.get(gameName) != null) {
+                    logger.debug("Cancelling deletion timer for game {}", gameName);
+                    deleteGameTimers.get(gameName).cancel();
+                }
 
                 gameConnectionMapper.get(gameName).put(playerName, messageHandler);
                 broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
@@ -422,6 +431,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
                 logger.debug("Player {} disconnected from game {}. Remaining players: {}", playerName, gameName, gameConnectionMapper.get(gameName).size());
 
                 if (gameConnectionMapper.get(gameName).size() == 1) {
+                    // If there is only one player left in the game we start a timer that will delete the game if the player does not reconnect.
                     startLastPlayerTimeout(gameName);
                 }
                 // If the game is now empty we delete it.
@@ -447,7 +457,11 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      * @param gameName the name of the game
      */
     private void startLastPlayerTimeout(String gameName) {
+        logger.debug("Starting deletion timer for game {}", gameName);
         Timer timer = new Timer();
+        // Save the timer in a map so that we can cancel it if the player reconnects.
+        deleteGameTimers.put(gameName, timer);
+
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
