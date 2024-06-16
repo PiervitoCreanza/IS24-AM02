@@ -78,7 +78,7 @@ public class MainMenuSceneController extends Controller implements PropertyChang
      */
     @Override
     public void beforeMount(PropertyChangeEvent evt) {
-
+        connectedPlayers.clear();
     }
 
     /**

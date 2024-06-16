@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gui.controllers;
 
-import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.gui.ObjectiveCardImage;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
@@ -130,7 +129,7 @@ public class InitSetObjectiveCardSceneController extends Controller {
         super.propertyChange(evt);
         String propertyName = evt.getPropertyName();
         GameControllerView updatedView = (GameControllerView) evt.getNewValue();
-        if (propertyName.equals("UPDATE_VIEW") && updatedView.gameStatus() != GameStatusEnum.GAME_PAUSED) {
+        if (propertyName.equals("UPDATE_VIEW") && !updatedView.isMyTurn(getProperty("playerName"))) {
             //
             Platform.runLater(() -> {
                 switchScene(ControllersEnum.GAME_SCENE, evt);
