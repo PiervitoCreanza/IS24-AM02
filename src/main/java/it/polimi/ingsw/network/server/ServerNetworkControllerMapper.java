@@ -441,6 +441,12 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
                         mainController.deleteGame(gameName);
 
                         gameConnectionMapper.remove(gameName);
+
+                        // Cancel any deletion timer that may be running.
+                        if (deleteGameTimers.get(gameName) != null) {
+                            deleteGameTimers.get(gameName).cancel();
+                            deleteGameTimers.remove(gameName);
+                        }
                     }
                     logger.debug("Game {} deleted.", gameName);
                     return;
