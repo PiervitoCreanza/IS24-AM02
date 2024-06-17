@@ -5,8 +5,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
-            fx:controller="it.polimi.ingsw.gui.controllers.InitSetObjectiveCardSceneController"
-            stylesheets="@/styles.css">
+            fx:controller="it.polimi.ingsw.gui.controllers.InitScene.InitSetObjectiveCardSceneController"
+            stylesheets="@/styles.css" fx:id="root">
     <!-- StackPane to layer background and content -->
     <StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
                AnchorPane.topAnchor="0">

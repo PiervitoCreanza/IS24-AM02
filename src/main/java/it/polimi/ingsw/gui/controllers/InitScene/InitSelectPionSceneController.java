@@ -1,6 +1,7 @@
-package it.polimi.ingsw.gui.controllers;
+package it.polimi.ingsw.gui.controllers.InitScene;
 
 import it.polimi.ingsw.controller.GameStatusEnum;
+import it.polimi.ingsw.gui.controllers.ControllersEnum;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import javafx.application.Platform;
@@ -14,9 +15,9 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class SelectPionSceneController extends Controller {
+public class InitSelectPionSceneController extends InitScene {
     private static final ControllersEnum NAME = ControllersEnum.INIT_SET_PION;
-    private static final Logger logger = LogManager.getLogger(SelectPionSceneController.class);
+    private static final Logger logger = LogManager.getLogger(InitSelectPionSceneController.class);
 
     @FXML
     private ImageView pionImageView;
@@ -51,7 +52,7 @@ public class SelectPionSceneController extends Controller {
     }
 
     @FXML
-    private void continueAction() {
+    protected void continueAction() {
         // Print the selected pion color in the console
         System.out.println("Selected Pion Color: " + availableColors.get(currentIndex));
         networkControllerMapper.choosePlayerColor(availableColors.get(currentIndex));

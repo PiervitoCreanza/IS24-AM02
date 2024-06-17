@@ -1,6 +1,7 @@
-package it.polimi.ingsw.gui.controllers;
+package it.polimi.ingsw.gui.controllers.InitScene;
 
 import it.polimi.ingsw.gui.ObjectiveCardImage;
+import it.polimi.ingsw.gui.controllers.ControllersEnum;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import javafx.application.Platform;
@@ -14,9 +15,10 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
 // Each player receives multiple objective cards at the beginning of the game, and it has to choose one.
-public class InitSetObjectiveCardSceneController extends Controller {
+public class InitSetObjectiveCardSceneController extends InitScene {
     private static final ControllersEnum NAME = ControllersEnum.INIT_SET_OBJECTIVE_CARD;
     private static final Logger logger = LogManager.getLogger(InitSetObjectiveCardSceneController.class);
+
     @FXML
     private StackPane firstImagePane;
 
@@ -35,6 +37,8 @@ public class InitSetObjectiveCardSceneController extends Controller {
 
     @FXML
     public void initialize() {
+        // Call the default initialization method
+        super.initialize();
 
         firstImagePane.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1 && !selectedCard.equals("first")) {
@@ -67,9 +71,9 @@ public class InitSetObjectiveCardSceneController extends Controller {
     }
 
     @FXML
-    private void continueAction() {
+    protected void continueAction() {
         if (selectedCard == null || selectedCard.isEmpty()) {
-            showErrorPopup("No Card Selected", "Please select a card before continuing.");
+            showErrorPopup("No Card Selected", "Please select a card before continuing.", false);
         } else {
             // Print the selected card ID to the console
             int selectedCardId = selectedCard.equals("first") ? gameCardImages[currentIndex].getCardId() : gameCardImages[(currentIndex + 1) % gameCardImages.length].getCardId();
