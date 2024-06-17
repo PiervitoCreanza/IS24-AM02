@@ -1,10 +1,13 @@
 package it.polimi.ingsw.gui.controllers;
 
 import it.polimi.ingsw.gui.ErrorDialog;
-import it.polimi.ingsw.gui.toast.Toast;
 import it.polimi.ingsw.gui.toast.Toaster;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
+import it.polimi.ingsw.network.virtualView.GameControllerView;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableSet;
+import javafx.collections.SetChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,7 +26,7 @@ import java.io.IOException;
  */
 public abstract class Controller implements PropertyChangeListener {
 
-    private final Logger logger = LogManager.getLogger(Controller.class);
+    protected static final ObservableSet<String> connectedPlayers = FXCollections.observableSet();
     /**
      * The current scene.
      */
@@ -35,9 +38,7 @@ public abstract class Controller implements PropertyChangeListener {
     private static Stage stage;
 
     protected static ErrorDialog alert;
-
-    protected static Toast infoBox;
-
+    private static final Logger logger = LogManager.getLogger(Controller.class);
     /**
      * The name of the previously shown scene.
      */
@@ -49,6 +50,29 @@ public abstract class Controller implements PropertyChangeListener {
      * A flag indicating whether the current layout is active.
      */
     private boolean isCurrentScene = true;
+    private static boolean isClassAlreadyInstantiated = false;
+    private static boolean showConnectedPlayers = true;
+
+    {
+        if (!isClassAlreadyInstantiated) {
+            isClassAlreadyInstantiated = true;
+            connectedPlayers.addListener(new SetChangeListener<String>() {
+                @Override
+                public void onChanged(Change<? extends String> c) {
+                    if (!showConnectedPlayers) {
+                        return;
+                    }
+                    if (c.wasAdded()) {
+                        logger.debug("Player connected: {}", c.getElementAdded());
+                        showInfoBox("green", "Player connected", capitalizeFirstLetter(c.getElementAdded()) + " has connected to the game.");
+                    } else if (c.wasRemoved()) {
+                        logger.debug("Player disconnected: {}", c.getElementRemoved());
+                        showInfoBox("red", "Player disconnected", capitalizeFirstLetter(c.getElementRemoved()) + " has disconnected from the game.");
+                    }
+                }
+            });
+        }
+    }
 
     /**
      * Returns the name of the controller.
@@ -249,6 +273,23 @@ public abstract class Controller implements PropertyChangeListener {
         });
     }
 
+    private String capitalizeFirstLetter(String str) {
+        if (str == null || str.isEmpty()) {
+            return str;
+        } else {
+            return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+        }
+    }
+
+    /**
+     * Sets the flag indicating whether the connected players should be shown.
+     *
+     * @param showConnectedPlayers the flag indicating whether the connected players should be shown.
+     */
+    public void setShowConnectedPlayers(boolean showConnectedPlayers) {
+        Controller.showConnectedPlayers = showConnectedPlayers;
+    }
+
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -274,6 +315,12 @@ public abstract class Controller implements PropertyChangeListener {
                 logger.debug("Game deleted notification received");
                 Platform.runLater(() -> networkControllerMapper.closeConnection());
                 showInfoBox("red", "Game deleted", (String) evt.getNewValue());
+            }
+            case "UPDATE_VIEW" -> {
+                GameControllerView updatedView = (GameControllerView) evt.getNewValue();
+                logger.debug("Update view notification received");
+                connectedPlayers.retainAll(updatedView.getConnectedPlayers());
+                connectedPlayers.addAll(updatedView.getConnectedPlayers());
             }
         }
     }

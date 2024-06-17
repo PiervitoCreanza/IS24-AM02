@@ -19,9 +19,6 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableSet;
-import javafx.collections.SetChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -83,7 +80,6 @@ public class GameSceneController extends Controller implements PropertyChangeLis
     private ObservedPlayerBoard observedPlayerBoard;
     private ObservableDrawArea observedDrawArea;
     private SimpleStringProperty currentlyDisplayedPlayer;
-    private final ObservableSet<String> connectedPlayers = FXCollections.observableSet();
 
     @FXML
     public void initialize() {
@@ -127,19 +123,6 @@ public class GameSceneController extends Controller implements PropertyChangeLis
             }
         });
 
-        connectedPlayers.addListener(new SetChangeListener<String>() {
-            @Override
-            public void onChanged(Change<? extends String> c) {
-                if (c.wasAdded()) {
-                    logger.debug("Player connected: {}", c.getElementAdded());
-                    showInfoBox("green", "Player connected", capitalizeFirstLetter(c.getElementAdded()) + " has connected to the game.");
-                } else if (c.wasRemoved()) {
-                    logger.debug("Player disconnected: {}", c.getElementRemoved());
-                    showInfoBox("red", "Player disconnected", capitalizeFirstLetter(c.getElementRemoved()) + " has disconnected from the game.");
-                }
-            }
-        });
-
         initializePlayerBoardGridPane();
         //loadDummyData();
     }
@@ -172,14 +155,6 @@ public class GameSceneController extends Controller implements PropertyChangeLis
         //rightSidebarController.updateStats(new ArrayList<String>(Arrays.asList("Pier", "Marco", "Simo", "Mattia")), new ArrayList<Integer>(Arrays.asList(10, 20, 30, 40)), new GameItemStore());
         chatController.updateUsers(new ArrayList<>(Arrays.asList("Pier", "Marco", "Simo", "Mattia")), null);
 
-    }
-
-    private String capitalizeFirstLetter(String str) {
-        if (str == null || str.isEmpty()) {
-            return str;
-        } else {
-            return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
-        }
     }
 
     private void initializePlayerBoardGridPane() {
@@ -265,10 +240,6 @@ public class GameSceneController extends Controller implements PropertyChangeLis
     public void updateView(String playerName) {
         logger.debug("Playername: {}", playerName);
         GameControllerView gameControllerView = this.gameControllerView.get();
-
-        // Sync the connected players
-        connectedPlayers.retainAll(gameControllerView.getConnectedPlayers());
-        connectedPlayers.addAll(gameControllerView.getConnectedPlayers());
 
         PlayerView playerView = gameControllerView.getPlayerViewByName(playerName);
         observedPlayerBoard.syncWithServerPlayerBoard(playerView.playerBoardView().playerBoard());

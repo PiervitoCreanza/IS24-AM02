@@ -56,6 +56,8 @@ public class ToastArea extends Popup {
      * @param toast the Toast to be added.
      */
     public void addToast(Toast toast) {
+        super.hide();
+        super.show(stage, getSceneTopLeft().getX(), getSceneTopLeft().getY());
         Node toastNode = toast.getToastNode();
         container.getChildren().add(toastNode);
 
