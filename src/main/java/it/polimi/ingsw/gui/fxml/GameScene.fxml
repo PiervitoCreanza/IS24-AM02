@@ -52,7 +52,8 @@
 
         </BorderPane>
         <HBox alignment="CENTER_LEFT" pickOnBounds="false">
-            <Button styleClass="left-container, shadow" fx:id="ChatSideBarButton" onAction="#toggleChat"
+            <Button styleClass="left-container, shadow, custom-button-padding" fx:id="ChatSideBarButton"
+                    onAction="#toggleChat"
                     style="-fx-padding: 2 12 2 12;">
                 <graphic>
                     <ImageView preserveRatio="true" fitWidth="35">
@@ -99,7 +100,8 @@
                                     maxWidth="Infinity"/>
                         </VBox>
                         <VBox alignment="CENTER">
-                            <Button styleClass="left-container, shadow" style="-fx-padding: 0 7 0 6;"
+                            <Button styleClass="left-container, shadow, custom-button-padding"
+                                    style="-fx-padding: 0 7 0 6;"
                                     onAction="#toggleChat" fx:id="hideChatButton">
                                 <graphic>
                                     <ImageView preserveRatio="true" fitWidth="11">
