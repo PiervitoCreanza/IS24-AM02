@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gui.controllers;
 
+import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.gui.ErrorDialog;
 import it.polimi.ingsw.gui.toast.Toaster;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
@@ -64,10 +65,10 @@ public abstract class Controller implements PropertyChangeListener {
                     }
                     if (c.wasAdded()) {
                         logger.debug("Player connected: {}", c.getElementAdded());
-                        showInfoBox("green", "Player connected", capitalizeFirstLetter(c.getElementAdded()) + " has connected to the game.");
+                        showInfoBox("green", "Player connected", capitalizeFirstLetter(c.getElementAdded()) + " has just joined the game.");
                     } else if (c.wasRemoved()) {
                         logger.debug("Player disconnected: {}", c.getElementRemoved());
-                        showInfoBox("red", "Player disconnected", capitalizeFirstLetter(c.getElementRemoved()) + " has disconnected from the game.");
+                        showInfoBox("red", "Player disconnected", capitalizeFirstLetter(c.getElementRemoved()) + " has just left the game.");
                     }
                 }
             });
@@ -185,9 +186,9 @@ public abstract class Controller implements PropertyChangeListener {
         Controller.stage = stage;
     }
 
-    protected void showErrorPopup(String errorType, String message) {
+    protected void showErrorPopup(String errorType, String message, boolean isAutoCloseable) {
         Platform.runLater(() -> {
-            alert = new ErrorDialog(getStage(), Alert.AlertType.ERROR, errorType, message);
+            alert = new ErrorDialog(getStage(), Alert.AlertType.ERROR, errorType, message, isAutoCloseable);
             alert.showAndWait();
         });
     }
@@ -196,7 +197,7 @@ public abstract class Controller implements PropertyChangeListener {
         Platform.runLater(() -> {
             logger.debug("Showing connection error popup");
             if (alert == null || !alert.isShowing()) {
-                alert = new ErrorDialog(getStage(), Alert.AlertType.WARNING, "Connection error", message);
+                alert = new ErrorDialog(getStage(), Alert.AlertType.WARNING, "Connection error", message, false);
                 alert.getButtonTypes().clear();
                 alert.addButton("Quit", event -> System.exit(0));
                 alert.show();
@@ -297,7 +298,7 @@ public abstract class Controller implements PropertyChangeListener {
         switch (evt.getPropertyName()) {
             case "ERROR" -> {
                 logger.debug("Error notification received: {}", evt.getNewValue());
-                showErrorPopup("Server Error", (String) evt.getNewValue());
+                showErrorPopup("Server Error", (String) evt.getNewValue(), false);
             }
             case "CONNECTION_ESTABLISHED" -> {
                 logger.debug("Connection established notification received");
@@ -319,8 +320,15 @@ public abstract class Controller implements PropertyChangeListener {
             case "UPDATE_VIEW" -> {
                 GameControllerView updatedView = (GameControllerView) evt.getNewValue();
                 logger.debug("Update view notification received");
+
+                // Sync connected players
                 connectedPlayers.retainAll(updatedView.getConnectedPlayers());
                 connectedPlayers.addAll(updatedView.getConnectedPlayers());
+
+                // Show error popup if the game is paused
+                if (updatedView.gameStatus() == GameStatusEnum.GAME_PAUSED) {
+                    showErrorPopup("Game Paused", "You are the last online player. The game has been paused.", true);
+                }
             }
         }
     }
