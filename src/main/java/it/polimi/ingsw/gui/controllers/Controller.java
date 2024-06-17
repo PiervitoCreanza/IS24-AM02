@@ -327,7 +327,7 @@ public abstract class Controller implements PropertyChangeListener {
 
                 // Show error popup if the game is paused
                 if (updatedView.gameStatus() == GameStatusEnum.GAME_PAUSED) {
-                    showErrorPopup("Game Paused", "You are the last online player. The game has been paused.", true);
+                    showErrorPopup("Game Paused", "You are the only online player. The game has been paused.", true);
                 }
             }
         }
