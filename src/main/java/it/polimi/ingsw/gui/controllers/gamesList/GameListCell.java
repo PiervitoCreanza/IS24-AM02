@@ -18,7 +18,7 @@ public class GameListCell extends ListCell<String> {
 
     public GameListCell() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gameCell.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GameCell.fxml"));
             root = loader.load();
             logger.debug("GameListCell loaded");
             controller = loader.getController();
