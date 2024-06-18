@@ -20,14 +20,14 @@ public class Toast extends VBox {
     /**
      * Constructs a new Toast.
      *
-     * @param color            the color of the toast. Supported colors are "green" and "red".
+     * @param color            the color of the toast. Supported colors are "green", "red", "brown" and "yellow.
      * @param toastTitle       the title of the toast.
      * @param toastDescription the description of the toast.
      */
     public Toast(String color, String toastTitle, String toastDescription) {
         super();
 
-        if (!color.equals("green") && !color.equals("red")) {
+        if (!color.equals("green") && !color.equals("red") && !color.equals("yellow") && !color.equals("brown")) {
             logger.error("Invalid color for toast: " + color);
             throw new IllegalArgumentException("Invalid color for toast: " + color);
         }
