@@ -270,29 +270,6 @@ public class GameSceneController extends Controller implements PropertyChangeLis
         ArrayList<String> opponentPlayers = new ArrayList<>(playerNames);
         opponentPlayers.remove(clientPlayerName);
         chatController.updateUsers(opponentPlayers, clientPlayerName);
-
-        if (gameControllerView.gameStatus() == GameStatusEnum.PLACE_CARD && !gameControllerView.isMyTurn(clientPlayerName)) {
-            showInfoBox("brown", capitalizeFirstLetter(gameControllerView.getCurrentPlayerView().playerName()), "It's " + capitalizeFirstLetter(gameControllerView.getCurrentPlayerView().playerName()) + "'s turn");
-        }
-
-        if (gameControllerView.isMyTurn(clientPlayerName)) {
-            if (!gameControllerView.isLastRound()) {
-                switch (gameControllerView.gameStatus()) {
-                    case DRAW_CARD -> showInfoBox("yellow", "Your turn", "It's your turn to draw a card.");
-                    case PLACE_CARD -> showInfoBox("yellow", "Your turn", "It's your turn to place a card.");
-                    default -> showInfoBox("yellow", "Your turn", "It's your turn.");
-                }
-                return;
-            }
-
-            if (gameControllerView.remainingRoundsToEndGame() == 1) {
-                showInfoBox("yellow", "Second last round", "This is your second last round of the game.");
-            } else {
-                showInfoBox("yellow", "Last round", "This is your last round of the game.");
-            }
-        }
-
-
     }
 
     /**
@@ -366,6 +343,27 @@ public class GameSceneController extends Controller implements PropertyChangeLis
 
                 if (gameControllerView.gameStatus() == GameStatusEnum.GAME_OVER) {
                     Platform.runLater(() -> switchScene(ControllersEnum.WINNER_SCENE, evt));
+                }
+
+                if (gameControllerView.gameStatus() == GameStatusEnum.PLACE_CARD && !gameControllerView.isMyTurn(clientPlayerName)) {
+                    showInfoBox("brown", capitalizeFirstLetter(gameControllerView.getCurrentPlayerView().playerName()), "It's " + capitalizeFirstLetter(gameControllerView.getCurrentPlayerView().playerName()) + "'s turn");
+                }
+
+                if (gameControllerView.isMyTurn(clientPlayerName)) {
+                    if (!gameControllerView.isLastRound()) {
+                        switch (gameControllerView.gameStatus()) {
+                            case DRAW_CARD -> showInfoBox("yellow", "Your turn", "It's your turn to draw a card.");
+                            case PLACE_CARD -> showInfoBox("yellow", "Your turn", "It's your turn to place a card.");
+                            default -> showInfoBox("yellow", "Your turn", "It's your turn.");
+                        }
+                        return;
+                    }
+
+                    if (gameControllerView.remainingRoundsToEndGame() == 1) {
+                        showInfoBox("yellow", "Second last round", "This is your second last round of the game.");
+                    } else {
+                        showInfoBox("yellow", "Last round", "This is your last round of the game.");
+                    }
                 }
 
 
