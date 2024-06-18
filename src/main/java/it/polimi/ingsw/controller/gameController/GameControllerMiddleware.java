@@ -100,6 +100,20 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
         }
     }
 
+    private boolean checkGameFinished() {
+        if (game.isLastRound() && game.isLastPlayerAmongConnected()) {
+            if (remainingRoundsToEndGame == 0) {
+                game.calculateWinners();
+                gameStatus = GameStatusEnum.GAME_OVER;
+                return true;
+            } else {
+                remainingRoundsToEndGame--;
+                return false;
+            }
+        }
+        return false;
+    }
+
     /**
      * Handles the turn finish.
      */
@@ -108,17 +122,6 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
         // the game status is set to LAST_ROUND
         if (!isLastRound && game.isLastRound()) {
             isLastRound = true;
-        }
-        // Check if the game has finished
-        if (isLastRound && game.isLastPlayerAmongConnected()) {
-            if (remainingRoundsToEndGame == 0) {
-                game.calculateWinners();
-                gameStatus = GameStatusEnum.GAME_OVER;
-                // Return to prevent the next player from being set
-                return;
-            } else {
-                remainingRoundsToEndGame--;
-            }
         }
 
         gameStatus = GameStatusEnum.PLACE_CARD;
@@ -180,6 +183,11 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
 
         gameController.placeCard(playerName, coordinate, cardId);
 
+        // Check if the game has finished
+        if (checkGameFinished()) {
+            // If the game has finished, return to prevent the next player from being set
+            return;
+        }
 
         // If we are in the init status the next phase is to draw the hand cards and choose the player color
         if (gameStatus == GameStatusEnum.INIT_PLACE_STARTER_CARD) {
