@@ -274,7 +274,7 @@ public abstract class Controller implements PropertyChangeListener {
         });
     }
 
-    private String capitalizeFirstLetter(String str) {
+    protected String capitalizeFirstLetter(String str) {
         if (str == null || str.isEmpty()) {
             return str;
         } else {
