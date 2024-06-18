@@ -5,9 +5,11 @@ import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.controller.MainController;
 import it.polimi.ingsw.controller.gameController.GameControllerMiddleware;
 import it.polimi.ingsw.data.ObjectiveCardAdapter;
+import it.polimi.ingsw.data.SerializableBooleanPropertyAdapter;
 import it.polimi.ingsw.data.SideGameCardAdapter;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GlobalBoard;
+import it.polimi.ingsw.model.card.gameCard.SerializableBooleanProperty;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.Player;
@@ -29,6 +31,7 @@ public class Persistence {
     private final ServerNetworkControllerMapper serverNetworkControllerMapper;
 
     private final Gson gson = new GsonBuilder()
+            .registerTypeAdapter(SerializableBooleanProperty.class, new SerializableBooleanPropertyAdapter())
             .registerTypeAdapter(ServerToClientMessage.class, new ServerToClientMessageAdapter()) // Registering a type adapter for ServerToClientMessage class
             .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter()) // Registering a type adapter for SideGameCard class
             .registerTypeAdapter(ObjectiveCard.class, new ObjectiveCardAdapter()) // Registering a type adapter for ObjectiveCard class
@@ -92,6 +95,7 @@ public class Persistence {
                 });
             }
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("Parsing failed");
         }
     }
