@@ -9,6 +9,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * The Connection interface represents a network connection in the application.
@@ -20,7 +21,7 @@ public abstract class Connection implements PropertyChangeNotifier, PropertyChan
 
     protected int maxAttempts = 5;
 
-    protected long waitTime = 5000;
+    private final ExecutorService executor;
 
     protected ClientNetworkControllerMapper networkControllerMapper;
 
@@ -29,8 +30,8 @@ public abstract class Connection implements PropertyChangeNotifier, PropertyChan
     protected int serverPort;
 
     protected PropertyChangeSupport listeners;
-
-    private ExecutorService executor;
+    protected long waitTime = 10000;
+    private Future<?> currentTask;
 
     protected Logger logger;
 
@@ -39,6 +40,7 @@ public abstract class Connection implements PropertyChangeNotifier, PropertyChan
         this.serverIp = serverIp;
         this.serverPort = serverPort;
         this.listeners = new PropertyChangeSupport(this);
+        this.executor = Executors.newSingleThreadExecutor();
     }
 
     /**
@@ -47,9 +49,11 @@ public abstract class Connection implements PropertyChangeNotifier, PropertyChan
     protected abstract void connectionSetUp();
 
     public void connect() {
-        if (executor == null)
-            executor = Executors.newSingleThreadExecutor();
-        executor.submit(this::connectionSetUp);
+        attempts = 1;
+        if (currentTask != null && !currentTask.isDone()) {
+            currentTask.cancel(true);
+        }
+        currentTask = executor.submit(this::connectionSetUp);
     }
 
     /**

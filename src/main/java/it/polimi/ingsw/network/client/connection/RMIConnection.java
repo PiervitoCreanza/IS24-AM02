@@ -86,13 +86,13 @@ public class RMIConnection extends Connection implements PropertyChangeListener 
                 } else {
                     String retry = "RMI server unreachable, retrying in " + (waitTime / 1000) + " seconds. Attempt " + attempts + " out of " + maxAttempts + "...";
                     logger.warn(retry);
-                    this.listeners.firePropertyChange("CONNECTION_RETRY", null, retry);
+                    this.listeners.firePropertyChange("CONNECTION_FAILED", null, retry);
                     attempts++;
                     try {
                         Thread.sleep(waitTime);
                     } catch (InterruptedException e2) {
-                        logger.fatal("Error while sleeping");
-                        quit();
+                        logger.debug("Thread interrupted while waiting for the next connection attempt.");
+                        return;
                     }
                 }
             } catch (NotBoundException e) {
@@ -101,11 +101,13 @@ public class RMIConnection extends Connection implements PropertyChangeListener 
             }
         }
         if (attempts > maxAttempts) {
-            logger.fatal("Could not connect to the server. Exiting...");
-            quit();
+            String failed = "Could not connect to the RMI server.";
+            logger.fatal(failed);
+            this.listeners.firePropertyChange("CONNECTION_FAILED", null, failed);
+            return;
         }
         logger.info("RMI connection established");
-        this.listeners.firePropertyChange("CONNECTION_ESTABLISHED", null, null);
+        this.listeners.firePropertyChange("CONNECTION_ESTABLISHED", null, "You are now connected to the RMI server.");
     }
 }
 

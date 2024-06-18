@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
  * This class implements JsonDeserializer and JsonSerializer interfaces for SerializableBooleanProperty.
  * It provides methods to convert SerializableBooleanProperty to JSON and vice versa.
  */
-public class SerializableBooleanPropertyDeserializer implements JsonDeserializer<SerializableBooleanProperty>, JsonSerializer<SerializableBooleanProperty> {
+public class SerializableBooleanPropertyAdapter implements JsonDeserializer<SerializableBooleanProperty>, JsonSerializer<SerializableBooleanProperty> {
 
     /**
      * This method is used to convert a JsonElement into a SerializableBooleanProperty.

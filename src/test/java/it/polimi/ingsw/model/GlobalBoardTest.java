@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 class GlobalBoardTest {
     private GlobalBoard globalBoard;
@@ -66,6 +67,7 @@ class GlobalBoardTest {
     @DisplayName("drawCardFromField removes selected gold card from field and adds a new one")
     void drawCardFromFieldShouldRemoveGoldCardAndAddNewCard() {
         GameCard chosenGoldCard = Mockito.mock(GameCard.class);
+        when(chosenGoldCard.getCardId()).thenReturn(1);
         //Cards on the field will be chosen randomly from the deck, so I need to "force add" the card that I want to draw
         globalBoard.getFieldGoldCards().removeFirst();
         globalBoard.getFieldGoldCards().add(chosenGoldCard);
@@ -79,6 +81,7 @@ class GlobalBoardTest {
     @DisplayName("drawCardFromField removes selected resource card from field and adds a new one")
     void drawCardFromFieldShouldRemoveResourceCardAndAddNewCard() {
         GameCard chosenResourceCard = Mockito.mock(GameCard.class);
+        when(chosenResourceCard.getCardId()).thenReturn(1);
         //Cards on the field will be chosen randomly from the deck, so I need to "force add" the card that I want to draw
         globalBoard.getFieldResourceCards().removeFirst();
         globalBoard.getFieldResourceCards().add(chosenResourceCard);
