@@ -43,7 +43,7 @@ public class TCPConnection extends Connection {
             } catch (IOException e) {
                 String retry = "TCP server unreachable, retrying in " + (waitTime / 1000) + " seconds. Attempt " + attempts + " out of " + maxAttempts + "...";
                 logger.warn(retry);
-                this.listeners.firePropertyChange("CONNECTION_RETRY", null, retry);
+                this.listeners.firePropertyChange("CONNECTION_FAILED", null, retry);
             } catch (IllegalBlockingModeException e) {
                 logger.fatal("Socket already associated with a channel");
                 quit();
@@ -52,14 +52,17 @@ public class TCPConnection extends Connection {
             try {
                 Thread.sleep(waitTime);
             } catch (InterruptedException e) {
-                logger.fatal("Error while sleeping");
+                logger.debug("Thread interrupted while waiting for the next connection attempt.");
+                return;
             }
         }
         if (attempts > maxAttempts) {
-            logger.fatal("Could not connect to the server. Exiting...");
-            quit();
+            String failed = "Could not connect to the TCP server.";
+            logger.fatal(failed);
+            this.listeners.firePropertyChange("CONNECTION_FAILED", null, failed);
+            return;
         }
         logger.info("TCP connection established");
-        this.listeners.firePropertyChange("CONNECTION_ESTABLISHED", null, null);
+        this.listeners.firePropertyChange("CONNECTION_ESTABLISHED", null, "You are now connected to the TCP server.");
     }
 }

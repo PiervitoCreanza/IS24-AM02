@@ -14,7 +14,7 @@ public class SelectPionSceneTest extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/selectPionScene.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/InitSelectPionScene.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("Select Pion Scene");
         primaryStage.setScene(new Scene(root));

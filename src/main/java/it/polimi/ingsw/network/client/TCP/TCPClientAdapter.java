@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.data.ObjectiveCardAdapter;
-import it.polimi.ingsw.data.SerializableBooleanPropertyDeserializer;
+import it.polimi.ingsw.data.SerializableBooleanPropertyAdapter;
 import it.polimi.ingsw.data.SideGameCardAdapter;
 import it.polimi.ingsw.model.card.gameCard.SerializableBooleanProperty;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
@@ -60,7 +60,7 @@ public class TCPClientAdapter implements ClientMessageHandler, PropertyChangeLis
      * This is a final variable, meaning it cannot be changed once it has been set.
      */
     private final Gson gson = new GsonBuilder()
-            .registerTypeAdapter(SerializableBooleanProperty.class, new SerializableBooleanPropertyDeserializer())
+            .registerTypeAdapter(SerializableBooleanProperty.class, new SerializableBooleanPropertyAdapter())
             .registerTypeAdapter(ServerToClientMessage.class, new ServerToClientMessageAdapter()) // Registering a type adapter for ServerToClientMessage class
             .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter()) // Registering a type adapter for SideGameCard class
             .registerTypeAdapter(ObjectiveCard.class, new ObjectiveCardAdapter()) // Registering a type adapter for ObjectiveCard class

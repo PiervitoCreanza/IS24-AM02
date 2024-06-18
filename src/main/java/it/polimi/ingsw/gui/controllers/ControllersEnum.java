@@ -11,7 +11,7 @@ public enum ControllersEnum {
     GAME_SCENE("GameScene"),
     INIT_PLACE_STARTER_CARD("InitPlaceStarterCardScene"),
     INIT_SET_OBJECTIVE_CARD("InitSetObjectiveCardScene"),
-    INIT_SET_PION("SelectPionScene"),
+    INIT_SET_PION("InitSelectPionScene"),
     WINNER_SCENE("WinnerScene");
 
     private final String fxmlFileName;

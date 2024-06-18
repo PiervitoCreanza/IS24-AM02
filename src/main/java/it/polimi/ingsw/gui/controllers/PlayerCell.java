@@ -17,7 +17,7 @@ public class PlayerCell extends ListCell<String> {
 
     public PlayerCell() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/playerCell.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PlayerCell.fxml"));
             root = loader.load();
             controller = loader.getController();
         } catch (IOException e) {
