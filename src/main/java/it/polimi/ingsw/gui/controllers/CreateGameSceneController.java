@@ -79,7 +79,7 @@ public class CreateGameSceneController extends Controller implements PropertyCha
         }
         logger.debug("Create game: {} player: {}, number of player: {}", gameName, playerName, playersNumber);
         if (gameName == null || playerName == null || playerName.isEmpty() || gameName.isEmpty())
-            showErrorPopup("Some fields are empty", "Please insert both a game name and a player name to continue.");
+            showErrorPopup("Some fields are empty", "Please insert both a game name and a player name to continue.", false);
         else {
             networkControllerMapper.createGame(gameName, playerName, playersNumber);
         }

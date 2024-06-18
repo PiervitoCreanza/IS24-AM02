@@ -164,7 +164,8 @@ TextField {
 }
 
 .shadow {
-    -fx-effect: dropshadow(three-pass-box, -brown-500, 0, 0, 3, 3);
+    -fx-border-radius: 0 15 15 0;
+    -fx-effect: dropshadow(three-pass-box, -brown-500, 0, 0, 4, 4);
 }
 
 /* Game list styles */
@@ -420,4 +421,9 @@ TextField {
 
 .winner-border Text {
     -fx-fill: -white-200;
+}
+
+.custom-button-padding {
+    -fx-padding: 10 11 10 13 !important;
+    -fx-border-width: 0 0 0 0 !important;
 }

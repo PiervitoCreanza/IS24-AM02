@@ -110,7 +110,23 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
         if (gameStatus == GameStatusEnum.WAIT_FOR_PLAYERS) {
             waitingMessage.setText("Waiting for players to join...");
         } else {
-            waitingMessage.setText("Waiting for players to complete their first turn...");
+            String currentPlayer = updatedView.getCurrentPlayerView().playerName();
+            switch (gameStatus) {
+                case INIT_PLACE_STARTER_CARD:
+                    waitingMessage.setText("Waiting for " + currentPlayer + " to place the starter card...");
+                    break;
+                case INIT_CHOOSE_PLAYER_COLOR:
+                    waitingMessage.setText("Waiting for " + currentPlayer + " to choose the color...");
+                    break;
+                case INIT_CHOOSE_OBJECTIVE_CARD:
+                    waitingMessage.setText("Waiting for " + currentPlayer + " to choose the objective card...");
+                    break;
+                case GAME_PAUSED:
+                    waitingMessage.setText("Game paused...");
+                    break;
+                default:
+                    waitingMessage.setText("Waiting...");
+            }
         }
         Platform.runLater(() -> {
             playerListView.getItems().clear();

@@ -1,6 +1,7 @@
-package it.polimi.ingsw.gui.controllers;
+package it.polimi.ingsw.gui.controllers.InitScene;
 
 import it.polimi.ingsw.controller.GameStatusEnum;
+import it.polimi.ingsw.gui.controllers.ControllersEnum;
 import it.polimi.ingsw.gui.dataStorage.GameCardImageFactory;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.utils.Coordinate;
@@ -13,11 +14,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Objects;
 
 // Each player receives a single starterCard at the beginning of the game, and it has to choose which side to use.
-public class InitPlaceStarterCardSceneController extends Controller implements PropertyChangeListener {
+public class InitPlaceStarterCardSceneController extends InitScene {
 
     private static final ControllersEnum NAME = ControllersEnum.INIT_PLACE_STARTER_CARD;
 
@@ -40,6 +40,10 @@ public class InitPlaceStarterCardSceneController extends Controller implements P
 
     @FXML
     public void initialize() {
+        // Call the default initialization method
+        super.initialize();
+
+        // Add listeners to the card sides
         frontImagePane.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1 && !selectedSide.equals("front")) {
                 System.out.println("Clicked on the front of the card");
@@ -68,10 +72,10 @@ public class InitPlaceStarterCardSceneController extends Controller implements P
     }
 
     @FXML
-    private void continueAction() {
+    protected void continueAction() {
         if (selectedSide == null || selectedSide.isEmpty()) {
             // Show error alert
-            showErrorPopup("No Card Side Selected", "Please select a side of the card before continuing.");
+            showErrorPopup("No Card Side Selected", "Please select a side of the card before continuing.", false);
 
         } else {
             // Print the selected card ID and the selected side to the console

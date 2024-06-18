@@ -24,6 +24,30 @@
     -fx-text-fill: #2e7d32;
 }
 
+.yellow .toast {
+    -fx-effect: dropshadow(gaussian, #f9a825, 0, 0, 0, 4);
+}
+
+.yellow .icon {
+    -fx-fill: #f9a825;
+}
+
+.yellow .toast-title, .yellow .icon {
+    -fx-text-fill: #f9a825;
+}
+
+.brown .toast {
+    -fx-effect: dropshadow(gaussian, #422918, 0, 0, 0, 4);
+}
+
+.brown .icon {
+    -fx-fill: #422918;
+}
+
+.brown .toast-title, .brown .icon {
+    -fx-text-fill: #422918;
+}
+
 .toast {
     -fx-background-color: #e8e8e8;
     -fx-border-width: 3;

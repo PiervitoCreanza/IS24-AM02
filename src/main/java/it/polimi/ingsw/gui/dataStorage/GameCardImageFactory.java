@@ -80,24 +80,24 @@ public class GameCardImageFactory {
         String paddedCardId;
 
         // Determine the file name for the back image based on the cardId.
-        if (cardId < 11) {
-            paddedCardId = "001";
-        } else if (cardId < 21) {
-            paddedCardId = "011";
-        } else if (cardId < 31) {
-            paddedCardId = "021";
-        } else if (cardId < 41) {
-            paddedCardId = "031";
-        } else if (cardId < 51) {
-            paddedCardId = "041";
-        } else if (cardId < 66) {
-            paddedCardId = "051";
-        } else if (cardId < 73) {
-            paddedCardId = "066";
-        } else if (cardId < 81) {
-            paddedCardId = "073";
-        } else if (cardId >= 88) {
-            paddedCardId = "102";
+        if (cardId <= 10) {
+            paddedCardId = "fungi";
+        } else if (cardId <= 20) {
+            paddedCardId = "plant";
+        } else if (cardId <= 30) {
+            paddedCardId = "animal";
+        } else if (cardId <= 40) {
+            paddedCardId = "insect";
+        } else if (cardId <= 50) {
+            paddedCardId = "fungi_gold";
+        } else if (cardId <= 60) {
+            paddedCardId = "plant_gold";
+        } else if (cardId <= 70) {
+            paddedCardId = "animal_gold";
+        } else if (cardId <= 80) {
+            paddedCardId = "insect_gold";
+        } else if (cardId >= 87) {
+            paddedCardId = "generic";
         } else {
             paddedCardId = String.format("%03d", cardId);
         }

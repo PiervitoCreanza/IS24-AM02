@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gui;
 
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -8,20 +9,31 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 
 public class ErrorDialog extends Alert {
-    public ErrorDialog(Stage stage, AlertType alertType, String title, String message) {
+
+    public ErrorDialog(Stage stage, AlertType alertType, String title, String message, boolean isAutoCloseable) {
         super(alertType);
         initOwner(stage);
         initStyle(StageStyle.UNDECORATED);
         setHeaderText(title);
         setContentText(message);
         getButtonTypes().clear();
-        ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.LEFT);// Imposta il bottone come bottone di annullamento
-        getButtonTypes().add(okButtonType);
+
+        // Add close button
+        ButtonType closeButtonType = new ButtonType("Close", ButtonBar.ButtonData.LEFT);
+        getButtonTypes().add(closeButtonType);
+        ((Button) getDialogPane().lookupButton(closeButtonType)).setOnAction(event -> close());
         getDialogPane().getStylesheets().add(getClass().getResource("/alertStyles.css").toExternalForm());
-        ((Button) getDialogPane().lookupButton(okButtonType)).setOnAction(event -> close());
+
+        if (isAutoCloseable) {
+            // Set auto-close timer after 30 seconds
+            PauseTransition pause = new PauseTransition(Duration.seconds(30));
+            pause.setOnFinished(event -> close());
+            pause.play();
+        }
     }
 
     public void addButton(String buttonText, EventHandler<ActionEvent> eventHandler) {

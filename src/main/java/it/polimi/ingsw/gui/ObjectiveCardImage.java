@@ -26,15 +26,6 @@ public class ObjectiveCardImage {
         return imageView;
     }
 
-    public ImageView getImageView(double width) {
-        Image image = new Image(front.toString(), true);
-        ImageView imageView = new ImageView(image);
-        imageView.preserveRatioProperty().set(true);
-        imageView.setFitWidth(width);
-        imageView.getStyleClass().add("card");
-        return imageView;
-    }
-
     public ObjectiveCard getObjectiveCard() {
         return objectiveCard;
     }
