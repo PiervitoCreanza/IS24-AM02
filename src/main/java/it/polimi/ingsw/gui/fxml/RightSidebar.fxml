@@ -11,8 +11,8 @@
         <Tab styleClass="brutalist-tab-pane" closable="false">
             <graphic>
                 <HBox>
-                    <ImageView HBox.hgrow="ALWAYS" fitWidth="30" preserveRatio="true">
-                        <Image url="@/medalIcon.png"/>
+                    <ImageView HBox.hgrow="ALWAYS" fitHeight="30" preserveRatio="true">
+                        <Image url="@/user-icon.png"/>
                     </ImageView>
                 </HBox>
 
@@ -73,8 +73,8 @@
         </Tab>
         <Tab styleClass="brutalist-tab-pane" closable="false">
             <graphic>
-                <ImageView HBox.hgrow="ALWAYS" fitWidth="30" preserveRatio="true">
-                    <Image url="@/medalIcon.png"/>
+                <ImageView HBox.hgrow="ALWAYS" fitHeight="30" preserveRatio="true">
+                    <Image url="@/goal-icon.png"/>
                 </ImageView>
 
             </graphic>

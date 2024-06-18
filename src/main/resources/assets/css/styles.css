@@ -318,6 +318,7 @@ TextField {
     -fx-border-color: -brown-500;
     -fx-border-width: 0 1 1 0;
     -fx-padding: 5 20 5 20;
+    -fx-opacity: 0.6;
 }
 
 /** Selected tab header style **/
@@ -327,6 +328,7 @@ TextField {
     -fx-border-width: 0 1 0 0;
     -fx-text-fill: white;
     -fx-padding: 5 20 5 20;
+    -fx-opacity: 1;
 }
 
 .player-label {
