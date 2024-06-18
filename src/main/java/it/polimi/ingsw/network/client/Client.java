@@ -44,6 +44,11 @@ public class Client {
         String clientIp = NetworkUtils.getCurrentHostIp(cmd);
         String serverIp = cmd.getOptionValue("s", "localhost"); // default is localhost
         int serverPort = cmd.hasOption("rmi") ? 1099 : 12345;
+
+        if (cmd.hasOption("sp")) {
+            serverPort = Integer.parseInt(cmd.getOptionValue("sp"));
+        }
+
         int clientPort = Integer.parseInt(cmd.getOptionValue("cp", Integer.toString(serverPort + 1)));
 
         DEBUG = cmd.hasOption("debug");
@@ -85,6 +90,7 @@ public class Client {
         // add options
         options.addOption(Option.builder("rmi").longOpt("rmi_mode").desc("Start the client using a RMI connection.").build());
         options.addOption("s", "server_ip", true, "Server IP address.");
+        // Param used by NetworkUtils.getCurrentHostIp() method
         options.addOption("ip", "client_ip", true, "Client IP address.");
         options.addOption("sp", "server_port", true, "Server port number (default is 12345 for TCP and 1099 for RMI).");
         options.addOption("cp", true, "Client port number (default is server port number + 1).");
