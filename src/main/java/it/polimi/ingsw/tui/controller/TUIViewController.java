@@ -449,6 +449,7 @@ public class TUIViewController implements PropertyChangeListener, View {
                     isInChat = false;
                 if (isGameOver)
                     isGameOver = false;
+                messages.clear();
                 this.currentScene = sceneBuilder.instanceMainMenuScene();
                 break;
 
