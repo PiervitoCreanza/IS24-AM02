@@ -68,20 +68,19 @@ public class Persistence {
             gameControllerMiddleware.setLastRound(gameControllerView.isLastRound());
             GlobalBoard globalBoard = game.getGlobalBoard();
             globalBoard.setGlobalObjectives(gameControllerView.gameView().globalBoardView().globalObjectives());
+            globalBoard.getFieldResourceCards().forEach(card -> globalBoard.getResourceDeck().addCard(card));
+            globalBoard.getFieldGoldCards().forEach(card -> globalBoard.getGoldDeck().addCard(card));
             globalBoard.getFieldResourceCards().clear();
             globalBoard.getFieldGoldCards().clear();
-            for (int i = 0; i < 2; i++) {
-                globalBoard.getFieldGoldCards().add(globalBoard.getGoldDeck().draw());
-                globalBoard.getFieldResourceCards().add(globalBoard.getResourceDeck().draw());
-            }
-
+            gameControllerView.gameView().globalBoardView().fieldResourceCards().forEach(card -> globalBoard.getFieldResourceCards().add(card));
+            gameControllerView.gameView().globalBoardView().fieldGoldCards().forEach(card -> globalBoard.getFieldGoldCards().add(card));
             for (Player player : game.getPlayers()) {
                 PlayerView playerView = gameControllerView.getPlayerViewByName(player.getPlayerName());
                 PlayerHand playerHand = player.getPlayerHand();
                 playerView.playerHandView().hand().forEach(card -> {
                     playerHand.addCard(card);
-                    globalBoard.getGoldDeck().removeCard(card);
-                    globalBoard.getResourceDeck().removeCard(card);
+                    globalBoard.getGoldDeck().removeCard(card.getCardId());
+                    globalBoard.getResourceDeck().removeCard(card.getCardId());
                 });
                 player.forceSetPlayerObjective(playerView.objectiveCard());
                 player.advancePlayerPos(playerView.playerPos());
@@ -90,8 +89,8 @@ public class Persistence {
                 playerBoard.setPlayerBoard(playerView.playerBoardView().playerBoard());
                 playerBoard.setGameItems(playerView.playerBoardView().gameItemStore());
                 playerView.playerBoardView().playerBoard().values().forEach(card -> {
-                    globalBoard.getGoldDeck().removeCard(card);
-                    globalBoard.getResourceDeck().removeCard(card);
+                    globalBoard.getGoldDeck().removeCard(card.getCardId());
+                    globalBoard.getResourceDeck().removeCard(card.getCardId());
                 });
             }
         } catch (Exception e) {

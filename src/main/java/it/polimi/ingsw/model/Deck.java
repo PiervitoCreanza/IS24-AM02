@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.card.gameCard.GameCard;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
@@ -73,9 +75,10 @@ public class Deck<T> {
         return null;
     }
 
-    public void removeCard(T card) {
-        deck.remove(card);
+    public void removeCard(int cardID) {
+        deck.stream().filter(card -> ((GameCard) card).getCardId() == cardID).findFirst().ifPresent(deck::remove);
     }
+
     /**
      * Adds a new card to the deck.
      * This method first checks if the new card is null, throwing a NullPointerException if it is.
