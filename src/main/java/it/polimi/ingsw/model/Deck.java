@@ -68,7 +68,9 @@ public class Deck<T> {
      * @return The first card in the deck.
      */
     public T getFirst() {
-        return deck.getFirst();
+        if (!deck.isEmpty())
+            return deck.getFirst();
+        return null;
     }
 
     /**
