@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.controller.MainController;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
@@ -35,6 +36,8 @@ public class ServerNetworkControllerMapperTest {
 
     private HashMap<Integer, HashMap<Integer, Boolean>> error;
 
+    private HashMap<Integer, HashMap<Integer, Boolean>> isPlayerTurn;
+
     private HashMap<Integer, Boolean> gameEnded;
 
     private Random random;
@@ -43,7 +46,7 @@ public class ServerNetworkControllerMapperTest {
 
     private final int nPlayers = 4;
 
-    private final int nGames = 100;
+    private final int nGames = 1500;
 
 
     @BeforeEach
@@ -56,6 +59,7 @@ public class ServerNetworkControllerMapperTest {
         hand = new HashMap<>();
         field = new HashMap<>();
         error = new HashMap<>();
+        isPlayerTurn = new HashMap<>();
         gameEnded = new HashMap<>();
         random = new Random();
     }
@@ -64,7 +68,7 @@ public class ServerNetworkControllerMapperTest {
     void playGames() {
         for (int i = 0; i < nGames; i++) {
             int finalI = i;
-            /*Thread thread = new Thread(() -> */
+            Thread thread = new Thread(() ->
             {
                 String gameName = String.valueOf(finalI);
                 String firstPlayerName = String.valueOf(1);
@@ -88,6 +92,14 @@ public class ServerNetworkControllerMapperTest {
                 }
                 while (!gameEnded.get(Integer.parseInt(gameName))) {
                     for (int j = 1; j < nPlayers + 1; j++) {
+                        for (int k = j + 1; k < nPlayers + 1; k++) {
+                            int finalK = k;
+                            Thread thread1 = new Thread(() ->{
+                               randomAction(gameName, String.valueOf(finalK));
+                            });
+                            threads.add(thread1);
+                            thread1.start();
+                        }
                         playerName = String.valueOf(j);
                         ArrayList<Coordinate> availableCoordinatesList = new ArrayList<>(availableCoordinates.get(Integer.parseInt(gameName)).get(Integer.parseInt(playerName)));
                         ArrayList<Integer> handList = new ArrayList<>(hand.get(Integer.parseInt(gameName)).get(Integer.parseInt(playerName)));
@@ -98,37 +110,53 @@ public class ServerNetworkControllerMapperTest {
                         } while (error.get(Integer.parseInt(gameName)).get(Integer.parseInt(playerName)));
                         if (gameEnded.get(Integer.parseInt(gameName)))
                             break;
-                        do {
-                            switch (random.nextInt(3)) {
-                                case 0 -> {
-                                    if (!field.get(Integer.parseInt(gameName)).isEmpty()) {
-                                        Integer cardId = field.get(Integer.parseInt(gameName)).get(random.nextInt(field.get(Integer.parseInt(gameName)).size()));
-                                        serverNetworkControllerMapper.drawCardFromField(gameName, playerName, cardId);
+                        if (isPlayerTurn.get(Integer.parseInt(gameName)).get(Integer.parseInt(playerName))) {
+                            do {
+                                switch (random.nextInt(3)) {
+                                    case 0 -> {
+                                        if (!field.get(Integer.parseInt(gameName)).isEmpty()) {
+                                            Integer cardId = field.get(Integer.parseInt(gameName)).get(random.nextInt(field.get(Integer.parseInt(gameName)).size()));
+                                            serverNetworkControllerMapper.drawCardFromField(gameName, playerName, cardId);
+                                        }
                                     }
+                                    case 1 -> serverNetworkControllerMapper.drawCardFromGoldDeck(gameName, playerName);
+                                    case 2 -> serverNetworkControllerMapper.drawCardFromResourceDeck(gameName, playerName);
                                 }
-                                case 1 -> serverNetworkControllerMapper.drawCardFromGoldDeck(gameName, playerName);
-                                case 2 -> serverNetworkControllerMapper.drawCardFromResourceDeck(gameName, playerName);
-                            }
-                        } while (error.get(Integer.parseInt(gameName)).get(Integer.parseInt(playerName)));
+                            } while (error.get(Integer.parseInt(gameName)).get(Integer.parseInt(playerName)));
+                        }
                     }
                 }
                 for (int j = 1; j < nPlayers + 1; j++) {
                     playerName = String.valueOf(j);
                     serverNetworkControllerMapper.disconnect(gameName, playerName);
                 }
-            }/*)*/
-            /*threads.add(thread);
-            thread.start();*/
+            });
+            threads.add(thread);
+            thread.start();
         }
-        /*for(Thread thread : threads) {
+        for(Thread thread : threads) {
             try {
                 thread.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }*/
+        }
     }
 
+    private void randomAction(String gameName, String playerName) {
+        switch (random.nextInt(10)) {
+            case 0 -> serverNetworkControllerMapper.getGames(Mockito.mock(ServerMessageHandler.class));
+            case 1 -> serverNetworkControllerMapper.createGame(Mockito.mock(ServerMessageHandler.class), gameName, playerName, random.nextInt(10));
+            case 2 -> serverNetworkControllerMapper.joinGame(Mockito.mock(ServerMessageHandler.class), gameName, playerName);
+            case 3 -> serverNetworkControllerMapper.placeCard(gameName, playerName, new Coordinate(random.nextInt(100), random.nextInt(100)), random.nextInt(200), random.nextBoolean());
+            case 4 -> serverNetworkControllerMapper.choosePlayerColor(gameName, playerName, PlayerColorEnum.values()[random.nextInt(PlayerColorEnum.values().length)]);
+            case 5 -> serverNetworkControllerMapper.setPlayerObjective(gameName, playerName, random.nextInt(200));
+            case 6 -> serverNetworkControllerMapper.drawCardFromField(gameName, playerName, random.nextInt(200));
+            case 7 -> serverNetworkControllerMapper.drawCardFromGoldDeck(gameName, playerName);
+            case 8 -> serverNetworkControllerMapper.drawCardFromResourceDeck(gameName, playerName);
+            case 9 -> serverNetworkControllerMapper.switchCardSide(gameName, playerName, random.nextInt(200));
+        }
+    }
 
     private ServerMessageHandler initMockServerMessageHandler(String gameName, String playerName) {
         ServerMessageHandler serverMessageHandler = Mockito.mock(ServerMessageHandler.class);
@@ -147,20 +175,20 @@ public class ServerNetworkControllerMapperTest {
                 ArrayList<Integer> fieldCards = message.getView().gameView().globalBoardView().fieldGoldCards().stream().map(GameCard::getCardId).collect(Collectors.toCollection(ArrayList::new));
                 fieldCards.addAll(message.getView().gameView().globalBoardView().fieldResourceCards().stream().map(GameCard::getCardId).collect(Collectors.toCollection(ArrayList::new)));
                 field.put(Integer.parseInt(gameName), fieldCards);
-                if (!message.getView().gameView().winners().isEmpty()) {
+                isPlayerTurn.get(Integer.parseInt(gameName)).put(Integer.parseInt(playerName), message.getView().isMyTurn(playerName));
+                if (message.getView().gameStatus().equals(GameStatusEnum.GAME_OVER)) {
                     gameEnded.put(Integer.parseInt(gameName), true);
-                    System.out.println("Game: " + gameName + " Player: " + playerName + " Game ended");
-                    System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+                    System.out.println("Game: " + gameName + "ended" + " Winner: " + message.getView().gameView().winners());
                 }
-                System.out.println("Game: " + gameName + " Player: " + playerName + " Message: " + message + " Points: " + message.getView().getPlayerViewByName(playerName).playerPos());
+                //System.out.println("Game: " + gameName + " Player: " + playerName + " Message: " + message + " Points: " + message.getView().getPlayerViewByName(playerName).playerPos());
             }
             if (message.getServerAction().equals(ServerActionEnum.ERROR_MSG)) {
                 error.get(Integer.parseInt(gameName)).put(Integer.parseInt(playerName), true);
-                System.out.println("Game: " + gameName + " Player: " + playerName + " Message: " + message.getErrorMessage());
+                //System.out.println("Game: " + gameName + " Player: " + playerName + " Message: " + message.getErrorMessage());
             }
             // Qui puoi definire il tuo comportamento personalizzato per il metodo sendMessage.
             // Ad esempio, potresti stampare il messaggio:
-            System.out.println("Game: " + gameName + " Player: " + playerName + " Message: " + message);
+            //System.out.println("Game: " + gameName + " Player: " + playerName + " Message: " + message);
             return null; // dal momento che il metodo è void, ritorniamo null
         }).when(serverMessageHandler).sendMessage(Mockito.any(ServerToClientMessage.class));
 
@@ -174,5 +202,6 @@ public class ServerNetworkControllerMapperTest {
         availableCoordinates.put(gameName, new HashMap<>());
         hand.put(gameName, new HashMap<>());
         gameEnded.put(gameName, false);
+        isPlayerTurn.put(gameName, new HashMap<>());
     }
 }

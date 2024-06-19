@@ -211,4 +211,8 @@ public class GlobalBoard implements VirtualViewable<GlobalBoardView> {
     public GlobalBoardView getVirtualView() {
         return new GlobalBoardView(goldDeck.getFirst(), resourceDeck.getFirst(), fieldGoldCards, fieldResourceCards, globalObjectives);
     }
+
+    public boolean areFieldAndDecksEmpty() {
+        return isGoldDeckEmpty() && isResourceDeckEmpty() && fieldGoldCards.isEmpty() && fieldResourceCards.isEmpty();
+    }
 }
