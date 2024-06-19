@@ -44,7 +44,7 @@ public class ServerNetworkControllerMapperTest {
 
     private final List<Thread> gameThreads = new ArrayList<>();
 
-    private final List<Thread> randomActionsThreads = new ArrayList<>();
+    private final HashMap<Integer, ArrayList<Thread>> randomActionsThreads = new HashMap<>();
 
 
     private final int nPlayers = 4;
@@ -70,6 +70,7 @@ public class ServerNetworkControllerMapperTest {
     @Test
     void playGames() {
         for (int i = 0; i < nGames; i++) {
+            randomActionsThreads.put(i, new ArrayList<>());
             int finalI = i;
             Thread thread = new Thread(() ->
             {
@@ -95,12 +96,13 @@ public class ServerNetworkControllerMapperTest {
                 }
                 while (!gameEnded.get(Integer.parseInt(gameName))) {
                     for (int j = 1; j < nPlayers + 1; j++) {
+
                         for (int k = j + 1; k < nPlayers + 1; k++) {
                             int finalK = k;
                             Thread thread1 = new Thread(() ->{
-                               randomAction(gameName, String.valueOf(finalK));
+                                    randomAction(gameName, String.valueOf(finalK));
                             });
-                            randomActionsThreads.add(thread1);
+                            randomActionsThreads.get(finalI).add(thread1);
                             thread1.start();
                         }
                         playerName = String.valueOf(j);
@@ -127,6 +129,13 @@ public class ServerNetworkControllerMapperTest {
                                 }
                             } while (error.get(Integer.parseInt(gameName)).get(Integer.parseInt(playerName)));
                         }
+                        for(Thread threads : randomActionsThreads.get(finalI)) {
+                            try {
+                                threads.join();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 }
                 for (int j = 1; j < nPlayers + 1; j++) {
@@ -138,13 +147,6 @@ public class ServerNetworkControllerMapperTest {
             thread.start();
         }
         for(Thread thread : gameThreads) {
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        for(Thread thread : randomActionsThreads) {
             try {
                 thread.join();
             } catch (InterruptedException e) {
@@ -166,6 +168,7 @@ public class ServerNetworkControllerMapperTest {
             case 8 -> serverNetworkControllerMapper.drawCardFromResourceDeck(gameName, playerName);
             case 9 -> serverNetworkControllerMapper.switchCardSide(gameName, playerName, random.nextInt(200));
         }
+        //System.out.println("Random action performed");
     }
 
     private ServerMessageHandler initMockServerMessageHandler(String gameName, String playerName) {
@@ -188,7 +191,7 @@ public class ServerNetworkControllerMapperTest {
                 isPlayerTurn.get(Integer.parseInt(gameName)).put(Integer.parseInt(playerName), message.getView().isMyTurn(playerName));
                 if (message.getView().gameStatus().equals(GameStatusEnum.GAME_OVER)) {
                     gameEnded.put(Integer.parseInt(gameName), true);
-                    System.out.println("Game: " + gameName + "ended" + " Winner: " + message.getView().gameView().winners());
+                    System.out.println("Game: " + gameName + " ended" + " Winner: " + message.getView().gameView().winners());
                 }
                 //System.out.println("Game: " + gameName + " Player: " + playerName + " Message: " + message + " Points: " + message.getView().getPlayerViewByName(playerName).playerPos());
             }
