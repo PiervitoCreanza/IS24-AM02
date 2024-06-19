@@ -149,23 +149,31 @@ public class DrawCardScene implements Scene, PropertyChangeListener {
                 String input = inputs.getFirst();
                 switch (input) {
                     case "1" -> {
-                        if (fieldResourceCards.isEmpty())
+                        if (fieldResourceCards.isEmpty()) {
                             printCardIsMissing(input);
+                            break;
+                        }
                         controller.drawCardFromField(fieldResourceCards.getFirst().getCardId());
                     }
                     case "2" -> {
-                        if (fieldResourceCards.size() < 2)
+                        if (fieldResourceCards.size() < 2) {
                             printCardIsMissing(input);
+                            break;
+                        }
                         controller.drawCardFromField(fieldResourceCards.get(1).getCardId());
                     }
                     case "3" -> {
-                        if (fieldGoldCards.isEmpty())
+                        if (fieldGoldCards.isEmpty()) {
                             printCardIsMissing(input);
+                            break;
+                        }
                         controller.drawCardFromField(fieldGoldCards.getFirst().getCardId());
                     }
                     case "4" -> {
-                        if (fieldGoldCards.size() < 2)
+                        if (fieldGoldCards.size() < 2) {
                             printCardIsMissing(input);
+                            break;
+                        }
                         controller.drawCardFromField(fieldGoldCards.get(1).getCardId());
                     }
                     case "5" -> controller.drawCardFromResourceDeck();
