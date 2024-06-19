@@ -196,7 +196,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
             gameController.drawCardFromGoldDeck(playerName);
             // Set the next status
             gameStatus = GameStatusEnum.INIT_CHOOSE_PLAYER_COLOR;
-        } else if (canAPlayerDrawCard()){
+        } else if (canDrawCard()){
             // If we are not in the init status the next phase is to draw a card
             gameStatus = GameStatusEnum.DRAW_CARD;
         } else {
@@ -390,7 +390,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
         return new GameControllerView(game.getVirtualView(), gameStatus, isLastRound, remainingRoundsToEndGame);
     }
 
-    private boolean canAPlayerDrawCard() {
+    private boolean canDrawCard() {
         return !game.getGlobalBoard().areFieldAndDecksEmpty();
     }
 }
