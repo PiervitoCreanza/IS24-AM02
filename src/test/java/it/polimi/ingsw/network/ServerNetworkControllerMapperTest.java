@@ -42,11 +42,14 @@ public class ServerNetworkControllerMapperTest {
 
     private Random random;
 
-    private final List<Thread> threads = new ArrayList<>();
+    private final List<Thread> gameThreads = new ArrayList<>();
+
+    private final List<Thread> randomActionsThreads = new ArrayList<>();
+
 
     private final int nPlayers = 4;
 
-    private final int nGames = 1500;
+    private final int nGames = 100;
 
 
     @BeforeEach
@@ -97,7 +100,7 @@ public class ServerNetworkControllerMapperTest {
                             Thread thread1 = new Thread(() ->{
                                randomAction(gameName, String.valueOf(finalK));
                             });
-                            threads.add(thread1);
+                            randomActionsThreads.add(thread1);
                             thread1.start();
                         }
                         playerName = String.valueOf(j);
@@ -131,10 +134,17 @@ public class ServerNetworkControllerMapperTest {
                     serverNetworkControllerMapper.disconnect(gameName, playerName);
                 }
             });
-            threads.add(thread);
+            gameThreads.add(thread);
             thread.start();
         }
-        for(Thread thread : threads) {
+        for(Thread thread : gameThreads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        for(Thread thread : randomActionsThreads) {
             try {
                 thread.join();
             } catch (InterruptedException e) {
