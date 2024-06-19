@@ -186,14 +186,16 @@ public class GlobalBoard implements VirtualViewable<GlobalBoardView> {
         Optional<GameCard> cardToRemove = fieldGoldCards.stream().filter(c -> c.getCardId() == cardId).findFirst();
         if (cardToRemove.isPresent()) {
             fieldGoldCards.remove(cardToRemove.get());
-            fieldGoldCards.add(goldDeck.draw());
+            if (!goldDeck.isEmpty())
+                fieldGoldCards.add(goldDeck.draw());
             return cardToRemove.get();
         }
 
         cardToRemove = fieldResourceCards.stream().filter(c -> c.getCardId() == cardId).findFirst();
         if (cardToRemove.isPresent()) {
             fieldResourceCards.remove(cardToRemove.get());
-            fieldResourceCards.add(resourceDeck.draw());
+            if (!resourceDeck.isEmpty())
+                fieldResourceCards.add(resourceDeck.draw());
             return cardToRemove.get();
         }
 
@@ -208,5 +210,9 @@ public class GlobalBoard implements VirtualViewable<GlobalBoardView> {
     @Override
     public GlobalBoardView getVirtualView() {
         return new GlobalBoardView(goldDeck.getFirst(), resourceDeck.getFirst(), fieldGoldCards, fieldResourceCards, globalObjectives);
+    }
+
+    public boolean areFieldAndDecksEmpty() {
+        return isGoldDeckEmpty() && isResourceDeckEmpty() && fieldGoldCards.isEmpty() && fieldResourceCards.isEmpty();
     }
 }
