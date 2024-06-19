@@ -120,8 +120,11 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
     private void handleDrawFinish() {
         // If the game is not in the last round and the current player is the first to finish,
         // the game status is set to LAST_ROUND
-        if (!isLastRound && game.isLastRound()) {
+        if (game.isLastRound()) {
             isLastRound = true;
+            if (game.getGlobalBoard().isResourceDeckEmpty() && game.getGlobalBoard().isGoldDeckEmpty()) {
+                checkGameFinished();
+            }
         }
 
         gameStatus = GameStatusEnum.PLACE_CARD;
@@ -196,7 +199,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
             gameController.drawCardFromGoldDeck(playerName);
             // Set the next status
             gameStatus = GameStatusEnum.INIT_CHOOSE_PLAYER_COLOR;
-        } else if (canDrawCard()){
+        } else if (canDrawCard()) {
             // If we are not in the init status the next phase is to draw a card
             gameStatus = GameStatusEnum.DRAW_CARD;
         } else {
@@ -380,6 +383,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
     public boolean isCreator(String playerName) {
         return gameController.isCreator(playerName);
     }
+
     /**
      * Gets the virtual view of the game controller.
      *
