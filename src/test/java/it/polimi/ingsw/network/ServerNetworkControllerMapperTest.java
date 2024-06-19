@@ -96,8 +96,12 @@ public class ServerNetworkControllerMapperTest {
                 }
                 while (!gameEnded.get(Integer.parseInt(gameName))) {
                     for (int j = 1; j < nPlayers + 1; j++) {
-
-                        for (int k = j + 1; k < nPlayers + 1; k++) {
+                        ArrayList<Integer> remainingPlayers = new ArrayList<>();
+                        for (int k = 1; k < nPlayers + 1; k++) {
+                            if (k != j)
+                                remainingPlayers.add(k);
+                        }
+                        for (Integer k : remainingPlayers) {
                             int finalK = k;
                             Thread thread1 = new Thread(() ->{
                                     randomAction(gameName, String.valueOf(finalK));
