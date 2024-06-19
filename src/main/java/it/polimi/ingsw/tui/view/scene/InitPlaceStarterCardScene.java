@@ -96,7 +96,6 @@ public class InitPlaceStarterCardScene implements Scene, PropertyChangeListener 
         ArrayList<String> inputs = (ArrayList<String>) evt.getNewValue();
         switch (changedProperty) {
             case "q" -> {
-                controller.sendDisconnect();
                 controller.closeConnection();
             }
             case "input" ->

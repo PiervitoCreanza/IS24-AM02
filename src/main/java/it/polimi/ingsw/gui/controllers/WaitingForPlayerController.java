@@ -142,7 +142,6 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
     @FXML
     public void back(ActionEvent actionEvent) {
         showInfoBox("red", "Disconnecting...", "You are disconnecting from the server.");
-        networkControllerMapper.sendDisconnect();
         networkControllerMapper.closeConnection();
     }
 }

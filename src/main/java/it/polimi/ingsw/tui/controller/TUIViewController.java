@@ -332,13 +332,6 @@ public class TUIViewController implements PropertyChangeListener, View {
         networkController.sendChatMessage(new ChatClientToServerMessage(gameName, playerName, message, recipient, isDirectMessage));
     }
 
-    /**
-     * Method to send a disconnect message to the server.
-     * It delegates the request to the network controller.
-     */
-    public void sendDisconnect() {
-        networkController.sendDisconnect();
-    }
 
     /**
      * Method to show the chat.

@@ -21,7 +21,6 @@ public abstract class InitScene extends Controller {
                     continueAction();
                     break;
                 case ESCAPE:
-                    networkControllerMapper.sendDisconnect();
                     networkControllerMapper.closeConnection();
                     switchScene(ControllersEnum.MAIN_MENU);
                     break;

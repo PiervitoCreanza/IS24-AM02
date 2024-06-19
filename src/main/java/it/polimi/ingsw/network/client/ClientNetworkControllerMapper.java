@@ -110,6 +110,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
     public void closeConnection() {
         view = null;
         if (checkConnectionStatus()) {
+            sendDisconnect();
             messageHandler.closeConnection();
         }
     }
@@ -256,10 +257,8 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
     /**
      * Sends a request to the server for the player to disconnect.
      */
-    public void sendDisconnect() {
-        if (checkConnectionStatus()) {
-            messageHandler.sendMessage(new DisconnectClientToServerMessage(gameName, playerName));
-        }
+    private void sendDisconnect() {
+        messageHandler.sendMessage(new DisconnectClientToServerMessage(gameName, playerName));
     }
 
     private boolean checkConnectionStatus() {

@@ -117,7 +117,6 @@ public class WaitForPlayersScene implements Scene, PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         String changedProperty = evt.getPropertyName();
         if (changedProperty.equals("q")) {
-            controller.sendDisconnect();
             controller.closeConnection();
         } else if (changedProperty.equals("c")) {
             controller.showChat();
