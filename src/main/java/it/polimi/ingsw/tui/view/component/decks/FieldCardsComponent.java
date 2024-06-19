@@ -54,7 +54,15 @@ public class FieldCardsComponent implements Drawable {
      */
     private DrawArea twoCardsComponent(ArrayList<GameCard> cards) {
         DrawArea cardsArea = new DrawArea();
-        cards.forEach(card -> cardsArea.drawAt((cardsArea.getWidth() == 0) ? 0 : cardsArea.getWidth() + spacing, 0, new GameCardComponent(card, count++).getDrawArea()));
+        if (cards.size() == 2)
+            cards.forEach(card -> cardsArea.drawAt((cardsArea.getWidth() == 0) ? 0 : cardsArea.getWidth() + spacing, 0, new GameCardComponent(card, count++).getDrawArea()));
+        else if (cards.size() == 1) {
+            cardsArea.drawAt(0, 0, new GameCardComponent(cards.getFirst(), count++).getDrawArea());
+            cardsArea.drawAt(cardsArea.getWidth() + spacing, 0, new GameCardComponent(count++).getDrawArea());
+        } else {
+            cardsArea.drawAt(0, 0, new GameCardComponent(count++).getDrawArea());
+            cardsArea.drawAt(cardsArea.getWidth() + spacing, 0, new GameCardComponent(count++).getDrawArea());
+        }
         return cardsArea;
     }
 

@@ -51,9 +51,10 @@ public class DecksComponent implements Drawable {
                 │                       
                 └─────────────────────┘
                 """);
-        card.switchSide();
         deck.setColor(ColorsEnum.BRIGHT_BLACK);
-        deck.drawAt(1, 0, new GameCardComponent(card).getDrawArea());
+        if (card != null)
+            card.switchSide();
+        deck.drawAt(1, 0, card == null ? new GameCardComponent().getDrawArea() : new GameCardComponent(card).getDrawArea());
         deck.drawCenteredX(deck.getHeight(), String.valueOf(number));
         return deck;
     }
