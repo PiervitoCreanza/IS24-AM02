@@ -227,6 +227,15 @@ public class Game implements VirtualViewable<GameView> {
         return players.stream().filter(Player::isConnected).collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * Returns players that are disconnected.
+     *
+     * @return ArrayList of Player objects that represents the players that are disconnected.
+     */
+    public ArrayList<Player> getDisconnectedPlayers() {
+        return players.stream().filter(player -> !player.isConnected()).collect(Collectors.toCollection(ArrayList::new));
+    }
+
     /*
     Ex. getPlayers = [p1,p2,p3,p4]
     connectedPlayers = [p2]
@@ -388,6 +397,7 @@ public class Game implements VirtualViewable<GameView> {
             setNextPlayer();
         }
     }
+
     /**
      * Returns the game record of the game.
      * It contains all the details needed by the lobby to display the game.

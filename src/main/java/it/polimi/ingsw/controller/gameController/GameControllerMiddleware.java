@@ -305,6 +305,29 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
 
         // If the last player has chosen his objective card, the game status is set to PLACE_CARD
         if (game.isLastPlayerAmongConnected()) {
+            // If the game is ready to start, set missing player data on disconnected players
+            game.getDisconnectedPlayers().forEach(disconnectedPlayer -> {
+                String disconnectedPlayerName = disconnectedPlayer.getPlayerName();
+                Coordinate starterCardCoordinate = new Coordinate(0, 0);
+                if (disconnectedPlayer.getPlayerBoard().getGameCard(starterCardCoordinate).isEmpty()) {
+                    gameController.placeCard(disconnectedPlayerName, starterCardCoordinate, disconnectedPlayer.getPlayerBoard().getStarterCard().getCardId());
+                }
+
+                if (disconnectedPlayer.getPlayerHand().getCards().isEmpty()) {
+                    gameController.drawCardFromResourceDeck(disconnectedPlayerName);
+                    gameController.drawCardFromResourceDeck(disconnectedPlayerName);
+                    gameController.drawCardFromGoldDeck(disconnectedPlayerName);
+                }
+
+                if (disconnectedPlayer.getPlayerColor() == null) {
+                    gameController.choosePlayerColor(disconnectedPlayerName, game.getAvailablePlayerColors().getFirst());
+                }
+                if (disconnectedPlayer.getObjectiveCard() == null) {
+                    gameController.setPlayerObjective(disconnectedPlayerName, disconnectedPlayer.getChoosableObjectives().getFirst().getCardId());
+                }
+            });
+
+            // Set the game status to PLACE_CARD
             gameStatus = GameStatusEnum.PLACE_CARD;
         } else {
             gameStatus = GameStatusEnum.INIT_PLACE_STARTER_CARD;
