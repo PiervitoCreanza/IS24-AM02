@@ -321,7 +321,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      */
     public void setPlayerConnectionStatus(String playerName, boolean isConnected) {
         gameController.setPlayerConnectionStatus(playerName, isConnected);
-        if (gameStatus == GameStatusEnum.WAIT_FOR_PLAYERS) {
+        if (!isConnected && gameStatus == GameStatusEnum.WAIT_FOR_PLAYERS) {
             game.removePlayer(playerName);
             return;
         }
