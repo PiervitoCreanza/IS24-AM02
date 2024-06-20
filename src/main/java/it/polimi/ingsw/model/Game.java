@@ -379,6 +379,15 @@ public class Game implements VirtualViewable<GameView> {
         return new GameView(gameName, currentPlayer.getPlayerName(), globalBoard.getVirtualView(), players.stream().map(Player::getVirtualView).collect(Collectors.toList()), winners.stream().map(Player::getPlayerName).collect(Collectors.toCollection(ArrayList::new)), getAvailablePlayerColors());
     }
 
+    public void removePlayer(String playerName) {
+        Player player = getPlayer(playerName);
+        player.getChoosableObjectives().forEach(objectiveCard -> globalBoard.getObjectiveDeck().addCard(objectiveCard));
+        globalBoard.getStarterDeck().addCard(player.getPlayerBoard().getStarterCard());
+        players.remove(player);
+        if (!players.isEmpty() && player.equals(currentPlayer)) {
+            setNextPlayer();
+        }
+    }
     /**
      * Returns the game record of the game.
      * It contains all the details needed by the lobby to display the game.
