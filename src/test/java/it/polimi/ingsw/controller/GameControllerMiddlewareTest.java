@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.controller.gameController.GameController;
 import it.polimi.ingsw.controller.gameController.GameControllerMiddleware;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GlobalBoard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
@@ -14,6 +15,7 @@ import org.mockito.Mockito;
 import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -48,6 +50,11 @@ class GameControllerMiddlewareTest {
         players.add(player1);
         when(game.getPlayers()).thenAnswer(invocation -> players);
         when(game.isLastPlayerAmongConnected()).thenAnswer(invocation -> currentPlayerIndex == players.size() - 1);
+        when(game.getGlobalBoard()).thenAnswer(invocationOnMock -> {
+            GlobalBoard globalBoard = Mockito.mock(GlobalBoard.class);
+            when(globalBoard.areFieldAndDecksEmpty()).thenAnswer(invocationOnMock1 -> false);
+            return globalBoard;
+        });
     }
 
     @Test
@@ -60,15 +67,49 @@ class GameControllerMiddlewareTest {
     @Test
     @DisplayName("Test if a player can re-join the game after disconenction")
     void joinGame1() {
-        GameControllerMiddleware gameControllerMiddleware = new GameControllerMiddleware("gameName", 3, "player1");
-        gameControllerMiddleware.joinGame("playerName");
-        assertEquals(GameStatusEnum.WAIT_FOR_PLAYERS, gameControllerMiddleware.getGameStatus());
-        Exception e = assertThrows(IllegalArgumentException.class, () -> gameControllerMiddleware.joinGame("playerName"));
-        assertEquals("A player with the same name, already exists", e.getMessage());
-        gameControllerMiddleware.getGame().getPlayer("playerName").setConnected(false);
-        gameControllerMiddleware.joinGame("playerName");
-        assertTrue(gameControllerMiddleware.getGame().getPlayer("playerName").isConnected());
+        GameControllerMiddleware gameControllerMiddleware = new GameControllerMiddleware("gameName", 3, "player0");
 
+        gameControllerMiddleware.joinGame("player1");
+        assertEquals(GameStatusEnum.WAIT_FOR_PLAYERS, gameControllerMiddleware.getGameStatus());
+
+        Exception e = assertThrows(IllegalArgumentException.class, () -> gameControllerMiddleware.joinGame("player1"));
+        assertEquals("A player with the same name, already exists", e.getMessage());
+
+        // If the player disconnects during initialization phase, he is removed from the game
+        gameControllerMiddleware.setPlayerConnectionStatus("player1", false);
+        assertFalse(gameControllerMiddleware.getGame().getPlayers().stream().anyMatch(player -> player.getPlayerName().equals("player1")));
+
+        gameControllerMiddleware.joinGame("player1");
+        assertTrue(gameControllerMiddleware.getGame().getPlayers().stream().anyMatch(player -> player.getPlayerName().equals("player1")));
+
+        gameControllerMiddleware.joinGame("player2");
+
+        assertEquals(GameStatusEnum.INIT_PLACE_STARTER_CARD, gameControllerMiddleware.getGameStatus());
+
+        gameControllerMiddleware.setPlayerConnectionStatus("player0", false);
+
+        gameControllerMiddleware.joinGame("player0");
+        assertTrue(gameControllerMiddleware.getGame().getPlayer("player0").isConnected());
+
+        assertEquals(GameStatusEnum.INIT_PLACE_STARTER_CARD, gameControllerMiddleware.getGameStatus());
+        assertEquals(gameControllerMiddleware.getGame().getPlayer("player1"), gameControllerMiddleware.getGame().getCurrentPlayer());
+
+        // Get the player that has been disconnected
+        Player player0 = gameControllerMiddleware.getGame().getPlayer("player0");
+
+        // Check that the player has been correctly set-up
+        assertEquals(3, player0.getPlayerHand().getCards().size());
+        assertTrue(player0.getChoosableObjectives().contains(player0.getObjectiveCard()));
+        Optional<GameCard> starterCard = player0.getPlayerBoard().getGameCard(new Coordinate(0, 0));
+        assertTrue(starterCard.isPresent());
+        assertEquals(starterCard.get(), player0.getPlayerBoard().getStarterCard());
+
+        // If a player disconnects during the game, he is not removed from the game
+        gameControllerMiddleware.setGameStatus(GameStatusEnum.PLACE_CARD);
+        gameControllerMiddleware.setPlayerConnectionStatus("player0", false);
+        assertTrue(gameControllerMiddleware.getGame().getPlayers().stream().anyMatch(player -> player.getPlayerName().equals("player0")));
+        gameControllerMiddleware.joinGame("player0");
+        assertTrue(gameControllerMiddleware.getGame().getPlayer("player0").isConnected());
 
     }
 
@@ -215,23 +256,25 @@ class GameControllerMiddlewareTest {
         // Player 1 can draw a card
         gameControllerMiddleware.drawCardFromField("player0", -1);
 
-        // Player 2 places a card
+        // We mock the game to be in the last round
+        when(game.isLastRound()).thenReturn(true);
+
+        // Player 1 places a card
         gameControllerMiddleware.placeCard("player1", null, -1);
         assertEquals(GameStatusEnum.DRAW_CARD, gameControllerMiddleware.getGameStatus());
 
-        // We mock the game to be in the last round
-        when(game.isLastRound()).thenReturn(true);
-        // Player 2 can draw a card
+        // It is the last round phase. We have to play one last round
+
+        // Player 1 can draw a card
         gameControllerMiddleware.drawCardFromField("player1", -1);
-        // It is the last round phase. We have to play
+
         // Player 0 can place a card
         gameControllerMiddleware.placeCard("player0", null, -1);
         // Player 0 can draw a card
         gameControllerMiddleware.drawCardFromField("player0", -1);
+
         // Player 1 can place a card
         gameControllerMiddleware.placeCard("player1", null, -1);
-        // Player 1 can place a card
-        gameControllerMiddleware.drawCardFromField("player1", -1);
         // Game is over
         assertEquals(GameStatusEnum.GAME_OVER, gameControllerMiddleware.getGameStatus());
     }
