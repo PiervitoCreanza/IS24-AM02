@@ -306,6 +306,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
         // If the last player has chosen his objective card, the game status is set to PLACE_CARD
         if (game.isLastPlayerAmongConnected()) {
             gameStatus = GameStatusEnum.PLACE_CARD;
+            game.getNotInitializedPlayers().forEach(this::initializePlayer);
         } else {
             gameStatus = GameStatusEnum.INIT_PLACE_STARTER_CARD;
         }
@@ -400,5 +401,15 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
 
     private boolean canDrawCard() {
         return !game.getGlobalBoard().areFieldAndDecksEmpty();
+    }
+
+    private void initializePlayer(Player player) {
+        String playerName = player.getPlayerName();
+        gameController.drawCardFromResourceDeck(playerName);
+        gameController.drawCardFromResourceDeck(playerName);
+        gameController.drawCardFromGoldDeck(playerName);
+        gameController.placeCard(playerName, new Coordinate(0, 0), player.getPlayerBoard().getStarterCard().getCardId());
+        gameController.choosePlayerColor(playerName, game.getAvailablePlayerColors().getFirst());
+        gameController.setPlayerObjective(playerName, player.getChoosableObjectives().getFirst().getCardId());
     }
 }
