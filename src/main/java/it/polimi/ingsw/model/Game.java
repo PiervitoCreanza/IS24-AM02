@@ -388,11 +388,6 @@ public class Game implements VirtualViewable<GameView> {
             setNextPlayer();
         }
     }
-
-    public ArrayList<Player> getNotInitializedPlayers() {
-        return players.stream().filter(player -> player.getObjectiveCard() == null).collect(Collectors.toCollection(ArrayList::new));
-    }
-
     /**
      * Returns the game record of the game.
      * It contains all the details needed by the lobby to display the game.
