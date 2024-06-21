@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.controller.MainController;
 import it.polimi.ingsw.controller.gameController.GameControllerMiddleware;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
@@ -430,7 +431,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
 
                 logger.debug("Player {} disconnected from game {}. Remaining players: {}", playerName, gameName, gameConnectionMapper.get(gameName).size());
 
-                if (gameConnectionMapper.get(gameName).size() == 1) {
+                if (!mainController.getGameController(gameName).getGameStatus().equals(GameStatusEnum.WAIT_FOR_PLAYERS) && gameConnectionMapper.get(gameName).size() == 1) {
                     // If there is only one player left in the game we start a timer that will delete the game if the player does not reconnect.
                     startLastPlayerTimeout(gameName);
                 }

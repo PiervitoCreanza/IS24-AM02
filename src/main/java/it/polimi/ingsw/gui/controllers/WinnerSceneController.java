@@ -63,13 +63,12 @@ public class WinnerSceneController extends Controller {
 
     @FXML
     private void backToMainMenu() {
-        networkControllerMapper.sendDisconnect();
+        networkControllerMapper.closeConnection();
         switchScene(ControllersEnum.MAIN_MENU);
     }
 
     @FXML
     private void quit() {
-        networkControllerMapper.sendDisconnect();
         System.exit(0);
     }
 

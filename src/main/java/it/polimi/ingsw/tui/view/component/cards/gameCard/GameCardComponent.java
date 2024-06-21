@@ -64,8 +64,7 @@ public class GameCardComponent implements Drawable {
      * @param coordinate The coordinates of the game card.
      */
     public GameCardComponent(GameCard gameCard, Coordinate coordinate) {
-        GameCardComponent gameCardComponent = new GameCardComponent(gameCard);
-        drawArea = gameCardComponent.getDrawArea();
+        this(gameCard);
         DrawArea coordinateDrawArea = new DrawArea("[");
         coordinateDrawArea.drawAt(1, 0, (int) coordinate.getX() + ",");
         coordinateDrawArea.drawAt(coordinateDrawArea.getWidth(), 0, (int) coordinate.getY() + "]");
@@ -80,24 +79,7 @@ public class GameCardComponent implements Drawable {
      * @param number   The number of the game card.
      */
     public GameCardComponent(GameCard gameCard, int number) {
-        ColorsEnum color = gameCard.getCardColor().getColor();
-        drawArea = new DrawArea("""
-                     ─────────────
-                                  
-                                  
-                │                     │ 
-                              
-                                
-                     ─────────────
-                """);
-        drawArea.setColor(color);
-        drawArea.drawAt(0, 0, new TopLeftCorner(getCorner(gameCard, CornerPosition.TOP_LEFT), color).getDrawArea());
-        drawArea.drawAt(18, 0, new TopRightCorner(getCorner(gameCard, CornerPosition.TOP_RIGHT), color).getDrawArea());
-        drawArea.drawAt(0, 4, new BottomLeftCorner(getCorner(gameCard, CornerPosition.BOTTOM_LEFT), color).getDrawArea());
-        drawArea.drawAt(18, 4, new BottomRightCorner(getCorner(gameCard, CornerPosition.BOTTOM_RIGHT), color).getDrawArea());
-        drawArea.drawAt(6, 1, pointsComponent(gameCard.getPoints(), gameCard.getMultiplier(), gameCard.isGoldPositional()));
-        drawArea.drawCenteredX(5, neededItemsComponent(gameCard.getNeededItemStore()));
-        drawArea.drawAt(9, 2, itemStoreComponent(gameCard.getBackItemStore()));
+        this(gameCard);
         drawArea.drawCenteredX(drawArea.getHeight(), String.valueOf(number));
     }
 
@@ -108,6 +90,11 @@ public class GameCardComponent implements Drawable {
      * @param number The number of the missing game card.
      */
     public GameCardComponent(int number) {
+        this();
+        drawArea.drawCenteredX(drawArea.getHeight(), String.valueOf(number));
+    }
+
+    public GameCardComponent() {
         drawArea = new DrawArea("""
                 ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐
                 |                     |
@@ -117,7 +104,6 @@ public class GameCardComponent implements Drawable {
                 |                     |
                 └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
                 """);
-        drawArea.drawCenteredX(drawArea.getHeight(), String.valueOf(number));
     }
 
     /**

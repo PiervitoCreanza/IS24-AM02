@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.virtualView.GlobalBoardView;
 import it.polimi.ingsw.tui.controller.TUIViewController;
+import it.polimi.ingsw.tui.utils.ColorsEnum;
+import it.polimi.ingsw.tui.utils.Utils;
 import it.polimi.ingsw.tui.view.component.EndPhaseComponent;
 import it.polimi.ingsw.tui.view.component.TitleComponent;
 import it.polimi.ingsw.tui.view.component.decks.DrawingAreaComponent;
@@ -144,21 +146,49 @@ public class DrawCardScene implements Scene, PropertyChangeListener {
         ArrayList<String> inputs = (ArrayList<String>) evt.getNewValue();
         switch (changedProperty) {
             case "d" -> {
-                switch (inputs.getFirst()) {
-                    case "1" -> controller.drawCardFromField(fieldResourceCards.getFirst().getCardId());
-                    case "2" -> controller.drawCardFromField(fieldResourceCards.get(1).getCardId());
-                    case "3" -> controller.drawCardFromField(fieldGoldCards.getFirst().getCardId());
-                    case "4" -> controller.drawCardFromField(fieldGoldCards.get(1).getCardId());
+                String input = inputs.getFirst();
+                switch (input) {
+                    case "1" -> {
+                        if (fieldResourceCards.isEmpty()) {
+                            printCardIsMissing(input);
+                            break;
+                        }
+                        controller.drawCardFromField(fieldResourceCards.getFirst().getCardId());
+                    }
+                    case "2" -> {
+                        if (fieldResourceCards.size() < 2) {
+                            printCardIsMissing(input);
+                            break;
+                        }
+                        controller.drawCardFromField(fieldResourceCards.get(1).getCardId());
+                    }
+                    case "3" -> {
+                        if (fieldGoldCards.isEmpty()) {
+                            printCardIsMissing(input);
+                            break;
+                        }
+                        controller.drawCardFromField(fieldGoldCards.getFirst().getCardId());
+                    }
+                    case "4" -> {
+                        if (fieldGoldCards.size() < 2) {
+                            printCardIsMissing(input);
+                            break;
+                        }
+                        controller.drawCardFromField(fieldGoldCards.get(1).getCardId());
+                    }
                     case "5" -> controller.drawCardFromResourceDeck();
                     case "6" -> controller.drawCardFromGoldDeck();
                 }
             }
             case "c" -> controller.showChat();
-            case "q" -> {
-                controller.sendDisconnect();
-                controller.closeConnection();
-            }
+            case "q" -> controller.closeConnection();
             default -> Logger.error("Invalid property change event");
         }
+    }
+
+    private void printCardIsMissing(String input) {
+        Utils.clearScreen();
+        display();
+        new DrawArea("\nYou can't draw card number " + input + ". The field is empty!", ColorsEnum.RED).println();
     }
 }

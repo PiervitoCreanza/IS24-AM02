@@ -70,7 +70,6 @@ public class InitChoosePlayerColorScene implements Scene {
      */
     public void handleUserInput(String input) {
         if (input.equals("q")) {
-            controller.sendDisconnect();
             controller.closeConnection();
             return;
         }

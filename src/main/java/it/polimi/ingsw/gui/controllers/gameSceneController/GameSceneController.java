@@ -118,7 +118,6 @@ public class GameSceneController extends Controller implements PropertyChangeLis
         rootPane.onKeyPressedProperty().set(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
                 showInfoBox("red", "Disconnecting...", "You are disconnecting from the server.");
-                networkControllerMapper.sendDisconnect();
                 networkControllerMapper.closeConnection();
             }
         });
