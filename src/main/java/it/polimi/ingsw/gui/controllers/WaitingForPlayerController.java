@@ -2,6 +2,7 @@ package it.polimi.ingsw.gui.controllers;
 
 
 import it.polimi.ingsw.controller.GameStatusEnum;
+import it.polimi.ingsw.gui.components.toast.ToastLevels;
 import it.polimi.ingsw.gui.utils.GUIUtils;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.network.virtualView.PlayerView;
@@ -140,7 +141,7 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
 
     @FXML
     public void back(ActionEvent actionEvent) {
-        showToast("red", "Disconnecting...", "You are disconnecting from the server.");
+        showToast(ToastLevels.ERROR, "Disconnecting...", "You are disconnecting from the server.");
         networkControllerMapper.closeConnection();
     }
 }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gui.controllers.InitScene;
 
-import it.polimi.ingsw.gui.components.GameCardImageFactory;
+import it.polimi.ingsw.gui.components.GuiCardFactory;
 import it.polimi.ingsw.gui.controllers.ControllersEnum;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
@@ -73,7 +73,7 @@ public class InitSetObjectiveCardSceneController extends InitScene {
     }
 
     private void updateGameCardImage(ObjectiveCard objectiveCard, ImageView imageView) {
-        Image objectiveCardImage = GameCardImageFactory.createFrontImage(objectiveCard.getCardId());
+        Image objectiveCardImage = GuiCardFactory.createImage(objectiveCard);
         imageView.setImage(objectiveCardImage);
     }
 

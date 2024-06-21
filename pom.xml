@@ -154,6 +154,9 @@
                 <directory>src/main/resources/assets/images</directory>
             </resource>
             <resource>
+                <directory>src/main/resources/assets/images/pion</directory>
+            </resource>
+            <resource>
                 <directory>src/main/resources/assets/images/Cards/Fronts</directory>
             </resource>
             <resource>

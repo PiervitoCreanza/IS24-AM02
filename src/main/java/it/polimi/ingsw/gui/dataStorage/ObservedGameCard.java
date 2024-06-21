@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gui.dataStorage;
 
-import it.polimi.ingsw.gui.components.GameCardImageFactory;
+import it.polimi.ingsw.gui.components.GuiCardFactory;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
@@ -61,7 +61,7 @@ public class ObservedGameCard {
             boundImageView.setImage(null);
             return;
         }
-        Image cardImage = GameCardImageFactory.createGameCardImage(gameCard);
+        Image cardImage = GuiCardFactory.createImage(gameCard);
         boundImageView.setImage(cardImage);
     }
 

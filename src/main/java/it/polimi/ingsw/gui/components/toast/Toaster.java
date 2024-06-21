@@ -46,12 +46,12 @@ public class Toaster {
     /**
      * Adds a new Toast to the queue to be displayed.
      *
-     * @param color            the color of the toast. Supported colors are "green" and "red".
+     * @param toastLevel       the level of the toast. It determines the style of the toast.
      * @param toastTitle       the title of the toast.
      * @param toastDescription the description of the toast.
      */
-    public void showToast(String color, String toastTitle, String toastDescription) {
-        Toast toast = new Toast(color, toastTitle, toastDescription);
+    public void showToast(ToastLevels toastLevel, String toastTitle, String toastDescription) {
+        Toast toast = new Toast(toastLevel, toastTitle, toastDescription);
         toastQueue.add(toast);
         displayNextToastIfPossible();
     }

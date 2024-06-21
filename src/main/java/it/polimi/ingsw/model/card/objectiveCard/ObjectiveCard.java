@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.card.objectiveCard;
 
+import it.polimi.ingsw.model.card.Card;
 import it.polimi.ingsw.model.player.PlayerBoard;
 
 import java.io.Serializable;
@@ -9,7 +10,7 @@ import java.io.Serializable;
  * Each objective card allows the player to earn points based on certain criteria.
  * The specific criteria are defined in the subclasses of this class.
  */
-abstract public class ObjectiveCard implements Serializable {
+abstract public class ObjectiveCard implements Serializable, Card {
 
     /**
      * The unique identifier of this objective card.

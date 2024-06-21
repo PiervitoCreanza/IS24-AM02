@@ -12,8 +12,6 @@ import java.util.List;
 
 /**
  * This class represents an observable draw area in the game.
- * It implements the ObservableDataStorage interface and provides methods to load data into the draw area,
- * and to add and remove property change listeners.
  */
 public class ObservableDrawArea {
 
