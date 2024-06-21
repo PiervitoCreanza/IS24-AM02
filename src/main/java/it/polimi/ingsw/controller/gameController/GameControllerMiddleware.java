@@ -305,27 +305,8 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
 
         // If the last player has chosen his objective card, the game status is set to PLACE_CARD
         if (game.isLastPlayerAmongConnected()) {
-            // If the game is ready to start, set missing player data on disconnected players
-            game.getDisconnectedPlayers().forEach(disconnectedPlayer -> {
-                String disconnectedPlayerName = disconnectedPlayer.getPlayerName();
-                Coordinate starterCardCoordinate = new Coordinate(0, 0);
-                if (disconnectedPlayer.getPlayerBoard().getGameCard(starterCardCoordinate).isEmpty()) {
-                    gameController.placeCard(disconnectedPlayerName, starterCardCoordinate, disconnectedPlayer.getPlayerBoard().getStarterCard().getCardId());
-                }
-
-                if (disconnectedPlayer.getPlayerHand().getCards().isEmpty()) {
-                    gameController.drawCardFromResourceDeck(disconnectedPlayerName);
-                    gameController.drawCardFromResourceDeck(disconnectedPlayerName);
-                    gameController.drawCardFromGoldDeck(disconnectedPlayerName);
-                }
-
-                if (disconnectedPlayer.getPlayerColor() == null) {
-                    gameController.choosePlayerColor(disconnectedPlayerName, game.getAvailablePlayerColors().getFirst());
-                }
-                if (disconnectedPlayer.getObjectiveCard() == null) {
-                    gameController.setPlayerObjective(disconnectedPlayerName, disconnectedPlayer.getChoosableObjectives().getFirst().getCardId());
-                }
-            });
+            // If the game is ready to start, set missing player data on all players.
+            setMissingPlayersAttributes();
 
             // Set the game status to PLACE_CARD
             gameStatus = GameStatusEnum.PLACE_CARD;
@@ -419,6 +400,41 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
     @Override
     public GameControllerView getVirtualView() {
         return new GameControllerView(game.getVirtualView(), gameStatus, isLastRound, remainingRoundsToEndGame);
+    }
+
+    /**
+     * Sets the missing player attributes.
+     * These attributes can be missing if the player has disconnected during the initialization phase.
+     */
+    private void setMissingPlayersAttributes() {
+        // Check that all players have the required attributes set
+        game.getPlayers().forEach(curPlayer -> {
+            // Get the current player name
+            String curPlayerName = curPlayer.getPlayerName();
+
+            // Check if the starter card is placed and place it if it is not
+            Coordinate starterCardCoordinate = new Coordinate(0, 0);
+            if (curPlayer.getPlayerBoard().getGameCard(starterCardCoordinate).isEmpty()) {
+                gameController.placeCard(curPlayerName, starterCardCoordinate, curPlayer.getPlayerBoard().getStarterCard().getCardId());
+            }
+
+            // Check if the player hand is empty and draw cards if it is
+            if (curPlayer.getPlayerHand().getCards().isEmpty()) {
+                gameController.drawCardFromResourceDeck(curPlayerName);
+                gameController.drawCardFromResourceDeck(curPlayerName);
+                gameController.drawCardFromGoldDeck(curPlayerName);
+            }
+
+            // Set the player color and objective card if they are not set
+            if (curPlayer.getPlayerColor() == null) {
+                gameController.choosePlayerColor(curPlayerName, game.getAvailablePlayerColors().getFirst());
+            }
+
+            // Set the objective card if it is not set
+            if (curPlayer.getObjectiveCard() == null) {
+                gameController.setPlayerObjective(curPlayerName, curPlayer.getChoosableObjectives().getFirst().getCardId());
+            }
+        });
     }
 
     private boolean canDrawCard() {
