@@ -1,7 +1,6 @@
 package it.polimi.ingsw.gui.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import org.apache.logging.log4j.LogManager;
@@ -33,35 +32,25 @@ public class MainMenuSceneController extends Controller implements PropertyChang
      * The initialize method is called when the scene and controller are created.
      */
     @FXML
-    public void initialize() {
+    private void initialize() {
         logger.debug("Initializing MainMenuSceneController");
     }
 
     @FXML
-    public void createGame() {
+    private void createGame() {
         switchScene(ControllersEnum.CREATE_GAME);
     }
 
     @FXML
-    public void joinGame() {
+    private void joinGame() {
         switchScene(ControllersEnum.GAMES_LIST);
     }
 
     @FXML
-    public void quit() {
+    private void quit() {
         //quit app
         logger.debug("Quit");
         System.exit(0);
-    }
-
-
-    public void displayDialog(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-
-        alert.showAndWait();
     }
 
     @Override

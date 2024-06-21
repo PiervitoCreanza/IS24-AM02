@@ -94,7 +94,6 @@ public abstract class Controller implements PropertyChangeListener {
      * @return the name of the previous layout.
      */
     public ControllersEnum getPreviousLayoutName() {
-        //TODO: newgame to mainmenu doesnt work
         return previousLayoutName;
     }
 

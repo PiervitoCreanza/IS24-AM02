@@ -54,7 +54,7 @@ public class JoinGameSceneController extends Controller implements PropertyChang
     }
 
     @FXML
-    public void joinGame(ActionEvent actionEvent) {
+    private void joinGame(ActionEvent actionEvent) {
         String gameName = getProperty("gameName");
         String playerName = playerTextField.getText();
         setProperty("playerName", playerName);
@@ -65,7 +65,7 @@ public class JoinGameSceneController extends Controller implements PropertyChang
     }
 
     @FXML
-    public void back(ActionEvent actionEvent) {
+    private void back(ActionEvent actionEvent) {
         switchScene(getPreviousLayoutName());
     }
 
