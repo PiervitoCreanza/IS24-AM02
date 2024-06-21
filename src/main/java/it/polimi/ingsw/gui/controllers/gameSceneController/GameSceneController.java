@@ -2,12 +2,13 @@ package it.polimi.ingsw.gui.controllers.gameSceneController;
 
 import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.data.Parser;
-import it.polimi.ingsw.gui.ZoomableScrollPane;
+import it.polimi.ingsw.gui.components.GameCardImageFactory;
+import it.polimi.ingsw.gui.components.ZoomableScrollPane;
 import it.polimi.ingsw.gui.controllers.Controller;
 import it.polimi.ingsw.gui.controllers.ControllersEnum;
-import it.polimi.ingsw.gui.dataStorage.GameCardImageFactory;
 import it.polimi.ingsw.gui.dataStorage.ObservableDrawArea;
 import it.polimi.ingsw.gui.dataStorage.ObservedPlayerBoard;
+import it.polimi.ingsw.gui.utils.GUIUtils;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
@@ -117,7 +118,7 @@ public class GameSceneController extends Controller implements PropertyChangeLis
 
         rootPane.onKeyPressedProperty().set(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
-                showInfoBox("red", "Disconnecting...", "You are disconnecting from the server.");
+                showToast("red", "Disconnecting...", "You are disconnecting from the server.");
                 networkControllerMapper.closeConnection();
             }
         });
@@ -259,7 +260,7 @@ public class GameSceneController extends Controller implements PropertyChangeLis
             case INIT_CHOOSE_PLAYER_COLOR -> this.playerPrompt.setText("is choosing the player color...");
         }
         String clientPlayerName = getProperty("playerName");
-        this.playerName.setText(gameControllerView.getCurrentPlayerView().playerName());
+        this.playerName.setText(GUIUtils.truncateString(gameControllerView.getCurrentPlayerView().playerName(), 20));
         PlayerView clientPlayerView = gameControllerView.getPlayerViewByName(clientPlayerName);
         handController.update(clientPlayerView.playerHandView().hand());
         observedDrawArea.loadData(gameControllerView.gameView().globalBoardView());
@@ -345,23 +346,23 @@ public class GameSceneController extends Controller implements PropertyChangeLis
                 }
 
                 if (gameControllerView.gameStatus() == GameStatusEnum.PLACE_CARD && !gameControllerView.isMyTurn(clientPlayerName)) {
-                    showInfoBox("brown", capitalizeFirstLetter(gameControllerView.getCurrentPlayerView().playerName()), "It's " + capitalizeFirstLetter(gameControllerView.getCurrentPlayerView().playerName()) + "'s turn");
+                    showToast("brown", GUIUtils.truncateString(capitalizeFirstLetter(gameControllerView.getCurrentPlayerView().playerName())), "It's " + GUIUtils.truncateString(capitalizeFirstLetter(gameControllerView.getCurrentPlayerView().playerName())) + "'s turn");
                 }
 
                 if (gameControllerView.isMyTurn(clientPlayerName)) {
                     if (!gameControllerView.isLastRound()) {
                         switch (gameControllerView.gameStatus()) {
-                            case DRAW_CARD -> showInfoBox("yellow", "Your turn", "It's your turn to draw a card.");
-                            case PLACE_CARD -> showInfoBox("yellow", "Your turn", "It's your turn to place a card.");
-                            default -> showInfoBox("yellow", "Your turn", "It's your turn.");
+                            case DRAW_CARD -> showToast("yellow", "Your turn", "It's your turn to draw a card.");
+                            case PLACE_CARD -> showToast("yellow", "Your turn", "It's your turn to place a card.");
+                            default -> showToast("yellow", "Your turn", "It's your turn.");
                         }
                         return;
                     }
 
                     if (gameControllerView.remainingRoundsToEndGame() == 1) {
-                        showInfoBox("yellow", "Second last round", "This is your second last round of the game.");
+                        showToast("yellow", "Second last round", "This is your second last round of the game.");
                     } else {
-                        showInfoBox("yellow", "Last round", "This is your last round of the game.");
+                        showToast("yellow", "Last round", "This is your last round of the game.");
                     }
                 }
 

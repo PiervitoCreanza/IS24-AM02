@@ -1,6 +1,7 @@
-package it.polimi.ingsw.gui.dataStorage;
+package it.polimi.ingsw.gui.components;
 
 import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -43,6 +44,18 @@ public class GameCardImageFactory {
     }
 
     public static ImageView createGameCardImageViewFromImage(GameCard card, Image cardImage) {
+        ImageView cardImageView = new ImageView(cardImage);
+        cardImageView.setFitWidth(234);
+        cardImageView.setFitHeight(156);
+        cardImageView.setPreserveRatio(true);
+        cardImageView.setUserData(card);
+        cardImageView.getStyleClass().add("card");
+
+        return cardImageView;
+    }
+
+    public static ImageView createGameCardImageView(ObjectiveCard card) {
+        Image cardImage = GameCardImageFactory.createFrontImage(card.getCardId());
         ImageView cardImageView = new ImageView(cardImage);
         cardImageView.setFitWidth(234);
         cardImageView.setFitHeight(156);

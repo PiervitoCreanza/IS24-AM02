@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gui.controllers;
 
-import it.polimi.ingsw.gui.toast.Toaster;
+import it.polimi.ingsw.gui.components.toast.Toaster;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;

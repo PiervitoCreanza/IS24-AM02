@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gui.controllers.gameSceneController;
 
-import it.polimi.ingsw.gui.ObjectiveCardImage;
-import it.polimi.ingsw.gui.dataStorage.GameCardImageFactory;
+import it.polimi.ingsw.gui.components.GameCardImageFactory;
+import it.polimi.ingsw.gui.utils.GUIUtils;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 import it.polimi.ingsw.network.virtualView.PlayerView;
@@ -81,7 +81,7 @@ public class RightSidebarController {
                             setText(null);
                             setGraphic(null);
                         } else {
-                            ImageView imageView = new ObjectiveCardImage(item).getImageView();
+                            ImageView imageView = GameCardImageFactory.createGameCardImageView(item);
                             imageView.fitWidthProperty().set(150);
                             setGraphic(imageView);
                             setAlignment(Pos.CENTER);
@@ -103,7 +103,7 @@ public class RightSidebarController {
 
                 // Create the new list of players and their points
                 newValue.forEach(playerView -> {
-                    Label playerLabel = new Label(playerView.playerName());
+                    Label playerLabel = new Label(GUIUtils.truncateString(playerView.playerName()));
                     playerLabel.getStyleClass().add("player-label");
 
                     // If the player is disconnected add a specific class
@@ -146,7 +146,7 @@ public class RightSidebarController {
 
     private void handlePlayerClick(MouseEvent event) {
         Label clickedLabel = (Label) event.getSource();
-        String playerName = clickedLabel.getText();
+        String playerName = clickedLabel.getId();
         // Logica per reindirizzare alla vista del giocatore
         currentlyDisplayedPlayer.set(playerName);
     }

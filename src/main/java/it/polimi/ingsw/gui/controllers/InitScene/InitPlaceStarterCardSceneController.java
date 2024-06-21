@@ -1,8 +1,8 @@
 package it.polimi.ingsw.gui.controllers.InitScene;
 
 import it.polimi.ingsw.controller.GameStatusEnum;
+import it.polimi.ingsw.gui.components.GameCardImageFactory;
 import it.polimi.ingsw.gui.controllers.ControllersEnum;
-import it.polimi.ingsw.gui.dataStorage.GameCardImageFactory;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.virtualView.GameControllerView;

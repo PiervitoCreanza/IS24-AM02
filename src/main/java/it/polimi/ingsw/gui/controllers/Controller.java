@@ -1,8 +1,9 @@
 package it.polimi.ingsw.gui.controllers;
 
 import it.polimi.ingsw.controller.GameStatusEnum;
-import it.polimi.ingsw.gui.ErrorDialog;
-import it.polimi.ingsw.gui.toast.Toaster;
+import it.polimi.ingsw.gui.components.ErrorDialog;
+import it.polimi.ingsw.gui.components.toast.Toaster;
+import it.polimi.ingsw.gui.utils.GUIUtils;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import javafx.application.Platform;
@@ -65,10 +66,10 @@ public abstract class Controller implements PropertyChangeListener {
                     }
                     if (c.wasAdded()) {
                         logger.debug("Player connected: {}", c.getElementAdded());
-                        showInfoBox("green", "Player connected", capitalizeFirstLetter(c.getElementAdded()) + " has just joined the game.");
+                        showToast("green", "Player connected", capitalizeFirstLetter(GUIUtils.truncateString(c.getElementAdded())) + " has just joined the game.");
                     } else if (c.wasRemoved()) {
                         logger.debug("Player disconnected: {}", c.getElementRemoved());
-                        showInfoBox("red", "Player disconnected", capitalizeFirstLetter(c.getElementRemoved()) + " has just left the game.");
+                        showToast("red", "Player disconnected", capitalizeFirstLetter(GUIUtils.truncateString(c.getElementRemoved())) + " has just left the game.");
                     }
                 }
             });
@@ -269,7 +270,7 @@ public abstract class Controller implements PropertyChangeListener {
         });
     }
 
-    public void showInfoBox(String color, String title, String message) {
+    public void showToast(String color, String title, String message) {
         Platform.runLater(() -> {
             Toaster.getInstance(getStage()).showToast(color, title, message);
         });
@@ -304,7 +305,7 @@ public abstract class Controller implements PropertyChangeListener {
             case "CONNECTION_ESTABLISHED" -> {
                 logger.debug("Connection established notification received");
                 closeAlert();
-                showInfoBox("green", "Connected", (String) evt.getNewValue());
+                showToast("green", "Connected", (String) evt.getNewValue());
                 if (getName() != ControllersEnum.MAIN_MENU) {
                     switchScene(ControllersEnum.MAIN_MENU);
                 }
@@ -316,7 +317,7 @@ public abstract class Controller implements PropertyChangeListener {
             case "GAME_DELETED" -> {
                 logger.debug("Game deleted notification received");
                 Platform.runLater(() -> networkControllerMapper.closeConnection());
-                showInfoBox("red", "Game deleted", (String) evt.getNewValue());
+                showToast("red", "Game deleted", (String) evt.getNewValue());
             }
             case "UPDATE_VIEW" -> {
                 GameControllerView updatedView = (GameControllerView) evt.getNewValue();

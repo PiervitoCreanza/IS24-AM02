@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gui.controllers;
 
+import it.polimi.ingsw.gui.utils.GUIUtils;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -101,7 +102,7 @@ public class CreateGameSceneController extends Controller implements PropertyCha
     public void propertyChange(PropertyChangeEvent evt) {
         super.propertyChange(evt);
         if (evt.getPropertyName().equals("UPDATE_VIEW")) {
-            showInfoBox("green", "Game created", "The game \"" + ((GameControllerView) evt.getNewValue()).gameView().gameName() + "\" has been successfully created");
+            showToast("green", "Game created", "The game \"" + GUIUtils.truncateString(((GameControllerView) evt.getNewValue()).gameView().gameName()) + "\" has been successfully created");
             switchScene(ControllersEnum.WAITING_FOR_PLAYER, evt);
         }
     }

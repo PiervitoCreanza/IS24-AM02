@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gui;
+package it.polimi.ingsw.gui.components;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -58,8 +58,6 @@ public class ZoomableScrollPane extends ScrollPane {
         double contentHeight = this.getContent().getBoundsInLocal().getHeight(); // get the total height of the content
 
         double topSpaceCut = vvalue * contentHeight;
-
-        System.out.println("Top space cut by the ScrollPane: " + topSpaceCut);
         return topSpaceCut;
     }
 
@@ -77,17 +75,17 @@ public class ZoomableScrollPane extends ScrollPane {
 
         double previousVvalue = getVvalue();
         double previousHvalue = getHvalue();
-        double initialMouseYPosition = getSpaceCut() + mousePoint.getY();
+        //double initialMouseYPosition = getSpaceCut() + mousePoint.getY();
 
         updateScale();
         this.layout(); // refresh ScrollPane scroll positions & target bounds
 
-        double finalMouseYPosition = getSpaceCut() + mousePoint.getY();
-        double actualDeltaY = finalMouseYPosition - initialMouseYPosition;
+        //double finalMouseYPosition = getSpaceCut() + mousePoint.getY();
+        //double actualDeltaY = finalMouseYPosition - initialMouseYPosition;
         //double deltaY = initialMouseYPosition * scaleValue - initialMouseYPosition;
         this.setVvalue(previousVvalue);
         this.setHvalue(previousHvalue);
-        getSpaceCut();
+        //getSpaceCut();
 
     }
 }

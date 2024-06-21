@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gui.toast;
+package it.polimi.ingsw.gui.components.toast;
 
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;

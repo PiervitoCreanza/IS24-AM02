@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gui.dataStorage;
 
+import it.polimi.ingsw.gui.components.GameCardImageFactory;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;

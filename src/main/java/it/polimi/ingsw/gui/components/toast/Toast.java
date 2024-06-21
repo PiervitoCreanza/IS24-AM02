@@ -1,5 +1,6 @@
-package it.polimi.ingsw.gui.toast;
+package it.polimi.ingsw.gui.components.toast;
 
+import it.polimi.ingsw.gui.utils.GUIUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -28,7 +29,7 @@ public class Toast extends VBox {
         super();
 
         if (!color.equals("green") && !color.equals("red") && !color.equals("yellow") && !color.equals("brown")) {
-            logger.error("Invalid color for toast: " + color);
+            logger.error("Invalid color for toast: {}", color);
             throw new IllegalArgumentException("Invalid color for toast: " + color);
         }
 
@@ -48,8 +49,8 @@ public class Toast extends VBox {
         // Set the title and message of the toast
         Label title = (Label) toastBox.lookup("#toastTitle");
         Label messageLabel = (Label) toastBox.lookup("#toastMessage");
-        title.setText(toastTitle);
-        messageLabel.setText(toastDescription);
+        title.setText(GUIUtils.truncateString(toastTitle, 35));
+        messageLabel.setText(GUIUtils.truncateString(toastDescription, 70));
     }
 
     /**
