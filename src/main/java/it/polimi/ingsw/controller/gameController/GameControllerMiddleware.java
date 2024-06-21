@@ -425,7 +425,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
                 gameController.drawCardFromGoldDeck(curPlayerName);
             }
 
-            // Set the player color and objective card if they are not set
+            // Set the player color if it is not set
             if (curPlayer.getPlayerColor() == null) {
                 gameController.choosePlayerColor(curPlayerName, game.getAvailablePlayerColors().getFirst());
             }
