@@ -5,6 +5,7 @@ import it.polimi.ingsw.gui.utils.GUIUtils;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 import it.polimi.ingsw.network.virtualView.PlayerView;
+import it.polimi.ingsw.tui.utils.ColorsEnum;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,6 +18,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
@@ -31,6 +33,8 @@ public class RightSidebarController {
     private final Node root;
     private final ObservableList<ObjectiveCard> objectives;
     private final ListView<ObjectiveCard> objectivesList;
+    private final SimpleObjectProperty<ObjectiveCard> playerObjectiveCard = new SimpleObjectProperty<>();
+    private final HBox playerObjectiveContainer;
     private final SimpleObjectProperty<List<PlayerView>> playerViews = new SimpleObjectProperty<>();
     private final VBox playersList;
     private final VBox playersPoints;
@@ -59,6 +63,7 @@ public class RightSidebarController {
         this.quillAmount = (Label) root.lookup("#quillAmount");
         this.inkwellAmount = (Label) root.lookup("#inkwellAmount");
         this.manuscriptAmount = (Label) root.lookup("#manuscriptAmount");
+        this.playerObjectiveContainer = (HBox) root.lookup("#playerObjective");
 
         currentlyDisplayedPlayer.addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -91,6 +96,16 @@ public class RightSidebarController {
             }
         });
 
+        // Set the listener for the playerObjectiveCard property
+        playerObjectiveCard.addListener((observableValue, oldObjective, newObjective) -> {
+            if (newObjective != null) {
+                this.playerObjectiveContainer.getChildren().clear();
+                ImageView imageView = GuiCardFactory.createImageView(newObjective);
+                imageView.fitWidthProperty().set(150);
+                this.playerObjectiveContainer.getChildren().add(imageView);
+            }
+        });
+
         // Set the listener for the playerViews property
         playerViews.addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -105,7 +120,13 @@ public class RightSidebarController {
                 newValue.forEach(playerView -> {
                     Label playerLabel = new Label(GUIUtils.truncateString(playerView.playerName()));
                     playerLabel.getStyleClass().add("player-label");
-                    playerLabel.getStyleClass().add(playerView.color().getColor().getTextCssClassName());
+
+                    ColorsEnum playerColor = playerView.color().getColor();
+
+                    // If the player has already chosen a color, in that case add the respective css class.
+                    if (playerColor != null) {
+                        playerLabel.getStyleClass().add(playerColor.getTextCssClassName());
+                    }
 
                     // If the player is disconnected add a specific class
                     if (!playerView.isConnected()) {
@@ -141,8 +162,8 @@ public class RightSidebarController {
     private void adjustListViewHeight(ListView<?> listView) {
         double cellHeight = GuiCardFactory.getHeightFromWidth(150) + 20;
         listView.setPrefHeight(Region.USE_COMPUTED_SIZE);
-        listView.minHeightProperty().bind(Bindings.size(listView.getItems()).multiply(cellHeight).add(25));
-        listView.maxHeightProperty().bind(Bindings.size(listView.getItems()).multiply(cellHeight).add(25));
+        listView.minHeightProperty().bind(Bindings.size(listView.getItems()).multiply(cellHeight).add(5));
+        listView.maxHeightProperty().bind(Bindings.size(listView.getItems()).multiply(cellHeight).add(5));
     }
 
     private void handlePlayerClick(MouseEvent event) {
@@ -153,12 +174,9 @@ public class RightSidebarController {
     }
 
     public void updateObjectiveCards(ObjectiveCard playerObjectiveCard, List<ObjectiveCard> globalObjectiveCards) {
-        List<ObjectiveCard> newObjectives = new ArrayList<>();
-        newObjectives.add(playerObjectiveCard);
-        newObjectives.addAll(globalObjectiveCards);
-
-        if (!objectives.equals(newObjectives)) {
-            objectives.setAll(newObjectives);
+        this.playerObjectiveCard.set(playerObjectiveCard);
+        if (!objectives.equals(globalObjectiveCards)) {
+            objectives.setAll(globalObjectiveCards);
         }
     }
 

@@ -4,7 +4,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.*?>
 <VBox xmlns:fx="http://javafx.com/fxml"
       styleClass="right-panel" stylesheets="@/styles.css">
     <TabPane styleClass="brutalist-tab-pane" tabMaxWidth="Infinity" tabMaxHeight="Infinity">
@@ -78,9 +78,10 @@
                 </ImageView>
 
             </graphic>
-            <VBox alignment="CENTER">
-                <Text text="Objectives" styleClass="h3" textAlignment="CENTER"/>
-
+            <VBox alignment="CENTER" spacing="10" VBox.vgrow="ALWAYS">
+                <Text text="Your Objective" styleClass="h3" textAlignment="CENTER"/>
+                <HBox fx:id="playerObjective" alignment="CENTER"/>
+                <Text text="Global Objectives" styleClass="h3" textAlignment="CENTER"/>
                 <ListView styleClass="unstyled-list-view" fx:id="objectivesList" prefWidth="200"/>
             </VBox>
 
