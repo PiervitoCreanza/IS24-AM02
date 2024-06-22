@@ -1,8 +1,10 @@
 package it.polimi.ingsw.gui.controllers;
 
 import it.polimi.ingsw.controller.GameStatusEnum;
-import it.polimi.ingsw.gui.ErrorDialog;
-import it.polimi.ingsw.gui.toast.Toaster;
+import it.polimi.ingsw.gui.components.ErrorDialog;
+import it.polimi.ingsw.gui.components.toast.ToastLevels;
+import it.polimi.ingsw.gui.components.toast.Toaster;
+import it.polimi.ingsw.gui.utils.GUIUtils;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import javafx.application.Platform;
@@ -21,13 +23,14 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
+import static it.polimi.ingsw.gui.utils.GUIUtils.capitalizeFirstLetter;
+
 /**
  * Abstract class representing a controller in the application.
  * This class provides the basic functionality for switching layouts, setting properties, and managing the scene.
  */
 public abstract class Controller implements PropertyChangeListener {
 
-    protected static final ObservableSet<String> connectedPlayers = FXCollections.observableSet();
     /**
      * The current scene.
      */
@@ -47,29 +50,26 @@ public abstract class Controller implements PropertyChangeListener {
 
     protected static ClientNetworkControllerMapper networkControllerMapper = ClientNetworkControllerMapper.getInstance();
 
-    /**
-     * A flag indicating whether the current layout is active.
-     */
-    private boolean isCurrentScene = true;
     private static boolean isClassAlreadyInstantiated = false;
     private static boolean showConnectedPlayers = true;
+    protected static final ObservableSet<String> connectedPlayers = FXCollections.observableSet();
 
+    // This static block is used to initialize the connectedPlayers listener only once.
+    // The Controller class is extended multiple times, but the listener should be added only once.
     {
         if (!isClassAlreadyInstantiated) {
             isClassAlreadyInstantiated = true;
-            connectedPlayers.addListener(new SetChangeListener<String>() {
-                @Override
-                public void onChanged(Change<? extends String> c) {
-                    if (!showConnectedPlayers) {
-                        return;
-                    }
-                    if (c.wasAdded()) {
-                        logger.debug("Player connected: {}", c.getElementAdded());
-                        showInfoBox("green", "Player connected", capitalizeFirstLetter(c.getElementAdded()) + " has just joined the game.");
-                    } else if (c.wasRemoved()) {
-                        logger.debug("Player disconnected: {}", c.getElementRemoved());
-                        showInfoBox("red", "Player disconnected", capitalizeFirstLetter(c.getElementRemoved()) + " has just left the game.");
-                    }
+            // This listener gets notified when a player connects or disconnects.
+            connectedPlayers.addListener((SetChangeListener<String>) change -> {
+                // If the connected players updates should not be shown, return.
+                if (!showConnectedPlayers) return;
+
+                if (change.wasAdded()) {
+                    logger.debug("Player connected: {}", change.getElementAdded());
+                    showToast(ToastLevels.SUCCESS, "Player connected", capitalizeFirstLetter(GUIUtils.truncateString(change.getElementAdded())) + " has just joined the game.");
+                } else if (change.wasRemoved()) {
+                    logger.debug("Player disconnected: {}", change.getElementRemoved());
+                    showToast(ToastLevels.ERROR, "Player disconnected", capitalizeFirstLetter(GUIUtils.truncateString(change.getElementRemoved())) + " has just left the game.");
                 }
             });
         }
@@ -94,7 +94,6 @@ public abstract class Controller implements PropertyChangeListener {
      * @return the name of the previous layout.
      */
     public ControllersEnum getPreviousLayoutName() {
-        //TODO: newgame to mainmenu doesnt work
         return previousLayoutName;
     }
 
@@ -146,15 +145,6 @@ public abstract class Controller implements PropertyChangeListener {
      */
     public <T> T getProperty(String property) {
         return (T) getScene().getProperties().get(property);
-    }
-
-    /**
-     * Returns whether the current scene is active.
-     *
-     * @return true if the current scene is active, false otherwise.
-     */
-    public boolean isCurrentScene() {
-        return isCurrentScene;
     }
 
     /**
@@ -234,9 +224,6 @@ public abstract class Controller implements PropertyChangeListener {
             // Disconnect from the network controller mapper.
             networkControllerMapper.removePropertyChangeListener(this);
 
-            // Set the current scene to false.
-            isCurrentScene = false;
-
             Parent nextLayout;
             try {
                 // Load the next scene.
@@ -249,9 +236,6 @@ public abstract class Controller implements PropertyChangeListener {
 
                 // Set the previous layout name on the next controller.
                 nextController.previousLayoutName = getName();
-
-                // Set the next controller as the current scene.
-                nextController.isCurrentScene = true;
 
                 // Connect the nextController to the network controller mapper.
                 networkControllerMapper.addPropertyChangeListener(nextController);
@@ -269,18 +253,17 @@ public abstract class Controller implements PropertyChangeListener {
         });
     }
 
-    public void showInfoBox(String color, String title, String message) {
+    /**
+     * Shows a toast message.
+     *
+     * @param level   the level of the toast message.
+     * @param title   the title of the toast message.
+     * @param message the message of the toast message.
+     */
+    public void showToast(ToastLevels level, String title, String message) {
         Platform.runLater(() -> {
-            Toaster.getInstance(getStage()).showToast(color, title, message);
+            Toaster.getInstance(getStage()).showToast(level, title, message);
         });
-    }
-
-    protected String capitalizeFirstLetter(String str) {
-        if (str == null || str.isEmpty()) {
-            return str;
-        } else {
-            return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
-        }
     }
 
     /**
@@ -304,7 +287,7 @@ public abstract class Controller implements PropertyChangeListener {
             case "CONNECTION_ESTABLISHED" -> {
                 logger.debug("Connection established notification received");
                 closeAlert();
-                showInfoBox("green", "Connected", (String) evt.getNewValue());
+                showToast(ToastLevels.SUCCESS, "Connected", (String) evt.getNewValue());
                 if (getName() != ControllersEnum.MAIN_MENU) {
                     switchScene(ControllersEnum.MAIN_MENU);
                 }
@@ -316,7 +299,7 @@ public abstract class Controller implements PropertyChangeListener {
             case "GAME_DELETED" -> {
                 logger.debug("Game deleted notification received");
                 Platform.runLater(() -> networkControllerMapper.closeConnection());
-                showInfoBox("red", "Game deleted", (String) evt.getNewValue());
+                showToast(ToastLevels.ERROR, "Game deleted", (String) evt.getNewValue());
             }
             case "UPDATE_VIEW" -> {
                 GameControllerView updatedView = (GameControllerView) evt.getNewValue();

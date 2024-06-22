@@ -14,7 +14,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 
 
 public class GUIApp extends Application implements View {
@@ -50,7 +49,6 @@ public class GUIApp extends Application implements View {
 
         // Set the current stage on all controllers.
         Controller.setStage(stage);
-        logger.info("Stage set up: {}", stage);
 
         URL fxml1URL = getClass().getResource("/HomeScene.fxml");
         if (fxml1URL == null) {
@@ -76,15 +74,6 @@ public class GUIApp extends Application implements View {
         controller.beforeMount(null);
 
         stage.show();
-
-        // Connect to the server after 1 second. For some reason, connecting immediately causes the connection to fail.
-        /*Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> connection.connect());
-            }
-        }, 1000);*/
     }
 
     private void loadFonts() {

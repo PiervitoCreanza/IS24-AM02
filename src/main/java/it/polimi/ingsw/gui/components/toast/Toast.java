@@ -1,5 +1,6 @@
-package it.polimi.ingsw.gui.toast;
+package it.polimi.ingsw.gui.components.toast;
 
+import it.polimi.ingsw.gui.utils.GUIUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -20,17 +21,12 @@ public class Toast extends VBox {
     /**
      * Constructs a new Toast.
      *
-     * @param color            the color of the toast. Supported colors are "green", "red", "brown" and "yellow.
+     * @param toastlevel       the level of the toast. It determines the style of the toast.
      * @param toastTitle       the title of the toast.
      * @param toastDescription the description of the toast.
      */
-    public Toast(String color, String toastTitle, String toastDescription) {
+    public Toast(ToastLevels toastlevel, String toastTitle, String toastDescription) {
         super();
-
-        if (!color.equals("green") && !color.equals("red") && !color.equals("yellow") && !color.equals("brown")) {
-            logger.error("Invalid color for toast: " + color);
-            throw new IllegalArgumentException("Invalid color for toast: " + color);
-        }
 
         // Load the toast FXML
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Toast.fxml"));
@@ -43,13 +39,13 @@ public class Toast extends VBox {
         }
 
         // Set the toast color. Supported colors are "green" and "red".
-        toastBox.getStyleClass().add(color);
+        toastBox.getStyleClass().add(toastlevel.getCssClassName());
 
         // Set the title and message of the toast
         Label title = (Label) toastBox.lookup("#toastTitle");
         Label messageLabel = (Label) toastBox.lookup("#toastMessage");
-        title.setText(toastTitle);
-        messageLabel.setText(toastDescription);
+        title.setText(GUIUtils.truncateString(toastTitle, 35));
+        messageLabel.setText(GUIUtils.truncateString(toastDescription, 70));
     }
 
     /**

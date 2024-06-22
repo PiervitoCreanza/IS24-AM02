@@ -1,6 +1,8 @@
 package it.polimi.ingsw.gui.controllers;
 
 import it.polimi.ingsw.controller.GameStatusEnum;
+import it.polimi.ingsw.gui.components.toast.ToastLevels;
+import it.polimi.ingsw.gui.utils.GUIUtils;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -52,7 +54,7 @@ public class JoinGameSceneController extends Controller implements PropertyChang
     }
 
     @FXML
-    public void joinGame(ActionEvent actionEvent) {
+    private void joinGame(ActionEvent actionEvent) {
         String gameName = getProperty("gameName");
         String playerName = playerTextField.getText();
         setProperty("playerName", playerName);
@@ -63,7 +65,7 @@ public class JoinGameSceneController extends Controller implements PropertyChang
     }
 
     @FXML
-    public void back(ActionEvent actionEvent) {
+    private void back(ActionEvent actionEvent) {
         switchScene(getPreviousLayoutName());
     }
 
@@ -79,7 +81,7 @@ public class JoinGameSceneController extends Controller implements PropertyChang
         // TODO Check if error works
         super.propertyChange(evt);
         if (evt.getPropertyName().equals("UPDATE_VIEW")) {
-            showInfoBox("green", "Game joined", "You joined the game \"" + getProperty("gameName") + "\" as \"" + getProperty("playerName") + "\"");
+            showToast(ToastLevels.SUCCESS, "Game joined", "You joined the game \"" + GUIUtils.truncateString(getProperty("gameName")) + "\" as \"" + GUIUtils.truncateString(getProperty("playerName")) + "\"");
             boolean isMyTurn = Objects.equals(getProperty("playerName"), ((GameControllerView) evt.getNewValue()).getCurrentPlayerView().playerName());
             GameControllerView gameControllerView = (GameControllerView) evt.getNewValue();
             if (gameControllerView.gameStatus() == GameStatusEnum.INIT_PLACE_STARTER_CARD && isMyTurn) {

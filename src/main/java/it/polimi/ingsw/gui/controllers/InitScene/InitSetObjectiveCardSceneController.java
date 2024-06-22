@@ -1,11 +1,13 @@
 package it.polimi.ingsw.gui.controllers.InitScene;
 
-import it.polimi.ingsw.gui.ObjectiveCardImage;
+import it.polimi.ingsw.gui.components.GuiCardFactory;
 import it.polimi.ingsw.gui.controllers.ControllersEnum;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import org.apache.logging.log4j.LogManager;
@@ -31,7 +33,8 @@ public class InitSetObjectiveCardSceneController extends InitScene {
     @FXML
     private ImageView cardSecondImageView;
 
-    private ObjectiveCardImage[] gameCardImages;
+    private final SimpleObjectProperty<ObjectiveCard> firstChoosableCard = new SimpleObjectProperty<>();
+    private final SimpleObjectProperty<ObjectiveCard> secondChoosableCard = new SimpleObjectProperty<>();
     private final int currentIndex = 0;
     private String selectedCard = ""; // Variable to track the selected card
 
@@ -59,15 +62,19 @@ public class InitSetObjectiveCardSceneController extends InitScene {
                 secondImagePane.getStyleClass().add("selected-card-image");
             }
         });
+
+        firstChoosableCard.addListener((observable, oldValue, newValue) -> {
+            updateGameCardImage(newValue, cardFirstImageView);
+        });
+
+        secondChoosableCard.addListener((observable, oldValue, newValue) -> {
+            updateGameCardImage(newValue, cardSecondImageView);
+        });
     }
 
-    private void loadCardImages(ObjectiveCard firstCard, ObjectiveCard secondCard) {
-        gameCardImages = new ObjectiveCardImage[]{
-                new ObjectiveCardImage(firstCard), // Replace with actual card IDs
-                new ObjectiveCardImage(secondCard),
-        };
-        cardFirstImageView.setImage(gameCardImages[currentIndex].getImageView().getImage());
-        cardSecondImageView.setImage(gameCardImages[(currentIndex + 1) % gameCardImages.length].getImageView().getImage());
+    private void updateGameCardImage(ObjectiveCard objectiveCard, ImageView imageView) {
+        Image objectiveCardImage = GuiCardFactory.createImage(objectiveCard);
+        imageView.setImage(objectiveCardImage);
     }
 
     @FXML
@@ -76,7 +83,7 @@ public class InitSetObjectiveCardSceneController extends InitScene {
             showErrorPopup("No Card Selected", "Please select a card before continuing.", false);
         } else {
             // Print the selected card ID to the console
-            int selectedCardId = selectedCard.equals("first") ? gameCardImages[currentIndex].getCardId() : gameCardImages[(currentIndex + 1) % gameCardImages.length].getCardId();
+            int selectedCardId = selectedCard.equals("first") ? firstChoosableCard.get().getCardId() : secondChoosableCard.get().getCardId();
             System.out.println("Selected Card ID: " + selectedCardId);
 
             networkControllerMapper.setPlayerObjective(selectedCardId);
@@ -119,7 +126,8 @@ public class InitSetObjectiveCardSceneController extends InitScene {
         GameControllerView gameControllerView = (GameControllerView) evt.getNewValue();
         ArrayList<ObjectiveCard> choosableObjectives = gameControllerView.getPlayerViewByName(playerName).choosableObjectives();
         logger.debug("Loading card ids: {},  {}", choosableObjectives.getFirst().getCardId(), choosableObjectives.get(1).getCardId());
-        loadCardImages(choosableObjectives.getFirst(), choosableObjectives.get(1));
+        firstChoosableCard.set(choosableObjectives.getFirst());
+        secondChoosableCard.set(choosableObjectives.get(1));
     }
 
     /**

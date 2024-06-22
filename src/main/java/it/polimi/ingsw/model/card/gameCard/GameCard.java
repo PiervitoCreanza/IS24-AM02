@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.card.gameCard;
 
+import it.polimi.ingsw.model.card.Card;
 import it.polimi.ingsw.model.card.CardColorEnum;
 import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.model.card.corner.Corner;
@@ -17,7 +18,7 @@ import java.util.Optional;
  * Represents a game card in the game.
  * Each game card has two sides, a current side and another side, along with a specific color.
  */
-public class GameCard implements Serializable {
+public class GameCard implements Card, Serializable {
 
     /**
      * The unique identifier for the game card.

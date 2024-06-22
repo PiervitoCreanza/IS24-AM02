@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gui.dataStorage;
 
+import it.polimi.ingsw.gui.components.GuiCardFactory;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
@@ -37,7 +38,7 @@ public class ObservedPlayerBoard {
             if (change.wasAdded()) {
                 // Add the new card to the rendering map
                 GameCard gameCard = change.getValueAdded();
-                renderedPlayerBoard.put(multiSystemCoordinate, GameCardImageFactory.createGameCardImageView(gameCard));
+                renderedPlayerBoard.put(multiSystemCoordinate, GuiCardFactory.createImageView(gameCard));
             } else if (change.wasRemoved()) {
                 // Remove the card from the rendering map
                 renderedPlayerBoard.remove(multiSystemCoordinate);
@@ -63,7 +64,7 @@ public class ObservedPlayerBoard {
         GameCard card = (GameCard) imageView.getUserData();
         // We need to create a new image in order to not have the card in playerBoard linked with the ObservedGameCard in hand.
         // To improve performances, we keep the same image element that has already been loaded.
-        ImageView playerBoardImage = GameCardImageFactory.createGameCardImageViewFromImage(card, imageView.getImage());
+        ImageView playerBoardImage = GuiCardFactory.createImageView(card, imageView.getImage());
         // When a user sets a card, it is locally set to avoid lag.
         MultiSystemCoordinate multiSystemCoordinate = new MultiSystemCoordinate().setCoordinateInGUISystem(key);
         renderedPlayerBoard.put(multiSystemCoordinate, playerBoardImage);

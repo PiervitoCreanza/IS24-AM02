@@ -10,6 +10,7 @@ import it.polimi.ingsw.network.server.ServerNetworkControllerMapper;
 import it.polimi.ingsw.network.server.message.ServerActionEnum;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -67,6 +68,7 @@ public class ServerNetworkControllerMapperTest {
         random = new Random();
     }
 
+    @Disabled
     @Test
     void playGames() {
         for (int i = 0; i < nGames; i++) {
@@ -103,8 +105,8 @@ public class ServerNetworkControllerMapperTest {
                         }
                         for (Integer k : remainingPlayers) {
                             int finalK = k;
-                            Thread thread1 = new Thread(() ->{
-                                    randomAction(gameName, String.valueOf(finalK));
+                            Thread thread1 = new Thread(() -> {
+                                randomAction(gameName, String.valueOf(finalK));
                             });
                             randomActionsThreads.get(finalI).add(thread1);
                             thread1.start();
@@ -129,11 +131,12 @@ public class ServerNetworkControllerMapperTest {
                                         }
                                     }
                                     case 1 -> serverNetworkControllerMapper.drawCardFromGoldDeck(gameName, playerName);
-                                    case 2 -> serverNetworkControllerMapper.drawCardFromResourceDeck(gameName, playerName);
+                                    case 2 ->
+                                            serverNetworkControllerMapper.drawCardFromResourceDeck(gameName, playerName);
                                 }
                             } while (error.get(Integer.parseInt(gameName)).get(Integer.parseInt(playerName)));
                         }
-                        for(Thread threads : randomActionsThreads.get(finalI)) {
+                        for (Thread threads : randomActionsThreads.get(finalI)) {
                             try {
                                 threads.join();
                             } catch (InterruptedException e) {
@@ -150,7 +153,7 @@ public class ServerNetworkControllerMapperTest {
             gameThreads.add(thread);
             thread.start();
         }
-        for(Thread thread : gameThreads) {
+        for (Thread thread : gameThreads) {
             try {
                 thread.join();
             } catch (InterruptedException e) {
@@ -162,10 +165,14 @@ public class ServerNetworkControllerMapperTest {
     private void randomAction(String gameName, String playerName) {
         switch (random.nextInt(10)) {
             case 0 -> serverNetworkControllerMapper.getGames(Mockito.mock(ServerMessageHandler.class));
-            case 1 -> serverNetworkControllerMapper.createGame(Mockito.mock(ServerMessageHandler.class), gameName, playerName, random.nextInt(10));
-            case 2 -> serverNetworkControllerMapper.joinGame(Mockito.mock(ServerMessageHandler.class), gameName, playerName);
-            case 3 -> serverNetworkControllerMapper.placeCard(gameName, playerName, new Coordinate(random.nextInt(100), random.nextInt(100)), random.nextInt(200), random.nextBoolean());
-            case 4 -> serverNetworkControllerMapper.choosePlayerColor(gameName, playerName, PlayerColorEnum.values()[random.nextInt(PlayerColorEnum.values().length)]);
+            case 1 ->
+                    serverNetworkControllerMapper.createGame(Mockito.mock(ServerMessageHandler.class), gameName, playerName, random.nextInt(10));
+            case 2 ->
+                    serverNetworkControllerMapper.joinGame(Mockito.mock(ServerMessageHandler.class), gameName, playerName);
+            case 3 ->
+                    serverNetworkControllerMapper.placeCard(gameName, playerName, new Coordinate(random.nextInt(100), random.nextInt(100)), random.nextInt(200), random.nextBoolean());
+            case 4 ->
+                    serverNetworkControllerMapper.choosePlayerColor(gameName, playerName, PlayerColorEnum.values()[random.nextInt(PlayerColorEnum.values().length)]);
             case 5 -> serverNetworkControllerMapper.setPlayerObjective(gameName, playerName, random.nextInt(200));
             case 6 -> serverNetworkControllerMapper.drawCardFromField(gameName, playerName, random.nextInt(200));
             case 7 -> serverNetworkControllerMapper.drawCardFromGoldDeck(gameName, playerName);

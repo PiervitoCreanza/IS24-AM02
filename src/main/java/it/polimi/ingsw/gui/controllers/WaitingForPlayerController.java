@@ -2,6 +2,8 @@ package it.polimi.ingsw.gui.controllers;
 
 
 import it.polimi.ingsw.controller.GameStatusEnum;
+import it.polimi.ingsw.gui.components.toast.ToastLevels;
+import it.polimi.ingsw.gui.utils.GUIUtils;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.network.virtualView.PlayerView;
 import javafx.application.Platform;
@@ -98,10 +100,8 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
     }
 
     private void setUpPlayerListView(GameControllerView updatedView) {
-        String gameNameString = updatedView.gameView().gameName();
-        if (gameNameString.length() > 26) {
-            gameNameString = gameNameString.substring(0, 23) + "...";
-        }
+        String gameNameString = GUIUtils.truncateString(updatedView.gameView().gameName());
+
         logger.debug("Setting game name" + gameNameString);
         gameName.setText(gameNameString);
         logger.debug("Received player list");
@@ -110,7 +110,7 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
         if (gameStatus == GameStatusEnum.WAIT_FOR_PLAYERS) {
             waitingMessage.setText("Waiting for players to join...");
         } else {
-            String currentPlayer = updatedView.getCurrentPlayerView().playerName();
+            String currentPlayer = GUIUtils.truncateString(updatedView.getCurrentPlayerView().playerName());
             switch (gameStatus) {
                 case INIT_PLACE_STARTER_CARD:
                     waitingMessage.setText("Waiting for " + currentPlayer + " to place the starter card...");
@@ -141,7 +141,7 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
 
     @FXML
     public void back(ActionEvent actionEvent) {
-        showInfoBox("red", "Disconnecting...", "You are disconnecting from the server.");
+        showToast(ToastLevels.ERROR, "Disconnecting...", "You are disconnecting from the server.");
         networkControllerMapper.closeConnection();
     }
 }

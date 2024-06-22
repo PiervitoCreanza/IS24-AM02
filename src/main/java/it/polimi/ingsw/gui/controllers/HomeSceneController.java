@@ -1,7 +1,9 @@
 package it.polimi.ingsw.gui.controllers;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,15 +11,20 @@ import java.beans.PropertyChangeEvent;
 
 public class HomeSceneController extends Controller {
 
-    public static final ControllersEnum NAME = ControllersEnum.HOME;
+    private static final ControllersEnum NAME = ControllersEnum.HOME;
 
     private static final Logger logger = LogManager.getLogger(HomeSceneController.class);
 
     private boolean connected = false;
 
+    @FXML
+    private StackPane root;
+
 
     @FXML
-    public void initialize() {
+    private void initialize() {
+        // Set the focus on the root pane to capture key events
+        Platform.runLater(() -> root.requestFocus());
     }
 
     private void connectToServer() {
@@ -28,15 +35,14 @@ public class HomeSceneController extends Controller {
         }
     }
 
-    // TODO: Make it work
     @FXML
-    public void handleKeyPressed(KeyEvent event) {
+    private void handleKeyPressed(KeyEvent event) {
         logger.debug("Handle key pressed: {}", event.getText());
         connectToServer();
     }
 
     @FXML
-    public void handleMousePress() {
+    private void handleMousePress() {
         logger.debug("Mouse click detected");
         connectToServer();
     }

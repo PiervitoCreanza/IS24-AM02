@@ -96,7 +96,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      */
     private void validatePlayerTurn(String playerName) {
         if (!game.getCurrentPlayer().getPlayerName().equals(playerName)) {
-            throw new IllegalStateException("It is not the turn of the player " + playerName);
+            throw new IllegalStateException("It is not" + playerName + "'s turn.");
         }
     }
 
@@ -152,7 +152,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
     public void joinGame(String playerName) {
         // If the game is not in the WAIT_FOR_PLAYERS status or the player is already connected, an exception is thrown
         if (gameStatus != GameStatusEnum.WAIT_FOR_PLAYERS && !game.isPlayerDisconnected(playerName)) {
-            throw new IllegalStateException("Cannot join game in current game status");
+            throw new IllegalStateException("This game is already started.");
         }
 
         if (game.isPlayerDisconnected(playerName)) {
@@ -180,7 +180,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
     public void placeCard(String playerName, Coordinate coordinate, int cardId) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.PLACE_CARD && gameStatus != GameStatusEnum.INIT_PLACE_STARTER_CARD) {
-            throw new IllegalStateException("Cannot place card in current game status");
+            throw new IllegalStateException("Cannot place a card in the current game status.");
         }
 
 
@@ -217,7 +217,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
     public void choosePlayerColor(String playerName, PlayerColorEnum playerColor) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.INIT_CHOOSE_PLAYER_COLOR) {
-            throw new IllegalStateException("Cannot choose player color in current game status");
+            throw new IllegalStateException("Cannot choose the player color in the current game status.");
         }
         gameController.choosePlayerColor(playerName, playerColor);
 
@@ -235,7 +235,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
     public void drawCardFromField(String playerName, int cardId) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.DRAW_CARD) {
-            throw new IllegalStateException("Cannot draw card in current game status");
+            throw new IllegalStateException("Cannot draw a card in the current game status.");
         }
         gameController.drawCardFromField(playerName, cardId);
         handleDrawFinish();
@@ -250,7 +250,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
     public void drawCardFromResourceDeck(String playerName) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.DRAW_CARD) {
-            throw new IllegalStateException("Cannot draw card in current game status");
+            throw new IllegalStateException("Cannot draw a card in the current game status.");
         }
 
         gameController.drawCardFromResourceDeck(playerName);
@@ -266,7 +266,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
     public void drawCardFromGoldDeck(String playerName) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.DRAW_CARD) {
-            throw new IllegalStateException("Cannot draw card in current game status");
+            throw new IllegalStateException("Cannot draw a card in the current game status.");
         }
 
         gameController.drawCardFromGoldDeck(playerName);
@@ -284,7 +284,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
     public void switchCardSide(String playerName, int cardId) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.PLACE_CARD && gameStatus != GameStatusEnum.INIT_PLACE_STARTER_CARD && gameStatus != GameStatusEnum.DRAW_CARD) {
-            throw new IllegalStateException("Cannot switch card side in current game status");
+            throw new IllegalStateException("Cannot switch card side in the current game status");
         }
         gameController.switchCardSide(playerName, cardId);
     }
@@ -299,12 +299,16 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
     public void setPlayerObjective(String playerName, int cardId) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.INIT_CHOOSE_OBJECTIVE_CARD) {
-            throw new IllegalStateException("Cannot set player objective in current game status");
+            throw new IllegalStateException("Cannot set the objective in the current game status.");
         }
         gameController.setPlayerObjective(playerName, cardId);
 
         // If the last player has chosen his objective card, the game status is set to PLACE_CARD
         if (game.isLastPlayerAmongConnected()) {
+            // If the game is ready to start, set missing player data on all players.
+            setMissingPlayersAttributes();
+
+            // Set the game status to PLACE_CARD
             gameStatus = GameStatusEnum.PLACE_CARD;
         } else {
             gameStatus = GameStatusEnum.INIT_PLACE_STARTER_CARD;
@@ -396,6 +400,41 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
     @Override
     public GameControllerView getVirtualView() {
         return new GameControllerView(game.getVirtualView(), gameStatus, isLastRound, remainingRoundsToEndGame);
+    }
+
+    /**
+     * Sets the missing player attributes.
+     * These attributes can be missing if the player has disconnected during the initialization phase.
+     */
+    private void setMissingPlayersAttributes() {
+        // Check that all players have the required attributes set
+        game.getPlayers().forEach(curPlayer -> {
+            // Get the current player name
+            String curPlayerName = curPlayer.getPlayerName();
+
+            // Check if the starter card is placed and place it if it is not
+            Coordinate starterCardCoordinate = new Coordinate(0, 0);
+            if (curPlayer.getPlayerBoard().getGameCard(starterCardCoordinate).isEmpty()) {
+                gameController.placeCard(curPlayerName, starterCardCoordinate, curPlayer.getPlayerBoard().getStarterCard().getCardId());
+            }
+
+            // Check if the player hand is empty and draw cards if it is
+            if (curPlayer.getPlayerHand().getCards().isEmpty()) {
+                gameController.drawCardFromResourceDeck(curPlayerName);
+                gameController.drawCardFromResourceDeck(curPlayerName);
+                gameController.drawCardFromGoldDeck(curPlayerName);
+            }
+
+            // Set the player color if it is not set
+            if (curPlayer.getPlayerColor() == null) {
+                gameController.choosePlayerColor(curPlayerName, game.getAvailablePlayerColors().getFirst());
+            }
+
+            // Set the objective card if it is not set
+            if (curPlayer.getObjectiveCard() == null) {
+                gameController.setPlayerObjective(curPlayerName, curPlayer.getChoosableObjectives().getFirst().getCardId());
+            }
+        });
     }
 
     private boolean canDrawCard() {

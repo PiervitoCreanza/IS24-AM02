@@ -2,12 +2,14 @@ package it.polimi.ingsw.gui.controllers.gameSceneController;
 
 import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.data.Parser;
-import it.polimi.ingsw.gui.ZoomableScrollPane;
+import it.polimi.ingsw.gui.components.GuiCardFactory;
+import it.polimi.ingsw.gui.components.ZoomableScrollPane;
+import it.polimi.ingsw.gui.components.toast.ToastLevels;
 import it.polimi.ingsw.gui.controllers.Controller;
 import it.polimi.ingsw.gui.controllers.ControllersEnum;
-import it.polimi.ingsw.gui.dataStorage.GameCardImageFactory;
 import it.polimi.ingsw.gui.dataStorage.ObservableDrawArea;
 import it.polimi.ingsw.gui.dataStorage.ObservedPlayerBoard;
+import it.polimi.ingsw.gui.utils.GUIUtils;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
@@ -39,6 +41,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import static it.polimi.ingsw.gui.utils.GUIUtils.capitalizeFirstLetter;
 
 public class GameSceneController extends Controller implements PropertyChangeListener {
 
@@ -87,8 +91,8 @@ public class GameSceneController extends Controller implements PropertyChangeLis
         pane.getStyleClass().add("transparent");
         playerBoardGridPane = new GridPane();
         playerBoardGridPane.getStyleClass().add("player-board transparent");
-        playerBoardGridPane.setHgap(GameCardImageFactory.getDefaultCardWidth() / 100 * -22);
-        playerBoardGridPane.setVgap(GameCardImageFactory.getDefaultCardWidth() / 100 * -27);
+        playerBoardGridPane.setHgap(GuiCardFactory.getDefaultCardWidth() / 100 * -22);
+        playerBoardGridPane.setVgap(GuiCardFactory.getDefaultCardWidth() / 100 * -27);
         pane.getChildren().add(playerBoardGridPane);
         ZoomableScrollPane scrollPane = new ZoomableScrollPane(pane);
         scrollPane.getStyleClass().add("transparent");
@@ -117,7 +121,7 @@ public class GameSceneController extends Controller implements PropertyChangeLis
 
         rootPane.onKeyPressedProperty().set(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
-                showInfoBox("red", "Disconnecting...", "You are disconnecting from the server.");
+                showToast(ToastLevels.ERROR, "Disconnecting...", "You are disconnecting from the server.");
                 networkControllerMapper.closeConnection();
             }
         });
@@ -160,14 +164,14 @@ public class GameSceneController extends Controller implements PropertyChangeLis
         // Add column constraints to set column width
         for (int i = 0; i <= 100; i++) {
             ColumnConstraints colConstraints = new ColumnConstraints();
-            colConstraints.setPrefWidth(GameCardImageFactory.getDefaultCardWidth()); // Set preferred width of the column
+            colConstraints.setPrefWidth(GuiCardFactory.getDefaultCardWidth()); // Set preferred width of the column
             playerBoardGridPane.getColumnConstraints().add(colConstraints);
         }
 
         // Add row constraints to set row height
         for (int i = 0; i <= 100; i++) {
             RowConstraints rowConstraints = new RowConstraints();
-            rowConstraints.setPrefHeight(GameCardImageFactory.getDefaultCardHeight()); // Set preferred height of the row
+            rowConstraints.setPrefHeight(GuiCardFactory.getDefaultCardHeight()); // Set preferred height of the row
             playerBoardGridPane.getRowConstraints().add(rowConstraints);
         }
     }
@@ -259,7 +263,7 @@ public class GameSceneController extends Controller implements PropertyChangeLis
             case INIT_CHOOSE_PLAYER_COLOR -> this.playerPrompt.setText("is choosing the player color...");
         }
         String clientPlayerName = getProperty("playerName");
-        this.playerName.setText(gameControllerView.getCurrentPlayerView().playerName());
+        this.playerName.setText(GUIUtils.truncateString(gameControllerView.getCurrentPlayerView().playerName(), 20));
         PlayerView clientPlayerView = gameControllerView.getPlayerViewByName(clientPlayerName);
         handController.update(clientPlayerView.playerHandView().hand());
         observedDrawArea.loadData(gameControllerView.gameView().globalBoardView());
@@ -345,23 +349,25 @@ public class GameSceneController extends Controller implements PropertyChangeLis
                 }
 
                 if (gameControllerView.gameStatus() == GameStatusEnum.PLACE_CARD && !gameControllerView.isMyTurn(clientPlayerName)) {
-                    showInfoBox("brown", capitalizeFirstLetter(gameControllerView.getCurrentPlayerView().playerName()), "It's " + capitalizeFirstLetter(gameControllerView.getCurrentPlayerView().playerName()) + "'s turn");
+                    showToast(ToastLevels.INFO, GUIUtils.truncateString(capitalizeFirstLetter(gameControllerView.getCurrentPlayerView().playerName())), "It's " + GUIUtils.truncateString(capitalizeFirstLetter(gameControllerView.getCurrentPlayerView().playerName())) + "'s turn");
                 }
 
                 if (gameControllerView.isMyTurn(clientPlayerName)) {
                     if (!gameControllerView.isLastRound()) {
                         switch (gameControllerView.gameStatus()) {
-                            case DRAW_CARD -> showInfoBox("yellow", "Your turn", "It's your turn to draw a card.");
-                            case PLACE_CARD -> showInfoBox("yellow", "Your turn", "It's your turn to place a card.");
-                            default -> showInfoBox("yellow", "Your turn", "It's your turn.");
+                            case DRAW_CARD ->
+                                    showToast(ToastLevels.WARNING, "Your turn", "It's your turn to draw a card.");
+                            case PLACE_CARD ->
+                                    showToast(ToastLevels.WARNING, "Your turn", "It's your turn to place a card.");
+                            default -> showToast(ToastLevels.WARNING, "Your turn", "It's your turn.");
                         }
                         return;
                     }
 
                     if (gameControllerView.remainingRoundsToEndGame() == 1) {
-                        showInfoBox("yellow", "Second last round", "This is your second last round of the game.");
+                        showToast(ToastLevels.WARNING, "Second last round", "This is your second last round of the game.");
                     } else {
-                        showInfoBox("yellow", "Last round", "This is your last round of the game.");
+                        showToast(ToastLevels.WARNING, "Last round", "This is your last round of the game.");
                     }
                 }
 

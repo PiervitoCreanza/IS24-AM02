@@ -83,7 +83,11 @@
                     </execution>
                 </executions>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+            </plugin>
 
             <!-- JavaFx Plugins -->
             <plugin>
@@ -152,6 +156,9 @@
 
             <resource>
                 <directory>src/main/resources/assets/images</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources/assets/images/pion</directory>
             </resource>
             <resource>
                 <directory>src/main/resources/assets/images/Cards/Fronts</directory>

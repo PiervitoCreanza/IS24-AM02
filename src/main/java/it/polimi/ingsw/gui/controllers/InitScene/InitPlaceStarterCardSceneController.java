@@ -1,8 +1,8 @@
 package it.polimi.ingsw.gui.controllers.InitScene;
 
 import it.polimi.ingsw.controller.GameStatusEnum;
+import it.polimi.ingsw.gui.components.GuiCardFactory;
 import it.polimi.ingsw.gui.controllers.ControllersEnum;
-import it.polimi.ingsw.gui.dataStorage.GameCardImageFactory;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
@@ -67,8 +67,8 @@ public class InitPlaceStarterCardSceneController extends InitScene {
 
     private void loadCard(GameCard gameCard) {
         this.gameCard = gameCard;
-        cardFrontImageView.setImage(GameCardImageFactory.createFrontImage(gameCard.getCardId()));
-        cardBackImageView.setImage(GameCardImageFactory.createBackImage(gameCard.getCardId()));
+        cardFrontImageView.setImage(GuiCardFactory.createFrontImage(gameCard.getCardId()));
+        cardBackImageView.setImage(GuiCardFactory.createBackImage(gameCard.getCardId()));
     }
 
     @FXML

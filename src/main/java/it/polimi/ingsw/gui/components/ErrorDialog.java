@@ -1,4 +1,4 @@
-package it.polimi.ingsw.gui;
+package it.polimi.ingsw.gui.components;
 
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;

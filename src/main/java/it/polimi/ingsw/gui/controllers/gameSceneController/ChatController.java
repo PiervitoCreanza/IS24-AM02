@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gui.controllers.gameSceneController;
 
+import it.polimi.ingsw.gui.utils.GUIUtils;
 import it.polimi.ingsw.network.client.ClientNetworkControllerMapper;
 import it.polimi.ingsw.network.client.message.ChatClientToServerMessage;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
@@ -7,9 +8,8 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+import javafx.util.Callback;
 
 import java.util.List;
 import java.util.Objects;
@@ -54,6 +54,25 @@ public class ChatController {
                 Platform.runLater(() -> {
                     chatDisplay.setScrollTop(Double.MAX_VALUE);
                 });
+            }
+        });
+
+        // Render recipients list as a cellFactory in order to truncate the displayed player name
+        recepient.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+            @Override
+            public ListCell<String> call(ListView<String> param) {
+                return new ListCell<String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null || empty) {
+                            setGraphic(null);
+                        } else {
+                            setText(GUIUtils.truncateString(item));
+                        }
+                    }
+                };
             }
         });
     }

@@ -5,8 +5,11 @@ import it.polimi.ingsw.controller.gameController.GameControllerMiddleware;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GlobalBoard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
+import it.polimi.ingsw.model.player.PlayerHand;
 import it.polimi.ingsw.model.utils.Coordinate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -48,13 +51,45 @@ class GameControllerMiddlewareTest {
         ArrayList<Player> players = new ArrayList<>();
         players.add(player0);
         players.add(player1);
+
+        GlobalBoard globalBoard = Mockito.mock(GlobalBoard.class);
+        when(globalBoard.areFieldAndDecksEmpty()).thenAnswer(invocation -> false);
+        when(game.getGlobalBoard()).thenAnswer(invocation -> globalBoard);
+
+        PlayerBoard playerBoard = Mockito.mock(PlayerBoard.class);
+        when(playerBoard.getGameCard(new Coordinate(0, 0))).thenAnswer(invocation -> Optional.of(Mockito.mock(GameCard.class)));
+        when(player0.getPlayerBoard()).thenAnswer(invocation -> playerBoard);
+        when(player1.getPlayerBoard()).thenAnswer(invocation -> playerBoard);
+
+        PlayerHand playerHand = Mockito.mock(PlayerHand.class);
+        when(playerHand.getCards()).thenAnswer(invocation -> {
+            ArrayList<GameCard> hand = new ArrayList<GameCard>();
+            hand.add(Mockito.mock(GameCard.class));
+            return hand;
+        });
+        when(player0.getPlayerHand()).thenAnswer(invocation -> playerHand);
+        when(player1.getPlayerHand()).thenAnswer(invocation -> playerHand);
+
+        when(player0.getChoosableObjectives()).thenAnswer(invocation -> {
+            ArrayList<ObjectiveCard> objectives = new ArrayList<ObjectiveCard>();
+            objectives.add(Mockito.mock(ObjectiveCard.class));
+            return objectives;
+        });
+        when(player1.getChoosableObjectives()).thenAnswer(invocation -> {
+            ArrayList<ObjectiveCard> objectives = new ArrayList<ObjectiveCard>();
+            objectives.add(Mockito.mock(ObjectiveCard.class));
+            return objectives;
+        });
+
+        when(player0.getObjectiveCard()).thenAnswer(invocation -> Mockito.mock(ObjectiveCard.class));
+        when(player1.getObjectiveCard()).thenAnswer(invocation -> Mockito.mock(ObjectiveCard.class));
+
+        when(player0.getPlayerColor()).thenAnswer(invocation -> PlayerColorEnum.BLUE);
+        when(player1.getPlayerColor()).thenAnswer(invocation -> PlayerColorEnum.RED);
+
         when(game.getPlayers()).thenAnswer(invocation -> players);
         when(game.isLastPlayerAmongConnected()).thenAnswer(invocation -> currentPlayerIndex == players.size() - 1);
-        when(game.getGlobalBoard()).thenAnswer(invocationOnMock -> {
-            GlobalBoard globalBoard = Mockito.mock(GlobalBoard.class);
-            when(globalBoard.areFieldAndDecksEmpty()).thenAnswer(invocationOnMock1 -> false);
-            return globalBoard;
-        });
+        when(game.getGlobalBoard()).thenAnswer(invocationOnMock -> globalBoard);
     }
 
     @Test

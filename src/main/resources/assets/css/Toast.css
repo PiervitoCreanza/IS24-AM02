@@ -1,50 +1,50 @@
 
-.red .toast {
+.error .toast {
     -fx-effect: dropshadow(gaussian, #d32622, 0, 0, 0, 4);
 }
 
-.red .icon {
+.error .icon {
     -fx-fill: #d32622;
 
 }
 
-.red .toast-title, .red .icon {
+.error .toast-title, .error .icon {
     -fx-text-fill: #d32622;
 }
 
-.green .toast {
+.success .toast {
     -fx-effect: dropshadow(gaussian, #2e7d32, 0, 0, 0, 4);
 }
 
-.green .icon {
+.success .icon {
     -fx-fill: #2e7d32;
 }
 
-.green .toast-title, .green .icon {
+.success .toast-title, .success .icon {
     -fx-text-fill: #2e7d32;
 }
 
-.yellow .toast {
+.warning .toast {
     -fx-effect: dropshadow(gaussian, #f9a825, 0, 0, 0, 4);
 }
 
-.yellow .icon {
+.warning .icon {
     -fx-fill: #f9a825;
 }
 
-.yellow .toast-title, .yellow .icon {
+.warning .toast-title, .warning .icon {
     -fx-text-fill: #f9a825;
 }
 
-.brown .toast {
+.info .toast {
     -fx-effect: dropshadow(gaussian, #422918, 0, 0, 0, 4);
 }
 
-.brown .icon {
+.info .icon {
     -fx-fill: #422918;
 }
 
-.brown .toast-title, .brown .icon {
+.info .toast-title, .info .icon {
     -fx-text-fill: #422918;
 }
 
