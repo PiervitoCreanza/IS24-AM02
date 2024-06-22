@@ -94,7 +94,7 @@
                 <version>1.20.0</version>
                 <configuration>
                     <plist>
-                        <CFBundleIconFile>src/bundle/app-icon.icns</CFBundleIconFile>
+                        <CFBundleIconFile>src/bundle/icon_512x512@2x.icns</CFBundleIconFile>
                         <JVMArguments>
                             <string>-l</string>
                         </JVMArguments>
