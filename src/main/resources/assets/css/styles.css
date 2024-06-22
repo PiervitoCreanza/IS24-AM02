@@ -339,7 +339,7 @@ TextField {
 }
 
 .player-disconnected {
-    -fx-text-fill: -red-500;
+    -fx-text-fill: #808080 !important;
 }
 
 .player-label:hover {
@@ -428,4 +428,20 @@ TextField {
 .custom-button-padding {
     -fx-padding: 10 11 10 13 !important;
     -fx-border-width: 0 0 0 0 !important;
+}
+
+.red-text {
+    -fx-text-fill: #d32622
+}
+
+.green-text {
+    -fx-text-fill: #40ac53
+}
+
+.blue-text {
+    -fx-text-fill: #1e90ff
+}
+
+.yellow-text {
+    -fx-text-fill: #c9b127
 }

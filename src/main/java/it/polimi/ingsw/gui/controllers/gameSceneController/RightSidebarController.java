@@ -105,6 +105,7 @@ public class RightSidebarController {
                 newValue.forEach(playerView -> {
                     Label playerLabel = new Label(GUIUtils.truncateString(playerView.playerName()));
                     playerLabel.getStyleClass().add("player-label");
+                    playerLabel.getStyleClass().add(playerView.color().getColor().getTextCssClassName());
 
                     // If the player is disconnected add a specific class
                     if (!playerView.isConnected()) {
