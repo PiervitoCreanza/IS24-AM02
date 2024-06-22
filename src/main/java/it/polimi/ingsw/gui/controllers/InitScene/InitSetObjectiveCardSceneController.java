@@ -45,21 +45,13 @@ public class InitSetObjectiveCardSceneController extends InitScene {
 
         firstImagePane.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1 && !selectedCard.equals("first")) {
-                System.out.println("Clicked on the first card");
-                selectedCard = "first"; // Update the selected card
-                // Remove the selection from the other card, if present
-                secondImagePane.getStyleClass().remove("selected-card-image");
-                // Add the selection to the current card
-                firstImagePane.getStyleClass().add("selected-card-image");
+                handleFirstImageClick();
             }
         });
 
         secondImagePane.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1 && !selectedCard.equals("second")) {
-                System.out.println("Clicked on the second card");
-                selectedCard = "second"; // Update the selected card
-                firstImagePane.getStyleClass().remove("selected-card-image");
-                secondImagePane.getStyleClass().add("selected-card-image");
+                handleSecondImageClick();
             }
         });
 
@@ -72,6 +64,18 @@ public class InitSetObjectiveCardSceneController extends InitScene {
         });
     }
 
+    private void handleFirstImageClick() {
+        selectedCard = "first"; // Update the selected card
+        secondImagePane.getStyleClass().remove("selected-card-image");
+        firstImagePane.getStyleClass().add("selected-card-image");
+    }
+
+    private void handleSecondImageClick() {
+        selectedCard = "second"; // Update the selected card
+        firstImagePane.getStyleClass().remove("selected-card-image");
+        secondImagePane.getStyleClass().add("selected-card-image");
+    }
+
     private void updateGameCardImage(ObjectiveCard objectiveCard, ImageView imageView) {
         Image objectiveCardImage = GuiCardFactory.createImage(objectiveCard);
         imageView.setImage(objectiveCardImage);
@@ -79,15 +83,11 @@ public class InitSetObjectiveCardSceneController extends InitScene {
 
     @FXML
     protected void continueAction() {
-        if (selectedCard == null || selectedCard.isEmpty()) {
-            showErrorPopup("No Card Selected", "Please select a card before continuing.", false);
-        } else {
-            // Print the selected card ID to the console
-            int selectedCardId = selectedCard.equals("first") ? firstChoosableCard.get().getCardId() : secondChoosableCard.get().getCardId();
-            System.out.println("Selected Card ID: " + selectedCardId);
+        // Print the selected card ID to the console
+        int selectedCardId = selectedCard.equals("first") ? firstChoosableCard.get().getCardId() : secondChoosableCard.get().getCardId();
+        System.out.println("Selected Card ID: " + selectedCardId);
 
-            networkControllerMapper.setPlayerObjective(selectedCardId);
-        }
+        networkControllerMapper.setPlayerObjective(selectedCardId);
     }
 
     /**
@@ -128,6 +128,9 @@ public class InitSetObjectiveCardSceneController extends InitScene {
         logger.debug("Loading card ids: {},  {}", choosableObjectives.getFirst().getCardId(), choosableObjectives.get(1).getCardId());
         firstChoosableCard.set(choosableObjectives.getFirst());
         secondChoosableCard.set(choosableObjectives.get(1));
+
+        // Set the default selected card
+        handleFirstImageClick();
     }
 
     /**
