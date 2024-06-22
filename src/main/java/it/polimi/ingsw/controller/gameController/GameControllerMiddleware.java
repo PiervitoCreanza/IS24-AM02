@@ -96,7 +96,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      */
     private void validatePlayerTurn(String playerName) {
         if (!game.getCurrentPlayer().getPlayerName().equals(playerName)) {
-            throw new IllegalStateException("It is not" + playerName + "'s turn.");
+            throw new IllegalStateException("It is not " + playerName + "'s turn.");
         }
     }
 
