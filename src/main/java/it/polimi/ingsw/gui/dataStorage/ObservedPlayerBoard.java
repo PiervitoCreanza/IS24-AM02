@@ -166,6 +166,14 @@ public class ObservedPlayerBoard {
             gridPane.getChildren().remove(existingNode);
         }
 
+        // Get the card to place
+        GameCard cardToPlace = (GameCard) newNode.getUserData();
+
+        // Set the view order to the placement index to ensure the correct rendering order
+        // The index is negated to ensure that the card with the highest placement index is rendered at the bottom
+        // In fact a node with a lower view order is rendered on top of a node with a higher view order
+        newNode.setViewOrder(-cardToPlace.getPlacementIndex());
+
         // Add the new node
         gridPane.add(newNode, col, row);
     }
