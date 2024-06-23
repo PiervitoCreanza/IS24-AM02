@@ -46,47 +46,48 @@ public class InitPlaceStarterCardSceneController extends InitScene {
         // Add listeners to the card sides
         frontImagePane.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1 && !selectedSide.equals("front")) {
-                System.out.println("Clicked on the front of the card");
-                selectedSide = "front"; // Update the selected side
-                // Remove the selection from the other card, if present
-                backImagePane.getStyleClass().remove("selected-card-image");
-                // Add the selection to the current card
-                frontImagePane.getStyleClass().add("selected-card-image");
+                handleBackImageClick();
             }
         });
 
         backImagePane.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1 && !selectedSide.equals("back")) {
-                System.out.println("Clicked on the back of the card");
-                selectedSide = "back"; // Update the selected side
-                frontImagePane.getStyleClass().remove("selected-card-image");
-                backImagePane.getStyleClass().add("selected-card-image");
+                handleFrontImageClick();
             }
         });
+    }
+
+    private void handleBackImageClick() {
+        selectedSide = "back"; // Update the selected side
+        frontImagePane.getStyleClass().remove("selected-card-image");
+        backImagePane.getStyleClass().add("selected-card-image");
+    }
+
+    private void handleFrontImageClick() {
+        selectedSide = "front"; // Update the selected side
+        backImagePane.getStyleClass().remove("selected-card-image");
+        frontImagePane.getStyleClass().add("selected-card-image");
     }
 
     private void loadCard(GameCard gameCard) {
         this.gameCard = gameCard;
         cardFrontImageView.setImage(GuiCardFactory.createFrontImage(gameCard.getCardId()));
         cardBackImageView.setImage(GuiCardFactory.createBackImage(gameCard.getCardId()));
+
+        // Set the default side to the front
+        handleBackImageClick();
     }
 
     @FXML
     protected void continueAction() {
-        if (selectedSide == null || selectedSide.isEmpty()) {
-            // Show error alert
-            showErrorPopup("No Card Side Selected", "Please select a side of the card before continuing.", false);
+        // Print the selected card ID and the selected side to the console
+        logger.debug("Selected Card ID: " + gameCard.getCardId() + ", Side: " + selectedSide);
+        // Reset the styles after continuing
+        backImagePane.getStyleClass().remove("selected-card-image");
+        frontImagePane.getStyleClass().remove("selected-card-image");
 
-        } else {
-            // Print the selected card ID and the selected side to the console
-            logger.debug("Selected Card ID: " + gameCard.getCardId() + ", Side: " + selectedSide);
-            // Reset the styles after continuing
-            backImagePane.getStyleClass().remove("selected-card-image");
-            frontImagePane.getStyleClass().remove("selected-card-image");
-
-            // Send the selected side to the server
-            networkControllerMapper.placeCard(new Coordinate(0, 0), gameCard.getCardId(), Objects.equals(selectedSide, "back"));
-        }
+        // Send the selected side to the server
+        networkControllerMapper.placeCard(new Coordinate(0, 0), gameCard.getCardId(), Objects.equals(selectedSide, "back"));
     }
 
     /**

@@ -19,7 +19,7 @@ public class PointsPanelTest extends Application {
         Parent root = loader.load();
 
         // Crea una scena con il PointsPanel
-        Scene scene = new Scene(root, 400, 400);
+        Scene scene = new Scene(root, 1400, 800);
 
         // Carica il CSS
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
