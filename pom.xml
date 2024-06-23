@@ -278,6 +278,9 @@
                 <directory>src/main/resources</directory>
             </resource>
             <resource>
+                <directory>src/bundle</directory>
+            </resource>
+            <resource>
                 <directory>src/main/resources/assets/fonts</directory>
             </resource>
         </resources>
