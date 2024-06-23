@@ -61,11 +61,14 @@
 
     <build>
         <plugins>
+            <!-- Surefire - Testing -->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
             </plugin>
-            <plugin>
+
+            <!-- Checkstyle -->
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>3.3.1</version>
@@ -81,43 +84,44 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
+
+            <!-- Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
             </plugin>
+
             <!-- MacOS app build -->
-            <plugin>
-                <groupId>de.perdian.maven.plugins</groupId>
-                <artifactId>macosappbundler-maven-plugin</artifactId>
-                <version>1.20.0</version>
-                <configuration>
-                    <plist>
-                        <CFBundleIconFile>src/bundle/icon_512x512@2x.icns</CFBundleIconFile>
-                        <JVMArguments>
-                            <string>-l</string>
-                        </JVMArguments>
-                        <JVMMainClassName>it.polimi.ingsw.network.client.Client</JVMMainClassName>
-                    </plist>
-                    <jdk>
-                        <include>true</include>
-                    </jdk>
-                    <dmg>
-                        <generate>true</generate>
-                    </dmg>
-
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>bundle</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
+            <!-- <plugin>
+                 <groupId>de.perdian.maven.plugins</groupId>
+                 <artifactId>macosappbundler-maven-plugin</artifactId>
+                 <version>1.20.0</version>
+                 <configuration>
+                     <plist>
+                         <CFBundleIconFile>src/bundle/icon_512x512@2x.icns</CFBundleIconFile>
+                         <JVMArguments>
+                             <string>-l</string>
+                         </JVMArguments>
+                         <JVMMainClassName>it.polimi.ingsw.network.client.Client</JVMMainClassName>
+                     </plist>
+                     <jdk>
+                         <include>true</include>
+                     </jdk>
+                     <dmg>
+                         <generate>true</generate>
+                     </dmg>
+                 </configuration>
+                 <executions>
+                     <execution>
+                         <phase>package</phase>
+                         <goals>
+                             <goal>bundle</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>-->
 
             <!-- JavaFx Plugins -->
             <plugin>
@@ -135,13 +139,15 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Assembly Plugin - JARs-->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.7.1</version>
                 <executions>
                     <execution>
                         <id>client-assembly</id>
-                        <phase>package</phase>
+                        <phase>compile</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
@@ -154,12 +160,12 @@
                                     <mainClass>it.polimi.ingsw.network.client.Client</mainClass>
                                 </manifest>
                             </archive>
-                            <finalName>AM02-client</finalName>
+                            <finalName>client</finalName>
                         </configuration>
                     </execution>
                     <execution>
                         <id>server-assembly</id>
-                        <phase>package</phase>
+                        <phase>compile</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
@@ -172,12 +178,92 @@
                                     <mainClass>it.polimi.ingsw.network.server.Server</mainClass>
                                 </manifest>
                             </archive>
-                            <finalName>AM02-server</finalName>
+                            <finalName>server</finalName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>zip-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <!-- ... configurazione ... -->
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/bundle/assembly.xml</descriptor>
+                            </descriptors>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <version>2.5.1</version>
+                <executions>
+                    <execution>
+                        <id>Codex Naturalis</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <outfile>target/CodexNaturalis.exe</outfile>
+                            <jar>target/client-jar-with-dependencies.jar</jar>
+                            <errTitle>error</errTitle>
+                            <jre>
+                                <path>jre/</path>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>1.2.3.4</fileVersion>
+                                <txtFileVersion>txt file version?</txtFileVersion>
+                                <fileDescription>a description</fileDescription>
+                                <copyright>my copyright</copyright>
+                                <productVersion>4.3.2.1</productVersion>
+                                <txtProductVersion>txt product version</txtProductVersion>
+                                <productName>E-N-C-C</productName>
+                                <internalName>ccne</internalName>
+                                <originalFilename>original.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
+                    </execution>
+                    <!--<execution>
+                        <id>l4j-gui</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <outfile>target/enccg.exe</outfile>
+                            <jar>target/encc-1.0.jar</jar>
+                            <errTitle>enccg</errTitle>
+                            <classPath>
+                                <mainClass>com.akathist.encc.Gui</mainClass>
+                            </classPath>
+                            <jre>
+                                <minVersion>1.5.0</minVersion>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>1.2.3.4</fileVersion>
+                                <txtFileVersion>txt file version?</txtFileVersion>
+                                <fileDescription>a description</fileDescription>
+                                <copyright>my copyright</copyright>
+                                <productVersion>4.3.2.1</productVersion>
+                                <txtProductVersion>txt product version</txtProductVersion>
+                                <productName>E-N-C-C</productName>
+                                <internalName>ccne</internalName>
+                                <originalFilename>original.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
+                    </execution>-->
+                </executions>
+            </plugin>
         </plugins>
+
+
         <!-- fxml files are in src/main/java/it/polimi/ingsw/gui/fxml -->
         <resources>
             <resource>
