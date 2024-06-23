@@ -1,4 +1,3 @@
-// GameListCell.java
 package it.polimi.ingsw.gui.controllers.gamesList;
 
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
@@ -67,7 +66,9 @@ public class GameListCell extends ListCell<String> {
             ArrayList<GameRecord> gamesList = (ArrayList<GameRecord>) getScene().getProperties().get("gamesList");
             logger.debug("GamesList: {}", gamesList);
             GameRecord gameRecord = gamesList.stream().filter(g -> g.gameName().equals(game)).findFirst().orElse(null);
-            controller.setPlayersCount(gameRecord.joinedPlayers() + "/" + gameRecord.maxAllowedPlayers() + " players", gameRecord.isFull());
+            if (gameRecord != null) {
+                controller.setPlayersCount(gameRecord.joinedPlayers() + "/" + gameRecord.maxAllowedPlayers() + " players", gameRecord.isFull());
+            }
             setGraphic(root);
         }
     }

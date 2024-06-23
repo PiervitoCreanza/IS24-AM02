@@ -128,9 +128,6 @@
                     <execution>
                         <id>checkstyle-check</id>
                         <phase>validate</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>
