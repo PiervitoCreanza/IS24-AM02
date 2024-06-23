@@ -14,15 +14,35 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * This class is responsible for controlling the hand of cards in the game scene.
+ * It handles the dragging and dropping of cards, updating the hand display and managing the list of cards.
+ */
 public class HandController {
 
+    /**
+     * The (logger) of the class.
+     */
     private static final Logger logger = LogManager.getLogger(HandController.class);
 
+    /**
+     * The controller for the game scene.
+     */
     private final GameSceneController sceneController;
 
+    /**
+     * The list of card cells in the hand.
+     */
     private final ArrayList<ObservedGameCard> cardCells;
 
-
+    /**
+     * Constructor for the HandController class.
+     * It initializes the scene controller and the list of card cells.
+     * It also sets up the card cells in the hand pane.
+     *
+     * @param handPane            The pane where the hand of cards is displayed.
+     * @param gameSceneController The controller for the game scene.
+     */
     public HandController(Pane handPane, GameSceneController gameSceneController) {
         this.sceneController = gameSceneController;
         this.cardCells = new ArrayList<>();
@@ -34,6 +54,12 @@ public class HandController {
 
     }
 
+    /**
+     * Makes a card draggable.
+     * It sets up the mouse event handlers for the card.
+     *
+     * @param gameCardImageView The image view of the card.
+     */
     private void makeCardDraggable(ImageView gameCardImageView) {
         final Coordinate dragDelta = new Coordinate(0, 0);
         final Coordinate originalPosition = new Coordinate(0, 0);
@@ -100,7 +126,12 @@ public class HandController {
         });
     }
 
-
+    /**
+     * Updates the hand of cards.
+     * It updates the displayed cards based on the given list of cards.
+     *
+     * @param hand The list of cards in the hand.
+     */
     public void update(ArrayList<GameCard> hand) {
         ArrayList<GameCard> updatedCards = new ArrayList<>(hand);
         ArrayList<ObservedGameCard> freeBoundNodes = new ArrayList<>(cardCells);
@@ -119,6 +150,12 @@ public class HandController {
         }
     }
 
+    /**
+     * Gets the observed game card associated with the given game card.
+     *
+     * @param gameCard The game card.
+     * @return The observed game card associated with the given game card.
+     */
     private Optional<ObservedGameCard> getObservedGameCard(GameCard gameCard) {
         return cardCells.stream().filter(observedGameCard -> Objects.equals(observedGameCard.getGameCard(), gameCard)).findFirst();
     }

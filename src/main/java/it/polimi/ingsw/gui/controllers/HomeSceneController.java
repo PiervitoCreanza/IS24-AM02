@@ -9,24 +9,47 @@ import org.apache.logging.log4j.Logger;
 
 import java.beans.PropertyChangeEvent;
 
+/**
+ * This class is responsible for controlling the home scene.
+ * It handles key and mouse events to connect to the server.
+ */
 public class HomeSceneController extends Controller {
 
+    /**
+     * The name of the controller.
+     */
     private static final ControllersEnum NAME = ControllersEnum.HOME;
 
+    /**
+     * The logger.
+     */
     private static final Logger logger = LogManager.getLogger(HomeSceneController.class);
 
+    /**
+     * The network controller mapper.
+     */
     private boolean connected = false;
 
+    /**
+     * The root pane.
+     */
     @FXML
     private StackPane root;
 
-
+    /**
+     * Initializes the home scene controller.
+     * It sets the focus on the root pane to capture key events.
+     */
     @FXML
     private void initialize() {
         // Set the focus on the root pane to capture key events
         Platform.runLater(() -> root.requestFocus());
     }
 
+    /**
+     * Connects to the server.
+     * It avoids multiple connections.
+     */
     private void connectToServer() {
         // Avoid multiple connections
         if (!connected) {
@@ -35,12 +58,22 @@ public class HomeSceneController extends Controller {
         }
     }
 
+    /**
+     * Handles the key pressed event.
+     * It logs the key pressed and connects to the server.
+     *
+     * @param event The key event.
+     */
     @FXML
     private void handleKeyPressed(KeyEvent event) {
         logger.debug("Handle key pressed: {}", event.getText());
         connectToServer();
     }
 
+    /**
+     * Handles the mouse press event.
+     * It logs the mouse click and connects to the server.
+     */
     @FXML
     private void handleMousePress() {
         logger.debug("Mouse click detected");

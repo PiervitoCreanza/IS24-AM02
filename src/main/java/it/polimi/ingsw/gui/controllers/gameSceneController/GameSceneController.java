@@ -44,47 +44,132 @@ import java.util.List;
 
 import static it.polimi.ingsw.gui.utils.GUIUtils.capitalizeFirstLetter;
 
+/**
+ * This class is responsible for controlling the right sidebar in the game scene.
+ * It handles the display of objective cards, player views, and game item store.
+ */
 public class GameSceneController extends Controller implements PropertyChangeListener {
 
+    /**
+     * The name of the controller.
+     */
     private static final ControllersEnum NAME = ControllersEnum.GAME_SCENE;
 
+    /**
+     * The (logger) of the class.
+     */
     private static final Logger logger = LogManager.getLogger(GameSceneController.class);
+
+    /**
+     * The property that indicates if the game is in the drawing phase.
+     */
     private final SimpleBooleanProperty isDrawingPhase = new SimpleBooleanProperty(false);
+
+    /**
+     * The root pane of the scene.
+     */
     @FXML
     private StackPane rootPane;
+
+    /**
+     * The button to hide the chat sidebar.
+     */
     @FXML
     private Button hideChatButton;
+
+    /**
+     * The property that indicates if the game is in the drawing phase.
+     */
     private SimpleObjectProperty<GameControllerView> gameControllerView;
+
+    /**
+     * The draw area of the game scene.
+     */
     @FXML
     private HBox drawArea;
+
+    /**
+     * The text that prompts the player.
+     */
     @FXML
     private Text playerPrompt;
+
+    /**
+     * The button to show the chat sidebar.
+     */
     @FXML
     private Button ChatSideBarButton;
+
+    /**
+     * The name of the player.
+     */
     @FXML
     private Text playerName;
 
+    /**
+     * The grid pane of the player board.
+     */
     @FXML
     private GridPane playerBoardGridPane;
 
+    /**
+     * The hand board of the player.
+     */
     @FXML
     private HBox handBoard;
+
+    /**
+     * The chat sidebar.
+     */
     @FXML
     private Parent ChatSideBar;
 
+    /**
+     * The right sidebar.
+     */
     @FXML
     private Node rightSidebar;
 
+    /**
+     * The hand controller.
+     */
     private HandController handController;
+
+    /**
+     * The content pane of the scene.
+     */
     @FXML
     private StackPane contentPane;
+
+    /**
+     * The right sidebar controller.
+     */
     private RightSidebarController rightSidebarController;
+
+    /**
+     * The chat controller.
+     */
     private ChatController chatController;
 
+    /**
+     * The observed player board.
+     */
     private ObservedPlayerBoard observedPlayerBoard;
+
+    /**
+     * The observed draw area.
+     */
     private ObservableDrawArea observedDrawArea;
+
+    /**
+     * The property that indicates the currently displayed player.
+     */
     private SimpleStringProperty currentlyDisplayedPlayer;
 
+    /**
+     * This class is responsible for controlling the right sidebar in the game scene.
+     * It handles the display of objective cards, player views, and game item store.
+     */
     @FXML
     public void initialize() {
         StackPane pane = new StackPane();
@@ -130,6 +215,10 @@ public class GameSceneController extends Controller implements PropertyChangeLis
         //loadDummyData();
     }
 
+    /**
+     * This method is used to load data into the game scene.
+     * It is used for testing purposes.
+     */
     private void loadDummyData() {
         logger.fatal("DEBUG MODE ENABLED");
         Parser parser = new Parser();
@@ -160,11 +249,15 @@ public class GameSceneController extends Controller implements PropertyChangeLis
 
     }
 
+    /**
+     * This method is used to initialize the player board grid pane.
+     * It sets the column and row constraints for the grid pane.
+     */
     private void initializePlayerBoardGridPane() {
         // Add column constraints to set column width
         for (int i = 0; i <= 100; i++) {
             ColumnConstraints colConstraints = new ColumnConstraints();
-            colConstraints.setPrefWidth(GuiCardFactory.getDefaultCardWidth()); // Set preferred width of the column
+            colConstraints.setPrefWidth(GuiCardFactory.getDefaultCardWidth()); // Set the preferred width of the column
             playerBoardGridPane.getColumnConstraints().add(colConstraints);
         }
 
@@ -176,6 +269,14 @@ public class GameSceneController extends Controller implements PropertyChangeLis
         }
     }
 
+    /**
+     * Handles the dropping of a card on the player board.
+     * It checks if the card intersects with any existing cards on the player board and adds the card to the player board if it does.
+     *
+     * @param imageView The image view of the card.
+     * @param parent    The parent pane of the card.
+     * @return True if the card was added to the player board, false otherwise.
+     */
     public boolean handleCardDrop(ImageView imageView, Pane parent) {
         boolean didIntersect = false;
 
@@ -240,6 +341,11 @@ public class GameSceneController extends Controller implements PropertyChangeLis
 
     }
 
+    /**
+     * Updates the view of the game scene based on the given player name.
+     *
+     * @param playerName The name of the player.
+     */
     public void updateView(String playerName) {
         logger.debug("Playername: {}", playerName);
         GameControllerView gameControllerView = this.gameControllerView.get();
@@ -249,6 +355,12 @@ public class GameSceneController extends Controller implements PropertyChangeLis
         updatePrivateView(gameControllerView.gameStatus(), gameControllerView);
     }
 
+    /**
+     * Updates the private view of the game scene based on the given game status and game controller view.
+     *
+     * @param gameStatus         The game status.
+     * @param gameControllerView The game controller view.
+     */
     private void updatePrivateView(GameStatusEnum gameStatus, GameControllerView gameControllerView) {
         if (gameStatus == GameStatusEnum.DRAW_CARD && gameControllerView.isMyTurn(getProperty("playerName"))) {
             isDrawingPhase.set(true);
@@ -307,6 +419,9 @@ public class GameSceneController extends Controller implements PropertyChangeLis
 
     }
 
+    /**
+     * Toggles the visibility of the chat sidebar.
+     */
     @FXML
     private void toggleChat() {
         boolean isVisible = ChatSideBar.isVisible();

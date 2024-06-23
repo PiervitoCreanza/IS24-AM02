@@ -19,13 +19,45 @@ import java.util.Objects;
  * It handles the interactions between the user interface and the chat logic.
  */
 public class ChatController {
+
+    /**
+     * The chat display.
+     */
     private final TextArea chatDisplay;
+
+    /**
+     * The message input.
+     */
     private final TextArea messageInput;
-    private final ComboBox<String> recepient;
+
+    /**
+     * The recipient selection.
+     */
+    private final ComboBox<String> recipient;
+
+    /**
+     * The button to display the chat.
+     */
     private final Node chatDisplayButton;
+
+    /**
+     * The send button.
+     */
     private final Button chatSendButton;
+
+    /**
+     * The client network controller mapper.
+     */
     private final ClientNetworkControllerMapper clientNetworkControllerMapper;
+
+    /**
+     * The username of the client.
+     */
     private String clientUserName;
+
+    /**
+     * The chat manager.
+     */
     private final ChatManager chatManager;
 
     /**
@@ -40,7 +72,7 @@ public class ChatController {
     public ChatController(Node root, Node chatDisplayButton, ClientNetworkControllerMapper clientNetworkControllerMapper) {
         this.chatDisplay = (TextArea) root.lookup("#chatDisplay");
         this.messageInput = (TextArea) root.lookup("#messageInput");
-        this.recepient = (ComboBox<String>) root.lookup("#recepient");
+        this.recipient = (ComboBox<String>) root.lookup("#recepient");
         this.chatDisplayButton = chatDisplayButton;
         this.chatSendButton = (Button) root.lookup("#chatSendButton");
         this.clientNetworkControllerMapper = clientNetworkControllerMapper;
@@ -54,8 +86,8 @@ public class ChatController {
             }
         });
 
-        recepient.addEventHandler(javafx.event.ActionEvent.ANY, event -> {
-            if (recepient.getValue() == null) {
+        recipient.addEventHandler(javafx.event.ActionEvent.ANY, event -> {
+            if (recipient.getValue() == null) {
                 return;
             }
             updateMessages();
@@ -71,7 +103,7 @@ public class ChatController {
         });
 
         // Render recipients list as a cellFactory in order to truncate the displayed player name
-        recepient.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+        recipient.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
             @Override
             public ListCell<String> call(ListView<String> param) {
                 return new ListCell<String>() {
@@ -94,7 +126,7 @@ public class ChatController {
      * Updates the chat display with the messages from the selected recipient.
      */
     private void updateMessages() {
-        String recipient = recepient.getValue().substring(3);
+        String recipient = this.recipient.getValue().substring(3);
         if (recipient.equals("Everyone")) {
             recipient = "global";
         }
@@ -109,13 +141,13 @@ public class ChatController {
      */
     public void updateUsers(List<String> users, String clientUserName) {
         this.clientUserName = clientUserName;
-        recepient.getItems().clear();
-        recepient.getItems().add("To Everyone");
+        recipient.getItems().clear();
+        recipient.getItems().add("To Everyone");
         for (String user : users) {
-            recepient.getItems().add("To " + user);
+            recipient.getItems().add("To " + user);
         }
-        if (recepient.getValue() == null) {
-            recepient.setValue("To Everyone");
+        if (recipient.getValue() == null) {
+            recipient.setValue("To Everyone");
         }
     }
 
@@ -126,7 +158,7 @@ public class ChatController {
     private void handleSend() {
         String message = messageInput.getText();
         if (!message.isEmpty()) {
-            String recipient = recepient.getValue().substring(3);
+            String recipient = this.recipient.getValue().substring(3);
             if (recipient.equals("Everyone")) {
                 recipient = "global";
             }
@@ -148,10 +180,11 @@ public class ChatController {
             chatManager.addMessage(message);
             updateMessages();
             if (!message.isDirectMessage()) {
-                recepient.setValue("To Everyone");
+                recipient.setValue("To Everyone");
                 return;
             }
-            recepient.setValue("To " + message.getPlayerName());
+            recipient.setValue("To " + message.getPlayerName());
+
         }
     }
 }
