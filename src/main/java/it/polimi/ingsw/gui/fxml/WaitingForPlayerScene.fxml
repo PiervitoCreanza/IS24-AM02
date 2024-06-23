@@ -23,7 +23,7 @@
                     <HBox alignment="CENTER">
                         <Text fx:id="waitingMessage" styleClass="h3" textAlignment="CENTER"/>
                     </HBox>
-
+                    <Region prefHeight="20"/>
                     <ListView styleClass="unstyled-list-view" fx:id="playerListView" VBox.vgrow="ALWAYS"/>
                     <!-- List items will be populated by the controller -->
                     <HBox alignment="CENTER">
