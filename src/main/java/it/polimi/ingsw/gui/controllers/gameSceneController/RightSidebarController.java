@@ -49,8 +49,20 @@ public class RightSidebarController {
      * The ListView of objective cards.
      */
     private final ListView<ObjectiveCard> objectivesList;
+
+    /**
+     * The property for the player's objective card.
+     */
     private final SimpleObjectProperty<ObjectiveCard> playerObjectiveCard = new SimpleObjectProperty<>();
+
+    /**
+     * The container for the player's objective card.
+     */
     private final HBox playerObjectiveContainer;
+
+    /**
+     * The property for the player views.
+     */
     private final SimpleObjectProperty<List<PlayerView>> playerViews = new SimpleObjectProperty<>();
 
     /**
