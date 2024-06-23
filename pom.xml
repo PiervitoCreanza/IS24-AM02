@@ -9,6 +9,11 @@
 
     <name>Codex Naturalis</name>
     <url>https://maven.apache.org</url>
+    <organization>
+        <name>MFoche</name>
+    </organization>
+    <inceptionYear>2024</inceptionYear>
+    <description>A Java version of Codex Naturalis</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -59,6 +64,50 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>mac-profile</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+            <!-- MacOS App Bundle -->
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>de.perdian.maven.plugins</groupId>
+                        <artifactId>macosappbundler-maven-plugin</artifactId>
+                        <version>1.20.0</version>
+                        <configuration>
+                            <plist>
+                                <CFBundleIconFile>src/bundle/icon_512x512@2x.icns</CFBundleIconFile>
+                                <JVMArguments>
+                                    <string>-l</string>
+                                </JVMArguments>
+                                <JVMMainClassName>it.polimi.ingsw.network.client.Client</JVMMainClassName>
+                            </plist>
+                            <jdk>
+                                <include>true</include>
+                            </jdk>
+                            <dmg>
+                                <generate>true</generate>
+                            </dmg>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>bundle</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <!-- Surefire - Testing -->
@@ -93,36 +142,6 @@
                 <version>3.13.0</version>
             </plugin>
 
-            <!-- MacOS app build -->
-            <!-- <plugin>
-                 <groupId>de.perdian.maven.plugins</groupId>
-                 <artifactId>macosappbundler-maven-plugin</artifactId>
-                 <version>1.20.0</version>
-                 <configuration>
-                     <plist>
-                         <CFBundleIconFile>src/bundle/icon_512x512@2x.icns</CFBundleIconFile>
-                         <JVMArguments>
-                             <string>-l</string>
-                         </JVMArguments>
-                         <JVMMainClassName>it.polimi.ingsw.network.client.Client</JVMMainClassName>
-                     </plist>
-                     <jdk>
-                         <include>true</include>
-                     </jdk>
-                     <dmg>
-                         <generate>true</generate>
-                     </dmg>
-                 </configuration>
-                 <executions>
-                     <execution>
-                         <phase>package</phase>
-                         <goals>
-                             <goal>bundle</goal>
-                         </goals>
-                     </execution>
-                 </executions>
-             </plugin>-->
-
             <!-- JavaFx Plugins -->
             <plugin>
                 <groupId>org.openjfx</groupId>
@@ -140,14 +159,14 @@
                 </executions>
             </plugin>
 
-            <!-- Assembly Plugin - JARs-->
+            <!-- Assembly Plugin - JARs and zip-->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.7.1</version>
                 <executions>
                     <execution>
                         <id>client-assembly</id>
-                        <phase>compile</phase>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
@@ -160,12 +179,13 @@
                                     <mainClass>it.polimi.ingsw.network.client.Client</mainClass>
                                 </manifest>
                             </archive>
-                            <finalName>client</finalName>
+                            <finalName>CodexNaturalis-client</finalName>
+                            <outputDirectory>${project.build.directory}/jars</outputDirectory>
                         </configuration>
                     </execution>
                     <execution>
                         <id>server-assembly</id>
-                        <phase>compile</phase>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
@@ -178,7 +198,8 @@
                                     <mainClass>it.polimi.ingsw.network.server.Server</mainClass>
                                 </manifest>
                             </archive>
-                            <finalName>server</finalName>
+                            <finalName>CodexNaturalis-server</finalName>
+                            <outputDirectory>${project.build.directory}/jars</outputDirectory>
                         </configuration>
                     </execution>
                     <execution>
@@ -187,82 +208,50 @@
                         <goals>
                             <goal>single</goal>
                         </goals>
-                        <!-- ... configurazione ... -->
                         <configuration>
                             <descriptors>
                                 <descriptor>src/bundle/assembly.xml</descriptor>
                             </descriptors>
+                            <finalName>CodexNaturalis-win-client</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
 
+            <!-- Launch4j Plugin - exe -->
             <plugin>
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
                 <artifactId>launch4j-maven-plugin</artifactId>
                 <version>2.5.1</version>
                 <executions>
                     <execution>
-                        <id>Codex Naturalis</id>
-                        <phase>compile</phase>
+                        <id>bundle-exe</id>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>launch4j</goal>
                         </goals>
                         <configuration>
-                            <headerType>gui</headerType>
-                            <outfile>target/CodexNaturalis.exe</outfile>
-                            <jar>target/client-jar-with-dependencies.jar</jar>
-                            <errTitle>error</errTitle>
+                            <!--<cmdLine>-l</cmdLine>-->
+                            <errTitle>CodexNaturalis - Error</errTitle>
+                            <headerType>console</headerType>
+                            <icon>src/bundle/icon_256x256.ico</icon>
+                            <outfile>${project.build.directory}/exe/CodexNaturalis.exe</outfile>
+                            <jar>${project.build.directory}/jars/CodexNaturalis-client-jar-with-dependencies.jar</jar>
                             <jre>
                                 <path>jre/</path>
                             </jre>
                             <versionInfo>
-                                <fileVersion>1.2.3.4</fileVersion>
-                                <txtFileVersion>txt file version?</txtFileVersion>
-                                <fileDescription>a description</fileDescription>
-                                <copyright>my copyright</copyright>
-                                <productVersion>4.3.2.1</productVersion>
-                                <txtProductVersion>txt product version</txtProductVersion>
-                                <productName>E-N-C-C</productName>
-                                <internalName>ccne</internalName>
-                                <originalFilename>original.exe</originalFilename>
+                                <txtFileVersion>${project.version}-RC</txtFileVersion>
+                                <fileDescription>Codex Naturalis</fileDescription>
+                                <copyright>Copyright ${project.organization.name}. All rights reserved.</copyright>
+                                <txtProductVersion>${project.version}-RC</txtProductVersion>
                             </versionInfo>
                         </configuration>
                     </execution>
-                    <!--<execution>
-                        <id>l4j-gui</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>launch4j</goal>
-                        </goals>
-                        <configuration>
-                            <headerType>gui</headerType>
-                            <outfile>target/enccg.exe</outfile>
-                            <jar>target/encc-1.0.jar</jar>
-                            <errTitle>enccg</errTitle>
-                            <classPath>
-                                <mainClass>com.akathist.encc.Gui</mainClass>
-                            </classPath>
-                            <jre>
-                                <minVersion>1.5.0</minVersion>
-                            </jre>
-                            <versionInfo>
-                                <fileVersion>1.2.3.4</fileVersion>
-                                <txtFileVersion>txt file version?</txtFileVersion>
-                                <fileDescription>a description</fileDescription>
-                                <copyright>my copyright</copyright>
-                                <productVersion>4.3.2.1</productVersion>
-                                <txtProductVersion>txt product version</txtProductVersion>
-                                <productName>E-N-C-C</productName>
-                                <internalName>ccne</internalName>
-                                <originalFilename>original.exe</originalFilename>
-                            </versionInfo>
-                        </configuration>
-                    </execution>-->
                 </executions>
             </plugin>
         </plugins>
-
 
         <!-- fxml files are in src/main/java/it/polimi/ingsw/gui/fxml -->
         <resources>
