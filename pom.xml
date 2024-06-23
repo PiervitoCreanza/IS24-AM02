@@ -9,6 +9,11 @@
 
     <name>Codex Naturalis</name>
     <url>https://maven.apache.org</url>
+    <organization>
+        <name>MFoche</name>
+    </organization>
+    <inceptionYear>2024</inceptionYear>
+    <description>A Java version of Codex Naturalis</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -59,12 +64,59 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>mac-profile</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+            <!-- MacOS App Bundle -->
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>de.perdian.maven.plugins</groupId>
+                        <artifactId>macosappbundler-maven-plugin</artifactId>
+                        <version>1.20.0</version>
+                        <configuration>
+                            <plist>
+                                <CFBundleIconFile>src/bundle/icon_512x512@2x.icns</CFBundleIconFile>
+                                <JVMArguments>
+                                    <string>-l</string>
+                                </JVMArguments>
+                                <JVMMainClassName>it.polimi.ingsw.network.client.Client</JVMMainClassName>
+                            </plist>
+                            <jdk>
+                                <include>true</include>
+                            </jdk>
+                            <dmg>
+                                <generate>true</generate>
+                            </dmg>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>bundle</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
+            <!-- Surefire - Testing -->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
             </plugin>
+
+            <!-- Checkstyle -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
@@ -82,42 +134,13 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
             </plugin>
-            <!-- MacOS app build -->
-            <plugin>
-                <groupId>de.perdian.maven.plugins</groupId>
-                <artifactId>macosappbundler-maven-plugin</artifactId>
-                <version>1.20.0</version>
-                <configuration>
-                    <plist>
-                        <CFBundleIconFile>src/bundle/icon_512x512@2x.icns</CFBundleIconFile>
-                        <JVMArguments>
-                            <string>-l</string>
-                        </JVMArguments>
-                        <JVMMainClassName>it.polimi.ingsw.network.client.Client</JVMMainClassName>
-                    </plist>
-                    <jdk>
-                        <include>true</include>
-                    </jdk>
-                    <dmg>
-                        <generate>true</generate>
-                    </dmg>
-
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>bundle</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
 
             <!-- JavaFx Plugins -->
             <plugin>
@@ -135,13 +158,15 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Assembly Plugin - JARs and zip-->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.7.1</version>
                 <executions>
                     <execution>
                         <id>client-assembly</id>
-                        <phase>package</phase>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
@@ -154,12 +179,13 @@
                                     <mainClass>it.polimi.ingsw.network.client.Client</mainClass>
                                 </manifest>
                             </archive>
-                            <finalName>AM02-client</finalName>
+                            <finalName>CodexNaturalis-client</finalName>
+                            <outputDirectory>${project.build.directory}/jars</outputDirectory>
                         </configuration>
                     </execution>
                     <execution>
                         <id>server-assembly</id>
-                        <phase>package</phase>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
@@ -172,12 +198,61 @@
                                     <mainClass>it.polimi.ingsw.network.server.Server</mainClass>
                                 </manifest>
                             </archive>
-                            <finalName>AM02-server</finalName>
+                            <finalName>CodexNaturalis-server</finalName>
+                            <outputDirectory>${project.build.directory}/jars</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>zip-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/bundle/assembly.xml</descriptor>
+                            </descriptors>
+                            <finalName>CodexNaturalis-win-client</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Launch4j Plugin - exe -->
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <version>2.5.1</version>
+                <executions>
+                    <execution>
+                        <id>bundle-exe</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <!--<cmdLine>-l</cmdLine>-->
+                            <errTitle>CodexNaturalis - Error</errTitle>
+                            <headerType>console</headerType>
+                            <icon>src/bundle/icon_256x256.ico</icon>
+                            <outfile>${project.build.directory}/exe/CodexNaturalis.exe</outfile>
+                            <jar>${project.build.directory}/jars/CodexNaturalis-client-jar-with-dependencies.jar</jar>
+                            <jre>
+                                <path>jre/</path>
+                            </jre>
+                            <versionInfo>
+                                <txtFileVersion>${project.version}-RC</txtFileVersion>
+                                <fileDescription>Codex Naturalis</fileDescription>
+                                <copyright>Copyright ${project.organization.name}. All rights reserved.</copyright>
+                                <txtProductVersion>${project.version}-RC</txtProductVersion>
+                            </versionInfo>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
+
         <!-- fxml files are in src/main/java/it/polimi/ingsw/gui/fxml -->
         <resources>
             <resource>
@@ -201,6 +276,9 @@
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/bundle</directory>
             </resource>
             <resource>
                 <directory>src/main/resources/assets/fonts</directory>
