@@ -9,29 +9,46 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * This class is a test for the SelectPion scene.
+ * It extends the Application class to create a JavaFX application.
+ */
 public class SelectPionTest extends Application {
 
+    /**
+     * The main method that launches the JavaFX application.
+     *
+     * @param args the command line arguments.
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * The start method that is called after the init method has returned,
+     * and after the system is ready for the application to begin running.
+     *
+     * @param primaryStage the primary stage for this application.
+     * @throws Exception if an error occurs while loading the FXML file or creating the scene.
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // Carica il file FXML per PointsPanel
+        // Load the FXML file for PointsPanel
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/SelectPionScene.fxml"));
         Parent root = loader.load();
 
-        // Crea una scena con il PointsPanel
+        // Create a scene with the PointsPanel
         Scene scene = new Scene(root, 400, 400);
 
-        // Carica il CSS
+        // Load the CSS
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
-        // Configura e mostra lo stage
+        // Configure and show the stage
         primaryStage.setScene(scene);
         primaryStage.setTitle("Select Pion Test");
         primaryStage.show();
 
+        // Create a new thread to show toast messages
         new Thread(() -> {
             try {
                 for (int i = 0; i < 10; i++) {
@@ -45,7 +62,5 @@ public class SelectPionTest extends Application {
             }
 
         }).start();
-
-
     }
 }

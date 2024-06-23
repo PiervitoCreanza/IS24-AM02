@@ -15,6 +15,10 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * This class is a controller for the InitSelectPionScene.
+ * It handles the interactions between the user interface and the game logic during the initial selection of pions.
+ */
 public class InitSelectPionSceneController extends InitScene {
     private static final ControllersEnum NAME = ControllersEnum.INIT_SET_PION;
     private static final Logger logger = LogManager.getLogger(InitSelectPionSceneController.class);
@@ -33,24 +37,39 @@ public class InitSelectPionSceneController extends InitScene {
 
     private int currentIndex = 0;
 
+    /**
+     * This method is called when the next pion button is clicked.
+     * It updates the current index and the pion image.
+     */
     @FXML
     private void nextPion() {
         currentIndex = (currentIndex + 1) % availableColors.size();
         updatePionImage();
     }
 
+    /**
+     * This method is called when the previous pion button is clicked.
+     * It updates the current index and the pion image.
+     */
     @FXML
     private void previousPion() {
         currentIndex = (currentIndex - 1 + availableColors.size()) % availableColors.size();
         updatePionImage();
     }
 
+    /**
+     * This method updates the pion image based on the current index.
+     */
     private void updatePionImage() {
         PlayerColorEnum selectedColor = availableColors.get(currentIndex);
         Image image = new Image(getClass().getResourceAsStream(pionImagesMap.get(selectedColor)));
         pionImageView.setImage(image);
     }
 
+    /**
+     * This method is called when the continue button is clicked.
+     * It prints the selected pion color in the console and sends the selected color to the network controller.
+     */
     @FXML
     protected void continueAction() {
         // Print the selected pion color in the console
@@ -93,6 +112,7 @@ public class InitSelectPionSceneController extends InitScene {
 
     /**
      * This method gets called when a bound property is changed.
+     * It updates the scene based on the game status.
      *
      * @param evt A PropertyChangeEvent object describing the event source
      *            and the property that has changed.

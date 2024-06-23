@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gui.controllers;
 
-
 import it.polimi.ingsw.controller.GameStatusEnum;
 import it.polimi.ingsw.gui.components.toast.ToastLevels;
 import it.polimi.ingsw.gui.utils.GUIUtils;
@@ -19,6 +18,10 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+/**
+ * This class is a controller for the WaitingForPlayer scene.
+ * It handles the interactions between the user interface and the game logic while waiting for players.
+ */
 public class WaitingForPlayerController extends Controller implements PropertyChangeListener {
 
     public static final ControllersEnum NAME = ControllersEnum.WAITING_FOR_PLAYER;
@@ -47,6 +50,9 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
     /**
      * This method is called before showing the scene.
      * It should be overridden by the subclasses to perform any necessary operations before showing the scene.
+     * In this case, it sets up the player list view based on the updated game view.
+     *
+     * @param evt The property change event that triggered this method.
      */
     @Override
     public void beforeMount(PropertyChangeEvent evt) {
@@ -72,6 +78,7 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
 
     /**
      * This method gets called when a bound property is changed.
+     * It updates the player list view and switches the scene based on the game status.
      *
      * @param evt A PropertyChangeEvent object describing the event source
      *            and the property that has changed.
@@ -99,6 +106,12 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
 
     }
 
+    /**
+     * This method sets up the player list view.
+     * It updates the game name, waiting message, and player list based on the updated game view.
+     *
+     * @param updatedView The updated game view.
+     */
     private void setUpPlayerListView(GameControllerView updatedView) {
         String gameNameString = GUIUtils.truncateString(updatedView.gameView().gameName());
 
@@ -134,11 +147,21 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
         });
     }
 
+    /**
+     * This method is called when the scene is initialized.
+     * It sets the cell factory for the player list view.
+     */
     @FXML
     public void initialize() {
         playerListView.setCellFactory(param -> new PlayerCell());
     }
 
+    /**
+     * This method is called when the back button is clicked.
+     * It shows a toast message and closes the connection.
+     *
+     * @param actionEvent The action event that triggered this method.
+     */
     @FXML
     public void back(ActionEvent actionEvent) {
         showToast(ToastLevels.ERROR, "Disconnecting...", "You are disconnecting from the server.");
