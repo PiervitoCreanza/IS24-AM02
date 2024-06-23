@@ -53,13 +53,13 @@ public class InitPlaceStarterCardSceneController extends InitScene {
         // Add listeners to the card sides
         frontImagePane.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1 && !selectedSide.equals("front")) {
-                handleBackImageClick();
+                handleFrontImageClick();
             }
         });
 
         backImagePane.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1 && !selectedSide.equals("back")) {
-                handleFrontImageClick();
+                handleBackImageClick();
             }
         });
     }
