@@ -4,10 +4,10 @@
 
     <groupId>it.polimi.ingsw</groupId>
     <artifactId>AM02</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>AM02</name>
+    <name>Codex Naturalis</name>
     <url>https://maven.apache.org</url>
 
     <properties>
@@ -59,7 +59,6 @@
         </dependency>
     </dependencies>
 
-
     <build>
         <plugins>
             <plugin>
@@ -88,6 +87,37 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
             </plugin>
+            <!-- MacOS app build -->
+            <plugin>
+                <groupId>de.perdian.maven.plugins</groupId>
+                <artifactId>macosappbundler-maven-plugin</artifactId>
+                <version>1.20.0</version>
+                <configuration>
+                    <plist>
+                        <CFBundleIconFile>src/bundle/icon_512x512@2x.icns</CFBundleIconFile>
+                        <JVMArguments>
+                            <string>-l</string>
+                        </JVMArguments>
+                        <JVMMainClassName>it.polimi.ingsw.network.client.Client</JVMMainClassName>
+                    </plist>
+                    <jdk>
+                        <include>true</include>
+                    </jdk>
+                    <dmg>
+                        <generate>true</generate>
+                    </dmg>
+
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>bundle</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
 
             <!-- JavaFx Plugins -->
             <plugin>

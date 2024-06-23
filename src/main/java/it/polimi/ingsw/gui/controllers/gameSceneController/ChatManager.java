@@ -5,13 +5,28 @@ import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 
 import java.util.HashMap;
 
+/**
+ * This class manages the chat functionality in the game scene.
+ * It maintains a mapping between chat senders and their corresponding chat messages.
+ */
 public class ChatManager {
+    /**
+     * A map to store chat messages with their senders as keys.
+     */
     private final HashMap<String, StringBuilder> chatMapper;
 
+    /**
+     * Constructs a new ChatManager.
+     */
     public ChatManager() {
         this.chatMapper = new HashMap<>();
     }
 
+    /**
+     * Adds a message received from the server to the chat.
+     *
+     * @param message the message received from the server
+     */
     public void addMessage(ServerToClientMessage message) {
         String sender = message.getPlayerName();
         if (!message.isDirectMessage()) {
@@ -28,6 +43,11 @@ public class ChatManager {
         }
     }
 
+    /**
+     * Adds a message sent by the client to the chat.
+     *
+     * @param message the message sent by the client
+     */
     public void addMessage(ChatClientToServerMessage message) {
         String recipient = message.getRecipient();
         if (!chatMapper.containsKey(recipient)) {
@@ -36,6 +56,12 @@ public class ChatManager {
         chatMapper.get(recipient).append("[You]: ").append(message.getMessage()).append("\n");
     }
 
+    /**
+     * Retrieves all messages sent by a specific sender.
+     *
+     * @param sender the sender whose messages are to be retrieved
+     * @return a string containing all messages sent by the sender
+     */
     public String getMessages(String sender) {
         if (!chatMapper.containsKey(sender)) {
             chatMapper.put(sender, new StringBuilder());
