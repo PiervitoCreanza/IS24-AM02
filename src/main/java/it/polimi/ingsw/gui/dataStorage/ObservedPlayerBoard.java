@@ -17,14 +17,48 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Class representing the observed player board.
+ * It contains the logic for handling changes in the player's board and rendering them in the GUI.
+ */
 public class ObservedPlayerBoard {
 
+    /**
+     * Logger for this class.
+     */
     private final Logger logger = LogManager.getLogger(ObservedPlayerBoard.class);
+
+    /**
+     * Observable map representing the player's board.
+     * It mirrors the player's board in the model to keep track of changes and updating only the diffs.
+     * It maps coordinates to game cards.
+     */
     private final ObservableMap<Coordinate, GameCard> playerBoard;
+
+    /**
+     * Observable map representing the rendered player's board.
+     * It maps multi-system coordinates to image views.
+     * The multi-system coordinates are used to map the coordinates in the model system to the coordinates in the GUI system.
+     */
     private final ObservableMap<MultiSystemCoordinate, ImageView> renderedPlayerBoard;
+
+    /**
+     * GridPane representing the player's board grid.
+     */
     private final GridPane playerBoardGrid;
+
+    /**
+     * Instance of the ClientNetworkControllerMapper.
+     */
     private final ClientNetworkControllerMapper clientNetworkControllerMapper;
 
+    /**
+     * Constructor for the ObservedPlayerBoard class.
+     * It initializes the player board, the rendered player board, the player board grid, and the client network controller mapper.
+     * It also sets up listeners for changes in the player board and the rendered player board.
+     *
+     * @param boundPlayerBoardGrid the GridPane representing the player's board grid
+     */
     public ObservedPlayerBoard(GridPane boundPlayerBoardGrid) {
         this.playerBoard = FXCollections.observableHashMap();
         this.renderedPlayerBoard = FXCollections.observableHashMap();
@@ -60,6 +94,13 @@ public class ObservedPlayerBoard {
         });
     }
 
+    /**
+     * Method to add a card to the player board from the GUI.
+     * It creates a new image view for the card, adds it to the rendering map and the player board, and sends a place card action to the server.
+     *
+     * @param key       the coordinate of the card in the GUI system
+     * @param imageView the image view of the card
+     */
     public void putFromGUI(Coordinate key, ImageView imageView) {
         GameCard card = (GameCard) imageView.getUserData();
         // We need to create a new image in order to not have the card in playerBoard linked with the ObservedGameCard in hand.
@@ -77,11 +118,23 @@ public class ObservedPlayerBoard {
         logger.debug("Card with id: {} put by GUI at pos: ({},{})", card.getCardId(), modelCoordinate.x, modelCoordinate.y);
     }
 
+    /**
+     * Method to check if a card is in the player board.
+     *
+     * @param key  the coordinate of the card
+     * @param card the game card to check
+     * @return true if the card is not in the player board or if it has a different ID, false otherwise
+     */
     private boolean isCardInPlayerBoard(Coordinate key, GameCard card) {
         return !playerBoard.containsKey(key) || playerBoard.get(key).getCardId() != card.getCardId();
     }
 
-
+    /**
+     * Method to synchronize the local player board with the server player board.
+     * It adds new keys from the server player board to the local player board and removes keys that are not in the server player board.
+     *
+     * @param playerBoard the server player board
+     */
     public void syncWithServerPlayerBoard(HashMap<Coordinate, GameCard> playerBoard) {
         // The new keys from the Model are added to the local playerBoard
         for (Coordinate key : playerBoard.keySet()) {
@@ -98,6 +151,14 @@ public class ObservedPlayerBoard {
         }
     }
 
+    /**
+     * Method to replace a node in a GridPane.
+     *
+     * @param gridPane the GridPane to modify
+     * @param newNode  the new node to add
+     * @param col      the column of the node
+     * @param row      the row of the node
+     */
     private void replaceNodeInGridPane(GridPane gridPane, Node newNode, int col, int row) {
         // Find and remove the existing node
         Node existingNode = getNodeFromGridPane(gridPane, col, row);
@@ -109,6 +170,14 @@ public class ObservedPlayerBoard {
         gridPane.add(newNode, col, row);
     }
 
+    /**
+     * Method to get a node from a GridPane.
+     *
+     * @param gridPane the GridPane to get the node from
+     * @param col      the column of the node
+     * @param row      the row of the node
+     * @return the node at the specified column and row, or null if no such node exists
+     */
     private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
         for (Node node : gridPane.getChildren()) {
             if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {

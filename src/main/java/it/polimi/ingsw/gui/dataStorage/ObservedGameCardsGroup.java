@@ -7,25 +7,28 @@ import java.util.HashMap;
 import java.util.Set;
 
 /**
- * This class represents a group of observed game cards.
- * It maintains a mapping between card names and their corresponding observed game card objects.
- * It also provides methods to add, retrieve, and clear cards.
+ * Class representing a group of observed game cards.
+ * It contains the logic for managing a group of game cards and their associated names.
+ * It is used to manage a set of cards in the game hand.
  */
 public class ObservedGameCardsGroup {
     /**
-     * A map to store observed game cards with their names as keys.
+     * Map representing the game cards.
+     * It maps card names to observed game cards.
      */
     private final HashMap<String, ObservedGameCard> cardCells;
 
     /**
-     * The root node of the JavaFX scene graph.
+     * Node representing the root of the game cards group.
+     * This node is the parent of all the game cards in the group.
      */
     private final Node root;
 
     /**
-     * Constructs a new ObservedGameCardsGroup with the specified root node.
+     * Constructor for the ObservedGameCardsGroup class.
+     * It initializes the root and the card cells.
      *
-     * @param root the root node of the JavaFX scene graph
+     * @param root the root node of the game cards group which contains all the game cards.
      */
     public ObservedGameCardsGroup(Node root) {
         this.root = root;
@@ -33,55 +36,54 @@ public class ObservedGameCardsGroup {
     }
 
     /**
-     * Adds a new card to the group.
+     * Method to add a card to the group.
      *
      * @param cardName the name of the card
-     * @param card     the observed game card to be added
+     * @param card     the observed game card to add
      */
     public void addCard(String cardName, ObservedGameCard card) {
         cardCells.put(cardName, card);
     }
 
     /**
-     * Adds a new card to the group by creating a new ObservedGameCard from an ImageView.
-     * The ImageView is looked up in the scene graph by its name.
+     * Method to add a card to the group by its image view name.
      *
-     * @param boundImageViewName the name of the ImageView in the scene graph
+     * @param boundImageViewName the name of the image view of the card
      */
     public void addCard(String boundImageViewName) {
         cardCells.put(boundImageViewName, new ObservedGameCard((ImageView) root.lookup("#" + boundImageViewName)));
     }
 
     /**
-     * Retrieves an observed game card by its name.
+     * Method to get a card from the game cards group by its name.
      *
      * @param cardName the name of the card
-     * @return the observed game card with the specified name, or null if no such card exists
+     * @return the observed game card with the specified name
      */
     public ObservedGameCard getCard(String cardName) {
         return cardCells.get(cardName);
     }
 
     /**
-     * Retrieves all observed game cards in the group.
+     * Method to get all the cards in the game cards group.
      *
-     * @return a set of all observed game cards in the group
+     * @return a set of all the observed game cards in the group
      */
     public Set<ObservedGameCard> getCards() {
         return Set.copyOf(cardCells.values());
     }
 
     /**
-     * Retrieves the names of all observed game cards in the group.
+     * Method to get all the card names in the game cards group.
      *
-     * @return a set of the names of all observed game cards in the group
+     * @return a set of all the card names in the group
      */
     public Set<String> getCardNames() {
         return Set.copyOf(cardCells.keySet());
     }
 
     /**
-     * Removes all observed game cards from the group.
+     * Method to clear all the cards in the game cards group.
      */
     public void clear() {
         cardCells.clear();
