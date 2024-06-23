@@ -15,26 +15,57 @@ import org.apache.logging.log4j.Logger;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+/**
+ * This class is responsible for controlling the create game scene.
+ * It handles the creation of a new game and the input of game details.
+ */
 public class CreateGameSceneController extends Controller implements PropertyChangeListener {
+
+    /**
+     * The name of the controller.
+     */
     public static final ControllersEnum NAME = ControllersEnum.CREATE_GAME;
+
+    /**
+     * The logger.
+     */
     private final static Logger logger = LogManager.getLogger(CreateGameSceneController.class);
 
+    /**
+     * The game text field.
+     */
     @FXML
     private TextField gameTextField;
 
+    /**
+     * The player text field.
+     */
     @FXML
     private TextField playerTextField;
 
+    /**
+     * The toggle button for two players.
+     */
     @FXML
     private ToggleButton twoPlayersButton;
+
+    /**
+     * The toggle button for three players.
+     */
     @FXML
     private ToggleButton threePlayersButton;
+
+    /**
+     * The toggle button for four players.
+     */
     @FXML
     private ToggleButton fourPlayersButton;
 
+    /**
+     * The root stack pane.
+     */
     @FXML
     private StackPane root;
-
 
     /**
      * Returns the name of the controller.
@@ -66,6 +97,12 @@ public class CreateGameSceneController extends Controller implements PropertyCha
         networkControllerMapper.removePropertyChangeListener(this);
     }
 
+    /**
+     * Handles the creation of a new game.
+     * It validates the input and sends a request to the server to create a new game.
+     *
+     * @param actionEvent The action event.
+     */
     @FXML
     public void createGame(ActionEvent actionEvent) {
         String gameName = gameTextField.getText();
@@ -87,6 +124,12 @@ public class CreateGameSceneController extends Controller implements PropertyCha
         }
     }
 
+    /**
+     * Handles the back button click event.
+     * It switches to the previous scene.
+     *
+     * @param actionEvent The action event.
+     */
     @FXML
     public void back(ActionEvent actionEvent) {
         switchScene(getPreviousLayoutName());
@@ -108,6 +151,10 @@ public class CreateGameSceneController extends Controller implements PropertyCha
         }
     }
 
+    /**
+     * Initializes the create game scene controller.
+     * It sets up the toggle buttons for the number of players and the key event handlers.
+     */
     public void initialize() {
         ToggleGroup playerNumberGroup = new ToggleGroup();
         twoPlayersButton.setToggleGroup(playerNumberGroup);

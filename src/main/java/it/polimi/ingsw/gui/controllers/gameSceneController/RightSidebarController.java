@@ -29,25 +29,93 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * This class is responsible for controlling the right sidebar in the game scene.
+ * It handles the display of objective cards, player views, and game item store.
+ */
 public class RightSidebarController {
+
+    /**
+     * The root node of the right sidebar UI.
+     */
     private final Node root;
+
+    /**
+     * The list of objective cards.
+     */
     private final ObservableList<ObjectiveCard> objectives;
+
+    /**
+     * The ListView of objective cards.
+     */
     private final ListView<ObjectiveCard> objectivesList;
     private final SimpleObjectProperty<ObjectiveCard> playerObjectiveCard = new SimpleObjectProperty<>();
     private final HBox playerObjectiveContainer;
     private final SimpleObjectProperty<List<PlayerView>> playerViews = new SimpleObjectProperty<>();
+
+    /**
+     * The VBox of players.
+     */
     private final VBox playersList;
+
+    /**
+     * The VBox of players' points.
+     */
     private final VBox playersPoints;
+
+    /**
+     * The label for the number of fungi.
+     */
     private final Label fungiAmount;
+
+    /**
+     * The label for the number of plants.
+     */
     private final Label plantAmount;
+
+    /**
+     * The label for the number of animals.
+     */
     private final Label animalAmount;
+
+    /**
+     * The label for the number of insects.
+     */
     private final Label insectAmount;
+
+    /**
+     * The label for the number of quills.
+     */
     private final Label quillAmount;
+
+    /**
+     * The label for the number of inkwells.
+     */
     private final Label inkwellAmount;
+
+    /**
+     * The label for the number of manuscripts.
+     */
     private final Label manuscriptAmount;
+
+    /**
+     * The property for the currently displayed player.
+     */
     private final SimpleStringProperty currentlyDisplayedPlayer;
+
+    /**
+     * The (logger) of the class.
+     */
     private final Logger logger = LogManager.getLogger(RightSidebarController.class);
 
+    /**
+     * Constructor for the RightSidebarController class.
+     * It initializes the root node, currently displayed player, objectives list, and other UI elements.
+     * It also sets up listeners for the currently displayed player and player views.
+     *
+     * @param root                     The root node of the right sidebar UI.
+     * @param currentlyDisplayedPlayer The currently displayed player.
+     */
     public RightSidebarController(Node root, SimpleStringProperty currentlyDisplayedPlayer) {
         this.root = root;
         this.currentlyDisplayedPlayer = currentlyDisplayedPlayer;
@@ -149,6 +217,12 @@ public class RightSidebarController {
         adjustListViewHeight(objectivesList);
     }
 
+    /**
+     * Updates the currently displayed player.
+     * It adds or removes the "selected-player" style class from player labels based on the new player name.
+     *
+     * @param newPlayerName The new player name.
+     */
     private void updateCurrentlyDisplayedPlayer(String newPlayerName) {
         playersList.getChildren().forEach(playerLabel -> {
             if (playerLabel.getId().equals(newPlayerName)) {
@@ -159,6 +233,12 @@ public class RightSidebarController {
         });
     }
 
+    /**
+     * Adjusts the height of the ListView.
+     * It binds the minimum and maximum height of the ListView to the size of its items.
+     *
+     * @param listView The ListView to adjust.
+     */
     private void adjustListViewHeight(ListView<?> listView) {
         double cellHeight = GuiCardFactory.getHeightFromWidth(150) + 20;
         listView.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -166,6 +246,12 @@ public class RightSidebarController {
         listView.maxHeightProperty().bind(Bindings.size(listView.getItems()).multiply(cellHeight).add(5));
     }
 
+    /**
+     * Handles the player click event.
+     * It sets the currently displayed player to the clicked player.
+     *
+     * @param event The mouse event.
+     */
     private void handlePlayerClick(MouseEvent event) {
         Label clickedLabel = (Label) event.getSource();
         String playerName = clickedLabel.getId();
@@ -173,6 +259,13 @@ public class RightSidebarController {
         currentlyDisplayedPlayer.set(playerName);
     }
 
+    /**
+     * Updates the objective cards.
+     * It sets the objective list to the new list of objective cards if it is different from the current one.
+     *
+     * @param playerObjectiveCard  The player's objective card.
+     * @param globalObjectiveCards The list of global objective cards.
+     */
     public void updateObjectiveCards(ObjectiveCard playerObjectiveCard, List<ObjectiveCard> globalObjectiveCards) {
         this.playerObjectiveCard.set(playerObjectiveCard);
         if (!objectives.equals(globalObjectiveCards)) {
@@ -180,6 +273,13 @@ public class RightSidebarController {
         }
     }
 
+    /**
+     * Updates the stats.
+     * It sets the player views and updates the game item store.
+     *
+     * @param playerViews   The list of player views.
+     * @param gameItemStore The game item store.
+     */
     public void updateStats(List<PlayerView> playerViews, GameItemStore gameItemStore) {
         this.playerViews.set(playerViews);
 
@@ -209,6 +309,4 @@ public class RightSidebarController {
             }
         });
     }
-
-
 }
