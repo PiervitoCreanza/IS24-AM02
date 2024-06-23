@@ -1,4 +1,3 @@
-// GameListCellController.java
 package it.polimi.ingsw.gui.controllers.gamesList;
 
 import it.polimi.ingsw.gui.utils.GUIUtils;
@@ -42,6 +41,7 @@ public class GameListCellController {
      */
     public void setPlayersCount(String playersCount, boolean isFull) {
         playersLabel.setText(playersCount);
+        playersLabel.getStyleClass().removeAll("players-count-full", "players-count-available");
         if (isFull) {
             playersLabel.getStyleClass().add("players-count-full");
         } else {
