@@ -16,7 +16,10 @@ import org.apache.logging.log4j.Logger;
 import java.beans.PropertyChangeEvent;
 import java.util.Objects;
 
-// Each player receives a single starterCard at the beginning of the game, and it has to choose which side to use.
+/**
+ * Controller class for the Init Place Starter Card scene in the GUI application.
+ * Handles the initialization, user interactions, and communication with the server.
+ */
 public class InitPlaceStarterCardSceneController extends InitScene {
 
     private static final ControllersEnum NAME = ControllersEnum.INIT_PLACE_STARTER_CARD;
@@ -38,6 +41,10 @@ public class InitPlaceStarterCardSceneController extends InitScene {
     private GameCard gameCard;
     private String selectedSide = ""; // Variable to track the selected side
 
+    /**
+     * Initializes the controller after the FXML file has been loaded.
+     * Sets up event listeners for user interactions with card sides.
+     */
     @FXML
     public void initialize() {
         // Call the default initialization method
@@ -69,6 +76,11 @@ public class InitPlaceStarterCardSceneController extends InitScene {
         frontImagePane.getStyleClass().add("selected-card-image");
     }
 
+    /**
+     * Loads the starter card into the scene.
+     *
+     * @param gameCard The GameCard object representing the starter card.
+     */
     private void loadCard(GameCard gameCard) {
         this.gameCard = gameCard;
         cardFrontImageView.setImage(GuiCardFactory.createFrontImage(gameCard.getCardId()));
@@ -78,6 +90,10 @@ public class InitPlaceStarterCardSceneController extends InitScene {
         handleBackImageClick();
     }
 
+    /**
+     * Action method called when the user continues after selecting the card side.
+     * Sends the selected side to the server and logs the action.
+     */
     @FXML
     protected void continueAction() {
         // Print the selected card ID and the selected side to the console
@@ -101,35 +117,35 @@ public class InitPlaceStarterCardSceneController extends InitScene {
     }
 
     /**
-     * This method is called before showing the scene.
-     * It should be overridden by the subclasses to perform any necessary operations before showing the scene.
+     * Called before mounting (showing) the scene.
+     * Loads the starter card based on the current game state.
+     *
+     * @param evt The PropertyChangeEvent describing the change event.
      */
     @Override
     public void beforeMount(PropertyChangeEvent evt) {
-
         // Load the starter card
         String playerName = getProperty("playerName");
         GameControllerView gameControllerView = (GameControllerView) evt.getNewValue();
         GameCard starterCard = gameControllerView.getPlayerViewByName(playerName).starterCard();
         logger.debug("Loading card id: {}", starterCard.getCardId());
         loadCard(starterCard);
-
     }
 
     /**
-     * This method is called before switching to a new scene.
-     * It should be overridden by the subclasses to perform any necessary operations before switching to a new scene.
+     * Called before unmounting (switching away from) the scene.
+     * Currently does nothing for this scene.
      */
     @Override
     public void beforeUnmount() {
-
+        // No action needed before unmounting
     }
 
     /**
-     * This method gets called when a bound property is changed.
+     * Handles property change events.
+     * Specifically switches to the Init Set Pion scene when the game status changes to INIT_CHOOSE_PLAYER_COLOR.
      *
-     * @param evt A PropertyChangeEvent object describing the event source
-     *            and the property that has changed.
+     * @param evt The PropertyChangeEvent describing the change event.
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

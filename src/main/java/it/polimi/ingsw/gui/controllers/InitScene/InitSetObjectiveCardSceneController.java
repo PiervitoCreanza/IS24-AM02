@@ -16,7 +16,10 @@ import org.apache.logging.log4j.Logger;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
-// Each player receives multiple objective cards at the beginning of the game, and it has to choose one.
+/**
+ * This class is a controller for the InitSetObjectiveCardScene.
+ * It handles the interactions between the user interface and the game logic during the initial selection of objective cards.
+ */
 public class InitSetObjectiveCardSceneController extends InitScene {
     private static final ControllersEnum NAME = ControllersEnum.INIT_SET_OBJECTIVE_CARD;
     private static final Logger logger = LogManager.getLogger(InitSetObjectiveCardSceneController.class);
@@ -38,6 +41,10 @@ public class InitSetObjectiveCardSceneController extends InitScene {
     private final int currentIndex = 0;
     private String selectedCard = ""; // Variable to track the selected card
 
+    /**
+     * This method is called when the scene is initialized.
+     * It sets up the click handlers for the image panes and the listeners for the choosable cards.
+     */
     @FXML
     public void initialize() {
         // Call the default initialization method
@@ -64,23 +71,41 @@ public class InitSetObjectiveCardSceneController extends InitScene {
         });
     }
 
+    /**
+     * This method is called when the first image pane is clicked.
+     * It updates the selected card and the style of the image panes.
+     */
     private void handleFirstImageClick() {
         selectedCard = "first"; // Update the selected card
         secondImagePane.getStyleClass().remove("selected-card-image");
         firstImagePane.getStyleClass().add("selected-card-image");
     }
 
+    /**
+     * This method is called when the second image pane is clicked.
+     * It updates the selected card and the style of the image panes.
+     */
     private void handleSecondImageClick() {
         selectedCard = "second"; // Update the selected card
         firstImagePane.getStyleClass().remove("selected-card-image");
         secondImagePane.getStyleClass().add("selected-card-image");
     }
 
+    /**
+     * This method updates the image of the game card.
+     *
+     * @param objectiveCard the objective card to display.
+     * @param imageView the image view to update.
+     */
     private void updateGameCardImage(ObjectiveCard objectiveCard, ImageView imageView) {
         Image objectiveCardImage = GuiCardFactory.createImage(objectiveCard);
         imageView.setImage(objectiveCardImage);
     }
 
+    /**
+     * This method is called when the continue button is clicked.
+     * It prints the selected card ID to the console and sends the selected card ID to the network controller.
+     */
     @FXML
     protected void continueAction() {
         // Print the selected card ID to the console

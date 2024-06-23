@@ -15,6 +15,10 @@ import java.util.List;
 
 import static javafx.geometry.Pos.CENTER_RIGHT;
 
+/**
+ * This class is a controller for the WinnerScene.
+ * It handles the interactions between the user interface and the game logic when the game ends and the winner is declared.
+ */
 public class WinnerSceneController extends Controller {
     private static final ControllersEnum NAME = ControllersEnum.WINNER_SCENE;
 
@@ -61,17 +65,34 @@ public class WinnerSceneController extends Controller {
 
     }
 
+    /**
+     * This method is called when the back to main menu button is clicked.
+     * It closes the connection and switches the scene to the main menu.
+     */
     @FXML
     private void backToMainMenu() {
         networkControllerMapper.closeConnection();
         switchScene(ControllersEnum.MAIN_MENU);
     }
 
+    /**
+     * This method is called when the quit button is clicked.
+     * It exits the application.
+     */
     @FXML
     private void quit() {
         System.exit(0);
     }
 
+    /**
+     * This method creates a new player row in the leaderboard.
+     * It adds the player's name and position to the row.
+     * If the player is a winner, it adds a border to the row.
+     *
+     * @param playerPos the position of the player.
+     * @param playerName the name of the player.
+     * @param isWinner whether the player is a winner.
+     */
     private void createPlayerRow(int playerPos, String playerName, boolean isWinner) {
         /* Expected result:
            <HBox styleClass="winner-row">

@@ -17,6 +17,7 @@ public class ChatManager {
 
     /**
      * Constructs a new ChatManager.
+     * Initializes the chatMapper as a new HashMap.
      */
     public ChatManager() {
         this.chatMapper = new HashMap<>();
@@ -24,6 +25,8 @@ public class ChatManager {
 
     /**
      * Adds a message received from the server to the chat.
+     * If the sender is not already in the chatMapper, it adds the sender with a new StringBuilder.
+     * Then it appends the message to the StringBuilder associated with the sender.
      *
      * @param message the message received from the server
      */
@@ -45,6 +48,8 @@ public class ChatManager {
 
     /**
      * Adds a message sent by the client to the chat.
+     * If the recipient is not already in the chatMapper, it adds the recipient with a new StringBuilder.
+     * Then it appends the message to the StringBuilder associated with the recipient.
      *
      * @param message the message sent by the client
      */
@@ -58,6 +63,8 @@ public class ChatManager {
 
     /**
      * Retrieves all messages sent by a specific sender.
+     * If the sender is not already in the chatMapper, it adds the sender with a new StringBuilder.
+     * Then it returns the string representation of the StringBuilder associated with the sender.
      *
      * @param sender the sender whose messages are to be retrieved
      * @return a string containing all messages sent by the sender

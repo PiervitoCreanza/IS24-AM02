@@ -41,17 +41,39 @@ public abstract class Controller implements PropertyChangeListener {
      */
     private static Stage stage;
 
+    /**
+     * The dialog to show error messages.
+     */
     protected static ErrorDialog alert;
+
+    /**
+     * The logger for this class.
+     */
     private static final Logger logger = LogManager.getLogger(Controller.class);
+
     /**
      * The name of the previously shown scene.
      */
     private ControllersEnum previousLayoutName = ControllersEnum.START;
 
+    /**
+     * The network controller mapper.
+     */
     protected static ClientNetworkControllerMapper networkControllerMapper = ClientNetworkControllerMapper.getInstance();
 
+    /**
+     * Flag indicating if the class is already instantiated.
+     */
     private static boolean isClassAlreadyInstantiated = false;
+
+    /**
+     * Flag indicating if the connected players should be shown.
+     */
     private static boolean showConnectedPlayers = true;
+
+    /**
+     * Set of connected players.
+     */
     protected static final ObservableSet<String> connectedPlayers = FXCollections.observableSet();
 
     // This static block is used to initialize the connectedPlayers listener only once.
@@ -135,7 +157,6 @@ public abstract class Controller implements PropertyChangeListener {
         Platform.runLater(() -> getScene().getProperties().put(property, value));
     }
 
-
     /**
      * Returns the value of a property in the scene.
      *
@@ -176,6 +197,13 @@ public abstract class Controller implements PropertyChangeListener {
         Controller.stage = stage;
     }
 
+    /**
+     * Shows an error popup.
+     *
+     * @param errorType       the type of error.
+     * @param message         the error message.
+     * @param isAutoCloseable flag indicating if the popup should close automatically.
+     */
     protected void showErrorPopup(String errorType, String message, boolean isAutoCloseable) {
         Platform.runLater(() -> {
             alert = new ErrorDialog(getStage(), Alert.AlertType.ERROR, errorType, message, isAutoCloseable);
@@ -183,6 +211,11 @@ public abstract class Controller implements PropertyChangeListener {
         });
     }
 
+    /**
+     * Shows a connection error popup.
+     *
+     * @param message the error message.
+     */
     private void showConnectionErrorPopup(String message) {
         Platform.runLater(() -> {
             logger.debug("Showing connection error popup");
@@ -197,6 +230,9 @@ public abstract class Controller implements PropertyChangeListener {
         });
     }
 
+    /**
+     * Closes the alert dialog if it is showing.
+     */
     private void closeAlert() {
         Platform.runLater(() -> {
             if (alert != null) {
@@ -215,6 +251,12 @@ public abstract class Controller implements PropertyChangeListener {
         Controller.scene = scene;
     }
 
+    /**
+     * Switches the current scene to the specified new scene.
+     *
+     * @param nextScene     the name of the scene to switch to.
+     * @param previousEvent the event that caused the switch if any.
+     */
     private void privateSwitchScene(ControllersEnum nextScene, PropertyChangeEvent previousEvent) {
         Platform.runLater(() -> {
             // Call the beforeUnmount method of the current controller.
@@ -274,7 +316,6 @@ public abstract class Controller implements PropertyChangeListener {
     public void setShowConnectedPlayers(boolean showConnectedPlayers) {
         Controller.showConnectedPlayers = showConnectedPlayers;
     }
-
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

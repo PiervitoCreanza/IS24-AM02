@@ -14,6 +14,10 @@ import javafx.util.Callback;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * This class is a controller for the chat functionality in the game scene.
+ * It handles the interactions between the user interface and the chat logic.
+ */
 public class ChatController {
     private final TextArea chatDisplay;
     private final TextArea messageInput;
@@ -24,6 +28,15 @@ public class ChatController {
     private String clientUserName;
     private final ChatManager chatManager;
 
+    /**
+     * Constructs a new ChatController.
+     * Initializes the chat display, message input, recipient selection, chat display button, chat send button,
+     * network controller mapper, and chat manager.
+     *
+     * @param root the root node of the chat interface
+     * @param chatDisplayButton the button to display the chat
+     * @param clientNetworkControllerMapper the network controller mapper for the client
+     */
     public ChatController(Node root, Node chatDisplayButton, ClientNetworkControllerMapper clientNetworkControllerMapper) {
         this.chatDisplay = (TextArea) root.lookup("#chatDisplay");
         this.messageInput = (TextArea) root.lookup("#messageInput");
@@ -77,6 +90,9 @@ public class ChatController {
         });
     }
 
+    /**
+     * Updates the chat display with the messages from the selected recipient.
+     */
     private void updateMessages() {
         String recipient = recepient.getValue().substring(3);
         if (recipient.equals("Everyone")) {
@@ -85,6 +101,12 @@ public class ChatController {
         chatDisplay.setText(chatManager.getMessages(recipient));
     }
 
+    /**
+     * Updates the list of users in the recipient selection.
+     *
+     * @param users the list of users
+     * @param clientUserName the username of the client
+     */
     public void updateUsers(List<String> users, String clientUserName) {
         this.clientUserName = clientUserName;
         recepient.getItems().clear();
@@ -95,10 +117,12 @@ public class ChatController {
         if (recepient.getValue() == null) {
             recepient.setValue("To Everyone");
         }
-
-
     }
 
+    /**
+     * Handles the send action.
+     * Sends the message input by the user to the selected recipient.
+     */
     private void handleSend() {
         String message = messageInput.getText();
         if (!message.isEmpty()) {
@@ -114,6 +138,11 @@ public class ChatController {
         }
     }
 
+    /**
+     * Handles a chat message received from the server.
+     *
+     * @param message the chat message received from the server
+     */
     public void handleChatMessage(ServerToClientMessage message) {
         if (!Objects.equals(message.getPlayerName(), clientUserName)) {
             chatManager.addMessage(message);
@@ -123,7 +152,6 @@ public class ChatController {
                 return;
             }
             recepient.setValue("To " + message.getPlayerName());
-
         }
     }
 }
