@@ -445,3 +445,7 @@ TextField {
 .yellow-text {
     -fx-text-fill: #c9b127
 }
+
+.cursor-hand {
+    -fx-cursor: hand;
+}
