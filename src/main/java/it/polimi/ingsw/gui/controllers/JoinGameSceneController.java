@@ -16,10 +16,19 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Objects;
 
-
+/**
+ * Class representing the controller for the join game scene in the GUI.
+ */
 public class JoinGameSceneController extends Controller implements PropertyChangeListener {
+    /**
+     * Name of the controller.
+     */
     public static final ControllersEnum NAME = ControllersEnum.GAMES_LIST;
-    private final static Logger logger = LogManager.getLogger(JoinGameSceneController.class);
+
+    /**
+     * Logger for this class.
+     */
+    private static final Logger logger = LogManager.getLogger(JoinGameSceneController.class);
 
     @FXML
     private TextField playerTextField;

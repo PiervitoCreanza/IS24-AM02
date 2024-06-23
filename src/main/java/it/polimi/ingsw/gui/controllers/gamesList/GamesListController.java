@@ -15,9 +15,20 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
+/**
+ * Class representing the controller for the games list scene in the GUI.
+ */
 public class GamesListController extends Controller implements PropertyChangeListener {
+    /**
+     * Name of the controller.
+     */
     public static final ControllersEnum NAME = ControllersEnum.GAMES_LIST;
-    private final static Logger logger = LogManager.getLogger(GamesListController.class);
+
+    /**
+     * Logger for this class.
+     */
+    private static final Logger logger = LogManager.getLogger(GamesListController.class);
+
     @FXML
     private ListView<String> gameListView;
 
@@ -72,7 +83,7 @@ public class GamesListController extends Controller implements PropertyChangeLis
     }
 
     @FXML
-    public void initialize() {
+    private void initialize() {
         gameListView.setCellFactory(param -> new GameListCell());
         gameListView.setOnMouseClicked(event -> {
             String gameName = gameListView.getSelectionModel().getSelectedItem();
@@ -81,7 +92,8 @@ public class GamesListController extends Controller implements PropertyChangeLis
         });
     }
 
-    public void refreshList(ActionEvent actionEvent) {
+    @FXML
+    private void refreshList(ActionEvent actionEvent) {
         networkControllerMapper.getGames();
     }
 
@@ -92,12 +104,12 @@ public class GamesListController extends Controller implements PropertyChangeLis
     }
 
     @FXML
-    public void createGame(ActionEvent actionEvent) {
+    private void createGame(ActionEvent actionEvent) {
         switchScene(ControllersEnum.CREATE_GAME);
     }
 
     @FXML
-    public void back(ActionEvent actionEvent) {
+    private void back(ActionEvent actionEvent) {
         switchScene(ControllersEnum.MAIN_MENU);
     }
 }

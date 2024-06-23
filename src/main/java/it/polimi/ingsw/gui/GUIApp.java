@@ -15,23 +15,52 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.net.URL;
 
-
+/**
+ * Class representing the GUI application.
+ * It extends the JavaFX Application class and implements the View interface.
+ */
 public class GUIApp extends Application implements View {
+    /**
+     * Logger for this class.
+     */
     private static final Logger logger = LogManager.getLogger(GUIApp.class);
+
+    /**
+     * Minimum width of the application window.
+     */
     public static int MIN_WIDTH = 1560;
+
+    /**
+     * Minimum height of the application window.
+     */
     public static int MIN_HEIGHT = 900;
 
+    /**
+     * Method to launch the UI.
+     * It calls the launch method of the Application class.
+     */
     @Override
     public void launchUI() {
         launch();
     }
 
+    /**
+     * Method to initialize the application.
+     * It logs that the application has started and loads the fonts.
+     */
     @Override
     public void init() {
         logger.info("GUIApp started");
         loadFonts();
     }
 
+    /**
+     * Method to start the application.
+     * It sets up the stage and loads the home scene.
+     *
+     * @param stage the primary stage
+     * @throws IOException if there is an error loading the home scene
+     */
     @Override
     public void start(Stage stage) throws IOException {
 
@@ -41,11 +70,11 @@ public class GUIApp extends Application implements View {
             Platform.exit();
             System.exit(0);
         });
+
         // Set the stage title and dimensions.
         stage.setTitle("Codex Naturalis");
         stage.setMinHeight(MIN_HEIGHT);
         stage.setMinWidth(MIN_WIDTH);
-        //stage.setFullScreen(true);
 
         // Set the current stage on all controllers.
         Controller.setStage(stage);
@@ -76,6 +105,10 @@ public class GUIApp extends Application implements View {
         stage.show();
     }
 
+    /**
+     * Method to load the fonts.
+     * It loads the MedievalSharp-Book and CalSans-SemiBold fonts.
+     */
     private void loadFonts() {
         Font.loadFont(getClass().getResourceAsStream("/fonts/MedievalSharp-Book.ttf"), 10);
         Font.loadFont(getClass().getResourceAsStream("/fonts/CalSans-SemiBold.ttf"), 10);
