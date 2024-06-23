@@ -116,10 +116,11 @@ public class SceneBuilder {
      * @param globalBoardView          The global board view.
      * @param isLastRound              The flag that indicates if it is the last round.
      * @param remainingRoundsToEndGame The number of remaining rounds to end the game.
+     * @param oldViewRemainingRounds   The number of remaining rounds to end the game in the old view.
      * @return The DrawCardScene scene.
      */
-    public DrawCardScene instanceDrawCardScene(HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, GlobalBoardView globalBoardView, boolean isLastRound, int remainingRoundsToEndGame) {
-        return new DrawCardScene(this.controller, playerBoard, globalObjectives, playerObjective, hand, globalBoardView, isLastRound, remainingRoundsToEndGame);
+    public DrawCardScene instanceDrawCardScene(HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, GlobalBoardView globalBoardView, boolean isLastRound, int remainingRoundsToEndGame, int oldViewRemainingRounds) {
+        return new DrawCardScene(this.controller, playerBoard, globalObjectives, playerObjective, hand, globalBoardView, isLastRound, remainingRoundsToEndGame, oldViewRemainingRounds);
     }
 
     /**

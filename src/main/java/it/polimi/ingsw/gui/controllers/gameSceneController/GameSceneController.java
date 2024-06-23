@@ -450,6 +450,7 @@ public class GameSceneController extends Controller implements PropertyChangeLis
                 break;
             case "UPDATE_VIEW":
                 GameControllerView gameControllerView = (GameControllerView) evt.getNewValue();
+                GameControllerView oldGameControllerView = this.gameControllerView.get();
                 Platform.runLater(() -> this.gameControllerView.set(gameControllerView));
                 logger.debug("Received updated view");
                 String clientPlayerName = getProperty("playerName");
@@ -467,7 +468,7 @@ public class GameSceneController extends Controller implements PropertyChangeLis
                     showToast(ToastLevels.INFO, GUIUtils.truncateString(capitalizeFirstLetter(gameControllerView.getCurrentPlayerView().playerName())), "It's " + GUIUtils.truncateString(capitalizeFirstLetter(gameControllerView.getCurrentPlayerView().playerName())) + "'s turn");
                 }
 
-                if (gameControllerView.isMyTurn(clientPlayerName)) {
+                if (gameControllerView.isMyTurn(clientPlayerName) && !gameControllerView.gameStatus().equals(GameStatusEnum.GAME_OVER)) {
                     if (!gameControllerView.isLastRound()) {
                         switch (gameControllerView.gameStatus()) {
                             case DRAW_CARD ->
@@ -479,7 +480,7 @@ public class GameSceneController extends Controller implements PropertyChangeLis
                         return;
                     }
 
-                    if (gameControllerView.remainingRoundsToEndGame() == 1) {
+                    if (gameControllerView.remainingRoundsToEndGame() == 1 || (oldGameControllerView.remainingRoundsToEndGame() != gameControllerView.remainingRoundsToEndGame() && oldGameControllerView.gameStatus().equals(GameStatusEnum.PLACE_CARD))) {
                         showToast(ToastLevels.WARNING, "Second last round", "This is your second last round of the game.");
                     } else {
                         showToast(ToastLevels.WARNING, "Last round", "This is your last round of the game.");

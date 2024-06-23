@@ -36,6 +36,21 @@ public class EndPhaseComponent implements Drawable {
         }
     }
 
+    public EndPhaseComponent(boolean isLastRound, int remainingRoundsToEndGame, int oldViewRemainingRounds) {
+        this.drawArea = new DrawArea();
+        if (isLastRound) {
+            if (oldViewRemainingRounds != remainingRoundsToEndGame || remainingRoundsToEndGame == 1) {
+                this.drawArea.drawNewLine("""
+                        This is your second last round of the game.
+                        """, ColorsEnum.YELLOW, 0);
+            } else {
+                this.drawArea.drawNewLine("""
+                        This is your last round of the game.
+                        """, ColorsEnum.RED, 0);
+            }
+        }
+    }
+
     /**
      * Constructor for the EndPhaseComponent class.
      *
