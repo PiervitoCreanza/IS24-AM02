@@ -15,7 +15,14 @@ import java.io.IOException;
  */
 public class Toast extends VBox {
 
+    /**
+     * Logger for the Toast class, used to log debug and error messages.
+     */
     private static final Logger logger = LogManager.getLogger(Toast.class);
+
+    /**
+     * VBox object representing the toast notification.
+     */
     private final VBox toastBox;
 
     /**

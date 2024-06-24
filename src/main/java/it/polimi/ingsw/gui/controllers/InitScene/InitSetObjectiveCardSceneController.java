@@ -21,24 +21,54 @@ import java.util.ArrayList;
  * It handles the interactions between the user interface and the game logic during the initial selection of objective cards.
  */
 public class InitSetObjectiveCardSceneController extends InitScene {
+    /**
+     * The name of the controller.
+     */
     private static final ControllersEnum NAME = ControllersEnum.INIT_SET_OBJECTIVE_CARD;
+    /**
+     * The logger.
+     */
     private static final Logger logger = LogManager.getLogger(InitSetObjectiveCardSceneController.class);
 
+    /**
+     * The first image pane.
+     */
     @FXML
     private StackPane firstImagePane;
 
+    /**
+     * The second image pane.
+     */
     @FXML
     private StackPane secondImagePane;
 
+    /**
+     * The image view for the first card.
+     */
     @FXML
     private ImageView cardFirstImageView;
 
+    /**
+     * The image view for the second card.
+     */
     @FXML
     private ImageView cardSecondImageView;
 
+    /**
+     * The first choosable card.
+     */
     private final SimpleObjectProperty<ObjectiveCard> firstChoosableCard = new SimpleObjectProperty<>();
+    /**
+     * The second choosable card.
+     */
     private final SimpleObjectProperty<ObjectiveCard> secondChoosableCard = new SimpleObjectProperty<>();
+    /**
+     * The index of the current card.
+     */
     private final int currentIndex = 0;
+    /**
+     * The selected card.
+     */
     private String selectedCard = ""; // Variable to track the selected card
 
     /**

@@ -66,6 +66,9 @@ public enum ControllersEnum {
      */
     WINNER_SCENE("WinnerScene");
 
+    /**
+     * The name of the FXML file associated with the scene.
+     */
     private final String fxmlFileName;
 
     /**

@@ -11,9 +11,21 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
-
+/**
+ * This class represents a custom error dialog box.
+ * It extends the Alert class from JavaFX.
+ */
 public class ErrorDialog extends Alert {
 
+    /**
+     * Constructor for the ErrorDialog class.
+     *
+     * @param stage The stage on which the dialog will be shown.
+     * @param alertType The type of the alert.
+     * @param title The title of the dialog.
+     * @param message The message to be shown in the dialog.
+     * @param isAutoCloseable If true, the dialog will automatically close after 30 seconds.
+     */
     public ErrorDialog(Stage stage, AlertType alertType, String title, String message, boolean isAutoCloseable) {
         super(alertType);
         initOwner(stage);
@@ -36,12 +48,22 @@ public class ErrorDialog extends Alert {
         }
     }
 
+    /**
+     * This method adds a new button to the dialog.
+     *
+     * @param buttonText The text to be shown on the button.
+     * @param eventHandler The event handler that will be triggered when the button is clicked.
+     */
     public void addButton(String buttonText, EventHandler<ActionEvent> eventHandler) {
         ButtonType buttonType = new ButtonType(buttonText, ButtonBar.ButtonData.LEFT);
         getButtonTypes().add(buttonType);
         ((Button) getDialogPane().lookupButton(buttonType)).setOnAction(eventHandler);
     }
 
+    /**
+     * This method closes the dialog.
+     * If the dialog does not already have a close button, it adds one before closing.
+     */
     public void closeAlert() {
         if (!getButtonTypes().contains(ButtonType.CLOSE))
             getButtonTypes().add(ButtonType.CLOSE);

@@ -20,8 +20,14 @@ import static javafx.geometry.Pos.CENTER_RIGHT;
  * It handles the interactions between the user interface and the game logic when the game ends and the winner is declared.
  */
 public class WinnerSceneController extends Controller {
+    /**
+     * The name of the controller.
+     */
     private static final ControllersEnum NAME = ControllersEnum.WINNER_SCENE;
 
+    /**
+     * The leaderboard VBox.
+     */
     @FXML
     private VBox leaderboard;
 

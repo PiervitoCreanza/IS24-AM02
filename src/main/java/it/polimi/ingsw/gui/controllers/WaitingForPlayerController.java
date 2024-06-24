@@ -23,17 +23,30 @@ import java.util.stream.Collectors;
  * It handles the interactions between the user interface and the game logic while waiting for players.
  */
 public class WaitingForPlayerController extends Controller implements PropertyChangeListener {
-
+    /**
+     * The name of the controller. This is a static variable, meaning it's shared among all instances of this class.
+     */
     public static final ControllersEnum NAME = ControllersEnum.WAITING_FOR_PLAYER;
-
+    /**
+     * The logger.
+     */
     private final static Logger logger = LogManager.getLogger(WaitingForPlayerController.class);
 
+    /**
+     * The player list view.
+     */
     @FXML
     private ListView<String> playerListView;
 
+    /**
+     * The game name.
+     */
     @FXML
     private Text gameName;
 
+    /**
+     * The waiting message.
+     */
     @FXML
     private Text waitingMessage;
 

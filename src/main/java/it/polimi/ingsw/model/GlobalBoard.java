@@ -212,6 +212,11 @@ public class GlobalBoard implements VirtualViewable<GlobalBoardView> {
         return new GlobalBoardView(goldDeck.getFirst(), resourceDeck.getFirst(), fieldGoldCards, fieldResourceCards, globalObjectives);
     }
 
+    /**
+     * Checks if the field and the decks are empty.
+     *
+     * @return true if the field and the decks are empty, false otherwise.
+     */
     public boolean areFieldAndDecksEmpty() {
         return isGoldDeckEmpty() && isResourceDeckEmpty() && fieldGoldCards.isEmpty() && fieldResourceCards.isEmpty();
     }

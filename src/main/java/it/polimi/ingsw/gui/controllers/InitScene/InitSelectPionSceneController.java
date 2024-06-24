@@ -20,12 +20,24 @@ import java.util.Map;
  * It handles the interactions between the user interface and the game logic during the initial selection of pions.
  */
 public class InitSelectPionSceneController extends InitScene {
+    /**
+     * The name of the controller.
+     */
     private static final ControllersEnum NAME = ControllersEnum.INIT_SET_PION;
+    /**
+     * The logger.
+     */
     private static final Logger logger = LogManager.getLogger(InitSelectPionSceneController.class);
 
+    /**
+     * The image view for the pion.
+     */
     @FXML
     private ImageView pionImageView;
 
+    /**
+     * The map of pion images.
+     */
     private final Map<PlayerColorEnum, String> pionImagesMap = Map.of(
             PlayerColorEnum.RED, "/CODEX_pion_rouge.png",
             PlayerColorEnum.BLUE, "/CODEX_pion_bleu.png",
@@ -33,8 +45,14 @@ public class InitSelectPionSceneController extends InitScene {
             PlayerColorEnum.YELLOW, "/CODEX_pion_jaune.png"
     );
 
+    /**
+     * The list of available pion colors.
+     */
     private ArrayList<PlayerColorEnum> availableColors;
 
+    /**
+     * The current index of the selected pion.
+     */
     private int currentIndex = 0;
 
     /**

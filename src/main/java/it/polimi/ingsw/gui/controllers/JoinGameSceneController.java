@@ -30,6 +30,9 @@ public class JoinGameSceneController extends Controller implements PropertyChang
      */
     private static final Logger logger = LogManager.getLogger(JoinGameSceneController.class);
 
+    /**
+     * Text field for the player name.
+     */
     @FXML
     private TextField playerTextField;
 

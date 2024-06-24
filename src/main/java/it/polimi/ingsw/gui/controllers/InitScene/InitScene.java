@@ -11,6 +11,9 @@ import javafx.scene.layout.AnchorPane;
  */
 public abstract class InitScene extends Controller {
 
+    /**
+     * The root pane of the scene.
+     */
     @FXML
     protected AnchorPane root;
 

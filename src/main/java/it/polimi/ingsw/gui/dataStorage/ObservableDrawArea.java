@@ -14,9 +14,17 @@ import java.util.List;
  * This class represents an observable draw area in the game.
  */
 public class ObservableDrawArea {
-
+    /**
+     * The observed game cards group.
+     */
     private final ObservedGameCardsGroup observedGameCardsGroup;
+    /**
+     * The property for the drawing phase.
+     */
     private final SimpleBooleanProperty isDrawingPhase;
+    /**
+     * The client network controller mapper.
+     */
     private final ClientNetworkControllerMapper clientNetworkControllerMapper;
 
     /**
@@ -24,6 +32,7 @@ public class ObservableDrawArea {
      * It initializes the property change listeners for each card in the draw area.
      *
      * @param drawPane the pane containing the draw area.
+     * @param isDrawingPhase the property for the drawing phase.
      */
     public ObservableDrawArea(Pane drawPane, SimpleBooleanProperty isDrawingPhase) {
         this.isDrawingPhase = isDrawingPhase;
