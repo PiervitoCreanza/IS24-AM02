@@ -15,32 +15,30 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * This class is responsible for controlling the hand of cards in the game scene.
- * It handles the dragging and dropping of cards, updating the hand display and managing the list of cards.
+ * This class is responsible for controlling the hand of cards in the game.
+ * It handles the drag and drop functionality of the cards and updates the hand when necessary.
  */
 public class HandController {
 
     /**
-     * The (logger) of the class.
+     * Logger for this class.
      */
     private static final Logger logger = LogManager.getLogger(HandController.class);
 
     /**
-     * The controller for the game scene.
+     * Reference to the GameSceneController.
      */
     private final GameSceneController sceneController;
 
     /**
-     * The list of card cells in the hand.
+     * List of observed game cards representing the hand of cards.
      */
     private final ArrayList<ObservedGameCard> cardCells;
 
     /**
      * Constructor for the HandController class.
-     * It initializes the scene controller and the list of card cells.
-     * It also sets up the card cells in the hand pane.
      *
-     * @param handPane            The pane where the hand of cards is displayed.
+     * @param handPane            The pane that contains the hand of cards.
      * @param gameSceneController The controller for the game scene.
      */
     public HandController(Pane handPane, GameSceneController gameSceneController) {
@@ -50,21 +48,22 @@ public class HandController {
         this.cardCells.add(new ObservedGameCard((ImageView) handPane.lookup("#firstCard"), this::makeCardDraggable));
         this.cardCells.add(new ObservedGameCard((ImageView) handPane.lookup("#secondCard"), this::makeCardDraggable));
         this.cardCells.add(new ObservedGameCard((ImageView) handPane.lookup("#thirdCard"), this::makeCardDraggable));
-
-
     }
 
     /**
-     * Makes a card draggable.
-     * It sets up the mouse event handlers for the card.
+     * This method makes a card draggable by setting mouse event handlers.
      *
-     * @param gameCardImageView The image view of the card.
+     * @param gameCardImageView The ImageView of the card to make draggable.
      */
     private void makeCardDraggable(ImageView gameCardImageView) {
         final Coordinate dragDelta = new Coordinate(0, 0);
         final Coordinate originalPosition = new Coordinate(0, 0);
 
         gameCardImageView.setOnMousePressed(mouseEvent -> {
+            // Abort if the card placement is not allowed
+            if (sceneController.isCardPlacementForbidden())
+                return;
+
             // Obtain the gameCardImage associated with the card
             GameCard boundGameCard = (GameCard) gameCardImageView.getUserData();
 
@@ -78,10 +77,14 @@ public class HandController {
 
             originalPosition.setLocation(gameCardImageView.getLayoutX(), gameCardImageView.getLayoutY());
             dragDelta.setLocation(gameCardImageView.getLayoutX() - mouseEvent.getSceneX(), gameCardImageView.getLayoutY() - mouseEvent.getSceneY());
-            gameCardImageView.setCursor(Cursor.MOVE);
+            gameCardImageView.setCursor(Cursor.HAND);
         });
 
         gameCardImageView.setOnMouseReleased(mouseEvent -> {
+            // Abort if the card placement is not allowed
+            if (sceneController.isCardPlacementForbidden())
+                return;
+
             // If the right mouse button is released, do nothing
             if (mouseEvent.getButton() == MouseButton.SECONDARY) {
                 return;
@@ -114,6 +117,10 @@ public class HandController {
         });
 
         gameCardImageView.setOnMouseDragged(mouseEvent -> {
+            // Abort if the card placement is not allowed
+            if (sceneController.isCardPlacementForbidden())
+                return;
+
             if (!mouseEvent.isPrimaryButtonDown()) {
                 // The drag event can be triggered only by the right mouse button.
                 return;
@@ -121,16 +128,22 @@ public class HandController {
             gameCardImageView.setLayoutX(mouseEvent.getSceneX() + dragDelta.getX());
             gameCardImageView.setLayoutY(mouseEvent.getSceneY() + dragDelta.getY());
         });
+
         gameCardImageView.setOnMouseEntered(mouseEvent -> {
-            gameCardImageView.setCursor(Cursor.DEFAULT);
+            logger.debug("Mouse entered the card");
+            // Show the hand cursor if the card placement is allowed, otherwise show the default cursor
+            if (sceneController.isCardPlacementForbidden()) {
+                gameCardImageView.setCursor(Cursor.DEFAULT);
+            } else {
+                gameCardImageView.setCursor(Cursor.HAND);
+            }
         });
     }
 
     /**
-     * Updates the hand of cards.
-     * It updates the displayed cards based on the given list of cards.
+     * This method updates the hand of cards.
      *
-     * @param hand The list of cards in the hand.
+     * @param hand The new hand of cards.
      */
     public void update(ArrayList<GameCard> hand) {
         ArrayList<GameCard> updatedCards = new ArrayList<>(hand);
@@ -151,10 +164,10 @@ public class HandController {
     }
 
     /**
-     * Gets the observed game card associated with the given game card.
+     * This method returns the ObservedGameCard associated with a given GameCard.
      *
-     * @param gameCard The game card.
-     * @return The observed game card associated with the given game card.
+     * @param gameCard The GameCard to find the associated ObservedGameCard for.
+     * @return An Optional containing the ObservedGameCard if it exists, or an empty Optional if it does not.
      */
     private Optional<ObservedGameCard> getObservedGameCard(GameCard gameCard) {
         return cardCells.stream().filter(observedGameCard -> Objects.equals(observedGameCard.getGameCard(), gameCard)).findFirst();
