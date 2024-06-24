@@ -27,9 +27,10 @@ to accommodate two main development approaches for flexibility.
 | Persistence (*)   | :white_check_mark:      |
 | Resilience        | :white_check_mark:      |
 | Chat              | :white_check_mark:      |
-| VisioOS           | :ballot_box_with_check:  |
+| VisionOS           | :ballot_box_with_check:  |
 
 (*) For testing purposes
+
 **Legend**
 | Symbol | Functionality status |
 | --- | --- |
