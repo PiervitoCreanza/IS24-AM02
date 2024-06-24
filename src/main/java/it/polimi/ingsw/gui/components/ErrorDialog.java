@@ -43,7 +43,8 @@ public class ErrorDialog extends Alert {
     }
 
     public void closeAlert() {
-        getButtonTypes().add(ButtonType.CLOSE);
+        if (!getButtonTypes().contains(ButtonType.CLOSE))
+            getButtonTypes().add(ButtonType.CLOSE);
         close();
     }
 }

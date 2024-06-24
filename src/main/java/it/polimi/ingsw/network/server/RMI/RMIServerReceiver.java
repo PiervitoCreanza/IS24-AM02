@@ -40,6 +40,13 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     private static final Logger logger = LogManager.getLogger(RMIServerReceiver.class);
 
     /**
+     * A "strong" reference to the stub.
+     * It's used to avoid the stub being garbage collected in some rare cases.
+     * Being static the DGC (Distributed Garbage Collector) will not collect it.
+     */
+    private static RMIServerReceiver serverStrongReference;
+
+    /**
      * Constructs a new RMIServerReceiver object with the specified ServerNetworkControllerMapper.
      *
      * @param serverNetworkControllerMapper the ServerNetworkControllerMapper to be used by the RMIServerReceiver
@@ -47,6 +54,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     public RMIServerReceiver(ServerNetworkControllerMapper serverNetworkControllerMapper) {
         this.serverNetworkControllerMapper = serverNetworkControllerMapper;
         this.executor = Executors.newFixedThreadPool(10);
+        serverStrongReference = this;
     }
 
     /**

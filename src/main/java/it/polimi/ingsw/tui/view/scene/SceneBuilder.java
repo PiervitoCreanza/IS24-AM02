@@ -184,12 +184,12 @@ public class SceneBuilder {
     }
 
     /**
-     * Instances the ConnectionErrorScene.
+     * Instances the ConnectionScene.
      *
      * @param message The error message.
-     * @return The ConnectionErrorScene scene.
+     * @return The ConnectionScene scene.
      */
-    public Scene instanceConnectionErrorScene(String message) {
-        return new ConnectionErrorScene(this.controller, message);
+    public Scene instanceConnectionScene(String message, Boolean canRetry) {
+        return new ConnectionScene(this.controller, message, canRetry);
     }
 }

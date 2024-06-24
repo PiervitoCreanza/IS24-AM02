@@ -449,9 +449,14 @@ public class TUIViewController implements PropertyChangeListener, View {
                 this.currentScene = sceneBuilder.instanceMainMenuScene();
                 break;
 
-            case "CONNECTION_FAILED":
-                this.currentScene = sceneBuilder.instanceConnectionErrorScene((String) evt.getNewValue());
+            case "CONNECTION_TRYING":
+                this.currentScene = sceneBuilder.instanceConnectionScene((String) evt.getNewValue(), false);
                 break;
+
+            case "CONNECTION_FAILED":
+                this.currentScene = sceneBuilder.instanceConnectionScene((String) evt.getNewValue(), true);
+                break;
+
             case "GET_GAMES":
                 gamesList = (ArrayList<GameRecord>) evt.getNewValue();
                 this.currentScene = sceneBuilder.instanceGetGamesScene(gamesList);

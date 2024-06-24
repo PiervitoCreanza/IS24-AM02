@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Timer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -32,6 +33,8 @@ public abstract class Connection implements PropertyChangeNotifier, PropertyChan
     protected PropertyChangeSupport listeners;
     protected long waitTime = 10000;
     private Future<?> currentTask;
+
+    protected Timer connectionTrying;
 
     protected Logger logger;
 
@@ -73,6 +76,7 @@ public abstract class Connection implements PropertyChangeNotifier, PropertyChan
     public void propertyChange(PropertyChangeEvent evt) {
         String changedProperty = evt.getPropertyName();
         if (changedProperty.equals("CONNECTION_CLOSED")) {
+            logger.warn("Trying to reconnect...");
             connect();
         } else {
             logger.warn("Unknown property change event: {}", changedProperty);

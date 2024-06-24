@@ -30,10 +30,10 @@
                     <HBox>
 
                         <VBox HBox.hgrow="ALWAYS">
-                            <Label text="Fungi" styleClass="player-label"/>
-                            <Label text="Plant" styleClass="player-label"/>
-                            <Label text="Animal" styleClass="player-label"/>
-                            <Label text="Insect" styleClass="player-label"/>
+                            <Label text="Fungi" styleClass="resource-label"/>
+                            <Label text="Plant" styleClass="resource-label"/>
+                            <Label text="Animal" styleClass="resource-label"/>
+                            <Label text="Insect" styleClass="resource-label"/>
                         </VBox>
                         <VBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
                             <Label text="13" styleClass="score-label" style="-fx-text-fill: #d32622"
@@ -54,9 +54,9 @@
                     <HBox>
 
                         <VBox HBox.hgrow="ALWAYS">
-                            <Label text="Quill" styleClass="player-label"/>
-                            <Label text="Inkwell" styleClass="player-label"/>
-                            <Label text="Manuscript" styleClass="player-label"/>
+                            <Label text="Quill" styleClass="resource-label"/>
+                            <Label text="Inkwell" styleClass="resource-label"/>
+                            <Label text="Manuscript" styleClass="resource-label"/>
                         </VBox>
                         <VBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
                             <Label text="13" styleClass="score-label" style="-fx-text-fill: #b4a31f"

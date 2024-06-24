@@ -15,10 +15,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * The ConnectionErrorScene class represents the scene where the player is notified of a connection error.
+ * The ConnectionScene class represents the scene where the player is notified of a connection error.
  * It implements the Scene and PropertyChangeListener interfaces.
  */
-public class ConnectionErrorScene implements Scene, PropertyChangeListener {
+public class ConnectionScene implements Scene, PropertyChangeListener {
 
     /**
      * The DrawArea object where the scene will be drawn.
@@ -47,13 +47,18 @@ public class ConnectionErrorScene implements Scene, PropertyChangeListener {
      * @param controller the controller for this scene
      * @param message    the message to be displayed
      */
-    public ConnectionErrorScene(TUIViewController controller, String message) {
+    public ConnectionScene(TUIViewController controller, String message, Boolean canRetry) {
         this.controller = controller;
-        this.menuHandler = new MenuHandler(this,
-                new MenuItem("r", "retry", new EmptyCommand()),
-                new MenuItem("q", "quit", new EmptyCommand()));
+        if(canRetry){
+            this.menuHandler = new MenuHandler(this,
+                    new MenuItem("r", "retry", new EmptyCommand()),
+                    new MenuItem("q", "quit", new EmptyCommand()));
+        } else {
+            this.menuHandler = new MenuHandler(this,
+                    new MenuItem("q", "quit", new EmptyCommand()));
+        }
         this.drawArea = new DrawArea();
-        this.drawArea.drawAt(0, 0, new TitleComponent("Connection Error").getDrawArea());
+        this.drawArea.drawAt(0, 0, new TitleComponent("Connection Info", message.length()).getDrawArea());
         this.drawArea.drawNewLine(message, ColorsEnum.RED, 0);
     }
 
