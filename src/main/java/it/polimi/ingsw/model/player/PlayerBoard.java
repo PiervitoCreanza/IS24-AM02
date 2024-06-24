@@ -153,7 +153,7 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
 
     private void validatePlacement(Coordinate coordinate, GameCard gameCard) {
         if (playerBoard.containsKey(coordinate)) {
-            throw new IllegalArgumentException("Position already occupied");
+            throw new IllegalArgumentException("You're trying to place the card in an already occupied position.");
         }
 
         if (!isPositionAdjacent(coordinate)) {
@@ -165,7 +165,7 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
         }
 
         if (!hasEnoughResources(gameCard)) {
-            throw new IllegalArgumentException("Not enough resources");
+            throw new IllegalArgumentException("You don't have enough game resources to place this card");
         }
     }
 
