@@ -183,6 +183,12 @@ public class SceneBuilder {
         return new WinnerScene(this.controller, updatedView.gameView().winners(), updatedView.gameView().playerViews(), 2);
     }
 
+    /**
+     * Instances the ConnectionErrorScene.
+     *
+     * @param message The error message.
+     * @return The ConnectionErrorScene scene.
+     */
     public Scene instanceConnectionErrorScene(String message) {
         return new ConnectionErrorScene(this.controller, message);
     }

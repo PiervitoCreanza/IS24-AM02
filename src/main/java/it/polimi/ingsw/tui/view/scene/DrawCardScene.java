@@ -76,6 +76,7 @@ public class DrawCardScene implements Scene, PropertyChangeListener {
      * @param globalBoardView          the global board view
      * @param isLastRound              the flag that indicates if it is the last round
      * @param remainingRoundsToEndGame the number of remaining rounds to end the game
+     * @param oldViewRemainingRounds   the number of remaining rounds to end the game in the old view
      */
     public DrawCardScene(TUIViewController controller, HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, GlobalBoardView globalBoardView, boolean isLastRound, int remainingRoundsToEndGame, int oldViewRemainingRounds) {
         this.controller = controller;

@@ -41,10 +41,11 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      * A map that associates game names with sets of ServerMessageHandler objects.
      * This is used to keep track of the connections for each game.
      */
-    // Mapping a ServerMessageHandler (TCP or RMI connection via polimorphism) to a player,
-    // and then this "playerName:connectionType" is mapped to each game
     private final HashMap<String, HashMap<String, ServerMessageHandler>> gameConnectionMapper;
 
+    /**
+     * A map that associates game names with timers that will delete the game if there is only one player left in it.
+     */
     private final Map<String, Timer> deleteGameTimers = new HashMap<>();
 
     /**

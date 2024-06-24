@@ -6,5 +6,8 @@ package it.polimi.ingsw.tui;
  * It extends the PropertyChangeListener interface to listen for changes in the model.
  */
 public interface View {
+    /**
+     * This method is used to launch the user interface.
+     */
     void launchUI();
 }

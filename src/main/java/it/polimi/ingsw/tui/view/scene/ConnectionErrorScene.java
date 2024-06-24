@@ -14,6 +14,10 @@ import org.apache.logging.log4j.Logger;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+/**
+ * The ConnectionErrorScene class represents the scene where the player is notified of a connection error.
+ * It implements the Scene and PropertyChangeListener interfaces.
+ */
 public class ConnectionErrorScene implements Scene, PropertyChangeListener {
 
     /**
@@ -41,6 +45,7 @@ public class ConnectionErrorScene implements Scene, PropertyChangeListener {
      * It initializes the draw area and draws the title "Game Paused" at the top of the scene.
      *
      * @param controller the controller for this scene
+     * @param message    the message to be displayed
      */
     public ConnectionErrorScene(TUIViewController controller, String message) {
         this.controller = controller;

@@ -94,6 +94,10 @@ public class GameCardComponent implements Drawable {
         drawArea.drawCenteredX(drawArea.getHeight(), String.valueOf(number));
     }
 
+    /**
+     * Constructor for a GameCardComponent.
+     * Draws the missing game card.
+     */
     public GameCardComponent() {
         drawArea = new DrawArea("""
                 ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐

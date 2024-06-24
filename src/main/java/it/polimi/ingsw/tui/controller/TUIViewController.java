@@ -113,6 +113,9 @@ public class TUIViewController implements PropertyChangeListener, View {
         connect();
     }
 
+    /**
+     * Method to connect to the server.
+     */
     public void connect() {
         networkController.connect();
     }
