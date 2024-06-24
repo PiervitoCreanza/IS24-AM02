@@ -24,7 +24,7 @@
 }
 
 .dialog-pane .header-panel .label {
-    -fx-font-family: MedievalSharp;
+    -fx-font-family: 'CalSans-SemiBold';
     -fx-font-size: 24px;
     -fx-font-weight: bold;
     -fx-text-fill: #422918;

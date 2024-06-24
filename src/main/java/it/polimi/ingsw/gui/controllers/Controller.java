@@ -322,8 +322,12 @@ public abstract class Controller implements PropertyChangeListener {
         logger.debug("Property change event received: {}", evt.getPropertyName());
         switch (evt.getPropertyName()) {
             case "ERROR" -> {
+                String errorType = "Server Error";
                 logger.debug("Error notification received: {}", evt.getNewValue());
-                showErrorPopup("Server Error", (String) evt.getNewValue(), false);
+                if (getName() == ControllersEnum.GAME_SCENE) {
+                    errorType = "Game Error";
+                }
+                showErrorPopup(errorType, (String) evt.getNewValue(), false);
             }
             case "CONNECTION_ESTABLISHED" -> {
                 logger.debug("Connection established notification received");
