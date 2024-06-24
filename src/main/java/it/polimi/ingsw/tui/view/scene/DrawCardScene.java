@@ -77,7 +77,7 @@ public class DrawCardScene implements Scene, PropertyChangeListener {
      * @param isLastRound              the flag that indicates if it is the last round
      * @param remainingRoundsToEndGame the number of remaining rounds to end the game
      */
-    public DrawCardScene(TUIViewController controller, HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, GlobalBoardView globalBoardView, boolean isLastRound, int remainingRoundsToEndGame) {
+    public DrawCardScene(TUIViewController controller, HashMap<Coordinate, GameCard> playerBoard, ArrayList<ObjectiveCard> globalObjectives, ObjectiveCard playerObjective, ArrayList<GameCard> hand, GlobalBoardView globalBoardView, boolean isLastRound, int remainingRoundsToEndGame, int oldViewRemainingRounds) {
         this.controller = controller;
         this.drawArea = new DrawArea();
         this.fieldResourceCards = globalBoardView.fieldResourceCards();
@@ -86,7 +86,7 @@ public class DrawCardScene implements Scene, PropertyChangeListener {
         DrawArea playerBoardArea = new PlayerBoardComponent(playerBoard).getDrawArea();
         DrawArea playerInventoryArea = new PlayerInventoryComponent(globalObjectives, playerObjective, hand, 1).getDrawArea();
         DrawArea drawCardArea = new DrawingAreaComponent(globalBoardView.resourceFirstCard(), globalBoardView.goldFirstCard(), globalBoardView.fieldResourceCards(), globalBoardView.fieldGoldCards(), 5).getDrawArea();
-        DrawArea endPhaseArea = new EndPhaseComponent(isLastRound, remainingRoundsToEndGame).getDrawArea();
+        DrawArea endPhaseArea = new EndPhaseComponent(isLastRound, remainingRoundsToEndGame, oldViewRemainingRounds).getDrawArea();
 
         int widthMax = Math.max(playerBoardArea.getWidth(), playerInventoryArea.getWidth());
 

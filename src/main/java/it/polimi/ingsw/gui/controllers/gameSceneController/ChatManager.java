@@ -39,11 +39,8 @@ public class ChatManager {
         if (!chatMapper.containsKey(sender)) {
             chatMapper.put(sender, new StringBuilder());
         }
-        if (message.isDirectMessage()) {
-            chatMapper.get(sender).append(message.getChatMessage()).append("\n");
-        } else {
-            chatMapper.get(sender).append(String.format("[%s]: ", message.getPlayerName())).append(message.getChatMessage()).append("\n");
-        }
+        chatMapper.get(sender).append(String.format("[%s]: ", message.getPlayerName())).append(message.getChatMessage()).append("\n");
+
     }
 
     /**

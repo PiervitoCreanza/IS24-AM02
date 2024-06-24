@@ -59,6 +59,7 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw.tui.view.component.player.playerItems to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     exports it.polimi.ingsw.tui.view.drawer to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     exports it.polimi.ingsw.tui.view.scene to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
+    exports it.polimi.ingsw.tui.view.scene.chatScene to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
 
     //GUI exports
     // Opens
@@ -109,6 +110,7 @@ module it.polimi.ingsw {
     opens it.polimi.ingsw.tui.view.component.player.playerInventory.playerHand to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     opens it.polimi.ingsw.tui.view.component.player.playerItems to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     opens it.polimi.ingsw.tui.view.drawer to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
+    opens it.polimi.ingsw.tui.view.scene.chatScene to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
 
     opens it.polimi.ingsw.tui.view.scene to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;
     exports it.polimi.ingsw.gui.controllers to com.google.gson, java.rmi, javafx.fxml, javafx.graphics;
