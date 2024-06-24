@@ -9,7 +9,9 @@ import org.apache.logging.log4j.Logger;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-
+/**
+ * This class is the controller for the main menu scene.
+ */
 public class MainMenuSceneController extends Controller implements PropertyChangeListener {
 
     /**

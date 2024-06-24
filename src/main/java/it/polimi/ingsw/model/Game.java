@@ -388,6 +388,14 @@ public class Game implements VirtualViewable<GameView> {
         return new GameView(gameName, currentPlayer.getPlayerName(), globalBoard.getVirtualView(), players.stream().map(Player::getVirtualView).collect(Collectors.toList()), winners.stream().map(Player::getPlayerName).collect(Collectors.toCollection(ArrayList::new)), getAvailablePlayerColors());
     }
 
+    /**
+     * Removes a player from the game.
+     * This method removes the player with the specified name from the list of players in the game.
+     * It also adds the player's objective cards back to the global board's objective deck and the player's starter card back to the global board's starter deck.
+     * If the player is the current player, the next player is set as the current player.
+     *
+     * @param playerName The name of the player to be removed.
+     */
     public void removePlayer(String playerName) {
         Player player = getPlayer(playerName);
         player.getChoosableObjectives().forEach(objectiveCard -> globalBoard.getObjectiveDeck().addCard(objectiveCard));

@@ -10,13 +10,37 @@ import javafx.scene.layout.VBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * This class represents a ZoomableScrollPane which extends the ScrollPane class from JavaFX.
+ * It allows for zooming and panning on the target node.
+ */
 public class ZoomableScrollPane extends ScrollPane {
+    /**
+     * The scale value of the target node.
+     */
     private double scaleValue = 0.7;
+    /**
+     * The intensity of the zoom.
+     */
     private final double zoomIntensity = 0.02;
+    /**
+     * The target node.
+     */
     private final Node target;
+    /**
+     * The zoom node.
+     */
     private final Group zoomNode;
+    /**
+     * Logger for the ZoomableScrollPane class, used to log debug and error messages.
+     */
     private static final Logger logger = LogManager.getLogger(ZoomableScrollPane.class);
 
+    /**
+     * Constructor for the ZoomableScrollPane class.
+     *
+     * @param target The node that will be zoomed and panned.
+     */
     public ZoomableScrollPane(Node target) {
         super();
         this.target = target;
@@ -33,6 +57,12 @@ public class ZoomableScrollPane extends ScrollPane {
         updateScale();
     }
 
+    /**
+     * This method wraps the node in a VBox and sets the scroll event.
+     *
+     * @param node The node to be wrapped.
+     * @return The wrapped node.
+     */
     private Node outerNode(Node node) {
         Node outerNode = centeredNode(node);
         outerNode.setOnScroll(e -> {
@@ -42,17 +72,31 @@ public class ZoomableScrollPane extends ScrollPane {
         return outerNode;
     }
 
+    /**
+     * This method wraps the node in a VBox and centers it.
+     *
+     * @param node The node to be wrapped.
+     * @return The wrapped and centered node.
+     */
     private Node centeredNode(Node node) {
         VBox vBox = new VBox(node);
         vBox.setAlignment(Pos.CENTER);
         return vBox;
     }
 
+    /**
+     * This method updates the scale of the target node.
+     */
     private void updateScale() {
         target.setScaleX(scaleValue);
         target.setScaleY(scaleValue);
     }
 
+    /**
+     * This method calculates the space cut from the top of the content.
+     *
+     * @return The space cut from the top.
+     */
     private double getSpaceCut() {
         double vvalue = this.getVvalue();
         double contentHeight = this.getContent().getBoundsInLocal().getHeight(); // get the total height of the content
@@ -61,6 +105,12 @@ public class ZoomableScrollPane extends ScrollPane {
         return topSpaceCut;
     }
 
+    /**
+     * This method handles the scroll event and updates the scale of the target node.
+     *
+     * @param wheelDelta The amount of scroll.
+     * @param mousePoint The point where the scroll event occurred.
+     */
     private void onScroll(double wheelDelta, Point2D mousePoint) {
         double zoomFactor = Math.exp(wheelDelta * zoomIntensity);
 
@@ -71,23 +121,14 @@ public class ZoomableScrollPane extends ScrollPane {
 
         scaleValue = Math.max(minScaleValue, scaleValue * zoomFactor);
         scaleValue = Math.min(1.5, scaleValue);
-        //System.out.println("minScaleValue: " + minScaleValue + " scaleValue: " + scaleValue);
 
         double previousVvalue = getVvalue();
         double previousHvalue = getHvalue();
-        //double initialMouseYPosition = getSpaceCut() + mousePoint.getY();
 
         updateScale();
         this.layout(); // refresh ScrollPane scroll positions & target bounds
 
-        //double finalMouseYPosition = getSpaceCut() + mousePoint.getY();
-        //double actualDeltaY = finalMouseYPosition - initialMouseYPosition;
-        //double deltaY = initialMouseYPosition * scaleValue - initialMouseYPosition;
         this.setVvalue(previousVvalue);
         this.setHvalue(previousHvalue);
-        //getSpaceCut();
-
     }
 }
-
-

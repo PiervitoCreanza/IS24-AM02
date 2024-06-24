@@ -25,49 +25,72 @@ import java.util.ArrayList;
 
 /**
  * The ClientNetworkControllerMapper class implements the ServerToClientActions interface.
- * It is responsible for mapping the actions that the client can perform on the server.
- * This class is part of the network client package.
+ * It handles mapping of actions that the client can perform on the server and
+ * manages interaction between client and server for game-related operations.
+ *
+ * <p>This class supports {@link PropertyChangeNotifier} to manage property change events.
+ *
+ * <p>Instances of this class are responsible for communication with the server,
+ * maintaining game state views, and handling messages between client and server.
+ *
+ * @since 1.0
  */
 public class ClientNetworkControllerMapper implements ServerToClientActions, PropertyChangeNotifier, PropertyChangeListener {
 
-    private static final Logger logger = LogManager.getLogger(ClientNetworkControllerMapper.class);
-
-    private static ClientNetworkControllerMapper instance = null;
+    /**
+     * Logger for this class, used to log debug and error messages.
+      */
+private static final Logger logger = LogManager.getLogger(ClientNetworkControllerMapper.class);
 
     /**
-     * The message handler for the client.
-     * It is used to send messages from the client to the server.
+     * Singleton instance of the ClientNetworkControllerMapper class.
+     */
+
+private static ClientNetworkControllerMapper instance = null;
+
+    /**
+     * The message handler for client-server communication.
      */
     private ClientMessageHandler messageHandler;
 
+    /**
+     * The connection for client-server communication.
+     */
     private Connection connection;
 
     /**
-     * The view of the game controller.
-     * It represents the current state of the game from the client's perspective.
+     * The view of the game controller, representing client's perspective of game state.
      */
     private GameControllerView view;
 
     /**
-     * The property change support.
+     * Support for property change listeners.
      */
     private final PropertyChangeSupport listeners;
 
+    /**
+     * The name of the game.
+     */
     private String gameName;
 
+    /**
+     * The name of the player.
+     */
     private String playerName;
 
-    public void receive() {
-    }
-
     /**
-     * Default constructor for the ClientNetworkControllerMapper class.
-     * This constructor does not initialize any fields.
+     * Constructs a ClientNetworkControllerMapper instance.
+     * Initializes necessary fields and sets up property change support.
      */
     private ClientNetworkControllerMapper() {
         listeners = new PropertyChangeSupport(this);
     }
 
+    /**
+     * Returns the singleton instance of ClientNetworkControllerMapper.
+     *
+     * @return The singleton instance of ClientNetworkControllerMapper.
+     */
     public static ClientNetworkControllerMapper getInstance() {
         if (instance == null) {
             instance = new ClientNetworkControllerMapper();
@@ -75,14 +98,18 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
         return instance;
     }
 
+    /**
+     * Sets the connection for client-server communication.
+     *
+     * @param connection The connection instance to be set.
+     */
     public void setConnection(Connection connection) {
         this.connection = connection;
         connection.addPropertyChangeListener(this);
     }
 
     /**
-     * Sets the message handler for the client.
-     * This method is used to set the message handler that will be used to send messages from the client to the server.
+     * Sets the message handler for client-server communication.
      *
      * @param messageHandler The message handler to be set.
      */
@@ -91,21 +118,23 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
     }
 
     /**
-     * Gets the view of the game controller.
-     * This method is used to get the current state of the game from the client's perspective.
+     * Retrieves the current view of the game controller.
      *
-     * @return The view of the game controller.
+     * @return The current view of the game controller.
      */
     public GameControllerView getView() {
         return view;
     }
 
+    /**
+     * Initiates connection to the server.
+     */
     public void connect() {
         connection.connect();
     }
 
     /**
-     * Closes the connection of the current message handler.
+     * Closes the connection with the server.
      */
     public void closeConnection() {
         view = null;
@@ -120,7 +149,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      * ***************************************/
 
     /**
-     * Sends a request to the server to get the list of available games.
+     * Requests the list of available games from the server.
      */
     public void getGames() {
         if (checkConnectionStatus()) {
@@ -129,7 +158,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
     }
 
     /**
-     * Sends a request to the server to create a new game.
+     * Requests creation of a new game on the server.
      *
      * @param gameName   The name of the game to be created.
      * @param playerName The name of the player creating the game.
@@ -144,7 +173,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
     }
 
     /**
-     * Sends a request to the server to delete a game.
+     * Requests deletion of the current game on the server.
      */
     public void deleteGame() {
         if (checkConnectionStatus()) {
@@ -153,7 +182,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
     }
 
     /**
-     * Sends a request to the server for the player to join a game.
+     * Requests to join a game on the server.
      *
      * @param gameName   The name of the game to join.
      * @param playerName The name of the player joining the game.
@@ -167,7 +196,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
     }
 
     /**
-     * Sends a request to the server for the player to choose a color.
+     * Requests to choose a player color on the server.
      *
      * @param playerColor The chosen color.
      */
@@ -178,11 +207,11 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
     }
 
     /**
-     * Sends a request to the server for the player to place a card.
+     * Requests to place a card on the server.
      *
      * @param coordinate The coordinate where the card is placed.
      * @param cardId     The card to be placed.
-     * @param isFlipped  Flag to indicate if the card is flipped.
+     * @param isFlipped  Flag indicating if the card is flipped.
      */
     public void placeCard(Coordinate coordinate, int cardId, boolean isFlipped) {
         if (checkConnectionStatus()) {
@@ -191,9 +220,9 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
     }
 
     /**
-     * Sends a request to the server for the player to draw a card from the field.
+     * Requests to draw a card from the field on the server.
      *
-     * @param cardId The cardId to be drawn.
+     * @param cardId The ID of the card to be drawn.
      */
     public void drawCardFromField(int cardId) {
         if (checkConnectionStatus()) {
@@ -202,7 +231,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
     }
 
     /**
-     * Sends a request to the server for the player to draw a card from the resource deck.
+     * Requests to draw a card from the resource deck on the server.
      */
     public void drawCardFromResourceDeck() {
         if (checkConnectionStatus()) {
@@ -211,7 +240,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
     }
 
     /**
-     * Sends a request to the server for the player to draw a card from the gold deck.
+     * Requests to draw a card from the gold deck on the server.
      */
     public void drawCardFromGoldDeck() {
         if (checkConnectionStatus()) {
@@ -220,9 +249,9 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
     }
 
     /**
-     * Sends a request to the server for the player to switch the side of a card.
+     * Requests to switch the side of a card on the server.
      *
-     * @param cardId The card to switch side.
+     * @param cardId The ID of the card to switch sides.
      */
     public void switchCardSide(int cardId) {
         if (checkConnectionStatus()) {
@@ -231,9 +260,9 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
     }
 
     /**
-     * Sends a request to the server for the player to set an objective card.
+     * Requests to set an objective card for the player on the server.
      *
-     * @param cardId The objective card to be set.
+     * @param cardId The ID of the objective card to be set.
      */
     public void setPlayerObjective(int cardId) {
         if (checkConnectionStatus()) {
@@ -255,12 +284,18 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
     }
 
     /**
-     * Sends a request to the server for the player to disconnect.
+     * Sends a disconnect message to the server.
+     * This method is private and used internally.
      */
     private void sendDisconnect() {
         messageHandler.sendMessage(new DisconnectClientToServerMessage(gameName, playerName));
     }
 
+    /**
+     * Checks if the message handler is properly set for communication.
+     *
+     * @return True if the connection is valid; false otherwise.
+     */
     private boolean checkConnectionStatus() {
         if (messageHandler == null) {
             logger.warn("MessageHandler was not set in the ClientNetworkControllerMapper class. You can ignore this message if in debug mode.");
@@ -275,7 +310,6 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
 
     /**
      * Receives a list of games from the server.
-     * This method is called when the server sends a list of games to the client.
      *
      * @param games The list of games received from the server.
      */
@@ -284,10 +318,8 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
         this.listeners.firePropertyChange("GET_GAMES", null, games);
     }
 
-
     /**
-     * Receives a message from the server that a game has been deleted.
-     * This method is called when the server sends a message to the client that a game has been deleted.
+     * Receives notification that a game has been deleted by the server.
      *
      * @param message The message received from the server.
      */
@@ -296,10 +328,8 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
         this.listeners.firePropertyChange("GAME_DELETED", null, message);
     }
 
-
     /**
      * Receives an updated view of the game from the server.
-     * This method is called when the server sends an updated view of the game to the client.
      *
      * @param updatedView The updated view of the game received from the server.
      */
@@ -309,10 +339,8 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
         this.view = updatedView;
     }
 
-
     /**
      * Receives an error message from the server.
-     * This method is called when the server sends an error message to the client.
      *
      * @param errorMessage The error message received from the server.
      */
@@ -323,12 +351,11 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
 
     /**
      * Receives a chat message from the server.
-     * This method is called when the server sends a chat message to the client.
      *
-     * @param playerName The chat message received from the server.
+     * @param playerName The name of the player sending the chat message.
      * @param message    The chat message received from the server.
-     * @param timestamp  The timestamp when the message was created.
-     * @param isDirect   Flag to indicate if the message is a direct message.
+     * @param timestamp  The timestamp when the message was sent.
+     * @param isDirect   Flag indicating if the message is a direct message.
      */
     @Override
     public void receiveChatMessage(String playerName, String message, long timestamp, boolean isDirect) {
@@ -343,7 +370,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      * Adds a PropertyChangeListener to the listener list.
      * The listener will be notified of property changes.
      *
-     * @param listener The PropertyChangeListener to be added
+     * @param listener The PropertyChangeListener to be added.
      */
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -354,7 +381,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
      * Removes a PropertyChangeListener from the listener list.
      * The listener will no longer be notified of property changes.
      *
-     * @param listener The PropertyChangeListener to be removed
+     * @param listener The PropertyChangeListener to be removed.
      */
     @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
@@ -362,10 +389,9 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
     }
 
     /**
-     * This method gets called when a bound property is changed.
+     * Processes property change events.
      *
-     * @param evt A PropertyChangeEvent object describing the event source
-     *            and the property that has changed.
+     * @param evt The PropertyChangeEvent object describing the event source and the property that has changed.
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

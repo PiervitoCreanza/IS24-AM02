@@ -187,6 +187,7 @@ public class SceneBuilder {
      * Instances the ConnectionScene.
      *
      * @param message The error message.
+        * @param canRetry The flag that indicates if the connection can be retried.
      * @return The ConnectionScene scene.
      */
     public Scene instanceConnectionScene(String message, Boolean canRetry) {

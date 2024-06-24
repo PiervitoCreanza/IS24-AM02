@@ -54,9 +54,14 @@ public record GameControllerView(GameView gameView, GameStatusEnum gameStatus,
         return gameView.playerViews().stream().filter(PlayerView::isConnected).map(PlayerView::playerName).collect(Collectors.toSet());
     }
 
-    public List<PlayerView> getPlayerViews() {
-        return gameView.playerViews();
-    }
+    /**
+ * This method is used to get the views of all players in the game.
+ *
+ * @return a list of PlayerView objects representing the views of all players.
+ */
+public List<PlayerView> getPlayerViews() {
+    return gameView.playerViews();
+}
 
     @Override
     public boolean equals(Object o) {

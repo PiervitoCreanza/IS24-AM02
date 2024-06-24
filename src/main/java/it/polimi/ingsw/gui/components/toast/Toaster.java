@@ -14,11 +14,34 @@ import java.util.Set;
  * It maintains a queue of Toasts to be displayed and ensures that no more than a specified maximum number of Toasts are displayed at once.
  */
 public class Toaster {
+    /**
+     * Logger for this class, used to log debug and error messages.
+     */
     private static final Logger logger = LogManager.getLogger(Toaster.class);
+
+    /**
+     * Maximum number of toasts that can be displayed at once.
+     */
     private static final int MAX_TOASTS = 3;
+
+    /**
+     * Singleton instance of the Toaster class.
+     */
     private static Toaster instance;
+
+    /**
+     * Queue to hold the toasts that are to be displayed.
+     */
     private final Queue<Toast> toastQueue = new LinkedList<>();
+
+    /**
+     * Set to hold the toasts that are currently being displayed.
+     */
     private final Set<Toast> currentlyShownToasts = new HashSet<>();
+
+    /**
+     * The ToastArea where the Toasts are displayed.
+     */
     private final ToastArea toastArea;
 
     /**

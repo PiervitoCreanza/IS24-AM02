@@ -20,9 +20,21 @@ import java.util.function.Consumer;
  */
 public class ToastArea extends Popup {
 
+    /**
+     * The stage on which the Toasts will be displayed.
+     */
     private final Stage stage;
+    /**
+     * The container for the Toasts.
+     */
     private final VBox container;
+    /**
+     * The top left point of the scene.
+     */
     private Point2D sceneTopLeft;
+    /**
+     * The callback to be executed when a Toast is hidden.
+     */
     private final Consumer<Toast> onHideCallback;
 
     /**

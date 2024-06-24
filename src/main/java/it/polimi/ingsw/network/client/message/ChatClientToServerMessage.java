@@ -97,6 +97,11 @@ public class ChatClientToServerMessage extends ClientToServerMessage {
         return recipient;
     }
 
+    /**
+     * This method is used to check if the chat message is a direct message.
+     *
+     * @return boolean - Returns true if the chat message is a direct message, false otherwise.
+     */
     public boolean isDirectMessage() {
         return isDirectMessage;
     }

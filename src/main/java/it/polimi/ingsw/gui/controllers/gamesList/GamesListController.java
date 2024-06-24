@@ -29,6 +29,9 @@ public class GamesListController extends Controller implements PropertyChangeLis
      */
     private static final Logger logger = LogManager.getLogger(GamesListController.class);
 
+    /**
+     * The list view for the games.
+     */
     @FXML
     private ListView<String> gameListView;
 

@@ -22,23 +22,48 @@ import java.util.Objects;
  */
 public class InitPlaceStarterCardSceneController extends InitScene {
 
+    /**
+     * The name of the controller.
+     */
     private static final ControllersEnum NAME = ControllersEnum.INIT_PLACE_STARTER_CARD;
 
+    /**
+     * The logger.
+     */
     private static final Logger logger = LogManager.getLogger(InitPlaceStarterCardSceneController.class);
 
+    /**
+     * The front and back image panes for the card.
+     */
     @FXML
     private StackPane frontImagePane;
 
+
+    /**
+     * The image view for the front side of the card.
+     */
     @FXML
     private StackPane backImagePane;
 
+    /**
+     * The image view for the front side of the card.
+     */
     @FXML
     private ImageView cardFrontImageView;
 
+    /**
+     * The image view for the back side of the card.
+     */
     @FXML
     private ImageView cardBackImageView;
 
+    /**
+     * The GameCard object representing the starter card.
+     */
     private GameCard gameCard;
+    /**
+     * The selected side of the card.
+     */
     private String selectedSide = ""; // Variable to track the selected side
 
     /**
