@@ -2,14 +2,18 @@ package it.polimi.ingsw.gui;
 
 import it.polimi.ingsw.gui.controllers.Controller;
 import it.polimi.ingsw.tui.View;
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,6 +46,7 @@ public class GUIApp extends Application implements View {
      */
     @Override
     public void launchUI() {
+        System.setProperty("prism.allowhidpi", "false");
         launch();
     }
 
@@ -72,6 +77,22 @@ public class GUIApp extends Application implements View {
             System.exit(0);
         });
 
+        // Set stage to min_width and min_height when exiting full screen.
+        stage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                stage.setMaximized(false);
+                stage.setWidth(MIN_WIDTH);
+                stage.setHeight(MIN_HEIGHT);
+            }
+        });
+
+        // Set the stage to full screen when maximized.
+        stage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                stage.setFullScreen(true);
+            }
+        });
+
         // Set the stage title and dimensions.
         stage.setTitle("Codex Naturalis");
         stage.setMinHeight(MIN_HEIGHT);
@@ -87,6 +108,7 @@ public class GUIApp extends Application implements View {
         }
         FXMLLoader loader = new FXMLLoader(fxml1URL);
 
+        // Carica la scena
         Parent root = loader.load();
 
         Scene scene = new Scene(root, MIN_WIDTH, MIN_HEIGHT);
