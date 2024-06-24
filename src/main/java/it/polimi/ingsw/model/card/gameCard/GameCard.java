@@ -46,6 +46,12 @@ public class GameCard implements Card, Serializable {
     private final CardColorEnum cardColorEnum;
 
     /**
+     * The index of the card in the placement order.
+     * This is used to determine the order in which the cards have been placed on the board.
+     */
+    private int placementIndex;
+
+    /**
      * Constructs a GameCard with specified current and other side, and card color.
      * <p>
      * Note: The parameters currentSideGameCard and otherSideGameCard should be instances of classes that extend SideGameCard.
@@ -217,6 +223,24 @@ public class GameCard implements Card, Serializable {
      */
     public BooleanProperty getIsFlippedProperty() {
         return isFlipped;
+    }
+
+    /**
+     * Gets the placement index of the card.
+     *
+     * @return The placement index of the card.
+     */
+    public int getPlacementIndex() {
+        return placementIndex;
+    }
+
+    /**
+     * Sets the placement index of the card.
+     *
+     * @param placementIndex The placement index of the card.
+     */
+    public void setPlacementIndex(int placementIndex) {
+        this.placementIndex = placementIndex;
     }
 
     /**

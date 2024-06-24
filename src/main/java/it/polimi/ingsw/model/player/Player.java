@@ -59,6 +59,11 @@ public class Player implements VirtualViewable<PlayerView> {
     private PlayerColorEnum playerColor = PlayerColorEnum.NONE;
 
     /**
+     * The number of placed cards.
+     */
+    private int numberOfPlacedCards = 0;
+
+    /**
      * Constructor for the Player class.
      * Initializes the player's name, player board, and playerHand.
      *
@@ -206,6 +211,9 @@ public class Player implements VirtualViewable<PlayerView> {
             }
             cardToPlace = playerBoard.getStarterCard();
         }
+        // Set the placement index of the card.
+        cardToPlace.setPlacementIndex(++numberOfPlacedCards);
+
         playerPos += playerBoard.placeGameCard(coordinate, cardToPlace);
         playerHand.removeCard(cardToPlace);
     }

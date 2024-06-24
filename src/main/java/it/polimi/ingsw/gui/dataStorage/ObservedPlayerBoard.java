@@ -166,8 +166,29 @@ public class ObservedPlayerBoard {
             gridPane.getChildren().remove(existingNode);
         }
 
+        // Get the card to place
+        GameCard cardToPlace = (GameCard) newNode.getUserData();
+        int placementIndex = cardToPlace.getPlacementIndex();
+
+        // If we are placing the card from the GUI, the placement index is not set yet.
+        if (placementIndex == 0) {
+            // If the placement index is not set, set it to the highest placement index in the player board + 1
+            placementIndex = playerBoard.values().stream()
+                    .map(GameCard::getPlacementIndex)
+                    .max(Integer::compareTo)
+                    .orElse(0) + 1;
+            cardToPlace.setPlacementIndex(placementIndex);
+        }
+
+        // Set the view order to the placement index to ensure the correct rendering order
+        // The index is negated to ensure that the card with the highest placement index is rendered at the bottom
+        // In fact a node with a lower view order is rendered on top of a node with a higher view order
+        newNode.setViewOrder(-placementIndex);
+
         // Add the new node
         gridPane.add(newNode, col, row);
+
+        logger.debug("Card: {} set on z-index: {}", cardToPlace.getCardId(), placementIndex);
     }
 
     /**
