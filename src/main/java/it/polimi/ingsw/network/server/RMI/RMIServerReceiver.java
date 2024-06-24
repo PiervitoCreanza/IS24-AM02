@@ -39,6 +39,8 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
      */
     private static final Logger logger = LogManager.getLogger(RMIServerReceiver.class);
 
+    private static RMIServerReceiver serverStrongReference;
+
     /**
      * Constructs a new RMIServerReceiver object with the specified ServerNetworkControllerMapper.
      *
@@ -47,6 +49,7 @@ public class RMIServerReceiver implements RMIClientToServerActions, PropertyChan
     public RMIServerReceiver(ServerNetworkControllerMapper serverNetworkControllerMapper) {
         this.serverNetworkControllerMapper = serverNetworkControllerMapper;
         this.executor = Executors.newFixedThreadPool(10);
+        serverStrongReference = this;
     }
 
     /**

@@ -5,9 +5,7 @@ import it.polimi.ingsw.network.client.RMI.RMIClientReceiver;
 import it.polimi.ingsw.network.client.RMI.RMIClientSender;
 import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
 import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
-import javafx.concurrent.Task;
 import org.apache.logging.log4j.LogManager;
-
 import java.beans.PropertyChangeListener;
 import java.net.BindException;
 import java.rmi.NotBoundException;

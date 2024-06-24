@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.channels.IllegalBlockingModeException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * The TCPConnection class implements the Connection interface using the TCP protocol.
@@ -30,6 +32,15 @@ public class TCPConnection extends Connection {
      */
     @Override
     protected void connectionSetUp() {
+        connectionTrying = new Timer();
+        connectionTrying.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                String trying = "Trying to connect to TCP server...";
+                logger.warn(trying);
+                listeners.firePropertyChange("CONNECTION_TRYING", null, trying);
+            }
+        }, 500);
         while (attempts <= maxAttempts) {
             try {
                 Socket serverSocket = new Socket();
@@ -41,6 +52,7 @@ public class TCPConnection extends Connection {
                 networkControllerMapper.setMessageHandler(clientAdapter);
                 break;
             } catch (IOException e) {
+                connectionTrying.cancel();
                 String retry = "TCP server unreachable, retrying in " + (waitTime / 1000) + " seconds. Attempt " + attempts + " out of " + maxAttempts + "...";
                 logger.warn(retry);
                 this.listeners.firePropertyChange("CONNECTION_FAILED", null, retry);
@@ -62,6 +74,7 @@ public class TCPConnection extends Connection {
             this.listeners.firePropertyChange("CONNECTION_FAILED", null, failed);
             return;
         }
+        connectionTrying.cancel();
         logger.info("TCP connection established");
         this.listeners.firePropertyChange("CONNECTION_ESTABLISHED", null, "You are now connected to the TCP server.");
     }

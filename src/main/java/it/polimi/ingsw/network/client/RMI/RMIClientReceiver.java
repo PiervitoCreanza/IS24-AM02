@@ -39,7 +39,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
     private static final Logger logger = LogManager.getLogger(RMIClientReceiver.class);
 
     //TODO: Explain why it is needed
-    private static RMIClientReceiver strongReference;
+    private static RMIClientReceiver clientStrongReference;
 
     /**
      * Class constructor.
@@ -49,7 +49,7 @@ public class RMIClientReceiver implements RMIServerToClientActions {
     public RMIClientReceiver(ClientNetworkControllerMapper clientNetworkControllerMapper) {
         this.clientNetworkControllerMapper = clientNetworkControllerMapper;
         this.executor = Executors.newSingleThreadExecutor();
-        strongReference = this;
+        clientStrongReference = this;
     }
 
 
