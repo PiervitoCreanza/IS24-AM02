@@ -1,16 +1,15 @@
 package it.polimi.ingsw.model.player;
 
-import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.card.GameItemEnum;
-import it.polimi.ingsw.model.utils.PointCornerPositionPair;
 import it.polimi.ingsw.model.card.corner.CornerPosition;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.model.utils.PointCornerPositionPair;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
+import it.polimi.ingsw.network.virtualView.PlayerBoardView;
+import it.polimi.ingsw.network.virtualView.VirtualViewable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * The PlayerBoard class represents the board of a player in the game.
@@ -18,7 +17,7 @@ import java.util.Optional;
  * It also contains a GameItemStore, representing the items the player has collected.
  * Each player board has a starter card that is set when the board is created.
  */
-public class PlayerBoard {
+public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
     /**
      * A map from points to game cards, representing the layout of the game cards on the board.
      */
@@ -145,16 +144,16 @@ public class PlayerBoard {
      * @throws IllegalArgumentException This is thrown if the position is not compatible with adjacent cards.
      * @throws IllegalArgumentException This is thrown if there are not enough resources.
      */
-    public int setGameCard(Coordinate coordinate, GameCard gameCard) {
+    public int placeGameCard(Coordinate coordinate, GameCard gameCard) {
         validatePlacement(coordinate, gameCard);
         updateGameItems(gameCard, coordinate);
         playerBoard.put(coordinate, gameCard);
-        return gameCard.getPoints(coordinate, this);
+        return gameCard.calculatePoints(coordinate, this);
     }
 
     private void validatePlacement(Coordinate coordinate, GameCard gameCard) {
         if (playerBoard.containsKey(coordinate)) {
-            throw new IllegalArgumentException("Position already occupied");
+            throw new IllegalArgumentException("You're trying to place the card in an already occupied position.");
         }
 
         if (!isPositionAdjacent(coordinate)) {
@@ -166,7 +165,7 @@ public class PlayerBoard {
         }
 
         if (!hasEnoughResources(gameCard)) {
-            throw new IllegalArgumentException("Not enough resources");
+            throw new IllegalArgumentException("You don't have enough game resources to place this card");
         }
     }
 
@@ -244,5 +243,43 @@ public class PlayerBoard {
                 gameItems.decrement(coveredItem, 1);
             }
         });
+    }
+
+    /**
+     * This method is used to get the available positions where the player can place a card.
+     *
+     * @return HashSet<Coordinate> This returns the available positions.
+     */
+    public HashSet<Coordinate> getAvailablePositions() {
+        HashSet<Coordinate> availablePositions = new HashSet<>();
+        Set<Coordinate> playerBoardCoordinates = playerBoard.keySet();
+
+        // If no card is placed, the only available position is the center of the board.
+        if (playerBoardCoordinates.isEmpty()) {
+            availablePositions.add(new Coordinate(0, 0));
+            return availablePositions;
+        }
+
+        // For each card in the player board, check the adjacent positions.
+        playerBoardCoordinates.forEach(coord -> {
+            getAdjacentPointCornersPair(coord).forEach(pair -> {
+                Coordinate adjacentCoordinate = pair.coordinate();
+                // If the position is not occupied and the placement is compatible, add it to the available positions.
+                if (!playerBoard.containsKey(adjacentCoordinate) && isPlacementCompatible(adjacentCoordinate)) {
+                    availablePositions.add(adjacentCoordinate);
+                }
+            });
+        });
+        return availablePositions;
+    }
+
+    /**
+     * This method is used to get the virtual view of the player's board.
+     *
+     * @return PlayerBoardView This returns the virtual view of the player's board.
+     */
+    @Override
+    public PlayerBoardView getVirtualView() {
+        return new PlayerBoardView(playerBoard, gameItems, getAvailablePositions());
     }
 }

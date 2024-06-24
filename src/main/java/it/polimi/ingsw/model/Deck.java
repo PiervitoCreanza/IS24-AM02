@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
-import java.util.Random;
 
 /**
  * This class represents a deck of cards in the game.
@@ -20,12 +20,6 @@ public class Deck<T> {
     private final ArrayList<T> deck;
 
     /**
-     * Used for generating random numbers.
-     * This is used when drawing a card from the deck to ensure the card drawn is random.
-     */
-    private final Random random;
-
-    /**
      * Constructor for Deck. Initializes the deck with the specified cards.
      *
      * @param cards The list of cards to initialize the deck with. This cannot be null.
@@ -33,7 +27,8 @@ public class Deck<T> {
      */
     public Deck(ArrayList<T> cards) {
         this.deck = new ArrayList<>(Objects.requireNonNull(cards));
-        this.random = new Random();
+        // Shuffle the deck.
+        Collections.shuffle(deck);
     }
 
     /**
@@ -55,7 +50,7 @@ public class Deck<T> {
     public T draw() {
         if (deck.isEmpty())
             throw new RuntimeException("The deck is empty");
-        return deck.remove(random.nextInt(deck.size()));
+        return deck.removeFirst();
     }
 
     /**
@@ -65,6 +60,17 @@ public class Deck<T> {
      */
     public ArrayList<T> getCards() {
         return deck;
+    }
+
+    /**
+     * Returns the first card in the deck.
+     *
+     * @return The first card in the deck.
+     */
+    public T getFirst() {
+        if (!deck.isEmpty())
+            return deck.getFirst();
+        return null;
     }
 
     /**

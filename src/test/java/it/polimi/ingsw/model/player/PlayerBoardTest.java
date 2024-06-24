@@ -1,10 +1,12 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.data.Parser;
 import it.polimi.ingsw.model.card.CardColorEnum;
 import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.model.card.corner.Corner;
 import it.polimi.ingsw.model.card.corner.CornerPosition;
-import it.polimi.ingsw.model.card.gameCard.*;
+import it.polimi.ingsw.model.card.gameCard.BackGameCard;
+import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.gameCard.front.FrontGameCard;
 import it.polimi.ingsw.model.card.gameCard.front.goldCard.FrontPositionalGoldGameCard;
 import it.polimi.ingsw.model.utils.Coordinate;
@@ -12,6 +14,8 @@ import it.polimi.ingsw.model.utils.store.GameItemStore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -32,7 +36,7 @@ public class PlayerBoardTest {
      * Helper methods
      */
     private void setStarterCard() {
-        playerBoard.setGameCard(new Coordinate(0, 0), starterCard);
+        playerBoard.placeGameCard(new Coordinate(0, 0), starterCard);
     }
 
     private GameCard createCardWithCornerItem(GameItemEnum gameItem) {
@@ -108,7 +112,7 @@ public class PlayerBoardTest {
     @DisplayName("Get game cards returns list of cards when cards present")
     public void getGameCardsReturnsListOfCardsWhenCardsPresent() {
         Coordinate coordinate = new Coordinate(0, 0);
-        playerBoard.setGameCard(coordinate, starterCard);
+        playerBoard.placeGameCard(coordinate, starterCard);
         assertTrue(playerBoard.getGameCards().contains(starterCard));
     }
 
@@ -119,57 +123,57 @@ public class PlayerBoardTest {
     }
 
     /**
-     * SetGameCard tests
+     * PlaceGameCard tests
      */
     @Test
-    @DisplayName("SetGameCard places the starter card")
-    public void setGameCardTest1() {
+    @DisplayName("PlaceGameCard places the starter card")
+    public void placeGameCardTest1() {
         setStarterCard();
         assertEquals(playerBoard.getGameCard(new Coordinate(0, 0)).get(), starterCard);
     }
 
     @Test
-    @DisplayName("SetGameCard throws exception Position already occupied")
-    public void setGameCardTest2() {
+    @DisplayName("PlaceGameCard throws exception Position already occupied")
+    public void placeGameCardTest2() {
         setStarterCard();
         Exception exception = assertThrows(IllegalArgumentException.class, this::setStarterCard);
-        assertEquals("Position already occupied", exception.getMessage());
+        assertEquals("You're trying to place the card in an already occupied position.", exception.getMessage());
     }
 
     @Test
-    @DisplayName("SetGameCard throws exception Position not adjacent to any other card")
-    public void setGameCardTest3() {
+    @DisplayName("PlaceGameCard throws exception Position not adjacent to any other card")
+    public void placeGameCardTest3() {
         Coordinate coordinate = new Coordinate(1, 1);
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> playerBoard.setGameCard(coordinate, resourceCard));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> playerBoard.placeGameCard(coordinate, resourceCard));
         assertEquals("Position not adjacent to any other card", exception.getMessage());
     }
 
     @Test
-    @DisplayName("SetGameCard throws exception Position not compatible with adjacent cards")
-    public void setGameCardTest4() {
+    @DisplayName("PlaceGameCard throws exception Position not compatible with adjacent cards")
+    public void placeGameCardTest4() {
         // Create a card with no corners
         starterCard = createCardWithoutCorner();
         // Place the starter card to avoid the exception in the previous test
         setStarterCard();
 
         Coordinate coordinate = new Coordinate(1, 1);
-        assertIllegalArgument("Position not compatible with adjacent cards", () -> playerBoard.setGameCard(coordinate, resourceCard));
+        assertIllegalArgument("Position not compatible with adjacent cards", () -> playerBoard.placeGameCard(coordinate, resourceCard));
     }
 
     @Test
-    @DisplayName("SetGameCard throws exception when not enough resources")
-    public void setGameCardTest5() {
+    @DisplayName("PlaceGameCard throws exception when not enough resources")
+    public void placeGameCardTest5() {
         GameItemStore gameItemStore = new GameItemStore();
         gameItemStore.set(GameItemEnum.INSECT, 2);
         when(gameCard.getNeededItemStore()).thenReturn(gameItemStore);
         Coordinate coordinate = new Coordinate(0, 0);
 
-        assertIllegalArgument("Not enough resources", () -> playerBoard.setGameCard(coordinate, gameCard));
+        assertIllegalArgument("You don't have enough game resources to place this card", () -> playerBoard.placeGameCard(coordinate, gameCard));
     }
 
     @Test
-    @DisplayName("SetGameCard works correctly")
-    public void setGameCardCorrectlyPlacesCardWhenPointFreeAdjacentCardPresentAndMatching() {
+    @DisplayName("PlaceGameCard works correctly")
+    public void placeGameCardCorrectlyPlacesCardWhenPointFreeAdjacentCardPresentAndMatching() {
         setStarterCard();
         // Check that the starter card is placed correctly
         assertEquals(4, playerBoard.getGameItemAmount(GameItemEnum.PLANT));
@@ -182,7 +186,7 @@ public class PlayerBoardTest {
 
         // Place a new card
         Coordinate coordinate = new Coordinate(1, 1);
-        int points = playerBoard.setGameCard(coordinate, positionalGoldCard);
+        int points = playerBoard.placeGameCard(coordinate, positionalGoldCard);
 
         // Check that the new card is placed correctly
         assertEquals(positionalGoldCard, playerBoard.getGameCard(coordinate).get());
@@ -203,6 +207,43 @@ public class PlayerBoardTest {
         assertEquals(0, playerBoard.getGameItemAmount(GameItemEnum.MANUSCRIPT));
 
         // Check that the points are calculated correctly
-        assertEquals(positionalGoldCard.getPoints(coordinate, playerBoard), points);
+        assertEquals(positionalGoldCard.calculatePoints(coordinate, playerBoard), points);
+    }
+
+    @Test
+    @DisplayName("getAvailablePositions return <0,0> when no cards present")
+    public void getAvailablePositionsReturns00WhenNoCardsPresent() {
+        assertEquals(1, playerBoard.getAvailablePositions().size());
+        assertTrue(playerBoard.getAvailablePositions().contains(new Coordinate(0, 0)));
+    }
+
+    private void placeCard(int x, int y, GameCard card, PlayerBoard playerBoard) {
+        playerBoard.placeGameCard(new Coordinate(x, y), card);
+    }
+
+    private GameCard getGameCardById(int id, ArrayList<GameCard> cards) {
+        return cards.stream().filter(c -> c.getCardId() == id).findFirst().get();
+    }
+
+    @Test
+    @DisplayName("getAvailablePositions returns correct coordinates when cards present")
+    public void getAvailablePositionsReturnsCorrectCoordinatesWhenCardsPresent() {
+        Parser p = new Parser();
+        GameCard starterCard = p.getStarterDeck().getCards().stream().filter(c -> c.getCardId() == 84).findFirst().get();
+        PlayerBoard playerBoard = new PlayerBoard(starterCard);
+        ArrayList<GameCard> cards = p.getResourceDeck().getCards();
+
+        placeCard(0, 0, starterCard, playerBoard);
+        placeCard(1, 1, getGameCardById(2, cards), playerBoard);
+        placeCard(-1, -1, getGameCardById(5, cards), playerBoard);
+        placeCard(-1, 1, getGameCardById(10, cards), playerBoard);
+
+        assertEquals(6, playerBoard.getAvailablePositions().size());
+        assertTrue(playerBoard.getAvailablePositions().contains(new Coordinate(0, 2)));
+        assertTrue(playerBoard.getAvailablePositions().contains(new Coordinate(1, -1)));
+        assertTrue(playerBoard.getAvailablePositions().contains(new Coordinate(2, 2)));
+        assertTrue(playerBoard.getAvailablePositions().contains(new Coordinate(2, 0)));
+        assertTrue(playerBoard.getAvailablePositions().contains(new Coordinate(0, -2)));
+        assertTrue(playerBoard.getAvailablePositions().contains(new Coordinate(-2, -2)));
     }
 }

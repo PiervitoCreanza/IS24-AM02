@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model.card.gameCard.front.goldCard;
 
 
+import it.polimi.ingsw.model.card.corner.Corner;
+import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
-import it.polimi.ingsw.model.player.PlayerBoard;
-import it.polimi.ingsw.model.card.corner.Corner;
 
 /**
  * Represents a specific type of FrontGoldGameCard, named FrontPositionalGoldGameCard.
@@ -27,6 +27,16 @@ public class FrontPositionalGoldGameCard extends FrontGoldGameCard {
     }
 
     /**
+     * Returns true, overriding the upper method.
+     *
+     * @return True.
+     */
+    @Override
+    public boolean isGoldPositional() {
+        return true;
+    }
+
+    /**
      * Calculates and returns the points for this FrontPositionalGoldGameCard based on its
      * position on the player's board. The points are calculated by considering the
      * adjacency of other cards to each corner of this card.
@@ -36,7 +46,7 @@ public class FrontPositionalGoldGameCard extends FrontGoldGameCard {
      * @return The calculated points based on the card's position and its adjacent cards.
      */
     @Override
-    public int getPoints(Coordinate cardPosition, PlayerBoard playerBoard) {
+    public int calculatePoints(Coordinate cardPosition, PlayerBoard playerBoard) {
         int N = 0;
 
         // Define the four corners of the current card position

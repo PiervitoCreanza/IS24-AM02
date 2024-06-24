@@ -1,15 +1,16 @@
 package it.polimi.ingsw.model.card.objectiveCard;
 
+import it.polimi.ingsw.model.card.Card;
 import it.polimi.ingsw.model.player.PlayerBoard;
 
-import java.util.Objects;
+import java.io.Serializable;
 
 /**
  * This abstract class represents an objective card in the game.
  * Each objective card allows the player to earn points based on certain criteria.
  * The specific criteria are defined in the subclasses of this class.
  */
-abstract public class ObjectiveCard {
+abstract public class ObjectiveCard implements Serializable, Card {
 
     /**
      * The unique identifier of this objective card.
@@ -32,6 +33,24 @@ abstract public class ObjectiveCard {
         if (pointsWon <= 0) throw new IllegalArgumentException("pointsWon must be positive");
         this.cardId = cardId;
         this.pointsWon = pointsWon;
+    }
+
+    /**
+     * Returns true if the objective card is a positional objective card, false otherwise.
+     *
+     * @return true if the objective card is a positional objective card, false otherwise.
+     */
+    public boolean isPositionalObjectiveCard() {
+        return false;
+    }
+
+    /**
+     * Returns the number of points the player can win by fulfilling the objective of this card.
+     *
+     * @return The number of points the player can win by fulfilling the objective of this card.
+     */
+    public int getPointsWon() {
+        return pointsWon;
     }
 
     /**

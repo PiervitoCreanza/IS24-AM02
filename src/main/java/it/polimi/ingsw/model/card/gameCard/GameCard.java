@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.card.gameCard;
 
+import it.polimi.ingsw.model.card.Card;
 import it.polimi.ingsw.model.card.CardColorEnum;
 import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.model.card.corner.Corner;
@@ -7,7 +8,9 @@ import it.polimi.ingsw.model.card.corner.CornerPosition;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
+import javafx.beans.property.BooleanProperty;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -15,12 +18,17 @@ import java.util.Optional;
  * Represents a game card in the game.
  * Each game card has two sides, a current side and another side, along with a specific color.
  */
-public class GameCard {
+public class GameCard implements Card, Serializable {
 
     /**
      * The unique identifier for the game card.
      */
     private final int cardId;
+
+    /**
+     * The side of the card that is currently facing up.
+     */
+    private final SerializableBooleanProperty isFlipped = new SerializableBooleanProperty(false);
 
     /**
      * The side of the card that is currently facing up.
@@ -36,6 +44,12 @@ public class GameCard {
      * The color of the card.
      */
     private final CardColorEnum cardColorEnum;
+
+    /**
+     * The index of the card in the placement order.
+     * This is used to determine the order in which the cards have been placed on the board.
+     */
+    private int placementIndex;
 
     /**
      * Constructs a GameCard with specified current and other side, and card color.
@@ -81,6 +95,7 @@ public class GameCard {
      * Switches the current side of the card with the other side.
      */
     public void switchSide() {
+        isFlipped.set(!isFlipped.get());
         SideGameCard tempSideGameCard = currentSideGameCard;
         currentSideGameCard = otherSideGameCard;
         otherSideGameCard = tempSideGameCard;
@@ -125,14 +140,32 @@ public class GameCard {
     }
 
     /**
+     * Gets the back game item store of the current side of the card.
+     *
+     * @return The back game item store of the current side.
+     */
+    public GameItemStore getBackItemStore() {
+        return currentSideGameCard.getBackItemStore();
+    }
+
+    /**
+     * Returns the points of the current side of the game card.
+     *
+     * @return The points of the current side of the game card.
+     */
+    public int getPoints() {
+        return currentSideGameCard.getPoints();
+    }
+
+    /**
      * Calculates and returns the points for the card based on its position and the player's board.
      *
      * @param cardPosition The position of the card on the player's board.
      * @param playerBoard  The player's board.
      * @return The calculated points for the card.
      */
-    public int getPoints(Coordinate cardPosition, PlayerBoard playerBoard) {
-        return currentSideGameCard.getPoints(cardPosition, playerBoard);
+    public int calculatePoints(Coordinate cardPosition, PlayerBoard playerBoard) {
+        return currentSideGameCard.calculatePoints(cardPosition, playerBoard);
     }
 
     /**
@@ -142,6 +175,72 @@ public class GameCard {
      */
     public GameItemStore getNeededItemStore() {
         return currentSideGameCard.getNeededItemStore();
+    }
+
+    /**
+     * Gets the multiplier for the current side of the card.
+     *
+     * @return The multiplier for the current side.
+     */
+    public GameItemEnum getMultiplier() {
+        return currentSideGameCard.getMultiplier();
+    }
+
+    /**
+     * Checks if the current side of the card is gold positional.
+     *
+     * @return true if the current side of the card is gold positional, false otherwise.
+     */
+    public boolean isGoldPositional() {
+        return currentSideGameCard.isGoldPositional();
+    }
+
+    /**
+     * Returns a boolean indicating if the card is flipped.
+     *
+     * @return true if the card is flipped, false otherwise.
+     */
+    public boolean isFlipped() {
+        return isFlipped.get();
+    }
+
+    /**
+     * Sets the current side of the card.
+     *
+     * @param flipped The flipped status to set.
+     */
+    public void setFlipped(boolean flipped) {
+        if (flipped == isFlipped.get()) {
+            return;
+        }
+        switchSide();
+    }
+
+    /**
+     * Gets the boolean property indicating if the card is flipped.
+     *
+     * @return The boolean property indicating if the card is flipped.
+     */
+    public BooleanProperty getIsFlippedProperty() {
+        return isFlipped;
+    }
+
+    /**
+     * Gets the placement index of the card.
+     *
+     * @return The placement index of the card.
+     */
+    public int getPlacementIndex() {
+        return placementIndex;
+    }
+
+    /**
+     * Sets the placement index of the card.
+     *
+     * @param placementIndex The placement index of the card.
+     */
+    public void setPlacementIndex(int placementIndex) {
+        this.placementIndex = placementIndex;
     }
 
     /**

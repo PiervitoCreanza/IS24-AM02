@@ -1,9 +1,8 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.data.Parser;
-import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
-import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,14 +13,14 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-@DisplayName("Player Test")
+@DisplayName("PlayerTest")
 public class PlayerTest {
     private Player player;
     private ObjectiveCard objectiveCard;
 
     @BeforeEach
     public void setup() {
-        objectiveCard = mock(ObjectiveCard.class);
+        objectiveCard = new Parser().getObjectiveDeck().getFirst();
         GameCard starterCard = mock(GameCard.class);
         ObjectiveCard card = mock(ObjectiveCard.class);
         ArrayList<ObjectiveCard> choosableObjectives = new ArrayList<>();
@@ -82,19 +81,23 @@ public class PlayerTest {
     @Test
     @DisplayName("Get objective card returns non-null after setting")
     public void getObjectiveCardReturnsNonNullAfterSetting() {
-        player.setPlayerObjective(objectiveCard);
+        player.setPlayerObjective(objectiveCard.getCardId());
         assertEquals(objectiveCard, player.getObjectiveCard());
     }
 
     @Test
-    @DisplayName("SetGameCard successfully places the card and removes it from the hand")
-    public void setGameCardSuccessfullyPlacesCardAndRemovesFromHand() {
+    @DisplayName("PlaceGameCard successfully places the card and removes it from the hand")
+    public void placeGameCardSuccessfullyPlacesCardAndRemovesFromHand() {
         Parser parser = new Parser();
         GameCard card = parser.getStarterDeck().draw();
         player.getPlayerHand().addCard(card);
         assertEquals(card, player.getPlayerHand().getCards().getFirst());
-        player.setGameCard(new Coordinate(0, 0), card);
+        player.placeGameCard(new Coordinate(0, 0), card.getCardId());
         assertEquals(card, player.getPlayerBoard().getGameCard(new Coordinate(0, 0)).get());
         assertFalse(player.getPlayerHand().getCards().contains(card));
+
+        String message = assertThrows(IllegalArgumentException.class, () -> player.placeGameCard(new Coordinate(0, 0), card.getCardId())).getMessage();
+        assertEquals("Player does not have the card in hand or it is not the starter card", message);
     }
+
 }

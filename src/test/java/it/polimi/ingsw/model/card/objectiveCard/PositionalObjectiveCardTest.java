@@ -76,14 +76,14 @@ public class PositionalObjectiveCardTest {
         when(gameCard3.getCardColor()).thenReturn(CardColorEnum.RED);
         when(gameCard4.getCardColor()).thenReturn(CardColorEnum.RED);
         when(gameCard5.getCardColor()).thenReturn(CardColorEnum.GREEN);
-        when(gameCard6.getCardColor()).thenReturn(CardColorEnum.BLUE);
+        when(gameCard6.getCardColor()).thenReturn(CardColorEnum.CYAN);
         when(gameCard7.getCardColor()).thenReturn(CardColorEnum.PURPLE);
         when(gameCard8.getCardColor()).thenReturn(CardColorEnum.RED);
         when(gameCard9.getCardColor()).thenReturn(CardColorEnum.RED);
         when(gameCard10.getCardColor()).thenReturn(CardColorEnum.RED);
         when(gameCard11.getCardColor()).thenReturn(CardColorEnum.GREEN);
         when(gameCard12.getCardColor()).thenReturn(CardColorEnum.GREEN);
-        when(gameCard13.getCardColor()).thenReturn(CardColorEnum.BLUE);
+        when(gameCard13.getCardColor()).thenReturn(CardColorEnum.CYAN);
         when(playerBoard.getGameCards()).thenReturn(gameCards);
         when(playerBoard.getGameCardPosition(gameCard1)).thenReturn(Optional.of(new Coordinate(0, 0)));
         when(playerBoard.getGameCardPosition(gameCard2)).thenReturn(Optional.of(new Coordinate(-1, 1)));
@@ -168,7 +168,7 @@ public class PositionalObjectiveCardTest {
         when(gameCard11.getCardColor()).thenReturn(CardColorEnum.RED);
         when(gameCard12.getCardColor()).thenReturn(CardColorEnum.GREEN);
         when(gameCard13.getCardColor()).thenReturn(CardColorEnum.GREEN);
-        when(gameCard14.getCardColor()).thenReturn(CardColorEnum.BLUE);
+        when(gameCard14.getCardColor()).thenReturn(CardColorEnum.CYAN);
         when(playerBoard.getGameCards()).thenReturn(gameCards);
         when(playerBoard.getGameCardPosition(gameCard1)).thenReturn(Optional.of(new Coordinate(0, 0)));
         when(playerBoard.getGameCardPosition(gameCard2)).thenReturn(Optional.of(new Coordinate(-1, 1)));
@@ -208,7 +208,7 @@ public class PositionalObjectiveCardTest {
         gameItemStore.set(GameItemEnum.FUNGI, 3);
         ItemObjectiveCard itemObjectiveCard1 = new ItemObjectiveCard(1, 2, gameItemStore);
         ItemObjectiveCard itemObjectiveCard2 = new ItemObjectiveCard(1, 2, gameItemStore);
-        assertTrue(itemObjectiveCard1.equals(itemObjectiveCard2));
+        assertEquals(itemObjectiveCard1, itemObjectiveCard2);
     }
 
     @Test
@@ -222,6 +222,6 @@ public class PositionalObjectiveCardTest {
         gameItemStore2.set(GameItemEnum.ANIMAL, 2);
         ItemObjectiveCard itemObjectiveCard2 = new ItemObjectiveCard(1, 2, gameItemStore2);
 
-        assertFalse(itemObjectiveCard1.equals(itemObjectiveCard2));
+        assertNotEquals(itemObjectiveCard1, itemObjectiveCard2);
     }
 }

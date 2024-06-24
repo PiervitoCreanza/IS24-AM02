@@ -64,11 +64,21 @@ public class GameCardTest {
     @Test
     @DisplayName("getPoints() test for GameCard class")
     public void getPointsShouldReturnPointsFromCurrentSide() {
+        when(side1.getPoints()).thenReturn(5);
+
+        int result = gameCard.getPoints();
+
+        assertEquals(5, result);
+    }
+
+    @Test
+    @DisplayName("calculatePoints() test for GameCard class")
+    public void calculatePointsShouldReturnPointsFromCurrentSide() {
         //not really useful because this method is defined in this class just to allow the Override in the child classes
         Coordinate coordinate = new Coordinate(0, 0);
-        when(side1.getPoints(coordinate, playerBoard)).thenReturn(5);
+        when(side1.calculatePoints(coordinate, playerBoard)).thenReturn(5);
 
-        int result = gameCard.getPoints(coordinate, playerBoard);
+        int result = gameCard.calculatePoints(coordinate, playerBoard);
 
         assertEquals(5, result);
     }
@@ -82,6 +92,26 @@ public class GameCardTest {
         GameItemStore result = gameCard.getNeededItemStore();
 
         assertEquals(store, result);
+    }
+
+    @Test
+    @DisplayName("getMultiplier() test for GameCard class")
+    public void getMultiplierShouldReturnPointsFromCurrentSide() {
+        when(side1.getMultiplier()).thenReturn(GameItemEnum.PLANT);
+
+        GameItemEnum result = gameCard.getMultiplier();
+
+        assertEquals(GameItemEnum.PLANT, result);
+    }
+
+    @Test
+    @DisplayName("isGoldPositional() test for GameCard class")
+    public void isGoldPositionalShouldReturnTheResultFromCurrentSide() {
+        when(side1.isGoldPositional()).thenReturn(true);
+
+        boolean result = gameCard.isGoldPositional();
+
+        assertTrue(result);
     }
 
     @Test
@@ -122,13 +152,25 @@ public class GameCardTest {
     }
 
     @Test
+    @DisplayName("getBackItemStore() should return the back game item store of the current side")
+    public void getBackItemStoreShouldReturnCurrentSideBackStore() {
+        GameItemStore store = mock(GameItemStore.class);
+        when(gameCard.getBackItemStore()).thenReturn(store);
+
+        GameItemStore result = gameCard.getBackItemStore();
+
+        assertEquals(store, result);
+    }
+
+
+    @Test
     @DisplayName("Equals method returns true when comparing identical GameCards")
     public void equalsReturnsTrueForIdenticalCards() {
         SideGameCard side1 = mock(SideGameCard.class);
         SideGameCard side2 = mock(SideGameCard.class);
         GameCard gameCard1 = new GameCard(1, side1, side2, CardColorEnum.RED);
         GameCard gameCard2 = new GameCard(1, side1, side2, CardColorEnum.RED);
-        assertTrue(gameCard1.equals(gameCard2));
+        assertEquals(gameCard1, gameCard2);
     }
 
     @Test
@@ -139,6 +181,6 @@ public class GameCardTest {
         SideGameCard side3 = mock(SideGameCard.class);
         GameCard gameCard1 = new GameCard(1, side1, side2, CardColorEnum.RED);
         GameCard gameCard2 = new GameCard(2, side1, side3, CardColorEnum.GREEN);
-        assertFalse(gameCard1.equals(gameCard2));
+        assertNotEquals(gameCard1, gameCard2);
     }
 }

@@ -3,6 +3,8 @@ package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.network.virtualView.PlayerView;
+import it.polimi.ingsw.network.virtualView.VirtualViewable;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -11,7 +13,7 @@ import java.util.Objects;
  * The Player class represents a player in the game.
  * It contains the player's attributes and the PlayerBoard.
  */
-public class Player {
+public class Player implements VirtualViewable<PlayerView> {
     /**
      * The name of the player.
      */
@@ -55,6 +57,11 @@ public class Player {
      * The color is represented as an enum of type PlayerColorEnum.
      */
     private PlayerColorEnum playerColor = PlayerColorEnum.NONE;
+
+    /**
+     * The number of placed cards.
+     */
+    private int numberOfPlacedCards = 0;
 
     /**
      * Constructor for the Player class.
@@ -123,15 +130,15 @@ public class Player {
     /**
      * This method is used to set the ObjectiveCard of the player.
      *
-     * @param objectiveCard This is the ObjectiveCard to be set.
+     * @param objectiveCardId This is the ObjectiveCard to be set.
      */
-    public void setPlayerObjective(ObjectiveCard objectiveCard) {
-
-        if (!choosableObjectives.contains(objectiveCard)) {
+    public void setPlayerObjective(int objectiveCardId) {
+        ObjectiveCard choosenObjective = choosableObjectives.stream().filter(o -> o.getCardId() == objectiveCardId).findFirst().orElse(null);
+        if (choosenObjective == null) {
             throw new IllegalArgumentException("Objective card must be one of the drawn objectives");
         }
 
-        this.objectiveCard = Objects.requireNonNull(objectiveCard, "Objective card cannot be null");
+        this.objectiveCard = choosenObjective;
     }
 
     /**
@@ -194,10 +201,30 @@ public class Player {
      * This method is used to set the game card on the player board.
      *
      * @param coordinate The coordinate where the game card is to be set.
-     * @param gameCard   The game card to be set.
+     * @param gameCardId The game card to be set.
      */
-    public void setGameCard(Coordinate coordinate, GameCard gameCard) {
-        playerBoard.setGameCard(coordinate, gameCard);
-        playerHand.removeCard(gameCard);
+    public void placeGameCard(Coordinate coordinate, int gameCardId) {
+        GameCard cardToPlace = playerHand.getById(gameCardId);
+        if (cardToPlace == null) {
+            if (playerBoard.getStarterCard().getCardId() != gameCardId) {
+                throw new IllegalArgumentException("Player does not have the card in hand or it is not the starter card");
+            }
+            cardToPlace = playerBoard.getStarterCard();
+        }
+        // Set the placement index of the card.
+        cardToPlace.setPlacementIndex(++numberOfPlacedCards);
+
+        playerPos += playerBoard.placeGameCard(coordinate, cardToPlace);
+        playerHand.removeCard(cardToPlace);
+    }
+
+    /**
+     * Gets the virtual view provided by this object.
+     *
+     * @return the virtual view of type PlayerView
+     */
+    @Override
+    public PlayerView getVirtualView() {
+        return new PlayerView(playerName, playerColor, playerPos, objectiveCard, choosableObjectives, isConnected, playerBoard.getStarterCard(), playerHand.getVirtualView(), playerBoard.getVirtualView());
     }
 }

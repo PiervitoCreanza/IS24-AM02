@@ -3,6 +3,7 @@
     "ResourceCard": [
       {
         "cardId": 1,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -58,6 +59,7 @@
       },
       {
         "cardId": 2,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -113,6 +115,7 @@
       },
       {
         "cardId": 3,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -168,6 +171,7 @@
       },
       {
         "cardId": 4,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -223,6 +227,7 @@
       },
       {
         "cardId": 5,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -278,6 +283,7 @@
       },
       {
         "cardId": 6,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -333,6 +339,7 @@
       },
       {
         "cardId": 7,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -392,6 +399,7 @@
       },
       {
         "cardId": 8,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -447,6 +455,7 @@
       },
       {
         "cardId": 9,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -502,6 +511,7 @@
       },
       {
         "cardId": 10,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -557,6 +567,7 @@
       },
       {
         "cardId": 11,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -612,6 +623,7 @@
       },
       {
         "cardId": 12,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -667,6 +679,7 @@
       },
       {
         "cardId": 13,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -722,6 +735,7 @@
       },
       {
         "cardId": 14,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -777,6 +791,7 @@
       },
       {
         "cardId": 15,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -832,6 +847,7 @@
       },
       {
         "cardId": 16,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -887,6 +903,7 @@
       },
       {
         "cardId": 17,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -942,6 +959,7 @@
       },
       {
         "cardId": 18,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -956,7 +974,7 @@
             },
             "bottomLeft": {
               "isCovered": false,
-              "gameItem": "FUNGI"
+              "gameItem": "PLANT"
             }
           }
         },
@@ -997,6 +1015,7 @@
       },
       {
         "cardId": 19,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1052,6 +1071,7 @@
       },
       {
         "cardId": 20,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1107,6 +1127,7 @@
       },
       {
         "cardId": 21,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1158,10 +1179,11 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       {
         "cardId": 22,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1213,10 +1235,11 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       {
         "cardId": 23,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1268,10 +1291,11 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       {
         "cardId": 24,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1323,10 +1347,11 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       {
         "cardId": 25,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1378,10 +1403,11 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       {
         "cardId": 26,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1433,10 +1459,11 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       {
         "cardId": 27,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1488,10 +1515,11 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       {
         "cardId": 28,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1543,10 +1571,11 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       {
         "cardId": 29,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1598,10 +1627,11 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       {
         "cardId": 30,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1653,10 +1683,11 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       {
         "cardId": 31,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1712,6 +1743,7 @@
       },
       {
         "cardId": 32,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1767,6 +1799,7 @@
       },
       {
         "cardId": 33,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1822,6 +1855,7 @@
       },
       {
         "cardId": 34,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1877,6 +1911,7 @@
       },
       {
         "cardId": 35,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1932,6 +1967,7 @@
       },
       {
         "cardId": 36,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -1987,6 +2023,7 @@
       },
       {
         "cardId": 37,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -2042,6 +2079,7 @@
       },
       {
         "cardId": 38,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -2097,6 +2135,7 @@
       },
       {
         "cardId": 39,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -2152,6 +2191,7 @@
       },
       {
         "cardId": 40,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -2210,6 +2250,7 @@
       "ItemGoldCard": [
         {
           "cardId": 41,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2278,6 +2319,7 @@
         },
         {
           "cardId": 42,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2346,6 +2388,7 @@
         },
         {
           "cardId": 43,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2414,6 +2457,7 @@
         },
         {
           "cardId": 51,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2482,6 +2526,7 @@
         },
         {
           "cardId": 52,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2550,6 +2595,7 @@
         },
         {
           "cardId": 53,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2618,6 +2664,7 @@
         },
         {
           "cardId": 61,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2682,10 +2729,11 @@
               }
             }
           },
-          "cardColorEnum": "BLUE"
+          "cardColorEnum": "CYAN"
         },
         {
           "cardId": 62,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2750,10 +2798,11 @@
               }
             }
           },
-          "cardColorEnum": "BLUE"
+          "cardColorEnum": "CYAN"
         },
         {
           "cardId": 63,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2818,10 +2867,11 @@
               }
             }
           },
-          "cardColorEnum": "BLUE"
+          "cardColorEnum": "CYAN"
         },
         {
           "cardId": 71,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2890,6 +2940,7 @@
         },
         {
           "cardId": 72,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -2958,6 +3009,7 @@
         },
         {
           "cardId": 73,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontItemGoldGameCard",
             "sideContent": {
@@ -3028,6 +3080,7 @@
       "PositionalGoldCard": [
         {
           "cardId": 44,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3095,6 +3148,7 @@
         },
         {
           "cardId": 45,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3162,6 +3216,7 @@
         },
         {
           "cardId": 46,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3229,6 +3284,7 @@
         },
         {
           "cardId": 54,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3296,6 +3352,7 @@
         },
         {
           "cardId": 55,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3363,6 +3420,7 @@
         },
         {
           "cardId": 56,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3430,6 +3488,7 @@
         },
         {
           "cardId": 64,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3493,10 +3552,11 @@
               }
             }
           },
-          "cardColorEnum": "BLUE"
+          "cardColorEnum": "CYAN"
         },
         {
           "cardId": 65,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3560,10 +3620,11 @@
               }
             }
           },
-          "cardColorEnum": "BLUE"
+          "cardColorEnum": "CYAN"
         },
         {
           "cardId": 66,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3627,10 +3688,11 @@
               }
             }
           },
-          "cardColorEnum": "BLUE"
+          "cardColorEnum": "CYAN"
         },
         {
           "cardId": 74,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3698,6 +3760,7 @@
         },
         {
           "cardId": 75,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3765,6 +3828,7 @@
         },
         {
           "cardId": 76,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontPositionalGoldGameCard",
             "sideContent": {
@@ -3834,6 +3898,7 @@
       "SimpleGoldCard": [
         {
           "cardId": 47,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -3897,6 +3962,7 @@
         },
         {
           "cardId": 48,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -3960,6 +4026,7 @@
         },
         {
           "cardId": 49,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4023,6 +4090,7 @@
         },
         {
           "cardId": 50,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4086,6 +4154,7 @@
         },
         {
           "cardId": 57,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4149,6 +4218,7 @@
         },
         {
           "cardId": 58,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4212,6 +4282,7 @@
         },
         {
           "cardId": 59,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4275,6 +4346,7 @@
         },
         {
           "cardId": 60,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4338,6 +4410,7 @@
         },
         {
           "cardId": 67,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4397,10 +4470,11 @@
               }
             }
           },
-          "cardColorEnum": "BLUE"
+          "cardColorEnum": "CYAN"
         },
         {
           "cardId": 68,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4460,10 +4534,11 @@
               }
             }
           },
-          "cardColorEnum": "BLUE"
+          "cardColorEnum": "CYAN"
         },
         {
           "cardId": 69,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4523,10 +4598,11 @@
               }
             }
           },
-          "cardColorEnum": "BLUE"
+          "cardColorEnum": "CYAN"
         },
         {
           "cardId": 70,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4586,10 +4662,11 @@
               }
             }
           },
-          "cardColorEnum": "BLUE"
+          "cardColorEnum": "CYAN"
         },
         {
           "cardId": 77,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4653,6 +4730,7 @@
         },
         {
           "cardId": 78,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4716,6 +4794,7 @@
         },
         {
           "cardId": 79,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4779,6 +4858,7 @@
         },
         {
           "cardId": 80,
+          "isFlipped": false,
           "currentSideGameCard": {
             "sideType": "FrontGoldGameCard",
             "sideContent": {
@@ -4845,6 +4925,7 @@
     "StarterCard": [
       {
         "cardId": 81,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -4904,6 +4985,7 @@
       },
       {
         "cardId": 82,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -4963,6 +5045,7 @@
       },
       {
         "cardId": 83,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -5022,6 +5105,7 @@
       },
       {
         "cardId": 84,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -5081,6 +5165,7 @@
       },
       {
         "cardId": 85,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -5132,6 +5217,7 @@
       },
       {
         "cardId": 86,
+        "isFlipped": false,
         "currentSideGameCard": {
           "sideType": "FrontGameCard",
           "sideContent": {
@@ -5246,21 +5332,21 @@
               "x": 0,
               "y": 0
             },
-            "cardColorEnum": "BLUE"
+            "cardColorEnum": "CYAN"
           },
           {
             "coordinate": {
               "x": -1,
               "y": -1
             },
-            "cardColorEnum": "BLUE"
+            "cardColorEnum": "CYAN"
           },
           {
             "coordinate": {
               "x": -2,
               "y": -2
             },
-            "cardColorEnum": "BLUE"
+            "cardColorEnum": "CYAN"
           }
         ],
         "cardId": 89,
@@ -5332,14 +5418,14 @@
           {
             "coordinate": {
               "x": 0,
-              "y": 2
+              "y": -2
             },
             "cardColorEnum": "GREEN"
           },
           {
             "coordinate": {
               "x": -1,
-              "y": 3
+              "y": -3
             },
             "cardColorEnum": "PURPLE"
           }
@@ -5359,16 +5445,16 @@
           {
             "coordinate": {
               "x": -1,
-              "y": 1
+              "y": -1
             },
-            "cardColorEnum": "BLUE"
+            "cardColorEnum": "CYAN"
           },
           {
             "coordinate": {
               "x": -1,
-              "y": 3
+              "y": -3
             },
-            "cardColorEnum": "BLUE"
+            "cardColorEnum": "CYAN"
           }
         ],
         "cardId": 93,
@@ -5381,7 +5467,7 @@
               "x": 0,
               "y": 0
             },
-            "cardColorEnum": "BLUE"
+            "cardColorEnum": "CYAN"
           },
           {
             "coordinate": {

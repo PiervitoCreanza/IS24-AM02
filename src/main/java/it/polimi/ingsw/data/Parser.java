@@ -4,12 +4,15 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.card.gameCard.SerializableBooleanProperty;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ItemObjectiveCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.card.objectiveCard.PositionalObjectiveCard;
 
-import java.io.FileReader;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -42,7 +45,10 @@ public class Parser {
     /**
      * Gson object with custom deserializer for SideGameCard.
      */
-    private final Gson gson = new GsonBuilder().registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter()).create();
+    private final Gson gson = new GsonBuilder()
+            .registerTypeAdapter(SideGameCard.class, new SideGameCardAdapter())
+            .registerTypeAdapter(SerializableBooleanProperty.class, new SerializableBooleanPropertyAdapter())
+            .create();
 
     /**
      * Generic method to parse and add cards to a list.
@@ -114,7 +120,12 @@ public class Parser {
     public Parser() {
         try {
             // Create a FileReader to read the JSON file
-            Reader reader = new FileReader("src/main/resources/json/CardDB.json");
+            InputStream is = getClass().getResourceAsStream("/json/CardDB.json");
+            if (is == null) {
+                throw new FileNotFoundException("File not found");
+            }
+            // Create a InputStreamReader to read the InputStream
+            Reader reader = new InputStreamReader(is);
 
             // Parse the JSON content using JsonParser
             JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
@@ -124,8 +135,8 @@ public class Parser {
             parseGoldCardList(jsonObject);
             parseStarterCardList(jsonObject);
             parseObjectiveCardList(jsonObject);
-
             // Close the reader
+            is.close();
             reader.close();
         } catch (Exception e) {
             throw new RuntimeException("Parsing failed");

@@ -1,12 +1,10 @@
 package it.polimi.ingsw.model.card.gameCard.front;
 
-import it.polimi.ingsw.model.utils.Coordinate;
-import it.polimi.ingsw.model.utils.store.GameItemStore;
-import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.card.corner.Corner;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
-
-import java.util.Objects;
+import it.polimi.ingsw.model.player.PlayerBoard;
+import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.model.utils.store.GameItemStore;
 
 /**
  * Represents the front side of a game card. This class extends the SideGameCard class and
@@ -17,7 +15,7 @@ public class FrontGameCard extends SideGameCard {
     /**
      * The number of points associated with this front side of the card.
      */
-    protected int points;
+    protected final int points;
 
     /**
      * Constructs a FrontGameCard object with specified corners and points.
@@ -45,6 +43,16 @@ public class FrontGameCard extends SideGameCard {
     }
 
     /**
+     * Returns the points of this front side of the game card. It's not overridden by subclasses.
+     *
+     * @return The points of this front side of the game card.
+     */
+    @Override
+    public int getPoints() {
+        return points;
+    }
+
+    /**
      * Calculates and returns the points for this front side of the card.
      * This method simply returns the static points value set for this front side.
      *
@@ -53,7 +61,7 @@ public class FrontGameCard extends SideGameCard {
      * @return The points attributed to this front side of the card.
      */
     @Override
-    public int getPoints(Coordinate cardPosition, PlayerBoard playerBoard) {
+    public int calculatePoints(Coordinate cardPosition, PlayerBoard playerBoard) {
         return points;
     }
 

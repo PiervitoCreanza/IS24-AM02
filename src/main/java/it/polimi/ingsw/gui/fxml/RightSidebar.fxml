@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      styleClass="right-panel" stylesheets="@/styles.css">
+    <TabPane styleClass="brutalist-tab-pane" tabMaxWidth="Infinity" tabMaxHeight="Infinity">
+        <Tab styleClass="brutalist-tab-pane" closable="false">
+            <graphic>
+                <HBox>
+                    <ImageView HBox.hgrow="ALWAYS" fitHeight="30" preserveRatio="true">
+                        <Image url="@/user-icon.png"/>
+                    </ImageView>
+                </HBox>
+
+            </graphic>
+            <VBox spacing="20">
+                <VBox alignment="CENTER">
+                    <Text text="Players" styleClass="h3"/>
+                    <HBox>
+                        <VBox HBox.hgrow="ALWAYS" fx:id="playersList"/>
+                        <VBox alignment="TOP_RIGHT" fx:id="playersPoints"/>
+                    </HBox>
+                </VBox>
+                <VBox alignment="CENTER">
+                    <Text text="Resources" styleClass="h3"/>
+                    <HBox>
+
+                        <VBox HBox.hgrow="ALWAYS">
+                            <Label text="Fungi" styleClass="resource-label"/>
+                            <Label text="Plant" styleClass="resource-label"/>
+                            <Label text="Animal" styleClass="resource-label"/>
+                            <Label text="Insect" styleClass="resource-label"/>
+                        </VBox>
+                        <VBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
+                            <Label text="13" styleClass="score-label" style="-fx-text-fill: #d32622"
+                                   fx:id="fungiAmount"/>
+                            <Label text="9" styleClass="score-label" style="-fx-text-fill: #40ac53"
+                                   fx:id="plantAmount"/>
+                            <Label text="7" styleClass="score-label" style="-fx-text-fill: #00a099"
+                                   fx:id="animalAmount"/>
+                            <Label text="6" styleClass="score-label" style="-fx-text-fill: #75246f"
+                                   fx:id="insectAmount"/>
+                        </VBox>
+                    </HBox>
+
+                </VBox>
+
+                <VBox alignment="CENTER">
+                    <Text text="Items" styleClass="h3"/>
+                    <HBox>
+
+                        <VBox HBox.hgrow="ALWAYS">
+                            <Label text="Quill" styleClass="resource-label"/>
+                            <Label text="Inkwell" styleClass="resource-label"/>
+                            <Label text="Manuscript" styleClass="resource-label"/>
+                        </VBox>
+                        <VBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
+                            <Label text="13" styleClass="score-label" style="-fx-text-fill: #b4a31f"
+                                   fx:id="quillAmount"/>
+                            <Label text="9" styleClass="score-label" style="-fx-text-fill: #b4a31f"
+                                   fx:id="inkwellAmount"/>
+                            <Label text="7" styleClass="score-label" style="-fx-text-fill: #b4a31f"
+                                   fx:id="manuscriptAmount"/>
+                        </VBox>
+                    </HBox>
+
+                </VBox>
+            </VBox>
+        </Tab>
+        <Tab styleClass="brutalist-tab-pane" closable="false">
+            <graphic>
+                <ImageView HBox.hgrow="ALWAYS" fitHeight="30" preserveRatio="true">
+                    <Image url="@/goal-icon.png"/>
+                </ImageView>
+
+            </graphic>
+            <VBox alignment="CENTER" spacing="10" VBox.vgrow="ALWAYS">
+                <Text text="Your Objective" styleClass="h3" textAlignment="CENTER"/>
+                <HBox fx:id="playerObjective" alignment="CENTER"/>
+                <Text text="Global Objectives" styleClass="h3" textAlignment="CENTER"/>
+                <ListView styleClass="unstyled-list-view" fx:id="objectivesList" prefWidth="200"/>
+            </VBox>
+
+        </Tab>
+    </TabPane>
+</VBox>

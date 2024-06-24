@@ -1,0 +1,457 @@
+.root {
+    -fx-background-color: #e8e8e8;
+    -white-200: #f2f2f2;
+    -white-300: #e8e8e8;
+    -white-400: #bdbab8;
+    -brown-500: #422918;
+    -red-500: #d32622;
+}
+
+/* Text defaults */
+Text {
+    -fx-fill: -brown-500;
+}
+
+/* Button defaults */
+Button {
+    -fx-cursor: HAND;
+    -fx-text-fill: -brown-500;
+}
+
+/* Main Menu Scene */
+.transparent-button {
+    -fx-text-fill: -brown-500;
+    -fx-font-family: "Medieval Sharp Book";
+    -fx-font-size: 45px;
+
+    /* Reset default button style */
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+    -fx-background-color: transparent;
+}
+
+.transparent-button .transparent-button-decoration {
+    -fx-opacity: 0;
+}
+
+.transparent-button:focused .transparent-button-decoration {
+    -fx-opacity: 1;
+}
+
+/* End of Main Menu Scene */
+
+/* Button neo-brutalism style */
+.brutalist-button {
+    -fx-effect: dropshadow(three-pass-box, -brown-500, 0, 0, 3, 3);
+    -fx-font-family: "CalSans-SemiBold";
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    /* Reset default button style */
+    -fx-background-insets: 0;
+    -fx-border-width: 3;
+    -fx-border-color: -brown-500;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-background-color: -white-300;
+    -fx-min-width: 100;
+}
+
+.brutalist-button:hover {
+    -fx-background-color: -white-400;
+}
+
+.brutalist-button:selected {
+    -fx-background-color: -brown-500; /* Changed background color to match border color */
+    -fx-text-fill: white; /* Changed text color to white */
+}
+
+.brutalist-textarea {
+    -fx-font-family: 'CalSans-SemiBold';
+    -fx-font-size: 18px;
+    -fx-background-color: -white-200;
+    -fx-text-fill: #000000;
+    -fx-border-color: -brown-500;
+    -fx-border-width: 3;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-padding: 0; /* Remove padding */
+    -fx-background-insets: 0; /* Remove background insets */
+}
+
+.text-area .content {
+    -fx-font-family: 'CalSans-SemiBold';
+    -fx-font-size: 18px;
+    -fx-line-spacing: 5px; /* Adjust line spacing */
+    -fx-padding: 10; /* Add padding to the content */
+    -fx-background-insets: 0; /* Remove insets */
+    -fx-background-color: transparent; /* Make background transparent */
+    -fx-border-color: transparent; /* Remove internal borders */
+}
+
+.text-area .scroll-pane .viewport {
+    -fx-background-color: transparent; /* Ensure viewport background is transparent */
+    -fx-padding: 0; /* Remove padding from viewport */
+}
+
+.text-area:focused .content {
+    -fx-background-color: transparent; /* Maintain transparency when focused */
+    -fx-border-width: 0; /* Ensure no border on focus */
+}
+
+.text-area .scroll-pane {
+    -fx-padding: 0; /* Ensure no padding around scroll pane */
+}
+
+.brutalist-combobox {
+    -fx-effect: dropshadow(three-pass-box, -brown-500, 0, 0, 3, 3);
+    -fx-font-family: "CalSans-SemiBold";
+    -fx-font-size: 20px;
+    /* Reset default button style */
+    -fx-background-insets: 0;
+    -fx-border-width: 3;
+    -fx-border-color: -brown-500;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-background-color: -white-300;
+    -fx-min-width: 100;
+}
+
+.brutalist-combobox .combo-box-popup .list-view, .brutalist-combobox .combo-box-popup .list-view {
+    -fx-background-color: -white-300;
+    -fx-border-color: -brown-500;
+    -fx-border-width: 3;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-padding: 5 10 5 10;
+    -fx-font-family: 'CalSans-SemiBold';
+    -fx-font-size: 18px;
+    -fx-effect: dropshadow(three-pass-box, -brown-500, 0, 0, 3, 3);
+}
+
+.title {
+    -fx-font-family: "Medieval Sharp Book";
+    -fx-font-size: 45px;
+}
+
+TextField {
+    -fx-font-family: "CalSans-SemiBold";
+    -fx-font-size: 20px;
+    -fx-background-color: -white-300;
+    -fx-border-width: 3;
+    -fx-border-color: -brown-500;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-prompt-text-fill: gray;
+}
+
+.container {
+    -fx-background-color: -white-200;
+    -fx-border-width: 3;
+    -fx-border-color: -brown-500;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-padding: 20;
+}
+
+
+.left-container {
+    -fx-background-color: -white-200;
+    -fx-border-color: -brown-500;
+    -fx-border-radius: 0 10 10 0;
+    -fx-background-radius: 0 15 15 0;
+    -fx-padding: 20;
+    -fx-border-width: 3 3 3 0;
+}
+
+.shadow {
+    -fx-border-radius: 0 15 15 0;
+    -fx-effect: dropshadow(three-pass-box, -brown-500, 0, 0, 4, 4);
+}
+
+/* Game list styles */
+
+.list-cell {
+    -fx-padding: 10 20;
+    -fx-font-family: "CalSans-SemiBold";
+    -fx-font-size: 16px;
+    -fx-text-fill: -brown-500;
+    -fx-background-color: transparent;
+}
+
+.list-cell:filled:selected .game-cell, .list-cell:filled:hover .game-cell {
+    -fx-background-color: #D8D8D8;
+}
+
+.list-view .scroll-bar:vertical {
+    -fx-scale-x: 0;
+}
+
+/* Custom game cell styles */
+.game-cell {
+    -fx-font-family: "CalSans-SemiBold";
+    -fx-padding: 10;
+    -fx-border-color: #3B2312;
+    -fx-border-width: 3;
+    -fx-background-color: -white-300;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(three-pass-box, -brown-500, 0, 0, 3, 3);
+}
+
+.game-name {
+    -fx-font-size: 18px;
+    -fx-text-fill: #5C4033; /* A shade of brown */
+    -fx-font-family: "CalSans-SemiBold";
+    -fx-font-weight: bold;
+}
+
+.players-count {
+    -fx-font-family: "CalSans-SemiBold";
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+}
+
+.players-count-full {
+    -fx-text-fill: red;
+}
+
+.players-count-available {
+    -fx-text-fill: green;
+}
+
+.menu-button {
+    -fx-text-fill: -brown-500; /* Brown text */
+    -fx-font-family: "CalSans-SemiBold";
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-padding: 10 20; /* Padding around the text */
+
+    /* Background and border radius */
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+
+    /* Background colors for the button */
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #f0f0f0, #d0d0d0), /* Main background gradient */ linear-gradient(from 0% 0% to 0% 100%, #f0f0f0 0%, #f0f0f0 95%, #3b2312 95%, #3b2312 100%); /* Bottom border */
+
+    /* Border color and width */
+    -fx-border-color: #3b2312;
+    -fx-border-width: 1 1 4 1; /* Thicker bottom border for the 3D effect */
+
+    /* Effect for depth */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 5, 0.5, 0, 1); /* Drop shadow for depth */
+
+    /* Minimum width to ensure consistent sizing */
+    -fx-min-width: 100;
+}
+
+.menu-button:hover {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e0e0e0, #c0c0c0), /* Lighter gradient on hover */ linear-gradient(from 0% 0% to 0% 100%, #e0e0e0 0%, #e0e0e0 95%, #3b2312 95%, #3b2312 100%); /* Bottom border */
+}
+
+.menu-button:pressed {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #c0c0c0, #a0a0a0), /* Darker gradient on press */ linear-gradient(from 0% 0% to 0% 100%, #c0c0c0 0%, #c0c0c0 95%, #3b2312 95%, #3b2312 100%); /* Bottom border */
+    -fx-effect: none; /* Remove shadow on press to give a pressed effect */
+}
+
+.gameListView {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.card {
+    -fx-effect: dropshadow(three-pass-box, -brown-500, 3, .6, 0, 0);
+}
+
+/* Make scroll pane transparent */
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.transparent {
+    -fx-background-color: null;
+}
+
+.black {
+    -fx-background-color: black;
+}
+
+.player-name {
+    -fx-font-size: 22px;
+    -fx-text-fill: #5C4033; /* A shade of brown */
+    -fx-font-family: "CalSans-SemiBold";
+}
+
+.right-panel {
+    -fx-border-color: -brown-500;
+    -fx-border-width: 3;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-background-color: -white-300;
+}
+
+.brutalist-tab-pane {
+    -fx-padding: 0;
+    -fx-border-width: 0;
+    -fx-focus-color: transparent;
+}
+
+/** Tab header style (Group of tab headers) **/
+.brutalist-tab-pane .tab-header-area {
+    -fx-padding: 0;
+}
+
+.brutalist-tab-pane .tab-header-background {
+    -fx-background-color: transparent;
+    -fx-border-width: 1;
+    -fx-border-color: -brown-500;
+}
+
+.brutalist-tab-pane .tab-content-area {
+    -fx-background-color: -white-200;
+    -fx-background-radius: 15;
+    -fx-padding: 20;
+}
+
+
+.brutalist-tab-pane .tab {
+    -fx-background-color: transparent;
+    -fx-border-color: -brown-500;
+    -fx-border-width: 0 1 1 0;
+    -fx-padding: 5 20 5 20;
+    -fx-opacity: 0.6;
+}
+
+/** Selected tab header style **/
+.brutalist-tab-pane .tab:selected {
+    -fx-background-color: -white-200;
+    -fx-background-radius: 8;
+    -fx-border-width: 0 1 0 0;
+    -fx-text-fill: white;
+    -fx-padding: 5 20 5 20;
+    -fx-opacity: 1;
+}
+
+.player-label {
+    -fx-font-family: "CalSans-SemiBold"; /* Custom font */
+    -fx-font-size: 18px;
+    -fx-text-fill: -brown-500;
+    -fx-cursor: hand;
+}
+
+.resource-label {
+    -fx-font-family: "CalSans-SemiBold"; /* Custom font */
+    -fx-font-size: 18px;
+    -fx-text-fill: -brown-500;
+}
+
+.player-disconnected {
+    -fx-text-fill: #808080 !important;
+}
+
+.player-label:hover {
+    -fx-text-fill: -white-300;
+    -fx-background-color: -brown-500;
+}
+
+.selected-player {
+    -fx-font-weight: bold;
+}
+
+.score-label {
+    -fx-font-family: 'CalSans-SemiBold';
+    -fx-font-weight: 500;
+    -fx-font-size: 18px;
+    -fx-text-fill: -brown-500;
+}
+
+.h2 {
+    -fx-font-family: "Medieval Sharp Book";
+    -fx-font-size: 25px;
+}
+
+.h3 {
+    -fx-font-family: "CalSans-SemiBold";
+    -fx-font-weight: bold;
+    -fx-font-size: 25px;
+
+}
+
+.unstyled-list-view {
+    -fx-padding: -20 0 0 0;
+    -fx-background-color: transparent;
+}
+
+.unstyled-list-view .list-cell {
+    -fx-padding: 20 0 0 0;
+    -fx-background-color: transparent;
+}
+
+/* Since the border takes space, to avoid layout changes we set a transparent border with the same width that will be applied when the card is selected */
+/* IMPORTANT: This class must be before the selected-card-image class */
+.choosable-card {
+    -fx-border-width: 3;
+    -fx-border-color: transparent;
+}
+
+.selected-card-image {
+    -fx-background-color: #f2f2f2;
+    -fx-border-width: 3;
+    -fx-border-color: #422918;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-padding: 0;
+    -fx-effect: none; /* This ensures the shadow is removed */
+}
+
+.winner-row {
+    -fx-background-color: -white-200;
+    -fx-text-fill: #000000;
+    -fx-border-color: -brown-500;
+    -fx-border-width: 3;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-padding: 10;
+}
+
+.winner-name {
+    -fx-font-size: 21px;
+    -fx-font-weight: bold;
+}
+
+.winner-points {
+    -fx-font-size: 18px;
+}
+
+.winner-border {
+    -fx-border-color: #c9b127;
+    -fx-background-color: #c9b127;
+}
+
+.winner-border Text {
+    -fx-fill: -white-200;
+}
+
+.custom-button-padding {
+    -fx-padding: 10 11 10 13 !important;
+    -fx-border-width: 0 0 0 0 !important;
+}
+
+.red-text {
+    -fx-text-fill: #d32622
+}
+
+.green-text {
+    -fx-text-fill: #40ac53
+}
+
+.blue-text {
+    -fx-text-fill: #1e90ff
+}
+
+.yellow-text {
+    -fx-text-fill: #c9b127
+}
+
+.cursor-hand {
+    -fx-cursor: hand;
+}

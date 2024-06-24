@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.store.Store;
+import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
+import it.polimi.ingsw.network.virtualView.GameView;
+import it.polimi.ingsw.network.virtualView.VirtualViewable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -13,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * Class that represents a single game in the system.
  */
-public class Game {
+public class Game implements VirtualViewable<GameView> {
 
     /**
      * Represents the name of the game.
@@ -72,6 +75,7 @@ public class Game {
         this.globalBoard = new GlobalBoard();
         this.players.add(instanceNewPlayer(playerName));
         this.currentPlayer = players.getFirst();
+        this.winners = new ArrayList<>();
     }
 
     /**
@@ -145,6 +149,20 @@ public class Game {
     }
 
     /**
+     * Check if a player is disconnected.
+     *
+     * @param playerName The name of the player to check.
+     * @return true if the player is connected, false otherwise.
+     */
+    public boolean isPlayerDisconnected(String playerName) {
+        try {
+            return !getPlayer(playerName).isConnected();
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    /**
      * Returns the global board of the game.
      *
      * @return The GlobalBoard object that represents the global board of the game.
@@ -183,21 +201,62 @@ public class Game {
     }
 
     /**
-     * Returns the index of the current player in the list of players.
+     * Returns the index of the current player in the list of connected players.
      *
      * @return The index of the current player.
      */
-    public int getCurrentPlayerIndex() {
-        return players.indexOf(currentPlayer);
+    public int getCurrentPlayerIndexAmongConnected() {
+        return getConnectedPlayers().indexOf(currentPlayer);
     }
 
     /**
-     * Checks if the provided player is the last player in the game.
+     * Checks if the current player is the last player in the game among the connected users.
      *
      * @return true if the provided player is the last player in the game, false otherwise.
      */
-    public boolean isLastPlayer() {
-        return getCurrentPlayerIndex() == maxAllowedPlayers - 1;
+    public boolean isLastPlayerAmongConnected() {
+        return getCurrentPlayerIndexAmongConnected() == getConnectedPlayers().size() - 1;
+    }
+
+    /**
+     * Returns players that are connected.
+     *
+     * @return ArrayList of Player objects that represents the players that are connected.
+     */
+    public ArrayList<Player> getConnectedPlayers() {
+        return players.stream().filter(Player::isConnected).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    /**
+     * Returns players that are disconnected.
+     *
+     * @return ArrayList of Player objects that represents the players that are disconnected.
+     */
+    public ArrayList<Player> getDisconnectedPlayers() {
+        return players.stream().filter(player -> !player.isConnected()).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    /*
+    Ex. getPlayers = [p1,p2,p3,p4]
+    connectedPlayers = [p2]
+    currentPlayer = p3
+    1. getFirstConnectedPlayerAfter(p3) return getFirstConnectedPlayerAfter(p4)
+    2. getFirstConnectedPlayerAfter(p4) return getFirstConnectedPlayerAfter(p1)
+    3. getFirstConnectedPlayerAfter(p1) return p2
+     */
+    private Player getFirstConnectedPlayerAfter(Player player) {
+        int playerIndex = getPlayers().indexOf(player);
+        Player nextPlayer = getPlayers().get((playerIndex + 1) % getPlayers().size());
+
+        if (getConnectedPlayers().contains(nextPlayer)) {
+            return nextPlayer;
+        }
+
+        // If the getConnectedPlayers() is empty we stop the recursion to avoid infinite loops.
+        if (getConnectedPlayers().isEmpty())
+            return null;
+
+        return getFirstConnectedPlayerAfter(nextPlayer);
     }
 
     /**
@@ -205,7 +264,9 @@ public class Game {
      * This method updates the currentPlayer variable to the next player in the list of players.
      */
     public void setNextPlayer() {
-        currentPlayer = players.get((players.indexOf(currentPlayer) + 1) % maxAllowedPlayers);
+        // getFirstConnectedPlayerAfter is a recursive function that finds the first connected player
+        // after the current player. If the current player is the last connected player, it will return the same player.
+        currentPlayer = getFirstConnectedPlayerAfter(currentPlayer);
     }
 
     /**
@@ -283,6 +344,18 @@ public class Game {
     }
 
     /**
+     * Returns the available player colors.
+     *
+     * @return ArrayList of PlayerColorEnum that represents the available player colors.
+     */
+    public ArrayList<PlayerColorEnum> getAvailablePlayerColors() {
+        HashSet<PlayerColorEnum> unavailableColors = players.stream().map(Player::getPlayerColor).collect(Collectors.toCollection(HashSet::new));
+        // Add NONE to the unavailable colors to avoid choosing it
+        unavailableColors.add(PlayerColorEnum.NONE);
+        return PlayerColorEnum.stream().filter(color -> !unavailableColors.contains(color)).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    /**
      * Chooses the color for a player.
      *
      * @param playerColor the color to be chosen.
@@ -294,5 +367,52 @@ public class Game {
             throw new IllegalArgumentException("Color already chosen by another player");
         }
         getPlayer(playerName).setPlayerColor(playerColor);
+    }
+
+    /**
+     * Returns the maximum number of players allowed in the game.
+     *
+     * @return The maximum number of players that can join a game.
+     */
+    public int getMaxAllowedPlayers() {
+        return maxAllowedPlayers;
+    }
+
+    /**
+     * Returns the virtual view of the game.
+     *
+     * @return GameView This returns the virtual view of the game.
+     */
+    @Override
+    public GameView getVirtualView() {
+        return new GameView(gameName, currentPlayer.getPlayerName(), globalBoard.getVirtualView(), players.stream().map(Player::getVirtualView).collect(Collectors.toList()), winners.stream().map(Player::getPlayerName).collect(Collectors.toCollection(ArrayList::new)), getAvailablePlayerColors());
+    }
+
+    /**
+     * Removes a player from the game.
+     * This method removes the player with the specified name from the list of players in the game.
+     * It also adds the player's objective cards back to the global board's objective deck and the player's starter card back to the global board's starter deck.
+     * If the player is the current player, the next player is set as the current player.
+     *
+     * @param playerName The name of the player to be removed.
+     */
+    public void removePlayer(String playerName) {
+        Player player = getPlayer(playerName);
+        player.getChoosableObjectives().forEach(objectiveCard -> globalBoard.getObjectiveDeck().addCard(objectiveCard));
+        globalBoard.getStarterDeck().addCard(player.getPlayerBoard().getStarterCard());
+        players.remove(player);
+        if (!players.isEmpty() && player.equals(currentPlayer)) {
+            setNextPlayer();
+        }
+    }
+
+    /**
+     * Returns the game record of the game.
+     * It contains all the details needed by the lobby to display the game.
+     *
+     * @return GameRecord This returns the game record of the game.
+     */
+    public GameRecord getGameRecord() {
+        return new GameRecord(gameName, players.size(), maxAllowedPlayers);
     }
 }

@@ -23,8 +23,6 @@ package "Controller"{
         +drawCardFromGoldDeck(String playerName)
         +switchCardSide(String playerName, GameCard card)
         +setPlayerObjective(String playerName, GameCard card)
-        +getGame()
-        +choosePlayerColor(PlayerColorEnum)
     }
 
         interface PlayerActions {
@@ -76,6 +74,15 @@ package "Controller"{
             DRAW_CARD
             GAME_OVER
         }
+
+    note top of MainController
+    Interfaccia con client
+    end note
+
+     note top of MainController
+        I tipi di ritorno del controller
+        sono ancora Work In Progress
+        end note
 
     note bottom of GameController
         Gestione delle azioni del giocatore
@@ -158,7 +165,7 @@ package "Model"{
         -ArrayList<ObjectiveCard> choosableObjectives
         -ObjectiveCard objectiveCard
         -PlayerHand playerHand
-        -boolean isConnected
+        -boolean isConnected = true
         -PlayerColorEnum playerColor
         +String getPlayerName()
         +Integer getPlayerPos()
@@ -201,7 +208,7 @@ package "Model"{
         +Coordinate getGameCardPosition(GameCard)
         +ArrayList<GameCard> getGameCards()
         +Integer getGameItemAmount(GameItem)
-        +int setGameCard(Coordinate, GameCard)
+        +int placeGameCard(Coordinate, GameCard)
     }
 
     PlayerBoard "1..N" *-- "1" GameCard

@@ -185,7 +185,7 @@
             }
           }
         },
-        "cardColorEnum": "BLUE"
+        "cardColorEnum": "CYAN"
       },
       "SimpleGoldCard": {
         "cardId": 2,

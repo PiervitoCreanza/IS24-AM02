@@ -17,16 +17,19 @@ to accommodate two main development approaches for flexibility.
 
 | Functionality     | Status                  | 
 |-------------------|-------------------------|
-| Basic rules       | :construction:          |
-| Complete rules    | :ballot_box_with_check: |
-| Socket connection | :ballot_box_with_check: |
-| RMI connection    | :ballot_box_with_check: |
-| CLI               | :ballot_box_with_check: |
-| GUI               | :ballot_box_with_check: |
-| Multiple games    | :ballot_box_with_check: |
-| Persistence       | :x:                     |
-| Resilience        | :ballot_box_with_check: |
-| Chat              | :ballot_box_with_check: |
+| Basic rules       | :white_check_mark:      |
+| Complete rules    | :white_check_mark:      |
+| Socket connection | :white_check_mark:      |
+| RMI connection    | :white_check_mark:      |
+| CLI               | :white_check_mark:      |
+| GUI               | :white_check_mark:      |
+| Multiple games    | :white_check_mark:      |
+| Persistence (*)   | :white_check_mark:      |
+| Resilience        | :white_check_mark:      |
+| Chat              | :white_check_mark:      |
+| VisionOS           | :ballot_box_with_check:  |
+
+(*) For testing purposes
 
 **Legend**
 | Symbol | Functionality status |
@@ -44,24 +47,11 @@ game [here](https://www.craniocreations.it/prodotto/codex-naturalis).
 Rules of the
 game [here](https://www.craniocreations.it/storage/media/product_downloads/126/1516/CODEX_ITA_Rules_compressed.pdf).
 
-## Development Approaches
-
-### Approach A: Maven and JavaFX
-
-1. **Initial Setup**: Begin with the "maven-archetype-archetype."
-2. **Integrating JavaFX**: Integrate JavaFX into the Maven project, requiring additional configuration and dependency
-   management.
-
-### Approach B: IntelliJ and JavaFX
-
-1. **Initial Setup**: Start with the IntelliJ JavaFX template.
-2. **Modifications**: Initially, some parts of the code will be commented out. These sections are designed for future
-   use and can be uncommented as needed.
 
 ## Future Scope
 
 The project is poised for adaptation to Apple's visionOS, suggesting plans for expanded compatibility and potential new
-features for the visionOS environment.
+features for the visionOS environment. As discussed, implementation will be worked on after the final delivery.
 
 ## Legal
 

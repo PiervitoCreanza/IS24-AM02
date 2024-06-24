@@ -1,18 +1,21 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.data.Parser;
-import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
+import it.polimi.ingsw.network.virtualView.GlobalBoardView;
+import it.polimi.ingsw.network.virtualView.VirtualViewable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Class that represents the global board of the game.
  * It contains decks of different types of cards and the cards present on the field.
  * It also contains the two global objectives.
  */
-public class GlobalBoard {
+public class GlobalBoard implements VirtualViewable<GlobalBoardView> {
 
     /**
      * Represents the deck of gold cards in the game.
@@ -175,18 +178,46 @@ public class GlobalBoard {
      * Draws a card from the field. If the card is in the field of gold cards, it is removed and a new card is drawn from the gold deck.
      * If the card is in the field of resource cards, it is removed and a new card is drawn from the resource deck.
      *
-     * @param card The card to draw from the field.
+     * @param cardId The id of card to draw from the field.
+     * @return The card that has been drawn.
      * @throws IllegalArgumentException if the card is not present on the field.
      */
-    public void drawCardFromField(GameCard card) {
-        if (fieldGoldCards.contains(card)) {
-            fieldGoldCards.remove(card);
-            fieldGoldCards.add(goldDeck.draw());
-        } else if (fieldResourceCards.contains(card)) {
-            fieldResourceCards.remove(card);
-            fieldResourceCards.add(resourceDeck.draw());
-        } else {
-            throw new IllegalArgumentException("This card is not present on the field");
+    public GameCard drawCardFromField(int cardId) {
+        Optional<GameCard> cardToRemove = fieldGoldCards.stream().filter(c -> c.getCardId() == cardId).findFirst();
+        if (cardToRemove.isPresent()) {
+            fieldGoldCards.remove(cardToRemove.get());
+            if (!goldDeck.isEmpty())
+                fieldGoldCards.add(goldDeck.draw());
+            return cardToRemove.get();
         }
+
+        cardToRemove = fieldResourceCards.stream().filter(c -> c.getCardId() == cardId).findFirst();
+        if (cardToRemove.isPresent()) {
+            fieldResourceCards.remove(cardToRemove.get());
+            if (!resourceDeck.isEmpty())
+                fieldResourceCards.add(resourceDeck.draw());
+            return cardToRemove.get();
+        }
+
+        throw new IllegalArgumentException("This card is not present on the field");
+    }
+
+    /**
+     * Returns the virtual view of the global board.
+     *
+     * @return The virtual view of the global board.
+     */
+    @Override
+    public GlobalBoardView getVirtualView() {
+        return new GlobalBoardView(goldDeck.getFirst(), resourceDeck.getFirst(), fieldGoldCards, fieldResourceCards, globalObjectives);
+    }
+
+    /**
+     * Checks if the field and the decks are empty.
+     *
+     * @return true if the field and the decks are empty, false otherwise.
+     */
+    public boolean areFieldAndDecksEmpty() {
+        return isGoldDeckEmpty() && isResourceDeckEmpty() && fieldGoldCards.isEmpty() && fieldResourceCards.isEmpty();
     }
 }

@@ -2,7 +2,9 @@ package it.polimi.ingsw.model.card.gameCard.front.goldCard;
 
 import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.model.card.corner.Corner;
+import it.polimi.ingsw.model.card.gameCard.BackGameCard;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
+import it.polimi.ingsw.model.card.gameCard.front.FrontGameCard;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
@@ -12,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -41,8 +43,8 @@ public class FrontPositionalGoldGameCardTest {
     }
 
     @Test
-    @DisplayName("getPoints() test for FrontPositionalGoldGameCard class with all 4 cards present ")
-    public void testGetPoints() {
+    @DisplayName("calculatePoints() test for FrontPositionalGoldGameCard class with all 4 cards present ")
+    public void testCalculatePoints() {
         // Testing the scenario where the game card covers all four corners but is not at the origin
         // Creating a mock PlayerBoard
         PlayerBoard playerBoard = mock(PlayerBoard.class);
@@ -62,7 +64,7 @@ public class FrontPositionalGoldGameCardTest {
 
         // Act: Calculate the points for the given coordinate
         Coordinate coordinate = new Coordinate(1, 5);
-        int points = frontPositionalGoldGameCard.getPoints(coordinate, playerBoard);
+        int points = frontPositionalGoldGameCard.calculatePoints(coordinate, playerBoard);
 
         // Assert: Verify the expected points (8 points)
         assertEquals(8, points);
@@ -70,8 +72,8 @@ public class FrontPositionalGoldGameCardTest {
 
 
     @Test
-    @DisplayName("getPoints() test for FrontPositionalGoldGameCard class with 2 cards missing")
-    public void testGetPointsWithoutOneCard() {
+    @DisplayName("calculatePoints() test for FrontPositionalGoldGameCard class with 2 cards missing")
+    public void testCalculatePointsWithoutOneCard() {
         // Testing the scenario where the game card covers 3 corners but 1 card is missing
         // Creating a mock PlayerBoard
         PlayerBoard playerBoard = mock(PlayerBoard.class);
@@ -86,9 +88,19 @@ public class FrontPositionalGoldGameCardTest {
         when(playerBoard.getGameCard(new Coordinate(0, 4))).thenReturn(Optional.of(gameCard2));
         // Act: Calculate the points for the given coordinate
         Coordinate coordinate = new Coordinate(-1, 5);
-        int points = frontPositionalGoldGameCard.getPoints(coordinate, playerBoard);
+        int points = frontPositionalGoldGameCard.calculatePoints(coordinate, playerBoard);
 
         // Assert: Verify the expected points (4 points)
         assertEquals(4, points);
+    }
+
+    @Test
+    @DisplayName("isGoldPositional should return true only if it is a PositionalGoldGameCard")
+    void isGoldPositionalShouldReturnTrueOnlyIfPositionalGoldGameCard() {
+        assertTrue(frontPositionalGoldGameCard.isGoldPositional());
+        assertFalse(new FrontGameCard(null, null, null, null, 0).isGoldPositional());
+        assertFalse(new BackGameCard(null, null, null, null, new GameItemStore()).isGoldPositional());
+        assertFalse(new FrontItemGoldGameCard(null, null, null, null, 0, new GameItemStore(), null).isGoldPositional());
+        assertFalse(new FrontGoldGameCard(null, null, null, null, 0, new GameItemStore()).isGoldPositional());
     }
 }

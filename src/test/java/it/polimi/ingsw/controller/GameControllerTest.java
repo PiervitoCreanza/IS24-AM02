@@ -1,12 +1,14 @@
 package it.polimi.ingsw.controller;
 
+
 import it.polimi.ingsw.Utils;
+import it.polimi.ingsw.controller.gameController.GameController;
 import it.polimi.ingsw.data.Parser;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
+import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -39,9 +41,9 @@ class GameControllerTest {
     @Test
     @DisplayName("Should place card on player's board when placeCard is called")
     void shouldPlaceCardWhenPlaceCardIsCalled() {
-        GameCard card = parser.getResourceDeck().draw();
+        GameCard card = gameController.getGame().getCurrentPlayer().getPlayerBoard().getStarterCard();
         Coordinate coordinate = new Coordinate(0, 0);
-        gameController.placeCard("player1", coordinate, card);
+        gameController.placeCard("player1", coordinate, card.getCardId());
         assertEquals(card, game.getPlayer("player1").getPlayerBoard().getGameCard(coordinate).get());
     }
 
@@ -49,9 +51,9 @@ class GameControllerTest {
     @DisplayName("Should draw card from field and add to player's hand when drawCardFromField is called")
     void shouldDrawCardFromFieldWhenDrawCardFromFieldIsCalled() {
         GameCard card = Mockito.mock(GameCard.class);
-        utils.assertIllegalArgument("This card is not present on the field", () -> gameController.drawCardFromField("player1", card));
+        utils.assertIllegalArgument("This card is not present on the field", () -> gameController.drawCardFromField("player1", card.getCardId()));
         GameCard fieldResourceCard = game.getGlobalBoard().getFieldResourceCards().getFirst();
-        gameController.drawCardFromField("player1", fieldResourceCard);
+        gameController.drawCardFromField("player1", fieldResourceCard.getCardId());
         assertTrue(game.getPlayer("player1").getPlayerHand().getCards().contains(fieldResourceCard));
     }
 
@@ -75,8 +77,18 @@ class GameControllerTest {
     @DisplayName("Should set player's objective when setPlayerObjective is called")
     void shouldSetPlayerObjectiveWhenSetPlayerObjectiveIsCalled() {
         ObjectiveCard card = game.getPlayer("player1").getChoosableObjectives().getFirst();
-        gameController.setPlayerObjective("player1", card);
+        gameController.setPlayerObjective("player1", card.getCardId());
         assertEquals(card, game.getPlayer("player1").getObjectiveCard());
+    }
+
+    @Test
+    @DisplayName("Should throw exception when card is not in player hand")
+    void switchCardSideShouldThrowExceptionWhenCardIsNotInHand() {
+        // Draw a card from the resource deck (The player has no cards in hand)
+        int fakeCardId = -1;
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> gameController.switchCardSide("player1", fakeCardId));
+        assertEquals("Card cannot be switched. Not present in player's hand", exception.getMessage());
+
     }
 
     @Test
@@ -86,9 +98,9 @@ class GameControllerTest {
         gameController.drawCardFromResourceDeck("player1");
         GameCard card = game.getPlayer("player1").getPlayerHand().getCards().getFirst();
         SideGameCard side = card.getCurrentSide();
-        gameController.switchCardSide("player1", card);
+        gameController.switchCardSide("player1", card.getCardId());
         assertNotEquals(side, card.getCurrentSide());
-        gameController.switchCardSide("player1", card);
+        gameController.switchCardSide("player1", card.getCardId());
         assertEquals(side, card.getCurrentSide());
     }
 

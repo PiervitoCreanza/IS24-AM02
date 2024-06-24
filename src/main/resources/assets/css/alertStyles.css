@@ -1,0 +1,62 @@
+.dialog-pane {
+    -fx-background-color: #f2f2f2;
+    -fx-border-color: #422918;
+    -fx-border-width: 3;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-padding: 20;
+}
+
+.dialog-pane .content.label {
+    -fx-font-family: 'CalSans-SemiBold';
+    -fx-font-size: 18px;
+    -fx-text-fill: #422918;
+    -fx-padding: 15 0 10 20;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: #f2f2f2;
+    -fx-border-color: #422918;
+    -fx-border-width: 0 0 3 0; /* bottom border only */
+    -fx-border-radius: 10 10 0 0;
+    -fx-background-radius: 10 10 0 0;
+    -fx-padding: 10 20;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-font-family: 'CalSans-SemiBold';
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #422918;
+}
+
+.dialog-pane .button-bar {
+    -fx-background-color: #f2f2f2;
+    -fx-border-color: #422918;
+    -fx-border-width: 3 0 0 0;
+    -fx-border-radius: 0 0 10 10;
+    -fx-background-radius: 0 0 10 10;
+    -fx-padding: 15 20;
+}
+
+.dialog-pane .button-bar .button {
+    -fx-background-color: #e8e8e8;
+    -fx-border-color: #422918;
+    -fx-border-width: 3;
+    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-font-family: CalSans-SemiBold;
+    -fx-font-size: 16px;
+    -fx-text-fill: #422918;
+    -fx-padding: 10 20;
+    -fx-min-width: 100;
+}
+
+.dialog-pane .button-bar .button:hover {
+    -fx-background-color: #d8d8d8;
+}
+
+.dialog-pane .button-bar .button:pressed {
+    -fx-background-color: #422918;
+    -fx-text-fill: white;
+}

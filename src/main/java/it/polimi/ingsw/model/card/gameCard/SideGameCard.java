@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -15,7 +16,7 @@ import java.util.stream.Stream;
  * Represents a side of a game card.
  * Each side has four corners, each of which can hold a game item.
  */
-public abstract class SideGameCard {
+public abstract class SideGameCard implements Serializable {
     /**
      * The top right corner of the game card.
      */
@@ -93,13 +94,31 @@ public abstract class SideGameCard {
     public abstract GameItemStore getGameItemStore();
 
     /**
-     * Returns the points of the side at the specified card position.
+     * Returns the game item store of the side. It defaults to an empty game item store. It will be overridden by subclasses.
+     *
+     * @return the game item store
+     */
+    public GameItemStore getBackItemStore() {
+        return new GameItemStore();
+    }
+
+    /**
+     * Returns the points of the game card.
+     *
+     * @return The points of the game card.
+     */
+    public int getPoints() {
+        return 0;
+    }
+
+    /**
+     * Returns the calculated points of the side at the specified card position.
      *
      * @param cardPosition the position of the card
      * @param playerBoard  the player board
      * @return the points
      */
-    public int getPoints(Coordinate cardPosition, PlayerBoard playerBoard) {
+    public int calculatePoints(Coordinate cardPosition, PlayerBoard playerBoard) {
         return 0;
     }
 
@@ -110,6 +129,24 @@ public abstract class SideGameCard {
      */
     public GameItemStore getNeededItemStore() {
         return new GameItemStore();
+    }
+
+    /**
+     * Returns the multiplier of the side. It defaults to NONE. It will be overridden by subclasses.
+     *
+     * @return the multiplier
+     */
+    public GameItemEnum getMultiplier() {
+        return GameItemEnum.NONE;
+    }
+
+    /**
+     * Returns true if the side is a gold positional side, false otherwise. It will be overridden by subclasses.
+     *
+     * @return true if the side is a gold positional side, false otherwise
+     */
+    public boolean isGoldPositional() {
+        return false;
     }
 
     /**

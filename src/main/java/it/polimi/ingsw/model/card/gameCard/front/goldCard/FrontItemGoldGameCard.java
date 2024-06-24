@@ -1,12 +1,10 @@
 package it.polimi.ingsw.model.card.gameCard.front.goldCard;
 
-import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.model.card.GameItemEnum;
-import it.polimi.ingsw.model.utils.store.GameItemStore;
-import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.card.corner.Corner;
-
-import java.util.Objects;
+import it.polimi.ingsw.model.player.PlayerBoard;
+import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.model.utils.store.GameItemStore;
 
 /**
  * Represents a variant of FrontGoldGameCard known as FrontItemGoldGameCard. This class extends
@@ -45,9 +43,19 @@ public class FrontItemGoldGameCard extends FrontGoldGameCard {
      * @return The calculated points based on the quantity of the specified game item on the player's board.
      */
     @Override
-    public int getPoints(Coordinate cardPosition, PlayerBoard playerBoard) {
+    public int calculatePoints(Coordinate cardPosition, PlayerBoard playerBoard) {
         // The points are multiplied by the amount of the specified game item on the player's board.
         return playerBoard.getGameItemAmount(multiplier) * points;
+    }
+
+    /**
+     * Returns the multiplier for this FrontItemGoldGameCard.
+     *
+     * @return The multiplier for this FrontItemGoldGameCard.
+     */
+    @Override
+    public GameItemEnum getMultiplier() {
+        return multiplier;
     }
 
     /**

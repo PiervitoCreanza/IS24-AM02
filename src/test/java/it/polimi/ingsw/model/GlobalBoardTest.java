@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 class GlobalBoardTest {
     private GlobalBoard globalBoard;
@@ -32,11 +33,12 @@ class GlobalBoardTest {
 
     @Test
     @DisplayName("Constructor draws two cards for each field")
-    void constructorShouldInitializeFieldsCorrectly(){
+    void constructorShouldInitializeFieldsCorrectly() {
         assertEquals(2, globalBoard.getGlobalObjectives().size());
         assertEquals(2, globalBoard.getFieldGoldCards().size());
         assertEquals(2, globalBoard.getFieldResourceCards().size());
     }
+
     @Test
     @DisplayName("isGoldDeckEmpty returns true when deck is empty")
     void isGoldDeckEmptyShouldReturnTrueWhenDeckIsEmpty() {
@@ -60,28 +62,31 @@ class GlobalBoardTest {
     void isResourceDeckEmptyShouldReturnFalseWhenDeckIsNotEmpty() {
         assertFalse(globalBoard.isResourceDeckEmpty());
     }
+
     @Test
     @DisplayName("drawCardFromField removes selected gold card from field and adds a new one")
     void drawCardFromFieldShouldRemoveGoldCardAndAddNewCard() {
         GameCard chosenGoldCard = Mockito.mock(GameCard.class);
+        when(chosenGoldCard.getCardId()).thenReturn(1);
         //Cards on the field will be chosen randomly from the deck, so I need to "force add" the card that I want to draw
         globalBoard.getFieldGoldCards().removeFirst();
         globalBoard.getFieldGoldCards().add(chosenGoldCard);
 
-        globalBoard.drawCardFromField(chosenGoldCard);
+        globalBoard.drawCardFromField(chosenGoldCard.getCardId());
         assertFalse(globalBoard.getFieldGoldCards().contains(chosenGoldCard));
         assertEquals(2, globalBoard.getFieldGoldCards().size());
     }
 
     @Test
     @DisplayName("drawCardFromField removes selected resource card from field and adds a new one")
-    void drawCardFromFieldShouldRemoveResourceCardAndAddNewCard(){
+    void drawCardFromFieldShouldRemoveResourceCardAndAddNewCard() {
         GameCard chosenResourceCard = Mockito.mock(GameCard.class);
+        when(chosenResourceCard.getCardId()).thenReturn(1);
         //Cards on the field will be chosen randomly from the deck, so I need to "force add" the card that I want to draw
         globalBoard.getFieldResourceCards().removeFirst();
         globalBoard.getFieldResourceCards().add(chosenResourceCard);
 
-        globalBoard.drawCardFromField(chosenResourceCard);
+        globalBoard.drawCardFromField(chosenResourceCard.getCardId());
         assertFalse(globalBoard.getFieldResourceCards().contains(chosenResourceCard));
         assertEquals(2, globalBoard.getFieldResourceCards().size());
     }
@@ -89,7 +94,7 @@ class GlobalBoardTest {
     @Test
     @DisplayName("drawCardFromField returns an exception if the card is not present")
     void drawCardFromFieldShouldThrowExceptionIfCardNotPresent() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> globalBoard.drawCardFromField(Mockito.mock(GameCard.class)));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> globalBoard.drawCardFromField(-1));
         assertEquals("This card is not present on the field", exception.getMessage());
     }
 }
