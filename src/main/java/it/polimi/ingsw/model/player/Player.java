@@ -212,8 +212,8 @@ public class Player implements VirtualViewable<PlayerView> {
             cardToPlace = playerBoard.getStarterCard();
         }
         // Set the placement index of the card.
-        cardToPlace.setPlacementIndex(numberOfPlacedCards++);
-        
+        cardToPlace.setPlacementIndex(++numberOfPlacedCards);
+
         playerPos += playerBoard.placeGameCard(coordinate, cardToPlace);
         playerHand.removeCard(cardToPlace);
     }
