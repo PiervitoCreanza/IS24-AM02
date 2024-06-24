@@ -9,12 +9,14 @@ import it.polimi.ingsw.data.SerializableBooleanPropertyAdapter;
 import it.polimi.ingsw.data.SideGameCardAdapter;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GlobalBoard;
+import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.gameCard.SerializableBooleanProperty;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.player.PlayerHand;
+import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.client.message.adapter.ServerToClientMessageAdapter;
 import it.polimi.ingsw.network.server.ServerNetworkControllerMapper;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
@@ -92,6 +94,8 @@ public class Persistence {
                     globalBoard.getGoldDeck().removeCard(card.getCardId());
                     globalBoard.getResourceDeck().removeCard(card.getCardId());
                 });
+                HashMap<Coordinate, GameCard> savedPlayerboard = playerView.playerBoardView().playerBoard();
+                savedPlayerboard.keySet().forEach(coordinate -> playerBoard.getGameCard(coordinate).get().setPlacementIndex(savedPlayerboard.get(coordinate).getPlacementIndex()));
             }
         } catch (Exception e) {
             e.printStackTrace();
