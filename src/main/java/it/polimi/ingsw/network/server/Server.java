@@ -58,7 +58,7 @@ public class Server {
          * ***************************************/
         MainController mainController = new MainController();
         ServerNetworkControllerMapper serverNetworkControllerMapper = new ServerNetworkControllerMapper(mainController);
-        new Persistence(mainController, serverNetworkControllerMapper).load("karmaBugEdit");
+        new Persistence(mainController, serverNetworkControllerMapper).load("overlappingCards");
         /* ***************************************
          * CLI ARGUMENTS PARSING
          * ***************************************/
