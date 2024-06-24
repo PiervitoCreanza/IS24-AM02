@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.client.RMI.RMIClientReceiver;
 import it.polimi.ingsw.network.client.RMI.RMIClientSender;
 import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
 import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
+import javafx.concurrent.Task;
 import org.apache.logging.log4j.LogManager;
 
 import java.beans.PropertyChangeListener;
@@ -14,6 +15,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * The RMIConnection class implements the Connection interface using the Java RMI technology.
@@ -59,6 +62,15 @@ public class RMIConnection extends Connection implements PropertyChangeListener 
     @Override
     protected void connectionSetUp() {
         System.setProperty("java.rmi.server.hostname", clientIp);
+        connectionTrying = new Timer();
+        connectionTrying.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                String trying = "Trying to connect to RMI server...";
+                logger.warn(trying);
+                listeners.firePropertyChange("CONNECTION_TRYING", null, trying);
+            }
+        }, 500);
         while (attempts <= maxAttempts) {
             try {
                 RMIClientReceiver rmiClientReceiver = new RMIClientReceiver(networkControllerMapper);
@@ -77,12 +89,9 @@ public class RMIConnection extends Connection implements PropertyChangeListener 
                 networkControllerMapper.setMessageHandler(rmiClientSender);
                 break;
             } catch (RemoteException e1) {
+                connectionTrying.cancel();
                 if (e1.getCause() != null && e1.getCause().getClass().equals(BindException.class)) {
                     logger.warn("Port {} already in use. Trying with: {}", clientPort, ++clientPort);
-               /* } else if (e1.getCause() != null && e1.getCause().getClass().equals(ConnectException.class)) {
-                    e1.printStackTrace();
-                    logger.warn("Can't call methods on the server. Port forwarding might be needed. Exiting...");
-                    quit();*/
                 } else {
                     String retry = "RMI server unreachable, retrying in " + (waitTime / 1000) + " seconds. Attempt " + attempts + " out of " + maxAttempts + "...";
                     logger.warn(retry);
@@ -106,6 +115,7 @@ public class RMIConnection extends Connection implements PropertyChangeListener 
             this.listeners.firePropertyChange("CONNECTION_FAILED", null, failed);
             return;
         }
+        connectionTrying.cancel();
         logger.info("RMI connection established");
         this.listeners.firePropertyChange("CONNECTION_ESTABLISHED", null, "You are now connected to the RMI server.");
     }

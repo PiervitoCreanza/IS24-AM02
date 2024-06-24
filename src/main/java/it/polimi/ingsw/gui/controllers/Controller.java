@@ -211,6 +211,15 @@ public abstract class Controller implements PropertyChangeListener {
         });
     }
 
+    private void showTryingConnectionPopup(String message) {
+        Platform.runLater(() -> {
+            alert = new ErrorDialog(getStage(), Alert.AlertType.INFORMATION, "Connection", message, false);
+            alert.getButtonTypes().clear();
+            alert.addButton("Quit", event -> Platform.runLater(() -> System.exit(0)));
+            alert.showAndWait();
+        });
+    }
+
     /**
      * Shows a connection error popup.
      *
@@ -219,14 +228,16 @@ public abstract class Controller implements PropertyChangeListener {
     private void showConnectionErrorPopup(String message) {
         Platform.runLater(() -> {
             logger.debug("Showing connection error popup");
-            if (alert == null || !alert.isShowing()) {
+            if (alert != null && alert.getHeaderText().equals("Connection error") && alert.isShowing())
+                alert.setContentText(message);
+            else {
+                closeAlert();
                 alert = new ErrorDialog(getStage(), Alert.AlertType.WARNING, "Connection error", message, false);
                 alert.getButtonTypes().clear();
                 alert.addButton("Quit", event -> System.exit(0));
                 alert.addButton("Retry", event -> networkControllerMapper.connect());
                 alert.show();
             }
-            alert.setContentText(message);
         });
     }
 
@@ -234,11 +245,8 @@ public abstract class Controller implements PropertyChangeListener {
      * Closes the alert dialog if it is showing.
      */
     private void closeAlert() {
-        Platform.runLater(() -> {
-            if (alert != null) {
-                alert.closeAlert();
-            }
-        });
+        if (alert != null)
+            alert.closeAlert();
     }
 
     /**
@@ -331,11 +339,16 @@ public abstract class Controller implements PropertyChangeListener {
             }
             case "CONNECTION_ESTABLISHED" -> {
                 logger.debug("Connection established notification received");
-                closeAlert();
+                Platform.runLater(this::closeAlert);
                 showToast(ToastLevels.SUCCESS, "Connected", (String) evt.getNewValue());
                 if (getName() != ControllersEnum.MAIN_MENU) {
                     switchScene(ControllersEnum.MAIN_MENU);
                 }
+            }
+            case "CONNECTION_TRYING" -> {
+                logger.debug("Connection trying notification received");
+                Platform.runLater(this::closeAlert);
+                showTryingConnectionPopup((String) evt.getNewValue());
             }
             case "CONNECTION_FAILED" -> {
                 logger.debug("Connection failed notification received");
