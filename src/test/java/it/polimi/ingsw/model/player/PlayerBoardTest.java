@@ -137,7 +137,7 @@ public class PlayerBoardTest {
     public void placeGameCardTest2() {
         setStarterCard();
         Exception exception = assertThrows(IllegalArgumentException.class, this::setStarterCard);
-        assertEquals("Position already occupied", exception.getMessage());
+        assertEquals("You're trying to place the card in an already occupied position.", exception.getMessage());
     }
 
     @Test
@@ -168,7 +168,7 @@ public class PlayerBoardTest {
         when(gameCard.getNeededItemStore()).thenReturn(gameItemStore);
         Coordinate coordinate = new Coordinate(0, 0);
 
-        assertIllegalArgument("Not enough resources", () -> playerBoard.placeGameCard(coordinate, gameCard));
+        assertIllegalArgument("You don't have enough game resources to place this card", () -> playerBoard.placeGameCard(coordinate, gameCard));
     }
 
     @Test
