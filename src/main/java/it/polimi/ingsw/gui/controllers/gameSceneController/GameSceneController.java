@@ -304,8 +304,8 @@ public class GameSceneController extends Controller implements PropertyChangeLis
                     logger.debug("Top left corner");
 
                     // Set the new card Coordinates
-                    newCardCoordinates.x += -1;
-                    newCardCoordinates.y += -1;
+                    newCardCoordinates.x -= 1;
+                    newCardCoordinates.y -= 1;
                 } else if (playerBoardCardBarycenter.getX() < dragPaneCardBarycenter.getX() && playerBoardCardBarycenter.getY() < dragPaneCardBarycenter.getY()) {
                     // The card is in the bottom right corner of the player board card
                     logger.debug("Bottom right corner");
@@ -318,7 +318,7 @@ public class GameSceneController extends Controller implements PropertyChangeLis
                     logger.debug("Bottom left corner");
 
                     // Set the new card Coordinates
-                    newCardCoordinates.x += -1;
+                    newCardCoordinates.x -= 1;
                     newCardCoordinates.y += 1;
                 } else {
                     // The card is in the top right corner of the player board card
@@ -326,7 +326,7 @@ public class GameSceneController extends Controller implements PropertyChangeLis
 
                     // Set the new card Coordinates
                     newCardCoordinates.x += 1;
-                    newCardCoordinates.y += -1;
+                    newCardCoordinates.y -= 1;
                 }
 
                 // Add the card to the player board
@@ -385,6 +385,15 @@ public class GameSceneController extends Controller implements PropertyChangeLis
         ArrayList<String> opponentPlayers = new ArrayList<>(playerNames);
         opponentPlayers.remove(clientPlayerName);
         chatController.updateUsers(opponentPlayers, clientPlayerName);
+    }
+
+    /**
+     * Checks if the card placement is allowed.
+     *
+     * @return true if the card placement is allowed, false otherwise.
+     */
+    public boolean isCardPlacementForbidden() {
+        return !gameControllerView.get().isMyTurn(getProperty("playerName")) || isDrawingPhase.get();
     }
 
     /**
