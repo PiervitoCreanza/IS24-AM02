@@ -3,6 +3,8 @@ name: Java CI with Maven and Release
 on:
   push:
     branches: [ pier_build-action ]
+    paths:
+      - '**.java'
 permissions:
   contents: write
 jobs:
@@ -25,8 +27,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: v${{ github.run_number }}
+          release_name: Release v${{ github.run_number }}
           draft: false
           prerelease: false
       - name: Upload Client Release Asset
