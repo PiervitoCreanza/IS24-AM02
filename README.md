@@ -27,7 +27,7 @@ to accommodate two main development approaches for flexibility.
 | Persistence (*)   | :white_check_mark:      |
 | Resilience        | :white_check_mark:      |
 | Chat              | :white_check_mark:      |
-| VisionOS           | :ballot_box_with_check:  |
+| Vision$$OS        | :ballot_box_with_check: |
 
 (*) For testing purposes
 
@@ -47,6 +47,68 @@ game [here](https://www.craniocreations.it/prodotto/codex-naturalis).
 Rules of the
 game [here](https://www.craniocreations.it/storage/media/product_downloads/126/1516/CODEX_ITA_Rules_compressed.pdf).
 
+## How to Compile with Maven
+
+To compile the project using Maven, follow these steps:
+
+1. Ensure you have Maven installed. You can download it
+   from [Maven's official website](https://maven.apache.org/download.cgi).
+2. Navigate to the root directory of the project where the `pom.xml` file is located.
+3. Run the following command to compile the project and package it into a JAR file:
+
+   ```bash
+   mvn clean package
+   ```
+
+   This command will generate a JAR file in the `target` directory.
+
+## How to Run the Program
+
+You can run the program using the JAR files found in the release section of the repository. Download the JAR files for
+the server and client from the [releases](https://github.com/PiervitoCreanza/IS24-AM02/releases) page.
+
+### Running the Server
+
+To run the server, use the following command:
+
+```bash
+java -jar server.jar [options]
+```
+
+### Running the Client
+
+To run the client, use the following command:
+
+```bash
+java -jar client.jar [options]
+```
+
+## Server CLI Arguments
+
+| Argument        | Description                                     | Default Value |
+|-----------------|-------------------------------------------------|---------------|
+| -tp, --tcp_port | TCP ServerApp Port number (default is 12345).   | 12345         |
+| -rp, --rmi_port | RMI ServerApp Port number (default is 1099).    | 1099          |
+| -ip             | Start the server with the specified IP address. |               |
+| -l, --localhost | Start the server with his localhost IP address. |               |
+| --lan           | Start the server with his LAN IP address.       |               |
+| --debug         | Start the Server in DEBUG mode.                 |               |
+| -h, --help      | Print the help message.                         |               |
+
+## Client CLI Arguments
+
+| Argument           | Description                                                     | Default Value |
+|--------------------|-----------------------------------------------------------------|---------------|
+| --rmi, --rmi_mode  | Start the client using an RMI connection.                       |               |
+| -s, --server_ip    | Server IP address.                                              | localhost     |
+| -ip, --client_ip   | Client IP address.                                              |               |
+| -sp, --server_port | Server port number (default is 12345 for TCP and 1099 for RMI). |               |
+| -cp                | Client port number (default is server port number + 1).         |               |
+| --lan              | Start the client in LAN mode.                                   |               |
+| -l, --localhost    | Start the client in localhost mode.                             |               |
+| --tui, --tui_mode  | Start the client in TUI mode.                                   |               |
+| --debug            | Start the client in debug mode.                                 |               |
+| -h, --help         | Print the help message.                                         |               |
 
 ## Future Scope
 
