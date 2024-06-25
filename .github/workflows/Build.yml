@@ -35,7 +35,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./target/jars/CodexNaturalis-client.jar
+          asset_path: ./target/jars/CodexNaturalis-client-jar-with-dependencies.jar
           asset_name: CodexNaturalis-client.jar
           asset_content_type: application/java-archive
       - name: Upload Server Release Asset
@@ -45,6 +45,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./target/jars/CodexNaturalis-server.jar
+          asset_path: ./target/jars/CodexNaturalis-server-jar-with-dependencies.jar
           asset_name: CodexNaturalis-server.jar
           asset_content_type: application/java-archive

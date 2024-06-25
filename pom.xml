@@ -171,6 +171,9 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
                             <archive>
                                 <manifest>
                                     <mainClass>it.polimi.ingsw.network.client.Client</mainClass>
@@ -187,6 +190,9 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
                             <archive>
                                 <manifest>
                                     <mainClass>it.polimi.ingsw.network.server.Server</mainClass>
