@@ -64,7 +64,12 @@ public enum ControllersEnum {
     /**
      * Represents the Winner scene.
      */
-    WINNER_SCENE("WinnerScene");
+    WINNER_SCENE("WinnerScene"),
+
+    /**
+     * Represents the Credits scene.
+     */
+    CREDITS("CreditsScene");
 
     /**
      * The name of the FXML file associated with the scene.

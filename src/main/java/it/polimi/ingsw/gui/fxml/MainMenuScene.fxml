@@ -14,7 +14,7 @@
     <fx:include source="Background.fxml"/>
 
     <!-- Start of component content -->
-    <VBox alignment="CENTER" spacing="50">
+    <VBox alignment="CENTER" spacing="40">
         <ImageView preserveRatio="true" fitHeight="320">
             <Image url="@/logo_big.png"/>
         </ImageView>
@@ -31,11 +31,24 @@
                     </VBox>
                 </graphic>
             </Button>
+
             <Button styleClass="transparent-button" mnemonicParsing="false" onAction="#joinGame"
                     onMouseEntered="#requestFocus" pickOnBounds="false">
                 <graphic>
                     <VBox alignment="CENTER">
                         <Text text="Join game"/>
+                        <ImageView preserveRatio="true" scaleX="0.2" styleClass="transparent-button-decoration">
+                            <Image url="@/big_text_decoration.png"/>
+                        </ImageView>
+                    </VBox>
+                </graphic>
+            </Button>
+
+            <Button styleClass="transparent-button" mnemonicParsing="false" onAction="#credits"
+                    onMouseEntered="#requestFocus" pickOnBounds="false">
+                <graphic>
+                    <VBox alignment="CENTER">
+                        <Text text="Credits"/>
                         <ImageView preserveRatio="true" scaleX="0.2" styleClass="transparent-button-decoration">
                             <Image url="@/big_text_decoration.png"/>
                         </ImageView>
@@ -53,6 +66,7 @@
                     </VBox>
                 </graphic>
             </Button>
+            <Region prefHeight="20"/>
         </VBox>
     </VBox>
 
