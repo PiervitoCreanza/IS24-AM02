@@ -3,8 +3,8 @@ name: Java CI with Maven and Release
 on:
   push:
     branches: [ pier_build-action ]
-    paths:
-      - '**.java'
+    #paths:
+    #   - '**.java'
 permissions:
   contents: write
 jobs:
