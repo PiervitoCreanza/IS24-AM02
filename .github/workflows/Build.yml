@@ -2,7 +2,9 @@ name: Java CI with Maven and Release
 
 on:
   push:
-    branches: [ pier_build-action ]
+    tags:
+      - 'v*.*.*'
+    branches: [ main ]
 permissions:
   contents: write
 jobs:
@@ -20,13 +22,21 @@ jobs:
           maven-version: '3.9.6'
       - name: Build with Maven
         run: mvn -B package -D skipTests --file pom.xml -D javafx.platform=mac
+      - name: Rename DMG file
+        run: mv ./target/*.dmg ./target/CodexNaturalis-${{ github.ref_name }}.dmg
+      - name: Rename client JAR file
+        run: mv ./target/jars/CodexNaturalis-client-jar-with-dependencies.jar ./target/jars/CodexNaturalis-client-${{ github.ref_name }}-jar-with-dependencies.jar
+      - name: Rename server JAR file
+        run: mv ./target/jars/CodexNaturalis-server-jar-with-dependencies.jar ./target/jars/CodexNaturalis-server-${{ github.ref_name }}-jar-with-dependencies.jar
+      - name: Rename ZIP file
+        run: mv ./target/CodexNaturalis-win-client.zip ./target/CodexNaturalis-win-client-${{ github.ref_name }}.zip
       - name: Create and Upload Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            ./target/jars/CodexNaturalis-client-jar-with-dependencies.jar
-            ./target/jars/CodexNaturalis-server-jar-with-dependencies.jar
-            ./target/CodexNaturalis-win-client.zip
-            ./target/*.dmg
+            ./target/jars/CodexNaturalis-client-${{ github.ref_name }}-jar-with-dependencies.jar
+            ./target/jars/CodexNaturalis-server-${{ github.ref_name }}-jar-with-dependencies.jar
+            ./target/CodexNaturalis-win-client-${{ github.ref_name }}.zip
+            ./target/CodexNaturalis-${{ github.ref_name }}.dmg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
