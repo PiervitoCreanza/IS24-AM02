@@ -10,7 +10,7 @@ permissions:
 jobs:
   build:
 
-    runs-on: windows-latest
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -19,7 +19,7 @@ jobs:
         with:
           java-version: '21'
           distribution: 'adopt'
-          maven-version: '3.9.6'
+          maven-version: '3.9.8'
       - name: Build with Maven
         run: mvn -B package --file pom.xml
       - name: Create Release
