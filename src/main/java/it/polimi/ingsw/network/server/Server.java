@@ -65,6 +65,12 @@ public class Server {
         CommandLine cmd = parseCommandLineArgs(args);
         int TCPPort = Integer.parseInt(cmd.getOptionValue("tp", "12345")); // default is 12345
         int RMIPort = Integer.parseInt(cmd.getOptionValue("rp", "1099")); // default is 1099
+        if (cmd.hasOption("h")) {
+            Options options = getOptions();
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp("Server", options);
+            System.exit(0);
+        }
         if (cmd.hasOption("debug")) {
             logger.info(ANSI_PURPLE + "Start the Server in DEBUG mode." + Utils.ANSI_RESET);
             HEARTBEAT_TIMEOUT = 600000; //if debug, set the timeout to 10 minutes
@@ -116,6 +122,7 @@ public class Server {
         options.addOption("l", "localhost", false, "Start the server with his localhost ip address");
         options.addOption("lan", "Start the server with his lan ip address.");
         options.addOption("debug", "Start the Server in DEBUG mode.");
+        options.addOption("h", "help", false, "Print this message.");
         return options;
     }
 
