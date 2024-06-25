@@ -2,8 +2,9 @@ name: Java CI with Maven and Release
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches: [ simo_build-action-win ]
+      #tags:
+    #- 'v*.*.*'
 permissions:
   contents: write
 jobs:
