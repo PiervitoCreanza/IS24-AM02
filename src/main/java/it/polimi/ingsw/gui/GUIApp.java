@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 
@@ -39,10 +40,16 @@ public class GUIApp extends Application implements View {
     /**
      * Method to launch the UI.
      * It calls the launch method of the Application class.
+     * If the screen size is too small, it sets the property prism.allowhidpi to false.
+     * This is done to prevent the application from being rendered too big on small screens.
      */
     @Override
     public void launchUI() {
-        System.setProperty("prism.allowhidpi", "false");
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        logger.debug("Screen size is {}x{}", screenSize.width, screenSize.height);
+        if (screenSize.width < MIN_WIDTH || screenSize.height < MIN_HEIGHT) {
+            System.setProperty("prism.allowhidpi", "false");
+        }
         launch();
     }
 
