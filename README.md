@@ -105,7 +105,6 @@ java -jar client.jar [options]
 | -sp, --server_port | Server port number (default is 12345 for TCP and 1099 for RMI). |               |
 | -cp                | Client port number (default is server port number + 1).         |               |
 | --lan              | Start the client in LAN mode.                                   |               |
-| -l, --localhost    | Start the client in localhost mode.                             |               |
 | --tui, --tui_mode  | Start the client in TUI mode.                                   |               |
 | --debug            | Start the client in debug mode.                                 |               |
 | -h, --help         | Print the help message.                                         |               |
