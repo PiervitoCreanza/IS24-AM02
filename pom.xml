@@ -106,6 +106,53 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>windows-profile</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- Launch4j Plugin - exe -->
+                    <plugin>
+                        <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                        <artifactId>launch4j-maven-plugin</artifactId>
+                        <version>2.5.1</version>
+                        <executions>
+                            <execution>
+                                <id>bundle-exe</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>launch4j</goal>
+                                </goals>
+                                <configuration>
+                                    <!--<cmdLine>-l</cmdLine>-->
+                                    <errTitle>CodexNaturalis - Error</errTitle>
+                                    <headerType>console</headerType>
+                                    <icon>src/bundle/icon_256x256.ico</icon>
+                                    <outfile>${project.build.directory}/exe/CodexNaturalis.exe</outfile>
+                                    <jar>
+                                        ${project.build.directory}/jars/CodexNaturalis-client-jar-with-dependencies.jar
+                                    </jar>
+                                    <jre>
+                                        <path>jre/</path>
+                                    </jre>
+                                    <versionInfo>
+                                        <txtFileVersion>${project.version}-RC</txtFileVersion>
+                                        <fileDescription>Codex Naturalis</fileDescription>
+                                        <copyright>Copyright ${project.organization.name}. All rights reserved.
+                                        </copyright>
+                                        <txtProductVersion>${project.version}-RC</txtProductVersion>
+                                    </versionInfo>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
     <build>
@@ -214,39 +261,6 @@
                             </descriptors>
                             <finalName>CodexNaturalis-win-client</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Launch4j Plugin - exe -->
-            <plugin>
-                <groupId>com.akathist.maven.plugins.launch4j</groupId>
-                <artifactId>launch4j-maven-plugin</artifactId>
-                <version>2.5.1</version>
-                <executions>
-                    <execution>
-                        <id>bundle-exe</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>launch4j</goal>
-                        </goals>
-                        <configuration>
-                            <!--<cmdLine>-l</cmdLine>-->
-                            <errTitle>CodexNaturalis - Error</errTitle>
-                            <headerType>console</headerType>
-                            <icon>src/bundle/icon_256x256.ico</icon>
-                            <outfile>${project.build.directory}/exe/CodexNaturalis.exe</outfile>
-                            <jar>${project.build.directory}/jars/CodexNaturalis-client-jar-with-dependencies.jar</jar>
-                            <jre>
-                                <path>jre/</path>
-                            </jre>
-                            <versionInfo>
-                                <txtFileVersion>${project.version}-RC</txtFileVersion>
-                                <fileDescription>Codex Naturalis</fileDescription>
-                                <copyright>Copyright ${project.organization.name}. All rights reserved.</copyright>
-                                <txtProductVersion>${project.version}-RC</txtProductVersion>
-                            </versionInfo>
                         </configuration>
                     </execution>
                 </executions>
