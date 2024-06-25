@@ -3,8 +3,6 @@ name: Java CI with Maven and Release
 on:
   push:
     branches: [ pier_build-action ]
-    #paths:
-    #   - '**.java'
 permissions:
   contents: write
 jobs:
@@ -22,53 +20,13 @@ jobs:
           maven-version: '3.9.6'
       - name: Build with Maven
         run: mvn -B package -D skipTests --file pom.xml -D javafx.platform=mac
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+      - name: Create and Upload Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ./target/jars/CodexNaturalis-client-jar-with-dependencies.jar
+            ./target/jars/CodexNaturalis-server-jar-with-dependencies.jar
+            ./target/CodexNaturalis-win-client.zip
+            ./target/*.dmg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ github.run_number }}
-          release_name: Game release v${{ github.run_number }}
-          draft: false
-          prerelease: false
-      - name: Upload Client Release Asset
-        id: upload-client-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./target/jars/CodexNaturalis-client-jar-with-dependencies.jar
-          asset_name: CodexNaturalis-client.jar
-          asset_content_type: application/java-archive
-      - name: Upload Server Release Asset
-        id: upload-server-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./target/jars/CodexNaturalis-server-jar-with-dependencies.jar
-          asset_name: CodexNaturalis-server.jar
-          asset_content_type: application/java-archive
-      - name: Upload Windows Release Asset
-        id: upload-windows-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./target/CodexNaturalis-win-client.zip
-          asset_name: CodexNaturalis-win-client.zip
-          asset_content_type: application/zip
-      - name: Upload macOS Release Asset
-        id: upload-macos-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./target/*.dmg
-          asset_name: CodexNaturalis-mac-client.dmg
-          asset_content_type: application/x-apple-diskimage
