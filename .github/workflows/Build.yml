@@ -19,6 +19,7 @@ jobs:
         with:
           java-version: '21'
           distribution: 'adopt'
+          maven-version: '3.9.6'
       - name: Build with Maven
         run: mvn -B package --file pom.xml
       - name: Create Release
