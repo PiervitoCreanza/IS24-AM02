@@ -52,3 +52,23 @@ jobs:
           asset_path: ./target/jars/CodexNaturalis-server-jar-with-dependencies.jar
           asset_name: CodexNaturalis-server.jar
           asset_content_type: application/java-archive
+      - name: Upload Windows Release Asset
+        id: upload-windows-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./target/CodexNaturalis-win-client.zip
+          asset_name: CodexNaturalis-win-client.zip
+          asset_content_type: application/zip
+      - name: Upload macOS Release Asset
+        id: upload-macos-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./target/*.dmg
+          asset_name: CodexNaturalis-mac-client.dmg
+          asset_content_type: application/x-apple-diskimage
