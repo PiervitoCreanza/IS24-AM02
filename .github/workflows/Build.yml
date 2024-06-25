@@ -20,7 +20,6 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           maven-version: '3.9.6'
-          java-package: 'jdk+fx'
       - name: Build with Maven
         run: mvn -B package -D skipTests --file pom.xml
       - name: Create Release
