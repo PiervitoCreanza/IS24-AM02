@@ -60,7 +60,7 @@ To compile the project using Maven, follow these steps:
    mvn clean package
    ```
 
-   This command will generate a JAR file in the `target` directory.
+This command will generate two jars: one for the client and one for the server in the `target/jars` folder
 
 ## How to Run the Program
 
