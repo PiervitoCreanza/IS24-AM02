@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
@@ -101,6 +102,8 @@ public class GUIApp extends Application implements View {
         stage.setMinHeight(MIN_HEIGHT);
         stage.setMinWidth(MIN_WIDTH);
         stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("icon_512x512.png")));
+        stage.setFullScreenExitHint("Press F11 to exit full screen mode.");
+        stage.setFullScreenExitKeyCombination(KeyCombination.keyCombination("F11"));
 
         // Set the current stage on all controllers.
         Controller.setStage(stage);
