@@ -7,7 +7,7 @@ on:
 permissions:
   contents: write
 jobs:
-  build:
+  build-mac:
 
     runs-on: macos-latest
 
@@ -24,18 +24,42 @@ jobs:
       - name: Rename DMG file
         run: mv ./target/*.dmg ./target/CodexNaturalis-${{ github.ref_name }}.dmg
       - name: Rename client JAR file
-        run: mv ./target/jars/CodexNaturalis-client-jar-with-dependencies.jar ./target/jars/CodexNaturalis-client-${{ github.ref_name }}-jar-with-dependencies.jar
+        run: mv ./target/jars/CodexNaturalis-client-jar-with-dependencies.jar ./target/jars/CodexNaturalis-client-${{ github.ref_name }}-jar-with-dependencies-mac.jar
       - name: Rename server JAR file
         run: mv ./target/jars/CodexNaturalis-server-jar-with-dependencies.jar ./target/jars/CodexNaturalis-server-${{ github.ref_name }}-jar-with-dependencies.jar
+      - name: Create and Upload Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ./target/jars/CodexNaturalis-client-${{ github.ref_name }}-jar-with-dependencies-mac.jar
+            ./target/jars/CodexNaturalis-server-${{ github.ref_name }}-jar-with-dependencies.jar
+            ./target/CodexNaturalis-${{ github.ref_name }}.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-win:
+
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 21
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          maven-version: '3.9.6'
+      - name: Build with Maven
+        run: mvn -B package -D skipTests --file pom.xml -D javafx.platform=windows
+      - name: Rename client JAR file
+        run: mv ./target/jars/CodexNaturalis-client-jar-with-dependencies.jar ./target/jars/CodexNaturalis-client-${{ github.ref_name }}-jar-with-dependencies-windows.jar
       - name: Rename ZIP file
         run: mv ./target/CodexNaturalis-win-client.zip ./target/CodexNaturalis-win-client-${{ github.ref_name }}.zip
       - name: Create and Upload Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            ./target/jars/CodexNaturalis-client-${{ github.ref_name }}-jar-with-dependencies.jar
-            ./target/jars/CodexNaturalis-server-${{ github.ref_name }}-jar-with-dependencies.jar
+            ./target/jars/CodexNaturalis-client-${{ github.ref_name }}-jar-with-dependencies-windows.jar
             ./target/CodexNaturalis-win-client-${{ github.ref_name }}.zip
-            ./target/CodexNaturalis-${{ github.ref_name }}.dmg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
