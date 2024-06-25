@@ -171,9 +171,6 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
-                            <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
-                            </descriptorRefs>
                             <archive>
                                 <manifest>
                                     <mainClass>it.polimi.ingsw.network.client.Client</mainClass>
@@ -190,9 +187,6 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
-                            <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
-                            </descriptorRefs>
                             <archive>
                                 <manifest>
                                     <mainClass>it.polimi.ingsw.network.server.Server</mainClass>
@@ -237,7 +231,7 @@
                             <headerType>console</headerType>
                             <icon>src/bundle/icon_256x256.ico</icon>
                             <outfile>${project.build.directory}/exe/CodexNaturalis.exe</outfile>
-                            <jar>${project.build.directory}/jars/CodexNaturalis-client-jar-with-dependencies.jar</jar>
+                            <jar>${project.build.directory}/jars/CodexNaturalis-client.jar</jar>
                             <jre>
                                 <path>jre/</path>
                             </jre>
