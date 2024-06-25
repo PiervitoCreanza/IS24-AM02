@@ -15,7 +15,7 @@
 
     <!-- Start of component content -->
     <VBox alignment="CENTER" spacing="40">
-        <ImageView preserveRatio="true" fitHeight="200">
+        <ImageView preserveRatio="true" fitHeight="280">
             <Image url="@/logo_big.png"/>
         </ImageView>
         <VBox alignment="CENTER" spacing="15.0">
