@@ -17,11 +17,11 @@ jobs:
       - name: Set up JDK 21
         uses: actions/setup-java@v2
         with:
-          java-version: '22'
+          java-version: '21'
           distribution: 'temurin'
           maven-version: '3.9.6'
       - name: Build with Maven
-        run: mvn -B package -D skipTests --file pom.xml
+        run: mvn -B package -D skipTests --file pom.xml -D javafx.platform=mac
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
