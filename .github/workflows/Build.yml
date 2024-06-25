@@ -51,7 +51,7 @@ jobs:
           distribution: 'temurin'
           maven-version: '3.9.6'
       - name: Build with Maven
-        run: mvn -B package -D skipTests --file pom.xml -D javafx.platform=windows
+        run: mvn -B package -D skipTests --file pom.xml -D javafx.platform=win
       - name: Rename client JAR file
         run: mv ./target/jars/CodexNaturalis-client-jar-with-dependencies.jar ./target/jars/CodexNaturalis-client-${{ github.ref_name }}-jar-with-dependencies-windows.jar
       - name: Rename ZIP file
