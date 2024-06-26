@@ -92,7 +92,7 @@ public class GUIApp extends Application implements View {
 
         // Set the stage to full screen when maximized.
         stage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
+            if (System.getProperty("os.name").toLowerCase().contains("mac") && newValue) {
                 stage.setFullScreen(true);
             }
         });
@@ -102,8 +102,13 @@ public class GUIApp extends Application implements View {
         stage.setMinHeight(MIN_HEIGHT);
         stage.setMinWidth(MIN_WIDTH);
         stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("icon_512x512.png")));
-        stage.setFullScreenExitHint("Press F11 to exit full screen mode.");
-        stage.setFullScreenExitKeyCombination(KeyCombination.keyCombination("F11"));
+
+        String keyCombination = "F11";
+        if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+            keyCombination = KeyCombination.SHORTCUT_DOWN + "+" + keyCombination;
+        }
+        stage.setFullScreenExitHint("Press " + keyCombination + " to exit full screen mode.");
+        stage.setFullScreenExitKeyCombination(KeyCombination.keyCombination(keyCombination));
 
         // Set the current stage on all controllers.
         Controller.setStage(stage);
