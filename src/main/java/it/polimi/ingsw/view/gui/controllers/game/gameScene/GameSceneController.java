@@ -29,6 +29,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
@@ -434,6 +435,7 @@ public class GameSceneController extends Controller implements PropertyChangeLis
      */
     @FXML
     private void toggleChat() {
+        ((ImageView) ChatSideBarButton.getGraphic()).setImage(new Image("chat-icon.png"));
         boolean isVisible = ChatSideBar.isVisible();
         ChatSideBar.setVisible(!isVisible);
         ChatSideBarButton.setVisible(isVisible);
@@ -501,11 +503,11 @@ public class GameSceneController extends Controller implements PropertyChangeLis
             case "CHAT_MESSAGE":
                 logger.debug("Received chat message");
                 ServerToClientMessage message = (ServerToClientMessage) evt.getNewValue();
-                Platform.runLater(() -> chatController.handleChatMessage(message));
-                // Open the chat if the message is a global message or if the message is to the player
-                if (!ChatSideBar.isVisible()) {
-                    toggleChat();
-                }
+                Platform.runLater(() -> {
+                    chatController.handleChatMessage(message);
+                    // Update the chat icon when a message is received
+                    ((ImageView) ChatSideBarButton.getGraphic()).setImage(new Image("chat-icon-notification.png"));
+                });
                 break;
         }
     }
