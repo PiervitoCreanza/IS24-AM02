@@ -164,6 +164,7 @@ public abstract class Controller implements PropertyChangeListener {
      * @param <T>      the type of the property.
      * @return the value of the property.
      */
+    @SuppressWarnings("unchecked")
     public <T> T getProperty(String property) {
         return (T) getScene().getProperties().get(property);
     }
@@ -311,9 +312,7 @@ public abstract class Controller implements PropertyChangeListener {
      * @param message the message of the toast message.
      */
     public void showToast(ToastLevels level, String title, String message) {
-        Platform.runLater(() -> {
-            Toaster.getInstance(getStage()).showToast(level, title, message);
-        });
+        Platform.runLater(() -> Toaster.getInstance(getStage()).showToast(level, title, message));
     }
 
     /**

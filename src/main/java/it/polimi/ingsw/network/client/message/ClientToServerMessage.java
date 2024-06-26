@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.client.message;
 
-import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 
@@ -123,16 +122,6 @@ public abstract class ClientToServerMessage {
      * @return The coordinate of the player, always null.
      */
     public Coordinate getCoordinate() {
-        return null;
-    }
-
-    /**
-     * Returns the game card in the message.
-     * This method is not implemented here, but it is overridden by classes that provide cards.
-     *
-     * @return The game card of the player, always null.
-     */
-    public GameCard getGameCard() {
         return null;
     }
 

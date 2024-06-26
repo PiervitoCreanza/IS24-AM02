@@ -92,7 +92,7 @@ public class InitSelectPionSceneController extends InitScene {
     @FXML
     protected void continueAction() {
         // Print the selected pion color in the console
-        System.out.println("Selected Pion Color: " + availableColors.get(currentIndex));
+        logger.debug("Selected Pion Color: {}", availableColors.get(currentIndex));
         Controller.networkControllerMapper.choosePlayerColor(availableColors.get(currentIndex));
     }
 

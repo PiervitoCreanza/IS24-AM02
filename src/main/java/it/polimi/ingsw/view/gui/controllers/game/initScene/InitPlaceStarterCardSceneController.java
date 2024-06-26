@@ -123,7 +123,7 @@ public class InitPlaceStarterCardSceneController extends InitScene {
     @FXML
     protected void continueAction() {
         // Print the selected card ID and the selected side to the console
-        logger.debug("Selected Card ID: " + gameCard.getCardId() + ", Side: " + selectedSide);
+        logger.debug("Selected Card ID: {}, Side: {}", gameCard.getCardId(), selectedSide);
         // Reset the styles after continuing
         backImagePane.getStyleClass().remove("selected-card-image");
         frontImagePane.getStyleClass().remove("selected-card-image");
@@ -160,7 +160,7 @@ public class InitPlaceStarterCardSceneController extends InitScene {
 
     /**
      * Called before unmounting (switching away from) the scene.
-     * Currently does nothing for this scene.
+     * Currently, does nothing for this scene.
      */
     @Override
     public void beforeUnmount() {

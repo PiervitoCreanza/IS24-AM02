@@ -10,6 +10,8 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
@@ -29,6 +31,11 @@ public class CreditsSceneController extends Controller {
      */
     @FXML
     private ListView<String> githubListView;
+
+    /**
+     * The logger.
+     */
+    private final Logger logger = LogManager.getLogger(CreditsSceneController.class);
 
     /**
      * Returns the name of the controller.
@@ -73,10 +80,10 @@ public class CreditsSceneController extends Controller {
 
     @FXML
     private void initialize() {
-        githubListView.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+        githubListView.setCellFactory(new Callback<>() {
             @Override
             public ListCell<String> call(ListView<String> param) {
-                return new ListCell<String>() {
+                return new ListCell<>() {
                     @Override
                     protected void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
@@ -92,8 +99,9 @@ public class CreditsSceneController extends Controller {
                                 controller.setGitHubInfo(parts[0], parts[1]);
                                 setGraphic(hbox);
                             } catch (IOException e) {
-                                e.printStackTrace();
-                                setText("Error loading cell");
+                                String error = "Error loading cell";
+                                logger.debug(error);
+                                setText(error);
                             }
                         }
                     }
@@ -124,7 +132,7 @@ public class CreditsSceneController extends Controller {
         try {
             Desktop.getDesktop().browse(new URI(url));
         } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
+            logger.debug("Error opening URL: {}", url, e);
         }
     }
 }

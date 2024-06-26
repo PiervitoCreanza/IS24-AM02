@@ -23,8 +23,6 @@ public class ServerNetworkControllerMapperTest {
 
     private ServerNetworkControllerMapper serverNetworkControllerMapper;
 
-    private ArrayList<ServerMessageHandler> handlers;
-
     private HashMap<Integer, HashMap<Integer, Integer>> starterCardsIds;
 
     private HashMap<Integer, HashMap<Integer, Integer>> objectiveCardsIds;
@@ -79,14 +77,12 @@ public class ServerNetworkControllerMapperTest {
                 String gameName = String.valueOf(finalI);
                 String firstPlayerName = String.valueOf(1);
                 ServerMessageHandler firstPlayerHandler = initMockServerMessageHandler(gameName, firstPlayerName);
-                handlers.add(firstPlayerHandler);
                 serverNetworkControllerMapper.getGames(firstPlayerHandler);
                 serverNetworkControllerMapper.createGame(firstPlayerHandler, gameName, firstPlayerName, nPlayers);
                 String playerName;
                 for (int j = 2; j < nPlayers + 1; j++) {
                     playerName = String.valueOf(j);
                     ServerMessageHandler playerHandler = initMockServerMessageHandler(gameName, playerName);
-                    handlers.add(playerHandler);
                     serverNetworkControllerMapper.joinGame(playerHandler, gameName, playerName);
                 }
                 ArrayList<PlayerColorEnum> availableColors = new ArrayList<>(List.of(PlayerColorEnum.values()));
@@ -105,9 +101,9 @@ public class ServerNetworkControllerMapperTest {
                         }
                         for (Integer k : remainingPlayers) {
                             int finalK = k;
-                            Thread thread1 = new Thread(() -> {
-                                randomAction(gameName, String.valueOf(finalK));
-                            });
+                            Thread thread1 = new Thread(() ->
+                                    randomAction(gameName, String.valueOf(finalK))
+                            );
                             randomActionsThreads.get(finalI).add(thread1);
                             thread1.start();
                         }
@@ -140,7 +136,7 @@ public class ServerNetworkControllerMapperTest {
                             try {
                                 threads.join();
                             } catch (InterruptedException e) {
-                                e.printStackTrace();
+                                throw new RuntimeException(e);
                             }
                         }
                     }
@@ -157,7 +153,7 @@ public class ServerNetworkControllerMapperTest {
             try {
                 thread.join();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
     }
@@ -212,7 +208,7 @@ public class ServerNetworkControllerMapperTest {
             }
             // Qui puoi definire il tuo comportamento personalizzato per il metodo sendMessage.
             // Ad esempio, potresti stampare il messaggio:
-            //System.out.println("Game: " + gameName + " Player: " + playerName + " Message: " + message);
+            //System.out.println("Game: " + gameName + " Player:" + playerName + " Message: " + message);
             return null; // dal momento che il metodo è void, ritorniamo null
         }).when(serverMessageHandler).sendMessage(Mockito.any(ServerToClientMessage.class));
 

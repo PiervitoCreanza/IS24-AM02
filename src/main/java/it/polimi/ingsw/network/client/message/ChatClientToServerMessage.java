@@ -30,7 +30,7 @@ public class ChatClientToServerMessage extends ClientToServerMessage {
      * True if the message is a direct message, false otherwise.
      * This is a final variable, meaning it cannot be changed once it has been set.
      */
-    private boolean isDirectMessage = false;
+    private final boolean isDirectMessage;
 
     /**
      * Constructor for ChatClientToServerMessage.

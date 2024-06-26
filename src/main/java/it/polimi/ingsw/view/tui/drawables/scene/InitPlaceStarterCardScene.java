@@ -95,9 +95,7 @@ public class InitPlaceStarterCardScene implements Scene, PropertyChangeListener 
         @SuppressWarnings("unchecked")
         ArrayList<String> inputs = (ArrayList<String>) evt.getNewValue();
         switch (changedProperty) {
-            case "q" -> {
-                controller.closeConnection();
-            }
+            case "q" -> controller.closeConnection();
             case "input" ->
                     controller.placeStarterCard(starterCard.getCardId(), Integer.parseInt(inputs.getFirst()) == 2);
             default -> System.out.println("Invalid property change event");

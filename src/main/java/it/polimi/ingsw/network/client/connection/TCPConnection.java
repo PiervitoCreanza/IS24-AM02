@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.nio.channels.IllegalBlockingModeException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The TCPConnection class implements the Connection interface using the TCP protocol.
@@ -69,7 +70,7 @@ public TCPConnection(ClientNetworkControllerMapper networkControllerMapper, Stri
             }
             attempts++;
             try {
-                Thread.sleep(waitTime);
+                TimeUnit.MILLISECONDS.sleep(waitTime);
             } catch (InterruptedException e) {
                 logger.debug("Thread interrupted while waiting for the next connection attempt.");
                 return;

@@ -92,13 +92,13 @@ public class InitSetObjectiveCardSceneController extends InitScene {
             }
         });
 
-        firstChoosableCard.addListener((observable, oldValue, newValue) -> {
-            updateGameCardImage(newValue, cardFirstImageView);
-        });
+        firstChoosableCard.addListener((observable, oldValue, newValue) ->
+                updateGameCardImage(newValue, cardFirstImageView)
+        );
 
-        secondChoosableCard.addListener((observable, oldValue, newValue) -> {
-            updateGameCardImage(newValue, cardSecondImageView);
-        });
+        secondChoosableCard.addListener((observable, oldValue, newValue) ->
+                updateGameCardImage(newValue, cardSecondImageView)
+        );
     }
 
     /**
@@ -201,9 +201,9 @@ public class InitSetObjectiveCardSceneController extends InitScene {
         GameControllerView updatedView = (GameControllerView) evt.getNewValue();
         if (propertyName.equals("UPDATE_VIEW") && !updatedView.isMyTurn(getProperty("playerName"))) {
             //
-            Platform.runLater(() -> {
-                switchScene(ControllersEnum.GAME_SCENE, evt);
-            });
+            Platform.runLater(() ->
+                    switchScene(ControllersEnum.GAME_SCENE, evt)
+            );
         }
     }
 }

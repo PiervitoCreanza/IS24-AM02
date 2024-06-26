@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Class representing a game record. This class contains all the informations needed to display a game in the lobby.
+ * Class representing a game record. This class contains all the information needed to display a game in the lobby.
  */
 public record GameRecord(String gameName, int joinedPlayers, int maxAllowedPlayers) implements Serializable {
     /**

@@ -181,9 +181,7 @@ public class PlaceCardScene implements Scene, PropertyChangeListener {
                 controller.placeCard(choosenCardId, coordinate, handFlipped.get(choosenCardIndex));
             }
             case "c" -> controller.showChat();
-            case "q" -> {
-                controller.closeConnection();
-            }
+            case "q" -> controller.closeConnection();
         }
     }
 

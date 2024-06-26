@@ -130,7 +130,7 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
     private void setUpPlayerListView(GameControllerView updatedView) {
         String gameNameString = GUIUtils.truncateString(updatedView.gameView().gameName());
 
-        logger.debug("Setting game name" + gameNameString);
+        logger.debug("Setting game name{}", gameNameString);
         gameName.setText(gameNameString);
         logger.debug("Received player list");
         ArrayList<String> playersList = updatedView.gameView().playerViews().stream().map(PlayerView::playerName).collect(Collectors.toCollection(ArrayList::new));
