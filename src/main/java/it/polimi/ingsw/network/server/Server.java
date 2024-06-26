@@ -1,11 +1,11 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.MainController;
-import it.polimi.ingsw.network.NetworkUtils;
 import it.polimi.ingsw.network.server.RMI.RMIServerReceiver;
 import it.polimi.ingsw.network.server.TCP.TCPServerAdapter;
 import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
-import it.polimi.ingsw.tui.utils.Utils;
+import it.polimi.ingsw.network.utils.HostIpAddressResolver;
+import it.polimi.ingsw.view.tui.utils.Utils;
 import org.apache.commons.cli.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,8 +20,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-import static it.polimi.ingsw.tui.utils.Utils.ANSI_PURPLE;
-import static it.polimi.ingsw.tui.utils.Utils.ANSI_RESET;
+import static it.polimi.ingsw.view.tui.utils.Utils.ANSI_PURPLE;
+import static it.polimi.ingsw.view.tui.utils.Utils.ANSI_RESET;
 
 /**
  * This class is responsible for setting up and running the TCP and RMI servers.
@@ -76,7 +76,7 @@ public class Server {
             HEARTBEAT_TIMEOUT = 600000; //if debug, set the timeout to 10 minutes
             IS_DEBUG = true;
         }
-        String serverIp = NetworkUtils.getCurrentHostIp(cmd);
+        String serverIp = HostIpAddressResolver.getCurrentHostIp(cmd);
 
         logger.info("Server IP: {}", serverIp);
         /* ***************************************

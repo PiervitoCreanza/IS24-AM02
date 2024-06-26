@@ -196,7 +196,7 @@
                         <!-- Usage: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>it.polimi.ingsw.gui.GUIApp</mainClass>
+                            <mainClass>it.polimi.ingsw.view.gui.GUIApp</mainClass>
                         </configuration>
                     </execution>
                 </executions>
@@ -266,9 +266,14 @@
         <!-- fxml files are in src/main/java/it/polimi/ingsw/gui/fxml -->
         <resources>
             <resource>
-                <directory>src/main/java/it/polimi/ingsw/gui/fxml</directory>
+                <directory>src/main/java/it/polimi/ingsw/view/gui/fxml</directory>
             </resource>
-
+            <resource>
+                <directory>src/main/resources/assets/images/icons</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources/assets/images/components</directory>
+            </resource>
             <resource>
                 <directory>src/main/resources/assets/images</directory>
             </resource>
@@ -276,10 +281,10 @@
                 <directory>src/main/resources/assets/images/pion</directory>
             </resource>
             <resource>
-                <directory>src/main/resources/assets/images/Cards/Fronts</directory>
+                <directory>src/main/resources/assets/images/cards/fronts</directory>
             </resource>
             <resource>
-                <directory>src/main/resources/assets/images/Cards/Backs</directory>
+                <directory>src/main/resources/assets/images/cards/backs</directory>
             </resource>
             <resource>
                 <directory>src/main/resources/assets/css</directory>

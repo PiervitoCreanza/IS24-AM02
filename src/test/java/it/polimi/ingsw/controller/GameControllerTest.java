@@ -3,13 +3,13 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.Utils;
 import it.polimi.ingsw.controller.gameController.GameController;
-import it.polimi.ingsw.data.Parser;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
+import it.polimi.ingsw.parsing.Parser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

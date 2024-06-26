@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<HBox alignment="CENTER" spacing="10" styleClass="game-cell" xmlns="http://javafx.com/javafx/17.0.2-ea"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="it.polimi.ingsw.view.gui.controllers.menu.waitingForPlayer.PlayerCellController">
+    <Label fx:id="playerNameLabel" alignment="CENTER" styleClass="player-name" text="Player Name"
+           textAlignment="CENTER"/>
+</HBox>

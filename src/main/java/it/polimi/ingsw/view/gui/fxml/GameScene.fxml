@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import java.lang.String?>
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           xmlns="http://javafx.com/javafx"
+           fx:controller="it.polimi.ingsw.view.gui.controllers.game.gameScene.GameSceneController"
+           fx:id="rootPane"
+           stylesheets="styles.css">
+    <fx:include source="BackgroundOnlyCorners.fxml"/>
+    <StackPane fx:id="contentPane">
+        <BorderPane pickOnBounds="false">
+            <top>
+                <StackPane pickOnBounds="false">
+                    <ImageView preserveRatio="true" fitWidth="830">
+                        <Image url="@/draw-decks.png"/>
+                    </ImageView>
+                    <VBox pickOnBounds="false">
+                        <HBox minHeight="40.5" pickOnBounds="false"/>
+                        <HBox alignment="CENTER" spacing="40" pickOnBounds="false" fx:id="drawArea">
+                            <HBox spacing="10">
+                                <ImageView fx:id="firstResourceCard" fitWidth="234" preserveRatio="true"
+                                           styleClass="card"/>
+                                <VBox spacing="10">
+                                    <ImageView fx:id="firstResourceFieldCard" fitWidth="109.5" preserveRatio="true"
+                                               styleClass="card"/>
+                                    <ImageView fx:id="secondResourceFieldCard" fitWidth="109.5" preserveRatio="true"
+                                               styleClass="card"/>
+                                </VBox>
+                            </HBox>
+                            <HBox spacing="10">
+                                <ImageView fx:id="firstGoldCard" fitWidth="234" preserveRatio="true"
+                                           styleClass="card"/>
+                                <VBox spacing="10">
+                                    <ImageView fx:id="firstGoldFieldCard" fitWidth="109.5" preserveRatio="true"
+                                               styleClass="card"/>
+                                    <ImageView fx:id="secondGoldFieldCard" fitWidth="109.5" preserveRatio="true"
+                                               styleClass="card"/>
+                                </VBox>
+                            </HBox>
+                        </HBox>
+                    </VBox>
+
+                </StackPane>
+            </top>
+
+
+        </BorderPane>
+        <HBox alignment="CENTER_LEFT" pickOnBounds="false">
+            <Button styleClass="left-container, shadow, custom-button-padding" fx:id="ChatSideBarButton"
+                    onAction="#toggleChat"
+                    style="-fx-padding: 2 12 2 12;">
+                <graphic>
+                    <ImageView preserveRatio="true" fitWidth="35">
+                        <Image url="@/chat-icon.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+
+            <!-- CHAT AREA -->
+            <VBox alignment="CENTER_LEFT" maxWidth="320" pickOnBounds="false" fx:id="ChatSideBar" visible="false">
+                <StackPane fx:id="chatSidebar">
+                    <HBox>
+                        <VBox
+                                spacing="10" prefWidth="320"
+                                alignment="CENTER"
+                                styleClass="left-container"
+                        >
+                            <padding>
+                                <Insets top="10" right="10" bottom="10" left="10"/>
+                            </padding>
+                            <HBox alignment="CENTER">
+                                <Text styleClass="h3" textAlignment="CENTER">Chat</Text>
+                            </HBox>
+
+                            <TextArea fx:id="chatDisplay" editable="false" minHeight="350" maxHeight="450"
+                                      styleClass="brutalist-textarea"/>
+                            <VBox spacing="10" pickOnBounds="false">
+                                <ComboBox fx:id="recepient" styleClass="brutalist-combobox" minWidth="Infinity"
+                                          maxWidth="Infinity">
+                                    <items>
+                                        <FXCollections fx:factory="observableArrayList">
+                                            <String fx:value="To Everyone"/>
+                                            <String fx:value="To Player 1"/>
+                                            <String fx:value="To Player 2"/>
+                                            <String fx:value="To Player 3"/>
+                                        </FXCollections>
+                                    </items>
+                                </ComboBox>
+                            </VBox>
+                            <TextArea fx:id="messageInput" promptText="Type your message..."
+                                      styleClass="brutalist-textarea"
+                                      maxHeight="24"/>
+                            <Button text="Send" fx:id="chatSendButton" styleClass="brutalist-button" minWidth="Infinity"
+                                    maxWidth="Infinity"/>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                            <Button styleClass="left-container, shadow, custom-button-padding"
+                                    style="-fx-padding: 0 7 0 6;"
+                                    onAction="#toggleChat" fx:id="hideChatButton">
+                                <graphic>
+                                    <ImageView preserveRatio="true" fitWidth="11">
+                                        <Image url="@/back-icon.png"/>
+                                    </ImageView>
+                                </graphic>
+                            </Button>
+                        </VBox>
+
+                    </HBox>
+
+                </StackPane>
+            </VBox>
+        </HBox>
+
+        <HBox alignment="CENTER_RIGHT" pickOnBounds="false">
+
+            <VBox alignment="CENTER_RIGHT" maxWidth="320">
+                <fx:include source="RightSidebar.fxml" fx:id="rightSidebar"/>
+            </VBox>
+            <VBox prefWidth="10"/>
+        </HBox>
+
+        <BorderPane styleClass="transparent" pickOnBounds="false">
+            <bottom>
+                <StackPane styleClass="transparent" pickOnBounds="false">
+                    <ImageView preserveRatio="true" fitWidth="900">
+                        <Image url="@/hand_board.png"/>
+                    </ImageView>
+                    <VBox alignment="BOTTOM_CENTER" styleClass="transparent" pickOnBounds="false">
+                        <HBox alignment="BOTTOM_CENTER" spacing="10" pickOnBounds="false">
+                            <Text fx:id="playerName" styleClass="h2">Marco:</Text>
+                            <Text fx:id="playerPrompt" styleClass="h2">Place a new card on the board.</Text>
+                        </HBox>
+                        <HBox minHeight="49" styleClass="transparent" pickOnBounds="false"/>
+                        <HBox fx:id="handBoard" alignment="BOTTOM_CENTER" spacing="43" styleClass="transparent"
+                              pickOnBounds="false">
+                            <Pane prefWidth="234" prefHeight="156">
+                                <ImageView fx:id="firstCard" fitWidth="234" preserveRatio="true" styleClass="card"/>
+                            </Pane>
+                            <Pane prefWidth="234" prefHeight="156">
+                                <ImageView fx:id="secondCard" fitWidth="234" preserveRatio="true" styleClass="card"/>
+                            </Pane>
+                            <Pane prefWidth="234" prefHeight="156">
+                                <ImageView fx:id="thirdCard" fitWidth="234" preserveRatio="true" styleClass="card"/>
+                            </Pane>
+                        </HBox>
+                        <HBox minHeight="44.5" styleClass="transparent" pickOnBounds="false"/>
+                    </VBox>
+                </StackPane>
+            </bottom>
+        </BorderPane>
+    </StackPane>
+
+
+</StackPane>

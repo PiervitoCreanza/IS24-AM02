@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.card;
 
-import it.polimi.ingsw.tui.utils.ColorsEnum;
+import it.polimi.ingsw.view.tui.utils.ColorsEnum;
 
 import java.util.stream.Stream;
 

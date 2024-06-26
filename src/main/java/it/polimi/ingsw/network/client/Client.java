@@ -1,13 +1,13 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.gui.GUIApp;
-import it.polimi.ingsw.network.NetworkUtils;
 import it.polimi.ingsw.network.client.connection.Connection;
 import it.polimi.ingsw.network.client.connection.RMIConnection;
 import it.polimi.ingsw.network.client.connection.TCPConnection;
-import it.polimi.ingsw.tui.View;
-import it.polimi.ingsw.tui.controller.TUIViewController;
-import it.polimi.ingsw.tui.utils.Utils;
+import it.polimi.ingsw.network.utils.HostIpAddressResolver;
+import it.polimi.ingsw.view.gui.GUIApp;
+import it.polimi.ingsw.view.tui.View;
+import it.polimi.ingsw.view.tui.controller.TUIViewController;
+import it.polimi.ingsw.view.tui.utils.Utils;
 import org.apache.commons.cli.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,7 +47,7 @@ public class Client {
             System.out.println(Utils.ANSI_RED + "You didn't specify a server address (-s).\nThe client will try to connect in localhost mode!" + Utils.ANSI_RESET);
             clientIp = "localhost";
         } else {
-            clientIp = NetworkUtils.getCurrentHostIp(cmd);
+            clientIp = HostIpAddressResolver.getCurrentHostIp(cmd);
         }
 
         int serverPort = cmd.hasOption("rmi") ? 1099 : 12345;
