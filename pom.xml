@@ -82,9 +82,6 @@
                         <configuration>
                             <plist>
                                 <CFBundleIconFile>src/bundle/icon_512x512@2x.icns</CFBundleIconFile>
-                                <JVMArguments>
-                                    <string>-l</string>
-                                </JVMArguments>
                                 <JVMMainClassName>it.polimi.ingsw.network.client.Client</JVMMainClassName>
                             </plist>
                             <jdk>
