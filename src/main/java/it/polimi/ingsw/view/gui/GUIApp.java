@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
@@ -80,7 +81,7 @@ public class GUIApp extends Application implements View {
             System.exit(0);
         });
 
-        String fullScreenButton = "F11";
+        String fullScreenButton = "Ctrl+Cmd+F";
         // Only if platform is not Mac, set the stage to full screen.
         if (!System.getProperty("os.name").toLowerCase().contains("mac")) {
 
@@ -99,10 +100,11 @@ public class GUIApp extends Application implements View {
                     stage.setFullScreen(true);
                 }
             });
-            fullScreenButton = "Ctrl+Cmd+F";
+            fullScreenButton = "F11";
         }
+        stage.setFullScreenExitHint("Press " + fullScreenButton + " to exit full screen mode.");
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 
-        stage.setFullScreenExitHint("Press" + fullScreenButton + " to exit full screen mode.");
         // Set the stage title and dimensions.
         stage.setTitle("Codex Naturalis");
         stage.setMinHeight(MIN_HEIGHT);
