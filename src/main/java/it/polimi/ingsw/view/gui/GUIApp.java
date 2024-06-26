@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.view.gui.components.toast.ToastLevels;
 import it.polimi.ingsw.view.gui.controllers.Controller;
 import it.polimi.ingsw.view.tui.View;
 import javafx.application.Application;
@@ -8,7 +9,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
@@ -81,7 +84,7 @@ public class GUIApp extends Application implements View {
             System.exit(0);
         });
 
-        String fullScreenButton = "Ctrl+Cmd+F";
+        String fullScreenButton;
         // Only if platform is not Mac, set the stage to full screen.
         if (!System.getProperty("os.name").toLowerCase().contains("mac")) {
 
@@ -101,10 +104,15 @@ public class GUIApp extends Application implements View {
                 }
             });
             fullScreenButton = "F11";
+        } else {
+            fullScreenButton = "Ctrl+Cmd+F";
         }
-        stage.setFullScreenExitKeyCombination(KeyCombination.keyCombination(fullScreenButton));
-        stage.setFullScreenExitHint("Press " + fullScreenButton + " to exit full screen mode.");
-
+        stage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                Controller.showToast(ToastLevels.INFO, "Full screen", "Press " + fullScreenButton + " to exit full screen");
+            }
+        });
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         // Set the stage title and dimensions.
         stage.setTitle("Codex Naturalis");
         stage.setMinHeight(MIN_HEIGHT);
@@ -125,6 +133,15 @@ public class GUIApp extends Application implements View {
         Parent root = loader.load();
 
         Scene scene = new Scene(root, MIN_WIDTH, MIN_HEIGHT);
+
+        // Set full screen shortcut
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
+            if (System.getProperty("os.name").toLowerCase().contains("mac") && event.isControlDown() && event.isMetaDown() && event.getCode() == KeyCode.F) {
+                stage.setFullScreen(!stage.isFullScreen());
+            } else if (event.getCode() == KeyCode.F11) {
+                stage.setFullScreen(!stage.isFullScreen());
+            }
+        });
 
         // Set the stage to the current scene.
         stage.setScene(scene);

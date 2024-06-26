@@ -15,8 +15,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -181,16 +179,6 @@ public abstract class Controller implements PropertyChangeListener {
      * @param scene the scene to set.
      */
     public static void setScene(Scene scene) {
-        // Set full screen shortcut
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
-            if (!stage.isFullScreen()) {
-                if (System.getProperty("os.name").toLowerCase().contains("mac") && event.isControlDown() && event.isMetaDown() && event.getCode() == KeyCode.F) {
-                    stage.setFullScreen(true);
-                } else if (event.getCode() == KeyCode.F11) {
-                    stage.setFullScreen(true);
-                }
-            }
-        });
         Controller.scene = scene;
     }
 
@@ -317,8 +305,8 @@ public abstract class Controller implements PropertyChangeListener {
      * @param title   the title of the toast message.
      * @param message the message of the toast message.
      */
-    public void showToast(ToastLevels level, String title, String message) {
-        Platform.runLater(() -> Toaster.getInstance(getStage()).showToast(level, title, message));
+    public static void showToast(ToastLevels level, String title, String message) {
+        Platform.runLater(() -> Toaster.getInstance(stage).showToast(level, title, message));
     }
 
     /**
