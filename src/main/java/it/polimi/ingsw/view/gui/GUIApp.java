@@ -80,6 +80,7 @@ public class GUIApp extends Application implements View {
             System.exit(0);
         });
 
+        String fullScreenButton = "F11";
         // Only if platform is not Mac, set the stage to full screen.
         if (!System.getProperty("os.name").toLowerCase().contains("mac")) {
 
@@ -98,9 +99,10 @@ public class GUIApp extends Application implements View {
                     stage.setFullScreen(true);
                 }
             });
-            stage.setFullScreenExitHint("Press F11 to exit full screen mode.");
+            fullScreenButton = "Ctrl+Cmd+F";
         }
 
+        stage.setFullScreenExitHint("Press" + fullScreenButton + " to exit full screen mode.");
         // Set the stage title and dimensions.
         stage.setTitle("Codex Naturalis");
         stage.setMinHeight(MIN_HEIGHT);
