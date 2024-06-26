@@ -22,7 +22,7 @@ Button {
 .transparent-button {
     -fx-text-fill: -brown-500;
     -fx-font-family: "Medieval Sharp Book";
-    -fx-font-size: 45px;
+    -fx-font-size: 40px;
 
     /* Reset default button style */
     -fx-background-insets: 0;

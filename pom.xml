@@ -82,9 +82,6 @@
                         <configuration>
                             <plist>
                                 <CFBundleIconFile>src/bundle/icon_512x512@2x.icns</CFBundleIconFile>
-                                <JVMArguments>
-                                    <string>-l</string>
-                                </JVMArguments>
                                 <JVMMainClassName>it.polimi.ingsw.network.client.Client</JVMMainClassName>
                             </plist>
                             <jdk>
@@ -100,6 +97,52 @@
                                 <goals>
                                     <goal>bundle</goal>
                                 </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>windows-profile</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- Launch4j Plugin - exe -->
+                    <plugin>
+                        <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                        <artifactId>launch4j-maven-plugin</artifactId>
+                        <version>2.5.1</version>
+                        <executions>
+                            <execution>
+                                <id>bundle-exe</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>launch4j</goal>
+                                </goals>
+                                <configuration>
+                                    <errTitle>CodexNaturalis - Error</errTitle>
+                                    <headerType>console</headerType>
+                                    <icon>src/bundle/icon_256x256.ico</icon>
+                                    <outfile>${project.build.directory}/exe/CodexNaturalis.exe</outfile>
+                                    <jar>
+                                        ${project.build.directory}/jars/CodexNaturalis-client-jar-with-dependencies.jar
+                                    </jar>
+                                    <jre>
+                                        <path>jre/</path>
+                                    </jre>
+                                    <versionInfo>
+                                        <txtFileVersion>${project.version}-RC</txtFileVersion>
+                                        <fileDescription>Codex Naturalis</fileDescription>
+                                        <copyright>Copyright ${project.organization.name}. All rights reserved.
+                                        </copyright>
+                                        <txtProductVersion>${project.version}-RC</txtProductVersion>
+                                    </versionInfo>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
@@ -153,7 +196,7 @@
                         <!-- Usage: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>it.polimi.ingsw.gui.GUIApp</mainClass>
+                            <mainClass>it.polimi.ingsw.view.gui.GUIApp</mainClass>
                         </configuration>
                     </execution>
                 </executions>
@@ -219,46 +262,28 @@
                 </executions>
             </plugin>
 
-            <!-- Launch4j Plugin - exe -->
+            <!-- Javadoc Plugin -->
             <plugin>
-                <groupId>com.akathist.maven.plugins.launch4j</groupId>
-                <artifactId>launch4j-maven-plugin</artifactId>
-                <version>2.5.1</version>
-                <executions>
-                    <execution>
-                        <id>bundle-exe</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>launch4j</goal>
-                        </goals>
-                        <configuration>
-                            <!--<cmdLine>-l</cmdLine>-->
-                            <errTitle>CodexNaturalis - Error</errTitle>
-                            <headerType>console</headerType>
-                            <icon>src/bundle/icon_256x256.ico</icon>
-                            <outfile>${project.build.directory}/exe/CodexNaturalis.exe</outfile>
-                            <jar>${project.build.directory}/jars/CodexNaturalis-client-jar-with-dependencies.jar</jar>
-                            <jre>
-                                <path>jre/</path>
-                            </jre>
-                            <versionInfo>
-                                <txtFileVersion>${project.version}-RC</txtFileVersion>
-                                <fileDescription>Codex Naturalis</fileDescription>
-                                <copyright>Copyright ${project.organization.name}. All rights reserved.</copyright>
-                                <txtProductVersion>${project.version}-RC</txtProductVersion>
-                            </versionInfo>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <sourcepath>${project.basedir}/src/main/java/it/polimi/ingsw</sourcepath>
+                </configuration>
             </plugin>
         </plugins>
 
         <!-- fxml files are in src/main/java/it/polimi/ingsw/gui/fxml -->
         <resources>
             <resource>
-                <directory>src/main/java/it/polimi/ingsw/gui/fxml</directory>
+                <directory>src/main/java/it/polimi/ingsw/view/gui/fxml</directory>
             </resource>
-
+            <resource>
+                <directory>src/main/resources/assets/images/icons</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources/assets/images/components</directory>
+            </resource>
             <resource>
                 <directory>src/main/resources/assets/images</directory>
             </resource>
@@ -266,10 +291,10 @@
                 <directory>src/main/resources/assets/images/pion</directory>
             </resource>
             <resource>
-                <directory>src/main/resources/assets/images/Cards/Fronts</directory>
+                <directory>src/main/resources/assets/images/cards/fronts</directory>
             </resource>
             <resource>
-                <directory>src/main/resources/assets/images/Cards/Backs</directory>
+                <directory>src/main/resources/assets/images/cards/backs</directory>
             </resource>
             <resource>
                 <directory>src/main/resources/assets/css</directory>

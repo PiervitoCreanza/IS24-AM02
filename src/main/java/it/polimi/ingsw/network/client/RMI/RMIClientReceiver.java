@@ -24,26 +24,23 @@ import java.util.stream.Collectors;
 public class RMIClientReceiver implements RMIServerToClientActions {
 
     /**
-     * The client command mapper.
-     */
-    private final ClientNetworkControllerMapper clientNetworkControllerMapper;
-
-    /**
-     * The executor service.
-     */
-    private final ExecutorService executor;
-
-    /**
      * The logger.
      */
     private static final Logger logger = LogManager.getLogger(RMIClientReceiver.class);
-
     /**
      * A "strong" reference to the stub.
      * It's used to avoid the stub being garbage collected in some rare cases.
      * Being static the DGC (Distributed Garbage Collector) will not collect it.
      */
     private static RMIClientReceiver clientStrongReference;
+    /**
+     * The client command mapper.
+     */
+    private final ClientNetworkControllerMapper clientNetworkControllerMapper;
+    /**
+     * The executor service.
+     */
+    private final ExecutorService executor;
 
     /**
      * Class constructor.

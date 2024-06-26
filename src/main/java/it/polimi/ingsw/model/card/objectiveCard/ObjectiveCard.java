@@ -13,14 +13,13 @@ import java.io.Serializable;
 abstract public class ObjectiveCard implements Serializable, Card {
 
     /**
-     * The unique identifier of this objective card.
-     */
-    private final int cardId;
-
-    /**
      * The number of points the player can win by fulfilling the objective of this card.
      */
     protected final int pointsWon;
+    /**
+     * The unique identifier of this objective card.
+     */
+    private final int cardId;
 
     /**
      * Constructs a new ObjectiveCard object with the specified unique identifier and number of points.

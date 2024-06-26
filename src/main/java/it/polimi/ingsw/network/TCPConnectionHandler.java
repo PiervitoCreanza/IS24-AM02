@@ -21,39 +21,33 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class TCPConnectionHandler extends Thread implements PropertyChangeNotifier {
     /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(TCPConnectionHandler.class);
+    /**
      * Socket object representing the connection to the client.
      */
     private final Socket socket;
-
     /**
      * BufferedWriter object used to write to the socket.
      */
     private final BufferedWriter out;
-
     /**
      * BufferedReader object used to read from the socket.
      */
     private final BufferedReader in;
-
     /**
      * Boolean value indicating whether the connection is active.
      */
     private final AtomicBoolean isConnected;
-
     /**
      * ExecutorService used to run tasks concurrently.
      */
     private final ExecutorService executor;
-
     /**
      * Listeners that will be notified when a message is received.
      */
     private final PropertyChangeSupport listeners;
-
-    /**
-     * The logger.
-     */
-    private static final Logger logger = LogManager.getLogger(TCPConnectionHandler.class);
 
     /**
      * Constructor for the TCPConnectionHandler class.

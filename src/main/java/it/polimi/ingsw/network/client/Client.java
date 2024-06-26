@@ -1,13 +1,13 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.gui.GUIApp;
-import it.polimi.ingsw.network.NetworkUtils;
 import it.polimi.ingsw.network.client.connection.Connection;
 import it.polimi.ingsw.network.client.connection.RMIConnection;
 import it.polimi.ingsw.network.client.connection.TCPConnection;
-import it.polimi.ingsw.tui.View;
-import it.polimi.ingsw.tui.controller.TUIViewController;
-import it.polimi.ingsw.tui.utils.Utils;
+import it.polimi.ingsw.network.utils.HostIpAddressResolver;
+import it.polimi.ingsw.view.gui.GUIApp;
+import it.polimi.ingsw.view.tui.View;
+import it.polimi.ingsw.view.tui.controller.TUIViewController;
+import it.polimi.ingsw.view.tui.utils.Utils;
 import org.apache.commons.cli.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,15 +21,14 @@ import org.apache.logging.log4j.Logger;
 public class Client {
 
     /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(Client.class);
+    /**
      * A flag indicating whether the client is in debug mode.
      * This is a static variable, meaning it's shared among all instances of this class.
      */
     public static boolean DEBUG;
-
-    /**
-     * The logger.
-     */
-    private static final Logger logger = LogManager.getLogger(Client.class);
 
     /**
      * The main method of the Client class.
@@ -41,8 +40,15 @@ public class Client {
     public static void main(String[] args) {
         CommandLine cmd = parseCommandLineArgs(args);
 
-        String clientIp = NetworkUtils.getCurrentHostIp(cmd);
-        String serverIp = cmd.getOptionValue("s", "localhost"); // default is localhost
+        String serverIp = cmd.getOptionValue("s", "localhost");// default is localhost
+        String clientIp;
+        if (serverIp.equals("localhost")) {
+            System.out.println(Utils.ANSI_RED + "You didn't specify a server address (-s).\nThe client will try to connect in localhost mode!" + Utils.ANSI_RESET);
+            clientIp = "localhost";
+        } else {
+            clientIp = HostIpAddressResolver.getCurrentHostIp(cmd);
+        }
+
         int serverPort = cmd.hasOption("rmi") ? 1099 : 12345;
 
         if (cmd.hasOption("sp")) {
@@ -89,13 +95,12 @@ public class Client {
         HelpFormatter formatter = new HelpFormatter();
         // add options
         options.addOption(Option.builder("rmi").longOpt("rmi_mode").desc("Start the client using a RMI connection.").build());
-        options.addOption("s", "server_ip", true, "Server IP address.");
+        options.addOption("s", "server_ip", true, "Server IP address. If not set it will default to localhost.");
         // Param used by NetworkUtils.getCurrentHostIp() method
         options.addOption("ip", "client_ip", true, "Client IP address.");
         options.addOption("sp", "server_port", true, "Server port number (default is 12345 for TCP and 1099 for RMI).");
         options.addOption("cp", true, "Client port number (default is server port number + 1).");
         options.addOption("lan", "lan", false, "Start the client in LAN mode.");
-        options.addOption("l", "localhost", false, "Start the client in localhost mode");
         options.addOption("tui", "tui_mode", false, "Start the client in TUI mode.");
         options.addOption("debug", "Start the client in debug mode.");
         options.addOption("h", "help", false, "Print this message.");
@@ -118,13 +123,6 @@ public class Client {
         // check user args
         if (cmd.hasOption("lan") && cmd.hasOption("localhost")) {
             System.err.println("Please specify either LAN or localhost mode, not both.");
-            formatter.printHelp("Client", options);
-            System.exit(1);
-        }
-
-        // If the connection is not on localhost a server ip is required.
-        if (!cmd.hasOption("s") && !cmd.hasOption("localhost")) {
-            System.err.println("Please specify the server ip");
             formatter.printHelp("Client", options);
             System.exit(1);
         }

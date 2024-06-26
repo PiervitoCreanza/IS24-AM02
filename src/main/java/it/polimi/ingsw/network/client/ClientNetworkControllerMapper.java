@@ -39,35 +39,30 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
 
     /**
      * Logger for this class, used to log debug and error messages.
-      */
-private static final Logger logger = LogManager.getLogger(ClientNetworkControllerMapper.class);
+     */
+    private static final Logger logger = LogManager.getLogger(ClientNetworkControllerMapper.class);
 
     /**
      * Singleton instance of the ClientNetworkControllerMapper class.
      */
 
-private static ClientNetworkControllerMapper instance = null;
-
-    /**
-     * The message handler for client-server communication.
-     */
-    private ClientMessageHandler messageHandler;
-
-    /**
-     * The connection for client-server communication.
-     */
-    private Connection connection;
-
-    /**
-     * The view of the game controller, representing client's perspective of game state.
-     */
-    private GameControllerView view;
-
+    private static ClientNetworkControllerMapper instance = null;
     /**
      * Support for property change listeners.
      */
     private final PropertyChangeSupport listeners;
-
+    /**
+     * The message handler for client-server communication.
+     */
+    private ClientMessageHandler messageHandler;
+    /**
+     * The connection for client-server communication.
+     */
+    private Connection connection;
+    /**
+     * The view of the game controller, representing client's perspective of game state.
+     */
+    private GameControllerView view;
     /**
      * The name of the game.
      */

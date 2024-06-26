@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.client.message;
 
-import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 
@@ -13,22 +12,21 @@ import java.util.Objects;
  */
 public abstract class ClientToServerMessage {
     /**
-     * The name of the game.
-     * It is final, meaning it cannot be changed once it has been set.
-     */
-    protected String gameName;
-
-    /**
-     * The name of the player who sent the message.
-     * It is final, meaning it cannot be changed once it has been set.
-     */
-    protected String playerName;
-    /**
      * The action taken by the player.
      * This is an enum value representing the type of action the player has taken.
      * It is final, meaning it cannot be changed once it has been set.
      */
     private final PlayerActionEnum playerAction;
+    /**
+     * The name of the game.
+     * It is final, meaning it cannot be changed once it has been set.
+     */
+    protected String gameName;
+    /**
+     * The name of the player who sent the message.
+     * It is final, meaning it cannot be changed once it has been set.
+     */
+    protected String playerName;
 
 
     /**
@@ -123,16 +121,6 @@ public abstract class ClientToServerMessage {
      * @return The coordinate of the player, always null.
      */
     public Coordinate getCoordinate() {
-        return null;
-    }
-
-    /**
-     * Returns the game card in the message.
-     * This method is not implemented here, but it is overridden by classes that provide cards.
-     *
-     * @return The game card of the player, always null.
-     */
-    public GameCard getGameCard() {
         return null;
     }
 

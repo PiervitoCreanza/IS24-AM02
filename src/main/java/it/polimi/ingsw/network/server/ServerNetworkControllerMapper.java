@@ -27,16 +27,13 @@ import java.util.TimerTask;
 public class ServerNetworkControllerMapper implements ClientToServerActions {
 
     /**
-     * The MainController object is used to control the main aspects of the game.
-     */
-    private final MainController mainController;
-
-    /**
      * The logger.
      */
     private static final Logger logger = LogManager.getLogger(ServerNetworkControllerMapper.class);
-
-
+    /**
+     * The MainController object is used to control the main aspects of the game.
+     */
+    private final MainController mainController;
     /**
      * A map that associates game names with sets of ServerMessageHandler objects.
      * This is used to keep track of the connections for each game.

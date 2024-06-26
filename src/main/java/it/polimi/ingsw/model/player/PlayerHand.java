@@ -28,7 +28,7 @@ public class PlayerHand implements VirtualViewable<PlayerHandView> {
     /**
      * This method is used to get the cards in the hand.
      *
-     * @return ArrayList<GameCard> This returns the list of cards in the hand.
+     * @return ArrayList of GameCard. This returns the list of cards in the hand.
      */
     public ArrayList<GameCard> getCards() {
         return hand;

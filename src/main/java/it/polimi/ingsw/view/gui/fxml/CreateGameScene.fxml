@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+           minWidth="-Infinity"
+           prefHeight="1080.0"
+           prefWidth="1920.0"
+           xmlns="http://javafx.com/javafx/21"
+           fx:controller="it.polimi.ingsw.view.gui.controllers.menu.CreateGameSceneController"
+           fx:id="root"
+           stylesheets="@/styles.css"
+>
+    <fx:include source="Background_with_logo.fxml"/>
+    <StackPane>
+        <!-- Include the background -->
+        <VBox alignment="CENTER" spacing="20" StackPane.alignment="CENTER" maxWidth="850" maxHeight="400"
+              styleClass="container">
+            <opaqueInsets>
+                <Insets/>
+            </opaqueInsets>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Create a game" styleClass="title"/>
+            <TextField fx:id="gameTextField" prefWidth="958.0" promptText="Choose the game name"/>
+            <TextField fx:id="playerTextField" prefHeight="26.0" prefWidth="1980.0"
+                       promptText="Choose the player name"/>
+            <StackPane>
+                <HBox alignment="CENTER_LEFT">
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose the number of players">
+                        <font>
+                            <Font size="28.0"/>
+                        </font>
+                    </Text>
+                </HBox>
+                <HBox alignment="CENTER_RIGHT" spacing="20">
+                    <ToggleButton fx:id="twoPlayersButton" styleClass="brutalist-button"
+                                  mnemonicParsing="false" text="2"/>
+                    <ToggleButton fx:id="threePlayersButton" styleClass="brutalist-button"
+                                  mnemonicParsing="false" text="3"/>
+                    <ToggleButton fx:id="fourPlayersButton" styleClass="brutalist-button"
+                                  mnemonicParsing="false" text="4"/>
+                </HBox>
+            </StackPane>
+            <HBox alignment="CENTER" prefHeight="18.0" prefWidth="958.0" spacing="40.0"/>
+            <HBox minWidth="20"/>
+            <HBox alignment="CENTER" prefHeight="70.0" prefWidth="958.0" spacing="20.0">
+                <Button styleClass="brutalist-button" onAction="#back" mnemonicParsing="false" prefHeight="46.0"
+                        prefWidth="196.0" text="Back"/>
+                <Button styleClass="brutalist-button" onAction="#createGame" mnemonicParsing="false"
+                        prefHeight="46.0" prefWidth="196.0"
+                        text="Create"/>
+            </HBox>
+        </VBox>
+    </StackPane>
+</StackPane>

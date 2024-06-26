@@ -22,26 +22,21 @@ import java.util.concurrent.Future;
  *
  * <p>Subclasses must implement the {@link #connectionSetUp()} method to define the
  * specific connection setup logic.
- *
- *
  */
 public abstract class Connection implements PropertyChangeNotifier, PropertyChangeListener {
-
-    /**
-     * Number of connection attempts made so far.
-     */
-    protected int attempts = 1;
-
-    /**
-     * Maximum number of attempts allowed to establish a connection.
-     */
-    protected int maxAttempts = 5;
 
     /**
      * Executor service for managing connection tasks.
      */
     private final ExecutorService executor;
-
+    /**
+     * Number of connection attempts made so far.
+     */
+    protected int attempts = 1;
+    /**
+     * Maximum number of attempts allowed to establish a connection.
+     */
+    protected int maxAttempts = 5;
     /**
      * Mapper for network controllers.
      */
@@ -66,21 +61,18 @@ public abstract class Connection implements PropertyChangeNotifier, PropertyChan
      * Time to wait between connection attempts.
      */
     protected long waitTime = 10000;
-
-    /**
-     * Current task for connection setup.
-     */
-    private Future<?> currentTask;
-
     /**
      * Timer for managing connection attempts.
      */
     protected Timer connectionTrying;
-
     /**
      * Logger for connection-related messages.
      */
     protected Logger logger;
+    /**
+     * Current task for connection setup.
+     */
+    private Future<?> currentTask;
 
     /**
      * Constructs a Connection object with the specified parameters.

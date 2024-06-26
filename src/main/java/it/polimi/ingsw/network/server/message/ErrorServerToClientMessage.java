@@ -34,6 +34,7 @@ public class ErrorServerToClientMessage extends ServerToClientMessage {
 
     /**
      * Overridden equals method for ErrorServerToClientMessage.
+     *
      * @param o The object to compare this ErrorServerToClientMessage to.
      * @return true if the given object is an ErrorServerToClientMessage with the same errorMessage.
      */

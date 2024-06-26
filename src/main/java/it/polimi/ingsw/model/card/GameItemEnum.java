@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.card;
 
-import it.polimi.ingsw.tui.utils.ColorsEnum;
+import it.polimi.ingsw.view.tui.utils.ColorsEnum;
 
 import java.util.stream.Stream;
 
@@ -63,6 +63,15 @@ public enum GameItemEnum {
     }
 
     /**
+     * Returns a stream of all the GameItemEnum values.
+     *
+     * @return a stream of all the GameItemEnum values
+     */
+    public static Stream<GameItemEnum> stream() {
+        return Stream.of(GameItemEnum.values());
+    }
+
+    /**
      * Returns the symbol of the game item.
      *
      * @return The symbol of the game item.
@@ -78,15 +87,5 @@ public enum GameItemEnum {
      */
     public ColorsEnum getColor() {
         return color;
-    }
-
-
-    /**
-     * Returns a stream of all the GameItemEnum values.
-     *
-     * @return a stream of all the GameItemEnum values
-     */
-    public static Stream<GameItemEnum> stream() {
-        return Stream.of(GameItemEnum.values());
     }
 }

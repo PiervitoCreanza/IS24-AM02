@@ -47,7 +47,7 @@ public class FrontGameCardTest {
         GameItemStore gameItemStore = new GameItemStore();
         // The NONE item is a placeholder for null values, so we don't want to set it to a specific amount.
         // Allowing this would lead to inconsistencies in the equality checks.
-        //We need to initialize a new appropriate card for this test, avoiding to use the one in @BeforeEach
+        //We need to initialize a new appropriate card for this test, avoiding using the one in @BeforeEach
         Corner topRight = new Corner(GameItemEnum.FUNGI);
         Corner topLeft = new Corner(GameItemEnum.PLANT);
         Corner bottomLeft = new Corner(GameItemEnum.INSECT);

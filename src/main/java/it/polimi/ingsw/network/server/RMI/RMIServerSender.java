@@ -22,38 +22,34 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class RMIServerSender implements ServerMessageHandler, PropertyChangeNotifier {
     /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(RMIServerSender.class);
+    /**
      * The stub used to call methods on the client's remote object.
      */
     private final RMIServerToClientActions stub;
-
     /**
      * The listeners that are notified when a change occurs.
      */
     private final PropertyChangeSupport listeners;
-
+    /**
+     * A flag indicating whether the client is connected.
+     */
+    private final AtomicBoolean isConnectionSaved = new AtomicBoolean(false);
     /**
      * The name of the player associated with the connection.
      */
     private String playerName;
-
-    /**
-     * The name of the game associated with the connection.
-     */
-    private String gameName;
-
-    /**
-     * The logger.
-     */
-    private static final Logger logger = LogManager.getLogger(RMIServerSender.class);
 
     // This variable is used to check if the connection has been saved by the ServerNetworkControllerMapper.
     // The heartbeat will start only after the connection has been saved.
     // If an error occurs during the heartbeat, or while sending a message, this parameter will be set to false.
     // The closeConnection method will be called only one time and will notify the observers.
     /**
-     * A flag indicating whether the client is connected.
+     * The name of the game associated with the connection.
      */
-    private final AtomicBoolean isConnectionSaved = new AtomicBoolean(false);
+    private String gameName;
 
     /**
      * Constructs a new RMIServerSender object with the specified stub.

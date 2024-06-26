@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8"
+           fx:controller="it.polimi.ingsw.view.gui.controllers.HomeSceneController"
+           fx:id="root"
+           stylesheets="@/styles.css"
+           onKeyPressed="#handleKeyPressed"
+           onMouseClicked="#handleMousePress"
+           focusTraversable="true"
+>
+    <StackPane alignment="TOP_CENTER">
+        <HBox alignment="TOP_LEFT">
+            <ImageView preserveRatio="true" fitHeight="200">
+                <Image url="@/top_left_decoration.png"/>
+            </ImageView>
+        </HBox>
+        <HBox alignment="TOP_RIGHT">
+            <ImageView preserveRatio="true" fitHeight="200">
+                <Image url="@/top_right_decoration.png"/>
+            </ImageView>
+        </HBox>
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+    </StackPane>
+    <StackPane alignment="CENTER">
+        <VBox alignment="CENTER" spacing="100">
+            <ImageView fitHeight="350" preserveRatio="true">
+                <Image url="@/logo_big.png"/>
+            </ImageView>
+            <VBox alignment="CENTER">
+                <Text text="Press a button to start"
+                      textAlignment="CENTER">
+                    <font>
+                        <Font name="Medieval Sharp Book" size="55.0"/>
+                    </font>
+                </Text>
+                <ImageView fitWidth="700" preserveRatio="true">
+                    <Image url="@/big_text_decoration.png"/>
+                </ImageView>
+            </VBox>
+        </VBox>
+
+        <HBox alignment="CENTER_LEFT">
+            <ImageView fitHeight="80" preserveRatio="true">
+                <Image url="@/middle_left_decoration.png"/>
+            </ImageView>
+        </HBox>
+
+        <HBox alignment="CENTER_RIGHT">
+            <ImageView fitHeight="80" preserveRatio="true">
+                <Image url="@/middle_right_decoration.png"/>
+            </ImageView>
+        </HBox>
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+    </StackPane>
+    <StackPane alignment="BOTTOM_CENTER">
+        <HBox alignment="BOTTOM_LEFT">
+            <ImageView preserveRatio="true" fitHeight="300">
+                <Image url="@/bottom_left_decoration.png"/>
+            </ImageView>
+        </HBox>
+        <VBox alignment="BOTTOM_CENTER">
+            <ImageView preserveRatio="true" fitWidth="250">
+                <Image url="@/bottom_center_decoration.png"/>
+            </ImageView>
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+        </VBox>
+
+        <HBox alignment="BOTTOM_RIGHT">
+            <ImageView preserveRatio="true" fitHeight="400">
+                <Image url="@/bottom_right_decoration.png"/>
+            </ImageView>
+        </HBox>
+    </StackPane>
+</StackPane>

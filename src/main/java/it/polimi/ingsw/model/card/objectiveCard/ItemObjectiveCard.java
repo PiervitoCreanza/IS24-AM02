@@ -18,15 +18,6 @@ public class ItemObjectiveCard extends ObjectiveCard {
     private final GameItemStore multiplier;
 
     /**
-     * Returns the GameItemStore object that represents the items that are considered for calculating the points.
-     *
-     * @return The GameItemStore object that represents the items that are considered for calculating the points.
-     */
-    public GameItemStore getMultiplier() {
-        return multiplier;
-    }
-
-    /**
      * Constructs a new ItemObjectiveCard object with the specified number of points and the items that are considered for calculating the points.
      *
      * @param cardId     The unique identifier of the objective card.
@@ -38,6 +29,15 @@ public class ItemObjectiveCard extends ObjectiveCard {
         super(cardId, pointsWon);
         Objects.requireNonNull(multiplier, "multiplier cannot be null");
         this.multiplier = multiplier;
+    }
+
+    /**
+     * Returns the GameItemStore object that represents the items that are considered for calculating the points.
+     *
+     * @return The GameItemStore object that represents the items that are considered for calculating the points.
+     */
+    public GameItemStore getMultiplier() {
+        return multiplier;
     }
 
     /**
