@@ -84,41 +84,11 @@ public class GUIApp extends Application implements View {
             System.exit(0);
         });
 
-        String fullScreenButton;
-        // Only if platform is not Mac, set the stage to full screen.
-        if (!System.getProperty("os.name").toLowerCase().contains("mac")) {
-
-            // Set stage to min_width and min_height when exiting full screen.
-            stage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
-                if (!newValue) {
-                    stage.setMaximized(false);
-                    stage.setWidth(MIN_WIDTH);
-                    stage.setHeight(MIN_HEIGHT);
-                }
-            });
-
-            // Set the stage to full screen when maximized.
-            stage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue) {
-                    stage.setFullScreen(true);
-                }
-            });
-            fullScreenButton = "F11";
-        } else {
-            fullScreenButton = "Cmd+F";
-        }
-        stage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                Controller.showToast(ToastLevels.INFO, "Full screen", "Press " + fullScreenButton + " to exit full screen");
-            }
-        });
-        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         // Set the stage title and dimensions.
         stage.setTitle("Codex Naturalis");
         stage.setMinHeight(MIN_HEIGHT);
         stage.setMinWidth(MIN_WIDTH);
         stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("icon_512x512.png")));
-
 
         // Set the current stage on all controllers.
         Controller.setStage(stage);
@@ -134,6 +104,20 @@ public class GUIApp extends Application implements View {
 
         Scene scene = new Scene(root, MIN_WIDTH, MIN_HEIGHT);
 
+        String fullScreenButton;
+        // Set the full screen button based on the OS.
+        if (!System.getProperty("os.name").toLowerCase().contains("mac")) {
+            fullScreenButton = "F11";
+        } else {
+            fullScreenButton = "Cmd+F";
+        }
+        // Show a toast message when entering full screen.
+        stage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                Controller.showToast(ToastLevels.INFO, "Full screen", "Press " + fullScreenButton + " to exit full screen");
+            }
+        });
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         // Set full screen shortcut
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
             if (System.getProperty("os.name").toLowerCase().contains("mac") && event.isMetaDown() && event.getCode() == KeyCode.F) {
