@@ -105,7 +105,7 @@ public class GUIApp extends Application implements View {
             });
             fullScreenButton = "F11";
         } else {
-            fullScreenButton = "Ctrl+Cmd+F";
+            fullScreenButton = "Cmd+F";
         }
         stage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
@@ -136,7 +136,7 @@ public class GUIApp extends Application implements View {
 
         // Set full screen shortcut
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
-            if (System.getProperty("os.name").toLowerCase().contains("mac") && event.isControlDown() && event.isMetaDown() && event.getCode() == KeyCode.F) {
+            if (System.getProperty("os.name").toLowerCase().contains("mac") && event.isMetaDown() && event.getCode() == KeyCode.F) {
                 stage.setFullScreen(!stage.isFullScreen());
             } else if (event.getCode() == KeyCode.F11) {
                 stage.setFullScreen(!stage.isFullScreen());
