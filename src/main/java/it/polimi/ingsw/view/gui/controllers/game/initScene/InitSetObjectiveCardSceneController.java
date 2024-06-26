@@ -140,7 +140,7 @@ public class InitSetObjectiveCardSceneController extends InitScene {
     protected void continueAction() {
         // Print the selected card ID to the console
         int selectedCardId = selectedCard.equals("first") ? firstChoosableCard.get().getCardId() : secondChoosableCard.get().getCardId();
-        System.out.println("Selected Card ID: " + selectedCardId);
+        logger.debug("Selected Card ID: {}", selectedCardId);
 
         networkControllerMapper.setPlayerObjective(selectedCardId);
     }
