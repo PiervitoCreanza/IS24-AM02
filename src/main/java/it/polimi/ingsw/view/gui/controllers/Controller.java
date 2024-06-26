@@ -15,6 +15,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -174,10 +176,19 @@ public abstract class Controller implements PropertyChangeListener {
     /**
      * Sets the scene currently shown.
      * This method is used to set the scene when the application starts.
+     * It also adds a key event handler to toggle full screen mode.
      *
      * @param scene the scene to set.
      */
     public static void setScene(Scene scene) {
+        // Set full screen shortcut
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
+            if (System.getProperty("os.name").toLowerCase().contains("mac") && event.isControlDown() && event.isMetaDown() && event.getCode() == KeyCode.F) {
+                stage.setFullScreen(!stage.isFullScreen());
+            } else if (event.getCode() == KeyCode.F11) {
+                stage.setFullScreen(!stage.isFullScreen());
+            }
+        });
         Controller.scene = scene;
     }
 
