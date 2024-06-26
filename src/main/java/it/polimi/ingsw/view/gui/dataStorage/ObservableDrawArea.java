@@ -67,9 +67,9 @@ public class ObservableDrawArea {
 
 
         // Add a listener to the isDrawingPhase property to change the cursor of the cards
-        isDrawingPhase.addListener((observable, oldValue, newValue) -> {
-            observedGameCardsGroup.getCards().forEach(card -> card.getBoundImageView().setCursor(newValue ? Cursor.HAND : Cursor.DEFAULT));
-        });
+        isDrawingPhase.addListener((observable, oldValue, newValue) ->
+                observedGameCardsGroup.getCards().forEach(card -> card.getBoundImageView().setCursor(newValue ? Cursor.HAND : Cursor.DEFAULT))
+        );
     }
 
     private boolean updateDrawStatus() {

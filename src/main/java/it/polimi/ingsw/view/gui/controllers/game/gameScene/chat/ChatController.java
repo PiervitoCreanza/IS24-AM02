@@ -5,8 +5,6 @@ import it.polimi.ingsw.network.client.message.ChatClientToServerMessage;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.view.gui.utils.GUIUtils;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.util.Callback;
@@ -69,6 +67,7 @@ public class ChatController {
      * @param chatDisplayButton the button to display the chat
      * @param clientNetworkControllerMapper the network controller mapper for the client
      */
+    @SuppressWarnings("unchecked")
     public ChatController(Node root, Node chatDisplayButton, ClientNetworkControllerMapper clientNetworkControllerMapper) {
         this.chatDisplay = (TextArea) root.lookup("#chatDisplay");
         this.messageInput = (TextArea) root.lookup("#messageInput");
@@ -93,20 +92,15 @@ public class ChatController {
             updateMessages();
         });
 
-        chatDisplay.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                Platform.runLater(() -> {
-                    chatDisplay.setScrollTop(Double.MAX_VALUE);
-                });
-            }
-        });
+        chatDisplay.textProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> {
+            chatDisplay.setScrollTop(Double.MAX_VALUE);
+        }));
 
         // Render recipients list as a cellFactory in order to truncate the displayed player name
-        recipient.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+        recipient.setCellFactory(new Callback<>() {
             @Override
             public ListCell<String> call(ListView<String> param) {
-                return new ListCell<String>() {
+                return new ListCell<>() {
                     @Override
                     protected void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);

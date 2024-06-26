@@ -77,6 +77,7 @@ public class GamesListController extends Controller implements PropertyChangeLis
         if (!"GET_GAMES".equals(changedProperty)) return;
 
         logger.debug("Received games list");
+        @SuppressWarnings("unchecked")
         ArrayList<GameRecord> gamesList = (ArrayList<GameRecord>) evt.getNewValue();
         setProperty("gamesList", gamesList);
         Platform.runLater(() -> {

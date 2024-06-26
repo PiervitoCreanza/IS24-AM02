@@ -128,6 +128,7 @@ public class RightSidebarController {
      * @param root                     The root node of the right sidebar UI.
      * @param currentlyDisplayedPlayer The currently displayed player.
      */
+    @SuppressWarnings("unchecked")
     public RightSidebarController(Node root, SimpleStringProperty currentlyDisplayedPlayer) {
         this.root = root;
         this.currentlyDisplayedPlayer = currentlyDisplayedPlayer;

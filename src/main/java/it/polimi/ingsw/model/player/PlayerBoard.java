@@ -261,15 +261,15 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
         }
 
         // For each card in the player board, check the adjacent positions.
-        playerBoardCoordinates.forEach(coord -> {
+        playerBoardCoordinates.forEach(coord ->
             getAdjacentPointCornersPair(coord).forEach(pair -> {
                 Coordinate adjacentCoordinate = pair.coordinate();
                 // If the position is not occupied and the placement is compatible, add it to the available positions.
                 if (!playerBoard.containsKey(adjacentCoordinate) && isPlacementCompatible(adjacentCoordinate)) {
                     availablePositions.add(adjacentCoordinate);
                 }
-            });
-        });
+            })
+        );
         return availablePositions;
     }
 

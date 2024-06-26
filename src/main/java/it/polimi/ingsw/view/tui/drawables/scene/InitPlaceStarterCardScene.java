@@ -7,10 +7,13 @@ import it.polimi.ingsw.view.tui.drawables.component.cards.gameCard.GameCardCompo
 import it.polimi.ingsw.view.tui.drawables.component.userInputHandler.UserInputHandler;
 import it.polimi.ingsw.view.tui.drawables.component.userInputHandler.menu.commands.UserInputChain;
 import it.polimi.ingsw.view.tui.drawer.DrawArea;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+
 
 /**
  * The InitPlaceStarterCardScene class represents the scene where the player places their starter card.
@@ -37,6 +40,11 @@ public class InitPlaceStarterCardScene implements Scene, PropertyChangeListener 
      * The handler for user input.
      */
     private final UserInputChain inputChain;
+
+    /**
+     * The logger.
+     */
+    private final Logger logger = LogManager.getLogger(InitPlaceStarterCardScene.class);
 
     /**
      * Constructs a new InitPlaceStarterCardScene.
@@ -95,12 +103,10 @@ public class InitPlaceStarterCardScene implements Scene, PropertyChangeListener 
         @SuppressWarnings("unchecked")
         ArrayList<String> inputs = (ArrayList<String>) evt.getNewValue();
         switch (changedProperty) {
-            case "q" -> {
-                controller.closeConnection();
-            }
+            case "q" -> controller.closeConnection();
             case "input" ->
                     controller.placeStarterCard(starterCard.getCardId(), Integer.parseInt(inputs.getFirst()) == 2);
-            default -> System.out.println("Invalid property change event");
+            default -> logger.debug("Invalid property change event");
         }
     }
 }

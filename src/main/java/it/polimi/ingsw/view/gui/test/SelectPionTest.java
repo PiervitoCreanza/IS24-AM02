@@ -58,7 +58,7 @@ public class SelectPionTest extends Application {
                 }
 
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
 
         }).start();

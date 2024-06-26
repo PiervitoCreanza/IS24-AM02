@@ -101,8 +101,7 @@ public class ZoomableScrollPane extends ScrollPane {
         double vvalue = this.getVvalue();
         double contentHeight = this.getContent().getBoundsInLocal().getHeight(); // get the total height of the content
 
-        double topSpaceCut = vvalue * contentHeight;
-        return topSpaceCut;
+        return vvalue * contentHeight;
     }
 
     /**

@@ -121,30 +121,12 @@ public class TUIViewController implements PropertyChangeListener, View {
     }
 
     /**
-     * Method to set the game name.
-     *
-     * @param gameName the game name.
-     */
-    public void setGameName(String gameName) {
-        this.gameName = gameName;
-    }
-
-    /**
      * Method to get the player name.
      *
      * @return the player name.
      */
     public String getPlayerName() {
         return playerName;
-    }
-
-    /**
-     * Method to set the player name.
-     *
-     * @param playerName the player name.
-     */
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
     }
 
     /**

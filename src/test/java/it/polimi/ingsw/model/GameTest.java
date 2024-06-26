@@ -25,7 +25,7 @@ class GameTest {
      * Helper methods
      */
 
-    //Method used to setup players before calculating the winner
+    //Method used to set up players before calculating the winner
     private void winnersSetUp() {
         testGame.addPlayer("Player2");
 

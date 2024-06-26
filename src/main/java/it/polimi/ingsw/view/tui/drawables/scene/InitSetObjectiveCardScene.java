@@ -109,9 +109,7 @@ public class InitSetObjectiveCardScene implements Scene, PropertyChangeListener 
         @SuppressWarnings("unchecked")
         ArrayList<String> inputs = (ArrayList<String>) evt.getNewValue();
         switch (changedProperty) {
-            case "q" -> {
-                controller.closeConnection();
-            }
+            case "q" -> controller.closeConnection();
             case "input" -> {
                 int chosenCardIndex = Integer.parseInt(inputs.getFirst()) - 1;
                 int choosenCardId = objectiveCards.get(chosenCardIndex).getCardId();

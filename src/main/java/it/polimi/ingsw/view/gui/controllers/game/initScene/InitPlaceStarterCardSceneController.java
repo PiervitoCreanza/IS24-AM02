@@ -34,14 +34,14 @@ public class InitPlaceStarterCardSceneController extends InitScene {
     private static final Logger logger = LogManager.getLogger(InitPlaceStarterCardSceneController.class);
 
     /**
-     * The front and back image panes for the card.
+     * The front image pane for the card.
      */
     @FXML
     private StackPane frontImagePane;
 
 
     /**
-     * The image view for the front side of the card.
+     * The back image pane for the card.
      */
     @FXML
     private StackPane backImagePane;
@@ -90,12 +90,20 @@ public class InitPlaceStarterCardSceneController extends InitScene {
         });
     }
 
+    /**
+     * This method is called when the back image pane is clicked.
+     * It updates the selected side and the style of the image panes.
+     */
     private void handleBackImageClick() {
         selectedSide = "back"; // Update the selected side
         frontImagePane.getStyleClass().remove("selected-card-image");
         backImagePane.getStyleClass().add("selected-card-image");
     }
 
+    /**
+     * This method is called when the front image pane is clicked.
+     * It updates the selected side and the style of the image panes.
+     */
     private void handleFrontImageClick() {
         selectedSide = "front"; // Update the selected side
         backImagePane.getStyleClass().remove("selected-card-image");
@@ -123,7 +131,7 @@ public class InitPlaceStarterCardSceneController extends InitScene {
     @FXML
     protected void continueAction() {
         // Print the selected card ID and the selected side to the console
-        logger.debug("Selected Card ID: " + gameCard.getCardId() + ", Side: " + selectedSide);
+        logger.debug("Selected Card ID: {}, Side: {}", gameCard.getCardId(), selectedSide);
         // Reset the styles after continuing
         backImagePane.getStyleClass().remove("selected-card-image");
         frontImagePane.getStyleClass().remove("selected-card-image");
@@ -160,7 +168,7 @@ public class InitPlaceStarterCardSceneController extends InitScene {
 
     /**
      * Called before unmounting (switching away from) the scene.
-     * Currently does nothing for this scene.
+     * Currently, does nothing for this scene.
      */
     @Override
     public void beforeUnmount() {

@@ -116,9 +116,7 @@ public class GetGamesScene implements Scene, PropertyChangeListener {
         switch (changedProperty) {
             case "q" -> controller.selectScene(ScenesEnum.MAIN_MENU);
             case "l" -> controller.getGames();
-            case "j" -> {
-                controller.joinGame(Integer.parseInt(inputs.get(0)), inputs.get(1));
-            }
+            case "j" -> controller.joinGame(Integer.parseInt(inputs.get(0)), inputs.get(1));
             case "c" -> controller.selectScene(ScenesEnum.CREATE_GAME);
             default -> logger.error("Invalid property change event");
         }

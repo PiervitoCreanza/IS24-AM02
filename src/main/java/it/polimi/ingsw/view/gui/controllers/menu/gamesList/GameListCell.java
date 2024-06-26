@@ -63,6 +63,7 @@ public class GameListCell extends ListCell<String> {
         } else {
             controller.setGameName(game);
             // You can set the player count here if you have that data
+            @SuppressWarnings("unchecked")
             ArrayList<GameRecord> gamesList = (ArrayList<GameRecord>) getScene().getProperties().get("gamesList");
             logger.debug("GamesList: {}", gamesList);
             GameRecord gameRecord = gamesList.stream().filter(g -> g.gameName().equals(game)).findFirst().orElse(null);
