@@ -90,7 +90,6 @@ public class JoinGameSceneController extends Controller implements PropertyChang
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        // TODO Check if error works
         super.propertyChange(evt);
         if (evt.getPropertyName().equals("UPDATE_VIEW")) {
             showToast(ToastLevels.SUCCESS, "Game joined", "You joined the game \"" + GUIUtils.truncateString(getProperty("gameName")) + "\" as \"" + GUIUtils.truncateString(getProperty("playerName")) + "\"");
@@ -116,7 +115,6 @@ public class JoinGameSceneController extends Controller implements PropertyChang
                 return;
             }
 
-            // TODO: Handle GAMEOVER
             Platform.runLater(() -> switchScene(ControllersEnum.WAITING_FOR_PLAYER, evt));
         }
     }
