@@ -125,7 +125,6 @@
                                     <goal>launch4j</goal>
                                 </goals>
                                 <configuration>
-                                    <!--<cmdLine>-l</cmdLine>-->
                                     <errTitle>CodexNaturalis - Error</errTitle>
                                     <headerType>console</headerType>
                                     <icon>src/bundle/icon_256x256.ico</icon>
