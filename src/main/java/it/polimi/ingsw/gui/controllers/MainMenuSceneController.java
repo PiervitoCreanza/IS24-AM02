@@ -49,6 +49,11 @@ public class MainMenuSceneController extends Controller implements PropertyChang
     }
 
     @FXML
+    private void credits() {
+        switchScene(ControllersEnum.CREDITS);
+    }
+
+    @FXML
     private void quit() {
         //quit app
         logger.debug("Quit");
