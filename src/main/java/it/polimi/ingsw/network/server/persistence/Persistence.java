@@ -48,23 +48,24 @@ public class Persistence {
         try {
             // Parse the JSON file for restoring th game status
             FileReader reader = new FileReader("src/main/java/it/polimi/ingsw/network/server/persistence/" + filename + ".json");
-            serverNetworkControllerMapper.getGameConnectionMapper().put("Room1", new HashMap<>());
             GameControllerView gameControllerView = gson.fromJson(reader, ServerToClientMessage.class).getView();
+            String gameName = gameControllerView.gameView().gameName();
+            serverNetworkControllerMapper.getGameConnectionMapper().put(gameName, new HashMap<>());
             // Create the game
             boolean first = true;
             // Add all the players to the game
             for (PlayerView playerView : gameControllerView.gameView().playerViews()) {
                 if (first) {
-                    mainController.createGame("Room1", playerView.playerName(), gameControllerView.gameView().playerViews().size());
+                    mainController.createGame(gameName, playerView.playerName(), gameControllerView.gameView().playerViews().size());
                     first = false;
                 } else {
-                    mainController.joinGame("Room1", playerView.playerName());
+                    mainController.joinGame(gameName, playerView.playerName());
                 }
             }
             // Set the game status
-            Game game = mainController.getGameController("Room1").getGame();
+            Game game = mainController.getGameController(gameName).getGame();
             game.setCurrentPlayer(gameControllerView.getCurrentPlayerView().playerName());
-            GameControllerMiddleware gameControllerMiddleware = mainController.getGameController("Room1");
+            GameControllerMiddleware gameControllerMiddleware = mainController.getGameController(gameName);
             gameControllerMiddleware.setGameStatus(gameControllerView.gameStatus());
             gameControllerMiddleware.setRemainingRoundsToEndGame(gameControllerView.remainingRoundsToEndGame());
             gameControllerMiddleware.setLastRound(gameControllerView.isLastRound());
@@ -84,10 +85,13 @@ public class Persistence {
                     globalBoard.getGoldDeck().removeCard(card.getCardId());
                     globalBoard.getResourceDeck().removeCard(card.getCardId());
                 });
+                player.setChoosableObjectives(playerView.choosableObjectives());
                 player.forceSetPlayerObjective(playerView.objectiveCard());
                 player.advancePlayerPos(playerView.playerPos());
                 player.setConnected(false);
+                player.setPlayerColor(playerView.color());
                 PlayerBoard playerBoard = player.getPlayerBoard();
+                playerBoard.setStarterCard(playerView.starterCard());
                 playerBoard.setPlayerBoard(playerView.playerBoardView().playerBoard());
                 playerBoard.setGameItems(playerView.playerBoardView().gameItemStore());
                 playerView.playerBoardView().playerBoard().values().forEach(card -> {
