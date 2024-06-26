@@ -18,12 +18,11 @@
 
 ## Project Overview
 
-This project is a Java-based implementation of the table game "**Codex Naturalis**", developed as the final project for
+This project is a Java-based implementation of the table game "**Codex Naturalis**", developed as the Final Project for
 the 2023/2024 Software Engineering course at Politecnico di Milano. The team comprises Mattia Colombo, Piervito Creanza,
 Simone Curci, and Marco Febbo.
 
-The implementation features both a command-line interface (CLI) and a JavaFX graphical user interface. It is structured
-to accommodate two main development approaches for flexibility.
+The implementation features both a command-line interface (CLI) and a JavaFX graphical user interface. 
 
 ## Status of the work
 
@@ -126,11 +125,19 @@ java -jar client.jar [options]
 The project is poised for adaptation to Apple's visionOS, suggesting plans for expanded compatibility and potential new
 features for the visionOS environment. As discussed, implementation will be worked on after the final delivery.
 
-## Legal
+## Legal 🇬🇧
+
+Codex Naturalis is a board game developed and published by Cranio Creations S.R.L.
+The graphic content of this project attributable to the tabletop publishing product is used with prior
+approval of Cranio Creations S.R.L. for educational purposes only. It is prohibited to distribute, copy or reproduce
+of the contents and images in any form outside the project, as well as the redistribution and publication
+of the contents and images for purposes other than the aforementioned. Commercial use of said content is also prohibited.
+
+## Legal 🇮🇹
 
 Codex Naturalis è un gioco da tavolo sviluppato ed edito da Cranio Creations S.R.L.
 I contenuti grafici di questo progetto riconducibili al prodotto editoriale da tavolo sono utilizzati previa
-approvazione di Cranio Creations S.R.L. A solo scopo didattico. È vietata la distribuzione, la copia o la riproduzione
+approvazione di Cranio Creations S.R.L. a solo scopo didattico. È vietata la distribuzione, la copia o la riproduzione
 dei contenuti e immagini in qualsiasi forma al di fuori del progetto, così come la redistribuzione e la pubblicazione
 dei contenuti e immagini a fini diversi da quello sopracitato. È inoltre vietato l'utilizzo commerciale di suddetti
 contenuti.
