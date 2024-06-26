@@ -32,7 +32,7 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
      * The starter card for this player board.
      * This card will be placed in the center of the board at the first turn on the player has chosen the side.
      */
-    private final GameCard starterCard;
+    private GameCard starterCard;
 
     /**
      * Constructor for the PlayerBoard class.
@@ -281,6 +281,9 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
         this.gameItems = gameItemStore;
     }
 
+    public void setStarterCard(GameCard starterCard) {
+        this.starterCard = starterCard;
+    }
     /**
      * This method is used to get the virtual view of the player's board.
      *

@@ -145,6 +145,10 @@ public class Player implements VirtualViewable<PlayerView> {
         this.objectiveCard = objectiveCard;
     }
 
+    public void setChoosableObjectives(ArrayList<ObjectiveCard> choosableObjectives) {
+        this.choosableObjectives.clear();
+        this.choosableObjectives.addAll(choosableObjectives);
+    }
     /**
      * This method is used to retrieve the connection status of the player.
      *
