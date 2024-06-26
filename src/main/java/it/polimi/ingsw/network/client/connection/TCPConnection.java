@@ -19,17 +19,17 @@ import java.util.concurrent.TimeUnit;
  */
 public class TCPConnection extends Connection {
 
-   /**
- * Constructor for the TCPConnection class.
- *
- * @param networkControllerMapper The ClientNetworkControllerMapper object that is used to map network controllers.
- * @param serverIp The IP address of the server to connect to.
- * @param serverPort The port number of the server to connect to.
- */
-public TCPConnection(ClientNetworkControllerMapper networkControllerMapper, String serverIp, int serverPort) {
-    super(networkControllerMapper, serverIp, serverPort);
-    logger = LogManager.getLogger(TCPConnection.class);
-}
+    /**
+     * Constructor for the TCPConnection class.
+     *
+     * @param networkControllerMapper The ClientNetworkControllerMapper object that is used to map network controllers.
+     * @param serverIp                The IP address of the server to connect to.
+     * @param serverPort              The port number of the server to connect to.
+     */
+    public TCPConnection(ClientNetworkControllerMapper networkControllerMapper, String serverIp, int serverPort) {
+        super(networkControllerMapper, serverIp, serverPort);
+        logger = LogManager.getLogger(TCPConnection.class);
+    }
 
     /**
      * Establishes a connection.

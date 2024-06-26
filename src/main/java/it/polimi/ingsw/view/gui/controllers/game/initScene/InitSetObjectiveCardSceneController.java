@@ -29,31 +29,6 @@ public class InitSetObjectiveCardSceneController extends InitScene {
      * The logger.
      */
     private static final Logger logger = LogManager.getLogger(InitSetObjectiveCardSceneController.class);
-
-    /**
-     * The first image pane.
-     */
-    @FXML
-    private StackPane firstImagePane;
-
-    /**
-     * The second image pane.
-     */
-    @FXML
-    private StackPane secondImagePane;
-
-    /**
-     * The image view for the first card.
-     */
-    @FXML
-    private ImageView cardFirstImageView;
-
-    /**
-     * The image view for the second card.
-     */
-    @FXML
-    private ImageView cardSecondImageView;
-
     /**
      * The first choosable card.
      */
@@ -66,6 +41,26 @@ public class InitSetObjectiveCardSceneController extends InitScene {
      * The index of the current card.
      */
     private final int currentIndex = 0;
+    /**
+     * The first image pane.
+     */
+    @FXML
+    private StackPane firstImagePane;
+    /**
+     * The second image pane.
+     */
+    @FXML
+    private StackPane secondImagePane;
+    /**
+     * The image view for the first card.
+     */
+    @FXML
+    private ImageView cardFirstImageView;
+    /**
+     * The image view for the second card.
+     */
+    @FXML
+    private ImageView cardSecondImageView;
     /**
      * The selected card.
      */
@@ -125,7 +120,7 @@ public class InitSetObjectiveCardSceneController extends InitScene {
      * This method updates the image of the game card.
      *
      * @param objectiveCard the objective card to display.
-     * @param imageView the image view to update.
+     * @param imageView     the image view to update.
      */
     private void updateGameCardImage(ObjectiveCard objectiveCard, ImageView imageView) {
         Image objectiveCardImage = GuiCardFactory.createImage(objectiveCard);

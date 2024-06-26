@@ -27,15 +27,14 @@ import java.util.List;
 public class CreditsSceneController extends Controller {
 
     /**
+     * The logger.
+     */
+    private final Logger logger = LogManager.getLogger(CreditsSceneController.class);
+    /**
      * The ListView for the GitHub links.
      */
     @FXML
     private ListView<String> githubListView;
-
-    /**
-     * The logger.
-     */
-    private final Logger logger = LogManager.getLogger(CreditsSceneController.class);
 
     /**
      * Returns the name of the controller.

@@ -97,9 +97,9 @@ public class WinnerSceneController extends Controller {
      * It adds the player's name and position to the row.
      * If the player is a winner, it adds a border to the row.
      *
-     * @param playerPos the position of the player.
+     * @param playerPos  the position of the player.
      * @param playerName the name of the player.
-     * @param isWinner whether the player is a winner.
+     * @param isWinner   whether the player is a winner.
      */
     private void createPlayerRow(int playerPos, String playerName, boolean isWinner) {
         /* Expected result:

@@ -12,9 +12,10 @@ import javafx.scene.image.ImageView;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-/**card.
+/**
+ * card.
  * It contains the logic for handling changes in the game card and
- *  * Class representing an observed game  rendering them in the GUI.
+ * * Class representing an observed game  rendering them in the GUI.
  */
 public class ObservedGameCard {
     /**

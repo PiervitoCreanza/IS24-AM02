@@ -20,31 +20,27 @@ import java.util.TimerTask;
  */
 public class RMIClientSender implements ClientMessageHandler, PropertyChangeNotifier {
     /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(RMIClientSender.class);
+    /**
      * The RMIClientToServerActions instance that represents the server stub.
      * This stub is used to perform actions on the server.
      */
     private final RMIClientToServerActions serverStub;
-
     /**
      * The RMIServerToClientActions instance that represents the client stub.
      * This stub is used to perform actions on the client.
      */
     private final RMIServerToClientActions thisClientStub;
-
     /**
      * Listeners that will be notified when a message is received.
      */
     private final PropertyChangeSupport listeners;
-
     /**
      * Timer used to send heartbeat messages to the server.
      */
     private Timer heartbeatTimer;
-
-    /**
-     * The logger.
-     */
-    private static final Logger logger = LogManager.getLogger(RMIClientSender.class);
 
     /**
      * Constructor for the RMIClientSender class.

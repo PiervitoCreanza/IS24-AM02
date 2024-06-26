@@ -30,9 +30,9 @@ public class ChatServerToClientMessage extends ServerToClientMessage {
      * Constructor for ChatServerToClientMessage.
      * Initializes the chat message with the specified values.
      *
-     * @param sender    The sender of the message.
-     * @param message   The content of the message.
-     * @param timestamp The timestamp when the message was created.
+     * @param sender          The sender of the message.
+     * @param message         The content of the message.
+     * @param timestamp       The timestamp when the message was created.
      * @param isDirectMessage Flag to indicate if the message is a direct message.
      */
     public ChatServerToClientMessage(String sender, String message, long timestamp, boolean isDirectMessage) {
@@ -72,6 +72,7 @@ public class ChatServerToClientMessage extends ServerToClientMessage {
     public boolean isDirectMessage() {
         return isDirectMessage;
     }
+
     /**
      * Returns the name of the player who sent the message.
      *

@@ -36,61 +36,50 @@ public class PlaceCardScene implements Scene, PropertyChangeListener {
      * The flag that indicates if this is the last round of the game.
      */
     private final boolean isLastRound;
-
-    /**
-     * The draw area of the place card scene.
-     */
-    private DrawArea drawArea;
-
     /**
      * The controller for this scene.
      */
     private final TUIViewController controller;
-
     /**
      * The player's game board.
      */
     private final HashMap<Coordinate, GameCard> playerBoard;
-
     /**
      * The global objectives for the game.
      */
     private final ArrayList<ObjectiveCard> globalObjectives;
-
     /**
      * The player's objective.
      */
     private final ObjectiveCard playerObjective;
-
     /**
      * The player's hand of cards.
      */
     private final ArrayList<GameCard> hand;
-
     /**
      * The flipped status of the cards in the player's hand.
      */
     private final ArrayList<Boolean> handFlipped = new ArrayList<>(List.of(false, false, false));
-
     /**
      * The views of the players.
      */
     private final List<PlayerView> playerViews;
-
     /**
      * The username of the player.
      */
     private final String playerUsername;
-
     /**
      * The menu handler for the manage of the user input.
      */
     private final MenuHandler menuHandler;
-
     /**
      * The number of remaining rounds to end the game.
      */
     private final int remainingRoundsToEndGame;
+    /**
+     * The draw area of the place card scene.
+     */
+    private DrawArea drawArea;
 
     /**
      * Constructs a new PlaceCardScene.

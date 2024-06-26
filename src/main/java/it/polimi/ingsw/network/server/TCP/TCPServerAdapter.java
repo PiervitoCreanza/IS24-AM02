@@ -31,35 +31,17 @@ import java.net.Socket;
  */
 public class TCPServerAdapter implements ServerMessageHandler, PropertyChangeListener {
     /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(TCPServerAdapter.class);
+    /**
      * The ServerNetworkControllerMapper object is used to map network commands to actions in the game.
      */
     private final ServerNetworkControllerMapper serverNetworkControllerMapper;
-
     /**
      * The TCPConnectionHandler object is used to handle TCP client connections.
      */
     private final TCPConnectionHandler clientConnectionHandler;
-
-    /**
-     * The name of the game.
-     */
-    private String gameName;
-
-    /**
-     * The name of the player.
-     */
-    private String playerName;
-
-    /**
-     * Indicates whether the connection has been saved.
-     */
-    private boolean isConnectionSaved = false;
-
-    /**
-     * The logger.
-     */
-    private static final Logger logger = LogManager.getLogger(TCPServerAdapter.class);
-
     /**
      * Gson instance used for JSON serialization and deserialization.
      * It is configured to:
@@ -75,6 +57,18 @@ public class TCPServerAdapter implements ServerMessageHandler, PropertyChangeLis
             .registerTypeAdapter(ObjectiveCard.class, new ObjectiveCardAdapter())
             .registerTypeAdapter(ClientToServerMessage.class, new ClientToServerMessageAdapter())
             .create();
+    /**
+     * The name of the game.
+     */
+    private String gameName;
+    /**
+     * The name of the player.
+     */
+    private String playerName;
+    /**
+     * Indicates whether the connection has been saved.
+     */
+    private boolean isConnectionSaved = false;
 
     /**
      * Constructs a new TCPServerAdapter object with the specified socket and ServerNetworkControllerMapper.

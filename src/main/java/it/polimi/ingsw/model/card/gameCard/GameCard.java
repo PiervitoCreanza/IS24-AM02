@@ -29,22 +29,18 @@ public class GameCard implements Card, Serializable {
      * The side of the card that is currently facing up.
      */
     private final SerializableBooleanProperty isFlipped = new SerializableBooleanProperty(false);
-
-    /**
-     * The side of the card that is currently facing up.
-     */
-    private SideGameCard currentSideGameCard;
-
-    /**
-     * The side of the card that is currently facing down.
-     */
-    private SideGameCard otherSideGameCard;
-
     /**
      * The color of the card.
      */
     private final CardColorEnum cardColorEnum;
-
+    /**
+     * The side of the card that is currently facing up.
+     */
+    private SideGameCard currentSideGameCard;
+    /**
+     * The side of the card that is currently facing down.
+     */
+    private SideGameCard otherSideGameCard;
     /**
      * The index of the card in the placement order.
      * This is used to determine the order in which the cards have been placed on the board.

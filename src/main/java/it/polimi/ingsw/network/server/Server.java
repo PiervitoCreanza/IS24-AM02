@@ -29,21 +29,19 @@ import static it.polimi.ingsw.view.tui.utils.Utils.ANSI_RESET;
  */
 public class Server {
     /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(Server.class);
+    /**
      * The timeout for the heartbeat in milliseconds.
      * This is the interval at which the server checks if the client is still connected.
      */
     public static long HEARTBEAT_TIMEOUT = 2500;
-
     /**
      * A flag indicating whether the server is running in debug mode.
      * If true, the server will output additional debug information.
      */
     public static boolean IS_DEBUG = false;
-
-    /**
-     * The logger.
-     */
-    private static final Logger logger = LogManager.getLogger(Server.class);
 
     /**
      * The RMIServerReceiver class is responsible for receiving client actions and notifying the server message handler.

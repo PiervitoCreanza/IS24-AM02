@@ -32,30 +32,25 @@ import java.util.HashMap;
 public class DrawCardScene implements Scene, PropertyChangeListener {
 
     /**
+     * The logger.
+     */
+    private static final Logger Logger = LogManager.getLogger(DrawCardScene.class);
+    /**
      * The draw area of the scene.
      */
     private final DrawArea drawArea;
-
     /**
      * The controller for this scene.
      */
     private final TUIViewController controller;
-
     /**
      * The resource cards on the field.
      */
     private final ArrayList<GameCard> fieldResourceCards;
-
     /**
      * The gold cards on the field.
      */
     private final ArrayList<GameCard> fieldGoldCards;
-
-    /**
-     * The logger.
-     */
-    private static final Logger Logger = LogManager.getLogger(DrawCardScene.class);
-
     /**
      * The menu handler for the scene.
      */

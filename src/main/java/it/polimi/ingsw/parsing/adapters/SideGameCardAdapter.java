@@ -18,8 +18,9 @@ public class SideGameCardAdapter implements JsonSerializer<SideGameCard>, JsonDe
 
     /**
      * This method is used to deserialize a JSON element into a SideGameCard object.
-     * @param jsonElement The JSON element to deserialize.
-     * @param type The specific type of the object to deserialize to.
+     *
+     * @param jsonElement                The JSON element to deserialize.
+     * @param type                       The specific type of the object to deserialize to.
      * @param jsonDeserializationContext Context for deserialization that is used to invoke default deserialization on the specified object.
      * @return The deserialized SideGameCard object.
      * @throws JsonParseException If the json cannot be parsed into a SideGameCard object.
@@ -46,8 +47,9 @@ public class SideGameCardAdapter implements JsonSerializer<SideGameCard>, JsonDe
 
     /**
      * This method is used to serialize a SideGameCard object into a JSON element.
-     * @param sideGameCard The SideGameCard object to serialize.
-     * @param type The specific type of the object to serialize from.
+     *
+     * @param sideGameCard             The SideGameCard object to serialize.
+     * @param type                     The specific type of the object to serialize from.
      * @param jsonSerializationContext Context for serialization that is used to invoke default serialization on the specified object.
      * @return The serialized JSON element.
      * @throws RuntimeException If the sideGameCard object is of unknown class

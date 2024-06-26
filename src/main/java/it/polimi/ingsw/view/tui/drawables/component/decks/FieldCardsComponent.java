@@ -17,16 +17,14 @@ public class FieldCardsComponent implements Drawable {
      * The draw area of the field component.
      */
     private final DrawArea drawArea;
-
-    /**
-     * The count of the cards in the field.
-     */
-    private int count = 1;
-
     /**
      * The spacing between cards.
      */
     private final int spacing;
+    /**
+     * The count of the cards in the field.
+     */
+    private int count = 1;
 
     /**
      * Constructs a new FieldCardsComponent.

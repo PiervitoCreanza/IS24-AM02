@@ -30,45 +30,37 @@ import java.util.ArrayList;
 public class TUIViewController implements PropertyChangeListener, View {
 
     /**
-     * Instance of ClientNetworkControllerMapper to manage network requests.
-     */
-    private final ClientNetworkControllerMapper networkController;
-
-    /**
      * The logger.
      */
     private final static Logger logger = LogManager.getLogger(TUIViewController.class);
-
     /**
-     * Name of the player.
+     * Instance of ClientNetworkControllerMapper to manage network requests.
      */
-    private String playerName;
-
-    /**
-     * Name of the game.
-     */
-    private String gameName;
-
-    /**
-     * Current scene displayed.
-     */
-    private Scene currentScene;
-
-    /**
-     * Chat scene.
-     */
-    private Scene chatScene;
-
+    private final ClientNetworkControllerMapper networkController;
     /**
      * Instance of SceneBuilder to manage different scenes in the game.
      */
     private final SceneBuilder sceneBuilder;
-
     /**
      * List of messages in the chat.
      */
     private final ArrayList<ChatServerToClientMessage> messages = new ArrayList<>();
-
+    /**
+     * Name of the player.
+     */
+    private String playerName;
+    /**
+     * Name of the game.
+     */
+    private String gameName;
+    /**
+     * Current scene displayed.
+     */
+    private Scene currentScene;
+    /**
+     * Chat scene.
+     */
+    private Scene chatScene;
     /**
      * Winner scene.
      */

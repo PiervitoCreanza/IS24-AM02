@@ -47,24 +47,22 @@ public class ChatController {
      * The client network controller mapper.
      */
     private final ClientNetworkControllerMapper clientNetworkControllerMapper;
-
+    /**
+     * The chat manager.
+     */
+    private final ChatManager chatManager;
     /**
      * The username of the client.
      */
     private String clientUserName;
 
     /**
-     * The chat manager.
-     */
-    private final ChatManager chatManager;
-
-    /**
      * Constructs a new ChatController.
      * Initializes the chat display, message input, recipient selection, chat display button, chat send button,
      * network controller mapper, and chat manager.
      *
-     * @param root the root node of the chat interface
-     * @param chatDisplayButton the button to display the chat
+     * @param root                          the root node of the chat interface
+     * @param chatDisplayButton             the button to display the chat
      * @param clientNetworkControllerMapper the network controller mapper for the client
      */
     @SuppressWarnings("unchecked")
@@ -130,7 +128,7 @@ public class ChatController {
     /**
      * Updates the list of users in the recipient selection.
      *
-     * @param users the list of users
+     * @param users          the list of users
      * @param clientUserName the username of the client
      */
     public void updateUsers(List<String> users, String clientUserName) {

@@ -32,35 +32,29 @@ import static it.polimi.ingsw.view.gui.utils.GUIUtils.capitalizeFirstLetter;
 public abstract class Controller implements PropertyChangeListener {
 
     /**
-     * The current scene.
+     * Set of connected players.
      */
-    private static Scene scene;
-
-    /**
-     * The current stage.
-     */
-    private static Stage stage;
-
-    /**
-     * The dialog to show error messages.
-     */
-    protected static ErrorDialog alert;
-
+    protected static final ObservableSet<String> connectedPlayers = FXCollections.observableSet();
     /**
      * The logger for this class.
      */
     private static final Logger logger = LogManager.getLogger(Controller.class);
-
     /**
-     * The name of the previously shown scene.
+     * The dialog to show error messages.
      */
-    private ControllersEnum previousLayoutName = ControllersEnum.START;
-
+    protected static ErrorDialog alert;
     /**
      * The network controller mapper.
      */
     protected static ClientNetworkControllerMapper networkControllerMapper = ClientNetworkControllerMapper.getInstance();
-
+    /**
+     * The current scene.
+     */
+    private static Scene scene;
+    /**
+     * The current stage.
+     */
+    private static Stage stage;
     /**
      * Flag indicating if the class is already instantiated.
      */
@@ -70,11 +64,10 @@ public abstract class Controller implements PropertyChangeListener {
      * Flag indicating if the connected players should be shown.
      */
     private static boolean showConnectedPlayers = true;
-
     /**
-     * Set of connected players.
+     * The name of the previously shown scene.
      */
-    protected static final ObservableSet<String> connectedPlayers = FXCollections.observableSet();
+    private ControllersEnum previousLayoutName = ControllersEnum.START;
 
     // This static block is used to initialize the connectedPlayers listener only once.
     // The Controller class is extended multiple times, but the listener should be added only once.
@@ -179,6 +172,16 @@ public abstract class Controller implements PropertyChangeListener {
     }
 
     /**
+     * Sets the scene currently shown.
+     * This method is used to set the scene when the application starts.
+     *
+     * @param scene the scene to set.
+     */
+    public static void setScene(Scene scene) {
+        Controller.scene = scene;
+    }
+
+    /**
      * Gets the stage currently shown.
      * This method is used to set the stage when the application starts.
      *
@@ -248,16 +251,6 @@ public abstract class Controller implements PropertyChangeListener {
     private void closeAlert() {
         if (alert != null)
             alert.closeAlert();
-    }
-
-    /**
-     * Sets the scene currently shown.
-     * This method is used to set the scene when the application starts.
-     *
-     * @param scene the scene to set.
-     */
-    public static void setScene(Scene scene) {
-        Controller.scene = scene;
     }
 
     /**

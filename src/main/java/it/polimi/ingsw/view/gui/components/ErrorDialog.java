@@ -20,10 +20,10 @@ public class ErrorDialog extends Alert {
     /**
      * Constructor for the ErrorDialog class.
      *
-     * @param stage The stage on which the dialog will be shown.
-     * @param alertType The type of the alert.
-     * @param title The title of the dialog.
-     * @param message The message to be shown in the dialog.
+     * @param stage           The stage on which the dialog will be shown.
+     * @param alertType       The type of the alert.
+     * @param title           The title of the dialog.
+     * @param message         The message to be shown in the dialog.
      * @param isAutoCloseable If true, the dialog will automatically close after 30 seconds.
      */
     public ErrorDialog(Stage stage, AlertType alertType, String title, String message, boolean isAutoCloseable) {
@@ -51,7 +51,7 @@ public class ErrorDialog extends Alert {
     /**
      * This method adds a new button to the dialog.
      *
-     * @param buttonText The text to be shown on the button.
+     * @param buttonText   The text to be shown on the button.
      * @param eventHandler The event handler that will be triggered when the button is clicked.
      */
     public void addButton(String buttonText, EventHandler<ActionEvent> eventHandler) {

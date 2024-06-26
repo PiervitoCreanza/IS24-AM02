@@ -38,6 +38,7 @@ public class UpdateViewServerToClientMessage extends ServerToClientMessage {
 
     /**
      * Overridden equals method for UpdateViewServerToClientMessage.
+     *
      * @param o The object to compare this UpdateViewServerToClientMessage to.
      * @return true if the given object is an UpdateViewServerToClientMessage with the same view.
      */

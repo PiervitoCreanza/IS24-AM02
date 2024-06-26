@@ -46,11 +46,11 @@ public class ConnectionScene implements Scene, PropertyChangeListener {
      *
      * @param controller the controller for this scene
      * @param message    the message to be displayed
-     * @param canRetry    whether the player can retry the connection
+     * @param canRetry   whether the player can retry the connection
      */
     public ConnectionScene(TUIViewController controller, String message, Boolean canRetry) {
         this.controller = controller;
-        if(canRetry){
+        if (canRetry) {
             this.menuHandler = new MenuHandler(this,
                     new MenuItem("r", "retry", new EmptyCommand()),
                     new MenuItem("q", "quit", new EmptyCommand()));

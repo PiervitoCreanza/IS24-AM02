@@ -31,25 +31,21 @@ import static it.polimi.ingsw.view.tui.utils.Utils.ANSI_RESET;
 public class ChatScene implements Scene, PropertyChangeListener {
 
     /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(ChatScene.class);
+    /**
      * The DrawArea object where the scene will be drawn.
      */
     private final DrawArea drawArea;
-
     /**
      * The controller that manages the user interface and the game logic.
      */
     private final TUIViewController controller;
-
     /**
      * The name of the player.
      */
     private final String playerName;
-
-    /**
-     * The logger.
-     */
-    private static final Logger logger = LogManager.getLogger(ChatScene.class);
-
     /**
      * The menu handler for managing user input.
      */

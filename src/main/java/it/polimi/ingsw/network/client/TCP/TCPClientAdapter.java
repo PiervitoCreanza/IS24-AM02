@@ -35,25 +35,21 @@ import java.net.Socket;
 public class TCPClientAdapter implements ClientMessageHandler, PropertyChangeListener, PropertyChangeNotifier {
 
     /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(TCPClientAdapter.class);
+    /**
      * The ServerNetworkControllerMapper object is used to map network commands to actions in the game.
      */
     private final ClientNetworkControllerMapper clientNetworkControllerMapper;
-
     /**
      * The TCPConnectionHandler object is used to handle TCP client connections.
      */
     private final TCPConnectionHandler serverConnectionHandler;
-
     /**
      * The property change support.
      */
     private final PropertyChangeSupport listeners;
-
-    /**
-     * The logger.
-     */
-    private static final Logger logger = LogManager.getLogger(TCPClientAdapter.class);
-
     /**
      * Gson instance for JSON serialization and deserialization.
      * It is configured with custom type adapters for ServerToClientMessage, SideGameCard, and ObjectiveCard classes.

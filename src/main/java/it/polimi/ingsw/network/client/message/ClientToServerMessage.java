@@ -12,22 +12,21 @@ import java.util.Objects;
  */
 public abstract class ClientToServerMessage {
     /**
-     * The name of the game.
-     * It is final, meaning it cannot be changed once it has been set.
-     */
-    protected String gameName;
-
-    /**
-     * The name of the player who sent the message.
-     * It is final, meaning it cannot be changed once it has been set.
-     */
-    protected String playerName;
-    /**
      * The action taken by the player.
      * This is an enum value representing the type of action the player has taken.
      * It is final, meaning it cannot be changed once it has been set.
      */
     private final PlayerActionEnum playerAction;
+    /**
+     * The name of the game.
+     * It is final, meaning it cannot be changed once it has been set.
+     */
+    protected String gameName;
+    /**
+     * The name of the player who sent the message.
+     * It is final, meaning it cannot be changed once it has been set.
+     */
+    protected String playerName;
 
 
     /**

@@ -29,13 +29,13 @@ public class ToastArea extends Popup {
      */
     private final VBox container;
     /**
-     * The top left point of the scene.
-     */
-    private Point2D sceneTopLeft;
-    /**
      * The callback to be executed when a Toast is hidden.
      */
     private final Consumer<Toast> onHideCallback;
+    /**
+     * The top left point of the scene.
+     */
+    private Point2D sceneTopLeft;
 
     /**
      * Constructs a new ToastArea.

@@ -23,16 +23,14 @@ public class MenuHandler {
      * This is the items that the menu contains.
      */
     private final MenuItem[] items;
-
-    /**
-     * This is the selected item that the user has selected.
-     */
-    private MenuItem selectedMenuItem;
-
     /**
      * This property change support is used to notify the listener that the selected item has finished executing.
      */
     private final PropertyChangeSupport listeners;
+    /**
+     * This is the selected item that the user has selected.
+     */
+    private MenuItem selectedMenuItem;
 
     /**
      * This constructor is used to create a new MenuHandler.
