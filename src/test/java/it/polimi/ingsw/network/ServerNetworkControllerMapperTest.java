@@ -54,7 +54,6 @@ public class ServerNetworkControllerMapperTest {
     @BeforeEach
     void setUp() {
         serverNetworkControllerMapper = new ServerNetworkControllerMapper(new MainController());
-        handlers = new ArrayList<>();
         starterCardsIds = new HashMap<>();
         objectiveCardsIds = new HashMap<>();
         availableCoordinates = new HashMap<>();
