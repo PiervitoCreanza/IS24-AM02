@@ -5,6 +5,10 @@ import java.util.Objects;
 
 /**
  * Class representing a game record. This class contains all the information needed to display a game in the lobby.
+ *
+ * @param gameName          the name of the game.
+ * @param joinedPlayers     the number of players that joined the game.
+ * @param maxAllowedPlayers the maximum number of players allowed in the game.
  */
 public record GameRecord(String gameName, int joinedPlayers, int maxAllowedPlayers) implements Serializable {
     /**
