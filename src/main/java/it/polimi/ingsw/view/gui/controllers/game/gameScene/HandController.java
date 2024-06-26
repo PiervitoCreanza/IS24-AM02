@@ -60,9 +60,6 @@ public class HandController {
         final Coordinate originalPosition = new Coordinate(0, 0);
 
         gameCardImageView.setOnMousePressed(mouseEvent -> {
-            // Abort if the card placement is not allowed
-            if (sceneController.isCardPlacementForbidden())
-                return;
 
             // Obtain the gameCardImage associated with the card
             GameCard boundGameCard = (GameCard) gameCardImageView.getUserData();
@@ -74,6 +71,10 @@ public class HandController {
                 boundGameCard.switchSide();
                 return;
             }
+
+            // Abort drag if the card placement is not allowed
+            if (sceneController.isCardPlacementForbidden())
+                return;
 
             originalPosition.setLocation(gameCardImageView.getLayoutX(), gameCardImageView.getLayoutY());
             dragDelta.setLocation(gameCardImageView.getLayoutX() - mouseEvent.getSceneX(), gameCardImageView.getLayoutY() - mouseEvent.getSceneY());
