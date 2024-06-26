@@ -183,10 +183,12 @@ public abstract class Controller implements PropertyChangeListener {
     public static void setScene(Scene scene) {
         // Set full screen shortcut
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
-            if (System.getProperty("os.name").toLowerCase().contains("mac") && event.isControlDown() && event.isMetaDown() && event.getCode() == KeyCode.F) {
-                stage.setFullScreen(!stage.isFullScreen());
-            } else if (event.getCode() == KeyCode.F11) {
-                stage.setFullScreen(!stage.isFullScreen());
+            if (!stage.isFullScreen()) {
+                if (System.getProperty("os.name").toLowerCase().contains("mac") && event.isControlDown() && event.isMetaDown() && event.getCode() == KeyCode.F) {
+                    stage.setFullScreen(true);
+                } else if (event.getCode() == KeyCode.F11) {
+                    stage.setFullScreen(true);
+                }
             }
         });
         Controller.scene = scene;
