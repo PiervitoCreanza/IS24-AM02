@@ -41,7 +41,9 @@ public class InitPlaceStarterCardScene implements Scene, PropertyChangeListener 
      */
     private final UserInputChain inputChain;
 
-
+    /**
+     * The logger.
+     */
     private final Logger logger = LogManager.getLogger(InitPlaceStarterCardScene.class);
 
     /**
