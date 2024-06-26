@@ -18,34 +18,28 @@ public class Player implements VirtualViewable<PlayerView> {
      * The name of the player.
      */
     private final String playerName;
-
-    /**
-     * The position of the player in the game.
-     * It is initialized to 0 at the start of the game.
-     */
-    private int playerPos = 0;
-
     /**
      * The player's board in the game.
      */
     private final PlayerBoard playerBoard;
-
     /**
      * The 2 objective cards that the player has to choose from.
      * The chosen objective card is stored in the objectiveCard attribute.
      */
     private final ArrayList<ObjectiveCard> choosableObjectives;
-
-    /**
-     * The objective card chosen by the player.
-     */
-    private ObjectiveCard objectiveCard;
-
     /**
      * The playerHand of the player, which contains the cards that the player holds.
      */
     private final PlayerHand playerHand;
-
+    /**
+     * The position of the player in the game.
+     * It is initialized to 0 at the start of the game.
+     */
+    private int playerPos = 0;
+    /**
+     * The objective card chosen by the player.
+     */
+    private ObjectiveCard objectiveCard;
     /**
      * The boolean that represents if the player is connected or not.
      */
@@ -151,21 +145,21 @@ public class Player implements VirtualViewable<PlayerView> {
     }
 
     /**
-     * This method is used to get the drawn objectives of the player.
-     *
-     * @return ObjectiveCard[] This returns the drawn objectives of the player.
-     */
-    public ArrayList<ObjectiveCard> getChoosableObjectives() {
-        return choosableObjectives;
-    }
-
-    /**
      * This method is used to set the connection status of the player.
      *
      * @param connected This is the connection status to be set.
      */
     public void setConnected(boolean connected) {
         isConnected = connected;
+    }
+
+    /**
+     * This method is used to get the drawn objectives of the player.
+     *
+     * @return ObjectiveCard[] This returns the drawn objectives of the player.
+     */
+    public ArrayList<ObjectiveCard> getChoosableObjectives() {
+        return choosableObjectives;
     }
 
     /**
@@ -180,21 +174,21 @@ public class Player implements VirtualViewable<PlayerView> {
     }
 
     /**
-     * Sets the color of the player.
-     *
-     * @param playerColor The color to be set for the player. It is an enum of type PlayerColorEnum.
-     */
-    public void setPlayerColor(PlayerColorEnum playerColor) {
-        this.playerColor = playerColor;
-    }
-
-    /**
      * Retrieves the color of the player.
      *
      * @return PlayerColorEnum The color of the player. It is an enum of type PlayerColorEnum.
      */
     public PlayerColorEnum getPlayerColor() {
         return playerColor;
+    }
+
+    /**
+     * Sets the color of the player.
+     *
+     * @param playerColor The color to be set for the player. It is an enum of type PlayerColorEnum.
+     */
+    public void setPlayerColor(PlayerColorEnum playerColor) {
+        this.playerColor = playerColor;
     }
 
     /**

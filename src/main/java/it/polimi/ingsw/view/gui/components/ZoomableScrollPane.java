@@ -16,9 +16,9 @@ import org.apache.logging.log4j.Logger;
  */
 public class ZoomableScrollPane extends ScrollPane {
     /**
-     * The scale value of the target node.
+     * Logger for the ZoomableScrollPane class, used to log debug and error messages.
      */
-    private double scaleValue = 0.7;
+    private static final Logger logger = LogManager.getLogger(ZoomableScrollPane.class);
     /**
      * The intensity of the zoom.
      */
@@ -32,9 +32,9 @@ public class ZoomableScrollPane extends ScrollPane {
      */
     private final Group zoomNode;
     /**
-     * Logger for the ZoomableScrollPane class, used to log debug and error messages.
+     * The scale value of the target node.
      */
-    private static final Logger logger = LogManager.getLogger(ZoomableScrollPane.class);
+    private double scaleValue = 0.7;
 
     /**
      * Constructor for the ZoomableScrollPane class.

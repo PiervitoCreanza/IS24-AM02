@@ -21,15 +21,14 @@ import org.apache.logging.log4j.Logger;
 public class Client {
 
     /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(Client.class);
+    /**
      * A flag indicating whether the client is in debug mode.
      * This is a static variable, meaning it's shared among all instances of this class.
      */
     public static boolean DEBUG;
-
-    /**
-     * The logger.
-     */
-    private static final Logger logger = LogManager.getLogger(Client.class);
 
     /**
      * The main method of the Client class.

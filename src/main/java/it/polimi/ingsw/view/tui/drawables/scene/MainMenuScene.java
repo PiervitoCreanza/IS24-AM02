@@ -20,20 +20,17 @@ import java.beans.PropertyChangeListener;
 public class MainMenuScene implements Scene, PropertyChangeListener {
 
     /**
+     * The logger of the class.
+     */
+    private static final Logger logger = LogManager.getLogger(MainMenuScene.class);
+    /**
      * The DrawArea object where the scene will be drawn.
      */
     private final DrawArea drawArea;
-
     /**
      * The controller that manages the user interface and the game logic.
      */
     private final TUIViewController controller;
-
-    /**
-     * The logger of the class.
-     */
-    private static final Logger logger = LogManager.getLogger(MainMenuScene.class);
-
     /**
      * The menu handler that manages the menu items.
      */

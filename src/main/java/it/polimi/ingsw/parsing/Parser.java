@@ -53,6 +53,38 @@ public class Parser {
             .create();
 
     /**
+     * Constructs a new Parser object.
+     * Reads the JSON file, parses the cards, and adds them to the appropriate lists.
+     *
+     * @throws RuntimeException when parsing fails
+     */
+    public Parser() {
+        try {
+            // Create a FileReader to read the JSON file
+            InputStream is = getClass().getResourceAsStream("/json/CardDB.json");
+            if (is == null) {
+                throw new FileNotFoundException("File not found");
+            }
+            // Create a InputStreamReader to read the InputStream
+            Reader reader = new InputStreamReader(is);
+
+            // Parse the JSON content using JsonParser
+            JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
+
+            // Parse every deck
+            parseResourceCardList(jsonObject);
+            parseGoldCardList(jsonObject);
+            parseStarterCardList(jsonObject);
+            parseObjectiveCardList(jsonObject);
+            // Close the reader
+            is.close();
+            reader.close();
+        } catch (Exception e) {
+            throw new RuntimeException("Parsing failed");
+        }
+    }
+
+    /**
      * Generic method to parse and add cards to a list.
      *
      * @param jsonObject  The JSON object containing the cards.
@@ -111,38 +143,6 @@ public class Parser {
     private void parseObjectiveCardList(JsonObject jsonObject) {
         parseAndAddCards(jsonObject, "ObjectiveCard", "ItemObjectiveCard", ItemObjectiveCard.class, objectiveCardList);
         parseAndAddCards(jsonObject, "ObjectiveCard", "PositionalObjectiveCard", PositionalObjectiveCard.class, objectiveCardList);
-    }
-
-    /**
-     * Constructs a new Parser object.
-     * Reads the JSON file, parses the cards, and adds them to the appropriate lists.
-     *
-     * @throws RuntimeException when parsing fails
-     */
-    public Parser() {
-        try {
-            // Create a FileReader to read the JSON file
-            InputStream is = getClass().getResourceAsStream("/json/CardDB.json");
-            if (is == null) {
-                throw new FileNotFoundException("File not found");
-            }
-            // Create a InputStreamReader to read the InputStream
-            Reader reader = new InputStreamReader(is);
-
-            // Parse the JSON content using JsonParser
-            JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
-
-            // Parse every deck
-            parseResourceCardList(jsonObject);
-            parseGoldCardList(jsonObject);
-            parseStarterCardList(jsonObject);
-            parseObjectiveCardList(jsonObject);
-            // Close the reader
-            is.close();
-            reader.close();
-        } catch (Exception e) {
-            throw new RuntimeException("Parsing failed");
-        }
     }
 
     /**

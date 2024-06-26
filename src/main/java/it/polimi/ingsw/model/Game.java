@@ -35,20 +35,17 @@ public class Game implements VirtualViewable<GameView> {
      * This is an ArrayList that contains all the Player objects that are currently participating in the game.
      */
     private final ArrayList<Player> players;
-
+    /**
+     * Represents the global board of the game.
+     * This is a GlobalBoard object that contains all the global elements of the game, such as the decks and objectives.
+     */
+    private final GlobalBoard globalBoard;
     /**
      * Represents the winners of the game.
      * This is an ArrayList that contains the Player objects who won the game.
      * The winners are determined by the calculateWinners() method.
      */
     private ArrayList<Player> winners;
-
-    /**
-     * Represents the global board of the game.
-     * This is a GlobalBoard object that contains all the global elements of the game, such as the decks and objectives.
-     */
-    private final GlobalBoard globalBoard;
-
     /**
      * Represents the current player in the game.
      * This is a Player object that represents the player whose turn it is to play.

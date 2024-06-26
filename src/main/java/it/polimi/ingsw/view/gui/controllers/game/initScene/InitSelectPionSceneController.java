@@ -29,13 +29,6 @@ public class InitSelectPionSceneController extends InitScene {
      * The logger.
      */
     private static final Logger logger = LogManager.getLogger(InitSelectPionSceneController.class);
-
-    /**
-     * The image view for the pion.
-     */
-    @FXML
-    private ImageView pionImageView;
-
     /**
      * The map of pion images.
      */
@@ -45,7 +38,11 @@ public class InitSelectPionSceneController extends InitScene {
             PlayerColorEnum.GREEN, "/CODEX_pion_vert.png",
             PlayerColorEnum.YELLOW, "/CODEX_pion_jaune.png"
     );
-
+    /**
+     * The image view for the pion.
+     */
+    @FXML
+    private ImageView pionImageView;
     /**
      * The list of available pion colors.
      */

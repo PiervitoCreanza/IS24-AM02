@@ -31,7 +31,7 @@ public class ObservableDrawArea {
      * Constructor for the ObservableDrawArea class.
      * It initializes the property change listeners for each card in the draw area.
      *
-     * @param drawPane the pane containing the draw area.
+     * @param drawPane       the pane containing the draw area.
      * @param isDrawingPhase the property for the drawing phase.
      */
     public ObservableDrawArea(Pane drawPane, SimpleBooleanProperty isDrawingPhase) {

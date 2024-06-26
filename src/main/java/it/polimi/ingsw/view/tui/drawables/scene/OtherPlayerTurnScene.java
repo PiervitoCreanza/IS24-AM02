@@ -24,20 +24,17 @@ import java.util.HashMap;
 public class OtherPlayerTurnScene implements Scene, PropertyChangeListener {
 
     /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(OtherPlayerTurnScene.class);
+    /**
      * The DrawArea object where the scene will be drawn.
      */
     private final DrawArea drawArea;
-
     /**
      * The controller that will handle the scene.
      */
     private final TUIViewController controller;
-
-    /**
-     * The logger.
-     */
-    private static final Logger logger = LogManager.getLogger(OtherPlayerTurnScene.class);
-
     /**
      * The menu handler.
      */

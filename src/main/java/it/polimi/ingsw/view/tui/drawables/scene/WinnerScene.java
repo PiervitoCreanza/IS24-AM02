@@ -25,20 +25,17 @@ import java.util.List;
 public class WinnerScene implements Scene, PropertyChangeListener {
 
     /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(WinnerScene.class);
+    /**
      * The DrawArea object where the scene will be drawn.
      */
     private final DrawArea drawArea;
-
     /**
      * The controller that manages the user interface and the game logic.
      */
     private final TUIViewController controller;
-
-    /**
-     * The logger.
-     */
-    private static final Logger logger = LogManager.getLogger(WinnerScene.class);
-
     /**
      * The menu handler for managing user input.
      */

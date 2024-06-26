@@ -10,14 +10,13 @@ import java.io.Serializable;
  */
 public class Corner implements Serializable {
     /**
-     * A boolean indicating whether the corner is covered or not.
-     */
-    private boolean isCovered;
-
-    /**
      * The game item present in the corner.
      */
     private final GameItemEnum gameItem;
+    /**
+     * A boolean indicating whether the corner is covered or not.
+     */
+    private boolean isCovered;
 
     /**
      * Constructs a new Corner object with the specified covered status and game item.
