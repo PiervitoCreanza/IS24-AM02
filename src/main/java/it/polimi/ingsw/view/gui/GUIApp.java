@@ -8,7 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
@@ -81,29 +80,33 @@ public class GUIApp extends Application implements View {
             System.exit(0);
         });
 
-        // Set stage to min_width and min_height when exiting full screen.
-        stage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                stage.setMaximized(false);
-                stage.setWidth(MIN_WIDTH);
-                stage.setHeight(MIN_HEIGHT);
-            }
-        });
+        // Only if platform is not Mac, set the stage to full screen.
+        if (!System.getProperty("os.name").toLowerCase().contains("mac")) {
 
-        // Set the stage to full screen when maximized.
-        stage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                stage.setFullScreen(true);
-            }
-        });
+            // Set stage to min_width and min_height when exiting full screen.
+            stage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue) {
+                    stage.setMaximized(false);
+                    stage.setWidth(MIN_WIDTH);
+                    stage.setHeight(MIN_HEIGHT);
+                }
+            });
+
+            // Set the stage to full screen when maximized.
+            stage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    stage.setFullScreen(true);
+                }
+            });
+            stage.setFullScreenExitHint("Press F11 to exit full screen mode.");
+        }
 
         // Set the stage title and dimensions.
         stage.setTitle("Codex Naturalis");
         stage.setMinHeight(MIN_HEIGHT);
         stage.setMinWidth(MIN_WIDTH);
         stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("icon_512x512.png")));
-        stage.setFullScreenExitHint("Press F11 to exit full screen mode.");
-        stage.setFullScreenExitKeyCombination(KeyCombination.keyCombination("F11"));
+
 
         // Set the current stage on all controllers.
         Controller.setStage(stage);
