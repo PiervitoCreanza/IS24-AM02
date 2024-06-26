@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.data.Parser;
 import it.polimi.ingsw.model.card.gameCard.GameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
 import it.polimi.ingsw.network.virtualView.GlobalBoardView;
 import it.polimi.ingsw.network.virtualView.VirtualViewable;
+import it.polimi.ingsw.parsing.Parser;
 
 import java.util.ArrayList;
 import java.util.List;

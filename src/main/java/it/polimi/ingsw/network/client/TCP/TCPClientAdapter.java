@@ -3,9 +3,6 @@ package it.polimi.ingsw.network.client.TCP;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import it.polimi.ingsw.data.ObjectiveCardAdapter;
-import it.polimi.ingsw.data.SerializableBooleanPropertyAdapter;
-import it.polimi.ingsw.data.SideGameCardAdapter;
 import it.polimi.ingsw.model.card.gameCard.SerializableBooleanProperty;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
@@ -16,6 +13,9 @@ import it.polimi.ingsw.network.client.message.ClientToServerMessage;
 import it.polimi.ingsw.network.client.message.adapter.ServerToClientMessageAdapter;
 import it.polimi.ingsw.network.server.message.ServerActionEnum;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
+import it.polimi.ingsw.parsing.adapters.ObjectiveCardAdapter;
+import it.polimi.ingsw.parsing.adapters.SerializableBooleanPropertyAdapter;
+import it.polimi.ingsw.parsing.adapters.SideGameCardAdapter;
 import it.polimi.ingsw.utils.PropertyChangeNotifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,25 +35,21 @@ import java.net.Socket;
 public class TCPClientAdapter implements ClientMessageHandler, PropertyChangeListener, PropertyChangeNotifier {
 
     /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(TCPClientAdapter.class);
+    /**
      * The ServerNetworkControllerMapper object is used to map network commands to actions in the game.
      */
     private final ClientNetworkControllerMapper clientNetworkControllerMapper;
-
     /**
      * The TCPConnectionHandler object is used to handle TCP client connections.
      */
     private final TCPConnectionHandler serverConnectionHandler;
-
     /**
      * The property change support.
      */
     private final PropertyChangeSupport listeners;
-
-    /**
-     * The logger.
-     */
-    private static final Logger logger = LogManager.getLogger(TCPClientAdapter.class);
-
     /**
      * Gson instance for JSON serialization and deserialization.
      * It is configured with custom type adapters for ServerToClientMessage, SideGameCard, and ObjectiveCard classes.

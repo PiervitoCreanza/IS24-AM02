@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.player;
 
-import it.polimi.ingsw.tui.utils.ColorsEnum;
+import it.polimi.ingsw.view.tui.utils.ColorsEnum;
 
 import java.util.stream.Stream;
 
@@ -45,20 +45,20 @@ public enum PlayerColorEnum {
     }
 
     /**
-     * Returns the color of the card.
-     *
-     * @return the color of the card
-     */
-    public ColorsEnum getColor() {
-        return color;
-    }
-
-    /**
      * Returns a stream of all the PlayerColorEnum values.
      *
      * @return a stream of all the PlayerColorEnum values
      */
     public static Stream<PlayerColorEnum> stream() {
         return Stream.of(PlayerColorEnum.values());
+    }
+
+    /**
+     * Returns the color of the card.
+     *
+     * @return the color of the card
+     */
+    public ColorsEnum getColor() {
+        return color;
     }
 }

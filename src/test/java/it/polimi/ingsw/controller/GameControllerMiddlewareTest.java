@@ -63,7 +63,7 @@ class GameControllerMiddlewareTest {
 
         PlayerHand playerHand = Mockito.mock(PlayerHand.class);
         when(playerHand.getCards()).thenAnswer(invocation -> {
-            ArrayList<GameCard> hand = new ArrayList<GameCard>();
+            ArrayList<GameCard> hand = new ArrayList<>();
             hand.add(Mockito.mock(GameCard.class));
             return hand;
         });
@@ -71,12 +71,12 @@ class GameControllerMiddlewareTest {
         when(player1.getPlayerHand()).thenAnswer(invocation -> playerHand);
 
         when(player0.getChoosableObjectives()).thenAnswer(invocation -> {
-            ArrayList<ObjectiveCard> objectives = new ArrayList<ObjectiveCard>();
+            ArrayList<ObjectiveCard> objectives = new ArrayList<>();
             objectives.add(Mockito.mock(ObjectiveCard.class));
             return objectives;
         });
         when(player1.getChoosableObjectives()).thenAnswer(invocation -> {
-            ArrayList<ObjectiveCard> objectives = new ArrayList<ObjectiveCard>();
+            ArrayList<ObjectiveCard> objectives = new ArrayList<>();
             objectives.add(Mockito.mock(ObjectiveCard.class));
             return objectives;
         });

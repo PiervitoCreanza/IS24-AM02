@@ -25,26 +25,23 @@ import java.util.concurrent.Executors;
 public class RMIServerReceiver implements RMIClientToServerActions, PropertyChangeListener {
 
     /**
-     * The ServerNetworkControllerMapper object used to map network commands to actions in the game.
-     */
-    private final ServerNetworkControllerMapper serverNetworkControllerMapper;
-
-    /**
-     * The executor service used to execute tasks in parallel.
-     */
-    private final ExecutorService executor;
-
-    /**
      * The logger.
      */
     private static final Logger logger = LogManager.getLogger(RMIServerReceiver.class);
-
     /**
      * A "strong" reference to the stub.
      * It's used to avoid the stub being garbage collected in some rare cases.
      * Being static the DGC (Distributed Garbage Collector) will not collect it.
      */
     private static RMIServerReceiver serverStrongReference;
+    /**
+     * The ServerNetworkControllerMapper object used to map network commands to actions in the game.
+     */
+    private final ServerNetworkControllerMapper serverNetworkControllerMapper;
+    /**
+     * The executor service used to execute tasks in parallel.
+     */
+    private final ExecutorService executor;
 
     /**
      * Constructs a new RMIServerReceiver object with the specified ServerNetworkControllerMapper.

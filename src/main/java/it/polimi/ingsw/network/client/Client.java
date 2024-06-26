@@ -1,13 +1,13 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.gui.GUIApp;
-import it.polimi.ingsw.network.NetworkUtils;
 import it.polimi.ingsw.network.client.connection.Connection;
 import it.polimi.ingsw.network.client.connection.RMIConnection;
 import it.polimi.ingsw.network.client.connection.TCPConnection;
-import it.polimi.ingsw.tui.View;
-import it.polimi.ingsw.tui.controller.TUIViewController;
-import it.polimi.ingsw.tui.utils.Utils;
+import it.polimi.ingsw.network.utils.HostIpAddressResolver;
+import it.polimi.ingsw.view.gui.GUIApp;
+import it.polimi.ingsw.view.tui.View;
+import it.polimi.ingsw.view.tui.controller.TUIViewController;
+import it.polimi.ingsw.view.tui.utils.Utils;
 import org.apache.commons.cli.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,15 +21,14 @@ import org.apache.logging.log4j.Logger;
 public class Client {
 
     /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(Client.class);
+    /**
      * A flag indicating whether the client is in debug mode.
      * This is a static variable, meaning it's shared among all instances of this class.
      */
     public static boolean DEBUG;
-
-    /**
-     * The logger.
-     */
-    private static final Logger logger = LogManager.getLogger(Client.class);
 
     /**
      * The main method of the Client class.
@@ -47,7 +46,7 @@ public class Client {
             System.out.println(Utils.ANSI_RED + "You didn't specify a server address (-s).\nThe client will try to connect in localhost mode!" + Utils.ANSI_RESET);
             clientIp = "localhost";
         } else {
-            clientIp = NetworkUtils.getCurrentHostIp(cmd);
+            clientIp = HostIpAddressResolver.getCurrentHostIp(cmd);
         }
 
         int serverPort = cmd.hasOption("rmi") ? 1099 : 12345;

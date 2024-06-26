@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.nio.channels.IllegalBlockingModeException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The TCPConnection class implements the Connection interface using the TCP protocol.
@@ -18,17 +19,17 @@ import java.util.TimerTask;
  */
 public class TCPConnection extends Connection {
 
-   /**
- * Constructor for the TCPConnection class.
- *
- * @param networkControllerMapper The ClientNetworkControllerMapper object that is used to map network controllers.
- * @param serverIp The IP address of the server to connect to.
- * @param serverPort The port number of the server to connect to.
- */
-public TCPConnection(ClientNetworkControllerMapper networkControllerMapper, String serverIp, int serverPort) {
-    super(networkControllerMapper, serverIp, serverPort);
-    logger = LogManager.getLogger(TCPConnection.class);
-}
+    /**
+     * Constructor for the TCPConnection class.
+     *
+     * @param networkControllerMapper The ClientNetworkControllerMapper object that is used to map network controllers.
+     * @param serverIp                The IP address of the server to connect to.
+     * @param serverPort              The port number of the server to connect to.
+     */
+    public TCPConnection(ClientNetworkControllerMapper networkControllerMapper, String serverIp, int serverPort) {
+        super(networkControllerMapper, serverIp, serverPort);
+        logger = LogManager.getLogger(TCPConnection.class);
+    }
 
     /**
      * Establishes a connection.
@@ -69,7 +70,7 @@ public TCPConnection(ClientNetworkControllerMapper networkControllerMapper, Stri
             }
             attempts++;
             try {
-                Thread.sleep(waitTime);
+                TimeUnit.MILLISECONDS.sleep(waitTime);
             } catch (InterruptedException e) {
                 logger.debug("Thread interrupted while waiting for the next connection attempt.");
                 return;

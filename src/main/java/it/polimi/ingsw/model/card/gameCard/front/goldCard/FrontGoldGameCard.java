@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.card.gameCard.front.goldCard;
 
+import it.polimi.ingsw.model.card.corner.Corner;
 import it.polimi.ingsw.model.card.gameCard.front.FrontGameCard;
 import it.polimi.ingsw.model.utils.store.GameItemStore;
-import it.polimi.ingsw.model.card.corner.Corner;
 
 import java.util.Objects;
 

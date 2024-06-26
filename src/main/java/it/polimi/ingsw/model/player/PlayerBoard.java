@@ -60,7 +60,7 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
      * This method is used to get the card in the player board at a specific position.
      *
      * @param coordinate This is the position of the card.
-     * @return Optional<GameCard> This returns the card at the position, if present.
+     * @return Optional of GaameCard This returns the card at the position, if present.
      */
     public Optional<GameCard> getGameCard(Coordinate coordinate) {
         return Optional.ofNullable(playerBoard.get(coordinate));
@@ -79,7 +79,7 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
      * This method is used to get the position of a card in the player board.
      *
      * @param gameCard This is the card to find.
-     * @return Optional<Coordinate> This returns the position of the card, if present.
+     * @return Optional of Coordinate This returns the position of the card, if present.
      */
     public Optional<Coordinate> getGameCardPosition(GameCard gameCard) {
         for (Coordinate coordinate : playerBoard.keySet()) {
@@ -93,7 +93,7 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
     /**
      * This method is used to get the cards in the player board.
      *
-     * @return ArrayList<GameCard> This returns the list of cards in the player board.
+     * @return ArrayList of GameCard This returns the list of cards in the player board.
      */
     public ArrayList<GameCard> getGameCards() {
         return new ArrayList<>(playerBoard.values());
@@ -248,7 +248,7 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
     /**
      * This method is used to get the available positions where the player can place a card.
      *
-     * @return HashSet<Coordinate> This returns the available positions.
+     * @return HashSet of Coordinate. This returns the available positions.
      */
     public HashSet<Coordinate> getAvailablePositions() {
         HashSet<Coordinate> availablePositions = new HashSet<>();
@@ -261,15 +261,15 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
         }
 
         // For each card in the player board, check the adjacent positions.
-        playerBoardCoordinates.forEach(coord -> {
-            getAdjacentPointCornersPair(coord).forEach(pair -> {
-                Coordinate adjacentCoordinate = pair.coordinate();
-                // If the position is not occupied and the placement is compatible, add it to the available positions.
-                if (!playerBoard.containsKey(adjacentCoordinate) && isPlacementCompatible(adjacentCoordinate)) {
-                    availablePositions.add(adjacentCoordinate);
-                }
-            });
-        });
+        playerBoardCoordinates.forEach(coord ->
+                getAdjacentPointCornersPair(coord).forEach(pair -> {
+                    Coordinate adjacentCoordinate = pair.coordinate();
+                    // If the position is not occupied and the placement is compatible, add it to the available positions.
+                    if (!playerBoard.containsKey(adjacentCoordinate) && isPlacementCompatible(adjacentCoordinate)) {
+                        availablePositions.add(adjacentCoordinate);
+                    }
+                })
+        );
         return availablePositions;
     }
 

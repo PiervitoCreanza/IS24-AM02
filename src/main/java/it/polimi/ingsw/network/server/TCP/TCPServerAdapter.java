@@ -3,9 +3,6 @@ package it.polimi.ingsw.network.server.TCP;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import it.polimi.ingsw.data.ObjectiveCardAdapter;
-import it.polimi.ingsw.data.SerializableBooleanPropertyAdapter;
-import it.polimi.ingsw.data.SideGameCardAdapter;
 import it.polimi.ingsw.model.card.gameCard.SerializableBooleanProperty;
 import it.polimi.ingsw.model.card.gameCard.SideGameCard;
 import it.polimi.ingsw.model.card.objectiveCard.ObjectiveCard;
@@ -16,6 +13,9 @@ import it.polimi.ingsw.network.server.ServerMessageHandler;
 import it.polimi.ingsw.network.server.ServerNetworkControllerMapper;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.network.server.message.adapter.ClientToServerMessageAdapter;
+import it.polimi.ingsw.parsing.adapters.ObjectiveCardAdapter;
+import it.polimi.ingsw.parsing.adapters.SerializableBooleanPropertyAdapter;
+import it.polimi.ingsw.parsing.adapters.SideGameCardAdapter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,35 +31,17 @@ import java.net.Socket;
  */
 public class TCPServerAdapter implements ServerMessageHandler, PropertyChangeListener {
     /**
+     * The logger.
+     */
+    private static final Logger logger = LogManager.getLogger(TCPServerAdapter.class);
+    /**
      * The ServerNetworkControllerMapper object is used to map network commands to actions in the game.
      */
     private final ServerNetworkControllerMapper serverNetworkControllerMapper;
-
     /**
      * The TCPConnectionHandler object is used to handle TCP client connections.
      */
     private final TCPConnectionHandler clientConnectionHandler;
-
-    /**
-     * The name of the game.
-     */
-    private String gameName;
-
-    /**
-     * The name of the player.
-     */
-    private String playerName;
-
-    /**
-     * Indicates whether the connection has been saved.
-     */
-    private boolean isConnectionSaved = false;
-
-    /**
-     * The logger.
-     */
-    private static final Logger logger = LogManager.getLogger(TCPServerAdapter.class);
-
     /**
      * Gson instance used for JSON serialization and deserialization.
      * It is configured to:
@@ -75,6 +57,18 @@ public class TCPServerAdapter implements ServerMessageHandler, PropertyChangeLis
             .registerTypeAdapter(ObjectiveCard.class, new ObjectiveCardAdapter())
             .registerTypeAdapter(ClientToServerMessage.class, new ClientToServerMessageAdapter())
             .create();
+    /**
+     * The name of the game.
+     */
+    private String gameName;
+    /**
+     * The name of the player.
+     */
+    private String playerName;
+    /**
+     * Indicates whether the connection has been saved.
+     */
+    private boolean isConnectionSaved = false;
 
     /**
      * Constructs a new TCPServerAdapter object with the specified socket and ServerNetworkControllerMapper.

@@ -2,8 +2,6 @@ package it.polimi.ingsw.network.client.message;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.data.ObjectiveCardAdapter;
-import it.polimi.ingsw.data.SideGameCardAdapter;
 import it.polimi.ingsw.model.card.CardColorEnum;
 import it.polimi.ingsw.model.card.GameItemEnum;
 import it.polimi.ingsw.model.card.corner.Corner;
@@ -24,6 +22,8 @@ import it.polimi.ingsw.network.client.message.mainController.DeleteGameClientToS
 import it.polimi.ingsw.network.client.message.mainController.GetGamesClientToServerMessage;
 import it.polimi.ingsw.network.client.message.mainController.JoinGameClientToServerMessage;
 import it.polimi.ingsw.network.server.message.adapter.ClientToServerMessageAdapter;
+import it.polimi.ingsw.parsing.adapters.ObjectiveCardAdapter;
+import it.polimi.ingsw.parsing.adapters.SideGameCardAdapter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -6,6 +6,7 @@ import it.polimi.ingsw.network.client.RMI.RMIClientSender;
 import it.polimi.ingsw.network.client.actions.RMIServerToClientActions;
 import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
 import org.apache.logging.log4j.LogManager;
+
 import java.beans.PropertyChangeListener;
 import java.net.BindException;
 import java.rmi.NotBoundException;
@@ -15,6 +16,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The RMIConnection class implements the Connection interface using the Java RMI technology.
@@ -96,7 +98,7 @@ public class RMIConnection extends Connection implements PropertyChangeListener 
                     this.listeners.firePropertyChange("CONNECTION_FAILED", null, retry);
                     attempts++;
                     try {
-                        Thread.sleep(waitTime);
+                        TimeUnit.MILLISECONDS.sleep(waitTime);
                     } catch (InterruptedException e2) {
                         logger.debug("Thread interrupted while waiting for the next connection attempt.");
                         return;
