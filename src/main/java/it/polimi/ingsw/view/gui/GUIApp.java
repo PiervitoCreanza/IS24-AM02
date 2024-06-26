@@ -105,7 +105,7 @@ public class GUIApp extends Application implements View {
 
         String keyCombination = "F11";
         if (System.getProperty("os.name").toLowerCase().contains("mac")) {
-            keyCombination = KeyCombination.SHORTCUT_DOWN + "+" + keyCombination;
+            keyCombination = KeyCombination.SHORTCUT_DOWN + "+F";
         }
         stage.setFullScreenExitHint("Press " + keyCombination + " to exit full screen mode.");
         stage.setFullScreenExitKeyCombination(KeyCombination.keyCombination(keyCombination));
