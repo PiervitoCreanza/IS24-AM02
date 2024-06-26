@@ -261,6 +261,16 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Javadoc Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <sourcepath>${project.basedir}/src/main/java/it/polimi/ingsw</sourcepath>
+                </configuration>
+            </plugin>
         </plugins>
 
         <!-- fxml files are in src/main/java/it/polimi/ingsw/gui/fxml -->

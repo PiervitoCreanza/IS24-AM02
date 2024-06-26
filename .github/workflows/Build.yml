@@ -63,3 +63,25 @@ jobs:
             ./target/CodexNaturalis-win-client-${{ github.ref_name }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  generate-javadoc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 21
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+          distribution: 'adopt'
+          maven-version: '3.9.6'
+      - name: Generate Javadoc
+        run: mvn javadoc:javadoc
+      - name: Create Javadoc ZIP file
+        run: zip -r ./target/CodexNaturalis-javadoc-${{ github.ref_name }}.zip ./target/site/apidocs/
+      - name: Upload Javadoc to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ./target/CodexNaturalis-javadoc-${{ github.ref_name }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

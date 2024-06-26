@@ -1,4 +1,4 @@
-module it.polimi.ingsw {
+module it.polimi.ingsw.view.gui {
     requires javafx.controls;
     requires javafx.fxml;
     requires transitive javafx.graphics;
