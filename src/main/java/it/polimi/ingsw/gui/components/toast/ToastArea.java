@@ -50,8 +50,14 @@ public class ToastArea extends Popup {
         this.getScene().getRoot().setStyle("-fx-background-color: null;");
 
         // Add listeners to stage properties to update the size and position of the ToastArea
-        stage.widthProperty().addListener((obs, oldVal, newVal) -> setWidth(newVal.doubleValue()));
-        stage.heightProperty().addListener((obs, oldVal, newVal) -> setHeight(newVal.doubleValue()));
+        stage.widthProperty().addListener((obs, oldVal, newVal) -> {
+            setWidth(newVal.doubleValue());
+            redrawToastArea();
+        });
+        stage.heightProperty().addListener((obs, oldVal, newVal) -> {
+            setHeight(newVal.doubleValue());
+            redrawToastArea();
+        });
         stage.xProperty().addListener((obs, oldVal, newVal) -> setX(getSceneTopLeft().getX()));
         stage.yProperty().addListener((obs, oldVal, newVal) -> setY(getRelativeY() + getSceneTopLeft().getY()));
 
@@ -62,14 +68,18 @@ public class ToastArea extends Popup {
         super.show(stage, getSceneTopLeft().getX(), getSceneTopLeft().getY());
     }
 
+    private void redrawToastArea() {
+        super.hide();
+        super.show(stage, getSceneTopLeft().getX(), getSceneTopLeft().getY());
+    }
+
     /**
      * Adds a new Toast to the ToastArea and starts its display animation.
      *
      * @param toast the Toast to be added.
      */
     public void addToast(Toast toast) {
-        super.hide();
-        super.show(stage, getSceneTopLeft().getX(), getSceneTopLeft().getY());
+        redrawToastArea();
         Node toastNode = toast.getToastNode();
         container.getChildren().add(toastNode);
 
