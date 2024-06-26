@@ -22,7 +22,7 @@ jobs:
       - name: Build with Maven
         run: mvn -B package -D skipTests --file pom.xml -D javafx.platform=mac
       - name: Rename DMG file
-        run: mv ./target/*.dmg ./target/CodexNaturalis-${{ github.ref_name }}.dmg
+        run: mv ./target/*.dmg ./target/CodexNaturalis-mac-x86-${{ github.ref_name }}.dmg
       - name: Rename client JAR file
         run: mv ./target/jars/CodexNaturalis-client-jar-with-dependencies.jar ./target/jars/CodexNaturalis-client-mac-${{ github.ref_name }}.jar
       - name: Rename server JAR file
@@ -33,7 +33,7 @@ jobs:
           files: |
             ./target/jars/CodexNaturalis-client-mac-${{ github.ref_name }}.jar
             ./target/jars/CodexNaturalis-server-${{ github.ref_name }}.jar
-            ./target/CodexNaturalis-${{ github.ref_name }}.dmg
+            ./target/CodexNaturalis-mac-x86-${{ github.ref_name }}.dmg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
