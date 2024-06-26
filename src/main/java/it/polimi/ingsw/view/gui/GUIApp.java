@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
@@ -101,6 +102,7 @@ public class GUIApp extends Application implements View {
             });
             fullScreenButton = "F11";
         }
+        stage.setFullScreenExitKeyCombination(KeyCombination.keyCombination(fullScreenButton));
         stage.setFullScreenExitHint("Press " + fullScreenButton + " to exit full screen mode.");
 
         // Set the stage title and dimensions.
