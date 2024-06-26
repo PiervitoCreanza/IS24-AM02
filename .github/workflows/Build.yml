@@ -24,14 +24,14 @@ jobs:
       - name: Rename DMG file
         run: mv ./target/*.dmg ./target/CodexNaturalis-${{ github.ref_name }}.dmg
       - name: Rename client JAR file
-        run: mv ./target/jars/CodexNaturalis-client-jar-with-dependencies.jar ./target/jars/CodexNaturalis-client-${{ github.ref_name }}-jar-with-dependencies-mac.jar
+        run: mv ./target/jars/CodexNaturalis-client-jar-with-dependencies.jar ./target/jars/CodexNaturalis-client-mac-${{ github.ref_name }}.jar
       - name: Rename server JAR file
-        run: mv ./target/jars/CodexNaturalis-server-jar-with-dependencies.jar ./target/jars/CodexNaturalis-server-${{ github.ref_name }}-jar-with-dependencies.jar
+        run: mv ./target/jars/CodexNaturalis-server-jar-with-dependencies.jar ./target/jars/CodexNaturalis-server-${{ github.ref_name }}.jar
       - name: Create and Upload Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            ./target/jars/CodexNaturalis-client-mac${{ github.ref_name }}.jar
+            ./target/jars/CodexNaturalis-client-mac-${{ github.ref_name }}.jar
             ./target/jars/CodexNaturalis-server-${{ github.ref_name }}.jar
             ./target/CodexNaturalis-${{ github.ref_name }}.dmg
         env:
