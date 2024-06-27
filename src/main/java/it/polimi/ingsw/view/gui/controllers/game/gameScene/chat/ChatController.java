@@ -158,17 +158,20 @@ public class ChatController {
      */
     private void handleSend() {
         String message = messageInput.getText();
-        if (!message.isEmpty()) {
+        if (!message.isEmpty() && !message.equals("\n")) {
             String recipient = this.recipient.getValue().substring(3);
             if (recipient.equals("Everyone")) {
                 recipient = "global";
             }
-            ChatClientToServerMessage chatClientToServerMessage = new ChatClientToServerMessage(null, null, message.substring(0, message.length() - 1), recipient, !recipient.equals("global"));
+            if (message.charAt(message.length() - 1) == '\n') {
+                message = message.substring(0, message.length() - 1);
+            }
+            ChatClientToServerMessage chatClientToServerMessage = new ChatClientToServerMessage(null, null, message, recipient, !recipient.equals("global"));
             clientNetworkControllerMapper.sendChatMessage(chatClientToServerMessage);
             chatManager.addMessage(chatClientToServerMessage);
             updateMessages();
-            messageInput.clear();
         }
+        messageInput.clear();
     }
 
     /**
