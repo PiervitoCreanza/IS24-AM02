@@ -41,6 +41,7 @@ jobs:
           regex: true
           file: ".+server-.+\\.jar"
           token: ${{ secrets.GITHUB_TOKEN }}
+          target: "server.jar"
 
       - name: Build and push Docker image
         id: push
