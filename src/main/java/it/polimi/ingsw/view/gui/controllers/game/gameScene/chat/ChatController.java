@@ -8,6 +8,8 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.util.Callback;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Objects;
@@ -57,6 +59,11 @@ public class ChatController {
     private String clientUserName;
 
     /**
+     * The logger.
+     */
+    private final Logger logger = LogManager.getLogger(ChatController.class);
+
+    /**
      * Constructs a new ChatController.
      * Initializes the chat display, message input, recipient selection, chat display button, chat send button,
      * network controller mapper, and chat manager.
@@ -91,6 +98,7 @@ public class ChatController {
         });
 
         chatDisplay.textProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> {
+            logger.debug("Scrolling to bottom of chat display");
             chatDisplay.setScrollTop(Double.MAX_VALUE);
         }));
 
@@ -123,6 +131,7 @@ public class ChatController {
             recipient = "global";
         }
         chatDisplay.setText(chatManager.getMessages(recipient));
+        chatDisplay.appendText("");
     }
 
     /**
@@ -154,7 +163,7 @@ public class ChatController {
             if (recipient.equals("Everyone")) {
                 recipient = "global";
             }
-            ChatClientToServerMessage chatClientToServerMessage = new ChatClientToServerMessage(null, null, message, recipient, !recipient.equals("global"));
+            ChatClientToServerMessage chatClientToServerMessage = new ChatClientToServerMessage(null, null, message.substring(0, message.length() - 1), recipient, !recipient.equals("global"));
             clientNetworkControllerMapper.sendChatMessage(chatClientToServerMessage);
             chatManager.addMessage(chatClientToServerMessage);
             updateMessages();
@@ -176,7 +185,6 @@ public class ChatController {
                 return;
             }
             recipient.setValue("To " + message.getPlayerName());
-
         }
     }
 }
