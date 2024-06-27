@@ -20,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.time.Instant;
 
 /**
  * Class representing the GUI application.
@@ -40,6 +41,11 @@ public class GUIApp extends Application implements View {
      * Minimum height of the application window.
      */
     public static int MIN_HEIGHT = 900;
+
+    /**
+     * Timestamp of the last FullScreenAction with the application.
+     */
+    private static Instant lastFullScreenAction = null;
 
     /**
      * Method to launch the UI.
@@ -104,6 +110,32 @@ public class GUIApp extends Application implements View {
 
         Scene scene = new Scene(root, MIN_WIDTH, MIN_HEIGHT);
 
+        // Handle fullscreen events
+        handleFullscreenEvents(stage, scene);
+
+        // Set the stage to the current scene.
+        stage.setScene(scene);
+
+        // Set the current scene on all controllers.
+        Controller.setScene(scene);
+
+        // Get the controller from the loader.
+        Controller controller = loader.getController();
+
+        // Call the beforeShow method of the controller.
+        // This method is used to perform actions right before the window is shown.
+        controller.beforeMount(null);
+
+        stage.show();
+    }
+
+    /**
+     * Method to handle full screen events.
+     *
+     * @param stage the stage
+     * @param scene the scene
+     */
+    private void handleFullscreenEvents(Stage stage, Scene scene) {
         String fullScreenButton;
         // Set the full screen button based on the OS.
         if (!System.getProperty("os.name").toLowerCase().contains("mac")) {
@@ -120,27 +152,23 @@ public class GUIApp extends Application implements View {
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         // Set full screen shortcut
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
-            if (System.getProperty("os.name").toLowerCase().contains("mac") && event.isMetaDown() && event.getCode() == KeyCode.F) {
+            if (System.getProperty("os.name").toLowerCase().contains("mac") && event.isMetaDown() && event.getCode() == KeyCode.F && !shouldDiscardEvent()) {
+                lastFullScreenAction = Instant.now();
                 stage.setFullScreen(!stage.isFullScreen());
             } else if (event.getCode() == KeyCode.F11) {
                 stage.setFullScreen(!stage.isFullScreen());
             }
         });
+    }
 
-        // Set the stage to the current scene.
-        stage.setScene(scene);
-
-        // Set the current scene on all controllers.
-        Controller.setScene(scene);
-
-        // Get the controller from the loader.
-        Controller controller = loader.getController();
-
-        // Call the beforeShow method of the controller.
-        // This method is used to perform actions right before the window is shown.
-        controller.beforeMount(null);
-
-        stage.show();
+    /**
+     * Workaround to prevent multiple full screen events from being triggered. I hate JavaFX.
+     *
+     * @return true if the event should be discarded, false otherwise.
+     */
+    private boolean shouldDiscardEvent() {
+        return lastFullScreenAction != null
+                && lastFullScreenAction.plusMillis(900).isAfter(Instant.now());
     }
 
     /**
