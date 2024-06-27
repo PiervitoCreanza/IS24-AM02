@@ -146,7 +146,7 @@ public class GUIApp extends Application implements View {
         // Show a toast message when entering full screen.
         stage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                Controller.showToast(ToastLevels.INFO, "Full screen", "Press " + fullScreenButton + " to exit full screen");
+                Controller.showToast(ToastLevels.INFO, "Full Screen Enabled", "Press " + fullScreenButton + " to exit full screen.");
             }
         });
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
@@ -159,6 +159,7 @@ public class GUIApp extends Application implements View {
                 stage.setFullScreen(!stage.isFullScreen());
             }
         });
+        Controller.showToast(ToastLevels.INFO, "Welcome!", "Press " + fullScreenButton + " to enter full screen.");
     }
 
     /**
