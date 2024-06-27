@@ -199,7 +199,7 @@ public class RightSidebarController {
 
                 // Create the new list of players and their points
                 newValue.forEach(playerView -> {
-                    Label playerLabel = new Label(GUIUtils.truncateString(playerView.playerName(), 23));
+                    Label playerLabel = new Label(GUIUtils.truncateString(playerView.playerName(), 16));
                     playerLabel.getStyleClass().add("player-label");
 
                     ColorsEnum playerColor = playerView.color().getColor();

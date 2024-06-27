@@ -118,7 +118,7 @@ public class WinnerSceneController extends Controller {
         if (isWinner) row.getStyleClass().add("winner-border");
 
         leaderboard.getChildren().add(row);
-        Text name = new Text(GUIUtils.truncateString(playerName, 50));
+        Text name = new Text(GUIUtils.truncateString(playerName, 50) + " ");
         name.getStyleClass().add("winner-name");
         row.getChildren().add(name);
         HBox posContainer = new HBox();
