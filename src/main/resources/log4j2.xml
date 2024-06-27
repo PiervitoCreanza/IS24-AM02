@@ -4,11 +4,10 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
         </Console>
-
-        <File name="DebugLoggerFile" fileName="logs/DEBUG.log">
+        <File name="TraceLogFile" fileName="logs/TRACE.log">
             <PatternLayout pattern="%d{HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
         </File>
-        <File name="TracceLogFile" fileName="logs/TRACE.log">
+        <File name="DebugLogFile" fileName="logs/DEBUG.log">
             <PatternLayout pattern="%d{HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
         </File>
     </Appenders>
@@ -16,10 +15,12 @@
     <Loggers>
         <Root level="DEBUG">
             <AppenderRef ref="Console"/>
-            <AppenderRef ref="DebugLoggerFile"/>
         </Root>
         <logger name="it" level="TRACE">
-            <AppenderRef ref="TracceLogFile"/>
+            <AppenderRef ref="TraceLogFile"/>
+        </logger>
+        <logger name="it" level="DEBUG">
+            <AppenderRef ref="DebugLogFile"/>
         </logger>
     </Loggers>
 </Configuration>
