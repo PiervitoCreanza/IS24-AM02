@@ -130,8 +130,8 @@ public class Client {
         }
 
         // check user args
-        if (cmd.hasOption("lan") && cmd.hasOption("localhost")) {
-            System.err.println("Please specify either LAN or localhost mode, not both.");
+        if (cmd.hasOption("lan") && cmd.hasOption("ip")) {
+            System.err.println("Please specify either LAN or a client ip, not both.");
             formatter.printHelp("Client", options);
             System.exit(1);
         }
