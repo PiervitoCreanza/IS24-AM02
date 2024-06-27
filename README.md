@@ -1,4 +1,4 @@
-# Codex Naturalis Implementation (Java + Apple visionOS)
+# Codex Naturalis (Java +  visionOS)
 
 <p align="center">
 <img src=".github/resources/codex_box.png" width="400" alt="codex logo"/>
