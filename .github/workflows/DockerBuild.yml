@@ -39,7 +39,7 @@ jobs:
       - uses: dsaltares/fetch-gh-release-asset@master
         with:
           regex: true
-          file: "server-.*\\.jar"
+          file: ".+server-.+\\.jar"
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
