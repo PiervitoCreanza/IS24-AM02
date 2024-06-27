@@ -163,10 +163,15 @@ public class ChatController {
             if (recipient.equals("Everyone")) {
                 recipient = "global";
             }
-            ChatClientToServerMessage chatClientToServerMessage = new ChatClientToServerMessage(null, null, message.substring(0, message.length() - 1), recipient, !recipient.equals("global"));
-            clientNetworkControllerMapper.sendChatMessage(chatClientToServerMessage);
-            chatManager.addMessage(chatClientToServerMessage);
-            updateMessages();
+            if (message.charAt(message.length() - 1) == '\n') {
+                message = message.substring(0, message.length() - 1);
+            }
+            if (!message.isEmpty()) {
+                ChatClientToServerMessage chatClientToServerMessage = new ChatClientToServerMessage(null, null, message, recipient, !recipient.equals("global"));
+                clientNetworkControllerMapper.sendChatMessage(chatClientToServerMessage);
+                chatManager.addMessage(chatClientToServerMessage);
+                updateMessages();
+            }
             messageInput.clear();
         }
     }
