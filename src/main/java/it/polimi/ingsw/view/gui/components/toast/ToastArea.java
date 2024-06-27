@@ -108,6 +108,11 @@ public class ToastArea extends Popup {
                 // Remove the Toast from the container when the fade out animation finishes
                 container.getChildren().remove(toastNode);
                 onHideCallback.accept(toast);
+
+                // Hide the ToastArea if it is empty
+                if (container.getChildren().isEmpty()) {
+                    super.hide();
+                }
             });
         }));
         timeline.play();

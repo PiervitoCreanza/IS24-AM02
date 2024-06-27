@@ -89,7 +89,6 @@ public class ObservableDrawArea {
      * @param globalBoardView the global board view from which to load data
      */
     public void loadData(GlobalBoardView globalBoardView) {
-        globalBoardView.goldFirstCard().setFlipped(true);
         observedGameCardsGroup.getCard("firstGoldCard").setGameCard(setBackSide(globalBoardView.goldFirstCard()));
         observedGameCardsGroup.getCard("firstResourceCard").setGameCard(setBackSide(globalBoardView.resourceFirstCard()));
 

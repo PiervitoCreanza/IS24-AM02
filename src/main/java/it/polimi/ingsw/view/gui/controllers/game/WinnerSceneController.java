@@ -4,6 +4,7 @@ import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.network.virtualView.PlayerView;
 import it.polimi.ingsw.view.gui.controllers.Controller;
 import it.polimi.ingsw.view.gui.controllers.ControllersEnum;
+import it.polimi.ingsw.view.gui.utils.GUIUtils;
 import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -117,7 +118,7 @@ public class WinnerSceneController extends Controller {
         if (isWinner) row.getStyleClass().add("winner-border");
 
         leaderboard.getChildren().add(row);
-        Text name = new Text(playerName);
+        Text name = new Text(GUIUtils.truncateString(playerName, 50) + " ");
         name.getStyleClass().add("winner-name");
         row.getChildren().add(name);
         HBox posContainer = new HBox();
