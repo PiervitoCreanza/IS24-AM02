@@ -174,6 +174,7 @@ public abstract class Controller implements PropertyChangeListener {
     /**
      * Sets the scene currently shown.
      * This method is used to set the scene when the application starts.
+     * It also adds a key event handler to toggle full screen mode.
      *
      * @param scene the scene to set.
      */
@@ -304,8 +305,8 @@ public abstract class Controller implements PropertyChangeListener {
      * @param title   the title of the toast message.
      * @param message the message of the toast message.
      */
-    public void showToast(ToastLevels level, String title, String message) {
-        Platform.runLater(() -> Toaster.getInstance(getStage()).showToast(level, title, message));
+    public static void showToast(ToastLevels level, String title, String message) {
+        Platform.runLater(() -> Toaster.getInstance(stage).showToast(level, title, message));
     }
 
     /**

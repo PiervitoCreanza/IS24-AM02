@@ -377,7 +377,7 @@ public class GameSceneController extends Controller implements PropertyChangeLis
             case INIT_CHOOSE_PLAYER_COLOR -> this.playerPrompt.setText("is choosing the player color...");
         }
         String clientPlayerName = getProperty("playerName");
-        this.playerName.setText(GUIUtils.truncateString(gameControllerView.getCurrentPlayerView().playerName(), 20));
+        this.playerName.setText(GUIUtils.truncateString(gameControllerView.getCurrentPlayerView().playerName(), 15));
         PlayerView clientPlayerView = gameControllerView.getPlayerViewByName(clientPlayerName);
         handController.update(clientPlayerView.playerHandView().hand());
         observedDrawArea.loadData(gameControllerView.gameView().globalBoardView());
