@@ -60,7 +60,7 @@ public class PlayerCell extends ListCell<String> {
         if (empty || player == null) {
             setGraphic(null);
         } else {
-            controller.setPlayerName(GUIUtils.truncateString(player, 45));
+            controller.setPlayerName(GUIUtils.truncateString(player, 40));
             setGraphic(root);
         }
     }

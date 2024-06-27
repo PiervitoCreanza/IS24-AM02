@@ -7,7 +7,7 @@ public class GUIUtils {
     /**
      * The default maximum length for a string.
      */
-    public static int defaultMaxStringLength = 26;
+    public static int defaultMaxStringLength = 24;
 
     /**
      * Truncates a string to the default maximum length.

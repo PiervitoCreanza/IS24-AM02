@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.view.gui.components.toast.ToastLevels;
 import it.polimi.ingsw.view.gui.controllers.Controller;
 import it.polimi.ingsw.view.tui.View;
 import javafx.application.Application;
@@ -8,7 +9,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
@@ -17,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.time.Instant;
 
 /**
  * Class representing the GUI application.
@@ -37,6 +41,11 @@ public class GUIApp extends Application implements View {
      * Minimum height of the application window.
      */
     public static int MIN_HEIGHT = 900;
+
+    /**
+     * Timestamp of the last FullScreenAction with the application.
+     */
+    private static Instant lastFullScreenAction = null;
 
     /**
      * Method to launch the UI.
@@ -81,29 +90,11 @@ public class GUIApp extends Application implements View {
             System.exit(0);
         });
 
-        // Set stage to min_width and min_height when exiting full screen.
-        stage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                stage.setMaximized(false);
-                stage.setWidth(MIN_WIDTH);
-                stage.setHeight(MIN_HEIGHT);
-            }
-        });
-
-        // Set the stage to full screen when maximized.
-        stage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                stage.setFullScreen(true);
-            }
-        });
-
         // Set the stage title and dimensions.
         stage.setTitle("Codex Naturalis");
         stage.setMinHeight(MIN_HEIGHT);
         stage.setMinWidth(MIN_WIDTH);
         stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("icon_512x512.png")));
-        stage.setFullScreenExitHint("Press F11 to exit full screen mode.");
-        stage.setFullScreenExitKeyCombination(KeyCombination.keyCombination("F11"));
 
         // Set the current stage on all controllers.
         Controller.setStage(stage);
@@ -119,6 +110,9 @@ public class GUIApp extends Application implements View {
 
         Scene scene = new Scene(root, MIN_WIDTH, MIN_HEIGHT);
 
+        // Handle fullscreen events
+        handleFullscreenEvents(stage, scene);
+
         // Set the stage to the current scene.
         stage.setScene(scene);
 
@@ -133,6 +127,49 @@ public class GUIApp extends Application implements View {
         controller.beforeMount(null);
 
         stage.show();
+    }
+
+    /**
+     * Method to handle full screen events.
+     *
+     * @param stage the stage
+     * @param scene the scene
+     */
+    private void handleFullscreenEvents(Stage stage, Scene scene) {
+        String fullScreenButton;
+        // Set the full screen button based on the OS.
+        if (!System.getProperty("os.name").toLowerCase().contains("mac")) {
+            fullScreenButton = "F11";
+        } else {
+            fullScreenButton = "Cmd+F";
+        }
+        // Show a toast message when entering full screen.
+        stage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                Controller.showToast(ToastLevels.INFO, "Full Screen Enabled", "Press " + fullScreenButton + " to exit full screen.");
+            }
+        });
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        // Set full screen shortcut
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
+            if (System.getProperty("os.name").toLowerCase().contains("mac") && event.isMetaDown() && event.getCode() == KeyCode.F && !shouldDiscardEvent()) {
+                lastFullScreenAction = Instant.now();
+                stage.setFullScreen(!stage.isFullScreen());
+            } else if (event.getCode() == KeyCode.F11) {
+                stage.setFullScreen(!stage.isFullScreen());
+            }
+        });
+        Controller.showToast(ToastLevels.INFO, "Welcome!", "Press " + fullScreenButton + " to enter full screen.");
+    }
+
+    /**
+     * Workaround to prevent multiple full screen events from being triggered. I hate JavaFX.
+     *
+     * @return true if the event should be discarded, false otherwise.
+     */
+    private boolean shouldDiscardEvent() {
+        return lastFullScreenAction != null
+                && lastFullScreenAction.plusMillis(900).isAfter(Instant.now());
     }
 
     /**
