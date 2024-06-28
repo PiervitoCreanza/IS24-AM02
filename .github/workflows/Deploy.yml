@@ -20,9 +20,9 @@ jobs:
 
       - name: Copy files to server
         run: |
-          scp docker-compose.yml ${{secrets.DEPLOY_USERNAME}}@${{vars.DEPLOY_IP}}:/codexNaturalis/docker-compose.yml
-          scp deploy.sh ${{secrets.DEPLOY_USERNAME}}@${{vars.DEPLOY_IP}}:/codexNaturalis/deploy.sh
+          scp docker-compose.yml ${{vars.DEPLOY_USERNAME}}@${{vars.DEPLOY_IP}}:/codexNaturalis/docker-compose.yml
+          scp deploy.sh ${{vars.DEPLOY_USERNAME}}@${{vars.DEPLOY_IP}}:/codexNaturalis/deploy.sh
 
       - name: Deploy to server
         run: |
-          ssh ${{secrets.DEPLOY_USERNAME}}@${{vars.DEPLOY_IP}} 'chmod +x /codexNaturalis/deploy.sh && /codexNaturalis/deploy.sh ${{secrets.GHCR_USERNAME}} ${{secrets.GHCR_AUTH_TOKEN}}'
+          ssh ${{vars.DEPLOY_USERNAME}}@${{vars.DEPLOY_IP}} 'chmod +x /codexNaturalis/deploy.sh && /codexNaturalis/deploy.sh ${{secrets.GHCR_USERNAME}} ${{secrets.GHCR_AUTH_TOKEN}}'

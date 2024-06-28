@@ -3,7 +3,7 @@ name: Build Docker Image
 on:
   push:
     branches:
-      - pier_docker-build
+      - main
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
