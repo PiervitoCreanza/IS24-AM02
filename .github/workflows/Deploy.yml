@@ -2,7 +2,7 @@ name: Deploy on release
 
 on:
   workflow_run:
-    workflows: [ DockerBuild ]
+    workflows: [ "Build Docker Image" ]
     types: [ completed ]
 
 jobs:
