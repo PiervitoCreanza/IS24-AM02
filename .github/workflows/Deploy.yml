@@ -13,16 +13,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
-
       - name: Copy files to server
-        run: |
-          scp docker-compose.yml ${{vars.DEPLOY_USERNAME}}@${{vars.DEPLOY_IP}}:/codexNaturalis/docker-compose.yml
-          scp deploy.sh ${{vars.DEPLOY_USERNAME}}@${{vars.DEPLOY_IP}}:/codexNaturalis/deploy.sh
-
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.DEPLOY_IP }}
+          username: ${{ secrets.DEPLOY_USERNAME }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          source: "docker-compose.yml,deploy.sh"
+          target: "/codexNaturalis"
       - name: Deploy to server
-        run: |
-          ssh ${{vars.DEPLOY_USERNAME}}@${{vars.DEPLOY_IP}} 'chmod +x /codexNaturalis/deploy.sh && /codexNaturalis/deploy.sh ${{secrets.GHCR_USERNAME}} ${{secrets.GHCR_AUTH_TOKEN}}'
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEPLOY_IP }}
+          username: ${{ secrets.DEPLOY_USERNAME }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: "chmod +x /codexNaturalis/deploy.sh && /codexNaturalis/deploy.sh ${{secrets.GHCR_USERNAME}} ${{secrets.GHCR_AUTH_TOKEN}}"
