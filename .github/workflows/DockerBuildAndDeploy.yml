@@ -1,9 +1,9 @@
-name: Build Docker Image
+name: Build Docker Image and Deploy to Server
 
 on:
   push:
     branches:
-      - main
+      - pier_docker-build
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
@@ -57,3 +57,25 @@ jobs:
       #    subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
       #    subject-digest: ${{ steps.push.outputs.digest }}
       #    push-to-registry: true
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Copy files to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ vars.DEPLOY_IP }}
+          username: ${{ vars.DEPLOY_USERNAME }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          source: "docker-compose.yml,deploy.sh"
+          target: "codexNaturalis"
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ vars.DEPLOY_IP }}
+          username: ${{ vars.DEPLOY_USERNAME }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: "chmod +x codexNaturalis/deploy.sh && codexNaturalis/deploy.sh ${{secrets.GHCR_USERNAME}} ${{secrets.GHCR_AUTH_TOKEN}}"
