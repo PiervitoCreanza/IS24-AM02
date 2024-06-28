@@ -2,8 +2,8 @@ name: Build Docker Image and Deploy to Server
 
 on:
   push:
-    branches:
-      - pier_docker-build
+    tags:
+      - 'v*.*.*'
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
