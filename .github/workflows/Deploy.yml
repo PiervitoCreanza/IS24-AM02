@@ -1,8 +1,9 @@
 name: Deploy on release
 
 on:
-  registry_package:
-    types: [ published ]
+  workflow_run:
+    workflows: [ DockerBuild ]
+    types: [ completed ]
 
 jobs:
   deploy:
