@@ -20,11 +20,11 @@ jobs:
           username: ${{ vars.DEPLOY_USERNAME }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           source: "docker-compose.yml,deploy.sh"
-          target: "/codexNaturalis"
+          target: "codexNaturalis"
       - name: Deploy to server
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ vars.DEPLOY_IP }}
           username: ${{ vars.DEPLOY_USERNAME }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
-          script: "chmod +x /codexNaturalis/deploy.sh && /codexNaturalis/deploy.sh ${{secrets.GHCR_USERNAME}} ${{secrets.GHCR_AUTH_TOKEN}}"
+          script: "chmod +x codexNaturalis/deploy.sh && codexNaturalis/deploy.sh ${{secrets.GHCR_USERNAME}} ${{secrets.GHCR_AUTH_TOKEN}}"
