@@ -15,8 +15,9 @@ import org.apache.logging.log4j.Logger;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static it.polimi.ingsw.tui.utils.Utils.ANSI_PURPLE;
-import static it.polimi.ingsw.tui.utils.Utils.ANSI_RESET;
+import static it.polimi.ingsw.view.tui.utils.Utils.ANSI_PURPLE;
+import static it.polimi.ingsw.view.tui.utils.Utils.ANSI_RESET;
+
 
 /**
  * Class that represents a single game in the system.
@@ -386,6 +387,7 @@ public class Game implements VirtualViewable<GameView> {
     public void setCurrentPlayer(String playerName) {
         this.currentPlayer = players.stream().filter(player -> player.getPlayerName().equals(playerName)).findFirst().get();
     }
+
     /**
      * Returns the virtual view of the game.
      *
