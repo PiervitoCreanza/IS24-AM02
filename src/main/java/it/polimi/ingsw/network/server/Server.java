@@ -58,7 +58,9 @@ public class Server {
          * ***************************************/
         MainController mainController = new MainController();
         ServerNetworkControllerMapper serverNetworkControllerMapper = new ServerNetworkControllerMapper(mainController);
-        new Persistence(mainController, serverNetworkControllerMapper).load("overlappingCards");
+        Persistence persistence = new Persistence(mainController, serverNetworkControllerMapper);
+        serverNetworkControllerMapper.addPropertyChangeListener(persistence);
+        persistence.loadAll();
         /* ***************************************
          * CLI ARGUMENTS PARSING
          * ***************************************/
