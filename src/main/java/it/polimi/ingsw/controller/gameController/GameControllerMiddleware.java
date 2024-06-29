@@ -473,14 +473,12 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
                     while (!game.getCurrentPlayer().isConnected()) {
                         game.setNextPlayer();
                     }
-                   /*if (gameStatus == GameStatusEnum.DRAW_CARD || gameStatus == GameStatusEnum.PLACE_CARD)
-                       setMissingPlayersAttributes();*/
                     listeners.firePropertyChange("START_GAME", null, getVirtualView());
                 } else {
                     listeners.firePropertyChange("DELETE", null, game.getGameName());
                 }
             }
-        }, 30000);
+        }, 120000);
     }
 
     private boolean canDrawCard() {
