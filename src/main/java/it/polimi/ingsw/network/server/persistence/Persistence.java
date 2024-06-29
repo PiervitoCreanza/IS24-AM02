@@ -38,16 +38,35 @@ import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * The Persistence class is responsible for saving and loading games to and from disk.
+ * It listens for property changes in the game controllers and saves the game state to disk when needed.
+ */
 public class Persistence implements PropertyChangeListener {
 
+    /**
+     * The main controller.
+     */
     private final MainController mainController;
 
+    /**
+     * The server network controller mapper.
+     */
     private final ServerNetworkControllerMapper serverNetworkControllerMapper;
 
+    /**
+     * The executor service for managing persistence tasks.
+     */
     private final ExecutorService executor;
 
+    /**
+     * The logger.
+     */
     private final Logger logger = LogManager.getLogger(Persistence.class);
 
+    /**
+     * The Gson object for parsing JSON.
+     */
     private final Gson gson = new GsonBuilder()
             .enableComplexMapKeySerialization()
             .registerTypeAdapter(SerializableBooleanProperty.class, new SerializableBooleanPropertyAdapter())
@@ -56,48 +75,50 @@ public class Persistence implements PropertyChangeListener {
             .registerTypeAdapter(ObjectiveCard.class, new ObjectiveCardAdapter()) // Registering a type adapter for ObjectiveCard class
             .create();
 
+    /**
+     * Creates a new Persistence instance. It needs both
+     * the main controller and the server network controller
+     * mapper to save and load games.
+     *
+     * @param mainController                The main controller
+     * @param serverNetworkControllerMapper The server network controller mapper
+     */
     public Persistence(MainController mainController, ServerNetworkControllerMapper serverNetworkControllerMapper) {
         this.mainController = mainController;
         this.serverNetworkControllerMapper = serverNetworkControllerMapper;
         this.executor = Executors.newSingleThreadExecutor();
     }
 
-    public void loadFromFile(String path) {
-        File file = new File(path);
-        checkFile(file);
-        restoreModel(file);
-    }
-    
-    public void loadAll() {
-        File folder = new File("savedGames");
-        File[] listOfFiles = folder.listFiles();
-        if (listOfFiles != null) {
-            for (File file : listOfFiles) {
-                checkFile(file);
-                restoreModel(file);
-            }
-        }
-    }
-
-    private void checkFile(File file) {
+    /**
+     * Method used to check if the file is valid.
+     *
+     * @param file The file to check
+     */
+    private boolean checkFile(File file) {
         if (!file.exists()) {
-            logger.fatal("File does not exist");
-            System.exit(-1);
+            logger.fatal("File at {} does not exist", file.getPath());
+            return false;
         }
         if (file.isDirectory()) {
-            logger.fatal("File is a directory");
-            System.exit(-1);
+            logger.fatal("Expected a file but found a directory at {}", file.getPath());
+            return false;
         }
         if (!file.isFile()) {
-            logger.fatal("File is not an actual file");
-            System.exit(-1);
+            logger.fatal("Expected a file but found something else at {}", file.getPath());
+            return false;
         }
         if (!file.canRead()) {
-            logger.fatal("File is not readable");
-            System.exit(-1);
+            logger.fatal("File at {} is not readable", file.getPath());
+            return false;
         }
+        return true;
     }
 
+    /**
+     * Saves the game to a JSON file. In the savedGames directory.
+     *
+     * @param view The game controller view to save
+     */
     private void saveGame(GameControllerView view) {
         try {
             // Calculate the hash of the game name to use as a filename
@@ -119,15 +140,51 @@ public class Persistence implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Deletes the game from the savedGames directory.
+     *
+     * @param gameName The name of the game to delete
+     */
     private void deleteGame(String gameName) {
         String gameNameHash = String.valueOf(gameName.hashCode());
         File file = new File("savedGames/" + gameNameHash + ".json");
-        checkFile(file);
-        if (!file.delete()) {
-            logger.warn("Failed to delete saved game file: {}", gameName);
+        if (checkFile(file)) {
+            if (!file.delete()) {
+                logger.warn("Failed to delete saved game file: {}", gameName);
+            }
         }
     }
 
+    /**
+     * Loads the game from the specified JSON file.
+     *
+     * @param path The path to the JSON file
+     */
+    public void loadFromFile(String path) {
+        File file = new File(path);
+        if (checkFile(file))
+            restoreModel(file);
+    }
+
+    /**
+     * Loads all the games from the savedGames directory.
+     */
+    public void loadAll() {
+        File folder = new File("savedGames");
+        File[] listOfFiles = folder.listFiles();
+        if (listOfFiles != null) {
+            for (File file : listOfFiles) {
+                checkFile(file);
+                restoreModel(file);
+            }
+        }
+    }
+
+    /**
+     * Restores the game model from the specified JSON file.
+     *
+     * @param file The JSON file to restore the game from
+     */
     private void restoreModel(File file) {
         try {
             // Parse the JSON file for restoring th game status
@@ -136,7 +193,7 @@ public class Persistence implements PropertyChangeListener {
             reader.close();
             // Add the game to the connections hashmap
             String gameName = gameControllerView.gameView().gameName();
-            serverNetworkControllerMapper.getGameConnectionMapper().put(gameName, new HashMap<>());
+            serverNetworkControllerMapper.addGameToMapper(gameName);
 
             // Create the game
             boolean first = true;
@@ -211,7 +268,7 @@ public class Persistence implements PropertyChangeListener {
                     continue;
                 }
                 // Set objective
-                player.forceSetPlayerObjective(playerView.objectiveCard());
+                player.setPlayerObjective(playerView.objectiveCard().getCardId());
                 // Set player points
                 player.advancePlayerPos(playerView.playerPos());
                 // Set game items
@@ -269,7 +326,7 @@ public class Persistence implements PropertyChangeListener {
                 String gameName = gameControllerView.gameView().gameName();
                 this.executor.submit(() -> serverNetworkControllerMapper.broadcastMessage(gameName, new UpdateViewServerToClientMessage(gameControllerView)));
             }
-            default -> throw new IllegalArgumentException("Invalid property change");
+            default -> logger.warn("Unknown property change event: {}", property);
         }
     }
 }

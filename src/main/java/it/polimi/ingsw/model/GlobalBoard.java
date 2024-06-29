@@ -139,6 +139,15 @@ public class GlobalBoard implements VirtualViewable<GlobalBoardView> {
     }
 
     /**
+     * Sets the two global objectives.
+     *
+     * @param globalObjectives The two global objectives to set.
+     */
+    public void setGlobalObjectives(ArrayList<ObjectiveCard> globalObjectives) {
+        this.globalObjectives = globalObjectives;
+    }
+
+    /**
      * Returns the gold cards present on the field.
      *
      * @return An ArrayList of GameCard containing the two gold cards present on the field.
@@ -200,10 +209,6 @@ public class GlobalBoard implements VirtualViewable<GlobalBoardView> {
         }
 
         throw new IllegalArgumentException("This card is not present on the field");
-    }
-
-    public void setGlobalObjectives(ArrayList<ObjectiveCard> globalObjectives) {
-        this.globalObjectives = globalObjectives;
     }
 
     /**

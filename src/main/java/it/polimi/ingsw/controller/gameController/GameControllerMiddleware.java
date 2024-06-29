@@ -49,10 +49,19 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      */
     private GameStatusEnum savedGameStatus;
 
+    /**
+     * The boolean that represents if the game was loaded from disk using persistence.
+     */
     private Boolean loadedFromDisk = false;
 
+    /**
+     * The timer that defines how much time the game waits for players to reconnect.
+     */
     private Timer reconnectTimer;
 
+    /**
+     * The PropertyChangeSupport that manages the listeners.
+     */
     private PropertyChangeSupport listeners;
 
     /**
@@ -102,6 +111,42 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
     }
 
     /**
+     * Sets the saved game status. Used by persistence.
+     *
+     * @param savedGameStatus the saved game status to be set.
+     */
+    public void setSavedGameStatus(GameStatusEnum savedGameStatus) {
+        this.savedGameStatus = savedGameStatus;
+    }
+
+    /**
+     * Sets the isLastRound boolean. Used by persistence.
+     *
+     * @param lastRound the boolean to be set.
+     */
+    public void setLastRound(boolean lastRound) {
+        isLastRound = lastRound;
+    }
+
+    /**
+     * Sets the remaining rounds to end the game. Used by persistence.
+     *
+     * @param remainingRoundsToEndGame the number of remaining rounds to end the game.
+     */
+    public void setRemainingRoundsToEndGame(int remainingRoundsToEndGame) {
+        this.remainingRoundsToEndGame = remainingRoundsToEndGame;
+    }
+
+    /**
+     * Sets the loadedFromDisk boolean. Used by persistence.
+     *
+     * @param loadedFromDisk the boolean to be set.
+     */
+    public void setLoadedFromDisk(boolean loadedFromDisk) {
+        this.loadedFromDisk = loadedFromDisk;
+    }
+
+    /**
      * Validates that the player turn is correct.
      *
      * @param playerName the name of the player.
@@ -112,6 +157,11 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
         }
     }
 
+    /**
+     * Checks if the game is finished.
+     *
+     * @return true if the game is finished, false otherwise.
+     */
     private boolean checkGameFinished() {
         if (game.isLastRound() && game.isLastPlayerAmongConnected()) {
             if (remainingRoundsToEndGame == 0) {
@@ -145,6 +195,21 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
         game.setNextPlayer();
     }
 
+    /**
+     * Handles the player reconnection after the game was loaded from disk.
+     * After the game is loaded from disk, the game status is set to WAIT_FOR_PLAYERS.
+     * We need to wait for all players to reconnect before resuming the game by setting the saved game status.
+     *
+     * @param playerName the name of the player who is reconnecting.
+     */
+    private void handleLoadedFromDisk(String playerName) {
+        gameController.setPlayerConnectionStatus(playerName, true);
+        if (game.getConnectedPlayers().size() == game.getMaxAllowedPlayers()) {
+            reconnectTimer.cancel();
+            gameStatus = savedGameStatus;
+            loadedFromDisk = false;
+        }
+    }
     /**
      * Gets the current game instance.
      *
@@ -232,6 +297,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * @param playerName  the name of the player who is choosing the color.
      * @param playerColor the color to be chosen.
      */
+    @Override
     public void choosePlayerColor(String playerName, PlayerColorEnum playerColor) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.INIT_CHOOSE_PLAYER_COLOR) {
@@ -455,15 +521,12 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
         });
     }
 
-    private void handleLoadedFromDisk(String playerName) {
-        gameController.setPlayerConnectionStatus(playerName, true);
-        if (game.getConnectedPlayers().size() == game.getMaxAllowedPlayers()) {
-            reconnectTimer.cancel();
-            gameStatus = savedGameStatus;
-            loadedFromDisk = false;
-        }
-    }
-
+    /**
+     * Starts the reconnect timer.
+     * The timer is set to 2 minutes.
+     * If the game has at least 2 connected players, the game status is set to the saved game status and the game is resumed.
+     * If the game has less than 2 connected players, the game is deleted.
+     */
     public void startReconnectTimer() {
         reconnectTimer = new Timer();
         reconnectTimer.schedule(new TimerTask() {
@@ -485,22 +548,6 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
 
     private boolean canDrawCard() {
         return !game.getGlobalBoard().areFieldAndDecksEmpty();
-    }
-
-    public void setLastRound(boolean lastRound) {
-        isLastRound = lastRound;
-    }
-
-    public void setSavedGameStatus(GameStatusEnum savedGameStatus) {
-        this.savedGameStatus = savedGameStatus;
-    }
-
-    public void setLoadedFromDisk(boolean loadedFromDisk) {
-        this.loadedFromDisk = loadedFromDisk;
-    }
-
-    public void setRemainingRoundsToEndGame(int remainingRoundsToEndGame) {
-        this.remainingRoundsToEndGame = remainingRoundsToEndGame;
     }
 
     /**
