@@ -9,6 +9,7 @@ module it.polimi.ingsw.view.gui {
     requires org.apache.logging.log4j;
     requires org.apache.commons.cli;
     requires java.desktop;
+    requires org.apache.logging.log4j.core;
 
     // Exports
     exports it.polimi.ingsw.view.gui to com.google.gson, java.rmi, javafx.graphics, javafx.fxml;

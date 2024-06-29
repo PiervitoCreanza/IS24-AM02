@@ -9,8 +9,10 @@ import it.polimi.ingsw.view.tui.View;
 import it.polimi.ingsw.view.tui.controller.TUIViewController;
 import it.polimi.ingsw.view.tui.utils.Utils;
 import org.apache.commons.cli.*;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
 
 /**
  * The Client class is responsible for setting up the client's connection to the server.
@@ -81,11 +83,18 @@ public class Client {
         }
         networkControllerMapper.setConnection(connection);
         if (cmd.hasOption(("tui"))) {
+            // Set the root logger level to INFO. If in TUI mode the user does not have to see logs.
+            updateRootLoggerLevel(Level.INFO);
             view = new TUIViewController(networkControllerMapper);
         } else {
             view = new GUIApp();
         }
         view.launchUI();
+    }
+
+    private static void updateRootLoggerLevel(Level level) {
+        if (!DEBUG)
+            Configurator.setAllLevels(LogManager.getRootLogger().getName(), level);
     }
 
 
@@ -121,8 +130,8 @@ public class Client {
         }
 
         // check user args
-        if (cmd.hasOption("lan") && cmd.hasOption("localhost")) {
-            System.err.println("Please specify either LAN or localhost mode, not both.");
+        if (cmd.hasOption("lan") && cmd.hasOption("ip")) {
+            System.err.println("Please specify either LAN or a client ip, not both.");
             formatter.printHelp("Client", options);
             System.exit(1);
         }
