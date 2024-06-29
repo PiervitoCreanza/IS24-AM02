@@ -8,12 +8,18 @@ import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.network.virtualView.VirtualViewable;
+import it.polimi.ingsw.utils.PropertyChangeNotifier;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * This class represents the middleware between the GameController and the PlayerActions interface.
  * It implements the PlayerActions interface and defines the actions flow that a player can perform in the game.
  */
-public class GameControllerMiddleware implements PlayerActions, VirtualViewable<GameControllerView> {
+public class GameControllerMiddleware implements PlayerActions, VirtualViewable<GameControllerView>, PropertyChangeNotifier {
     /**
      * The GameController instance.
      */
@@ -43,6 +49,11 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      */
     private GameStatusEnum savedGameStatus;
 
+    private Boolean loadedFromDisk = false;
+
+    private Timer reconnectTimer;
+
+    private PropertyChangeSupport listeners;
 
     /**
      * Constructor for GameControllerMiddleware.
@@ -56,6 +67,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
         this.gameController = new GameController(gameName, nPlayers, playerName);
         this.game = this.gameController.getGame();
         this.gameStatus = GameStatusEnum.WAIT_FOR_PLAYERS;
+        this.listeners = new PropertyChangeSupport(this);
     }
 
     /**
@@ -158,6 +170,10 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
         }
 
         if (game.isPlayerDisconnected(playerName)) {
+            if (loadedFromDisk) {
+                handleLoadedFromDisk(playerName);
+                return;
+            }
             // If the player was disconnected we update his connection status.
             setPlayerConnectionStatus(playerName, true);
         } else {
@@ -439,6 +455,36 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
         });
     }
 
+    private void handleLoadedFromDisk(String playerName) {
+        gameController.setPlayerConnectionStatus(playerName, true);
+        if (game.getConnectedPlayers().size() == game.getMaxAllowedPlayers()) {
+            reconnectTimer.cancel();
+            gameStatus = savedGameStatus;
+            loadedFromDisk = false;
+        }
+    }
+
+    public void startReconnectTimer() {
+        reconnectTimer = new Timer();
+        reconnectTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (game.getConnectedPlayers().size() >= 2) {
+                    gameStatus = savedGameStatus;
+                    loadedFromDisk = false;
+                    while (!game.getCurrentPlayer().isConnected()) {
+                        game.setNextPlayer();
+                    }
+                   /*if (gameStatus == GameStatusEnum.DRAW_CARD || gameStatus == GameStatusEnum.PLACE_CARD)
+                       setMissingPlayersAttributes();*/
+                    listeners.firePropertyChange("START_GAME", null, getVirtualView());
+                } else {
+                    listeners.firePropertyChange("DELETE", null, game.getGameName());
+                }
+            }
+        }, 30000);
+    }
+
     private boolean canDrawCard() {
         return !game.getGlobalBoard().areFieldAndDecksEmpty();
     }
@@ -447,7 +493,37 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
         isLastRound = lastRound;
     }
 
+    public void setSavedGameStatus(GameStatusEnum savedGameStatus) {
+        this.savedGameStatus = savedGameStatus;
+    }
+
+    public void setLoadedFromDisk(boolean loadedFromDisk) {
+        this.loadedFromDisk = loadedFromDisk;
+    }
+
     public void setRemainingRoundsToEndGame(int remainingRoundsToEndGame) {
         this.remainingRoundsToEndGame = remainingRoundsToEndGame;
+    }
+
+    /**
+     * Adds a PropertyChangeListener to the listener list.
+     * The listener will be notified of property changes.
+     *
+     * @param listener The PropertyChangeListener to be added
+     */
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.listeners.addPropertyChangeListener(listener);
+    }
+
+    /**
+     * Removes a PropertyChangeListener from the listener list.
+     * The listener will no longer be notified of property changes.
+     *
+     * @param listener The PropertyChangeListener to be removed
+     */
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.listeners.removePropertyChangeListener(listener);
     }
 }

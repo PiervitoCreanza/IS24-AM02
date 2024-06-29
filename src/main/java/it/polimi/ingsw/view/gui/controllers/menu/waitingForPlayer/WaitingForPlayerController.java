@@ -113,7 +113,14 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
             logger.debug("Show place starter card scene");
             switchScene(ControllersEnum.INIT_PLACE_STARTER_CARD, evt);
         }
-
+        if (gameStatus == GameStatusEnum.INIT_CHOOSE_PLAYER_COLOR && updatedView.isMyTurn(getProperty("playerName"))) {
+            logger.debug("Show choose color scene");
+            switchScene(ControllersEnum.INIT_SET_PION, evt);
+        }
+        if (gameStatus == GameStatusEnum.INIT_CHOOSE_OBJECTIVE_CARD && updatedView.isMyTurn(getProperty("playerName"))) {
+            logger.debug("Show choose objective card scene");
+            switchScene(ControllersEnum.INIT_SET_OBJECTIVE_CARD, evt);
+        }
         if (gameStatus == GameStatusEnum.PLACE_CARD || gameStatus == GameStatusEnum.DRAW_CARD) {
             logger.debug("Show place workers scene");
             switchScene(ControllersEnum.GAME_SCENE, evt);
@@ -133,7 +140,7 @@ public class WaitingForPlayerController extends Controller implements PropertyCh
         logger.debug("Setting game name{}", gameNameString);
         gameName.setText(gameNameString);
         logger.debug("Received player list");
-        ArrayList<String> playersList = updatedView.gameView().playerViews().stream().map(PlayerView::playerName).collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<String> playersList = updatedView.gameView().playerViews().stream().filter(PlayerView::isConnected).map(PlayerView::playerName).collect(Collectors.toCollection(ArrayList::new));
         GameStatusEnum gameStatus = updatedView.gameStatus();
         if (gameStatus == GameStatusEnum.WAIT_FOR_PLAYERS) {
             waitingMessage.setText("Waiting for players to join...");

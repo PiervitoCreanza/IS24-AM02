@@ -75,7 +75,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions, Pro
      * @param gameName the name of the game
      * @param message  the message to be sent
      */
-    private void broadcastMessage(String gameName, ServerToClientMessage message) {
+    public void broadcastMessage(String gameName, ServerToClientMessage message) {
         for (ServerMessageHandler messageHandler : gameConnectionMapper.get(gameName).values()) {
             messageHandler.sendMessage(message);
         }
@@ -446,19 +446,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions, Pro
                 }
                 // If the game is now empty we delete it.
                 if (gameConnectionMapper.get(gameName).isEmpty()) {
-                    synchronized (gameConnectionMapper) {
-                        // Delete the game
-                        mainController.deleteGame(gameName);
-
-                        gameConnectionMapper.remove(gameName);
-
-                        // Cancel any deletion timer that may be running.
-                        if (deleteGameTimers.get(gameName) != null) {
-                            deleteGameTimers.get(gameName).cancel();
-                            deleteGameTimers.remove(gameName);
-                        }
-                    }
-                    logger.debug("Game {} deleted.", gameName);
+                    listeners.firePropertyChange("DELETE", null, gameName);
                     return;
                 }
                 // If the game was not deleted we update the view for the remaining players.
@@ -485,8 +473,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions, Pro
                 synchronized (getLock(gameName)) {
                     HashMap<String, ServerMessageHandler> gameConnections = gameConnectionMapper.get(gameName);
                     if (gameConnections != null && gameConnections.size() == 1) {
-                        broadcastMessage(gameName, new DeleteGameServerToClientMessage());
-                        closeConnections(gameName);
+                        listeners.firePropertyChange("DELETE", null, gameName);
                     }
                 }
             }
@@ -505,6 +492,26 @@ public class ServerNetworkControllerMapper implements ClientToServerActions, Pro
         return new UpdateViewServerToClientMessage(gameControllerView);
     }
 
+    public void deleteGame(String gameName) {
+        synchronized (getLock(gameName)) {
+            if (gameConnectionMapper.get(gameName).isEmpty()) {
+                synchronized (gameConnectionMapper) {
+                    // Delete the game
+                    mainController.deleteGame(gameName);
+                    gameConnectionMapper.remove(gameName);
+                    // Cancel any deletion timer that may be running.
+                    if (deleteGameTimers.get(gameName) != null) {
+                        deleteGameTimers.get(gameName).cancel();
+                        deleteGameTimers.remove(gameName);
+                    }
+                }
+                logger.debug("Game {} deleted.", gameName);
+            } else {
+                broadcastMessage(gameName, new DeleteGameServerToClientMessage());
+                closeConnections(gameName);
+            }
+        }
+    }
     /**
      * Adds a PropertyChangeListener to the listener list.
      * The listener will be notified of property changes.

@@ -60,11 +60,15 @@ public class Server {
         ServerNetworkControllerMapper serverNetworkControllerMapper = new ServerNetworkControllerMapper(mainController);
         Persistence persistence = new Persistence(mainController, serverNetworkControllerMapper);
         serverNetworkControllerMapper.addPropertyChangeListener(persistence);
-        persistence.loadAll();
         /* ***************************************
          * CLI ARGUMENTS PARSING
          * ***************************************/
         CommandLine cmd = parseCommandLineArgs(args);
+        if (cmd.hasOption("load")) {
+            persistence.loadFromFile(cmd.getOptionValue("load"));
+        } else {
+            persistence.loadAll();
+        }
         int TCPPort = Integer.parseInt(cmd.getOptionValue("tp", "12345")); // default is 12345
         int RMIPort = Integer.parseInt(cmd.getOptionValue("rp", "1099")); // default is 1099
         if (cmd.hasOption("h")) {
@@ -125,6 +129,7 @@ public class Server {
         options.addOption("lan", "Start the server with his lan ip address.");
         options.addOption("debug", "Start the Server in DEBUG mode.");
         options.addOption("h", "help", false, "Print this message.");
+        options.addOption("load", true, "Load a game from the specified file. Previously saved games won't be loaded.");
         return options;
     }
 
