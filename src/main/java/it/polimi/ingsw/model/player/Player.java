@@ -135,14 +135,6 @@ public class Player implements VirtualViewable<PlayerView> {
         this.objectiveCard = choosenObjective;
     }
 
-    public void forceSetPlayerObjective(ObjectiveCard objectiveCard) {
-        this.objectiveCard = objectiveCard;
-    }
-
-    public void setChoosableObjectives(ArrayList<ObjectiveCard> choosableObjectives) {
-        this.choosableObjectives.clear();
-        this.choosableObjectives.addAll(choosableObjectives);
-    }
     /**
      * This method is used to retrieve the connection status of the player.
      *
@@ -168,6 +160,16 @@ public class Player implements VirtualViewable<PlayerView> {
      */
     public ArrayList<ObjectiveCard> getChoosableObjectives() {
         return choosableObjectives;
+    }
+
+    /**
+     * This method is used to set the drawn objectives of the player.
+     *
+     * @param choosableObjectives This is the drawn objectives to be set.
+     */
+    public void setChoosableObjectives(ArrayList<ObjectiveCard> choosableObjectives) {
+        this.choosableObjectives.clear();
+        this.choosableObjectives.addAll(choosableObjectives);
     }
 
     /**

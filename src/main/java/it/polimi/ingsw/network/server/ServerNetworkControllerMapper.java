@@ -55,6 +55,9 @@ public class ServerNetworkControllerMapper implements ClientToServerActions, Pro
      */
     private final Object exceptionLock;
 
+    /**
+     * The PropertyChangeSupport object is used to manage property change listeners.
+     */
     private final PropertyChangeSupport listeners;
 
     /**
@@ -124,8 +127,28 @@ public class ServerNetworkControllerMapper implements ClientToServerActions, Pro
         return true;
     }
 
-    public HashMap<String, HashMap<String, ServerMessageHandler>> getGameConnectionMapper() {
-        return gameConnectionMapper;
+    /**
+     * Adds a game to the gameConnectionMapper.
+     *
+     * @param gameName the name of the game
+     */
+    public void addGameToMapper(String gameName) {
+        synchronized (gameConnectionMapper) {
+            gameConnectionMapper.put(gameName, new HashMap<>());
+        }
+    }
+
+    /**
+     * Gets the update view message for a game.
+     * It also notifies the persistence that the game should be saved.
+     *
+     * @param gameName the name of the game
+     * @return the update view message
+     */
+    private UpdateViewServerToClientMessage getUpdateViewServerToClientMessage(String gameName) {
+        GameControllerView gameControllerView = mainController.getVirtualView(gameName);
+        this.listeners.firePropertyChange("SAVE", null, gameControllerView);
+        return new UpdateViewServerToClientMessage(gameControllerView);
     }
 
     /**
@@ -473,7 +496,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions, Pro
                 synchronized (getLock(gameName)) {
                     HashMap<String, ServerMessageHandler> gameConnections = gameConnectionMapper.get(gameName);
                     if (gameConnections != null && gameConnections.size() == 1) {
-                        listeners.firePropertyChange("DELETE", null, gameName);
+                        deleteGame(gameName);
                     }
                 }
             }
@@ -481,17 +504,10 @@ public class ServerNetworkControllerMapper implements ClientToServerActions, Pro
     }
 
     /**
-     * Gets the update view message for a game.
+     * Deletes a game.
      *
-     * @param gameName the name of the game
-     * @return the update view message
+     * @param gameName the name of the game to be deleted
      */
-    private UpdateViewServerToClientMessage getUpdateViewServerToClientMessage(String gameName) {
-        GameControllerView gameControllerView = mainController.getVirtualView(gameName);
-        this.listeners.firePropertyChange("SAVE", null, gameControllerView);
-        return new UpdateViewServerToClientMessage(gameControllerView);
-    }
-
     public void deleteGame(String gameName) {
         synchronized (getLock(gameName)) {
             if (gameConnectionMapper.get(gameName).isEmpty()) {

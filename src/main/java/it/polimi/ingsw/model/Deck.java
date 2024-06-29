@@ -75,6 +75,11 @@ public class Deck<T> {
         return null;
     }
 
+    /**
+     * Removes a card from the deck by card ID. Only if it's present.
+     *
+     * @param cardID The ID of the card to remove.
+     */
     public void removeCard(int cardID) {
         deck.stream().filter(card -> ((GameCard) card).getCardId() == cardID).findFirst().ifPresent(deck::remove);
     }

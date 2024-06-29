@@ -48,6 +48,15 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
     }
 
     /**
+     * This method is used to set the player board.
+     *
+     * @param playerBoard This is the player board to set.
+     */
+    public void setPlayerBoard(HashMap<Coordinate, GameCard> playerBoard) {
+        this.playerBoard = playerBoard;
+    }
+
+    /**
      * This method is used to get the items in the player board.
      *
      * @return GameItemStore This returns the items in the player board.
@@ -56,6 +65,14 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
         return gameItems;
     }
 
+    /**
+     * This method is used to set the items in the player board.
+     *
+     * @param gameItemStore This is the items to set.
+     */
+    public void setGameItems(GameItemStore gameItemStore) {
+        this.gameItems = gameItemStore;
+    }
     /**
      * This method is used to get the card in the player board at a specific position.
      *
@@ -73,6 +90,15 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
      */
     public GameCard getStarterCard() {
         return starterCard;
+    }
+
+    /**
+     * This method is used to set the starter card of the player board.
+     *
+     * @param starterCard This is the starter card to set.
+     */
+    public void setStarterCard(GameCard starterCard) {
+        this.starterCard = starterCard;
     }
 
     /**
@@ -273,17 +299,6 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
         return availablePositions;
     }
 
-    public void setPlayerBoard(HashMap<Coordinate, GameCard> playerBoard) {
-        this.playerBoard = playerBoard;
-    }
-
-    public void setGameItems(GameItemStore gameItemStore) {
-        this.gameItems = gameItemStore;
-    }
-
-    public void setStarterCard(GameCard starterCard) {
-        this.starterCard = starterCard;
-    }
     /**
      * This method is used to get the virtual view of the player's board.
      *

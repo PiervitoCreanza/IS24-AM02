@@ -9,14 +9,9 @@ import it.polimi.ingsw.model.utils.store.Store;
 import it.polimi.ingsw.network.server.message.successMessage.GameRecord;
 import it.polimi.ingsw.network.virtualView.GameView;
 import it.polimi.ingsw.network.virtualView.VirtualViewable;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static it.polimi.ingsw.view.tui.utils.Utils.ANSI_PURPLE;
-import static it.polimi.ingsw.view.tui.utils.Utils.ANSI_RESET;
 
 
 /**
@@ -57,8 +52,6 @@ public class Game implements VirtualViewable<GameView> {
      * This is a Player object that represents the player whose turn it is to play.
      */
     private Player currentPlayer;
-
-    private static final Logger logger = LogManager.getLogger(Game.class);
 
     /**
      * Constructor for Game. Initializes a new game with the specified parameters.
@@ -107,6 +100,17 @@ public class Game implements VirtualViewable<GameView> {
         this.currentPlayer = players.getFirst();
     }
 
+    /**
+     * This method creates a new player with the specified name.
+     * It draws two objective cards from the global board's objective deck,
+     * draws a starter card from the global board's starter deck and creates a new
+     * Player object with the specified name, objective cards and starter card.
+     * If an exception occurs while creating the player, the drawn objective cards and starter card
+     * are added back to the global board's decks.
+     *
+     * @param playerName The name of the player to be created.
+     * @return The Player object that represents the new player.
+     */
     private Player instanceNewPlayer(String playerName) {
         ArrayList<ObjectiveCard> drawnObjectives = new ArrayList<>(List.of(globalBoard.getObjectiveDeck().draw(), globalBoard.getObjectiveDeck().draw()));
         GameCard starterCard = globalBoard.getStarterDeck().draw();
@@ -275,6 +279,16 @@ public class Game implements VirtualViewable<GameView> {
     }
 
     /**
+     * Sets the current player in the game.
+     * This method updates the currentPlayer variable to the player with the specified name.
+     *
+     * @param playerName The name of the player to be set as the current player.
+     */
+    public void setCurrentPlayer(String playerName) {
+        this.currentPlayer = players.stream().filter(player -> player.getPlayerName().equals(playerName)).findFirst().get();
+    }
+
+    /**
      * Checks if the game has started by checking if enough players have joined the game.
      *
      * @return true if the game has started, false otherwise.
@@ -314,7 +328,6 @@ public class Game implements VirtualViewable<GameView> {
             objectives.add(playerObjective);
             for (ObjectiveCard objective : objectives) {
                 int pointsWon = objective.getPoints(playerBoard);
-                logger.debug(ANSI_PURPLE + "{} won {} points with objective {}" + ANSI_RESET, player.getPlayerName(), pointsWon, objective.getCardId());
                 //If pointsWon aren't 0, we won an objective, so we increase the counter and advance the player.
                 if (pointsWon != 0) {
                     objectiveCardsWon.increment(player, 1);
@@ -382,10 +395,6 @@ public class Game implements VirtualViewable<GameView> {
      */
     public int getMaxAllowedPlayers() {
         return maxAllowedPlayers;
-    }
-
-    public void setCurrentPlayer(String playerName) {
-        this.currentPlayer = players.stream().filter(player -> player.getPlayerName().equals(playerName)).findFirst().get();
     }
 
     /**
