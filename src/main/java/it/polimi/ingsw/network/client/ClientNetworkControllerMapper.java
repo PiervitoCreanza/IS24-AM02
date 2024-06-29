@@ -396,6 +396,7 @@ public class ClientNetworkControllerMapper implements ServerToClientActions, Pro
                     this.listeners.firePropertyChange("CONNECTION_ESTABLISHED", null, evt.getNewValue());
             case "CONNECTION_FAILED" -> this.listeners.firePropertyChange("CONNECTION_FAILED", null, evt.getNewValue());
             case "CONNECTION_TRYING" -> this.listeners.firePropertyChange("CONNECTION_TRYING", null, evt.getNewValue());
+            case "CONNECTION_CLOSED" -> this.view = null;
             default -> logger.warn("Unknown property change event: {}", changedProperty);
         }
     }

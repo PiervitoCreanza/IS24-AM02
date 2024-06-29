@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.server.RMI.RMIServerReceiver;
 import it.polimi.ingsw.network.server.TCP.TCPServerAdapter;
 import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
 import it.polimi.ingsw.network.utils.HostIpAddressResolver;
+import it.polimi.ingsw.network.utils.RMITimeoutSetter;
 import it.polimi.ingsw.view.tui.utils.Utils;
 import org.apache.commons.cli.*;
 import org.apache.logging.log4j.LogManager;
@@ -143,7 +144,7 @@ public class Server {
     private static void RMIServerStart(ServerNetworkControllerMapper serverNetworkControllerMapper, Integer RMIPortNumber, String serverIp) {
         try {
             System.setProperty("java.rmi.server.hostname", serverIp);
-
+            RMITimeoutSetter.setRMITimeout(5000);
             RMIServerReceiver rmiServerReceiver = new RMIServerReceiver(serverNetworkControllerMapper);
             RMIClientToServerActions stub = (RMIClientToServerActions) UnicastRemoteObject.exportObject(rmiServerReceiver, RMIPortNumber);
             Registry registry = LocateRegistry.createRegistry(RMIPortNumber);
