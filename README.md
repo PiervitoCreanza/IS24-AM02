@@ -40,6 +40,7 @@ The implementation features both a command-line interface (CLI) and a JavaFX gra
 | Chat              | :white_check_mark:      |
 | VisionOS        | :ballot_box_with_check: |
 
+(*) *For testing purposes.*
 
 **Legend**
 | Symbol | Functionality status |
