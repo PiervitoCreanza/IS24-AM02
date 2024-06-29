@@ -23,8 +23,9 @@
                 <Text styleClass="title" text="Select your Pion"/>
                 <ImageView fx:id="pionImageView" fitHeight="200" fitWidth="200" styleClass="card"/>
                 <HBox spacing="20" alignment="CENTER" maxWidth="600">
-                    <Button onAction="#previousPion" styleClass="brutalist-button" text="Previous"/>
-                    <Button onAction="#nextPion" styleClass="brutalist-button" text="Next"/>
+                    <Button onAction="#previousPion" styleClass="brutalist-button" text="Previous"
+                            focusTraversable="false"/>
+                    <Button onAction="#nextPion" styleClass="brutalist-button" text="Next" focusTraversable="false"/>
                 </HBox>
                 <Button onAction="#continueAction" styleClass="brutalist-button" text="Continue"/>
             </VBox>
