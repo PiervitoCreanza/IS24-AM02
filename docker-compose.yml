@@ -1,0 +1,10 @@
+version: '3'
+services:
+  codexNaturalis:
+    container_name: CodexNaturalis_Server
+    restart: always
+    image: ghcr.io/piervitocreanza/is24-am02:latest
+    build: .
+    ports:
+      - "12345:12345"
+      - "1099:1099"
