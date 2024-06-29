@@ -426,7 +426,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
             }
 
             // Set the player color if it is not set
-            if (curPlayer.getPlayerColor() == null) {
+            if (curPlayer.getPlayerColor().equals(PlayerColorEnum.NONE)) {
                 gameController.choosePlayerColor(curPlayerName, game.getAvailablePlayerColors().getFirst());
             }
 
