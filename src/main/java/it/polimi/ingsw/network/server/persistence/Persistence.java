@@ -174,8 +174,8 @@ public class Persistence implements PropertyChangeListener {
         File[] listOfFiles = folder.listFiles();
         if (listOfFiles != null) {
             for (File file : listOfFiles) {
-                checkFile(file);
-                restoreModel(file);
+                if (checkFile(file))
+                    restoreModel(file);
             }
         }
     }
