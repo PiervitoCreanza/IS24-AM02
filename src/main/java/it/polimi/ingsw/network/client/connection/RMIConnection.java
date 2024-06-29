@@ -61,7 +61,6 @@ public class RMIConnection extends Connection implements PropertyChangeListener 
      */
     @Override
     protected void connectionSetUp() {
-        System.setProperty("java.rmi.server.hostname", clientIp);
         connectionTrying = new Timer();
         connectionTrying.schedule(new TimerTask() {
             @Override

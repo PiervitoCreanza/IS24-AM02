@@ -4,6 +4,7 @@ import it.polimi.ingsw.network.client.connection.Connection;
 import it.polimi.ingsw.network.client.connection.RMIConnection;
 import it.polimi.ingsw.network.client.connection.TCPConnection;
 import it.polimi.ingsw.network.utils.HostIpAddressResolver;
+import it.polimi.ingsw.network.utils.RMITimeoutSetter;
 import it.polimi.ingsw.view.gui.GUIApp;
 import it.polimi.ingsw.view.tui.View;
 import it.polimi.ingsw.view.tui.controller.TUIViewController;
@@ -76,6 +77,8 @@ public class Client {
         if (cmd.hasOption("rmi")) {
             logger.info("Starting RMI connection with server. IP: {} on port: {}", serverIp, serverPort);
             logger.info("Listening for RMI connections. IP: {} on port: {}", clientIp, clientPort);
+            System.setProperty("java.rmi.server.hostname", clientIp);
+            RMITimeoutSetter.setRMITimeout(5000);
             connection = new RMIConnection(networkControllerMapper, serverIp, serverPort, clientIp, clientPort);
         } else {
             logger.info("Starting TCP connection with server. IP: {} on port: {}", serverIp, serverPort);

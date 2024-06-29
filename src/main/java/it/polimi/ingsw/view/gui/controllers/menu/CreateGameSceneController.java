@@ -96,7 +96,6 @@ public class CreateGameSceneController extends Controller implements PropertyCha
      */
     @Override
     public void beforeUnmount() {
-        networkControllerMapper.removePropertyChangeListener(this);
     }
 
     /**

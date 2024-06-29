@@ -6,7 +6,6 @@ import it.polimi.ingsw.view.gui.components.toast.ToastLevels;
 import it.polimi.ingsw.view.gui.controllers.Controller;
 import it.polimi.ingsw.view.gui.controllers.ControllersEnum;
 import it.polimi.ingsw.view.gui.utils.GUIUtils;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -64,7 +63,6 @@ public class JoinGameSceneController extends Controller implements PropertyChang
      */
     @Override
     public void beforeUnmount() {
-        networkControllerMapper.removePropertyChangeListener(this);
     }
 
     @FXML
@@ -103,21 +101,21 @@ public class JoinGameSceneController extends Controller implements PropertyChang
             }
 
             if (gameControllerView.gameStatus() == GameStatusEnum.INIT_CHOOSE_PLAYER_COLOR && isMyTurn) {
-                Platform.runLater(() -> switchScene(ControllersEnum.INIT_SET_PION, evt));
+                switchScene(ControllersEnum.INIT_SET_PION, evt);
                 return;
             }
 
             if (gameControllerView.gameStatus() == GameStatusEnum.INIT_CHOOSE_OBJECTIVE_CARD && isMyTurn) {
-                Platform.runLater(() -> switchScene(ControllersEnum.INIT_SET_OBJECTIVE_CARD, evt));
+                switchScene(ControllersEnum.INIT_SET_OBJECTIVE_CARD, evt);
                 return;
             }
 
             if (gameControllerView.gameStatus() == GameStatusEnum.PLACE_CARD || gameControllerView.gameStatus() == GameStatusEnum.DRAW_CARD) {
-                Platform.runLater(() -> switchScene(ControllersEnum.GAME_SCENE, evt));
+                switchScene(ControllersEnum.GAME_SCENE, evt);
                 return;
             }
 
-            Platform.runLater(() -> switchScene(ControllersEnum.WAITING_FOR_PLAYER, evt));
+            switchScene(ControllersEnum.WAITING_FOR_PLAYER, evt);
         }
     }
 

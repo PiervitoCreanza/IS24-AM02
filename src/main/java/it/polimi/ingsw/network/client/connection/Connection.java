@@ -122,6 +122,7 @@ public abstract class Connection implements PropertyChangeNotifier, PropertyChan
     public void propertyChange(PropertyChangeEvent evt) {
         String changedProperty = evt.getPropertyName();
         if (changedProperty.equals("CONNECTION_CLOSED")) {
+            this.listeners.firePropertyChange("CONNECTION_CLOSED", null, null);
             logger.warn("Trying to reconnect...");
             connect();
         } else {
