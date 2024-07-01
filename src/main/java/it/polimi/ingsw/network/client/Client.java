@@ -120,18 +120,18 @@ public class Client {
             cmd = new DefaultParser().parse(options, args);
         } catch (ParseException e) {
             System.err.println("Parsing failed. Reason: " + e.getMessage());
-            formatter.printHelp("Client arguments: ", options);
+            formatter.printHelp("Client", options);
             System.exit(1);
         }
 
         if (cmd.hasOption("h")) {
-            formatter.printHelp("Client arguments: ", options);
+            formatter.printHelp("Client", options);
             System.exit(0);
         }
 
         if (cmd.hasOption("server_ip") && cmd.hasOption("localhost")) {
             System.err.println("Please specify either server IP or localhost, not both.");
-            formatter.printHelp("Client arguments: ", options);
+            formatter.printHelp("Client", options);
             System.exit(1);
         }
         return cmd;
