@@ -9,12 +9,14 @@ import it.polimi.ingsw.network.server.ServerMessageHandler;
 import it.polimi.ingsw.network.server.ServerNetworkControllerMapper;
 import it.polimi.ingsw.network.server.message.ServerActionEnum;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
+import it.polimi.ingsw.network.server.persistence.Persistence;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.when;
@@ -50,10 +52,16 @@ public class ServerNetworkControllerMapperTest {
 
     private final int nGames = 100;
 
+    private boolean persistence = true;
+
 
     @BeforeEach
     void setUp() {
-        serverNetworkControllerMapper = new ServerNetworkControllerMapper(new MainController());
+        MainController mainController = new MainController();
+        serverNetworkControllerMapper = new ServerNetworkControllerMapper(mainController);
+        if (persistence) {
+            serverNetworkControllerMapper.addPropertyChangeListener(new Persistence(mainController, serverNetworkControllerMapper));
+        }
         starterCardsIds = new HashMap<>();
         objectiveCardsIds = new HashMap<>();
         availableCoordinates = new HashMap<>();
@@ -151,6 +159,13 @@ public class ServerNetworkControllerMapperTest {
         for (Thread thread : gameThreads) {
             try {
                 thread.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if (persistence) {
+            try {
+                TimeUnit.SECONDS.sleep(10);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
