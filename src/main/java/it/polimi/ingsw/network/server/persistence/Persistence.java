@@ -57,7 +57,7 @@ public class Persistence implements PropertyChangeListener {
     /**
      * The executor service for managing persistence tasks.
      */
-    private final ExecutorService executor;
+    private final HashMap<String, ExecutorService> executors;
 
     /**
      * The logger.
@@ -86,7 +86,14 @@ public class Persistence implements PropertyChangeListener {
     public Persistence(MainController mainController, ServerNetworkControllerMapper serverNetworkControllerMapper) {
         this.mainController = mainController;
         this.serverNetworkControllerMapper = serverNetworkControllerMapper;
-        this.executor = Executors.newSingleThreadExecutor();
+        this.executors = new HashMap<>();
+        File directory = new File("savedGames");
+        if (!directory.exists()) {
+            if (!directory.mkdir()) {
+                logger.fatal("Failed to create \"savedGames\" directory");
+                System.exit(-1);
+            }
+        }
     }
 
     /**
@@ -123,14 +130,7 @@ public class Persistence implements PropertyChangeListener {
         try {
             // Calculate the hash of the game name to use as a filename
             // Avoiding possible problems with special characters
-            String gameNameHash = String.valueOf(view.gameView().gameName().hashCode());
-            File directory = new File("savedGames");
-            if (!directory.exists()) {
-                if (!directory.mkdir()) {
-                    logger.fatal("Failed to create \"savedGames\" directory");
-                    System.exit(-1);
-                }
-            }
+            String gameNameHash = getGameHash(view);
             // Save the game to a JSON file
             FileWriter writer = new FileWriter("savedGames/" + gameNameHash + ".json");
             gson.toJson(view, writer);
@@ -146,11 +146,11 @@ public class Persistence implements PropertyChangeListener {
      * @param gameName The name of the game to delete
      */
     private void deleteGame(String gameName) {
-        String gameNameHash = String.valueOf(gameName.hashCode());
+        String gameNameHash = getGameHash(gameName);
         File file = new File("savedGames/" + gameNameHash + ".json");
         if (checkFile(file)) {
             if (!file.delete()) {
-                logger.warn("Failed to delete saved game file: {}", gameName);
+                logger.warn("Failed to delete saved game file: {}", gameNameHash);
             }
         }
     }
@@ -293,6 +293,39 @@ public class Persistence implements PropertyChangeListener {
         }
     }
 
+    private void savingTask(GameControllerView gameControllerView) {
+        String gameHash = getGameHash(gameControllerView);
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        if (!this.executors.containsKey(gameHash)) {
+            this.executors.put(gameHash, executor);
+        }
+        executor.submit(() -> saveGame(gameControllerView));
+    }
+
+    private void deletingTask(String gameName) {
+        String gameHash = getGameHash(gameName);
+        ExecutorService executor = this.executors.get(gameHash);
+        if (executor != null) {
+            executor.submit(() -> deleteGame(gameName));
+            //executor.shutdown();
+            /*try {
+                if (executor.awaitTermination(15, TimeUnit.SECONDS))
+                    ;
+            } catch (InterruptedException e) {
+                logger.warn("Executor interrupted while waiting for termination");
+            }*/
+            this.executors.remove(gameHash);
+        }
+    }
+
+    private String getGameHash(GameControllerView gameControllerView) {
+        return getGameHash(gameControllerView.gameView().gameName());
+    }
+
+    private String getGameHash(String gameName) {
+        return String.valueOf(gameName.hashCode());
+    }
+
     /**
      * This method gets called when a bound property is changed.
      *
@@ -307,24 +340,22 @@ public class Persistence implements PropertyChangeListener {
                 GameControllerView gameControllerView = (GameControllerView) evt.getNewValue();
                 GameStatusEnum gameStatus = gameControllerView.gameStatus();
                 if (gameStatus.equals(GameStatusEnum.GAME_OVER)) {
-                    this.executor.submit(() -> deleteGame(gameControllerView.gameView().gameName()));
+                    deletingTask(gameControllerView.gameView().gameName());
                     break;
                 }
                 if (!gameStatus.equals(GameStatusEnum.WAIT_FOR_PLAYERS) && !gameStatus.equals(GameStatusEnum.GAME_PAUSED)) {
-                    this.executor.submit(() -> saveGame(gameControllerView));
+                    savingTask(gameControllerView);
                 }
             }
             case "DELETE" -> {
-                this.executor.submit(() -> {
-                    String gameName = (String) evt.getNewValue();
-                    serverNetworkControllerMapper.deleteGame(gameName);
-                    deleteGame(gameName);
-                });
+                String gameName = (String) evt.getNewValue();
+                //serverNetworkControllerMapper.deleteGame(gameName);
+                deletingTask(gameName);
             }
             case "START_GAME" -> {
                 GameControllerView gameControllerView = (GameControllerView) evt.getNewValue();
                 String gameName = gameControllerView.gameView().gameName();
-                this.executor.submit(() -> serverNetworkControllerMapper.broadcastMessage(gameName, new UpdateViewServerToClientMessage(gameControllerView)));
+                serverNetworkControllerMapper.broadcastMessage(gameName, new UpdateViewServerToClientMessage(gameControllerView));
             }
             default -> logger.warn("Unknown property change event: {}", property);
         }

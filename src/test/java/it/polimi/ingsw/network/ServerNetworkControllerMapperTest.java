@@ -9,9 +9,7 @@ import it.polimi.ingsw.network.server.ServerMessageHandler;
 import it.polimi.ingsw.network.server.ServerNetworkControllerMapper;
 import it.polimi.ingsw.network.server.message.ServerActionEnum;
 import it.polimi.ingsw.network.server.message.ServerToClientMessage;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import it.polimi.ingsw.network.server.persistence.Persistence;
 import org.mockito.Mockito;
 
 import java.util.*;
@@ -21,39 +19,27 @@ import static org.mockito.Mockito.when;
 
 public class ServerNetworkControllerMapperTest {
 
-    private ServerNetworkControllerMapper serverNetworkControllerMapper;
+    public static final List<Thread> gameThreads = new ArrayList<>();
+    public static final HashMap<Integer, ArrayList<Thread>> randomActionsThreads = new HashMap<>();
+    public static final int nPlayers = 4;
+    public static final int nGames = 1;
+    public static ServerNetworkControllerMapper serverNetworkControllerMapper;
+    public static HashMap<Integer, HashMap<Integer, Integer>> starterCardsIds;
+    public static HashMap<Integer, HashMap<Integer, Integer>> objectiveCardsIds;
+    public static HashMap<Integer, HashMap<Integer, HashSet<Coordinate>>> availableCoordinates;
+    public static HashMap<Integer, HashMap<Integer, ArrayList<Integer>>> hand;
+    public static HashMap<Integer, ArrayList<Integer>> field;
+    public static HashMap<Integer, HashMap<Integer, Boolean>> error;
+    public static HashMap<Integer, HashMap<Integer, Boolean>> isPlayerTurn;
+    public static HashMap<Integer, Boolean> gameEnded;
+    public static Random random;
 
-    private HashMap<Integer, HashMap<Integer, Integer>> starterCardsIds;
-
-    private HashMap<Integer, HashMap<Integer, Integer>> objectiveCardsIds;
-
-    private HashMap<Integer, HashMap<Integer, HashSet<Coordinate>>> availableCoordinates;
-
-    private HashMap<Integer, HashMap<Integer, ArrayList<Integer>>> hand;
-
-    private HashMap<Integer, ArrayList<Integer>> field;
-
-    private HashMap<Integer, HashMap<Integer, Boolean>> error;
-
-    private HashMap<Integer, HashMap<Integer, Boolean>> isPlayerTurn;
-
-    private HashMap<Integer, Boolean> gameEnded;
-
-    private Random random;
-
-    private final List<Thread> gameThreads = new ArrayList<>();
-
-    private final HashMap<Integer, ArrayList<Thread>> randomActionsThreads = new HashMap<>();
-
-
-    private final int nPlayers = 4;
-
-    private final int nGames = 100;
-
-
-    @BeforeEach
-    void setUp() {
-        serverNetworkControllerMapper = new ServerNetworkControllerMapper(new MainController());
+    //@BeforeEach
+    public static void setUp() {
+        MainController mainController = new MainController();
+        serverNetworkControllerMapper = new ServerNetworkControllerMapper(mainController);
+        Persistence persistence = new Persistence(mainController, serverNetworkControllerMapper);
+        serverNetworkControllerMapper.addPropertyChangeListener(persistence);
         starterCardsIds = new HashMap<>();
         objectiveCardsIds = new HashMap<>();
         availableCoordinates = new HashMap<>();
@@ -65,9 +51,10 @@ public class ServerNetworkControllerMapperTest {
         random = new Random();
     }
 
-    @Disabled
-    @Test
-    void playGames() {
+    //@Disabled
+    //@Test
+    public static void main(String[] args) {
+        setUp();
         for (int i = 0; i < nGames; i++) {
             randomActionsThreads.put(i, new ArrayList<>());
             int finalI = i;
@@ -155,9 +142,14 @@ public class ServerNetworkControllerMapperTest {
                 throw new RuntimeException(e);
             }
         }
+        /*try {
+            TimeUnit.SECONDS.sleep(30);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }*/
     }
 
-    private void randomAction(String gameName, String playerName) {
+    public static void randomAction(String gameName, String playerName) {
         switch (random.nextInt(10)) {
             case 0 -> serverNetworkControllerMapper.getGames(Mockito.mock(ServerMessageHandler.class));
             case 1 ->
@@ -177,7 +169,7 @@ public class ServerNetworkControllerMapperTest {
         //System.out.println("Random action performed");
     }
 
-    private ServerMessageHandler initMockServerMessageHandler(String gameName, String playerName) {
+    public static ServerMessageHandler initMockServerMessageHandler(String gameName, String playerName) {
         ServerMessageHandler serverMessageHandler = Mockito.mock(ServerMessageHandler.class);
         when(serverMessageHandler.getGameName()).thenReturn(gameName);
         when(serverMessageHandler.getPlayerName()).thenReturn(playerName);
@@ -214,7 +206,7 @@ public class ServerNetworkControllerMapperTest {
         return serverMessageHandler;
     }
 
-    private void initHashMap(int gameName) {
+    public static void initHashMap(int gameName) {
         error.put(gameName, new HashMap<>());
         starterCardsIds.put(gameName, new HashMap<>());
         objectiveCardsIds.put(gameName, new HashMap<>());
