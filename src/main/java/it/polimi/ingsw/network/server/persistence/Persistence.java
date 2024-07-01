@@ -295,9 +295,12 @@ public class Persistence implements PropertyChangeListener {
 
     private void savingTask(GameControllerView gameControllerView) {
         String gameHash = getGameHash(gameControllerView);
-        ExecutorService executor = Executors.newSingleThreadExecutor();
+        ExecutorService executor;
         if (!this.executors.containsKey(gameHash)) {
+            executor = Executors.newSingleThreadExecutor();
             this.executors.put(gameHash, executor);
+        } else {
+            executor = this.executors.get(gameHash);
         }
         executor.submit(() -> saveGame(gameControllerView));
     }
@@ -307,13 +310,7 @@ public class Persistence implements PropertyChangeListener {
         ExecutorService executor = this.executors.get(gameHash);
         if (executor != null) {
             executor.submit(() -> deleteGame(gameName));
-            //executor.shutdown();
-            /*try {
-                if (executor.awaitTermination(15, TimeUnit.SECONDS))
-                    ;
-            } catch (InterruptedException e) {
-                logger.warn("Executor interrupted while waiting for termination");
-            }*/
+            executor.shutdown();
             this.executors.remove(gameHash);
         }
     }
@@ -349,7 +346,7 @@ public class Persistence implements PropertyChangeListener {
             }
             case "DELETE" -> {
                 String gameName = (String) evt.getNewValue();
-                //serverNetworkControllerMapper.deleteGame(gameName);
+                serverNetworkControllerMapper.deleteGame(gameName);
                 deletingTask(gameName);
             }
             case "START_GAME" -> {

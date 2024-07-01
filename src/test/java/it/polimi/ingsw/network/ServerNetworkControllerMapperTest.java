@@ -22,7 +22,7 @@ public class ServerNetworkControllerMapperTest {
     public static final List<Thread> gameThreads = new ArrayList<>();
     public static final HashMap<Integer, ArrayList<Thread>> randomActionsThreads = new HashMap<>();
     public static final int nPlayers = 4;
-    public static final int nGames = 1;
+    public static final int nGames = 100;
     public static ServerNetworkControllerMapper serverNetworkControllerMapper;
     public static HashMap<Integer, HashMap<Integer, Integer>> starterCardsIds;
     public static HashMap<Integer, HashMap<Integer, Integer>> objectiveCardsIds;
