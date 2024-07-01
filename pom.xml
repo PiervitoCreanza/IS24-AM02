@@ -112,6 +112,27 @@
             </activation>
             <build>
                 <plugins>
+                    <!-- Assembly Plugin - exe and jre -->
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>3.7.1</version>
+                        <executions>
+                            <execution>
+                                <id>zip-assembly</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>src/bundle/assembly.xml</descriptor>
+                                    </descriptors>
+                                    <finalName>CodexNaturalis-win-client</finalName>
+                                    <appendAssemblyId>false</appendAssemblyId>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <!-- Launch4j Plugin - exe -->
                     <plugin>
                         <groupId>com.akathist.maven.plugins.launch4j</groupId>
@@ -243,20 +264,6 @@
                             </archive>
                             <finalName>CodexNaturalis-server</finalName>
                             <outputDirectory>${project.build.directory}/jars</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>zip-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptors>
-                                <descriptor>src/bundle/assembly.xml</descriptor>
-                            </descriptors>
-                            <finalName>CodexNaturalis-win-client</finalName>
-                            <appendAssemblyId>false</appendAssemblyId>
                         </configuration>
                     </execution>
                 </executions>
