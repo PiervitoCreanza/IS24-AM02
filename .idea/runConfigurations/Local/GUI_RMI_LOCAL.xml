@@ -1,7 +1,8 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="GUI_TCP_LOCAL" type="Application" factoryName="Application" singleton="false">
+  <configuration default="false" name="GUI_RMI_LOCAL" type="Application" factoryName="Application" folderName="Local" singleton="false">
     <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.network.client.Client" />
     <module name="AM02" />
+    <option name="PROGRAM_PARAMETERS" value="-l -rmi" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
