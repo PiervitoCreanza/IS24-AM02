@@ -104,23 +104,23 @@ public class Persistence implements PropertyChangeListener {
      */
     private boolean checkFile(File file) {
         if (!file.exists()) {
-            logger.fatal("File at {} does not exist", file.getPath());
+            logger.warn("File at {} does not exist", file.getPath());
             return false;
         }
         if (file.isDirectory()) {
-            logger.fatal("Expected a file but found a directory at {}", file.getPath());
+            logger.warn("Expected a file but found a directory at {}", file.getPath());
             return false;
         }
         if (!file.isFile()) {
-            logger.fatal("Expected a file but found something else at {}", file.getPath());
+            logger.warn("Expected a file but found something else at {}", file.getPath());
             return false;
         }
         if (!file.canRead()) {
-            logger.fatal("File at {} is not readable", file.getPath());
+            logger.warn("File at {} is not readable", file.getPath());
             return false;
         }
         if (!file.canWrite()) {
-            logger.fatal("File at {} is not writable", file.getPath());
+            logger.warn("File at {} is not writable", file.getPath());
             return false;
         }
         if (file.length() == 0) {
@@ -182,10 +182,23 @@ public class Persistence implements PropertyChangeListener {
     private void saveGame(GameControllerView view) {
         try {
             String gameNameHash = getGameHash(view);
-            // Save the game to a JSON file
-            FileWriter writer = new FileWriter("savedGames/" + gameNameHash + ".json");
-            gson.toJson(view, writer);
-            writer.close();
+
+            String tempFileName = "savedGames/" + gameNameHash + "_temp.json";
+            String finalFileName = "savedGames/" + gameNameHash + ".json";
+            // Save the game to a temporary JSON file
+            try (FileWriter tempWriter = new FileWriter(tempFileName)) {
+                gson.toJson(view, tempWriter);
+            }
+
+            File originalFile = new File(finalFileName);
+            if (originalFile.exists() && !originalFile.delete()) {
+                logger.warn("Failed to delete original file: {}", finalFileName);
+            }
+
+            File tempFile = new File(tempFileName);
+            if (!tempFile.renameTo(originalFile)) {
+                logger.warn("Failed to rename temp file to original file name: {}", finalFileName);
+            }
         } catch (IOException e) {
             logger.warn("Saving game: {} to file failed", view.gameView().gameName());
         }
@@ -244,8 +257,13 @@ public class Persistence implements PropertyChangeListener {
         File[] listOfFiles = folder.listFiles();
         if (listOfFiles != null) {
             for (File file : listOfFiles) {
-                if (checkFile(file))
-                    restoreModel(file);
+                if (file.getName().endsWith("temp.json")) {
+                    if (!file.delete())
+                        logger.warn("Failed to delete temporary file: {}", file.getName());
+                } else {
+                    if (checkFile(file))
+                        restoreModel(file);
+                }
             }
         }
     }
@@ -296,16 +314,14 @@ public class Persistence implements PropertyChangeListener {
             globalBoard.getFieldGoldCards().forEach(card -> globalBoard.getGoldDeck().addCard(card));
             globalBoard.getFieldResourceCards().clear();
             globalBoard.getFieldGoldCards().clear();
-            gameControllerView.gameView().globalBoardView().fieldResourceCards().forEach(card -> globalBoard.getFieldResourceCards().add(card));
-            gameControllerView.gameView().globalBoardView().fieldGoldCards().forEach(card -> globalBoard.getFieldGoldCards().add(card));
-            GameCard resourceFirstCard = gameControllerView.gameView().globalBoardView().resourceFirstCard();
-            GameCard goldFirstCard = gameControllerView.gameView().globalBoardView().goldFirstCard();
-            if (resourceFirstCard != null) {
-                globalBoard.getResourceDeck().removeCard(resourceFirstCard.getCardId());
-            }
-            if (goldFirstCard != null) {
-                globalBoard.getGoldDeck().removeCard(goldFirstCard.getCardId());
-            }
+            gameControllerView.gameView().globalBoardView().fieldResourceCards().forEach(card -> {
+                globalBoard.getFieldResourceCards().add(card);
+                globalBoard.getResourceDeck().removeCard(card.getCardId());
+            });
+            gameControllerView.gameView().globalBoardView().fieldGoldCards().forEach(card -> {
+                globalBoard.getFieldGoldCards().add(card);
+                globalBoard.getGoldDeck().removeCard(card.getCardId());
+            });
 
             // Initialize the players
             for (Player player : game.getPlayers()) {
@@ -351,9 +367,18 @@ public class Persistence implements PropertyChangeListener {
                 HashMap<Coordinate, GameCard> savedPlayerboard = playerView.playerBoardView().playerBoard();
                 savedPlayerboard.keySet().forEach(coordinate -> playerBoard.getGameCard(coordinate).get().setPlacementIndex(savedPlayerboard.get(coordinate).getPlacementIndex()));
             }
+
             // Add the first cards to the global board
-            globalBoard.getResourceDeck().getCards().addFirst(resourceFirstCard);
-            globalBoard.getGoldDeck().getCards().addFirst(goldFirstCard);
+            GameCard resourceFirstCard = gameControllerView.gameView().globalBoardView().resourceFirstCard();
+            GameCard goldFirstCard = gameControllerView.gameView().globalBoardView().goldFirstCard();
+            if (resourceFirstCard != null) {
+                globalBoard.getResourceDeck().removeCard(resourceFirstCard.getCardId());
+                globalBoard.getResourceDeck().getCards().addFirst(resourceFirstCard);
+            }
+            if (goldFirstCard != null) {
+                globalBoard.getGoldDeck().removeCard(goldFirstCard.getCardId());
+                globalBoard.getGoldDeck().getCards().addFirst(goldFirstCard);
+            }
             // Start the reconnect timer
             gameControllerMiddleware.startReconnectTimer();
         } catch (JsonSyntaxException e) {
