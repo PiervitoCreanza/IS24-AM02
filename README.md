@@ -4,9 +4,6 @@
 <img src=".github/resources/codex_box.png" width="400" alt="codex logo"/>
 </p>
 
-<p align="center">
-  <img src=".github/resources/demo.gif" width="400" alt="Demo of the project"/>
-</p>
 
 <div align="center">
     <a href="https://github.com/PiervitoCreanza/IS24-AM02/releases/latest">
@@ -19,6 +16,11 @@
         <img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" />
     </a>
 </div>
+
+## Demo
+<p align="center">
+  <img src=".github/resources/demo.gif" width="800" alt="Demo of the project"/>
+</p>
 
 ## Project Overview
 
