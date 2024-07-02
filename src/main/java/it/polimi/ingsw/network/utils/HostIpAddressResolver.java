@@ -27,6 +27,16 @@ public class HostIpAddressResolver {
      * @throws RuntimeException if unable to retrieve the IP address
      */
     public static String getCurrentHostIp(CommandLine cmd) {
+
+        boolean hasL = cmd.hasOption("l");
+        boolean hasLan = cmd.hasOption("lan");
+        boolean hasIp = cmd.hasOption("ip");
+
+        if ((hasL && hasLan) || (hasL && hasIp) || (hasLan && hasIp)) {
+            System.err.println("Please specify only one option among 'l', 'lan', and 'ip'.");
+            System.exit(1);
+        }
+
         if (cmd.hasOption("localhost")) {
             return "localhost";
         }

@@ -101,15 +101,6 @@ public class Server {
         try {
             CommandLine cmd = parser.parse(options, args);
 
-            boolean hasL = cmd.hasOption("l");
-            boolean hasLan = cmd.hasOption("lan");
-            boolean hasIp = cmd.hasOption("ip");
-
-            if ((hasL && hasLan) || (hasL && hasIp) || (hasLan && hasIp)) {
-                System.err.println("Please specify only one option among 'l', 'lan', and 'ip'.");
-                System.exit(1);
-            }
-
             if (cmd.hasOption("tp") && cmd.hasOption("rp") && Integer.parseInt(cmd.getOptionValue("tp")) == Integer.parseInt(cmd.getOptionValue("rp"))) {
                 logger.fatal("Please specify different ports for TCP and RMI ServerApps.");
                 System.exit(1);
