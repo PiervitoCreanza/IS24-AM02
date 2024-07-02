@@ -64,6 +64,7 @@ public class HandController {
             // Obtain the gameCardImage associated with the card
             GameCard boundGameCard = (GameCard) gameCardImageView.getUserData();
 
+
             // If the right mouse button is pressed, switch the card
             if (mouseEvent.getButton() == MouseButton.SECONDARY) {
                 logger.debug("Right mouse button pressed");
@@ -82,6 +83,7 @@ public class HandController {
         });
 
         gameCardImageView.setOnMouseReleased(mouseEvent -> {
+            gameCardImageView.getStyleClass().add("card");
             // Abort if the card placement is not allowed
             if (sceneController.isCardPlacementForbidden())
                 return;
@@ -118,6 +120,7 @@ public class HandController {
         });
 
         gameCardImageView.setOnMouseDragged(mouseEvent -> {
+            gameCardImageView.setEffect(null);
             // Abort if the card placement is not allowed
             if (sceneController.isCardPlacementForbidden())
                 return;
