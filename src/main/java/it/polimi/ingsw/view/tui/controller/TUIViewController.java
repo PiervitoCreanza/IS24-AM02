@@ -415,11 +415,6 @@ public class TUIViewController implements PropertyChangeListener, View {
         String changedProperty = evt.getPropertyName();
         switch (changedProperty) {
             case "CONNECTION_ESTABLISHED":
-                if (isInChat)
-                    isInChat = false;
-                if (isGameOver)
-                    isGameOver = false;
-                messages.clear();
                 this.currentScene = sceneBuilder.instanceMainMenuScene();
                 break;
 
@@ -428,6 +423,9 @@ public class TUIViewController implements PropertyChangeListener, View {
                 break;
 
             case "CONNECTION_FAILED":
+                isInChat = false;
+                isGameOver = false;
+                messages.clear();
                 this.currentScene = sceneBuilder.instanceConnectionScene((String) evt.getNewValue(), true);
                 break;
 
