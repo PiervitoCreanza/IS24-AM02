@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="TUI_TCP_LOCAL" type="Application" factoryName="Application" singleton="false">
+  <configuration default="false" name="TUI_TCP_LOCAL" type="Application" factoryName="Application" folderName="Local" singleton="false">
     <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.network.client.Client" />
     <module name="AM02" />
-    <option name="PROGRAM_PARAMETERS" value="-rmi -tui" />
+    <option name="PROGRAM_PARAMETERS" value="-l -tui" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
