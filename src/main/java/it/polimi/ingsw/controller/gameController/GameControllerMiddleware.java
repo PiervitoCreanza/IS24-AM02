@@ -150,6 +150,8 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      */
     @Override
     public void joinGame(String playerName) {
+        if (gameStatus == GameStatusEnum.GAME_OVER)
+            throw new IllegalStateException("This game has already ended.");
         // If the game is not in the WAIT_FOR_PLAYERS status or the player is already connected, an exception is thrown
         if (gameStatus != GameStatusEnum.WAIT_FOR_PLAYERS && !game.isPlayerDisconnected(playerName)) {
             throw new IllegalStateException("This game is already started.");
