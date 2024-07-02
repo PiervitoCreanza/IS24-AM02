@@ -3,6 +3,7 @@
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
         </Console>
         <File name="TraceLogFile" fileName="logs/TRACE.log">
             <PatternLayout pattern="%d{HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
