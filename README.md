@@ -4,6 +4,10 @@
 <img src=".github/resources/codex_box.png" width="400" alt="codex logo"/>
 </p>
 
+<p align="center">
+  <img src=".github/resources/demo.gif" width="400" alt="Demo of the project"/>
+</p>
+
 <div align="center">
     <a href="https://github.com/PiervitoCreanza/IS24-AM02/releases/latest">
         <img src="https://img.shields.io/badge/apple%20silicon-333333?style=for-the-badge&logo=apple&logoColor=white" />
@@ -23,6 +27,8 @@ the 2023/2024 Software Engineering course at Politecnico di Milano. The team com
 Simone Curci, and Marco Febbo.
 
 The implementation features both a command-line interface (CLI) and a JavaFX graphical user interface. 
+
+Check out our project presentation [here.](https://mattiacolombomc.github.io/IS24-AM02-slides.github.io/)
 
 ## Status of the work
 
