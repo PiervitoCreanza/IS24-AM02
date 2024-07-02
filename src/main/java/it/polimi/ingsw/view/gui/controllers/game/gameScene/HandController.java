@@ -64,7 +64,6 @@ public class HandController {
             // Obtain the gameCardImage associated with the card
             GameCard boundGameCard = (GameCard) gameCardImageView.getUserData();
 
-
             // If the right mouse button is pressed, switch the card
             if (mouseEvent.getButton() == MouseButton.SECONDARY) {
                 logger.debug("Right mouse button pressed");
