@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="496aa504-701a-4214-8d9d-7e96c529a672" name="Changes" comment="Improved UX on TUI" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExportToHTMLSettings">
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/htmlReport" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JUnit4 &amp; Mockito" />
+        <option value="JUnit5 &amp; Mockito" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main-minor-fixes" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;mattiacolombomc&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/PiervitoCreanza/IS24-AM02.git&quot;,
+    &quot;accountId&quot;: &quot;485a7a80-8182-411f-a27b-c40a265bd01a&quot;
+  },
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
+    },
+    &quot;owner&quot;: &quot;PiervitoCreanza&quot;,
+    &quot;repository&quot;: &quot;IS24-AM02&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2iSGQF4CE0Z4ewy8EkUxLvk9pb7" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.GUI_RMI_LOCAL.executor&quot;: &quot;Run&quot;,
+    &quot;Application.GUI_RMI_REMOTE.executor&quot;: &quot;Run&quot;,
+    &quot;Application.GUI_TCP_LOCAL.executor&quot;: &quot;Run&quot;,
+    &quot;Application.GUI_TCP_REMOTE.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Server.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.All in AM02.executor&quot;: &quot;Coverage&quot;,
+    &quot;JUnit.ConnectionTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.Coverage.executor&quot;: &quot;Coverage&quot;,
+    &quot;JUnit.MissingTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.RMIConnectionTest.testConnectionSetUp.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.AM02 [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.AM02 [package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.AM02 [test].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager" selected="Application.GUI_TCP_LOCAL">
+    <configuration name="All in AM02" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="AM02" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Coverage" type="JUnit" factoryName="JUnit" temporary="true">
+      <module name="AM02" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.view.*" />
+          <option name="ENABLED" value="true" />
+          <option name="INCLUDE" value="false" />
+        </pattern>
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.network.*" />
+          <option name="ENABLED" value="true" />
+          <option name="INCLUDE" value="false" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MissingTests" type="JUnit" factoryName="JUnit">
+      <module name="AM02" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.view.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.network.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RMIConnectionTest.testConnectionSetUp" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="AM02" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.network.client.connection.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.network.client.connection" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.network.client.connection.RMIConnectionTest" />
+      <option name="METHOD_NAME" value="testConnectionSetUp" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.GUI_RMI_LOCAL" />
+      <item itemvalue="Application.GUI_TCP_LOCAL" />
+      <item itemvalue="Application.TUI_RMI_LOCAL" />
+      <item itemvalue="Application.TUI_TCP_LOCAL" />
+      <item itemvalue="Application.Server" />
+      <item itemvalue="JUnit.MissingTests" />
+      <item itemvalue="JUnit.RMIConnectionTest.testConnectionSetUp" />
+      <item itemvalue="JUnit.Coverage" />
+      <item itemvalue="JUnit.All in AM02" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.All in AM02" />
+        <item itemvalue="JUnit.Coverage" />
+        <item itemvalue="JUnit.RMIConnectionTest.testConnectionSetUp" />
+        <item itemvalue="JUnit.All in AM02" />
+        <item itemvalue="JUnit.Coverage" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.17890.1" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.17890.1" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="496aa504-701a-4214-8d9d-7e96c529a672" name="Changes" comment="" />
+      <created>1719476547097</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1719476547097</updated>
+      <workItem from="1719476548162" duration="8609000" />
+      <workItem from="1719565538391" duration="790000" />
+      <workItem from="1719566338305" duration="327000" />
+      <workItem from="1719566997614" duration="350000" />
+      <workItem from="1719598024541" duration="155000" />
+      <workItem from="1719599963392" duration="1221000" />
+      <workItem from="1719605354576" duration="598000" />
+      <workItem from="1719606985965" duration="55000" />
+      <workItem from="1719608144339" duration="14000" />
+      <workItem from="1719608167422" duration="49000" />
+      <workItem from="1719652996369" duration="71000" />
+      <workItem from="1719653698802" duration="2296000" />
+      <workItem from="1719656383247" duration="419000" />
+      <workItem from="1719925327558" duration="5652000" />
+      <workItem from="1719941014993" duration="4324000" />
+      <workItem from="1719953263807" duration="1528000" />
+    </task>
+    <task id="LOCAL-00001" summary="Added auto-generated IntelliJ class diagram">
+      <option name="closed" value="true" />
+      <created>1719477405562</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1719477405562</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Try to fix full screen">
+      <option name="closed" value="true" />
+      <created>1719477662627</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1719477662627</updated>
+    </task>
+    <task id="LOCAL-00003" summary="📝Update README">
+      <option name="closed" value="true" />
+      <created>1719654284468</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1719654284468</updated>
+    </task>
+    <task id="LOCAL-00004" summary="📝Update README and add GIF">
+      <option name="closed" value="true" />
+      <created>1719941541661</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1719941541661</updated>
+    </task>
+    <task id="LOCAL-00005" summary="📝Update README">
+      <option name="closed" value="true" />
+      <created>1719941628281</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1719941628281</updated>
+    </task>
+    <task id="LOCAL-00006" summary="📝Update README">
+      <option name="closed" value="true" />
+      <created>1719941901702</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1719941901702</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Added slides">
+      <option name="closed" value="true" />
+      <created>1719942518898</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1719942518898</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Improved UX on TUI">
+      <option name="closed" value="true" />
+      <created>1719953569417</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1719953569417</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="HEAD" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added auto-generated IntelliJ class diagram" />
+    <MESSAGE value="Try to fix full screen" />
+    <MESSAGE value="Update README" />
+    <MESSAGE value="Update README and add GIF" />
+    <MESSAGE value="Update README" />
+    <MESSAGE value="Added slides" />
+    <MESSAGE value="Improved UX on TUI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improved UX on TUI" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/network/client/connection/RMIConnectionTest.java</url>
+          <line>46</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/IS24_AM02$Coverage.ic" NAME="Coverage Coverage Results" MODIFIED="1719925694078" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <EXCLUDED_FILTER>it.polimi.ingsw.view.*</EXCLUDED_FILTER>
+      <EXCLUDED_FILTER>it.polimi.ingsw.network.*</EXCLUDED_FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IS24_AM02$All_in_AM02.ic" NAME="All in AM02 Coverage Results" MODIFIED="1719565777545" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+  </component>
+</project>

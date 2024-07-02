@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="GUI_TCP" type="Application" factoryName="Application" singleton="false">
+    <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.network.client.Client" />
+    <module name="AM02" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
