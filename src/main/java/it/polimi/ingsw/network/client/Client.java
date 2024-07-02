@@ -33,6 +33,8 @@ public class Client {
      */
     public static boolean DEBUG;
 
+    public static final String defaultServerIp = "161.35.162.219";
+
     /**
      * The main method of the Client class.
      * It is the entry point of the application and is responsible for setting up the client's connection to the server.
@@ -43,7 +45,7 @@ public class Client {
     public static void main(String[] args) {
         CommandLine cmd = parseCommandLineArgs(args);
 
-        String serverIp = cmd.getOptionValue("s", "161.35.162.219");// default is our server
+        String serverIp = cmd.getOptionValue("s", defaultServerIp);// default is our server
         String clientIp = HostIpAddressResolver.getCurrentHostIp(cmd);
         if (clientIp.equals("localhost"))
             serverIp = "localhost";
@@ -103,7 +105,7 @@ public class Client {
         HelpFormatter formatter = new HelpFormatter();
         // add options
         options.addOption(Option.builder("rmi").longOpt("rmi_mode").desc("Start the client using a RMI connection.").build());
-        options.addOption("s", "server_ip", true, "Server IP address. If not set it will default to localhost.");
+        options.addOption("s", "server_ip", true, "Server IP address. If not set it will default to " + defaultServerIp + " (The remote server).");
         // Param used by NetworkUtils.getCurrentHostIp() method
         options.addOption("ip", "client_ip", true, "Client IP address.");
         options.addOption("sp", "server_port", true, "Server port number (default is 12345 for TCP and 1099 for RMI).");
@@ -131,6 +133,12 @@ public class Client {
 
         if (cmd.hasOption("server_ip") && cmd.hasOption("localhost")) {
             System.err.println("Please specify either server IP or localhost, not both.");
+            formatter.printHelp("Client", options);
+            System.exit(1);
+        }
+
+        if (!cmd.hasOption("server_ip") && (cmd.hasOption("lan") || cmd.hasOption("ip"))) {
+            System.err.println("You can't connect to the remote server with a LAN or manually set client IP.");
             formatter.printHelp("Client", options);
             System.exit(1);
         }
