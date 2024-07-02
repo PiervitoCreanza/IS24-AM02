@@ -4,6 +4,7 @@
 <img src=".github/resources/codex_box.png" width="400" alt="codex logo"/>
 </p>
 
+
 <div align="center">
     <a href="https://github.com/PiervitoCreanza/IS24-AM02/releases/latest">
         <img src="https://img.shields.io/badge/apple%20silicon-333333?style=for-the-badge&logo=apple&logoColor=white" />
@@ -16,6 +17,11 @@
     </a>
 </div>
 
+## Demo
+<p align="center">
+  <img src=".github/resources/demo.gif" width="800" alt="Demo of the project"/>
+</p>
+
 ## Project Overview
 
 This project is a Java-based implementation of the table game "**Codex Naturalis**", developed as the Final Project for
@@ -23,6 +29,8 @@ the 2023/2024 Software Engineering course at Politecnico di Milano. The team com
 Simone Curci, and Marco Febbo.
 
 The implementation features both a command-line interface (CLI) and a JavaFX graphical user interface. 
+
+Check out our project presentation [here.](https://mattiacolombomc.github.io/IS24-AM02-slides.github.io/)
 
 ## Status of the work
 
@@ -110,8 +118,9 @@ java -jar client.jar [options]
 
 | Argument           | Description                                                     | Default Value |
 |--------------------|-----------------------------------------------------------------|---------------|
+| --l                | Start the client using a localhost connection.                  |               |
 | --rmi, --rmi_mode  | Start the client using an RMI connection.                       |               |
-| -s, --server_ip    | Server IP address.                                              | localhost     |
+| -s, --server_ip    | Server IP address.                                              | 161.35.162.219|
 | -ip, --client_ip   | Client IP address.                                              |               |
 | -sp, --server_port | Server port number (default is 12345 for TCP and 1099 for RMI). |               |
 | -cp                | Client port number (default is server port number + 1).         |               |
@@ -119,6 +128,8 @@ java -jar client.jar [options]
 | --tui, --tui_mode  | Start the client in TUI mode.                                   |               |
 | --debug            | Start the client in debug mode.                                 |               |
 | -h, --help         | Print the help message.                                         |               |
+
+161.35.162.219 is the IP of our Server Instance.
 
 ## Future Scope
 
