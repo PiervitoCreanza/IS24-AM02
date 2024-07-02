@@ -82,6 +82,7 @@ public class HandController {
         });
 
         gameCardImageView.setOnMouseReleased(mouseEvent -> {
+            gameCardImageView.getStyleClass().add("card");
             // Abort if the card placement is not allowed
             if (sceneController.isCardPlacementForbidden())
                 return;
@@ -118,6 +119,7 @@ public class HandController {
         });
 
         gameCardImageView.setOnMouseDragged(mouseEvent -> {
+            gameCardImageView.setEffect(null);
             // Abort if the card placement is not allowed
             if (sceneController.isCardPlacementForbidden())
                 return;
