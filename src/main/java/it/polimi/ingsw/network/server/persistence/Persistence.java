@@ -100,6 +100,7 @@ public class Persistence implements PropertyChangeListener {
      * Method used to check if the file is valid.
      *
      * @param file The file to check
+     * @return True if the file is valid, false otherwise
      */
     private boolean checkFile(File file) {
         if (!file.exists()) {
