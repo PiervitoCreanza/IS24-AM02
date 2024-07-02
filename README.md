@@ -118,8 +118,9 @@ java -jar client.jar [options]
 
 | Argument           | Description                                                     | Default Value |
 |--------------------|-----------------------------------------------------------------|---------------|
+| --l                | Start the client using a localhost connection.                  |               |
 | --rmi, --rmi_mode  | Start the client using an RMI connection.                       |               |
-| -s, --server_ip    | Server IP address.                                              | localhost     |
+| -s, --server_ip    | Server IP address.                                              | 161.35.162.219|
 | -ip, --client_ip   | Client IP address.                                              |               |
 | -sp, --server_port | Server port number (default is 12345 for TCP and 1099 for RMI). |               |
 | -cp                | Client port number (default is server port number + 1).         |               |
@@ -127,6 +128,8 @@ java -jar client.jar [options]
 | --tui, --tui_mode  | Start the client in TUI mode.                                   |               |
 | --debug            | Start the client in debug mode.                                 |               |
 | -h, --help         | Print the help message.                                         |               |
+
+161.35.162.219 is the IP of our Server Instance.
 
 ## Future Scope
 
