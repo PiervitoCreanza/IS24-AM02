@@ -33,6 +33,10 @@ public class Client {
      */
     public static boolean DEBUG;
 
+    /**
+     * The default server IP address.
+     * It's the IP address of the hosted server.
+     */
     public static final String defaultServerIp = "161.35.162.219";
 
     /**
