@@ -79,4 +79,4 @@ jobs:
           host: ${{ vars.DEPLOY_IP }}
           username: ${{ vars.DEPLOY_USERNAME }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
-          script: "chmod +x codexNaturalis/deploy.sh && codexNaturalis/deploy.sh ${{secrets.GHCR_USERNAME}} ${{secrets.GHCR_AUTH_TOKEN}}"
+          script: "cd codexNaturalis chmod +x deploy.sh && deploy.sh ${{secrets.GHCR_USERNAME}} ${{secrets.GHCR_AUTH_TOKEN}}"
