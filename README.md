@@ -129,7 +129,6 @@ java -jar client.jar [options]
 | --debug            | Start the client in debug mode.                                 |               |
 | -h, --help         | Print the help message.                                         |               |
 
-161.35.162.219 is the IP of our Server Instance.
 
 ## Future Scope
 
