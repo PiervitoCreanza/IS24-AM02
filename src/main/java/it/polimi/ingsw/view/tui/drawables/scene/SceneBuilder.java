@@ -55,7 +55,7 @@ public class SceneBuilder {
      * @return The WaitForPlayersScene scene.
      */
     public WaitForPlayersScene instanceWaitForPlayersScene(GameControllerView gameControllerView) {
-        return new WaitForPlayersScene(this.controller, gameControllerView.gameView().playerViews().stream().map(PlayerView::playerName).collect(Collectors.toCollection(ArrayList::new)), 4);
+        return new WaitForPlayersScene(this.controller, gameControllerView.gameView().playerViews().stream().filter(PlayerView::isConnected).map(PlayerView::playerName).collect(Collectors.toCollection(ArrayList::new)), 4);
     }
 
     /**

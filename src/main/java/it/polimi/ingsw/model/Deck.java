@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.card.gameCard.GameCard;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
@@ -71,6 +73,15 @@ public class Deck<T> {
         if (!deck.isEmpty())
             return deck.getFirst();
         return null;
+    }
+
+    /**
+     * Removes a card from the deck by card ID. Only if it's present.
+     *
+     * @param cardID The ID of the card to remove.
+     */
+    public void removeCard(int cardID) {
+        deck.stream().filter(card -> ((GameCard) card).getCardId() == cardID).findFirst().ifPresent(deck::remove);
     }
 
     /**

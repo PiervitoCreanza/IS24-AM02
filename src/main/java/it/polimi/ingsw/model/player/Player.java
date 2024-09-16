@@ -163,6 +163,16 @@ public class Player implements VirtualViewable<PlayerView> {
     }
 
     /**
+     * This method is used to set the drawn objectives of the player.
+     *
+     * @param choosableObjectives This is the drawn objectives to be set.
+     */
+    public void setChoosableObjectives(ArrayList<ObjectiveCard> choosableObjectives) {
+        this.choosableObjectives.clear();
+        this.choosableObjectives.addAll(choosableObjectives);
+    }
+
+    /**
      * This method is used to advance the position of the player.
      *
      * @param steps This is the number of steps to advance.

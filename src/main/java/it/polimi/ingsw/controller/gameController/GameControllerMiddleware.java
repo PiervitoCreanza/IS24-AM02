@@ -8,12 +8,18 @@ import it.polimi.ingsw.model.player.PlayerColorEnum;
 import it.polimi.ingsw.model.utils.Coordinate;
 import it.polimi.ingsw.network.virtualView.GameControllerView;
 import it.polimi.ingsw.network.virtualView.VirtualViewable;
+import it.polimi.ingsw.utils.PropertyChangeNotifier;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * This class represents the middleware between the GameController and the PlayerActions interface.
  * It implements the PlayerActions interface and defines the actions flow that a player can perform in the game.
  */
-public class GameControllerMiddleware implements PlayerActions, VirtualViewable<GameControllerView> {
+public class GameControllerMiddleware implements PlayerActions, VirtualViewable<GameControllerView>, PropertyChangeNotifier {
     /**
      * The GameController instance.
      */
@@ -43,6 +49,20 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      */
     private GameStatusEnum savedGameStatus;
 
+    /**
+     * The boolean that represents if the game was loaded from disk using persistence.
+     */
+    private Boolean loadedFromDisk = false;
+
+    /**
+     * The timer that defines how much time the game waits for players to reconnect.
+     */
+    private Timer reconnectTimer;
+
+    /**
+     * The PropertyChangeSupport that manages the listeners.
+     */
+    private PropertyChangeSupport listeners;
 
     /**
      * Constructor for GameControllerMiddleware.
@@ -56,6 +76,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
         this.gameController = new GameController(gameName, nPlayers, playerName);
         this.game = this.gameController.getGame();
         this.gameStatus = GameStatusEnum.WAIT_FOR_PLAYERS;
+        this.listeners = new PropertyChangeSupport(this);
     }
 
     /**
@@ -90,6 +111,42 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
     }
 
     /**
+     * Sets the saved game status. Used by persistence.
+     *
+     * @param savedGameStatus the saved game status to be set.
+     */
+    public void setSavedGameStatus(GameStatusEnum savedGameStatus) {
+        this.savedGameStatus = savedGameStatus;
+    }
+
+    /**
+     * Sets the isLastRound boolean. Used by persistence.
+     *
+     * @param lastRound the boolean to be set.
+     */
+    public void setLastRound(boolean lastRound) {
+        isLastRound = lastRound;
+    }
+
+    /**
+     * Sets the remaining rounds to end the game. Used by persistence.
+     *
+     * @param remainingRoundsToEndGame the number of remaining rounds to end the game.
+     */
+    public void setRemainingRoundsToEndGame(int remainingRoundsToEndGame) {
+        this.remainingRoundsToEndGame = remainingRoundsToEndGame;
+    }
+
+    /**
+     * Sets the loadedFromDisk boolean. Used by persistence.
+     *
+     * @param loadedFromDisk the boolean to be set.
+     */
+    public void setLoadedFromDisk(boolean loadedFromDisk) {
+        this.loadedFromDisk = loadedFromDisk;
+    }
+
+    /**
      * Validates that the player turn is correct.
      *
      * @param playerName the name of the player.
@@ -100,6 +157,11 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
         }
     }
 
+    /**
+     * Checks if the game is finished.
+     *
+     * @return true if the game is finished, false otherwise.
+     */
     private boolean checkGameFinished() {
         if (game.isLastRound() && game.isLastPlayerAmongConnected()) {
             if (remainingRoundsToEndGame == 0) {
@@ -134,6 +196,21 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
     }
 
     /**
+     * Handles the player reconnection after the game was loaded from disk.
+     * After the game is loaded from disk, the game status is set to WAIT_FOR_PLAYERS.
+     * We need to wait for all players to reconnect before resuming the game by setting the saved game status.
+     *
+     * @param playerName the name of the player who is reconnecting.
+     */
+    private void handleLoadedFromDisk(String playerName) {
+        gameController.setPlayerConnectionStatus(playerName, true);
+        if (game.getConnectedPlayers().size() == game.getMaxAllowedPlayers()) {
+            reconnectTimer.cancel();
+            gameStatus = savedGameStatus;
+            loadedFromDisk = false;
+        }
+    }
+    /**
      * Gets the current game instance.
      *
      * @return the current game instance.
@@ -158,6 +235,10 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
         }
 
         if (game.isPlayerDisconnected(playerName)) {
+            if (loadedFromDisk) {
+                handleLoadedFromDisk(playerName);
+                return;
+            }
             // If the player was disconnected we update his connection status.
             setPlayerConnectionStatus(playerName, true);
         } else {
@@ -216,6 +297,7 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
      * @param playerName  the name of the player who is choosing the color.
      * @param playerColor the color to be chosen.
      */
+    @Override
     public void choosePlayerColor(String playerName, PlayerColorEnum playerColor) {
         validatePlayerTurn(playerName);
         if (gameStatus != GameStatusEnum.INIT_CHOOSE_PLAYER_COLOR) {
@@ -439,7 +521,54 @@ public class GameControllerMiddleware implements PlayerActions, VirtualViewable<
         });
     }
 
+    /**
+     * Starts the reconnect timer.
+     * The timer is set to 2 minutes.
+     * If the game has at least 2 connected players, the game status is set to the saved game status and the game is resumed.
+     * If the game has less than 2 connected players, the game is deleted.
+     */
+    public void startReconnectTimer() {
+        reconnectTimer = new Timer();
+        reconnectTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (game.getConnectedPlayers().size() >= 2) {
+                    gameStatus = savedGameStatus;
+                    loadedFromDisk = false;
+                    while (!game.getCurrentPlayer().isConnected()) {
+                        game.setNextPlayer();
+                    }
+                    listeners.firePropertyChange("START_GAME", null, getVirtualView());
+                } else {
+                    listeners.firePropertyChange("DELETE", null, game.getGameName());
+                }
+            }
+        }, 120000);
+    }
+
     private boolean canDrawCard() {
         return !game.getGlobalBoard().areFieldAndDecksEmpty();
+    }
+
+    /**
+     * Adds a PropertyChangeListener to the listener list.
+     * The listener will be notified of property changes.
+     *
+     * @param listener The PropertyChangeListener to be added
+     */
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.listeners.addPropertyChangeListener(listener);
+    }
+
+    /**
+     * Removes a PropertyChangeListener from the listener list.
+     * The listener will no longer be notified of property changes.
+     *
+     * @param listener The PropertyChangeListener to be removed
+     */
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.listeners.removePropertyChangeListener(listener);
     }
 }

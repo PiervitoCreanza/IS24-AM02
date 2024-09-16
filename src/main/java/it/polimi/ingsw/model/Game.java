@@ -13,6 +13,7 @@ import it.polimi.ingsw.network.virtualView.VirtualViewable;
 import java.util.*;
 import java.util.stream.Collectors;
 
+
 /**
  * Class that represents a single game in the system.
  */
@@ -99,6 +100,17 @@ public class Game implements VirtualViewable<GameView> {
         this.currentPlayer = players.getFirst();
     }
 
+    /**
+     * This method creates a new player with the specified name.
+     * It draws two objective cards from the global board's objective deck,
+     * draws a starter card from the global board's starter deck and creates a new
+     * Player object with the specified name, objective cards and starter card.
+     * If an exception occurs while creating the player, the drawn objective cards and starter card
+     * are added back to the global board's decks.
+     *
+     * @param playerName The name of the player to be created.
+     * @return The Player object that represents the new player.
+     */
     private Player instanceNewPlayer(String playerName) {
         ArrayList<ObjectiveCard> drawnObjectives = new ArrayList<>(List.of(globalBoard.getObjectiveDeck().draw(), globalBoard.getObjectiveDeck().draw()));
         GameCard starterCard = globalBoard.getStarterDeck().draw();
@@ -264,6 +276,16 @@ public class Game implements VirtualViewable<GameView> {
         // getFirstConnectedPlayerAfter is a recursive function that finds the first connected player
         // after the current player. If the current player is the last connected player, it will return the same player.
         currentPlayer = getFirstConnectedPlayerAfter(currentPlayer);
+    }
+
+    /**
+     * Sets the current player in the game.
+     * This method updates the currentPlayer variable to the player with the specified name.
+     *
+     * @param playerName The name of the player to be set as the current player.
+     */
+    public void setCurrentPlayer(String playerName) {
+        this.currentPlayer = players.stream().filter(player -> player.getPlayerName().equals(playerName)).findFirst().get();
     }
 
     /**

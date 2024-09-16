@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.MainController;
 import it.polimi.ingsw.network.server.RMI.RMIServerReceiver;
 import it.polimi.ingsw.network.server.TCP.TCPServerAdapter;
 import it.polimi.ingsw.network.server.actions.RMIClientToServerActions;
+import it.polimi.ingsw.network.server.persistence.Persistence;
 import it.polimi.ingsw.network.utils.HostIpAddressResolver;
 import it.polimi.ingsw.network.utils.RMITimeoutSetter;
 import it.polimi.ingsw.view.tui.utils.Utils;
@@ -57,11 +58,17 @@ public class Server {
          * ***************************************/
         MainController mainController = new MainController();
         ServerNetworkControllerMapper serverNetworkControllerMapper = new ServerNetworkControllerMapper(mainController);
-
+        Persistence persistence = new Persistence(mainController, serverNetworkControllerMapper);
+        serverNetworkControllerMapper.addPropertyChangeListener(persistence);
         /* ***************************************
          * CLI ARGUMENTS PARSING
          * ***************************************/
         CommandLine cmd = parseCommandLineArgs(args);
+        if (cmd.hasOption("load")) {
+            persistence.loadFromFile(cmd.getOptionValue("load"));
+        } else {
+            persistence.loadAll();
+        }
         int TCPPort = Integer.parseInt(cmd.getOptionValue("tp", "12345")); // default is 12345
         int RMIPort = Integer.parseInt(cmd.getOptionValue("rp", "1099")); // default is 1099
         if (cmd.hasOption("h")) {
@@ -122,6 +129,7 @@ public class Server {
         options.addOption("lan", "Start the server with his lan ip address.");
         options.addOption("debug", "Start the Server in DEBUG mode.");
         options.addOption("h", "help", false, "Print this message.");
+        options.addOption("load", true, "Load a game from the specified file. Previously saved games won't be loaded.");
         return options;
     }
 

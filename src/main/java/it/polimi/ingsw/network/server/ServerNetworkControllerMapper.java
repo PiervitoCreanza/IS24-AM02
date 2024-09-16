@@ -12,9 +12,13 @@ import it.polimi.ingsw.network.server.message.ServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.DeleteGameServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.GetGamesServerToClientMessage;
 import it.polimi.ingsw.network.server.message.successMessage.UpdateViewServerToClientMessage;
+import it.polimi.ingsw.network.virtualView.GameControllerView;
+import it.polimi.ingsw.utils.PropertyChangeNotifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -24,7 +28,7 @@ import java.util.TimerTask;
  * The ServerNetworkControllerMapper class is responsible for mapping network commands to actions in the game.
  * It implements the ClientToServerActions interface, which defines the actions that a client can perform.
  */
-public class ServerNetworkControllerMapper implements ClientToServerActions {
+public class ServerNetworkControllerMapper implements ClientToServerActions, PropertyChangeNotifier {
 
     /**
      * The logger.
@@ -52,6 +56,11 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
     private final Object exceptionLock;
 
     /**
+     * The PropertyChangeSupport object is used to manage property change listeners.
+     */
+    private final PropertyChangeSupport listeners;
+
+    /**
      * Constructs a new ServerNetworkControllerMapper object with the specified MainController.
      *
      * @param mainController the MainController to be used by the ServerNetworkControllerMapper
@@ -60,6 +69,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
         this.mainController = mainController;
         this.gameConnectionMapper = new HashMap<>();
         this.exceptionLock = new HashMap<>();
+        this.listeners = new PropertyChangeSupport(this);
     }
 
     /**
@@ -68,7 +78,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
      * @param gameName the name of the game
      * @param message  the message to be sent
      */
-    private void broadcastMessage(String gameName, ServerToClientMessage message) {
+    public void broadcastMessage(String gameName, ServerToClientMessage message) {
         for (ServerMessageHandler messageHandler : gameConnectionMapper.get(gameName).values()) {
             messageHandler.sendMessage(message);
         }
@@ -118,6 +128,30 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
     }
 
     /**
+     * Adds a game to the gameConnectionMapper.
+     *
+     * @param gameName the name of the game
+     */
+    public void addGameToMapper(String gameName) {
+        synchronized (gameConnectionMapper) {
+            gameConnectionMapper.put(gameName, new HashMap<>());
+        }
+    }
+
+    /**
+     * Gets the update view message for a game.
+     * It also notifies the persistence that the game should be saved.
+     *
+     * @param gameName the name of the game
+     * @return the update view message
+     */
+    private UpdateViewServerToClientMessage getUpdateViewServerToClientMessage(String gameName) {
+        GameControllerView gameControllerView = mainController.getVirtualView(gameName);
+        this.listeners.firePropertyChange("SAVE", null, gameControllerView);
+        return new UpdateViewServerToClientMessage(gameControllerView);
+    }
+
+    /**
      * Gets the list of available games.
      *
      * @param messageHandler the ServerMessageHandler that will handle the response
@@ -153,7 +187,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
                 gameConnectionMapper.put(gameName, new HashMap<>());
                 gameConnectionMapper.get(gameName).put(playerName, messageHandler);
 
-                broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+                broadcastMessage(gameName, getUpdateViewServerToClientMessage(gameName));
             } catch (Exception e) {
                 messageHandler.sendMessage(new ErrorServerToClientMessage(e.getMessage()));
             }
@@ -184,7 +218,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
                 }
 
                 gameConnectionMapper.get(gameName).put(playerName, messageHandler);
-                broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+                broadcastMessage(gameName, getUpdateViewServerToClientMessage(gameName));
             } catch (Exception e) {
                 messageHandler.sendMessage(new ErrorServerToClientMessage(e.getMessage()));
             }
@@ -225,7 +259,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
             if (isConnected(gameName, playerName)) {
                 try {
                     mainController.getGameController(gameName).choosePlayerColor(playerName, playerColor);
-                    broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+                    broadcastMessage(gameName, getUpdateViewServerToClientMessage(gameName));
                 } catch (Exception e) {
                     gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
                 }
@@ -246,7 +280,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
             if (isConnected(gameName, playerName)) {
                 try {
                     mainController.getGameController(gameName).setPlayerObjective(playerName, cardId);
-                    broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+                    broadcastMessage(gameName, getUpdateViewServerToClientMessage(gameName));
                 } catch (Exception e) {
                     gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
                 }
@@ -274,7 +308,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
                     }
                     gameController.placeCard(playerName, coordinate, cardId);
 
-                    broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+                    broadcastMessage(gameName, getUpdateViewServerToClientMessage(gameName));
 
                 } catch (Exception e) {
                     gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
@@ -296,7 +330,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
             if (isConnected(gameName, playerName)) {
                 try {
                     mainController.getGameController(gameName).drawCardFromField(playerName, cardId);
-                    broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+                    broadcastMessage(gameName, getUpdateViewServerToClientMessage(gameName));
                 } catch (Exception e) {
                     gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
                 }
@@ -316,7 +350,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
             if (isConnected(gameName, playerName)) {
                 try {
                     mainController.getGameController(gameName).drawCardFromResourceDeck(playerName);
-                    broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+                    broadcastMessage(gameName, getUpdateViewServerToClientMessage(gameName));
                 } catch (Exception e) {
                     gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
                 }
@@ -336,7 +370,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
             if (isConnected(gameName, playerName)) {
                 try {
                     mainController.getGameController(gameName).drawCardFromGoldDeck(playerName);
-                    broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+                    broadcastMessage(gameName, getUpdateViewServerToClientMessage(gameName));
                 } catch (Exception e) {
                     gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
                 }
@@ -357,7 +391,7 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
             if (isConnected(gameName, playerName)) {
                 try {
                     mainController.getGameController(gameName).switchCardSide(playerName, cardId);
-                    broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+                    broadcastMessage(gameName, getUpdateViewServerToClientMessage(gameName));
                 } catch (Exception e) {
                     gameConnectionMapper.get(gameName).get(playerName).sendMessage(new ErrorServerToClientMessage(e.getMessage()));
                 }
@@ -435,23 +469,11 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
                 }
                 // If the game is now empty we delete it.
                 if (gameConnectionMapper.get(gameName).isEmpty()) {
-                    synchronized (gameConnectionMapper) {
-                        // Delete the game
-                        mainController.deleteGame(gameName);
-
-                        gameConnectionMapper.remove(gameName);
-
-                        // Cancel any deletion timer that may be running.
-                        if (deleteGameTimers.get(gameName) != null) {
-                            deleteGameTimers.get(gameName).cancel();
-                            deleteGameTimers.remove(gameName);
-                        }
-                    }
-                    logger.debug("Game {} deleted.", gameName);
+                    listeners.firePropertyChange("DELETE", null, gameName);
                     return;
                 }
                 // If the game was not deleted we update the view for the remaining players.
-                broadcastMessage(gameName, new UpdateViewServerToClientMessage(mainController.getVirtualView(gameName)));
+                broadcastMessage(gameName, getUpdateViewServerToClientMessage(gameName));
             }
         }
     }
@@ -474,11 +496,57 @@ public class ServerNetworkControllerMapper implements ClientToServerActions {
                 synchronized (getLock(gameName)) {
                     HashMap<String, ServerMessageHandler> gameConnections = gameConnectionMapper.get(gameName);
                     if (gameConnections != null && gameConnections.size() == 1) {
-                        broadcastMessage(gameName, new DeleteGameServerToClientMessage());
-                        closeConnections(gameName);
+                        deleteGame(gameName);
                     }
                 }
             }
         }, 30000); // Delay in milliseconds
+    }
+
+    /**
+     * Deletes a game.
+     *
+     * @param gameName the name of the game to be deleted
+     */
+    public void deleteGame(String gameName) {
+        synchronized (getLock(gameName)) {
+            if (gameConnectionMapper.get(gameName).isEmpty()) {
+                synchronized (gameConnectionMapper) {
+                    // Delete the game
+                    mainController.deleteGame(gameName);
+                    gameConnectionMapper.remove(gameName);
+                    // Cancel any deletion timer that may be running.
+                    if (deleteGameTimers.get(gameName) != null) {
+                        deleteGameTimers.get(gameName).cancel();
+                        deleteGameTimers.remove(gameName);
+                    }
+                }
+                logger.debug("Game {} deleted.", gameName);
+            } else {
+                broadcastMessage(gameName, new DeleteGameServerToClientMessage());
+                closeConnections(gameName);
+            }
+        }
+    }
+    /**
+     * Adds a PropertyChangeListener to the listener list.
+     * The listener will be notified of property changes.
+     *
+     * @param listener The PropertyChangeListener to be added
+     */
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.listeners.addPropertyChangeListener(listener);
+    }
+
+    /**
+     * Removes a PropertyChangeListener from the listener list.
+     * The listener will no longer be notified of property changes.
+     *
+     * @param listener The PropertyChangeListener to be removed
+     */
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.listeners.removePropertyChangeListener(listener);
     }
 }

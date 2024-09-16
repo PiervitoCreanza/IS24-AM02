@@ -21,18 +21,18 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
     /**
      * A map from points to game cards, representing the layout of the game cards on the board.
      */
-    private final HashMap<Coordinate, GameCard> playerBoard;
+    private HashMap<Coordinate, GameCard> playerBoard;
 
     /**
      * The items the player has collected.
      */
-    private final GameItemStore gameItems;
+    private GameItemStore gameItems;
 
     /**
      * The starter card for this player board.
      * This card will be placed in the center of the board at the first turn on the player has chosen the side.
      */
-    private final GameCard starterCard;
+    private GameCard starterCard;
 
     /**
      * Constructor for the PlayerBoard class.
@@ -48,6 +48,15 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
     }
 
     /**
+     * This method is used to set the player board.
+     *
+     * @param playerBoard This is the player board to set.
+     */
+    public void setPlayerBoard(HashMap<Coordinate, GameCard> playerBoard) {
+        this.playerBoard = playerBoard;
+    }
+
+    /**
      * This method is used to get the items in the player board.
      *
      * @return GameItemStore This returns the items in the player board.
@@ -56,6 +65,14 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
         return gameItems;
     }
 
+    /**
+     * This method is used to set the items in the player board.
+     *
+     * @param gameItemStore This is the items to set.
+     */
+    public void setGameItems(GameItemStore gameItemStore) {
+        this.gameItems = gameItemStore;
+    }
     /**
      * This method is used to get the card in the player board at a specific position.
      *
@@ -73,6 +90,15 @@ public class PlayerBoard implements VirtualViewable<PlayerBoardView> {
      */
     public GameCard getStarterCard() {
         return starterCard;
+    }
+
+    /**
+     * This method is used to set the starter card of the player board.
+     *
+     * @param starterCard This is the starter card to set.
+     */
+    public void setStarterCard(GameCard starterCard) {
+        this.starterCard = starterCard;
     }
 
     /**
